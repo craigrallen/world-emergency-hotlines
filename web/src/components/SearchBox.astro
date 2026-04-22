@@ -103,6 +103,8 @@
 </div>
 
 <script>
+  import { hasMeaningfulQuery, scoreDoc } from '../lib/search.js';
+
   type Doc = {
     country_code: string;
     country_name: string;
@@ -166,23 +168,6 @@
       if (f.startsWith('cat:') && doc.category !== f.slice(4)) return false;
     }
     return true;
-  }
-
-  function scoreDoc(doc: Doc, q: string): number {
-    const haystack =
-      `${doc.country_name} ${doc.name} ${doc.organization ?? ''} ${doc.category} ${doc.numbers.join(' ')} ${doc.languages.join(' ')}`.toLowerCase();
-    const tokens = q.toLowerCase().split(/\s+/).filter(Boolean);
-    if (tokens.length === 0) return 1; // no-query: pass everything through
-    let score = 0;
-    for (const t of tokens) {
-      if (!haystack.includes(t)) return 0;
-      if (doc.country_name.toLowerCase().includes(t)) score += 3;
-      if (doc.name.toLowerCase().includes(t)) score += 2;
-      if (doc.category.includes(t)) score += 1;
-      score += 1;
-    }
-    if (doc.verified) score += 1;
-    return score;
   }
 
   function escape(s: string): string {
@@ -272,13 +257,15 @@
       const d = await loadDocs();
       let ranked: Doc[];
 
-      if (q) {
+      if (q && hasMeaningfulQuery(q)) {
         ranked = d
           .filter(applyFilters)
           .map((doc) => ({ doc, score: scoreDoc(doc, q) }))
           .filter((x) => x.score > 0)
           .sort((a, b) => b.score - a.score)
           .map((x) => x.doc);
+      } else if (q) {
+        ranked = [];
       } else {
         // Filters only — show top verified results
         ranked = d
