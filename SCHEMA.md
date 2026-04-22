@@ -61,7 +61,25 @@ Every field except `name` and `category` is optional. Missing data is represente
   "last_verified": "2026-04-22",             // ISO date of last verification
   "sources": [                               // Authoritative URLs used to verify
     "https://www.samaritans.org/how-we-can-help/contact-samaritan/"
-  ]
+  ],
+
+  "provenance": {                            // Optional supplemental provenance; see below
+    "record_status": "verified_web",
+    "source_class": "first_party",
+    "verification_method": "manual_web_review",
+    "retrieved_at": "2026-04-22T12:07:32Z",
+    "review_state": "reviewed",
+    "evidence": [
+      {
+        "field": "voice_numbers",
+        "value": ["116 123"],
+        "source_url": "https://www.samaritans.org/how-we-can-help/contact-samaritan/",
+        "source_type": "first_party",
+        "checked_at": "2026-04-22",
+        "confidence": "high"
+      }
+    ]
+  }
 }
 ```
 
@@ -113,6 +131,8 @@ Every field except `name` and `category` is optional. Missing data is represente
 
 ## `verification_status` enum
 
+`verification_status` remains the primary compatibility field for schema v2 consumers. Supplemental provenance must not contradict it.
+
 | Value | Meaning |
 | --- | --- |
 | `verified_web` | The number was confirmed against the provider's official website on `last_verified` |
@@ -122,6 +142,48 @@ Every field except `name` and `category` is optional. Missing data is represente
 | `legacy_unverified` | Inherited from the source dataset without independent verification |
 | `disputed` | Conflicting sources found — value in this record is best guess; see `notes` |
 | `deprecated` | Service has closed or the number is no longer in use |
+
+### Compatibility mapping from provenance to `verification_status`
+
+- `provenance.source_class=first_party` + `provenance.verification_method=manual_web_review` → `verification_status=verified_web`
+- `provenance.source_class=government` or `authority` + `provenance.verification_method=manual_web_review` → `verification_status=verified_authority`
+- `provenance.source_class=knowledge_authored` + `provenance.verification_method=knowledge_authored` → `verification_status=verified_knowledge`
+- `provenance.source_class=aggregator_directory` or `community_index` + imported/staged evidence only → `verification_status=legacy_unverified` unless maintainers explicitly promote it to a stronger status
+- Conflicting authoritative evidence should remain `verification_status=disputed`
+
+## Optional supplemental `provenance`
+
+`provenance` is optional and additive. Existing records without it remain schema-valid. New tooling may attach it to explain **why** a record has its current `verification_status`, where evidence came from, and whether the record is still only staged preview data.
+
+```jsonc
+"provenance": {
+  "record_status": "legacy_unverified",        // Mirrors verification_status semantics
+  "source_class": "aggregator_directory",      // first_party | government | authority | ngo_directory | community_index | aggregator_directory | knowledge_authored
+  "verification_method": "scripted_import",    // manual_web_review | scripted_import | knowledge_authored | manual_dataset_review
+  "retrieved_at": "2026-04-22T12:07:32Z",      // Optional ISO-8601 timestamp for import/retrieval time
+  "review_state": "staged",                    // staged | reviewed | promoted | rejected
+  "source_dataset": "web_verified_crisis_directory",
+  "source_status": "warning",                  // Source-system QA label when applicable
+  "evidence": [
+    {
+      "field": "voice_numbers",
+      "value": ["116 123"],
+      "source_url": "https://example.org/service",
+      "source_type": "aggregator_directory",   // first_party | government | authority | ngo_directory | aggregator_directory | community_index | manual_note
+      "checked_at": "2026-04-22",              // Optional ISO date for a field-level check
+      "confidence": "medium",                  // low | medium | high
+      "note": "Imported from a review-only preview bundle."
+    }
+  ]
+}
+```
+
+Safety rules:
+
+- `provenance` is supplemental metadata; it must never justify destructive overwrites of richer canonical hotline content.
+- `provenance.record_status` should align with `verification_status`.
+- Imported aggregator-only preview rows should generally remain `legacy_unverified` + `review_state=staged` until a maintainer reviews stronger evidence.
+- Promotion tooling may merge missing provenance details or append additional evidence, but should not replace existing richer provenance with weaker imported claims.
 
 ## Number formatting convention
 

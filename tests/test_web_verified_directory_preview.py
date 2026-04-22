@@ -49,6 +49,16 @@ class WebVerifiedDirectoryPreviewTests(unittest.TestCase):
                 self.assertNotIn(status, PROTECTED_CANONICAL_STATUSES)
         self.assertEqual(bad_statuses, [])
 
+    def test_preview_hotlines_include_optional_provenance(self):
+        for country in self.preview["countries"][:10]:
+            for hotline in country.get("hotlines", [])[:5]:
+                provenance = hotline.get("provenance")
+                self.assertIsInstance(provenance, dict)
+                self.assertEqual(provenance.get("record_status"), "legacy_unverified")
+                self.assertEqual(provenance.get("source_class"), "aggregator_directory")
+                self.assertEqual(provenance.get("verification_method"), "scripted_import")
+                self.assertEqual(provenance.get("review_state"), "staged")
+
 
 if __name__ == "__main__":
     unittest.main()

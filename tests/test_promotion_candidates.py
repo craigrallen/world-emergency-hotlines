@@ -124,7 +124,23 @@ class PromotionCandidateWorkflowTests(unittest.TestCase):
                             "notes": "",
                             "verification_status": "legacy_unverified",
                             "last_verified": None,
-                            "sources": ["preview-source"]
+                            "sources": ["preview-source"],
+                            "provenance": {
+                                "record_status": "legacy_unverified",
+                                "source_class": "aggregator_directory",
+                                "verification_method": "scripted_import",
+                                "review_state": "staged",
+                                "source_dataset": "test_preview",
+                                "evidence": [
+                                    {
+                                        "field": "website",
+                                        "value": "https://legacy.example",
+                                        "source_url": "https://legacy.example",
+                                        "source_type": "aggregator_directory",
+                                        "confidence": "medium"
+                                    }
+                                ]
+                            }
                         },
                         {
                             "name": "New Line",
@@ -188,6 +204,7 @@ class PromotionCandidateWorkflowTests(unittest.TestCase):
             self.assertEqual(merge_candidate["country"], "Testland")
             self.assertEqual(merge_candidate["field_actions"]["voice_numbers"], "append_unique")
             self.assertEqual(merge_candidate["field_actions"]["website"], "fill_if_empty")
+            self.assertEqual(merge_candidate["field_actions"]["provenance"], "merge_provenance")
             self.assertIn("canonical_country_has_only_legacy_records", merge_candidate["safety_flags"])
 
     def test_apply_rejects_destructive_overwrite_attempt(self):
@@ -370,6 +387,9 @@ class PromotionCandidateWorkflowTests(unittest.TestCase):
             merged_hotline = next(h for h in testland["hotlines"] if h["name"] == "Legacy Line")
             self.assertIn("222", merged_hotline["voice_numbers"])
             self.assertEqual(merged_hotline["website"], "https://legacy.example")
+            self.assertEqual(merged_hotline["provenance"]["source_class"], "aggregator_directory")
+            self.assertEqual(merged_hotline["provenance"]["review_state"], "staged")
+            self.assertTrue(any(item["field"] == "website" for item in merged_hotline["provenance"]["evidence"]))
             self.assertTrue(any(h["name"] == "New Line" for h in testland["hotlines"]))
             self.assertIn("112", testland["general_emergency"])
 

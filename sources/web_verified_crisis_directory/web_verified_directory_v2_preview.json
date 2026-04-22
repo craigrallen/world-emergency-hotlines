@@ -86,6 +86,42 @@
             "source_dataset": "web_verified_crisis_directory",
             "source_country_name": "Antarctica",
             "source_verification_status": "warning"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "voice_numbers",
+                "value": [
+                  "McMurdo Station: 911 (fire and medical emergency dispatch)"
+                ],
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "target",
+                "value": "anyone in a life-threatening emergency",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Antarctica",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         }
       ],
@@ -138,6 +174,46 @@
             "source_dataset": "web_verified_crisis_directory",
             "source_country_name": "Caribbean Netherlands",
             "source_verification_status": "warning"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "voice_numbers",
+                "value": [
+                  "911"
+                ],
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "target",
+                "value": "anyone in a life-threatening emergency",
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Caribbean Netherlands",
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         }
       ],
@@ -192,6 +268,47 @@
             "source_dataset": "web_verified_crisis_directory",
             "source_country_name": "British Indian Ocean Territory",
             "source_verification_status": "warning"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "voice_numbers",
+                "value": [
+                  "112",
+                  "999"
+                ],
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "target",
+                "value": "anyone in a life-threatening emergency",
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "British Indian Ocean Territory",
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         }
       ],
@@ -244,6 +361,46 @@
             "source_dataset": "web_verified_crisis_directory",
             "source_country_name": "Christmas Island",
             "source_verification_status": "warning"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "voice_numbers",
+                "value": [
+                  "000"
+                ],
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "target",
+                "value": "anyone in a life-threatening emergency",
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Christmas Island",
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         }
       ],
@@ -296,6 +453,46 @@
             "source_dataset": "web_verified_crisis_directory",
             "source_country_name": "Cocos Islands",
             "source_verification_status": "warning"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "voice_numbers",
+                "value": [
+                  "000"
+                ],
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "target",
+                "value": "anyone in a life-threatening emergency",
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Cocos Islands",
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         }
       ],
@@ -354,6 +551,44 @@
             "source_dataset": "web_verified_crisis_directory",
             "source_country_name": "Macao",
             "source_verification_status": "warning"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "voice_numbers",
+                "value": [
+                  "999",
+                  "From mobile phones – 110",
+                  "Judiciary Police – 993"
+                ],
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "target",
+                "value": "anyone in a life-threatening emergency",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Macao",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         },
         {
@@ -386,6 +621,34 @@
             "source_verification_status": "warning",
             "source_kind": "specialist_helplines",
             "source_category": "domestic_violence"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://iasweb.ias.gov.mo/inst/showList1.jsp?tipo=A1&assunto=Centro--de--Ac%C3%A7%C3%A3o--Social",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Macao",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         },
         {
@@ -418,6 +681,34 @@
             "source_verification_status": "warning",
             "source_kind": "specialist_helplines",
             "source_category": "domestic_violence"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.ias.gov.mo/wp-content/themes/ias/en/aboutus/departments/f_ngohl.htm",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Macao",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         },
         {
@@ -450,6 +741,34 @@
             "source_verification_status": "warning",
             "source_kind": "specialist_helplines",
             "source_category": "domestic_violence"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.ias.gov.mo/wp-content/themes/ias/en/aboutus/departments/hotline_ias.htm",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Macao",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         },
         {
@@ -482,6 +801,34 @@
             "source_verification_status": "warning",
             "source_kind": "specialist_helplines",
             "source_category": "domestic_violence"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.ias.gov.mo/en/swb-services/individual-and-family-service/individual-and-family-counselling-service",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Macao",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         },
         {
@@ -514,6 +861,34 @@
             "source_verification_status": "warning",
             "source_kind": "specialist_helplines",
             "source_category": "domestic_violence"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.ias.gov.mo/pt/home",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Macao",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         },
         {
@@ -546,6 +921,34 @@
             "source_verification_status": "warning",
             "source_kind": "specialist_helplines",
             "source_category": "domestic_violence"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.ias.gov.mo/wp-content/themes/ias/pt/aboutus/departments/hotline_ias.htm",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Macao",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         },
         {
@@ -578,6 +981,34 @@
             "source_verification_status": "warning",
             "source_kind": "specialist_helplines",
             "source_category": "domestic_violence"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.ias.gov.mo/wp-content/themes/ias/pt/aboutus/departments/f_ngohl.htm",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Macao",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         },
         {
@@ -610,6 +1041,34 @@
             "source_verification_status": "warning",
             "source_kind": "specialist_helplines",
             "source_category": "domestic_violence"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.ias.gov.mo/pt/swb-services/individual-and-family-service/individual-and-family-counselling-service",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Macao",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         }
       ],
@@ -666,6 +1125,43 @@
             "source_dataset": "web_verified_crisis_directory",
             "source_country_name": "Montserrat",
             "source_verification_status": "pass"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "pass",
+            "evidence": [
+              {
+                "field": "voice_numbers",
+                "value": [
+                  "911",
+                  "999"
+                ],
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "target",
+                "value": "anyone in a life-threatening emergency",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Montserrat",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         },
         {
@@ -698,6 +1194,34 @@
             "source_verification_status": "pass",
             "source_kind": "specialist_helplines",
             "source_category": "domestic_violence"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "pass",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.eclac.cl/cgi-bin/getProd.asp?xml=/mujer/noticias/fichas/2/6402/P6402.xml&xsl=/mujer/tpl/p21f.xsl&base=/mujer/tpl/top-bottom.xsl",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Montserrat",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         }
       ],
@@ -758,6 +1282,45 @@
             "source_dataset": "web_verified_crisis_directory",
             "source_country_name": "Saint Pierre & Miquelon",
             "source_verification_status": "warning"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "voice_numbers",
+                "value": [
+                  "112",
+                  "Police – 17",
+                  "Ambulance – 15",
+                  "Fire – 18"
+                ],
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "target",
+                "value": "anyone in a life-threatening emergency",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Saint Pierre & Miquelon",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         },
         {
@@ -790,6 +1353,34 @@
             "source_verification_status": "warning",
             "source_kind": "specialist_helplines",
             "source_category": "domestic_violence"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://stop-violences-femmes.gouv.fr/Suis-je-concernee.html",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Saint Pierre & Miquelon",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         },
         {
@@ -822,6 +1413,34 @@
             "source_verification_status": "warning",
             "source_kind": "specialist_helplines",
             "source_category": "domestic_violence"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.stop-violences-femmes.gouv.fr/Les-associations-de-soutien-aux.html",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Saint Pierre & Miquelon",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         },
         {
@@ -854,6 +1473,34 @@
             "source_verification_status": "warning",
             "source_kind": "specialist_helplines",
             "source_category": "domestic_violence"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.stop-violences-femmes.gouv.fr/-Les-associations-pres-de-chez-vous-.html",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Saint Pierre & Miquelon",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         },
         {
@@ -886,6 +1533,34 @@
             "source_verification_status": "warning",
             "source_kind": "specialist_helplines",
             "source_category": "domestic_violence"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://stop-violences-femmes.gouv.fr/Les-numeros-d-urgence,13.html",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Saint Pierre & Miquelon",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         },
         {
@@ -918,6 +1593,34 @@
             "source_verification_status": "warning",
             "source_kind": "specialist_helplines",
             "source_category": "domestic_violence"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.femmes.gouv.fr/",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Saint Pierre & Miquelon",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         },
         {
@@ -950,6 +1653,34 @@
             "source_verification_status": "warning",
             "source_kind": "specialist_helplines",
             "source_category": "domestic_violence"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.stop-violences-femmes.gouv.fr/Les-films-des-precedentes.html",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Saint Pierre & Miquelon",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         },
         {
@@ -982,6 +1713,34 @@
             "source_verification_status": "warning",
             "source_kind": "specialist_helplines",
             "source_category": "domestic_violence"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://stop-violences-femmes.gouv.fr/Suis-je-concernee,331.html",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Saint Pierre & Miquelon",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         },
         {
@@ -1014,6 +1773,34 @@
             "source_verification_status": "warning",
             "source_kind": "specialist_helplines",
             "source_category": "domestic_violence"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.stop-violences-femmes.gouv.fr/",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Saint Pierre & Miquelon",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         }
       ],
@@ -1066,6 +1853,46 @@
             "source_dataset": "web_verified_crisis_directory",
             "source_country_name": "South Georgia and the South Sandwich Islands",
             "source_verification_status": "warning"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "voice_numbers",
+                "value": [
+                  "999"
+                ],
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "target",
+                "value": "anyone in a life-threatening emergency",
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "South Georgia and the South Sandwich Islands",
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         }
       ],
@@ -1120,6 +1947,42 @@
             "source_dataset": "web_verified_crisis_directory",
             "source_country_name": "Western Sahara",
             "source_verification_status": "pass"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "pass",
+            "evidence": [
+              {
+                "field": "voice_numbers",
+                "value": [
+                  "150"
+                ],
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "target",
+                "value": "anyone in a life-threatening emergency",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Western Sahara",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         },
         {
@@ -1152,6 +2015,34 @@
             "source_verification_status": "pass",
             "source_kind": "specialist_helplines",
             "source_category": "domestic_violence"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "pass",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.mujeresaharauis.es/",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Western Sahara",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         },
         {
@@ -1184,6 +2075,34 @@
             "source_verification_status": "pass",
             "source_kind": "specialist_helplines",
             "source_category": "domestic_violence"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "pass",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.arso.org/UNFS-Homepage.htm",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Western Sahara",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         }
       ],
@@ -1240,6 +2159,48 @@
             "source_dataset": "web_verified_crisis_directory",
             "source_country_name": "Åland Islands",
             "source_verification_status": "warning"
+          },
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "voice_numbers",
+                "value": [
+                  "112",
+                  "emergency police – 018 527 100",
+                  "Poison control – 09 471 977"
+                ],
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "target",
+                "value": "anyone in a life-threatening emergency",
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Åland Islands",
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
           }
         }
       ],
