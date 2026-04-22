@@ -103,7 +103,7 @@
 </div>
 
 <script>
-  import { hasMeaningfulQuery, scoreDoc } from '../lib/search.js';
+  import { docMatchesQueryFilters, hasMeaningfulQuery, parseSearchQuery, scoreDoc } from '../lib/search.js';
 
   type Doc = {
     country_code: string;
@@ -255,13 +255,17 @@
     window.clearTimeout(debounce);
     debounce = window.setTimeout(async () => {
       const d = await loadDocs();
+      const parsedQuery = parseSearchQuery(q);
+      const hasQueryTokens = q && hasMeaningfulQuery(q);
+      const hasIntentFilters = parsedQuery.filters.length > 0;
       let ranked: Doc[];
 
-      if (q && hasMeaningfulQuery(q)) {
+      if (q && (hasQueryTokens || hasIntentFilters)) {
         ranked = d
           .filter(applyFilters)
-          .map((doc) => ({ doc, score: scoreDoc(doc, q) }))
-          .filter((x) => x.score > 0)
+          .filter((doc) => docMatchesQueryFilters(doc, parsedQuery))
+          .map((doc) => ({ doc, score: hasQueryTokens ? scoreDoc(doc, parsedQuery) : (doc.verified ? 1 : 0) }))
+          .filter((x) => x.score > 0 || (!hasQueryTokens && hasIntentFilters))
           .sort((a, b) => b.score - a.score)
           .map((x) => x.doc);
       } else if (q) {
