@@ -106,7 +106,16 @@
 </div>
 
 <script>
-  import { docMatchesQueryFilters, hasMeaningfulQuery, parseSearchQuery, scoreDoc } from '../lib/search.js';
+  import {
+    buildNoResultsGuidance,
+    buildOverflowSummary,
+    buildResultSummary,
+    describeActiveFilters,
+    docMatchesQueryFilters,
+    hasMeaningfulQuery,
+    parseSearchQuery,
+    scoreDoc,
+  } from '../lib/search.js';
 
   type Doc = {
     country_code: string;
@@ -213,6 +222,51 @@
     intentChips.classList.remove('hidden');
   }
 
+  function getUiFilters(): string[] {
+    return Array.from(activeFilters);
+  }
+
+  function matchesUiFilters(doc: Doc, uiFilters: string[]) {
+    for (const filter of uiFilters) {
+      if (filter === 'verified' && !doc.verified) return false;
+      if (filter === 'chat' && !doc.has_chat) return false;
+      if (filter === 'sms' && !doc.has_sms) return false;
+      if (filter.startsWith('cat:') && doc.category !== filter.slice(4)) return false;
+    }
+
+    return true;
+  }
+
+  function buildRelaxedAlternatives(allDocs: Doc[], parsedQuery: ReturnType<typeof parseSearchQuery>, uiFilters: string[]) {
+    const needsRelaxing = parsedQuery.filters.includes('chat') || parsedQuery.filters.includes('sms') || uiFilters.includes('chat') || uiFilters.includes('sms');
+    if (!needsRelaxing) return { count: 0, summary: '' };
+
+    const relaxedUiFilters = uiFilters.filter((filter) => filter !== 'chat' && filter !== 'sms');
+    const relaxedParsedQuery = {
+      ...parsedQuery,
+      filters: parsedQuery.filters.filter((filter) => filter !== 'chat' && filter !== 'sms'),
+    };
+
+    const relaxedResults = allDocs
+      .filter((doc) => matchesUiFilters(doc, relaxedUiFilters))
+      .filter((doc) => docMatchesQueryFilters(doc, relaxedParsedQuery));
+
+    if (relaxedResults.length === 0) return { count: 0, summary: '' };
+
+    const verifiedCount = relaxedResults.filter((doc) => doc.verified).length;
+    const filters = describeActiveFilters(relaxedUiFilters);
+    const bits: string[] = [];
+
+    if (verifiedCount > 0) bits.push(`${verifiedCount} verified`);
+    if (filters.includes('verified')) bits.push('matching your verified-only filter');
+    bits.push('without that channel requirement');
+
+    return {
+      count: relaxedResults.length,
+      summary: bits.join(' '),
+    };
+  }
+
   const CHANNEL_BADGES: Record<string, string> = {
     verified_web: '<span class="text-success text-[9px]">✓ verified</span>',
     verified_authority: '<span class="text-success text-[9px]">✓ verified</span>',
@@ -220,17 +274,26 @@
     cross_referenced: '<span class="text-accent text-[9px]">↔ cross-ref</span>',
   };
 
-  function render(results: Doc[], q: string) {
+  function render(results: Doc[], q: string, parsedQuery: ReturnType<typeof parseSearchQuery>, allDocs: Doc[]) {
     if (!panel) return;
 
     const hasQuery = q.trim().length > 0;
     const hasFilters = activeFilters.size > 0;
+    const uiFilters = getUiFilters();
 
     if (results.length === 0 && (hasQuery || hasFilters)) {
+      const relaxed = buildRelaxedAlternatives(allDocs, parsedQuery, uiFilters);
+      const noResults = buildNoResultsGuidance({
+        parsedQuery,
+        uiFilters,
+        relaxedCount: relaxed.count,
+        relaxedSummary: relaxed.summary,
+      });
+
       panel.innerHTML = `
         <div class="px-4 py-4 text-sm text-fg-muted space-y-2">
-          <p>No matches${hasQuery ? ` for "<strong class="text-fg">${escape(q)}</strong>"` : ''}${hasFilters ? ' with these filters' : ''}.</p>
-          <p class="text-xs">Try removing a filter, checking spelling, or searching by country name.</p>
+          <p class="text-fg">${escape(noResults.title)}</p>
+          <p class="text-xs">${escape(noResults.detail)}</p>
         </div>`;
       panel.classList.remove('hidden');
       fallback?.classList.remove('hidden');
@@ -243,7 +306,11 @@
     }
 
     fallback?.classList.add('hidden');
-    panel.innerHTML = results
+    panel.innerHTML = `
+      <div class="border-b border-border/60 px-4 py-3 text-sm text-fg">
+        ${escape(buildResultSummary(results, parsedQuery, uiFilters))}
+      </div>
+    ` + results
       .slice(0, 14)
       .map((r) => {
         const primary = r.numbers[0] ?? '';
@@ -268,7 +335,7 @@
       .join('');
 
     if (results.length > 14) {
-      panel.innerHTML += `<div class="px-4 py-2 text-xs text-fg-muted border-t border-border/60">${results.length - 14} more results — refine your search</div>`;
+      panel.innerHTML += `<div class="px-4 py-2 text-xs text-fg-muted border-t border-border/60">${escape(buildOverflowSummary(results.length - 14, parsedQuery, uiFilters))}</div>`;
     }
 
     panel.classList.remove('hidden');
@@ -316,7 +383,7 @@
           .slice(0, 20);
       }
 
-      render(ranked, q);
+      render(ranked, q, parsedQuery, d);
     }, 90);
   }
 

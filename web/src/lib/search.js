@@ -276,3 +276,110 @@ export function scoreDoc(doc, queryOrParsed) {
 export function hasMeaningfulQuery(query) {
   return parseSearchQuery(query).tokens.length > 0;
 }
+
+/** @param {number} count @param {string} singular @param {string} [plural] */
+function pluralize(count, singular, plural = `${singular}s`) {
+  return `${count} ${count === 1 ? singular : plural}`;
+}
+
+/** @param {string} value */
+function titleCaseCategory(value) {
+  return CATEGORY_LABELS[value] ?? value.replace(/_/g, ' ');
+}
+
+/** @param {string[]} [parts] */
+function joinParts(parts = []) {
+  if (parts.length === 0) return '';
+  if (parts.length === 1) return parts[0];
+  if (parts.length === 2) return `${parts[0]} and ${parts[1]}`;
+  return `${parts.slice(0, -1).join(', ')}, and ${parts.at(-1)}`;
+}
+
+/** @param {string[]} [filters] */
+export function describeActiveFilters(filters = []) {
+  const descriptions = [];
+
+  if (filters.includes('verified')) descriptions.push('verified');
+  if (filters.includes('chat')) descriptions.push('chat-based');
+  if (filters.includes('sms')) descriptions.push('text-based');
+
+  const categoryFilters = filters
+    .filter((filter) => filter.startsWith('cat:'))
+    .map((filter) => titleCaseCategory(filter.slice(4)).toLowerCase());
+
+  descriptions.push(...categoryFilters);
+  return descriptions;
+}
+
+/** @param {{ intent?: { country?: { label: string } | null, category?: { label: string } | null } | null, filters: string[], normalized?: string }} parsedQuery @param {string[]} [uiFilters] */
+function describeIntent(parsedQuery, uiFilters = []) {
+  const country = parsedQuery.intent?.country?.label;
+  const category = parsedQuery.intent?.category?.label;
+  const qualifiers = [];
+
+  if (uiFilters.includes('verified')) qualifiers.push('verified');
+  if (parsedQuery.filters.includes('chat') || uiFilters.includes('chat')) qualifiers.push('chat-based');
+  if (parsedQuery.filters.includes('sms') || uiFilters.includes('sms')) qualifiers.push('text-based');
+
+  const base = category ? `${category.toLowerCase()} support` : 'support options';
+  const subject = qualifiers.length > 0 ? `${qualifiers.join(' ')} ${base}` : base;
+  return country ? `${subject} in ${country}` : subject;
+}
+
+/** @param {Array<unknown>} results @param {{ intent?: { country?: { label: string } | null, category?: { label: string } | null } | null, filters: string[], normalized?: string }} parsedQuery @param {string[]} [uiFilters] */
+export function buildResultSummary(results, parsedQuery, uiFilters = []) {
+  const total = results.length;
+  const subject = describeIntent(parsedQuery, uiFilters);
+  const queryText = parsedQuery.normalized;
+
+  if (total === 0) {
+    if (parsedQuery.intent?.country || parsedQuery.intent?.category || parsedQuery.filters.length > 0 || uiFilters.length > 0) {
+      return `I couldn't find any ${subject}.`;
+    }
+    if (queryText) return `I couldn't find a match for “${queryText}.”`;
+    return 'Start typing to search for support options.';
+  }
+
+  if (parsedQuery.intent?.country || parsedQuery.intent?.category || parsedQuery.filters.length > 0 || uiFilters.length > 0) {
+    return `I found ${pluralize(total, 'result')} for ${subject}.`;
+  }
+
+  if (queryText) return `I found ${pluralize(total, 'result')} for “${queryText}.”`;
+  return `Showing ${pluralize(total, 'result')}.`;
+}
+
+/** @param {number} hiddenCount @param {{ intent?: { country?: { label: string } | null, category?: { label: string } | null } | null, filters: string[] }} parsedQuery @param {string[]} [uiFilters] */
+export function buildOverflowSummary(hiddenCount, parsedQuery, uiFilters = []) {
+  if (hiddenCount <= 0) return '';
+  const subject = describeIntent(parsedQuery, uiFilters);
+  return `${pluralize(hiddenCount, 'more option')} available for ${subject} — refine your search to narrow them down.`;
+}
+
+/** @param {{ parsedQuery: { intent?: { country?: { label: string } | null, category?: { label: string } | null } | null, filters: string[] }, uiFilters?: string[], relaxedCount?: number, relaxedSummary?: string }} params */
+export function buildNoResultsGuidance({ parsedQuery, uiFilters = [], relaxedCount = 0, relaxedSummary = '' }) {
+  const subject = describeIntent(parsedQuery, uiFilters);
+  const channelRequests = [];
+
+  if (parsedQuery.filters.includes('chat') || uiFilters.includes('chat')) channelRequests.push('chat-based');
+  if (parsedQuery.filters.includes('sms') || uiFilters.includes('sms')) channelRequests.push('text-based');
+
+  const filterHints = [];
+  if (channelRequests.length > 0) filterHints.push(`removing the ${joinParts(channelRequests)} filter`);
+  if (uiFilters.includes('verified')) filterHints.push('broadening beyond verified-only results');
+
+  const suggestions = filterHints.length > 0
+    ? `Try ${joinParts(filterHints)}, checking the spelling, or searching by country name.`
+    : 'Try checking the spelling, searching by country name, or browsing a broader category.';
+
+  if (relaxedCount > 0 && relaxedSummary) {
+    return {
+      title: `I couldn't find ${subject}.`,
+      detail: `I did find ${pluralize(relaxedCount, 'alternative')} ${relaxedSummary}. ${suggestions}`,
+    };
+  }
+
+  return {
+    title: `I couldn't find ${subject}.`,
+    detail: suggestions,
+  };
+}

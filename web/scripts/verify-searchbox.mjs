@@ -1,7 +1,15 @@
 import assert from 'node:assert/strict';
 
 import docs from '../public/data/search-index.json' with { type: 'json' };
-import { docMatchesQueryFilters, inferSearchIntent, parseSearchQuery, scoreDoc } from '../src/lib/search.js';
+import { 
+  buildNoResultsGuidance,
+  buildOverflowSummary,
+  buildResultSummary,
+  docMatchesQueryFilters,
+  inferSearchIntent,
+  parseSearchQuery,
+  scoreDoc,
+} from '../src/lib/search.js';
 
 function search(query, limit = 5) {
   const parsed = parseSearchQuery(query, docs);
@@ -163,5 +171,26 @@ assert.equal(inferredAliasIntent.category?.value, 'mental_health');
 
 const fillerOnlyResults = search('please help me', 5);
 assert.equal(fillerOnlyResults.length, 0, `Expected filler-only query to stay quiet. Got: ${fillerOnlyResults.join(', ')}`);
+
+const summaryParsed = parseSearchQuery('mental health uae', docs);
+const summaryResults = docs.filter((doc) => docMatchesQueryFilters(doc, summaryParsed));
+assert.equal(
+  buildResultSummary(summaryResults, summaryParsed),
+  `I found ${summaryResults.length} results for mental health support in United Arab Emirates.`,
+);
+
+const noResultParsed = parseSearchQuery('chat support sweden domestic violence', docs);
+const noResultGuidance = buildNoResultsGuidance({
+  parsedQuery: noResultParsed,
+  relaxedCount: 1,
+  relaxedSummary: 'in Sweden without that channel requirement',
+});
+assert.equal(noResultGuidance.title, "I couldn't find chat-based domestic violence support in Sweden.");
+assert.match(noResultGuidance.detail, /I did find 1 alternative in Sweden without that channel requirement\./);
+
+assert.equal(
+  buildOverflowSummary(3, summaryParsed),
+  '3 more options available for mental health support in United Arab Emirates — refine your search to narrow them down.',
+);
 
 console.log('search verification passed');
