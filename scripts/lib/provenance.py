@@ -135,6 +135,8 @@ def infer_source_class(record: dict) -> str | None:
     dataset = metadata.get("source_dataset")
     if dataset == "web_verified_crisis_directory":
         return "aggregator_directory"
+    if dataset == "child_helpline_international":
+        return "ngo_directory"
     if status == "verified_web":
         return "first_party"
     if status == "verified_authority":
