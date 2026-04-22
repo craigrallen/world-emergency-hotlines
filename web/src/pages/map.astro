@@ -7,13 +7,28 @@ import Base from '../layouts/Base.astro';
   description="Explore emergency and crisis hotlines on a zoomable, mobile-friendly world map."
   bleed={true}
 >
-  <div class="relative h-[calc(100dvh-64px-40px)] w-full">
+  <div class="relative h-[calc(100dvh-64px)] min-h-[560px] w-full">
     <!-- Map container -->
     <div id="hotlines-map" class="absolute inset-0 bg-bg" role="application" aria-label="World map of hotlines"></div>
 
+    <!-- Loading overlay (hidden once the map fires 'load') -->
+    <div
+      id="map-loading"
+      class="pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-bg/80 text-sm text-fg-muted"
+    >
+      <div class="rounded-full border border-border bg-bg-elev px-4 py-2">Loading world map…</div>
+    </div>
+
+    <!-- Error banner (hidden unless something fails) -->
+    <div
+      id="map-error"
+      class="pointer-events-auto absolute left-3 right-3 top-3 z-30 hidden rounded-xl border border-danger/60 bg-danger/15 p-3 text-sm text-fg"
+      role="alert"
+    ></div>
+
     <!-- Legend -->
     <div
-      class="pointer-events-auto absolute left-3 top-3 z-10 flex flex-col gap-1.5 rounded-xl border border-border bg-bg-elev/85 p-3 text-xs text-fg shadow-xl backdrop-blur sm:left-4 sm:top-4"
+      class="pointer-events-auto absolute left-3 bottom-20 z-10 flex flex-col gap-1.5 rounded-xl border border-border bg-bg-elev/85 p-3 text-xs text-fg shadow-xl backdrop-blur sm:left-4 sm:bottom-24"
       aria-label="Legend"
     >
       <p class="mb-1 text-[11px] uppercase tracking-wider text-fg-muted">Data coverage</p>
@@ -38,234 +53,240 @@ import Base from '../layouts/Base.astro';
     </aside>
   </div>
 
-  <!-- MapLibre CSS (bundled by Vite via noExternal, but the stylesheet must be linked separately) -->
+  <!-- MapLibre CSS (CDN, allowed by CSP style-src) -->
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
 
   <script>
     import maplibregl from 'maplibre-gl';
-    import type { Manifest } from '../lib/types';
 
-    const container = document.getElementById('hotlines-map');
-    const panel = document.getElementById('country-panel') as HTMLElement | null;
-    const panelBody = document.getElementById('country-panel-body') as HTMLElement | null;
-    const panelClose = document.getElementById('country-panel-close');
-    if (!container || !panel || !panelBody || !panelClose) {
-      throw new Error('map: missing DOM');
+    const errBox = document.getElementById('map-error') as HTMLDivElement | null;
+    const loadingBox = document.getElementById('map-loading') as HTMLDivElement | null;
+
+    function showError(msg: string) {
+      if (!errBox) return;
+      errBox.textContent = msg;
+      errBox.classList.remove('hidden');
+      if (loadingBox) loadingBox.classList.add('hidden');
+      console.error('[map]', msg);
     }
 
-    // Free, no-API-key raster style from CARTO (dark matter). We use a raster
-    // source instead of vector tiles to avoid any signup. Easy to swap for a
-    // self-hosted vector source later — see ARCHITECTURE.md §7.
-    const style: maplibregl.StyleSpecification = {
-      version: 8,
-      sources: {
-        carto: {
-          type: 'raster',
-          tiles: [
-            'https://a.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png',
-            'https://b.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png',
-            'https://c.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png',
-            'https://d.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png',
-          ],
-          tileSize: 256,
-          attribution:
-            '© <a href="https://www.openstreetmap.org/copyright">OSM</a> · © <a href="https://carto.com/attributions">CARTO</a>',
+    async function main() {
+      const container = document.getElementById('hotlines-map') as HTMLDivElement | null;
+      const panel = document.getElementById('country-panel') as HTMLElement | null;
+      const panelBody = document.getElementById('country-panel-body') as HTMLElement | null;
+      const panelClose = document.getElementById('country-panel-close');
+      if (!container || !panel || !panelBody || !panelClose) {
+        showError('Page structure missing — please reload.');
+        return;
+      }
+
+      const style: maplibregl.StyleSpecification = {
+        version: 8,
+        sources: {
+          carto: {
+            type: 'raster',
+            tiles: [
+              'https://a.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png',
+              'https://b.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png',
+              'https://c.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png',
+              'https://d.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}@2x.png',
+            ],
+            tileSize: 256,
+            attribution:
+              '© <a href="https://www.openstreetmap.org/copyright">OSM</a> · © <a href="https://carto.com/attributions">CARTO</a>',
+          },
         },
-      },
-      layers: [{ id: 'basemap', type: 'raster', source: 'carto' }],
-    };
+        layers: [{ id: 'basemap', type: 'raster', source: 'carto' }],
+      };
 
-    const map = new maplibregl.Map({
-      container: container as HTMLElement,
-      style,
-      center: [15, 20],
-      zoom: 1.6,
-      minZoom: 1.2,
-      maxZoom: 10,
-      // touch controls are on by default — pinch-zoom and two-finger rotate
-      cooperativeGestures: false,
-      attributionControl: { compact: true },
-    });
-
-    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
-    map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-left');
-
-    // ---------- load manifest, place markers per country ----------
-    let manifest: Manifest | null = null;
-    try {
-      manifest = await fetch('/data/manifest.json').then((r) => {
-        if (!r.ok) throw new Error(`manifest.json ${r.status}`);
-        return r.json();
-      });
-    } catch (err) {
-      console.warn('[map] manifest.json not found — run `npm run data:build` first.', err);
-    }
-
-    function color(count: number, verified: number): string {
-      if (count === 0) return '#2a3252';
-      if (verified > 0) return '#f0b86e';
-      return '#7a6a9e';
-    }
-
-    map.on('load', async () => {
-      if (!manifest) return;
-
-      const features = manifest.countries
-        .map((c) => {
-          const p = c.centroid;
-          if (!p) return null;
-          return {
-            type: 'Feature' as const,
-            geometry: { type: 'Point' as const, coordinates: [p.lng, p.lat] },
-            properties: {
-              alpha2: c.alpha2,
-              name: c.name,
-              count: c.hotline_count,
-              verified: c.verified_count,
-              color: color(c.hotline_count, c.verified_count),
-            },
-          };
-        })
-        .filter(Boolean);
-
-      map.addSource('countries', {
-        type: 'geojson',
-        data: { type: 'FeatureCollection', features: features as GeoJSON.Feature[] },
-      });
-
-      map.addLayer({
-        id: 'countries-halo',
-        type: 'circle',
-        source: 'countries',
-        paint: {
-          'circle-color': ['get', 'color'],
-          'circle-opacity': 0.18,
-          'circle-radius': [
-            'interpolate',
-            ['linear'],
-            ['zoom'],
-            1, ['+', 8, ['*', 1.2, ['sqrt', ['get', 'count']]]],
-            6, ['+', 18, ['*', 2.2, ['sqrt', ['get', 'count']]]],
-          ],
-          'circle-blur': 0.7,
-        },
-      });
-
-      map.addLayer({
-        id: 'countries-points',
-        type: 'circle',
-        source: 'countries',
-        paint: {
-          'circle-color': ['get', 'color'],
-          'circle-radius': [
-            'interpolate',
-            ['linear'],
-            ['zoom'],
-            1, ['+', 3, ['*', 0.5, ['sqrt', ['get', 'count']]]],
-            6, ['+', 6, ['*', 1.2, ['sqrt', ['get', 'count']]]],
-          ],
-          'circle-stroke-color': '#0b1020',
-          'circle-stroke-width': 1.5,
-          'circle-opacity': 0.95,
-        },
-      });
-
-      map.on('mouseenter', 'countries-points', () => (map.getCanvas().style.cursor = 'pointer'));
-      map.on('mouseleave', 'countries-points', () => (map.getCanvas().style.cursor = ''));
-
-      map.on('click', 'countries-points', (e) => {
-        const f = e.features?.[0];
-        if (!f) return;
-        const alpha2 = f.properties?.alpha2 as string;
-        void openCountry(alpha2, [e.lngLat.lng, e.lngLat.lat]);
-      });
-    });
-
-    // ---------- country panel ----------
-    async function openCountry(alpha2: string, flyTo?: [number, number]) {
-      if (!panel || !panelBody) return;
-      panelBody.innerHTML = `<p class="text-sm text-fg-muted">Loading ${alpha2}…</p>`;
-      panel.classList.remove('hidden');
-      requestAnimationFrame(() => panel.classList.remove('translate-x-full'));
-
-      if (flyTo) map.flyTo({ center: flyTo, zoom: Math.max(map.getZoom(), 4) });
-
+      let map: maplibregl.Map;
       try {
-        const data = await fetch(`/data/countries/${alpha2}.json`).then((r) => {
-          if (!r.ok) throw new Error(`${alpha2} ${r.status}`);
-          return r.json();
+        map = new maplibregl.Map({
+          container,
+          style,
+          center: [15, 20],
+          zoom: 1.6,
+          minZoom: 1.2,
+          maxZoom: 10,
+          attributionControl: { compact: true },
         });
-        panelBody.innerHTML = renderCountry(data);
       } catch (err) {
-        panelBody.innerHTML = `<p class="text-sm text-danger">Couldn't load ${alpha2}. ${String(err)}</p>`;
+        showError(`Couldn't initialise the map: ${err instanceof Error ? err.message : String(err)}`);
+        return;
+      }
+
+      map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+      map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-left');
+
+      map.on('error', (e) => {
+        console.error('[maplibre error]', e?.error);
+      });
+
+      // Load manifest in parallel; non-fatal if it 404s (base map still shows)
+      const manifestPromise = fetch('/data/manifest.json')
+        .then((r) => {
+          if (!r.ok) throw new Error(`manifest ${r.status}`);
+          return r.json();
+        })
+        .catch((err) => {
+          console.warn('[map] manifest unavailable, rendering basemap only:', err);
+          return null;
+        });
+
+      map.on('load', async () => {
+        if (loadingBox) loadingBox.classList.add('hidden');
+        const manifest = await manifestPromise;
+        if (!manifest) return;
+
+        const features = manifest.countries
+          .map((c: any) => {
+            const p = c.centroid;
+            if (!p) return null;
+            return {
+              type: 'Feature',
+              geometry: { type: 'Point', coordinates: [p.lng, p.lat] },
+              properties: {
+                alpha2: c.alpha2,
+                name: c.name,
+                count: c.hotline_count,
+                verified: c.verified_count,
+                color: color(c.hotline_count, c.verified_count),
+              },
+            };
+          })
+          .filter(Boolean);
+
+        map.addSource('countries', {
+          type: 'geojson',
+          data: { type: 'FeatureCollection', features },
+        });
+
+        map.addLayer({
+          id: 'countries-halo',
+          type: 'circle',
+          source: 'countries',
+          paint: {
+            'circle-color': ['get', 'color'],
+            'circle-opacity': 0.18,
+            'circle-radius': [
+              'interpolate', ['linear'], ['zoom'],
+              1, ['+', 8, ['*', 1.2, ['sqrt', ['get', 'count']]]],
+              6, ['+', 18, ['*', 2.2, ['sqrt', ['get', 'count']]]],
+            ],
+            'circle-blur': 0.7,
+          },
+        });
+
+        map.addLayer({
+          id: 'countries-points',
+          type: 'circle',
+          source: 'countries',
+          paint: {
+            'circle-color': ['get', 'color'],
+            'circle-radius': [
+              'interpolate', ['linear'], ['zoom'],
+              1, ['+', 3, ['*', 0.5, ['sqrt', ['get', 'count']]]],
+              6, ['+', 6, ['*', 1.2, ['sqrt', ['get', 'count']]]],
+            ],
+            'circle-stroke-color': '#0b1020',
+            'circle-stroke-width': 1.5,
+            'circle-opacity': 0.95,
+          },
+        });
+
+        map.on('mouseenter', 'countries-points', () => (map.getCanvas().style.cursor = 'pointer'));
+        map.on('mouseleave', 'countries-points', () => (map.getCanvas().style.cursor = ''));
+
+        map.on('click', 'countries-points', (e) => {
+          const f = e.features?.[0];
+          if (!f) return;
+          const alpha2 = f.properties?.alpha2 as string;
+          void openCountry(alpha2, [e.lngLat.lng, e.lngLat.lat]);
+        });
+      });
+
+      function color(count: number, verified: number): string {
+        if (count === 0) return '#2a3252';
+        if (verified > 0) return '#f0b86e';
+        return '#7a6a9e';
+      }
+
+      async function openCountry(alpha2: string, flyTo?: [number, number]) {
+        if (!panel || !panelBody) return;
+        panelBody.innerHTML = `<p class="text-sm text-fg-muted">Loading ${alpha2}…</p>`;
+        panel.classList.remove('hidden');
+        requestAnimationFrame(() => panel.classList.remove('translate-x-full'));
+        if (flyTo) map.flyTo({ center: flyTo, zoom: Math.max(map.getZoom(), 4) });
+        try {
+          const data = await fetch(`/data/countries/${alpha2}.json`).then((r) => {
+            if (!r.ok) throw new Error(`${alpha2} ${r.status}`);
+            return r.json();
+          });
+          panelBody.innerHTML = renderCountry(data);
+        } catch (err) {
+          panelBody.innerHTML = `<p class="text-sm text-danger">Couldn't load ${alpha2}. ${String(err)}</p>`;
+        }
+      }
+
+      function closePanel() {
+        if (!panel) return;
+        panel.classList.add('translate-x-full');
+        setTimeout(() => panel.classList.add('hidden'), 300);
+      }
+      panelClose.addEventListener('click', closePanel);
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePanel(); });
+
+      function escape(s: string): string {
+        return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] as string));
+      }
+
+      function flagEmoji(cc: string): string {
+        if (!/^[A-Z]{2}$/.test(cc)) return '🏳️';
+        const A = 127397;
+        return String.fromCodePoint(cc.charCodeAt(0) + A, cc.charCodeAt(1) + A);
+      }
+
+      function renderCountry(c: any): string {
+        const flag = flagEmoji(c.alpha2);
+        const emergency = (c.general_emergency ?? []).join(' · ') || '—';
+        const items = (c.hotlines ?? [])
+          .map((h: any) => {
+            const nums = [...(h.voice_numbers ?? []), ...(h.short_codes ?? [])];
+            const numHtml = nums
+              .map((n: string) =>
+                `<a href="tel:${escape(n.replace(/\s+/g, ''))}" class="mr-2 inline-block rounded-md bg-accent/10 px-2 py-1 font-mono text-xs text-accent hover:bg-accent/20">${escape(n)}</a>`
+              ).join('');
+            return `
+              <article class="card p-4">
+                <header class="mb-2 flex items-start justify-between gap-2">
+                  <h3 class="text-sm font-semibold text-fg">${escape(h.name)}</h3>
+                  <span class="chip text-[10px]">${escape(h.category.replace(/_/g, ' '))}</span>
+                </header>
+                ${numHtml ? `<div class="mb-2">${numHtml}</div>` : ''}
+                ${h.hours ? `<p class="text-xs text-fg-muted">${escape(h.hours)}</p>` : ''}
+                ${h.website ? `<a class="mt-1 inline-block text-xs text-accent hover:underline" href="${escape(h.website)}" target="_blank" rel="noopener">Website ↗</a>` : ''}
+              </article>`;
+          }).join('');
+        return `
+          <div class="mb-4 flex items-center gap-3">
+            <span class="text-3xl" aria-hidden="true">${flag}</span>
+            <div>
+              <h2 class="font-display text-2xl text-fg">${escape(c.country)}</h2>
+              <p class="text-xs text-fg-muted">${c.alpha2} · ${escape(c.region ?? '')}</p>
+            </div>
+          </div>
+          <div class="mb-5 rounded-xl border border-danger/40 bg-danger/10 p-3 text-sm text-fg">
+            <p class="font-semibold text-danger">Immediate emergency</p>
+            <p class="font-mono text-lg text-fg">${escape(emergency)}</p>
+            ${c.notes ? `<p class="mt-1 text-xs text-fg-muted">${escape(c.notes)}</p>` : ''}
+          </div>
+          <h3 class="mb-3 text-xs uppercase tracking-wider text-fg-muted">${c.hotlines?.length ?? 0} hotlines</h3>
+          <div class="space-y-3">${items || '<p class="text-sm text-fg-muted">No hotlines listed yet.</p>'}</div>
+          <p class="mt-4 text-center"><a href="/country/${c.alpha2.toLowerCase()}" class="text-sm text-accent hover:underline">Full page for ${escape(c.country)} →</a></p>
+        `;
       }
     }
 
-    function closePanel() {
-      if (!panel) return;
-      panel.classList.add('translate-x-full');
-      setTimeout(() => panel.classList.add('hidden'), 300);
-    }
-
-    panelClose.addEventListener('click', closePanel);
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closePanel();
-    });
-
-    function escape(s: string): string {
-      return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] as string));
-    }
-
-    function renderCountry(c: any): string {
-      const flag = flagEmoji(c.alpha2);
-      const emergency = (c.general_emergency ?? []).join(' · ') || '—';
-      const items = (c.hotlines ?? [])
-        .map((h: any) => {
-          const nums = [...(h.voice_numbers ?? []), ...(h.short_codes ?? [])];
-          const numHtml = nums
-            .map(
-              (n: string) =>
-                `<a href="tel:${escape(n.replace(/\s+/g, ''))}" class="mr-2 inline-block rounded-md bg-accent/10 px-2 py-1 font-mono text-xs text-accent hover:bg-accent/20">${escape(
-                  n
-                )}</a>`
-            )
-            .join('');
-          return `
-            <article class="card p-4">
-              <header class="mb-2 flex items-start justify-between gap-2">
-                <h3 class="text-sm font-semibold text-fg">${escape(h.name)}</h3>
-                <span class="chip text-[10px]">${escape(h.category.replace(/_/g, ' '))}</span>
-              </header>
-              ${numHtml ? `<div class="mb-2">${numHtml}</div>` : ''}
-              ${h.hours ? `<p class="text-xs text-fg-muted">${escape(h.hours)}</p>` : ''}
-              ${h.website ? `<a class="mt-1 inline-block text-xs text-accent hover:underline" href="${escape(h.website)}" target="_blank" rel="noopener">Website ↗</a>` : ''}
-            </article>`;
-        })
-        .join('');
-
-      return `
-        <div class="mb-4 flex items-center gap-3">
-          <span class="text-3xl" aria-hidden="true">${flag}</span>
-          <div>
-            <h2 class="font-display text-2xl text-fg">${escape(c.country)}</h2>
-            <p class="text-xs text-fg-muted">${c.alpha2} · ${escape(c.region ?? '')}</p>
-          </div>
-        </div>
-        <div class="mb-5 rounded-xl border border-danger/40 bg-danger/10 p-3 text-sm text-fg">
-          <p class="font-semibold text-danger">Immediate emergency</p>
-          <p class="font-mono text-lg text-fg">${escape(emergency)}</p>
-          ${c.notes ? `<p class="mt-1 text-xs text-fg-muted">${escape(c.notes)}</p>` : ''}
-        </div>
-        <h3 class="mb-3 text-xs uppercase tracking-wider text-fg-muted">${c.hotlines?.length ?? 0} hotlines</h3>
-        <div class="space-y-3">${items || '<p class="text-sm text-fg-muted">No hotlines listed yet.</p>'}</div>
-        <p class="mt-4 text-center"><a href="/country/${c.alpha2.toLowerCase()}" class="text-sm text-accent hover:underline">Full page for ${escape(c.country)} →</a></p>
-      `;
-    }
-
-    function flagEmoji(cc: string): string {
-      if (!/^[A-Z]{2}$/.test(cc)) return '🏳️';
-      const A = 127397;
-      return String.fromCodePoint(cc.charCodeAt(0) + A, cc.charCodeAt(1) + A);
-    }
+    main().catch((err) => showError(`Map failed to start: ${err instanceof Error ? err.message : String(err)}`));
   </script>
 </Base>
