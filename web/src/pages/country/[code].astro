@@ -1,23 +1,52 @@
-﻿---
+---
 import Base from '../../layouts/Base.astro';
 import HotlineCard from '../../components/HotlineCard.astro';
-import { getManifest, getCountry } from '../../lib/data';
-import type { Country } from '../../lib/types';
+import { getManifest, getCountry, getBestAvailableHelp, getFreshnessInfo } from '../../lib/data';
+import { CATEGORY_META } from '../../lib/types';
+import type { Hotline, HotlineCategory } from '../../lib/types';
 
-export async function getStaticPaths() {
+export const getStaticPaths = async () => {
   const manifest = await getManifest();
   return manifest.countries.map((c) => ({
     params: { code: c.alpha2.toLowerCase() },
-    props: { alpha2: c.alpha2 },
   }));
-}
+};
 
-const { alpha2 } = Astro.props as { alpha2: string };
-const country = (await getCountry(alpha2)) as Country | null;
+const { code } = Astro.params as { code: string };
+const country = await getCountry(code.toUpperCase());
 
+// Should never happen since paths come from manifest, but guard for type safety
 if (!country) {
   return Astro.redirect('/404');
 }
+
+const VERIFIED_SET = new Set(['verified_web', 'verified_authority', 'verified_knowledge']);
+const verifiedHotlines = country.hotlines.filter((h) => VERIFIED_SET.has(h.verification_status));
+const unverifiedCount = country.hotlines.length - verifiedHotlines.length;
+
+// Best available crisis/support line
+const bestHelp = getBestAvailableHelp(country.hotlines);
+const bestHelpIsVerified = bestHelp ? VERIFIED_SET.has(bestHelp.verification_status) : false;
+
+// Group hotlines by category for the tabbed view
+const hotlinesByCategory: Map<HotlineCategory, Hotline[]> = new Map();
+for (const h of country.hotlines) {
+  const list = hotlinesByCategory.get(h.category) ?? [];
+  list.push(h);
+  hotlinesByCategory.set(h.category, list);
+}
+
+// Ordered categories: crisis-priority first, then alphabetical
+const PRIORITY_ORDER: HotlineCategory[] = [
+  'suicide_crisis', 'mental_health', 'domestic_violence', 'sexual_violence',
+  'child_protection', 'lgbtqia', 'substance_use', 'veterans',
+  'general_support', 'emergency',
+];
+const allCats = [...hotlinesByCategory.keys()];
+const orderedCats = [
+  ...PRIORITY_ORDER.filter((c) => hotlinesByCategory.has(c)),
+  ...allCats.filter((c) => !PRIORITY_ORDER.includes(c)).sort(),
+];
 
 function flagEmoji(cc: string): string {
   if (!/^[A-Z]{2}$/.test(cc)) return '🏳️';
@@ -25,71 +54,270 @@ function flagEmoji(cc: string): string {
   return String.fromCodePoint(cc.charCodeAt(0) + A, cc.charCodeAt(1) + A);
 }
 
-const emergency = country.general_emergency.join(' · ');
-const groups = country.hotlines.reduce<Record<string, typeof country.hotlines>>((acc, h) => {
-  (acc[h.category] ||= []).push(h);
-  return acc;
-}, {});
-const orderedCategories = Object.keys(groups).sort((a, b) => {
-  const rank = (k: string) => (k === 'emergency' ? 0 : k === 'suicide_crisis' ? 1 : 2);
-  return rank(a) - rank(b) || a.localeCompare(b);
-});
+const flag = flagEmoji(country.alpha2);
+const emergency = country.general_emergency ?? [];
+
+// Freshness info for best help line
+const bestHelpFreshness = bestHelp ? getFreshnessInfo(bestHelp) : null;
+
+const title = `${country.country} — Emergency & crisis hotlines`;
+const description = `Emergency numbers, crisis lines, and support hotlines for ${country.country}. ${country.hotlines.length} hotlines listed, ${verifiedHotlines.length} verified.`;
 ---
 
-<Base
-  title={`${country.country} · Hotlines`}
-  description={`Emergency and crisis support hotlines for ${country.country}.`}
->
-  <nav aria-label="Breadcrumb" class="mb-6 text-sm text-fg-muted">
+<Base title={title} description={description}>
+  <!-- Breadcrumb -->
+  <nav class="mb-6 flex items-center gap-2 text-xs text-fg-muted" aria-label="Breadcrumb">
     <a href="/" class="hover:text-fg">Home</a>
-    <span class="px-1">/</span>
+    <span aria-hidden="true">›</span>
     <span class="text-fg">{country.country}</span>
   </nav>
 
-  <header class="mb-8 flex flex-wrap items-center gap-4">
-    <span class="text-5xl" aria-hidden="true">{flagEmoji(country.alpha2)}</span>
-    <div>
+  <!-- Country header -->
+  <div class="mb-8 flex flex-wrap items-start gap-4">
+    <span class="text-5xl leading-none" aria-hidden="true">{flag}</span>
+    <div class="min-w-0 flex-1">
       <h1 class="font-display text-4xl text-fg sm:text-5xl">{country.country}</h1>
-      <p class="text-sm text-fg-muted">
-        {country.alpha2}{country.region ? ` · ${country.region}` : ''}{country.subregion ? ` · ${country.subregion}` : ''}
+      <p class="mt-1 text-sm text-fg-muted">
+        {country.alpha2}
+        {country.region && <span> · {country.region}</span>}
+        {country.subregion && country.subregion !== country.region && <span> · {country.subregion}</span>}
       </p>
+      <div class="mt-2 flex flex-wrap gap-2 text-xs">
+        <span class="chip">
+          {country.hotlines.length} hotline{country.hotlines.length !== 1 ? 's' : ''}
+        </span>
+        {verifiedHotlines.length > 0 && (
+          <span class="chip border-success/40 bg-success/10 text-success">
+            {verifiedHotlines.length} verified
+          </span>
+        )}
+        {unverifiedCount > 0 && verifiedHotlines.length === 0 && (
+          <span class="chip border-fg-muted/30 text-fg-muted">
+            Data not yet verified
+          </span>
+        )}
+      </div>
     </div>
-  </header>
+    <div class="flex shrink-0 gap-2">
+      <a href={`/map#${country.alpha2}`} class="btn-ghost text-xs">View on map ↗</a>
+    </div>
+  </div>
 
-  {emergency && (
-    <aside class="mb-8 rounded-2xl border border-danger/40 bg-danger/10 p-5">
-      <p class="text-xs uppercase tracking-wider text-danger">Immediate emergency</p>
-      <p class="mt-1 font-mono text-2xl text-fg">{emergency}</p>
-      {country.notes && <p class="mt-2 text-sm text-fg-muted">{country.notes}</p>}
-    </aside>
+  <!-- Emergency numbers — always first, highest visual priority -->
+  {emergency.length > 0 && (
+    <div class="mb-6 rounded-2xl border border-danger/50 bg-danger/10 p-5">
+      <div class="flex items-start gap-3">
+        <span class="text-2xl" aria-hidden="true">🚨</span>
+        <div>
+          <h2 class="font-semibold text-danger">Emergency numbers</h2>
+          <p class="mt-1 text-xs text-fg-muted">Police · Fire · Ambulance</p>
+          <div class="mt-2 flex flex-wrap gap-2">
+            {emergency.map((n) => (
+              <a
+                href={`tel:${n.replace(/\s+/g, '')}`}
+                class="inline-flex items-center gap-1.5 rounded-lg bg-danger/20 px-4 py-2 font-mono text-xl font-bold text-danger hover:bg-danger/30"
+              >
+                {n}
+              </a>
+            ))}
+          </div>
+          {country.notes && (
+            <p class="mt-2 text-xs text-fg-muted">{country.notes}</p>
+          )}
+        </div>
+      </div>
+    </div>
   )}
 
-  <p class="mb-8 text-sm text-fg-muted">
-    {country.hotlines.length} hotline{country.hotlines.length === 1 ? '' : 's'} listed. Double-check a number
-    against the provider's official site before you rely on it — we label verification status on each card so you
-    can judge confidence at a glance.
-  </p>
-
-  {orderedCategories.map((cat) => (
-    <section class="mb-10">
-      <h2 class="mb-4 font-display text-2xl capitalize text-fg">{cat.replace(/_/g, ' ')}</h2>
-      <div class="grid gap-4 sm:grid-cols-2">
-        {groups[cat].map((h) => <HotlineCard hotline={h} />)}
+  <!-- Best available help box -->
+  {bestHelp && (
+    <div class={`mb-6 rounded-2xl border p-5 ${bestHelpIsVerified ? 'border-success/40 bg-success/5' : 'border-accent/40 bg-accent/5'}`}>
+      <div class="mb-3 flex items-center gap-2">
+        <span class="text-lg" aria-hidden="true">
+          {bestHelpIsVerified ? '✅' : '⚠️'}
+        </span>
+        <div>
+          <h2 class="text-sm font-semibold text-fg">
+            {bestHelpIsVerified ? 'Best verified help available' : 'Best available help (unverified)'}
+          </h2>
+          {!bestHelpIsVerified && (
+            <p class="text-xs text-fg-muted">Double-check this number before calling — it hasn't been independently verified.</p>
+          )}
+        </div>
       </div>
-    </section>
-  ))}
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <p class="font-semibold text-fg">{bestHelp.name}</p>
+          {bestHelp.organization && bestHelp.organization !== bestHelp.name && (
+            <p class="text-xs text-fg-muted">{bestHelp.organization}</p>
+          )}
+          <p class="mt-0.5 text-xs text-fg-muted capitalize">
+            {(CATEGORY_META[bestHelp.category]?.label ?? bestHelp.category).replace(/_/g, ' ')}
+            {bestHelp.hours && <span> · {bestHelp.hours}</span>}
+          </p>
+          {bestHelpFreshness && bestHelpFreshness.label && (
+            <p class={`mt-1 text-xs ${bestHelpFreshness.level === 'stale' ? 'text-accent' : 'text-success'}`}>
+              {bestHelpFreshness.label}
+            </p>
+          )}
+        </div>
+        <div class="flex flex-wrap gap-2">
+          {[...bestHelp.voice_numbers, ...bestHelp.short_codes].slice(0, 2).map((n) => (
+            <a
+              href={`tel:${n.replace(/\s+/g, '')}`}
+              class="inline-flex items-center gap-1.5 rounded-lg bg-accent/15 px-3 py-2 font-mono text-base font-semibold text-accent hover:bg-accent/25"
+            >
+              📞 {n}
+            </a>
+          ))}
+          {bestHelp.chat_url && (
+            <a
+              href={bestHelp.chat_url}
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center gap-1.5 rounded-lg bg-accent/15 px-3 py-2 text-sm text-accent hover:bg-accent/25"
+            >
+              💬 Chat
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+  )}
 
   {country.hotlines.length === 0 && (
-    <div class="card p-8 text-center">
-      <p class="text-fg-muted">
-        We do not have any hotlines on file for {country.country} yet.
-        If you know of an official one,
-        <a href="/about" class="text-accent hover:underline">help us add it</a>.
+    <div class="mb-6 rounded-2xl border border-border bg-bg-elev/40 p-6 text-center">
+      <p class="text-2xl" aria-hidden="true">📋</p>
+      <h2 class="mt-2 font-semibold text-fg">No hotlines listed yet</h2>
+      <p class="mt-1 text-sm text-fg-muted">
+        We don't have specific hotline data for {country.country} yet.
+        Try searching online for "{country.country} crisis line" or "{country.country} mental health support".
       </p>
+      {emergency.length === 0 && (
+        <p class="mt-3 text-sm text-fg-muted">
+          For general emergencies, try <span class="font-mono text-fg">112</span> (works in most countries)
+          or <span class="font-mono text-fg">911</span> / <span class="font-mono text-fg">999</span>.
+        </p>
+      )}
     </div>
   )}
 
-  <p class="mt-10 text-center text-sm text-fg-muted">
-    <a href="/map" class="text-accent hover:underline">← Back to the world map</a>
-  </p>
+  <!-- Traveller guidance -->
+  <div class="mb-8 rounded-2xl border border-border bg-bg-elev/30 p-4 text-sm text-fg-muted">
+    <span class="mr-2 text-base" aria-hidden="true">✈️</span>
+    <strong class="text-fg">Traveller note:</strong> Most hotlines listed here require a local {country.country} phone number or SIM card.
+    If calling from abroad, you may need to dial your country's international exit code followed by the {country.country} country code,
+    and some free-call numbers may not connect internationally. When in doubt, ask your hotel or the local emergency number.
+  </div>
+
+  <!-- Data quality notice if all unverified -->
+  {country.hotlines.length > 0 && verifiedHotlines.length === 0 && (
+    <div class="mb-6 rounded-xl border border-accent/30 bg-accent/5 p-4 text-sm">
+      <span class="mr-1" aria-hidden="true">⚠️</span>
+      <strong class="text-accent">Data not independently verified.</strong>
+      <span class="text-fg-muted"> These records come from legacy sources and haven't been confirmed against official provider websites. Please double-check any number before relying on it.</span>
+    </div>
+  )}
+
+  <!-- Category filter tabs (client-side) -->
+  {orderedCats.length > 1 && (
+    <div class="mb-6">
+      <div class="flex flex-wrap gap-2" id="cat-filter" role="group" aria-label="Filter by category">
+        <button
+          class="chip cat-tab border-accent/60 bg-accent/10 text-accent"
+          data-cat="all"
+          aria-pressed="true"
+        >
+          All ({country.hotlines.length})
+        </button>
+        {orderedCats.map((cat) => {
+          const meta = CATEGORY_META[cat];
+          const count = hotlinesByCategory.get(cat)?.length ?? 0;
+          return (
+            <button
+              class="chip cat-tab hover:border-accent/40 hover:text-fg"
+              data-cat={cat}
+              aria-pressed="false"
+            >
+              {meta?.icon && <span aria-hidden="true">{meta.icon}</span>}
+              {meta?.label ?? cat.replace(/_/g, ' ')} ({count})
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  )}
+
+  <!-- Hotlines grid -->
+  {orderedCats.length > 0 && (
+    <div class="space-y-8" id="hotlines-container">
+      {orderedCats.map((cat) => {
+        const hotlines = hotlinesByCategory.get(cat) ?? [];
+        const meta = CATEGORY_META[cat];
+        return (
+          <section data-section-cat={cat}>
+            <h2 class="mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-fg-muted">
+              {meta?.icon && <span aria-hidden="true">{meta.icon}</span>}
+              {meta?.label ?? cat.replace(/_/g, ' ')}
+              <span class="text-xs font-normal normal-case">({hotlines.length})</span>
+            </h2>
+            <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {hotlines.map((h) => (
+                <div data-card-cat={cat}>
+                  <HotlineCard hotline={h} />
+                </div>
+              ))}
+            </div>
+          </section>
+        );
+      })}
+    </div>
+  )}
+
+  <!-- Data access footer -->
+  <div class="mt-12 border-t border-border pt-8 text-xs text-fg-muted">
+    <div class="flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <p>
+          Data for {country.country} · <a href="/about" class="text-accent hover:underline">Methodology</a> ·
+          <a href={`/data/countries/${country.alpha2}.json`} class="text-accent hover:underline" target="_blank">
+            Download {country.alpha2}.json ↗
+          </a>
+        </p>
+        <p class="mt-1">
+          Found an error? <a href="https://github.com/craigrallen/world-emergency-hotlines/issues" class="text-accent hover:underline" target="_blank" rel="noopener">Open an issue ↗</a>
+        </p>
+      </div>
+      <a href="/data" class="btn-ghost text-xs">All data downloads</a>
+    </div>
+  </div>
 </Base>
+
+<script>
+  // Client-side category filter for the tabbed hotline view
+  const filterGroup = document.getElementById('cat-filter');
+  const container = document.getElementById('hotlines-container');
+
+  if (filterGroup && container) {
+    filterGroup.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest('[data-cat]') as HTMLButtonElement | null;
+      if (!btn) return;
+      const cat = btn.dataset.cat;
+
+      // Update button states
+      for (const b of filterGroup.querySelectorAll('.cat-tab')) {
+        const isActive = (b as HTMLElement).dataset.cat === cat;
+        b.setAttribute('aria-pressed', String(isActive));
+        b.classList.toggle('border-accent/60', isActive);
+        b.classList.toggle('bg-accent/10', isActive);
+        b.classList.toggle('text-accent', isActive);
+      }
+
+      // Show/hide sections
+      for (const section of container.querySelectorAll('[data-section-cat]')) {
+        const sectionCat = (section as HTMLElement).dataset.sectionCat;
+        (section as HTMLElement).hidden = cat !== 'all' && sectionCat !== cat;
+      }
+    });
+  }
+</script>

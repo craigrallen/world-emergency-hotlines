@@ -2,31 +2,105 @@
 import Base from '../layouts/Base.astro';
 ---
 
-<Base title="About · Hotlines">
+<Base title="About · Hotlines" description="How the World Emergency & Hotlines directory works: data sourcing, verification, routing, and privacy.">
   <article class="prose prose-invert mx-auto max-w-2xl text-fg">
     <h1 class="font-display text-4xl text-fg">About this project</h1>
     <p class="text-fg-muted">
-      World Emergency & Hotlines is an open directory of every crisis, emergency, and support line we can verify,
-      for every country on Earth. We think nobody should have to search in a panic.
+      World Emergency & Hotlines is an open directory of every crisis, emergency, and support line we can
+      verify, for every country on Earth. We think nobody should have to search in a panic.
     </p>
 
-    <h2 class="font-display mt-8 text-2xl text-fg">How to use it</h2>
+    <h2 class="font-display mt-8 text-2xl text-fg">If you're in crisis right now</h2>
+    <div class="rounded-2xl border border-danger/40 bg-danger/10 p-4 not-prose mb-6">
+      <p class="text-sm text-fg-muted">
+        Call your country's emergency number. In most of Europe: <span class="font-mono text-fg">112</span>.
+        US/Canada: <span class="font-mono text-fg">911</span>. UK: <span class="font-mono text-fg">999</span>.
+        Australia: <span class="font-mono text-fg">000</span>. These numbers work even without a SIM card on most networks.
+      </p>
+      <p class="mt-2 text-sm text-fg-muted">
+        For crisis support: <a href="/category/suicide_crisis" class="text-accent hover:underline">find a crisis line →</a>
+      </p>
+    </div>
+
+    <h2 class="font-display mt-8 text-2xl text-fg">How to use this site</h2>
     <ul class="list-disc pl-6 text-fg-muted">
-      <li>Type a country and a category in the search bar (e.g. "Italy domestic violence").</li>
-      <li>Use the interactive world map to explore coverage.</li>
-      <li>Every country page lists hotlines with a verification status so you can judge confidence.</li>
+      <li>
+        <strong class="text-fg">Search</strong> by country, category, or service name (e.g. "Italy domestic violence",
+        "UK childline", "Canada veterans").
+        Use the filter chips to narrow to verified-only, SMS-accessible, or online-chat services.
+      </li>
+      <li>
+        <strong class="text-fg">Browse by category</strong> — see <a href="/categories" class="text-accent hover:underline">all 29 categories</a>
+        with counts and verification coverage.
+      </li>
+      <li>
+        <strong class="text-fg">Explore the map</strong> — click any country to see all local numbers and crisis lines.
+      </li>
+      <li>
+        <strong class="text-fg">Country pages</strong> show hotlines grouped by category, with a "best available help"
+        panel at the top and a traveller note about international dialling.
+      </li>
+    </ul>
+
+    <h2 class="font-display mt-8 text-2xl text-fg">How verification works</h2>
+    <p class="text-fg-muted">
+      Every hotline record carries a verification status. We never hide a record — we label its confidence level
+      so you can make an informed decision.
+    </p>
+    <dl class="space-y-3 not-prose mt-4">
+      {[
+        ['verified_web',       'bg-success/15 text-success border-success/40',  'Confirmed against the organisation\'s own official website. Highest confidence.'],
+        ['verified_authority', 'bg-success/15 text-success border-success/40',  'Confirmed directly with an authoritative source such as a government body.'],
+        ['verified_knowledge', 'bg-success/10 text-success border-success/30',  'Confirmed against a trusted reference. High confidence.'],
+        ['cross_referenced',   'bg-accent/15 text-accent border-accent/40',     'Found in multiple independent sources. Reliable but not yet checked against the official site. Treat as trustworthy; worth a quick verify for critical use.'],
+        ['legacy_unverified',  'bg-fg-muted/15 text-fg-muted border-fg-muted/30', 'From an earlier dataset. Has not been independently confirmed. Please check the organisation\'s official website before relying on this number.'],
+        ['disputed',           'bg-danger/15 text-danger border-danger/40',     'Conflicting information found. Treat with caution — the number may be wrong.'],
+        ['deprecated',         'bg-fg-muted/15 text-fg-muted border-fg-muted/30', 'Believed to be no longer active. Included for reference.'],
+      ].map(([status, tone, desc]) => (
+        <div class="flex gap-3 items-start">
+          <span class={`chip shrink-0 border text-[11px] mt-0.5 ${tone}`}>{(status as string).replace(/_/g, ' ')}</span>
+          <p class="text-sm text-fg-muted">{desc}</p>
+        </div>
+      ))}
+    </dl>
+
+    <h2 class="font-display mt-8 text-2xl text-fg">Best-available routing</h2>
+    <p class="text-fg-muted">
+      On each country page, the site automatically selects the "best available help" — a verified crisis line if one
+      exists, falling back to verified mental health support, then to unverified lines if that's all we have. This is
+      surfaced prominently so that someone in distress doesn't need to scan a long list.
+    </p>
+    <p class="text-fg-muted mt-2">
+      The same logic applies to the search: when you type a country + category, verified lines rank higher. Filter chips
+      let you explicitly restrict results to verified or channel-specific services.
+    </p>
+
+    <h2 class="font-display mt-8 text-2xl text-fg">Travellers & expats</h2>
+    <p class="text-fg-muted">
+      Most freephone/toll-free numbers require a local SIM or network connection for the country. If you're abroad:
+    </p>
+    <ul class="list-disc pl-6 text-fg-muted">
+      <li><span class="font-mono text-fg">112</span> reaches emergency services in most countries even without a SIM.</li>
+      <li>Look for hotlines with online chat (💬) — these work internationally over Wi-Fi.</li>
+      <li>SMS-based lines (📱) may also work internationally depending on your roaming plan.</li>
+      <li>Hotel staff and local emergency numbers will always have up-to-date local contacts.</li>
     </ul>
 
     <h2 class="font-display mt-8 text-2xl text-fg">Privacy</h2>
     <p class="text-fg-muted">
-      The natural-language finder runs entirely in your browser. We do not log your queries, your location, or anything
-      you type. The emergency banner uses only your browser language — no server call.
+      The search runs entirely in your browser — your search terms and results never leave your device.
+      No queries are logged. The emergency banner reads your browser language setting only (no server call, no location).
+      We don't use tracking cookies or analytics that identify individuals.
     </p>
 
-    <h2 class="font-display mt-8 text-2xl text-fg">If you're in crisis right now</h2>
+    <h2 class="font-display mt-8 text-2xl text-fg">Open data & contributing</h2>
     <p class="text-fg-muted">
-      Please call your country's emergency number. In most of Europe this is 112; in the US/Canada 911; in the UK 999;
-      in Australia 000. The directory lists many more.
+      The entire dataset is open. Download it from the <a href="/data" class="text-accent hover:underline">data page</a>
+      in JSON format. To contribute corrections or new hotlines, open a pull request or issue on GitHub.
     </p>
+    <div class="not-prose mt-4 flex flex-wrap gap-3">
+      <a href="/data" class="btn-primary">Data downloads →</a>
+      <a href="https://github.com/craigrallen/world-emergency-hotlines/issues" target="_blank" rel="noopener" class="btn-ghost">Report an error ↗</a>
+    </div>
   </article>
 </Base>
