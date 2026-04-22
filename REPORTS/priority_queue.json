@@ -1,0 +1,2693 @@
+{
+  "$schema_version": "2.0",
+  "generated_at": "2026-04-22T15:17:25Z",
+  "canonical_dataset": "hotlines.json",
+  "preview_datasets": [
+    "sources/web_verified_crisis_directory/web_verified_directory_v2_preview.json"
+  ],
+  "queue_limit": 25,
+  "scoring_model": {
+    "enrichment_weights": {
+      "no_non_legacy_records": 10,
+      "no_protected_records": 5,
+      "low_hotline_count": 3,
+      "missing_general_emergency": 2,
+      "no_first_party_sources": 2,
+      "no_last_verified": 2,
+      "has_reviewable_preview": 3,
+      "missing_category:suicide_crisis": 8,
+      "missing_category:child_protection": 6,
+      "missing_category:domestic_violence": 5,
+      "missing_category:lgbtqia": 2,
+      "missing_category:missing_persons": 2
+    },
+    "verification_weights": {
+      "no_first_party_sources": 6,
+      "no_last_verified": 6,
+      "only_legacy_records": 8,
+      "no_protected_records": 3,
+      "preview_hotline_bonus": 2,
+      "low_hotline_count": 1
+    },
+    "preview_review_weights": {
+      "preview_hotline": 3,
+      "only_legacy_records": 5,
+      "no_protected_records": 3,
+      "missing_priority_category": 1
+    },
+    "low_hotline_count_threshold": 2,
+    "protected_statuses": [
+      "deprecated",
+      "disputed",
+      "verified_authority",
+      "verified_knowledge",
+      "verified_web"
+    ],
+    "first_party_source_heuristic": "verification_status=verified_web or provenance.source_class/evidence.source_type includes first_party",
+    "gap_interpretation": {
+      "likely_research_gap": "Country lacks protected coverage or first-party evidence, so missing categories are more likely a research backlog.",
+      "availability_uncertain": "Country has some richer coverage; missing categories may reflect true service availability or incomplete research."
+    }
+  },
+  "summary": {
+    "country_count": 250,
+    "countries_with_no_hotlines": 4,
+    "countries_missing_general_emergency": 4,
+    "countries_with_only_legacy_records": 13,
+    "countries_with_no_non_legacy_records": 17,
+    "countries_with_no_protected_records": 17,
+    "countries_with_no_first_party_sources": 250,
+    "countries_with_no_last_verified": 17,
+    "countries_with_low_hotline_count": 87,
+    "countries_with_reviewable_preview": 11,
+    "reviewable_preview_country_keys": 11,
+    "reviewable_preview_hotline_total": 30,
+    "verification_status_counts": {
+      "cross_referenced": 640,
+      "legacy_unverified": 1209,
+      "verified_knowledge": 802
+    },
+    "missing_key_category_counts": {
+      "child_protection": 115,
+      "domestic_violence": 125,
+      "lgbtqia": 211,
+      "missing_persons": 245,
+      "suicide_crisis": 131
+    }
+  },
+  "queues": {
+    "top_enrichment_targets": [
+      {
+        "country": "Antarctica",
+        "alpha-2": "AQ",
+        "score": 48,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 1,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No non-legacy records",
+            "weight": 10
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 5
+          },
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing domestic-violence line",
+            "weight": 5
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 2
+          },
+          {
+            "reason": "Has reviewable supplemental preview data",
+            "weight": 3
+          }
+        ]
+      },
+      {
+        "country": "Bonaire, Sint Eustatius and Saba",
+        "alpha-2": "BQ",
+        "score": 48,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 1,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No non-legacy records",
+            "weight": 10
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 5
+          },
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing domestic-violence line",
+            "weight": 5
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 2
+          },
+          {
+            "reason": "Has reviewable supplemental preview data",
+            "weight": 3
+          }
+        ]
+      },
+      {
+        "country": "British Indian Ocean Territory",
+        "alpha-2": "IO",
+        "score": 48,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 1,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No non-legacy records",
+            "weight": 10
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 5
+          },
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing domestic-violence line",
+            "weight": 5
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 2
+          },
+          {
+            "reason": "Has reviewable supplemental preview data",
+            "weight": 3
+          }
+        ]
+      },
+      {
+        "country": "Christmas Island",
+        "alpha-2": "CX",
+        "score": 48,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 1,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No non-legacy records",
+            "weight": 10
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 5
+          },
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing domestic-violence line",
+            "weight": 5
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 2
+          },
+          {
+            "reason": "Has reviewable supplemental preview data",
+            "weight": 3
+          }
+        ]
+      },
+      {
+        "country": "Cocos (Keeling) Islands",
+        "alpha-2": "CC",
+        "score": 48,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 1,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No non-legacy records",
+            "weight": 10
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 5
+          },
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing domestic-violence line",
+            "weight": 5
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 2
+          },
+          {
+            "reason": "Has reviewable supplemental preview data",
+            "weight": 3
+          }
+        ]
+      },
+      {
+        "country": "Macao",
+        "alpha-2": "MO",
+        "score": 48,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 9,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No non-legacy records",
+            "weight": 10
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 5
+          },
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing domestic-violence line",
+            "weight": 5
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 2
+          },
+          {
+            "reason": "Has reviewable supplemental preview data",
+            "weight": 3
+          }
+        ]
+      },
+      {
+        "country": "Montserrat",
+        "alpha-2": "MS",
+        "score": 48,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 2,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No non-legacy records",
+            "weight": 10
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 5
+          },
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing domestic-violence line",
+            "weight": 5
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 2
+          },
+          {
+            "reason": "Has reviewable supplemental preview data",
+            "weight": 3
+          }
+        ]
+      },
+      {
+        "country": "Saint Pierre and Miquelon",
+        "alpha-2": "PM",
+        "score": 48,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 9,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No non-legacy records",
+            "weight": 10
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 5
+          },
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing domestic-violence line",
+            "weight": 5
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 2
+          },
+          {
+            "reason": "Has reviewable supplemental preview data",
+            "weight": 3
+          }
+        ]
+      },
+      {
+        "country": "South Georgia and the South Sandwich Islands",
+        "alpha-2": "GS",
+        "score": 48,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 1,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No non-legacy records",
+            "weight": 10
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 5
+          },
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing domestic-violence line",
+            "weight": 5
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 2
+          },
+          {
+            "reason": "Has reviewable supplemental preview data",
+            "weight": 3
+          }
+        ]
+      },
+      {
+        "country": "Western Sahara",
+        "alpha-2": "EH",
+        "score": 48,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 3,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No non-legacy records",
+            "weight": 10
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 5
+          },
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing domestic-violence line",
+            "weight": 5
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 2
+          },
+          {
+            "reason": "Has reviewable supplemental preview data",
+            "weight": 3
+          }
+        ]
+      },
+      {
+        "country": "Åland Islands",
+        "alpha-2": "AX",
+        "score": 48,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 1,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No non-legacy records",
+            "weight": 10
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 5
+          },
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing domestic-violence line",
+            "weight": 5
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 2
+          },
+          {
+            "reason": "Has reviewable supplemental preview data",
+            "weight": 3
+          }
+        ]
+      },
+      {
+        "country": "Bouvet Island",
+        "alpha-2": "BV",
+        "score": 47,
+        "hotline_count": 0,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No non-legacy records",
+            "weight": 10
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 5
+          },
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing domestic-violence line",
+            "weight": 5
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "Missing general emergency number",
+            "weight": 2
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 2
+          }
+        ]
+      },
+      {
+        "country": "French Southern Territories",
+        "alpha-2": "TF",
+        "score": 47,
+        "hotline_count": 0,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No non-legacy records",
+            "weight": 10
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 5
+          },
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing domestic-violence line",
+            "weight": 5
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "Missing general emergency number",
+            "weight": 2
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 2
+          }
+        ]
+      },
+      {
+        "country": "Heard Island and McDonald Islands",
+        "alpha-2": "HM",
+        "score": 47,
+        "hotline_count": 0,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No non-legacy records",
+            "weight": 10
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 5
+          },
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing domestic-violence line",
+            "weight": 5
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "Missing general emergency number",
+            "weight": 2
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 2
+          }
+        ]
+      },
+      {
+        "country": "United States Minor Outlying Islands",
+        "alpha-2": "UM",
+        "score": 47,
+        "hotline_count": 0,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No non-legacy records",
+            "weight": 10
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 5
+          },
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing domestic-violence line",
+            "weight": 5
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "Missing general emergency number",
+            "weight": 2
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 2
+          }
+        ]
+      },
+      {
+        "country": "Norfolk Island",
+        "alpha-2": "NF",
+        "score": 45,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No non-legacy records",
+            "weight": 10
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 5
+          },
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing domestic-violence line",
+            "weight": 5
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 2
+          }
+        ]
+      },
+      {
+        "country": "Pitcairn",
+        "alpha-2": "PN",
+        "score": 45,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No non-legacy records",
+            "weight": 10
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 5
+          },
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing domestic-violence line",
+            "weight": 5
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 2
+          }
+        ]
+      },
+      {
+        "country": "Afghanistan",
+        "alpha-2": "AF",
+        "score": 28,
+        "hotline_count": 2,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing domestic-violence line",
+            "weight": 5
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          }
+        ]
+      },
+      {
+        "country": "Andorra",
+        "alpha-2": "AD",
+        "score": 28,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing domestic-violence line",
+            "weight": 5
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          }
+        ]
+      },
+      {
+        "country": "Anguilla",
+        "alpha-2": "AI",
+        "score": 28,
+        "hotline_count": 2,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing domestic-violence line",
+            "weight": 5
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          }
+        ]
+      },
+      {
+        "country": "Antigua and Barbuda",
+        "alpha-2": "AG",
+        "score": 28,
+        "hotline_count": 2,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing domestic-violence line",
+            "weight": 5
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          }
+        ]
+      },
+      {
+        "country": "Belize",
+        "alpha-2": "BZ",
+        "score": 28,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing domestic-violence line",
+            "weight": 5
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          }
+        ]
+      },
+      {
+        "country": "Cabo Verde (Cape Verde)",
+        "alpha-2": "CV",
+        "score": 28,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing domestic-violence line",
+            "weight": 5
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          }
+        ]
+      },
+      {
+        "country": "Central African Republic",
+        "alpha-2": "CF",
+        "score": 28,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing domestic-violence line",
+            "weight": 5
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          }
+        ]
+      },
+      {
+        "country": "Chad",
+        "alpha-2": "TD",
+        "score": 28,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing domestic-violence line",
+            "weight": 5
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          }
+        ]
+      }
+    ],
+    "top_web_verification_targets": [
+      {
+        "country": "Macao",
+        "alpha-2": "MO",
+        "score": 30,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 9,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "All hotlines are legacy-unverified",
+            "weight": 8
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 6
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 6
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Supplemental preview rows available to verify",
+            "weight": 6
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 1
+          }
+        ]
+      },
+      {
+        "country": "Saint Pierre and Miquelon",
+        "alpha-2": "PM",
+        "score": 30,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 9,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "All hotlines are legacy-unverified",
+            "weight": 8
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 6
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 6
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Supplemental preview rows available to verify",
+            "weight": 6
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 1
+          }
+        ]
+      },
+      {
+        "country": "Western Sahara",
+        "alpha-2": "EH",
+        "score": 30,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 3,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "All hotlines are legacy-unverified",
+            "weight": 8
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 6
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 6
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Supplemental preview rows available to verify",
+            "weight": 6
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 1
+          }
+        ]
+      },
+      {
+        "country": "Montserrat",
+        "alpha-2": "MS",
+        "score": 28,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 2,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "All hotlines are legacy-unverified",
+            "weight": 8
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 6
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 6
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Supplemental preview rows available to verify",
+            "weight": 4
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 1
+          }
+        ]
+      },
+      {
+        "country": "Antarctica",
+        "alpha-2": "AQ",
+        "score": 26,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 1,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "All hotlines are legacy-unverified",
+            "weight": 8
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 6
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 6
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Supplemental preview rows available to verify",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 1
+          }
+        ]
+      },
+      {
+        "country": "Bonaire, Sint Eustatius and Saba",
+        "alpha-2": "BQ",
+        "score": 26,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 1,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "All hotlines are legacy-unverified",
+            "weight": 8
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 6
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 6
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Supplemental preview rows available to verify",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 1
+          }
+        ]
+      },
+      {
+        "country": "British Indian Ocean Territory",
+        "alpha-2": "IO",
+        "score": 26,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 1,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "All hotlines are legacy-unverified",
+            "weight": 8
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 6
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 6
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Supplemental preview rows available to verify",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 1
+          }
+        ]
+      },
+      {
+        "country": "Christmas Island",
+        "alpha-2": "CX",
+        "score": 26,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 1,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "All hotlines are legacy-unverified",
+            "weight": 8
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 6
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 6
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Supplemental preview rows available to verify",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 1
+          }
+        ]
+      },
+      {
+        "country": "Cocos (Keeling) Islands",
+        "alpha-2": "CC",
+        "score": 26,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 1,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "All hotlines are legacy-unverified",
+            "weight": 8
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 6
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 6
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Supplemental preview rows available to verify",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 1
+          }
+        ]
+      },
+      {
+        "country": "South Georgia and the South Sandwich Islands",
+        "alpha-2": "GS",
+        "score": 26,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 1,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "All hotlines are legacy-unverified",
+            "weight": 8
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 6
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 6
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Supplemental preview rows available to verify",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 1
+          }
+        ]
+      },
+      {
+        "country": "Åland Islands",
+        "alpha-2": "AX",
+        "score": 26,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 1,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "All hotlines are legacy-unverified",
+            "weight": 8
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 6
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 6
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Supplemental preview rows available to verify",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 1
+          }
+        ]
+      },
+      {
+        "country": "Norfolk Island",
+        "alpha-2": "NF",
+        "score": 24,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "All hotlines are legacy-unverified",
+            "weight": 8
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 6
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 6
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 1
+          }
+        ]
+      },
+      {
+        "country": "Pitcairn",
+        "alpha-2": "PN",
+        "score": 24,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "All hotlines are legacy-unverified",
+            "weight": 8
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 6
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 6
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 1
+          }
+        ]
+      },
+      {
+        "country": "Bouvet Island",
+        "alpha-2": "BV",
+        "score": 16,
+        "hotline_count": 0,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 6
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 6
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 1
+          }
+        ]
+      },
+      {
+        "country": "French Southern Territories",
+        "alpha-2": "TF",
+        "score": 16,
+        "hotline_count": 0,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 6
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 6
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 1
+          }
+        ]
+      },
+      {
+        "country": "Heard Island and McDonald Islands",
+        "alpha-2": "HM",
+        "score": 16,
+        "hotline_count": 0,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 6
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 6
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 1
+          }
+        ]
+      },
+      {
+        "country": "United States Minor Outlying Islands",
+        "alpha-2": "UM",
+        "score": 16,
+        "hotline_count": 0,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 6
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 6
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 1
+          }
+        ]
+      },
+      {
+        "country": "Afghanistan",
+        "alpha-2": "AF",
+        "score": 7,
+        "hotline_count": 2,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 6
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 1
+          }
+        ]
+      },
+      {
+        "country": "Andorra",
+        "alpha-2": "AD",
+        "score": 7,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 6
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 1
+          }
+        ]
+      },
+      {
+        "country": "Angola",
+        "alpha-2": "AO",
+        "score": 7,
+        "hotline_count": 2,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 6
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 1
+          }
+        ]
+      },
+      {
+        "country": "Anguilla",
+        "alpha-2": "AI",
+        "score": 7,
+        "hotline_count": 2,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 6
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 1
+          }
+        ]
+      },
+      {
+        "country": "Antigua and Barbuda",
+        "alpha-2": "AG",
+        "score": 7,
+        "hotline_count": 2,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 6
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 1
+          }
+        ]
+      },
+      {
+        "country": "Belize",
+        "alpha-2": "BZ",
+        "score": 7,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 6
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 1
+          }
+        ]
+      },
+      {
+        "country": "Cabo Verde (Cape Verde)",
+        "alpha-2": "CV",
+        "score": 7,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 6
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 1
+          }
+        ]
+      },
+      {
+        "country": "Cameroon",
+        "alpha-2": "CM",
+        "score": 7,
+        "hotline_count": 2,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 0,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 6
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 1
+          }
+        ]
+      }
+    ],
+    "top_preview_review_targets": [
+      {
+        "country": "Macao",
+        "alpha-2": "MO",
+        "score": 38,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 9,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "Supplemental preview hotlines waiting for review",
+            "weight": 27
+          },
+          {
+            "reason": "Canonical country is still legacy-only",
+            "weight": 5
+          },
+          {
+            "reason": "Canonical country has no protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Missing high-priority service categories",
+            "weight": 3
+          }
+        ]
+      },
+      {
+        "country": "Saint Pierre and Miquelon",
+        "alpha-2": "PM",
+        "score": 38,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 9,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "Supplemental preview hotlines waiting for review",
+            "weight": 27
+          },
+          {
+            "reason": "Canonical country is still legacy-only",
+            "weight": 5
+          },
+          {
+            "reason": "Canonical country has no protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Missing high-priority service categories",
+            "weight": 3
+          }
+        ]
+      },
+      {
+        "country": "Western Sahara",
+        "alpha-2": "EH",
+        "score": 20,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 3,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "Supplemental preview hotlines waiting for review",
+            "weight": 9
+          },
+          {
+            "reason": "Canonical country is still legacy-only",
+            "weight": 5
+          },
+          {
+            "reason": "Canonical country has no protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Missing high-priority service categories",
+            "weight": 3
+          }
+        ]
+      },
+      {
+        "country": "Montserrat",
+        "alpha-2": "MS",
+        "score": 17,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 2,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "Supplemental preview hotlines waiting for review",
+            "weight": 6
+          },
+          {
+            "reason": "Canonical country is still legacy-only",
+            "weight": 5
+          },
+          {
+            "reason": "Canonical country has no protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Missing high-priority service categories",
+            "weight": 3
+          }
+        ]
+      },
+      {
+        "country": "Antarctica",
+        "alpha-2": "AQ",
+        "score": 14,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 1,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "Supplemental preview hotlines waiting for review",
+            "weight": 3
+          },
+          {
+            "reason": "Canonical country is still legacy-only",
+            "weight": 5
+          },
+          {
+            "reason": "Canonical country has no protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Missing high-priority service categories",
+            "weight": 3
+          }
+        ]
+      },
+      {
+        "country": "Bonaire, Sint Eustatius and Saba",
+        "alpha-2": "BQ",
+        "score": 14,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 1,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "Supplemental preview hotlines waiting for review",
+            "weight": 3
+          },
+          {
+            "reason": "Canonical country is still legacy-only",
+            "weight": 5
+          },
+          {
+            "reason": "Canonical country has no protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Missing high-priority service categories",
+            "weight": 3
+          }
+        ]
+      },
+      {
+        "country": "British Indian Ocean Territory",
+        "alpha-2": "IO",
+        "score": 14,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 1,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "Supplemental preview hotlines waiting for review",
+            "weight": 3
+          },
+          {
+            "reason": "Canonical country is still legacy-only",
+            "weight": 5
+          },
+          {
+            "reason": "Canonical country has no protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Missing high-priority service categories",
+            "weight": 3
+          }
+        ]
+      },
+      {
+        "country": "Christmas Island",
+        "alpha-2": "CX",
+        "score": 14,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 1,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "Supplemental preview hotlines waiting for review",
+            "weight": 3
+          },
+          {
+            "reason": "Canonical country is still legacy-only",
+            "weight": 5
+          },
+          {
+            "reason": "Canonical country has no protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Missing high-priority service categories",
+            "weight": 3
+          }
+        ]
+      },
+      {
+        "country": "Cocos (Keeling) Islands",
+        "alpha-2": "CC",
+        "score": 14,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 1,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "Supplemental preview hotlines waiting for review",
+            "weight": 3
+          },
+          {
+            "reason": "Canonical country is still legacy-only",
+            "weight": 5
+          },
+          {
+            "reason": "Canonical country has no protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Missing high-priority service categories",
+            "weight": 3
+          }
+        ]
+      },
+      {
+        "country": "South Georgia and the South Sandwich Islands",
+        "alpha-2": "GS",
+        "score": 14,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 1,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "Supplemental preview hotlines waiting for review",
+            "weight": 3
+          },
+          {
+            "reason": "Canonical country is still legacy-only",
+            "weight": 5
+          },
+          {
+            "reason": "Canonical country has no protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Missing high-priority service categories",
+            "weight": 3
+          }
+        ]
+      },
+      {
+        "country": "Åland Islands",
+        "alpha-2": "AX",
+        "score": 14,
+        "hotline_count": 1,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "domestic_violence",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 1,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "Supplemental preview hotlines waiting for review",
+            "weight": 3
+          },
+          {
+            "reason": "Canonical country is still legacy-only",
+            "weight": 5
+          },
+          {
+            "reason": "Canonical country has no protected/richer records",
+            "weight": 3
+          },
+          {
+            "reason": "Missing high-priority service categories",
+            "weight": 3
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from scripts.lib.provenance import normalize_provenance
 from scripts.lib.safety import (
     SUPPLEMENTAL_PREVIEW_ROLE,
     country_has_protected_hotlines,
@@ -138,7 +139,7 @@ def emergency_hotline(row: dict) -> dict:
     verification_notes = row.get("verification_notes") or ""
     if verification_notes:
         notes.append(f"Import note ({verification_status}): {verification_notes}")
-    return {
+    hotline = {
         "name": "Emergency",
         "organization": "Local emergency services",
         "category": "emergency",
@@ -164,6 +165,18 @@ def emergency_hotline(row: dict) -> dict:
             "source_verification_status": verification_status,
         },
     }
+    hotline["provenance"] = normalize_provenance(
+        hotline,
+        {
+            "record_status": hotline["verification_status"],
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": verification_status,
+        },
+    )
+    return hotline
 
 
 def build_hotline_notes(entry: dict, row: dict) -> str:
@@ -190,7 +203,7 @@ def convert_entry(row: dict, entry: dict, kind: str) -> dict:
     voice_numbers = split_numbers(entry.get("phone"))
     sms_numbers = split_numbers(entry.get("sms")) + split_numbers(entry.get("whatsapp"))
     verification_status = row.get("verification_status") or "warning"
-    return {
+    hotline = {
         "name": entry.get("name") or "Unnamed service",
         "organization": entry.get("name") or "Unnamed service",
         "category": "mental_health" if kind == "mental_health_helplines" else category,
@@ -218,6 +231,18 @@ def convert_entry(row: dict, entry: dict, kind: str) -> dict:
             "source_category": source_category,
         },
     }
+    hotline["provenance"] = normalize_provenance(
+        hotline,
+        {
+            "record_status": hotline["verification_status"],
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": verification_status,
+        },
+    )
+    return hotline
 
 
 def convert_row(row: dict, canonical_country: dict) -> dict:

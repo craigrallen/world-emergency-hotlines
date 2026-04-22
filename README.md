@@ -10,8 +10,12 @@ A project to build a definitive, exhaustive reference of every country's emergen
 | `hotlines.json` | The enriched, canonical dataset (schema v2.0) |
 | `information.json` | Original source dataset (preserved for reference and for migrating remaining countries) |
 | `sources/web_verified_crisis_directory/` | Vendored 2026-04-22 web-derived source artifacts plus a conservative non-canonical schema-v2 preview |
+| `sources/child_helpline_international/` | Repo-owned Child Helpline International source artifacts, unmatched-country list, and a conservative child-helpline schema-v2 preview |
 | `scripts/integrate_web_verified_directory.py` | Converts the supplemental source directory into a reviewable schema-v2 preview + integration report while explicitly skipping countries that already have richer canonical records |
+| `scripts/fetch_child_helpline_international.py` | Fetches the Child Helpline International WordPress directory with browser-like headers and normalizes it into repo-owned source artifacts |
+| `scripts/integrate_child_helpline_international.py` | Converts the Child Helpline International source artifact into a non-canonical schema-v2 preview + integration report while preserving existing richer canonical records |
 | `tests/test_web_verified_directory_preview.py` | Regression checks that the supplemental preview stays schema-v2, non-canonical, and cannot downgrade protected rich records |
+| `tests/test_child_helpline_international_source.py` | Regression checks for the Child Helpline International source artifact, preview safety contract, and sample parsing fidelity |
 | `tests/test_canonical_promotion_safety.py` | Phase-0 safety-contract checks for non-canonical previews, protected-country promotion rules, and explicit `--apply` requirements for canonical writes |
 | `COVERAGE.md` | Per-country coverage status: verified, legacy, or missing |
 | `VERIFICATION_LOG.md` | Running log of which sources were used to verify which numbers |
@@ -72,6 +76,11 @@ Every hotline record carries a `verification_status` so consumers can see how mu
   - The generated preview is explicitly **non-canonical** and skips countries whose canonical v2 records already contain richer non-legacy hotlines, preventing accidental downgrade-by-overwrite.
   - Regression coverage in `tests/test_web_verified_directory_preview.py` checks that protected canonical countries never appear in the preview and that preview hotlines remain `legacy_unverified`.
   - Current conservative mapping still reaches **243 / 253** source rows; with the current canonical v2 baseline, **232** of those matched rows are intentionally skipped because canonical data already contains richer non-legacy records, **11** countries remain in the supplemental preview, and the final 10 unmatched rows stay in `unmatched_country_rows.json` for manual geopolitical review.
+- **Supplemental Child Helpline International adapter added** under `sources/child_helpline_international/`:
+  - `scripts/fetch_child_helpline_international.py` fetches the published Child Helpline International WordPress directory with browser-like headers and writes repo-owned source artifacts.
+  - `scripts/integrate_child_helpline_international.py` converts those artifacts into a schema-v2-compatible `child_helpline_international_v2_preview.json` review artifact without touching canonical data.
+  - Imported child-helpline records remain deliberately `legacy_unverified` with `provenance.source_class=ngo_directory` and `review_state=staged` until maintainers explicitly review/promo them.
+  - Countries whose canonical records already have richer non-legacy hotlines may still appear in this preview only as append-only / merge-missing review input for the existing promotion-candidate pipeline, and unmatched geopolitical entities remain documented in `unmatched_countries.json` instead of being guessed into the canonical list.
 
 ## Planned next sessions
 

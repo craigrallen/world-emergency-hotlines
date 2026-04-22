@@ -1,0 +1,468 @@
+{
+  "$schema_version": "2.0",
+  "generated_at": "2026-04-22T16:52:22Z",
+  "canonical_dataset": "hotlines.json",
+  "preview_datasets": [
+    "sources/child_helpline_international/child_helpline_international_v2_preview.json"
+  ],
+  "selection_strategy": {
+    "name": "chi_first_safe_append_batch",
+    "rationale": [
+      "Restricted to append_new_hotline candidates so the batch remains additive and review-only.",
+      "Selected countries where the proposed hotline does not collide with an existing canonical child_protection entry or existing hotline voice number.",
+      "Preferred candidates with a clear child-helpline identity, usable phone number, and non-null supporting website from the Child Helpline International source.",
+      "Deferred candidates with duplicate-equivalent coverage already present in canonical data, malformed source fields, missing numbers, or regional/ambiguity concerns."
+    ]
+  },
+  "summary": {
+    "candidate_count": 5,
+    "candidate_types": {
+      "append_new_hotline": 5
+    },
+    "country_count": 5
+  },
+  "candidates": [
+    {
+      "candidate_id": "aruba-telefonpahubentud-appendnewhotline-childhelplineinternationalv2previewjson-5",
+      "country": "Aruba",
+      "alpha-2": "AW",
+      "candidate_type": "append_new_hotline",
+      "canonical_match": {
+        "country": "Aruba",
+        "hotline_name": null,
+        "match_confidence": 0.0
+      },
+      "proposed_hotline": {
+        "name": "Telefon Pa Hubentud",
+        "organization": "Telefon Pa Hubentud",
+        "category": "child_protection",
+        "voice_numbers": [
+          "131"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": "telhubentud@gmail.com",
+        "website": "https://131.aw/",
+        "hours": "Monday through Sunday from 2:00 – 6:00pm",
+        "languages": [
+          "Papiamento",
+          "English"
+        ],
+        "cost": "unknown",
+        "target": "children and young people seeking support",
+        "geography": "Aruba",
+        "notes": "Telefon Pa Hubentud is an independent charity that serves as an Aruban Youth Telephone Line, which was launched on November 20, 1999. With a distinctive telephone number ’131,’ they aim to help children and youngsters from 8-24 years old and provide their services from 14.00 hours to 18.00 hours, 365 days a year. | Services listed by source: Phone, Webchat, Email | Source region tags: Americas & The Caribbean",
+        "verification_status": "legacy_unverified",
+        "last_verified": null,
+        "sources": [
+          "https://childhelplineinternational.org/aruba-telefon-pa-hubentud/",
+          "https://131.aw/"
+        ],
+        "_import_metadata": {
+          "source_dataset": "child_helpline_international",
+          "source_country_name": "Aruba",
+          "source_post_slug": "aruba-telefon-pa-hubentud",
+          "source_post_status": "publish",
+          "retrieved_at": "2026-04-22T16:12:15Z"
+        },
+        "provenance": {
+          "record_status": "legacy_unverified",
+          "source_class": "ngo_directory",
+          "verification_method": "scripted_import",
+          "retrieved_at": "2026-04-22T16:12:15Z",
+          "review_state": "staged",
+          "source_dataset": "child_helpline_international",
+          "source_status": "publish",
+          "evidence": [
+            {
+              "field": "voice_numbers",
+              "value": [
+                "131"
+              ],
+              "source_url": "https://childhelplineinternational.org/aruba-telefon-pa-hubentud/",
+              "source_type": "ngo_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "website",
+              "value": "https://131.aw/",
+              "source_url": "https://childhelplineinternational.org/aruba-telefon-pa-hubentud/",
+              "source_type": "ngo_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "hours",
+              "value": "Monday through Sunday from 2:00 – 6:00pm",
+              "source_url": "https://childhelplineinternational.org/aruba-telefon-pa-hubentud/",
+              "source_type": "ngo_directory",
+              "confidence": "medium"
+            }
+          ]
+        }
+      },
+      "source_artifact": "sources/child_helpline_international/child_helpline_international_v2_preview.json",
+      "field_actions": {
+        "hotlines": "append_unique"
+      },
+      "safety_flags": [
+        "canonical_country_has_protected_hotlines",
+        "protected_status:verified_knowledge"
+      ],
+      "requires_human_review": true
+    },
+    {
+      "candidate_id": "brunei-taliananak121-appendnewhotline-childhelplineinternationalv2previewjson-16",
+      "country": "Brunei",
+      "alpha-2": "BN",
+      "candidate_type": "append_new_hotline",
+      "canonical_match": {
+        "country": "Brunei",
+        "hotline_name": null,
+        "match_confidence": 0.0
+      },
+      "proposed_hotline": {
+        "name": "Talian ANAK 121",
+        "organization": "Talian ANAK 121",
+        "category": "child_protection",
+        "voice_numbers": [
+          "121"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": "taliananak121@japem.gov.bn",
+        "website": "https://www.japem.gov.bn/",
+        "hours": "Monday through Sunday 24/7",
+        "languages": [
+          "Malay"
+        ],
+        "cost": "unknown",
+        "target": "children and young people seeking support",
+        "geography": "Brunei",
+        "notes": "Talian ANAK 121 provides an efficient communication channel for people to contact JAPEM relating to cases of abuse, neglect, protection, exploitation, counseling, family problems and more. | Services listed by source: Phone | Source region tags: Asia-Pacific",
+        "verification_status": "legacy_unverified",
+        "last_verified": null,
+        "sources": [
+          "https://childhelplineinternational.org/brunei-darussalam-talian-anak-121/",
+          "https://www.japem.gov.bn/"
+        ],
+        "_import_metadata": {
+          "source_dataset": "child_helpline_international",
+          "source_country_name": "Brunei Darussalam",
+          "source_post_slug": "brunei-darussalam-talian-anak-121",
+          "source_post_status": "publish",
+          "retrieved_at": "2026-04-22T16:12:15Z"
+        },
+        "provenance": {
+          "record_status": "legacy_unverified",
+          "source_class": "ngo_directory",
+          "verification_method": "scripted_import",
+          "retrieved_at": "2026-04-22T16:12:15Z",
+          "review_state": "staged",
+          "source_dataset": "child_helpline_international",
+          "source_status": "publish",
+          "evidence": [
+            {
+              "field": "voice_numbers",
+              "value": [
+                "121"
+              ],
+              "source_url": "https://childhelplineinternational.org/brunei-darussalam-talian-anak-121/",
+              "source_type": "ngo_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "website",
+              "value": "https://www.japem.gov.bn/",
+              "source_url": "https://childhelplineinternational.org/brunei-darussalam-talian-anak-121/",
+              "source_type": "ngo_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "hours",
+              "value": "Monday through Sunday 24/7",
+              "source_url": "https://childhelplineinternational.org/brunei-darussalam-talian-anak-121/",
+              "source_type": "ngo_directory",
+              "confidence": "medium"
+            }
+          ]
+        }
+      },
+      "source_artifact": "sources/child_helpline_international/child_helpline_international_v2_preview.json",
+      "field_actions": {
+        "hotlines": "append_unique"
+      },
+      "safety_flags": [
+        "canonical_country_has_protected_hotlines",
+        "protected_status:verified_knowledge"
+      ],
+      "requires_human_review": true
+    },
+    {
+      "candidate_id": "democraticrepublicofthecongo-tukingewatoto-appendnewhotline-childhelplineinternationalv2previewjson-34",
+      "country": "Democratic Republic of the Congo",
+      "alpha-2": "CD",
+      "candidate_type": "append_new_hotline",
+      "canonical_match": {
+        "country": "Democratic Republic of the Congo",
+        "hotline_name": null,
+        "match_confidence": 0.0
+      },
+      "proposed_hotline": {
+        "name": "Tukinge Watoto",
+        "organization": "Tukinge Watoto",
+        "category": "child_protection",
+        "voice_numbers": [
+          "117"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.warchild.org.uk/our-work/where-we-work/democratic-republic-of-congo",
+        "hours": "Monday through Sunday 24/7",
+        "languages": [
+          "French"
+        ],
+        "cost": "unknown",
+        "target": "children and young people seeking support",
+        "geography": "Democratic Republic of the Congo",
+        "notes": "War Child UK runs a free helpline called Tukinge Watoto (meaning “Let’s Protect Children”) to help provide support to at-risk children and make sure that law enforcers respect their rights. | Services listed by source: Phone | Source region tags: 116, Africa",
+        "verification_status": "legacy_unverified",
+        "last_verified": null,
+        "sources": [
+          "https://childhelplineinternational.org/democratic-republic-of-congo-tukinge-watoto/",
+          "https://www.warchild.org.uk/our-work/where-we-work/democratic-republic-of-congo"
+        ],
+        "_import_metadata": {
+          "source_dataset": "child_helpline_international",
+          "source_country_name": "Democratic Republic of Congo",
+          "source_post_slug": "democratic-republic-of-congo-tukinge-watoto",
+          "source_post_status": "publish",
+          "retrieved_at": "2026-04-22T16:12:15Z"
+        },
+        "provenance": {
+          "record_status": "legacy_unverified",
+          "source_class": "ngo_directory",
+          "verification_method": "scripted_import",
+          "retrieved_at": "2026-04-22T16:12:15Z",
+          "review_state": "staged",
+          "source_dataset": "child_helpline_international",
+          "source_status": "publish",
+          "evidence": [
+            {
+              "field": "voice_numbers",
+              "value": [
+                "117"
+              ],
+              "source_url": "https://childhelplineinternational.org/democratic-republic-of-congo-tukinge-watoto/",
+              "source_type": "ngo_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "website",
+              "value": "https://www.warchild.org.uk/our-work/where-we-work/democratic-republic-of-congo",
+              "source_url": "https://childhelplineinternational.org/democratic-republic-of-congo-tukinge-watoto/",
+              "source_type": "ngo_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "hours",
+              "value": "Monday through Sunday 24/7",
+              "source_url": "https://childhelplineinternational.org/democratic-republic-of-congo-tukinge-watoto/",
+              "source_type": "ngo_directory",
+              "confidence": "medium"
+            }
+          ]
+        }
+      },
+      "source_artifact": "sources/child_helpline_international/child_helpline_international_v2_preview.json",
+      "field_actions": {
+        "hotlines": "append_unique"
+      },
+      "safety_flags": [
+        "canonical_country_has_protected_hotlines",
+        "protected_status:verified_knowledge"
+      ],
+      "requires_human_review": true
+    },
+    {
+      "candidate_id": "liechtenstein-projuventuteberatunghilfe147-appendnewhotline-childhelplineinternationalv2previewjson-74",
+      "country": "Liechtenstein",
+      "alpha-2": "LI",
+      "candidate_type": "append_new_hotline",
+      "canonical_match": {
+        "country": "Liechtenstein",
+        "hotline_name": null,
+        "match_confidence": 0.0
+      },
+      "proposed_hotline": {
+        "name": "Pro Juventute Beratung + Hilfe 147",
+        "organization": "Pro Juventute Beratung + Hilfe 147",
+        "category": "child_protection",
+        "voice_numbers": [
+          "147"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": "socialmedia@projuventute.ch",
+        "website": "http://www.147.ch/",
+        "hours": "Monday through Sunday 24/7",
+        "languages": [],
+        "cost": "unknown",
+        "target": "children and young people seeking support",
+        "geography": "Liechtenstein",
+        "notes": "The Sorgentelefon fur Kinder und Jugendliche is a toll-free contact point for questions and problems of all kinds for children and young people in the Principality of Liechtenstein and can be reached at number 147 all year round, day and night, including Sundays and public holidays. | Source region tags: Europe",
+        "verification_status": "legacy_unverified",
+        "last_verified": null,
+        "sources": [
+          "https://childhelplineinternational.org/liechtenstein-projuventute/",
+          "http://www.147.ch/"
+        ],
+        "_import_metadata": {
+          "source_dataset": "child_helpline_international",
+          "source_country_name": "Liechtenstein",
+          "source_post_slug": "liechtenstein-projuventute",
+          "source_post_status": "publish",
+          "retrieved_at": "2026-04-22T16:12:15Z"
+        },
+        "provenance": {
+          "record_status": "legacy_unverified",
+          "source_class": "ngo_directory",
+          "verification_method": "scripted_import",
+          "retrieved_at": "2026-04-22T16:12:15Z",
+          "review_state": "staged",
+          "source_dataset": "child_helpline_international",
+          "source_status": "publish",
+          "evidence": [
+            {
+              "field": "voice_numbers",
+              "value": [
+                "147"
+              ],
+              "source_url": "https://childhelplineinternational.org/liechtenstein-projuventute/",
+              "source_type": "ngo_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "website",
+              "value": "http://www.147.ch/",
+              "source_url": "https://childhelplineinternational.org/liechtenstein-projuventute/",
+              "source_type": "ngo_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "hours",
+              "value": "Monday through Sunday 24/7",
+              "source_url": "https://childhelplineinternational.org/liechtenstein-projuventute/",
+              "source_type": "ngo_directory",
+              "confidence": "medium"
+            }
+          ]
+        }
+      },
+      "source_artifact": "sources/child_helpline_international/child_helpline_international_v2_preview.json",
+      "field_actions": {
+        "hotlines": "append_unique"
+      },
+      "safety_flags": [
+        "canonical_country_has_protected_hotlines",
+        "protected_status:verified_knowledge"
+      ],
+      "requires_human_review": true
+    },
+    {
+      "candidate_id": "madagascar-ligneverte147madagascar-appendnewhotline-childhelplineinternationalv2previewjson-77",
+      "country": "Madagascar",
+      "alpha-2": "MG",
+      "candidate_type": "append_new_hotline",
+      "canonical_match": {
+        "country": "Madagascar",
+        "hotline_name": null,
+        "match_confidence": 0.0
+      },
+      "proposed_hotline": {
+        "name": "Ligne Verte 147 Madagascar",
+        "organization": "Ligne Verte 147 Madagascar",
+        "category": "child_protection",
+        "voice_numbers": [
+          "147"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": "147@arozaza.mg",
+        "website": "https://arozaza.mg/",
+        "hours": "Monday through Sunday 24/7",
+        "languages": [],
+        "cost": "unknown",
+        "target": "children and young people seeking support",
+        "geography": "Madagascar",
+        "notes": "Ligne Verte 147 is a child helpline for reporting cases of mistreatment, violence, abuse and exploitation against children and is is free, available 24/7 and accessible everywhere in Madagascar. | Source region tags: Africa",
+        "verification_status": "legacy_unverified",
+        "last_verified": null,
+        "sources": [
+          "https://childhelplineinternational.org/madagascar-ligne-verte-147-madagascar/",
+          "https://arozaza.mg/"
+        ],
+        "_import_metadata": {
+          "source_dataset": "child_helpline_international",
+          "source_country_name": "Madagascar",
+          "source_post_slug": "madagascar-ligne-verte-147-madagascar",
+          "source_post_status": "publish",
+          "retrieved_at": "2026-04-22T16:12:15Z"
+        },
+        "provenance": {
+          "record_status": "legacy_unverified",
+          "source_class": "ngo_directory",
+          "verification_method": "scripted_import",
+          "retrieved_at": "2026-04-22T16:12:15Z",
+          "review_state": "staged",
+          "source_dataset": "child_helpline_international",
+          "source_status": "publish",
+          "evidence": [
+            {
+              "field": "voice_numbers",
+              "value": [
+                "147"
+              ],
+              "source_url": "https://childhelplineinternational.org/madagascar-ligne-verte-147-madagascar/",
+              "source_type": "ngo_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "website",
+              "value": "https://arozaza.mg/",
+              "source_url": "https://childhelplineinternational.org/madagascar-ligne-verte-147-madagascar/",
+              "source_type": "ngo_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "hours",
+              "value": "Monday through Sunday 24/7",
+              "source_url": "https://childhelplineinternational.org/madagascar-ligne-verte-147-madagascar/",
+              "source_type": "ngo_directory",
+              "confidence": "medium"
+            }
+          ]
+        }
+      },
+      "source_artifact": "sources/child_helpline_international/child_helpline_international_v2_preview.json",
+      "field_actions": {
+        "hotlines": "append_unique"
+      },
+      "safety_flags": [
+        "canonical_country_has_protected_hotlines",
+        "protected_status:verified_knowledge"
+      ],
+      "requires_human_review": true
+    }
+  ]
+}

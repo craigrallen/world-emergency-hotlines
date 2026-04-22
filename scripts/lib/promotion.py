@@ -13,7 +13,7 @@ SAFE_CANDIDATE_TYPES = frozenset(
         "upgrade_emergency_metadata",
     }
 )
-SAFE_FIELD_ACTIONS = frozenset({"append_unique", "fill_if_empty"})
+SAFE_FIELD_ACTIONS = frozenset({"append_unique", "fill_if_empty", "merge_provenance"})
 LIST_APPEND_FIELDS = frozenset(
     {
         "voice_numbers",
@@ -38,6 +38,9 @@ SCALAR_FILL_FIELDS = frozenset(
         "notes",
     }
 )
+MERGE_FIELD_ACTIONS = {
+    "provenance": "merge_provenance",
+}
 
 HOTLINE_DEFAULTS = {
     "organization": None,
@@ -58,6 +61,7 @@ HOTLINE_DEFAULTS = {
     "verification_status": "legacy_unverified",
     "last_verified": None,
     "sources": [],
+    "provenance": None,
 }
 
 
@@ -117,6 +121,10 @@ def compute_additive_hotline_field_actions(existing: dict, proposed: dict) -> di
     for field in sorted(SCALAR_FILL_FIELDS):
         if is_empty(existing.get(field)) and not is_empty(proposed.get(field)):
             field_actions[field] = "fill_if_empty"
+
+    for field, action in MERGE_FIELD_ACTIONS.items():
+        if proposed.get(field):
+            field_actions[field] = action
 
     return field_actions
 

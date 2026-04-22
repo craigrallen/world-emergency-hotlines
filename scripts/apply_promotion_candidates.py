@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from scripts.lib.provenance import merge_provenance, normalize_provenance
 from scripts.lib.promotion import (
     LIST_APPEND_FIELDS,
     SAFE_CANDIDATE_TYPES,
@@ -117,6 +118,20 @@ def apply_fill_if_empty(target: dict, source: dict, field: str) -> bool:
     return True
 
 
+def apply_hotline_provenance(target: dict, source: dict, field: str) -> bool:
+    if field != "provenance":
+        raise ValueError(f"Unsupported provenance merge field {field!r}")
+    proposed = normalize_provenance(source, source.get(field))
+    if not proposed:
+        return False
+    existing = normalize_provenance(target, target.get(field)) if target.get(field) else target.get(field)
+    merged = merge_provenance(existing, proposed)
+    if merged == existing:
+        return False
+    target[field] = merged
+    return True
+
+
 def apply_country_metadata(country: dict, candidate: dict) -> bool:
     changed = False
     proposed = candidate.get("proposed_country_updates") or {}
@@ -157,6 +172,8 @@ def apply_hotline_merge(country: dict, candidate: dict) -> bool:
             changed = apply_append_unique(existing, proposed, field) or changed
         elif field in SCALAR_FILL_FIELDS:
             changed = apply_fill_if_empty(existing, proposed, field) or changed
+        elif action == "merge_provenance":
+            changed = apply_hotline_provenance(existing, proposed, field) or changed
         else:
             raise ValueError(f"Unsupported hotline field {field!r}")
     return changed

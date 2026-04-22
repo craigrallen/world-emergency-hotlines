@@ -1,0 +1,37 @@
+{
+  "batch": "2026-04-22-child-helpline-international-first-safe-batch",
+  "generated_at": "2026-04-22T16:52:22Z",
+  "scope": "Review-only CHI append_new_hotline batch for additive child helplines; canonical apply intentionally deferred.",
+  "decisions": [
+    {
+      "candidate_id": "aruba-telefonpahubentud-appendnewhotline-childhelplineinternationalv2previewjson-5",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Safe-first CHI batch: additive append only; no canonical write in this task; selected because the proposed child helpline is distinct from current canonical hotline names/numbers for this country."
+    },
+    {
+      "candidate_id": "brunei-taliananak121-appendnewhotline-childhelplineinternationalv2previewjson-16",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Safe-first CHI batch: additive append only; no canonical write in this task; selected because the proposed child helpline is distinct from current canonical hotline names/numbers for this country."
+    },
+    {
+      "candidate_id": "democraticrepublicofthecongo-tukingewatoto-appendnewhotline-childhelplineinternationalv2previewjson-34",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Safe-first CHI batch: additive append only; no canonical write in this task; selected because the proposed child helpline is distinct from current canonical hotline names/numbers for this country."
+    },
+    {
+      "candidate_id": "liechtenstein-projuventuteberatunghilfe147-appendnewhotline-childhelplineinternationalv2previewjson-74",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Safe-first CHI batch: additive append only; no canonical write in this task; selected because the proposed child helpline is distinct from current canonical hotline names/numbers for this country."
+    },
+    {
+      "candidate_id": "madagascar-ligneverte147madagascar-appendnewhotline-childhelplineinternationalv2previewjson-77",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Safe-first CHI batch: additive append only; no canonical write in this task; selected because the proposed child helpline is distinct from current canonical hotline names/numbers for this country."
+    }
+  ]
+}

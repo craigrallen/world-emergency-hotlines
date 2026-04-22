@@ -1,0 +1,49 @@
+{
+  "batch": "2026-04-22-first-safe-approved-batch",
+  "generated_at": "2026-04-22T15:23:41Z",
+  "scope": "Metadata-only emergency merges for legacy-only canonical countries; no canonical apply performed in this task.",
+  "decisions": [
+    {
+      "candidate_id": "bonairesinteustatiusandsaba-emergency-mergemissingfields-webverifieddirectoryv2previewjson-3",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Conservative batch: additive metadata only (notes if empty, sources append, provenance merge); no new hotline or number insertion."
+    },
+    {
+      "candidate_id": "britishindianoceanterritory-emergency-mergemissingfields-webverifieddirectoryv2previewjson-4",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Conservative batch: additive metadata only (notes if empty, sources append, provenance merge); no new hotline or number insertion."
+    },
+    {
+      "candidate_id": "christmasisland-emergency-mergemissingfields-webverifieddirectoryv2previewjson-5",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Conservative batch: additive metadata only (notes if empty, sources append, provenance merge); no new hotline or number insertion."
+    },
+    {
+      "candidate_id": "cocoskeelingislands-emergency-mergemissingfields-webverifieddirectoryv2previewjson-6",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Conservative batch: additive metadata only (notes if empty, sources append, provenance merge); no new hotline or number insertion."
+    },
+    {
+      "candidate_id": "montserrat-emergency-mergemissingfields-webverifieddirectoryv2previewjson-17",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Conservative batch: additive metadata only (notes if empty, sources append, provenance merge); no new hotline or number insertion."
+    },
+    {
+      "candidate_id": "southgeorgiaandthesouthsandwichislands-emergency-mergemissingfields-webverifieddirectoryv2previewjson-29",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Conservative batch: additive metadata only (notes if empty, sources append, provenance merge); no new hotline or number insertion."
+    },
+    {
+      "candidate_id": "westernsahara-emergency-mergemissingfields-webverifieddirectoryv2previewjson-30",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Conservative batch: additive metadata only (notes if empty, sources append, provenance merge); no new hotline or number insertion."
+    }
+  ]
+}
