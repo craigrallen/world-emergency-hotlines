@@ -1,0 +1,244 @@
+---
+import Base from '../../layouts/Base.astro';
+import HotlineCard from '../../components/HotlineCard.astro';
+import { getByCategory, getCategoriesStats } from '../../lib/data';
+import { CATEGORY_META } from '../../lib/types';
+
+export const getStaticPaths = async () => {
+  const stats = await getCategoriesStats();
+  return stats.categories.map((c) => ({ params: { slug: c.slug } }));
+};
+
+const { slug } = Astro.params as { slug: string };
+
+const results = await getByCategory(slug);
+
+const meta = CATEGORY_META[slug];
+
+// Sort countries: verified first, then by hotline count
+results.sort((a, b) => {
+  const aVerified = a.hotlines.filter((h) =>
+    ['verified_web', 'verified_authority', 'verified_knowledge'].includes(h.verification_status)
+  ).length;
+  const bVerified = b.hotlines.filter((h) =>
+    ['verified_web', 'verified_authority', 'verified_knowledge'].includes(h.verification_status)
+  ).length;
+  if (bVerified !== aVerified) return bVerified - aVerified;
+  return b.hotlines.length - a.hotlines.length;
+});
+
+// Group by region
+const byRegion: Map<string, typeof results> = new Map();
+for (const entry of results) {
+  const region = entry.country.region ?? 'Other';
+  const list = byRegion.get(region) ?? [];
+  list.push(entry);
+  byRegion.set(region, list);
+}
+
+// Region display order
+const REGION_ORDER = ['Europe', 'Americas', 'Asia', 'Africa', 'Oceania', 'Other'];
+const orderedRegions = [
+  ...REGION_ORDER.filter((r) => byRegion.has(r)),
+  ...[...byRegion.keys()].filter((r) => !REGION_ORDER.includes(r)).sort(),
+];
+
+function flagEmoji(cc: string): string {
+  if (!/^[A-Z]{2}$/.test(cc)) return '🏳️';
+  const A = 127397;
+  return String.fromCodePoint(cc.charCodeAt(0) + A, cc.charCodeAt(1) + A);
+}
+
+const totalHotlines = results.reduce((sum, e) => sum + e.hotlines.length, 0);
+const totalVerified = results.reduce(
+  (sum, e) =>
+    sum +
+    e.hotlines.filter((h) =>
+      ['verified_web', 'verified_authority', 'verified_knowledge'].includes(h.verification_status)
+    ).length,
+  0
+);
+
+const label = meta?.label ?? slug.replace(/_/g, ' ');
+const icon = meta?.icon ?? '🌐';
+const description = meta?.description ?? '';
+
+const pageTitle = `${label} · Global hotlines directory`;
+const pageDescription = `${description} — ${totalHotlines} hotlines in ${results.length} countries worldwide.`;
+---
+
+<Base title={pageTitle} description={pageDescription}>
+  <!-- Breadcrumb -->
+  <nav class="mb-6 flex items-center gap-2 text-xs text-fg-muted" aria-label="Breadcrumb">
+    <a href="/" class="hover:text-fg">Home</a>
+    <span aria-hidden="true">›</span>
+    <a href="/categories" class="hover:text-fg">Categories</a>
+    <span aria-hidden="true">›</span>
+    <span class="text-fg">{label}</span>
+  </nav>
+
+  <!-- Category header -->
+  <div class="mb-8">
+    <div class="flex items-center gap-4">
+      <span class="text-5xl" aria-hidden="true">{icon}</span>
+      <div>
+        <h1 class="font-display text-4xl text-fg sm:text-5xl">{label}</h1>
+        {description && <p class="mt-1 text-base text-fg-muted">{description}</p>}
+      </div>
+    </div>
+
+    <!-- Stats row -->
+    <div class="mt-6 flex flex-wrap gap-4">
+      <div class="card flex flex-col p-4 text-center">
+        <span class="font-display text-3xl text-fg">{totalHotlines}</span>
+        <span class="text-xs text-fg-muted">hotlines</span>
+      </div>
+      <div class="card flex flex-col p-4 text-center">
+        <span class="font-display text-3xl text-fg">{results.length}</span>
+        <span class="text-xs text-fg-muted">countries</span>
+      </div>
+      <div class="card flex flex-col p-4 text-center">
+        <span class="font-display text-3xl text-success">{totalVerified}</span>
+        <span class="text-xs text-fg-muted">verified</span>
+      </div>
+      {totalVerified < totalHotlines && (
+        <div class="card flex flex-col p-4 text-center">
+          <span class="font-display text-3xl text-fg-muted">{totalHotlines - totalVerified}</span>
+          <span class="text-xs text-fg-muted">unverified</span>
+        </div>
+      )}
+    </div>
+  </div>
+
+  <!-- Verification note if many unverified -->
+  {totalVerified === 0 && (
+    <div class="mb-6 rounded-xl border border-accent/30 bg-accent/5 p-4 text-sm">
+      <span class="mr-1" aria-hidden="true">⚠️</span>
+      <strong class="text-accent">All records in this category are unverified.</strong>
+      <span class="text-fg-muted"> These come from legacy sources. Please double-check any number against the organisation's official website before calling.</span>
+    </div>
+  )}
+
+  <!-- Region filter (client-side) -->
+  {orderedRegions.length > 1 && (
+    <div class="mb-6">
+      <div class="flex flex-wrap gap-2" id="region-filter" role="group" aria-label="Filter by region">
+        <button
+          class="chip region-tab border-accent/60 bg-accent/10 text-accent"
+          data-region="all"
+          aria-pressed="true"
+        >
+          All regions
+        </button>
+        {orderedRegions.map((region) => (
+          <button
+            class="chip region-tab hover:border-accent/40 hover:text-fg"
+            data-region={region}
+            aria-pressed="false"
+          >
+            {region} ({byRegion.get(region)?.length ?? 0})
+          </button>
+        ))}
+      </div>
+    </div>
+  )}
+
+  <!-- Countries grouped by region -->
+  <div class="space-y-12" id="regions-container">
+    {orderedRegions.map((region) => {
+      const entries = byRegion.get(region) ?? [];
+      return (
+        <section data-region-section={region}>
+          <h2 class="mb-4 text-xs font-semibold uppercase tracking-widest text-fg-muted">
+            {region} <span class="font-normal normal-case">({entries.length} {entries.length === 1 ? 'country' : 'countries'})</span>
+          </h2>
+          <div class="space-y-6">
+            {entries.map(({ country, hotlines }) => {
+              const flag = flagEmoji(country.alpha2);
+              const verifiedInCountry = hotlines.filter((h) =>
+                ['verified_web', 'verified_authority', 'verified_knowledge'].includes(h.verification_status)
+              ).length;
+              return (
+                <div>
+                  <div class="mb-3 flex items-center gap-2">
+                    <span aria-hidden="true">{flag}</span>
+                    <a
+                      href={`/country/${country.alpha2.toLowerCase()}`}
+                      class="font-semibold text-fg hover:text-accent"
+                    >
+                      {country.country}
+                    </a>
+                    <span class="text-xs text-fg-muted">·</span>
+                    <span class="text-xs text-fg-muted">
+                      {hotlines.length} {hotlines.length === 1 ? 'hotline' : 'hotlines'}
+                    </span>
+                    {verifiedInCountry > 0 && (
+                      <span class="chip border-success/40 bg-success/10 text-success text-[10px]">
+                        {verifiedInCountry} verified
+                      </span>
+                    )}
+                  </div>
+                  <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                    {hotlines.map((h) => (
+                      <HotlineCard hotline={h} country={country.country} />
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      );
+    })}
+  </div>
+
+  {results.length === 0 && (
+    <div class="rounded-2xl border border-border bg-bg-elev/40 p-12 text-center">
+      <p class="text-3xl" aria-hidden="true">📋</p>
+      <h2 class="mt-4 font-display text-2xl text-fg">No data yet for this category</h2>
+      <p class="mt-2 text-fg-muted">
+        We're working on adding hotlines for this category. Contributions welcome!
+      </p>
+    </div>
+  )}
+
+  <!-- Footer links -->
+  <div class="mt-12 border-t border-border pt-6 text-xs text-fg-muted">
+    <div class="flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <a href="/categories" class="text-accent hover:underline">← All categories</a>
+        <span class="mx-2">·</span>
+        <a href="/data" class="text-accent hover:underline">Download data</a>
+        <span class="mx-2">·</span>
+        <a href="/about" class="text-accent hover:underline">Methodology</a>
+      </div>
+    </div>
+  </div>
+</Base>
+
+<script>
+  // Client-side region filter
+  const filterGroup = document.getElementById('region-filter');
+  const container = document.getElementById('regions-container');
+
+  if (filterGroup && container) {
+    filterGroup.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest('[data-region]') as HTMLButtonElement | null;
+      if (!btn) return;
+      const region = btn.dataset.region;
+
+      for (const b of filterGroup.querySelectorAll('.region-tab')) {
+        const isActive = (b as HTMLElement).dataset.region === region;
+        b.setAttribute('aria-pressed', String(isActive));
+        b.classList.toggle('border-accent/60', isActive);
+        b.classList.toggle('bg-accent/10', isActive);
+        b.classList.toggle('text-accent', isActive);
+      }
+
+      for (const section of container.querySelectorAll('[data-region-section]')) {
+        const sectionRegion = (section as HTMLElement).dataset.regionSection;
+        (section as HTMLElement).hidden = region !== 'all' && sectionRegion !== region;
+      }
+    });
+  }
+</script>

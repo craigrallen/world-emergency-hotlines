@@ -1,54 +1,150 @@
 ---
-// Client-side search box.
-// Phase 1: substring + simple scoring against /data/search-index.json.
-// Phase 3 hook: replace `scoreDoc` with a transformers.js semantic embedder
-// using the ONNX model described in ARCHITECTURE.md §6.1. All the UI stays.
+// Client-side search + filter box.
+// Phase 1: substring + token scoring against /data/search-index.json.
+// Supports optional quick-filter chips: verified-only, has-chat, has-sms, per-category.
 ---
 
-<div class="card relative p-2 shadow-glow">
-  <form id="hotline-search-form" class="flex items-center gap-2" role="search">
-    <svg viewBox="0 0 24 24" fill="none" class="ml-3 h-5 w-5 shrink-0 text-fg-muted" aria-hidden="true" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="11" cy="11" r="8" />
-      <path d="m21 21-4.3-4.3" />
-    </svg>
-    <input
-      id="hotline-search-input"
-      type="search"
-      placeholder="Search: 'suicide help Germany', 'childline UK', 'domestic violence Brazil'…"
-      class="flex-1 bg-transparent px-1 py-3 text-base text-fg placeholder:text-fg-muted focus:outline-none"
-      autocomplete="off"
-      aria-label="Search hotlines"
-      aria-controls="search-results"
-    />
-    <button
-      type="submit"
-      class="btn-primary mr-1 hidden sm:inline-flex"
-    >Search</button>
-  </form>
+<div class="space-y-3">
+  <!-- Search bar -->
+  <div class="card relative p-2 shadow-glow">
+    <form id="hotline-search-form" class="flex items-center gap-2" role="search">
+      <svg viewBox="0 0 24 24" fill="none" class="ml-3 h-5 w-5 shrink-0 text-fg-muted" aria-hidden="true" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.3-4.3" />
+      </svg>
+      <input
+        id="hotline-search-input"
+        type="search"
+        placeholder="Search: country, category, or service name…"
+        class="flex-1 bg-transparent px-1 py-3 text-base text-fg placeholder:text-fg-muted focus:outline-none"
+        autocomplete="off"
+        aria-label="Search hotlines"
+        aria-controls="search-results"
+      />
+      <button type="submit" class="btn-primary mr-1 hidden sm:inline-flex">Search</button>
+    </form>
 
-  <div
-    id="search-results"
-    class="absolute left-0 right-0 top-full z-20 mt-2 hidden overflow-hidden rounded-2xl border border-border bg-bg-elev shadow-2xl"
-    role="listbox"
-  ></div>
+    <!-- Inline results dropdown -->
+    <div
+      id="search-results"
+      class="absolute left-0 right-0 top-full z-20 mt-2 hidden overflow-hidden rounded-2xl border border-border bg-bg-elev shadow-2xl"
+      role="listbox"
+      aria-live="polite"
+    ></div>
+  </div>
+
+  <!-- Quick-filter chips -->
+  <div id="search-filters" class="flex flex-wrap gap-2">
+    <button
+      class="filter-chip chip border-border/60 text-fg-muted hover:border-accent/50 hover:text-fg text-xs"
+      data-filter="verified"
+      aria-pressed="false"
+      title="Only show hotlines that have been verified against official sources"
+    >
+      Verified only
+    </button>
+    <button
+      class="filter-chip chip border-border/60 text-fg-muted hover:border-accent/50 hover:text-fg text-xs"
+      data-filter="chat"
+      aria-pressed="false"
+      title="Only show hotlines with online chat"
+    >
+      Online chat
+    </button>
+    <button
+      class="filter-chip chip border-border/60 text-fg-muted hover:border-accent/50 hover:text-fg text-xs"
+      data-filter="sms"
+      aria-pressed="false"
+      title="Only show hotlines with SMS/text access"
+    >
+      SMS / text
+    </button>
+    <!-- Quick category shortcuts -->
+    {(
+      [
+        { slug: 'suicide_crisis',    label: '🆘 Crisis' },
+        { slug: 'child_protection',  label: '🧒 Child' },
+        { slug: 'domestic_violence', label: '🛡️ DV' },
+        { slug: 'mental_health',     label: '🧠 Mental health' },
+      ] as { slug: string; label: string }[]
+    ).map(({ slug, label }) => (
+      <button
+        class="filter-chip chip border-border/60 text-fg-muted hover:border-accent/50 hover:text-fg text-xs"
+        data-filter={`cat:${slug}`}
+        aria-pressed="false"
+      >
+        {label}
+      </button>
+    ))}
+  </div>
+
+  <!-- Fallback guidance (shown when results are empty or search is blank) -->
+  <div id="search-fallback" class="hidden rounded-2xl border border-border bg-bg-elev/30 p-5 text-sm">
+    <p class="font-semibold text-fg mb-2">No exact match?</p>
+    <ul class="space-y-1.5 text-fg-muted text-xs">
+      <li>
+        <span class="mr-1" aria-hidden="true">🌍</span>
+        <a href="/map" class="text-accent hover:underline">Open the world map</a>
+        — click any country to see all local numbers.
+      </li>
+      <li>
+        <span class="mr-1" aria-hidden="true">📋</span>
+        <a href="/categories" class="text-accent hover:underline">Browse by category</a>
+        — crisis, child protection, domestic violence, and more.
+      </li>
+      <li>
+        <span class="mr-1" aria-hidden="true">✈️</span>
+        <strong class="text-fg">Travelling?</strong>
+        In most countries <span class="font-mono text-fg">112</span> reaches emergency services.
+        US/Canada: <span class="font-mono text-fg">911</span>. UK: <span class="font-mono text-fg">999</span>. AU: <span class="font-mono text-fg">000</span>.
+      </li>
+    </ul>
+  </div>
 </div>
 
 <script>
   type Doc = {
     country_code: string;
     country_name: string;
+    region: string | null;
     name: string;
     organization: string | null;
     category: string;
     numbers: string[];
     languages: string[];
     verified: boolean;
+    verification_status: string;
+    has_chat: boolean;
+    has_sms: boolean;
   };
 
-  const form = document.getElementById('hotline-search-form') as HTMLFormElement | null;
-  const input = document.getElementById('hotline-search-input') as HTMLInputElement | null;
-  const panel = document.getElementById('search-results') as HTMLDivElement | null;
+  const form    = document.getElementById('hotline-search-form') as HTMLFormElement | null;
+  const input   = document.getElementById('hotline-search-input') as HTMLInputElement | null;
+  const panel   = document.getElementById('search-results') as HTMLDivElement | null;
+  const fallback = document.getElementById('search-fallback') as HTMLDivElement | null;
+  const filterBar = document.getElementById('search-filters') as HTMLDivElement | null;
+
   if (!form || !input || !panel) throw new Error('search: missing DOM');
+
+  // Active filters
+  const activeFilters = new Set<string>();
+
+  // Watch filter chips
+  filterBar?.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest('[data-filter]') as HTMLButtonElement | null;
+    if (!btn) return;
+    const f = btn.dataset.filter!;
+    if (activeFilters.has(f)) {
+      activeFilters.delete(f);
+      btn.setAttribute('aria-pressed', 'false');
+      btn.classList.remove('border-accent/60', 'bg-accent/10', 'text-accent');
+    } else {
+      activeFilters.add(f);
+      btn.setAttribute('aria-pressed', 'true');
+      btn.classList.add('border-accent/60', 'bg-accent/10', 'text-accent');
+    }
+    onChange();
+  });
 
   let docs: Doc[] | null = null;
   let fetching: Promise<Doc[]> | null = null;
@@ -58,51 +154,35 @@
     if (fetching) return fetching;
     fetching = fetch('/data/search-index.json')
       .then((r) => r.json())
-      .then((d: Doc[]) => (docs = d));
+      .then((d: Doc[]) => { docs = d; return d; });
     return fetching;
   }
 
+  function applyFilters(doc: Doc): boolean {
+    for (const f of activeFilters) {
+      if (f === 'verified' && !doc.verified) return false;
+      if (f === 'chat'     && !doc.has_chat)  return false;
+      if (f === 'sms'      && !doc.has_sms)   return false;
+      if (f.startsWith('cat:') && doc.category !== f.slice(4)) return false;
+    }
+    return true;
+  }
+
   function scoreDoc(doc: Doc, q: string): number {
-    // Phase 1 scorer: token-overlap with a small boost for matches in the
-    // country name and verified records. Good enough to feel responsive.
     const haystack =
-      `${doc.country_name} ${doc.name} ${doc.organization ?? ''} ${doc.category} ${doc.numbers.join(' ')}`.toLowerCase();
+      `${doc.country_name} ${doc.name} ${doc.organization ?? ''} ${doc.category} ${doc.numbers.join(' ')} ${doc.languages.join(' ')}`.toLowerCase();
     const tokens = q.toLowerCase().split(/\s+/).filter(Boolean);
-    if (tokens.length === 0) return 0;
+    if (tokens.length === 0) return 1; // no-query: pass everything through
     let score = 0;
     for (const t of tokens) {
       if (!haystack.includes(t)) return 0;
-      if (doc.country_name.toLowerCase().includes(t)) score += 2;
+      if (doc.country_name.toLowerCase().includes(t)) score += 3;
       if (doc.name.toLowerCase().includes(t)) score += 2;
       if (doc.category.includes(t)) score += 1;
       score += 1;
     }
     if (doc.verified) score += 1;
     return score;
-  }
-
-  function render(results: Doc[]) {
-    if (!panel) return;
-    if (results.length === 0) {
-      panel.innerHTML = `<div class="px-4 py-4 text-sm text-fg-muted">No matches. Try a country name or a category like "suicide", "childline", "veterans".</div>`;
-      panel.classList.remove('hidden');
-      return;
-    }
-    panel.innerHTML = results
-      .slice(0, 12)
-      .map((r) => {
-        const primary = r.numbers[0] ?? '';
-        return `
-          <a href="/country/${r.country_code.toLowerCase()}" class="flex items-center justify-between gap-4 border-b border-border/60 px-4 py-3 last:border-b-0 hover:bg-bg/60">
-            <div class="min-w-0">
-              <div class="truncate text-sm font-medium text-fg">${escape(r.name)}</div>
-              <div class="truncate text-xs text-fg-muted">${escape(r.country_name)} · ${r.category.replace(/_/g, ' ')}${r.verified ? ' · verified' : ''}</div>
-            </div>
-            ${primary ? `<div class="shrink-0 font-mono text-sm text-accent">${escape(primary)}</div>` : ''}
-          </a>`;
-      })
-      .join('');
-    panel.classList.remove('hidden');
   }
 
   function escape(s: string): string {
@@ -113,22 +193,101 @@
       .replace(/"/g, '&quot;');
   }
 
-  let debounce = 0;
-  async function onChange() {
-    const q = input?.value.trim() ?? '';
-    if (!q) {
-      panel?.classList.add('hidden');
+  const CHANNEL_BADGES: Record<string, string> = {
+    verified_web: '<span class="text-success text-[9px]">✓ verified</span>',
+    verified_authority: '<span class="text-success text-[9px]">✓ verified</span>',
+    verified_knowledge: '<span class="text-success text-[9px]">✓ verified</span>',
+    cross_referenced: '<span class="text-accent text-[9px]">↔ cross-ref</span>',
+  };
+
+  function render(results: Doc[], q: string) {
+    if (!panel) return;
+
+    const hasQuery = q.trim().length > 0;
+    const hasFilters = activeFilters.size > 0;
+
+    if (results.length === 0 && (hasQuery || hasFilters)) {
+      panel.innerHTML = `
+        <div class="px-4 py-4 text-sm text-fg-muted space-y-2">
+          <p>No matches${hasQuery ? ` for "<strong class="text-fg">${escape(q)}</strong>"` : ''}${hasFilters ? ' with these filters' : ''}.</p>
+          <p class="text-xs">Try removing a filter, checking spelling, or searching by country name.</p>
+        </div>`;
+      panel.classList.remove('hidden');
+      fallback?.classList.remove('hidden');
       return;
     }
+
+    if (results.length === 0) {
+      panel.classList.add('hidden');
+      return;
+    }
+
+    fallback?.classList.add('hidden');
+    panel.innerHTML = results
+      .slice(0, 14)
+      .map((r) => {
+        const primary = r.numbers[0] ?? '';
+        const badge = CHANNEL_BADGES[r.verification_status] ?? '';
+        const channelIcons = [
+          r.has_chat ? '<span class="text-[9px] text-fg-muted" title="Online chat">💬</span>' : '',
+          r.has_sms  ? '<span class="text-[9px] text-fg-muted" title="SMS">📱</span>' : '',
+        ].filter(Boolean).join('');
+        return `
+          <a href="/country/${r.country_code.toLowerCase()}" class="flex items-center justify-between gap-4 border-b border-border/60 px-4 py-3 last:border-b-0 hover:bg-bg/60">
+            <div class="min-w-0">
+              <div class="truncate text-sm font-medium text-fg">${escape(r.name)}</div>
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="truncate text-xs text-fg-muted">${escape(r.country_name)} · ${r.category.replace(/_/g, ' ')}</span>
+                ${badge}
+                ${channelIcons}
+              </div>
+            </div>
+            ${primary ? `<div class="shrink-0 font-mono text-sm text-accent">${escape(primary)}</div>` : ''}
+          </a>`;
+      })
+      .join('');
+
+    if (results.length > 14) {
+      panel.innerHTML += `<div class="px-4 py-2 text-xs text-fg-muted border-t border-border/60">${results.length - 14} more results — refine your search</div>`;
+    }
+
+    panel.classList.remove('hidden');
+  }
+
+  let debounce = 0;
+
+  async function onChange() {
+    const q = input?.value.trim() ?? '';
+    const hasFilters = activeFilters.size > 0;
+
+    if (!q && !hasFilters) {
+      panel?.classList.add('hidden');
+      fallback?.classList.remove('hidden');
+      return;
+    }
+
+    fallback?.classList.add('hidden');
     window.clearTimeout(debounce);
     debounce = window.setTimeout(async () => {
       const d = await loadDocs();
-      const ranked = d
-        .map((doc) => ({ doc, score: scoreDoc(doc, q) }))
-        .filter((x) => x.score > 0)
-        .sort((a, b) => b.score - a.score)
-        .map((x) => x.doc);
-      render(ranked);
+      let ranked: Doc[];
+
+      if (q) {
+        ranked = d
+          .filter(applyFilters)
+          .map((doc) => ({ doc, score: scoreDoc(doc, q) }))
+          .filter((x) => x.score > 0)
+          .sort((a, b) => b.score - a.score)
+          .map((x) => x.doc);
+      } else {
+        // Filters only — show top verified results
+        ranked = d
+          .filter(applyFilters)
+          .filter((doc) => doc.verified)
+          .slice(0, 20);
+      }
+
+      render(ranked, q);
     }, 90);
   }
 
@@ -143,6 +302,12 @@
     }
   });
   input.addEventListener('focus', () => {
-    if (input.value.trim()) panel.classList.remove('hidden');
+    const q = input.value.trim();
+    const hasFilters = activeFilters.size > 0;
+    if (q || hasFilters) panel.classList.remove('hidden');
+    else fallback?.classList.remove('hidden');
   });
+
+  // Show fallback initially
+  fallback?.classList.remove('hidden');
 </script>

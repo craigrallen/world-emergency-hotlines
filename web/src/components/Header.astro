@@ -1,7 +1,9 @@
 ---
 const nav: Array<{ href: string; label: string }> = [
   { href: '/', label: 'Home' },
+  { href: '/categories', label: 'Categories' },
   { href: '/map', label: 'Map' },
+  { href: '/data', label: 'Data' },
   { href: '/about', label: 'About' },
 ];
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
