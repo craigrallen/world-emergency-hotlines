@@ -1,0 +1,663 @@
+{
+  "$schema_version": "2.0",
+  "generated_at": "2026-04-22T15:23:41Z",
+  "canonical_dataset": "hotlines.json",
+  "preview_datasets": [
+    "sources/web_verified_crisis_directory/web_verified_directory_v2_preview.json"
+  ],
+  "selection_strategy": {
+    "name": "first_safe_metadata_only_batch",
+    "rationale": [
+      "Restricted to legacy-only countries surfaced by the new gap-report/priority-queue workflow.",
+      "Approved only emergency-service merge candidates that do not append new hotlines or new voice_numbers.",
+      "Kept actions to additive metadata only: notes fill, source append, provenance merge.",
+      "Deferred higher-risk preview candidates that add extra emergency numbers, general_emergency entries, or new specialist services."
+    ]
+  },
+  "summary": {
+    "candidate_count": 7,
+    "candidate_types": {
+      "merge_missing_fields": 7
+    },
+    "country_count": 7
+  },
+  "candidates": [
+    {
+      "candidate_id": "bonairesinteustatiusandsaba-emergency-mergemissingfields-webverifieddirectoryv2previewjson-3",
+      "country": "Bonaire, Sint Eustatius and Saba",
+      "alpha-2": "BQ",
+      "candidate_type": "merge_missing_fields",
+      "canonical_match": {
+        "country": "Bonaire, Sint Eustatius and Saba",
+        "hotline_name": "Emergency",
+        "match_confidence": 1.0
+      },
+      "proposed_hotline": {
+        "name": "Emergency",
+        "organization": "Local emergency services",
+        "category": "emergency",
+        "voice_numbers": [
+          "911"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": null,
+        "hours": null,
+        "languages": [],
+        "cost": "unknown",
+        "target": "anyone in a life-threatening emergency",
+        "geography": "Caribbean Netherlands",
+        "notes": "Police: 911 | Ambulance: 911 | Fire: 911 | Import note (warning): Emergency dataset names: Caribbean Netherlands. | Parsed from Wikipedia table section: Caribbean. No row-specific external citation URL was discoverable from the rendered references.",
+        "verification_status": "legacy_unverified",
+        "last_verified": null,
+        "sources": [
+          "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+        ],
+        "_import_metadata": {
+          "source_dataset": "web_verified_crisis_directory",
+          "source_country_name": "Caribbean Netherlands",
+          "source_verification_status": "warning"
+        },
+        "provenance": {
+          "record_status": "legacy_unverified",
+          "source_class": "aggregator_directory",
+          "verification_method": "scripted_import",
+          "review_state": "staged",
+          "source_dataset": "web_verified_crisis_directory",
+          "source_status": "warning",
+          "evidence": [
+            {
+              "field": "voice_numbers",
+              "value": [
+                "911"
+              ],
+              "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "cost",
+              "value": "unknown",
+              "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "target",
+              "value": "anyone in a life-threatening emergency",
+              "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "geography",
+              "value": "Caribbean Netherlands",
+              "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            }
+          ]
+        }
+      },
+      "source_artifact": "sources/web_verified_crisis_directory/web_verified_directory_v2_preview.json",
+      "field_actions": {
+        "sources": "append_unique",
+        "notes": "fill_if_empty",
+        "provenance": "merge_provenance"
+      },
+      "safety_flags": [
+        "canonical_country_has_only_legacy_records"
+      ],
+      "requires_human_review": true
+    },
+    {
+      "candidate_id": "britishindianoceanterritory-emergency-mergemissingfields-webverifieddirectoryv2previewjson-4",
+      "country": "British Indian Ocean Territory",
+      "alpha-2": "IO",
+      "candidate_type": "merge_missing_fields",
+      "canonical_match": {
+        "country": "British Indian Ocean Territory",
+        "hotline_name": "Emergency",
+        "match_confidence": 1.0
+      },
+      "proposed_hotline": {
+        "name": "Emergency",
+        "organization": "Local emergency services",
+        "category": "emergency",
+        "voice_numbers": [
+          "112",
+          "999"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": null,
+        "hours": null,
+        "languages": [],
+        "cost": "unknown",
+        "target": "anyone in a life-threatening emergency",
+        "geography": "British Indian Ocean Territory",
+        "notes": "Police: 112 or 999 | Ambulance: 112 or 999 | Fire: 112 or 999 | Import note (warning): Emergency dataset names: British Indian Ocean Territory. | Parsed from Wikipedia table section: Asia. No row-specific external citation URL was discoverable from the rendered references.",
+        "verification_status": "legacy_unverified",
+        "last_verified": null,
+        "sources": [
+          "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+        ],
+        "_import_metadata": {
+          "source_dataset": "web_verified_crisis_directory",
+          "source_country_name": "British Indian Ocean Territory",
+          "source_verification_status": "warning"
+        },
+        "provenance": {
+          "record_status": "legacy_unverified",
+          "source_class": "aggregator_directory",
+          "verification_method": "scripted_import",
+          "review_state": "staged",
+          "source_dataset": "web_verified_crisis_directory",
+          "source_status": "warning",
+          "evidence": [
+            {
+              "field": "voice_numbers",
+              "value": [
+                "112",
+                "999"
+              ],
+              "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "cost",
+              "value": "unknown",
+              "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "target",
+              "value": "anyone in a life-threatening emergency",
+              "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "geography",
+              "value": "British Indian Ocean Territory",
+              "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            }
+          ]
+        }
+      },
+      "source_artifact": "sources/web_verified_crisis_directory/web_verified_directory_v2_preview.json",
+      "field_actions": {
+        "sources": "append_unique",
+        "notes": "fill_if_empty",
+        "provenance": "merge_provenance"
+      },
+      "safety_flags": [
+        "canonical_country_has_only_legacy_records"
+      ],
+      "requires_human_review": true
+    },
+    {
+      "candidate_id": "christmasisland-emergency-mergemissingfields-webverifieddirectoryv2previewjson-5",
+      "country": "Christmas Island",
+      "alpha-2": "CX",
+      "candidate_type": "merge_missing_fields",
+      "canonical_match": {
+        "country": "Christmas Island",
+        "hotline_name": "Emergency",
+        "match_confidence": 1.0
+      },
+      "proposed_hotline": {
+        "name": "Emergency",
+        "organization": "Local emergency services",
+        "category": "emergency",
+        "voice_numbers": [
+          "000"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": null,
+        "hours": null,
+        "languages": [],
+        "cost": "unknown",
+        "target": "anyone in a life-threatening emergency",
+        "geography": "Christmas Island",
+        "notes": "Police: 000 | Ambulance: 000 | Fire: 000 | Import note (warning): Emergency dataset names: Christmas Island. | Parsed from Wikipedia table section: Asia. No row-specific external citation URL was discoverable from the rendered references.",
+        "verification_status": "legacy_unverified",
+        "last_verified": null,
+        "sources": [
+          "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+        ],
+        "_import_metadata": {
+          "source_dataset": "web_verified_crisis_directory",
+          "source_country_name": "Christmas Island",
+          "source_verification_status": "warning"
+        },
+        "provenance": {
+          "record_status": "legacy_unverified",
+          "source_class": "aggregator_directory",
+          "verification_method": "scripted_import",
+          "review_state": "staged",
+          "source_dataset": "web_verified_crisis_directory",
+          "source_status": "warning",
+          "evidence": [
+            {
+              "field": "voice_numbers",
+              "value": [
+                "000"
+              ],
+              "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "cost",
+              "value": "unknown",
+              "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "target",
+              "value": "anyone in a life-threatening emergency",
+              "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "geography",
+              "value": "Christmas Island",
+              "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            }
+          ]
+        }
+      },
+      "source_artifact": "sources/web_verified_crisis_directory/web_verified_directory_v2_preview.json",
+      "field_actions": {
+        "sources": "append_unique",
+        "notes": "fill_if_empty",
+        "provenance": "merge_provenance"
+      },
+      "safety_flags": [
+        "canonical_country_has_only_legacy_records"
+      ],
+      "requires_human_review": true
+    },
+    {
+      "candidate_id": "cocoskeelingislands-emergency-mergemissingfields-webverifieddirectoryv2previewjson-6",
+      "country": "Cocos (Keeling) Islands",
+      "alpha-2": "CC",
+      "candidate_type": "merge_missing_fields",
+      "canonical_match": {
+        "country": "Cocos (Keeling) Islands",
+        "hotline_name": "Emergency",
+        "match_confidence": 1.0
+      },
+      "proposed_hotline": {
+        "name": "Emergency",
+        "organization": "Local emergency services",
+        "category": "emergency",
+        "voice_numbers": [
+          "000"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": null,
+        "hours": null,
+        "languages": [],
+        "cost": "unknown",
+        "target": "anyone in a life-threatening emergency",
+        "geography": "Cocos Islands",
+        "notes": "Police: 000 | Ambulance: 000 | Fire: 000 | Import note (warning): Emergency dataset names: Cocos Islands. | Parsed from Wikipedia table section: Asia. No row-specific external citation URL was discoverable from the rendered references.",
+        "verification_status": "legacy_unverified",
+        "last_verified": null,
+        "sources": [
+          "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+        ],
+        "_import_metadata": {
+          "source_dataset": "web_verified_crisis_directory",
+          "source_country_name": "Cocos Islands",
+          "source_verification_status": "warning"
+        },
+        "provenance": {
+          "record_status": "legacy_unverified",
+          "source_class": "aggregator_directory",
+          "verification_method": "scripted_import",
+          "review_state": "staged",
+          "source_dataset": "web_verified_crisis_directory",
+          "source_status": "warning",
+          "evidence": [
+            {
+              "field": "voice_numbers",
+              "value": [
+                "000"
+              ],
+              "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "cost",
+              "value": "unknown",
+              "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "target",
+              "value": "anyone in a life-threatening emergency",
+              "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "geography",
+              "value": "Cocos Islands",
+              "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            }
+          ]
+        }
+      },
+      "source_artifact": "sources/web_verified_crisis_directory/web_verified_directory_v2_preview.json",
+      "field_actions": {
+        "sources": "append_unique",
+        "notes": "fill_if_empty",
+        "provenance": "merge_provenance"
+      },
+      "safety_flags": [
+        "canonical_country_has_only_legacy_records"
+      ],
+      "requires_human_review": true
+    },
+    {
+      "candidate_id": "montserrat-emergency-mergemissingfields-webverifieddirectoryv2previewjson-17",
+      "country": "Montserrat",
+      "alpha-2": "MS",
+      "candidate_type": "merge_missing_fields",
+      "canonical_match": {
+        "country": "Montserrat",
+        "hotline_name": "Emergency",
+        "match_confidence": 1.0
+      },
+      "proposed_hotline": {
+        "name": "Emergency",
+        "organization": "Local emergency services",
+        "category": "emergency",
+        "voice_numbers": [
+          "911",
+          "999"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": null,
+        "hours": null,
+        "languages": [],
+        "cost": "unknown",
+        "target": "anyone in a life-threatening emergency",
+        "geography": "Montserrat",
+        "notes": "Police: 911 or 999 | Ambulance: 911 or 999 | Fire: 911 or 999 | Import note (pass): Emergency dataset names: Montserrat. Crisis dataset names: Montserrat. | Parsed from Wikipedia table section: Caribbean. No row-specific external citation URL was discoverable from the rendered references. | HotPeach regional country section fetched live; domestic/sexual violence resources were extracted conservatively from the country section and may be web resources rather than phone-only lines.",
+        "verification_status": "legacy_unverified",
+        "last_verified": null,
+        "sources": [
+          "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+          "https://www.hotpeachpages.net/a/countries.html",
+          "https://www.hotpeachpages.net/caribbean/index.html#Montserrat"
+        ],
+        "_import_metadata": {
+          "source_dataset": "web_verified_crisis_directory",
+          "source_country_name": "Montserrat",
+          "source_verification_status": "pass"
+        },
+        "provenance": {
+          "record_status": "legacy_unverified",
+          "source_class": "aggregator_directory",
+          "verification_method": "scripted_import",
+          "review_state": "staged",
+          "source_dataset": "web_verified_crisis_directory",
+          "source_status": "pass",
+          "evidence": [
+            {
+              "field": "voice_numbers",
+              "value": [
+                "911",
+                "999"
+              ],
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "cost",
+              "value": "unknown",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "target",
+              "value": "anyone in a life-threatening emergency",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "geography",
+              "value": "Montserrat",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            }
+          ]
+        }
+      },
+      "source_artifact": "sources/web_verified_crisis_directory/web_verified_directory_v2_preview.json",
+      "field_actions": {
+        "sources": "append_unique",
+        "notes": "fill_if_empty",
+        "provenance": "merge_provenance"
+      },
+      "safety_flags": [
+        "canonical_country_has_only_legacy_records"
+      ],
+      "requires_human_review": true
+    },
+    {
+      "candidate_id": "southgeorgiaandthesouthsandwichislands-emergency-mergemissingfields-webverifieddirectoryv2previewjson-29",
+      "country": "South Georgia and the South Sandwich Islands",
+      "alpha-2": "GS",
+      "candidate_type": "merge_missing_fields",
+      "canonical_match": {
+        "country": "South Georgia and the South Sandwich Islands",
+        "hotline_name": "Emergency",
+        "match_confidence": 1.0
+      },
+      "proposed_hotline": {
+        "name": "Emergency",
+        "organization": "Local emergency services",
+        "category": "emergency",
+        "voice_numbers": [
+          "999"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": null,
+        "hours": null,
+        "languages": [],
+        "cost": "unknown",
+        "target": "anyone in a life-threatening emergency",
+        "geography": "South Georgia and the South Sandwich Islands",
+        "notes": "Police: 999 | Ambulance: 999 | Fire: 999 | Import note (warning): Emergency dataset names: South Georgia and the South Sandwich Islands. | Parsed from Wikipedia table section: South America. No row-specific external citation URL was discoverable from the rendered references.",
+        "verification_status": "legacy_unverified",
+        "last_verified": null,
+        "sources": [
+          "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+        ],
+        "_import_metadata": {
+          "source_dataset": "web_verified_crisis_directory",
+          "source_country_name": "South Georgia and the South Sandwich Islands",
+          "source_verification_status": "warning"
+        },
+        "provenance": {
+          "record_status": "legacy_unverified",
+          "source_class": "aggregator_directory",
+          "verification_method": "scripted_import",
+          "review_state": "staged",
+          "source_dataset": "web_verified_crisis_directory",
+          "source_status": "warning",
+          "evidence": [
+            {
+              "field": "voice_numbers",
+              "value": [
+                "999"
+              ],
+              "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "cost",
+              "value": "unknown",
+              "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "target",
+              "value": "anyone in a life-threatening emergency",
+              "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "geography",
+              "value": "South Georgia and the South Sandwich Islands",
+              "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            }
+          ]
+        }
+      },
+      "source_artifact": "sources/web_verified_crisis_directory/web_verified_directory_v2_preview.json",
+      "field_actions": {
+        "sources": "append_unique",
+        "notes": "fill_if_empty",
+        "provenance": "merge_provenance"
+      },
+      "safety_flags": [
+        "canonical_country_has_only_legacy_records"
+      ],
+      "requires_human_review": true
+    },
+    {
+      "candidate_id": "westernsahara-emergency-mergemissingfields-webverifieddirectoryv2previewjson-30",
+      "country": "Western Sahara",
+      "alpha-2": "EH",
+      "candidate_type": "merge_missing_fields",
+      "canonical_match": {
+        "country": "Western Sahara",
+        "hotline_name": "Emergency",
+        "match_confidence": 1.0
+      },
+      "proposed_hotline": {
+        "name": "Emergency",
+        "organization": "Local emergency services",
+        "category": "emergency",
+        "voice_numbers": [
+          "150"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": null,
+        "hours": null,
+        "languages": [],
+        "cost": "unknown",
+        "target": "anyone in a life-threatening emergency",
+        "geography": "Western Sahara",
+        "notes": "Police: 150 | Ambulance: 150 | Fire: 150 | Import note (pass): Emergency dataset names: Western Sahara. Crisis dataset names: Western Sahara. | Parsed from Wikipedia table section: Africa. No row-specific external citation URL was discoverable from the rendered references. | HotPeach regional country section fetched live; domestic/sexual violence resources were extracted conservatively from the country section and may be web resources rather than phone-only lines.",
+        "verification_status": "legacy_unverified",
+        "last_verified": null,
+        "sources": [
+          "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+          "https://www.hotpeachpages.net/a/countries.html",
+          "https://www.hotpeachpages.net/africa/index.html#WS"
+        ],
+        "_import_metadata": {
+          "source_dataset": "web_verified_crisis_directory",
+          "source_country_name": "Western Sahara",
+          "source_verification_status": "pass"
+        },
+        "provenance": {
+          "record_status": "legacy_unverified",
+          "source_class": "aggregator_directory",
+          "verification_method": "scripted_import",
+          "review_state": "staged",
+          "source_dataset": "web_verified_crisis_directory",
+          "source_status": "pass",
+          "evidence": [
+            {
+              "field": "voice_numbers",
+              "value": [
+                "150"
+              ],
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "cost",
+              "value": "unknown",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "target",
+              "value": "anyone in a life-threatening emergency",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            },
+            {
+              "field": "geography",
+              "value": "Western Sahara",
+              "source_type": "aggregator_directory",
+              "confidence": "medium"
+            }
+          ]
+        }
+      },
+      "source_artifact": "sources/web_verified_crisis_directory/web_verified_directory_v2_preview.json",
+      "field_actions": {
+        "sources": "append_unique",
+        "notes": "fill_if_empty",
+        "provenance": "merge_provenance"
+      },
+      "safety_flags": [
+        "canonical_country_has_only_legacy_records"
+      ],
+      "requires_human_review": true
+    }
+  ]
+}
