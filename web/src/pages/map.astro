@@ -254,7 +254,13 @@ import Base from '../layouts/Base.astro';
           if (i <= 0) break;
           n = n.slice(0, i).trim();
         }
-        if (/^\d\)/.test(n) && !n.includes('(')) n = '(' + n;
+        while (
+          (n.split(')').length - 1) > (n.split('(').length - 1) &&
+          n.endsWith(')')
+        ) {
+          n = n.slice(0, -1).trim();
+        }
+        if (/^\d+\)/.test(n) && !n.includes('(')) n = '(' + n;
         return n;
       }
 

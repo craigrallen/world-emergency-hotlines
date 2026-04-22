@@ -18,7 +18,8 @@ const badgeTone: Record<string, string> = {
 const tone = badgeTone[hotline.verification_status] ?? badgeTone.legacy_unverified;
 
 // Defensive sanitizer: protect the UI from any residual parse artefacts.
-// A well-formed number should not end with an unclosed " (...".
+// A well-formed number should not end with an unclosed " (..." nor start
+// with a bare "NN)" (country/area code that lost its leading paren).
 function cleanNumber(raw: string): string {
   let n = String(raw).trim();
   // Trim trailing unclosed-paren labels: "0800 123 456 (UK" -> "0800 123 456"
@@ -27,8 +28,15 @@ function cleanNumber(raw: string): string {
     if (i <= 0) break;
     n = n.slice(0, i).trim();
   }
-  // Restore leading "(" on orphan "N) 12345" (lost in an upstream splitter)
-  if (/^\d\)/.test(n) && !n.includes('(')) n = '(' + n;
+  // Trim orphan trailing ')' without a matching '(' — e.g. "4357)" -> "4357"
+  while (
+    n.split(')').length - 1 > n.split('(').length - 1 &&
+    n.endsWith(')')
+  ) {
+    n = n.slice(0, -1).trim();
+  }
+  // Restore leading "(" on orphan "NN) 12345" (any digit count, lost in splitter)
+  if (/^\d+\)/.test(n) && !n.includes('(')) n = '(' + n;
   return n;
 }
 

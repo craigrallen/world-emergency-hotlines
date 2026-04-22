@@ -1128,7 +1128,7 @@
           }
         },
         {
-          "name": "Centro de Atencíon al Familiar del Suicida (054-011) 4758 2554)",
+          "name": "Centro de Atencíon al Familiar del Suicida",
           "organization": "Centro de Atencíon al Familiar del Suicida",
           "category": "suicide_crisis",
           "voice_numbers": [
@@ -1463,7 +1463,7 @@
           "organization": "Centro de Atención Familiar",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "011) 4758-2554",
+            "(011) 4758-2554",
             "011"
           ],
           "sms_numbers": [],
@@ -9917,64 +9917,64 @@
           "category": "suicide_crisis",
           "voice_numbers": [
             "55 11 31514109",
-            "16) 636 4111",
-            "91) 3223-0074",
-            "71) 244 6936",
-            "31) 334-4111",
-            "93) 522-0050",
-            "65) 321 4111",
-            "11) 4972 4111",
-            "41) 342 4111",
-            "13) 234 4111",
-            "85) 3465-1010",
-            "11) 448 4111",
-            "62) 223 4041",
-            "11) 744 4111",
-            "83) 241 4111",
-            "16) 272 4111",
-            "84) 3 221 4111",
-            "21) 2604-4332",
-            "51) 224 6111",
-            "17) 233 4111",
-            "21) 233 9191",
-            "12) 321 4111",
-            "21) 236 0536",
-            "41) 3381-5986",
-            "27) 223 4111",
-            "11) 247 4111",
-            "19) 460 4111",
-            "11) 5754111",
-            "16) 236 4111",
-            "11) 6197-4111",
-            "31) 444 1818",
-            "11) 577 4111",
+            "(16) 636 4111",
+            "(91) 3223-0074",
+            "(71) 244 6936",
+            "(31) 334-4111",
+            "(93) 522-0050",
+            "(65) 321 4111",
+            "(11) 4972 4111",
+            "(41) 342 4111",
+            "(13) 234 4111",
+            "(85) 3465-1010",
+            "(11) 448 4111",
+            "(62) 223 4041",
+            "(11) 744 4111",
+            "(83) 241 4111",
+            "(16) 272 4111",
+            "(84) 3 221 4111",
+            "(21) 2604-4332",
+            "(51) 224 6111",
+            "(17) 233 4111",
+            "(21) 233 9191",
+            "(12) 321 4111",
+            "(21) 236 0536",
+            "(41) 3381-5986",
+            "(27) 223 4111",
+            "(11) 247 4111",
+            "(19) 460 4111",
+            "(11) 5754111",
+            "(16) 236 4111",
+            "(11) 6197-4111",
+            "(31) 444 1818",
+            "(11) 577 4111",
             "47 329 4111",
-            "11) 825 4111",
-            "61) 326 4111",
-            "11) 3242-4111",
-            "83) 321-4441",
-            "11) 883 4111",
-            "19) 272-7777",
-            "15) 232 4111",
-            "67) 383 4112",
-            "12) 233-4111",
-            "48) 422 4111",
-            "21) 2208-9898",
-            "16) 3721-4111",
-            "34) 3317-4111",
-            "11) 6440-4111",
-            "34) 3212-7583",
-            "19) 451 4111",
-            "24) 3343-7666",
-            "11) 7782 4111",
-            "13) 3467 4111",
-            "21) 2613-4141",
-            "43) 3356-411",
-            "51) 3065-4111",
-            "081) 3231-4141",
-            "19) 422 4111",
-            "81) 3421-7311",
-            "24) 3360-9685"
+            "(11) 825 4111",
+            "(61) 326 4111",
+            "(11) 3242-4111",
+            "(83) 321-4441",
+            "(11) 883 4111",
+            "(19) 272-7777",
+            "(15) 232 4111",
+            "(67) 383 4112",
+            "(12) 233-4111",
+            "(48) 422 4111",
+            "(21) 2208-9898",
+            "(16) 3721-4111",
+            "(34) 3317-4111",
+            "(11) 6440-4111",
+            "(34) 3212-7583",
+            "(19) 451 4111",
+            "(24) 3343-7666",
+            "(11) 7782 4111",
+            "(13) 3467 4111",
+            "(21) 2613-4141",
+            "(43) 3356-411",
+            "(51) 3065-4111",
+            "(081) 3231-4141",
+            "(19) 422 4111",
+            "(81) 3421-7311",
+            "(24) 3360-9685"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -10068,7 +10068,7 @@
           "category": "general_support",
           "voice_numbers": [
             "+55 51 211 2888",
-            "055) 222 6811"
+            "(055) 222 6811"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -13269,7 +13269,7 @@
           "organization": "Suicide Action Montreal",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "514) 723 4000"
+            "(514) 723 4000"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -13510,11 +13510,11 @@
           }
         },
         {
-          "name": "Trans Lifeline (877) 565-8860)",
+          "name": "Trans Lifeline",
           "organization": "Trans Lifeline",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "877) 565-8860"
+            "(877) 565-8860"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -16931,7 +16931,7 @@
           "organization": "Lifeline Yanji",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "0433) 273 9595"
+            "(0433) 273 9595"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -21878,7 +21878,7 @@
           "category": "suicide_crisis",
           "voice_numbers": [
             "593 2 6000 477",
-            "593) 2 2923327"
+            "(593) 2 2923327"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -26503,7 +26503,7 @@
           "organization": "Ba Methodist Lifeline Counselling Service",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "0679) 670565"
+            "(0679) 670565"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -26537,7 +26537,7 @@
           "organization": "Wesley Church Counselling Services (Lifeline)",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "0679) 302998"
+            "(0679) 302998"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -37250,7 +37250,7 @@
           "organization": "T.E.S. Miskolc",
           "category": "general_support",
           "voice_numbers": [
-            "46) 323 888"
+            "(46) 323 888"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -37283,7 +37283,7 @@
           "organization": "SOS Telefon Lelkisegely Alapitvany",
           "category": "general_support",
           "voice_numbers": [
-            "62) 420 111"
+            "(62) 420 111"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -53262,7 +53262,7 @@
           "organization": "Befrienders Malacca",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "06) 284 2500"
+            "(06) 284 2500"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -53295,8 +53295,8 @@
           "organization": "Befrienders Penang",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "04) 281 5161",
-            "04) 281 1108"
+            "(04) 281 5161",
+            "(04) 281 1108"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -53330,8 +53330,8 @@
           "organization": "The Befrienders Kuala Lumpur",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "03) 7956 8144",
-            "03) 7956 8145"
+            "(03) 7956 8144",
+            "(03) 7956 8145"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -53366,8 +53366,8 @@
           "organization": "Befrienders Ipoh",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "05) 547 7933",
-            "05) 547 7599"
+            "(05) 547 7933",
+            "(05) 547 7599"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -53436,9 +53436,9 @@
           "organization": "Lifeline Association of Malaysia",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "063) 92850039",
-            "063) 92850279",
-            "063) 92850049"
+            "(063) 92850039",
+            "(063) 92850279",
+            "(063) 92850049"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -58290,7 +58290,7 @@
           }
         },
         {
-          "name": "De Kindertelefoon (0800-0432 (11)",
+          "name": "De Kindertelefoon",
           "organization": "De Kindertelefoon",
           "category": "general_support",
           "voice_numbers": [
@@ -60456,7 +60456,7 @@
             "0800 LIFELINE"
           ],
           "sms_numbers": [
-            "4357)"
+            "4357"
           ],
           "text_numbers": [],
           "short_codes": [],
@@ -60558,7 +60558,7 @@
           "organization": "Lifeline Auckland",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "09) 522 2999"
+            "(09) 522 2999"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -60591,7 +60591,7 @@
           "organization": "Marlborough",
           "category": "general_support",
           "voice_numbers": [
-            "03) 578 2333"
+            "(03) 578 2333"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -60624,7 +60624,7 @@
           "organization": "Wairarapa",
           "category": "general_support",
           "voice_numbers": [
-            "06) 379 8442"
+            "(06) 379 8442"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -60657,7 +60657,7 @@
           "organization": "Lifeline National Office",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "64) 03 353 1136"
+            "(64) 03 353 1136"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -60690,7 +60690,7 @@
           "organization": "Lifeline Christchurch",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "03) 366 6743"
+            "(03) 366 6743"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -60723,7 +60723,7 @@
           "organization": "Otago",
           "category": "general_support",
           "voice_numbers": [
-            "03) 474 9111"
+            "(03) 474 9111"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -60756,7 +60756,7 @@
           "organization": "Waikato",
           "category": "general_support",
           "voice_numbers": [
-            "07) 838 0719"
+            "(07) 838 0719"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -60789,7 +60789,7 @@
           "organization": "Southland",
           "category": "general_support",
           "voice_numbers": [
-            "03) 214 4889"
+            "(03) 214 4889"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -60822,7 +60822,7 @@
           "organization": "Nelson",
           "category": "general_support",
           "voice_numbers": [
-            "03) 546 8899"
+            "(03) 546 8899"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -60855,7 +60855,7 @@
           "organization": "Taranaki",
           "category": "general_support",
           "voice_numbers": [
-            "06) 758 6333"
+            "(06) 758 6333"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -60888,7 +60888,7 @@
           "organization": "Hawkes Bay",
           "category": "general_support",
           "voice_numbers": [
-            "06) 835 3300"
+            "(06) 835 3300"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -60921,7 +60921,7 @@
           "organization": "South Canterbury",
           "category": "general_support",
           "voice_numbers": [
-            "03) 684 4666"
+            "(03) 684 4666"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -60954,7 +60954,7 @@
           "organization": "Whangarei",
           "category": "general_support",
           "voice_numbers": [
-            "09) 437 5055"
+            "(09) 437 5055"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -60987,7 +60987,7 @@
           "organization": "Samaritans Hutt Valley (inc)",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "04) 586 1048"
+            "(04) 586 1048"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -61022,7 +61022,7 @@
           "organization": "Samaritans of Manawatu Inc",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "06) 358 2442"
+            "(06) 358 2442"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -61057,7 +61057,7 @@
           "organization": "Rotorua Lifelink/Youthline",
           "category": "youth",
           "voice_numbers": [
-            "07) 348 0567",
+            "(07) 348 0567",
             "(7) 348 0566",
             "(7) 348 0565"
           ],
@@ -61094,7 +61094,7 @@
           "organization": "Samaritans of Tauranga",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "07) 578 1002"
+            "(07) 578 1002"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -61129,7 +61129,7 @@
           "organization": "Samaritans of Wanganui",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "06) 345 5090"
+            "(06) 345 5090"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -61164,7 +61164,7 @@
           "organization": "Samaritans of Wellington",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "04) 473 9739"
+            "(04) 473 9739"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -61199,7 +61199,7 @@
           "organization": "Samaritans of Horowhenua",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "06) 368 2122"
+            "(06) 368 2122"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -62661,7 +62661,7 @@
           "organization": "Nigeria Suicide Hotline",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "234) 8062-106-493"
+            "(234) 8062-106-493"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -65688,7 +65688,7 @@
           "organization": "Manila Lifeline Centre",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "02) 8969191",
+            "(02) 8969191",
             "0917 854 9191"
           ],
           "sms_numbers": [],
@@ -67421,7 +67421,7 @@
           "organization": "Telefone SOS Palavra Amiga",
           "category": "general_support",
           "voice_numbers": [
-            "232) 42 42 82"
+            "(232) 42 42 82"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -67454,7 +67454,7 @@
           "organization": "Linha SOS-Estudante",
           "category": "general_support",
           "voice_numbers": [
-            "808) 200 204"
+            "(808) 200 204"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -69667,7 +69667,7 @@
           "organization": "Linja Telefonike e Ndihmës (KOAPS)",
           "category": "general_support",
           "voice_numbers": [
-            "044) 08080"
+            "(044) 08080"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -70259,7 +70259,7 @@
           "organization": "Linja Telefonike e Ndihmës (KOAPS)",
           "category": "general_support",
           "voice_numbers": [
-            "044) 08080"
+            "(044) 08080"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -73849,7 +73849,7 @@
           "organization": "Cheju",
           "category": "general_support",
           "voice_numbers": [
-            "064) 52 9191"
+            "(064) 52 9191"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -73882,7 +73882,7 @@
           "organization": "Choongju",
           "category": "general_support",
           "voice_numbers": [
-            "0441) 847-9191"
+            "(0441) 847-9191"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -73915,7 +73915,7 @@
           "organization": "Chunju",
           "category": "general_support",
           "voice_numbers": [
-            "0652) 86-9191"
+            "(0652) 86-9191"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -73948,7 +73948,7 @@
           "organization": "Inchon",
           "category": "general_support",
           "voice_numbers": [
-            "032) 421 9191"
+            "(032) 421 9191"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -73981,7 +73981,7 @@
           "organization": "Puchon",
           "category": "general_support",
           "voice_numbers": [
-            "032) 663-9191"
+            "(032) 663-9191"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -74014,7 +74014,7 @@
           "organization": "Pohang",
           "category": "general_support",
           "voice_numbers": [
-            "0562) 72-9191"
+            "(0562) 72-9191"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -74047,7 +74047,7 @@
           "organization": "Koyang",
           "category": "general_support",
           "voice_numbers": [
-            "0344) 915-9191"
+            "(0344) 915-9191"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -74080,7 +74080,7 @@
           "organization": "Kimhae",
           "category": "general_support",
           "voice_numbers": [
-            "0525) 21-9191"
+            "(0525) 21-9191"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -74113,7 +74113,7 @@
           "organization": "Ulsan",
           "category": "general_support",
           "voice_numbers": [
-            "0522) 67-9191"
+            "(0522) 67-9191"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -74146,7 +74146,7 @@
           "organization": "Pusan",
           "category": "general_support",
           "voice_numbers": [
-            "051) 807-9191"
+            "(051) 807-9191"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -74212,7 +74212,7 @@
           "organization": "Lifeline National Office",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "82) 51 804 0896"
+            "(82) 51 804 0896"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -74245,7 +74245,7 @@
           "organization": "West Seoul Saengmyung Eui Chunhwa",
           "category": "general_support",
           "voice_numbers": [
-            "81) 2 2649 9232"
+            "(81) 2 2649 9232"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -74278,7 +74278,7 @@
           "organization": "Seoul",
           "category": "general_support",
           "voice_numbers": [
-            "02) 916-9191"
+            "(02) 916-9191"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -74311,7 +74311,7 @@
           "organization": "Taegu",
           "category": "general_support",
           "voice_numbers": [
-            "053) 475-9191"
+            "(053) 475-9191"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -74344,7 +74344,7 @@
           "organization": "Taejon",
           "category": "general_support",
           "voice_numbers": [
-            "042) 254-9191"
+            "(042) 254-9191"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -75476,7 +75476,7 @@
           "organization": "Sri Lanka Sumithrayo - Kandy",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "081) 2234 806"
+            "(081) 2234 806"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -75542,7 +75542,7 @@
           "organization": "Sri Lanka Sumithrayo - Panadura",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "038) 2235291"
+            "(038) 2235291"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -75784,7 +75784,7 @@
           "organization": "Befrienders Khartoum",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "249) 11-555-253"
+            "(249) 11-555-253"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -76750,7 +76750,7 @@
           "organization": "Nagon att tala med Samaritans",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "46) 31 711 2400"
+            "(46) 31 711 2400"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -78230,7 +78230,7 @@
           "organization": "Samaritans of Chiang Mai",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "53) 225 977"
+            "(53) 225 977"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -78972,7 +78972,7 @@
           "organization": "Lifeline",
           "category": "suicide_crisis",
           "voice_numbers": [
-            "868) 645 2800",
+            "(868) 645 2800",
             "645 6616"
           ],
           "sms_numbers": [],
