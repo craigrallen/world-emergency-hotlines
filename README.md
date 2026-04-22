@@ -14,6 +14,7 @@ A project to build a definitive, exhaustive reference of every country's emergen
 | `tests/test_web_verified_directory_preview.py` | Regression checks that the supplemental preview stays schema-v2, non-canonical, and cannot downgrade protected rich records |
 | `COVERAGE.md` | Per-country coverage status: verified, legacy, or missing |
 | `VERIFICATION_LOG.md` | Running log of which sources were used to verify which numbers |
+| `docs/plans/2026-04-22-v2-data-expansion-roadmap.md` | Concrete implementation roadmap for safe schema-v2 data expansion and promotion |
 | `README.md` | This file |
 
 ## Scope
