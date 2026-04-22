@@ -142,6 +142,7 @@ def nav(active: str | None = None) -> str:
     </a>
     <nav class="flex items-center gap-5 text-sm">
       {link('/', 'Find a line', 'home')}
+      {link('/map.html', 'Map', 'map')}
       {link('/about.html', 'About', 'about')}
       <a href="https://github.com/craigrallen/world-emergency-hotlines" class="text-slate-600 hover:text-slate-900" rel="noopener">Source</a>
     </nav>
@@ -512,7 +513,7 @@ def build_robots():
 
 
 def build_sitemap(data):
-    urls = ["https://hotlines.world/", "https://hotlines.world/about.html"]
+    urls = ["https://hotlines.world/", "https://hotlines.world/map.html", "https://hotlines.world/about.html"]
     for c in data["countries"]:
         if c["hotlines"]:
             urls.append(f'https://hotlines.world/country/{c["alpha-2"].lower()}.html')
@@ -525,19 +526,151 @@ def build_sitemap(data):
     return body
 
 
+def build_map(data):
+    """Interactive world map — every country is a clickable SVG path."""
+    svg_path = SITE / "assets" / "world-map.svg"
+    if not svg_path.exists():
+        return "<!-- world-map.svg missing -->"
+    svg = svg_path.read_text(encoding="utf-8")
+    # Strip XML declaration / BOM and the outer <svg> wrapping so we can restyle
+    svg = re.sub(r"^\ufeff", "", svg)
+    svg = re.sub(r"<\?xml[^?]*\?>", "", svg)
+
+    # Build a lookup of country data for tooltips
+    counts = {}
+    country_names = {}
+    for c in data["countries"]:
+        a2 = (c.get("alpha-2") or "").lower()
+        if a2:
+            counts[a2] = len(c["hotlines"])
+            country_names[a2] = c["country"]
+
+    # Inject per-country data attributes and css class
+    def rewrite_path(m):
+        attrs_str = m.group(1)
+        id_m = re.search(r'id="([a-z0-9_-]+)"', attrs_str)
+        if not id_m:
+            return m.group(0)
+        code = id_m.group(1).split("-")[0]
+        count = counts.get(code, 0)
+        name = country_names.get(code)
+        if not name:
+            aria_m = re.search(r'aria-label="([^"]+)"', attrs_str)
+            name = aria_m.group(1) if aria_m else ""
+        attrs_str = re.sub(r'\s*class="[^"]*"', '', attrs_str)
+        attrs_str = re.sub(r'\s*style="[^"]*"', '', attrs_str)
+        attrs_str += f' class="c" data-code="{code}" data-count="{count}" data-name="{esc(name)}" tabindex="0"'
+        return f'<path{attrs_str}/>'
+
+    svg = re.sub(r'<path([^/]*)/>', rewrite_path, svg)
+
+    total_hotlines = sum(counts.values())
+    with_data = sum(1 for v in counts.values() if v)
+
+    return page_head(
+        "Interactive world map - Hotlines.world",
+        "Click any country on the interactive map to see its emergency and crisis support helplines.",
+        "https://hotlines.world/map.html",
+    ) + f"""
+<body class="bg-slate-50 text-slate-900 antialiased">
+{nav(active='map')}
+{in_crisis_banner()}
+
+<main class="max-w-6xl mx-auto px-4 sm:px-6 py-6">
+  <div class="flex items-start justify-between gap-4 mb-4">
+    <div>
+      <h1 class="text-2xl sm:text-3xl font-bold">World map</h1>
+      <p class="text-sm text-slate-500 mt-1">Click any country to see its hotlines. {total_hotlines:,} hotlines across {with_data} territories.</p>
+    </div>
+  </div>
+
+  <div class="relative bg-white border border-slate-200 rounded-xl overflow-hidden">
+    <div id="tooltip" role="status" aria-live="polite"
+         class="absolute z-10 pointer-events-none bg-slate-900 text-white text-sm px-3 py-2 rounded-lg shadow-lg opacity-0 transition-opacity"
+         style="left:0; top:0;"></div>
+    <div class="p-2 sm:p-4 overflow-auto" id="mapwrap" style="min-height:350px;">
+      {svg}
+    </div>
+  </div>
+
+  <p class="mt-3 text-xs text-slate-500">Map data based on Natural Earth (public domain), rendered via svg-maps/world. Countries shaded by number of hotlines on record.</p>
+</main>
+
+<style>
+  #mapwrap svg {{ width: 100%; height: auto; max-height: 80vh; display: block; }}
+  #mapwrap svg .c {{
+    fill: #e2e8f0;
+    stroke: #94a3b8;
+    stroke-width: 0.4;
+    cursor: pointer;
+    transition: fill 120ms;
+  }}
+  #mapwrap svg .c[data-count="0"] {{ fill: #f1f5f9; cursor: default; }}
+  #mapwrap svg .c.t1 {{ fill: #fee2e2; }}
+  #mapwrap svg .c.t2 {{ fill: #fca5a5; }}
+  #mapwrap svg .c.t3 {{ fill: #ef4444; }}
+  #mapwrap svg .c.t4 {{ fill: #b91c1c; }}
+  #mapwrap svg .c:hover, #mapwrap svg .c:focus {{ fill: #0f172a; stroke: #0f172a; outline: none; }}
+</style>
+
+<script>
+(function() {{
+  const wrap = document.getElementById('mapwrap');
+  const tip = document.getElementById('tooltip');
+  for (const p of wrap.querySelectorAll('path.c')) {{
+    const n = parseInt(p.getAttribute('data-count') || '0', 10);
+    if (n >= 20) p.classList.add('t4');
+    else if (n >= 10) p.classList.add('t3');
+    else if (n >= 5) p.classList.add('t2');
+    else if (n >= 1) p.classList.add('t1');
+  }}
+  const goto = (p) => {{
+    const code = p.getAttribute('data-code');
+    const n = parseInt(p.getAttribute('data-count') || '0', 10);
+    if (code && n > 0) window.location.href = '/country/' + code + '.html';
+  }};
+  wrap.addEventListener('click', e => {{
+    const p = e.target.closest('path.c');
+    if (p) goto(p);
+  }});
+  wrap.addEventListener('keydown', e => {{
+    if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('path.c')) {{
+      e.preventDefault();
+      goto(e.target);
+    }}
+  }});
+  const move = (e) => {{
+    const p = e.target.closest('path.c');
+    if (!p) {{ tip.style.opacity = '0'; return; }}
+    const name = p.getAttribute('data-name') || p.getAttribute('data-code');
+    const n = parseInt(p.getAttribute('data-count') || '0', 10);
+    tip.innerHTML = '<div class="font-semibold">' + name + '</div>' +
+                    '<div class="text-slate-300 text-xs">' + (n ? (n + ' hotline' + (n===1?'':'s') + ' - click to view') : 'no data') + '</div>';
+    const rect = wrap.getBoundingClientRect();
+    tip.style.left = (e.clientX - rect.left + 16) + 'px';
+    tip.style.top = (e.clientY - rect.top + 16) + 'px';
+    tip.style.opacity = '1';
+  }};
+  wrap.addEventListener('mousemove', move);
+  wrap.addEventListener('mouseleave', () => {{ tip.style.opacity = '0'; }});
+}})();
+</script>
+
+{footer()}
+</body></html>"""
+
+
 def main():
     data = json.loads(SRC.read_text(encoding="utf-8"))
 
-    # Don't rmtree (OneDrive locks sub-files); just (re)create dirs and overwrite.
     (OUT / "country").mkdir(parents=True, exist_ok=True)
     (OUT / "category").mkdir(parents=True, exist_ok=True)
 
-    # home
     (OUT / "index.html").write_text(build_home(data), encoding="utf-8")
     (OUT / "about.html").write_text(build_about(), encoding="utf-8")
     (OUT / "404.html").write_text(build_404(), encoding="utf-8")
+    (OUT / "map.html").write_text(build_map(data), encoding="utf-8")
 
-    # country pages
     for c in data["countries"]:
         if not c.get("alpha-2"):
             continue
@@ -545,7 +678,6 @@ def main():
             build_country_page(c), encoding="utf-8"
         )
 
-    # category pages
     cat_entries = defaultdict(list)
     for c in data["countries"]:
         for h in c["hotlines"]:
@@ -555,7 +687,6 @@ def main():
             build_category_page(cat, entries), encoding="utf-8"
         )
 
-    # supporting files
     (OUT / "data.json").write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
     (OUT / "robots.txt").write_text(build_robots(), encoding="utf-8")
     (OUT / "sitemap.xml").write_text(build_sitemap(data), encoding="utf-8")
