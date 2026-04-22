@@ -1,0 +1,163 @@
+[
+  {
+    "country": "Botswana",
+    "alpha-2": "BW",
+    "alpha-3": "BWA",
+    "region": "Africa",
+    "subregion": "Southern Africa",
+    "general_emergency": ["997", "998", "999"],
+    "notes": "997 ambulance, 998 fire, 999 police.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["997", "998", "999", "112"], "hours": "24/7", "languages": ["English", "Setswana"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Lifeline Botswana", "organization": "Lifeline Botswana", "category": "suicide_crisis", "voice_numbers": ["3911270"], "hours": "daily 8am-8pm", "languages": ["English", "Setswana"], "cost": "standard_rate", "target": "people in emotional distress", "sources": []},
+      {"name": "Childline Botswana", "organization": "Childline Botswana", "category": "child_protection", "voice_numbers": ["116"], "hours": "24/7", "languages": ["English", "Setswana"], "cost": "free", "target": "children at risk", "website": "https://www.childlinebotswana.org.bw", "sources": []}
+    ]
+  },
+  {
+    "country": "Namibia",
+    "alpha-2": "NA",
+    "alpha-3": "NAM",
+    "region": "Africa",
+    "subregion": "Southern Africa",
+    "general_emergency": ["10111"],
+    "notes": "10111 police, 211111 ambulance (Windhoek), 203 2670 fire (Windhoek).",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["10111", "112"], "hours": "24/7", "languages": ["English", "Afrikaans"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Lifeline/Childline Namibia", "organization": "Lifeline/Childline Namibia", "category": "suicide_crisis", "voice_numbers": ["106"], "hours": "24/7", "languages": ["English", "Afrikaans", "Oshiwambo"], "cost": "free", "target": "people in crisis and children", "website": "https://www.lifelinechildline.org.na", "sources": ["https://www.lifelinechildline.org.na"]},
+      {"name": "Gender Based Violence Helpline", "organization": "Ministry of Gender Equality", "category": "domestic_violence", "voice_numbers": ["106"], "hours": "24/7", "languages": ["English"], "cost": "free", "target": "GBV survivors", "sources": []}
+    ]
+  },
+  {
+    "country": "Zambia",
+    "alpha-2": "ZM",
+    "alpha-3": "ZMB",
+    "region": "Africa",
+    "subregion": "Sub-Saharan Africa",
+    "general_emergency": ["991", "993", "999"],
+    "notes": "991 ambulance, 993 fire, 999 police.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["991", "993", "999"], "hours": "24/7", "languages": ["English", "Bemba", "Nyanja"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Lifeline Zambia", "organization": "Lifeline Zambia / Childline", "category": "suicide_crisis", "voice_numbers": ["933"], "hours": "24/7", "languages": ["English"], "cost": "free", "target": "people in distress and children", "sources": []},
+      {"name": "GBV Call Centre 116", "organization": "YWCA Zambia", "category": "domestic_violence", "voice_numbers": ["116"], "hours": "24/7", "languages": ["English"], "cost": "free", "target": "GBV survivors", "website": "https://ywca-zambia.org", "sources": []}
+    ]
+  },
+  {
+    "country": "Mozambique",
+    "alpha-2": "MZ",
+    "alpha-3": "MOZ",
+    "region": "Africa",
+    "subregion": "Sub-Saharan Africa",
+    "general_emergency": ["119", "197", "198"],
+    "notes": "119 police, 197 fire, 198 ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["119", "197", "198"], "hours": "24/7", "languages": ["Portuguese"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Linha Fala Criança 116", "organization": "Ministry of Gender, Children and Social Action", "category": "child_protection", "voice_numbers": ["116"], "hours": "Mon-Fri 8am-5pm", "languages": ["Portuguese"], "cost": "free", "target": "children at risk", "sources": []}
+    ]
+  },
+  {
+    "country": "Angola",
+    "alpha-2": "AO",
+    "alpha-3": "AGO",
+    "region": "Africa",
+    "subregion": "Sub-Saharan Africa",
+    "general_emergency": ["113", "115", "118"],
+    "notes": "113 police, 115 ambulance, 118 fire.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["113", "115", "118"], "hours": "24/7", "languages": ["Portuguese"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "SOS Criança Linha 15015", "organization": "INAC", "category": "child_protection", "voice_numbers": ["15015"], "hours": "24/7", "languages": ["Portuguese"], "cost": "free", "target": "children in need", "sources": []}
+    ]
+  },
+  {
+    "country": "Senegal",
+    "alpha-2": "SN",
+    "alpha-3": "SEN",
+    "region": "Africa",
+    "subregion": "Sub-Saharan Africa",
+    "general_emergency": ["17", "18", "1515"],
+    "notes": "17 police, 18 fire/ambulance, 1515 medical SAMU.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["17", "18", "1515"], "hours": "24/7", "languages": ["French", "Wolof"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Allô Enfance en Détresse 116", "organization": "Ministry of Family", "category": "child_protection", "voice_numbers": ["116"], "hours": "24/7", "languages": ["French", "Wolof"], "cost": "free", "target": "children at risk", "sources": []}
+    ]
+  },
+  {
+    "country": "Ivory Coast",
+    "alpha-2": "CI",
+    "alpha-3": "CIV",
+    "region": "Africa",
+    "subregion": "Sub-Saharan Africa",
+    "general_emergency": ["110", "180", "185"],
+    "notes": "110 police, 180 fire, 185 SAMU.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["110", "180", "185"], "hours": "24/7", "languages": ["French"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "116 Allô Enfance", "organization": "Ministry of Women, Family and Child", "category": "child_protection", "voice_numbers": ["116"], "hours": "24/7", "languages": ["French"], "cost": "free", "target": "children at risk", "sources": []}
+    ]
+  },
+  {
+    "country": "Tunisia",
+    "alpha-2": "TN",
+    "alpha-3": "TUN",
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "general_emergency": ["197", "190", "198"],
+    "notes": "197 police, 190 ambulance (SAMU), 198 civil protection/fire.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["197", "190", "198", "112"], "hours": "24/7", "languages": ["Arabic", "French"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Ligne verte 1899 (Violence against Women)", "organization": "Ministry of Women, Family, Children and Elderly", "category": "domestic_violence", "voice_numbers": ["1899"], "hours": "24/7", "languages": ["Arabic", "French"], "cost": "free", "target": "women victims of violence", "sources": []},
+      {"name": "Child Helpline 1809", "organization": "Délégué à la Protection de l'Enfance", "category": "child_protection", "voice_numbers": ["1809"], "hours": "24/7", "languages": ["Arabic", "French"], "cost": "free", "target": "children at risk", "sources": []}
+    ]
+  },
+  {
+    "country": "Algeria",
+    "alpha-2": "DZ",
+    "alpha-3": "DZA",
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "general_emergency": ["17", "14", "1548"],
+    "notes": "17 police, 14 ambulance (SAMU), 1548 fire (civil protection).",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["17", "14", "1548"], "hours": "24/7", "languages": ["Arabic", "French", "Berber"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Child Protection Helpline 3131", "organization": "Ministry of National Solidarity", "category": "child_protection", "voice_numbers": ["3131"], "hours": "24/7", "languages": ["Arabic", "French"], "cost": "free", "target": "children in danger", "sources": []},
+      {"name": "SOS Femmes en détresse", "organization": "SOS Femmes en Détresse", "category": "domestic_violence", "voice_numbers": ["021 74 94 64"], "hours": "Sun-Thu 9am-5pm", "languages": ["Arabic", "French"], "cost": "standard_rate", "target": "women victims of violence", "website": "https://www.sos-femmes-en-detresse.org", "sources": []}
+    ]
+  },
+  {
+    "country": "Cameroon",
+    "alpha-2": "CM",
+    "alpha-3": "CMR",
+    "region": "Africa",
+    "subregion": "Sub-Saharan Africa",
+    "general_emergency": ["117", "118", "119"],
+    "notes": "117 police, 118 fire, 119 ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["117", "118", "119"], "hours": "24/7", "languages": ["French", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Cameroon Child Protection Helpline 116", "organization": "Ministry of Social Affairs", "category": "child_protection", "voice_numbers": ["116"], "hours": "24/7", "languages": ["French", "English"], "cost": "free", "target": "children at risk", "sources": []}
+    ]
+  },
+  {
+    "country": "Madagascar",
+    "alpha-2": "MG",
+    "alpha-3": "MDG",
+    "region": "Africa",
+    "subregion": "Sub-Saharan Africa",
+    "general_emergency": ["117", "118", "124"],
+    "notes": "117 police, 118 fire, 124 ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["117", "118", "124"], "hours": "24/7", "languages": ["Malagasy", "French"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Allô Fanantenana", "organization": "SOS Saina", "category": "suicide_crisis", "voice_numbers": ["+261 32 21 010 51"], "hours": "varies", "languages": ["Malagasy", "French"], "cost": "standard_rate", "target": "people in crisis", "sources": []}
+    ]
+  },
+  {
+    "country": "DR Congo",
+    "alpha-2": "CD",
+    "alpha-3": "COD",
+    "region": "Africa",
+    "subregion": "Sub-Saharan Africa",
+    "general_emergency": ["112"],
+    "notes": "Limited standardised emergency infrastructure; in Kinshasa dial 112 or local police precinct. Red Cross: 9911; fire (BSP): 118.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "118", "9911"], "hours": "24/7", "languages": ["French", "Lingala", "Swahili"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Ligne Verte Panzi", "organization": "Panzi Foundation", "category": "sexual_violence", "voice_numbers": ["+243 99 0000 000"], "hours": "Mon-Fri 8am-5pm", "languages": ["French", "Swahili"], "cost": "standard_rate", "target": "survivors of sexual violence", "website": "https://panzifoundation.org", "sources": ["https://panzifoundation.org"]}
+    ]
+  }
+]

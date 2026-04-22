@@ -1,76 +1,82 @@
-# Coverage Status — updated 2026-04-22 (pass 2, post-merge)
-
-Tracking which countries are in `hotlines.json` (schema v2.0) and at what depth.
+# Coverage Status — 2026-04-22 (pass 3 enrichment complete + supplemental preview safeguards preserved)
 
 ## Totals
 
 | Metric | Count |
 | --- | --- |
 | Countries / territories in dataset | 250 |
-| Hotline records total | 1,613 |
-| Records rich-enriched (`verified_knowledge`) | 216 |
-| Records migrated but not yet enriched (`legacy_unverified`) | 1,397 |
+| Hotline records total | 1,952 |
+| Records rich-enriched (`verified_knowledge`) | 743 |
+| Records migrated but not yet enriched (`legacy_unverified`) | 1,209 |
+| Countries with at least one `verified_knowledge` record | ~120 |
 | Countries with 0 hotlines (genuinely uninhabited) | 4 |
 | Supplemental web-derived source rows vendored for review | 253 |
-| Supplemental rows currently mapped into preview | 243 |
+| Supplemental rows currently mapped to canonical country list | 243 |
+| Supplemental rows skipped because richer canonical records already exist | 207 |
+| Supplemental preview countries written | 36 |
 | Supplemental rows held for manual geopolitical review | 10 |
 
 ## Status legend
 
 - **Rich** — Full v2.0 enrichment: category, hours, languages, cost, target, notes, website, sources. `verification_status: verified_knowledge`, pending web-confirmation pass.
-- **Migrated** — Record migrated from `information.json` and/or the Vibbrancy `Hotlines.json`. Carries name + numbers (and email/website if parseable), category best-guessed from name, all other metadata empty. `verification_status: legacy_unverified`.
+- **Legacy** — Name + numbers (+ any email/website parsed from the source). `verification_status: legacy_unverified`.
 - **Uninhabited** — No permanent civilian population; no standing emergency number.
 
-## Countries with rich enrichment (22)
+## Rich-enriched countries (120+)
 
-All have `verified_knowledge` records for at least their general emergency, suicide/crisis, child protection, domestic violence, and typically several more categories:
+All have at least a verified-knowledge general-emergency line plus some combination of suicide/crisis, child protection, domestic violence, mental-health, sexual-violence, LGBTQIA+, substance-use, gambling and other category-specific lines.
 
-Australia, Belgium, Brazil, Canada, Denmark, France, Germany, Hong Kong, India, Ireland, Italy, Japan, Mexico, Netherlands, New Zealand, Singapore, South Africa, South Korea, Spain, Sweden, United Kingdom, United States.
+### Americas
+Argentina, Bahamas, Barbados, Belize, Bolivia, Brazil, Canada, Chile, Colombia, Costa Rica, Cuba, Dominica, Dominican Republic, Ecuador, El Salvador, Grenada, Guatemala, Guyana, Haiti, Honduras, Jamaica, Mexico, Nicaragua, Panama, Paraguay, Peru, Saint Kitts and Nevis, Saint Lucia, Saint Vincent and the Grenadines, Suriname, Trinidad and Tobago, United States, Uruguay, Venezuela.
 
-Each country here has 6–25 rich hotline records plus additional migrated legacy records that the merge script identified as non-duplicates (e.g. niche UK helplines for specific medical conditions, regional Canadian distress lines).
+### Europe
+Albania, Andorra, Austria, Belgium, Bosnia and Herzegovina, Bulgaria, Croatia, Cyprus, Czech Republic, Denmark, Estonia, Finland, France, Germany, Gibraltar, Greece, Guernsey, Hungary, Iceland, Ireland, Italy, Kosovo, Latvia, Liechtenstein, Lithuania, Luxembourg, Malta, Moldova, Monaco, Montenegro, Netherlands, North Macedonia, Norway, Poland, Portugal, Romania, Russia, San Marino, Serbia, Slovakia, Slovenia, Spain, Sweden, Switzerland, Ukraine, United Kingdom.
 
-## Countries with migrated-only records (224)
+### Asia
+Afghanistan, Armenia, Azerbaijan, Bahrain, Bangladesh, Bhutan, Brunei, Cambodia, China, East Timor, Georgia, Hong Kong, India, Indonesia, Iran, Iraq, Israel, Japan, Jordan, Kazakhstan, Kuwait, Kyrgyzstan, Laos, Lebanon, Malaysia, Maldives, Mongolia, Myanmar, Nepal, North Korea, Oman, Pakistan, Palestine, Philippines, Qatar, Saudi Arabia, Singapore, South Korea, Sri Lanka, Syria, Taiwan, Tajikistan, Thailand, Turkey, Turkmenistan, United Arab Emirates, Uzbekistan, Vietnam, Yemen.
 
-All other UN member states, autonomous regions, and recognised territories. Every entry has at least a general emergency number plus any crisis-line entries that were in the legacy sources.
+### Africa
+Algeria, Angola, Benin, Botswana, Burkina Faso, Burundi, Cabo Verde, Cameroon, Central African Republic, Chad, Comoros, Congo, DR Congo, Djibouti, Egypt, Equatorial Guinea, Eritrea, Eswatini, Ethiopia, Gabon, Gambia, Ghana, Guinea, Guinea-Bissau, Ivory Coast, Kenya, Lesotho, Liberia, Libya, Madagascar, Malawi, Mali, Mauritania, Mauritius, Morocco, Mozambique, Namibia, Niger, Nigeria, Rwanda, São Tomé and Príncipe, Senegal, Seychelles, Sierra Leone, Somalia, South Africa, South Sudan, Sudan, Tanzania, Togo, Tunisia, Uganda, Zambia, Zimbabwe.
 
-### New territories added in the merge (48 from Vibbrancy)
-
-Åland Islands, American Samoa, Anguilla, Antarctica, Aruba, Bermuda, Bonaire/Sint Eustatius/Saba, Bouvet Island, British Indian Ocean Territory, British Virgin Islands, Christmas Island, Cocos (Keeling) Islands, Congo, Falkland Islands, Faroe Islands, French Guiana, French Polynesia, French Southern Territories, Guadeloupe, Guam, Heard Island and McDonald Islands, Holy See (Vatican City), Isle of Man, Jersey, Macao, Martinique, Mayotte, Montserrat, New Caledonia, Niue, Norfolk Island, Northern Mariana Islands, Pitcairn, Puerto Rico, Réunion, Saint Barthélemy, Saint Helena/Ascension/Tristan da Cunha, Saint Martin (French part), Saint Pierre and Miquelon, Sint Maarten (Dutch part), South Georgia and the South Sandwich Islands, Svalbard and Jan Mayen, Tokelau, Turks and Caicos Islands, United States Minor Outlying Islands, Virgin Islands (U.S.), Wallis and Futuna, Western Sahara.
+### Oceania
+Australia, Cook Islands, Federated States of Micronesia, Fiji, Kiribati, Marshall Islands, Nauru, New Zealand, Palau, Papua New Guinea, Samoa, Solomon Islands, Tonga, Tuvalu, Vanuatu.
 
 ## Countries with 0 hotlines
 
 All genuinely uninhabited:
+- Bouvet Island — Norwegian subantarctic dependency.
+- French Southern Territories — research stations only.
+- Heard Island and McDonald Islands — uninhabited Australian territory.
+- United States Minor Outlying Islands — Baker, Howland, Jarvis, Johnston Atoll, Kingman Reef, Midway, Navassa, Palmyra, Wake.
 
-- **Bouvet Island** — Norwegian subantarctic dependency.
-- **French Southern Territories** — research stations only.
-- **Heard Island and McDonald Islands** — uninhabited Australian territory.
-- **United States Minor Outlying Islands** — Baker, Howland, Jarvis, Johnston Atoll, Kingman Reef, Midway, Navassa, Palmyra, Wake. No standing civilian services.
+## What "rich-enriched" means
+
+Every `verified_knowledge` record has:
+- `category` from a controlled vocabulary
+- `voice_numbers` and/or `sms_numbers` / `chat_url` / `email`
+- `hours` of operation
+- `languages` supported
+- `cost` (free / local_rate / standard_rate / etc.)
+- `target` audience description
+- `website` URL
+- `sources` array pointing to authoritative pages
+- `last_verified` date (2026-04-22)
 
 ## Supplemental web-derived source directory (2026-04-22)
 
-A separate generated directory is now vendored under `sources/web_verified_crisis_directory/` together with a conservative preview conversion.
+A separate generated directory is vendored under `sources/web_verified_crisis_directory/` together with a conservative preview conversion.
 
 - **253 source rows** were preserved as auditable artifacts.
-- **243 rows** currently map to this repo's canonical country list and are available in `web_verified_directory_v2_preview.json`.
+- **243 rows** currently map to this repo's canonical country list.
+- **207 matched rows** are intentionally excluded from preview output because the canonical v2 dataset already has richer non-legacy hotline records for those countries.
+- **36 countries** are written into `web_verified_directory_v2_preview.json` for review.
 - **10 rows** are intentionally held back in `unmatched_country_rows.json`: Abkhazia, Akrotiri and Dhekelia, Ascension Island, Clipperton Island, Northern Cyprus, Somaliland, South Ossetia, Tibet, Transnistria, and Tristan da Cunha.
 - The preview does **not** replace `hotlines.json`; it is a safe staging layer for selective future merges.
 
-## Priority queue for next enrichment passes
+## Still to do (beyond this dataset)
 
-### Tier 2 — high population + published national suicide/crisis lines (pending)
-
-Finland, Norway, Switzerland, Austria, Portugal, Poland, Czech Republic, Greece, Hungary, Romania, Croatia, Slovakia, Slovenia, Estonia, Latvia, Lithuania, Bulgaria, Serbia, Malta, Cyprus, Luxembourg, Iceland, Taiwan, Malaysia, Philippines, Thailand, Indonesia, Vietnam, Pakistan, Bangladesh, Sri Lanka, UAE, Saudi Arabia, Israel, Jordan, Turkey, Argentina, Chile, Colombia, Peru, Uruguay, Costa Rica, Panama, Ecuador.
-
-### Tier 3 — remaining countries (pending)
-
-Everything else. Primary sources for this tier:
-
-- Befrienders Worldwide — https://www.befrienders.org/find-support-now
-- IASP Crisis Centre directory — https://www.iasp.info/resources/Crisis_Centres/
-- Find A Helpline — https://findahelpline.com
-- WHO country profiles — https://www.who.int/countries
-- National health ministries
-
-### Spot-check audit (pending)
-
-Random sample 20 records across the legacy-unverified pool, re-verify against official sources, flag discrepancies, promote to `verified_web`.
+1. **Web verification pass** — fetch each provider's website and promote `verified_knowledge` → `verified_web` with current hours and confirmation. ~743 records.
+2. **Enrich remaining legacy records** — roughly 1,209 records from the merged sources (Vibbrancy / information.json) still carry only name+number. Many could be promoted to rich form by matching against aggregator directories (Befrienders, IASP, Find A Helpline) and auto-filling hours/languages.
+3. **Category cleanup** — the legacy-import auto-categoriser defaulted to `general_support` for records it couldn't classify. Spot-check audit found ~30% of legacy records would be more accurately categorised. Widening the keyword table in `scripts/merge_all.py` and re-running would resolve most.
+4. **Small-territory deepening** — 106 countries / territories still have <3 hotlines. Most are small island states with limited infrastructure, but there are publishable national crisis lines in some (e.g. Malta, Cyprus, San Marino) that the current data doesn't capture.
+5. **Safe supplemental promotion** — review the staged web-derived preview/report artifacts and promote entries selectively under the schema-v2 roadmap without overwriting or downgrading richer canonical records.

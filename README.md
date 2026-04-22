@@ -52,26 +52,32 @@ Every hotline record carries a `verification_status` so consumers can see how mu
 - Populated emergency numbers for the inhabited territories that had no crisis-resource data.
 - Generated `hotlines.xlsx` (3 sheets: Hotlines with 1,958 rows + header, By Country with 250 rows, Categories legend).
 
+### Pass 3 — tier-2 and tier-3 rich enrichment
+- Authored rich JSON enrichment for all remaining countries in Europe, the Americas, Africa, Asia-Pacific, the Middle East, and Oceania — see `scripts/enrichment/*.json`.
+- Added an idempotent applicator (`scripts/apply_enrichment.py`) that merges enrichment files into `hotlines.json` without overwriting existing rich entries.
+- Ran a spot-check audit: 20 legacy records sampled at random all looked valid; one orphan (NEDA, intentional — service closed 2023). See `REPORTS/spot_check_20260422.md`.
+
 ### Current state
 - **250 countries / territories** in `hotlines.json`.
-- **1,613 hotline records**:
-  - 216 fully enriched (`verified_knowledge`) — pending web confirmation.
-  - 1,397 migrated (`legacy_unverified`) — pending enrichment.
-- **4 uninhabited territories** have no hotlines (Bouvet Island, French Southern Territories, Heard Island and McDonald Islands, US Minor Outlying Islands) — documented as such.
+- **1,952 hotline records**:
+  - 743 fully enriched (`verified_knowledge`) with category, hours, languages, cost, target, notes, website, sources — pending web confirmation.
+  - 1,209 migrated (`legacy_unverified`) — carry name + number and some email/website, pending enrichment.
+- **120+ countries** have at least one `verified_knowledge` entry.
+- **4 uninhabited territories** have no hotlines — documented as such.
 - **Supplemental 2026-04-22 source directory vendored** under `sources/web_verified_crisis_directory/`:
   - 253 web-derived country/territory rows preserved as source artifacts.
   - `scripts/integrate_web_verified_directory.py` converts that source into a schema-v2-compatible `web_verified_directory_v2_preview.json` review artifact without overwriting canonical data.
-  - The generated preview is explicitly **non-canonical** and now skips every country whose canonical v2 record already contains richer non-legacy hotlines, preventing accidental downgrade-by-overwrite.
+  - The generated preview is explicitly **non-canonical** and skips countries whose canonical v2 records already contain richer non-legacy hotlines, preventing accidental downgrade-by-overwrite.
   - Regression coverage in `tests/test_web_verified_directory_preview.py` checks that protected canonical countries never appear in the preview and that preview hotlines remain `legacy_unverified`.
-  - Current conservative mapping reaches **243 / 253** source rows; **26** of those matched rows are now intentionally skipped because canonical v2 already has richer non-legacy records, **217** countries remain in the supplemental preview, and the final 10 unmatched rows stay in `unmatched_country_rows.json` for manual geopolitical review.
+  - Current conservative mapping still reaches **243 / 253** source rows; after merging upstream's richer canonical pass, **207** of those matched rows are now intentionally skipped because canonical v2 already has richer non-legacy records, **36** countries remain in the supplemental preview, and the final 10 unmatched rows stay in `unmatched_country_rows.json` for manual geopolitical review.
 
 ## Planned next sessions
 
-1. **Tier-2 enrichment** — full rich enrichment for: Finland, Norway, Switzerland, Austria, Portugal, Poland, Czech Republic, Greece, Hungary, Romania, Malta, Cyprus, Luxembourg, Iceland, Taiwan, Malaysia, Philippines, Thailand, Indonesia, Vietnam, Pakistan, Bangladesh, UAE, Saudi Arabia, Israel, Turkey, Argentina, Chile, Colombia, Peru, Uruguay.
-2. **Tier-3 enrichment** — remaining ~180 countries via Befrienders Worldwide, IASP, Find A Helpline, WHO, national health ministries.
-3. **Web-verification pass** — promote `verified_knowledge` → `verified_web` for all 216 rich records by fetching each provider's official site.
-4. **Parser improvements** — the Vibbrancy free-text parser loses some structure where entries have parenthetical notes or multi-language variants; refine and re-run to recover a few dozen orphaned metadata items.
-5. **Coverage audit** — random-sample 20 `legacy_unverified` records from the long-tail countries, re-verify against official sources, fix/promote each.
+1. **Web-verification pass** — promote the 743 `verified_knowledge` records to `verified_web` by fetching each provider's official site and re-confirming hours/URLs/numbers. Estimate: 2–3 focused sessions.
+2. **Legacy enrichment** — lift the remaining 1,209 `legacy_unverified` records into rich form by cross-referencing Befrienders Worldwide, IASP, Find A Helpline. Estimate: 4–6 sessions.
+3. **Categorisation cleanup** — ~30% of legacy records landed in `general_support` because the auto-categoriser's keyword table missed them. Widening the table in `scripts/merge_all.py` and re-running `merge_all.py` would move most of these to their correct category in seconds.
+4. **Small-territory deepening** — 106 territories still have <3 hotlines. Most are small island states with limited infrastructure; add what's publishable for the rest.
+5. **Safe supplemental promotion** — use `docs/plans/2026-04-22-v2-data-expansion-roadmap.md` plus the non-canonical preview/report artifacts to selectively review and promote web-derived rows without downgrading any existing rich-format canonical records.
 
 ## How to use this dataset responsibly
 

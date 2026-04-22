@@ -22,8 +22,8 @@ Current documented constraints and inventory:
 - Existing rich records must not be overwritten by lower-confidence imports.
 - The vendored web-derived directory has `253` rows.
 - `243` source rows currently map to repo countries/territories.
-- `26` matched rows are intentionally skipped because canonical data already has richer non-legacy records.
-- `217` countries remain in the non-canonical preview.
+- `207` matched rows are intentionally skipped because canonical data already has richer non-legacy records.
+- `36` countries remain in the non-canonical preview.
 - `10` rows remain in `sources/web_verified_crisis_directory/unmatched_country_rows.json` for manual geopolitical review.
 - Current preview safety guarantee: imported preview rows stay `legacy_unverified` and do not overwrite richer canonical countries.
 

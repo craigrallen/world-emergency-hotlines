@@ -1,0 +1,170 @@
+[
+  {
+    "country": "Russia",
+    "alpha-2": "RU",
+    "alpha-3": "RUS",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "general_emergency": ["112", "102", "103", "101"],
+    "notes": "112 universal, 102 police, 103 ambulance, 101 fire. 104 gas emergency.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "102", "103", "101"], "hours": "24/7", "languages": ["Russian"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Russian Emergency Psychological Aid", "organization": "Moscow Service of Psychological Aid", "category": "suicide_crisis", "voice_numbers": ["051"], "hours": "24/7", "languages": ["Russian"], "cost": "free (Moscow landline)", "target": "people in psychological crisis (Moscow)", "notes": "From mobile: 8-499-173-09-09.", "website": "https://msph.ru", "sources": ["https://msph.ru"]},
+      {"name": "Child Helpline 8-800-2000-122", "organization": "Children's Support Fund", "category": "child_protection", "voice_numbers": ["8-800-2000-122"], "hours": "24/7", "languages": ["Russian"], "cost": "free", "target": "children and parents", "website": "https://telefon-doveria.ru", "sources": ["https://telefon-doveria.ru"]},
+      {"name": "National Women's Helpline", "organization": "ANNA Center", "category": "domestic_violence", "voice_numbers": ["8-800-7000-600"], "hours": "daily 7am-9pm MSK", "languages": ["Russian"], "cost": "free", "target": "women victims of violence", "website": "https://anna-center.ru", "sources": ["https://anna-center.ru"]}
+    ]
+  },
+  {
+    "country": "Ukraine",
+    "alpha-2": "UA",
+    "alpha-3": "UKR",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "general_emergency": ["112", "101", "102", "103"],
+    "notes": "112 universal, 101 fire, 102 police, 103 ambulance, 104 gas.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "101", "102", "103"], "hours": "24/7", "languages": ["Ukrainian", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Lifeline Ukraine", "organization": "Lifeline Ukraine", "category": "suicide_crisis", "voice_numbers": ["7333"], "hours": "24/7", "languages": ["Ukrainian"], "cost": "free", "target": "people in psychological crisis including veterans", "website": "https://lifelineukraine.com", "sources": ["https://lifelineukraine.com"]},
+      {"name": "La Strada Ukraine (National Hotline for Women)", "organization": "La Strada Ukraine", "category": "domestic_violence", "voice_numbers": ["116 123", "0 800 500 335"], "chat_url": "https://la-strada.org.ua", "hours": "24/7", "languages": ["Ukrainian", "English"], "cost": "free", "target": "women victims of violence and trafficking", "website": "https://la-strada.org.ua", "sources": ["https://la-strada.org.ua"]},
+      {"name": "Child Helpline 116 111", "organization": "La Strada Ukraine", "category": "child_protection", "voice_numbers": ["116 111", "0 800 500 225"], "hours": "Mon-Fri 12pm-4pm; Sat 9am-9pm", "languages": ["Ukrainian"], "cost": "free", "target": "children", "website": "https://la-strada.org.ua", "sources": ["https://la-strada.org.ua"]}
+    ]
+  },
+  {
+    "country": "Belarus",
+    "alpha-2": "BY",
+    "alpha-3": "BLR",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "general_emergency": ["112", "102", "103", "101"],
+    "notes": "112 unified, 102 police, 103 ambulance, 101 fire.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "102", "103", "101"], "hours": "24/7", "languages": ["Russian", "Belarusian"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Child Helpline Belarus", "organization": "Belarusian Red Cross", "category": "child_protection", "voice_numbers": ["8 801 100 1611"], "hours": "Mon-Fri 8am-8pm", "languages": ["Russian", "Belarusian"], "cost": "free", "target": "children and young people", "website": "https://redcross.by", "sources": []},
+      {"name": "Minsk City Psychiatric Dispensary Helpline", "organization": "MOKPND", "category": "suicide_crisis", "voice_numbers": ["8-017-290-44-44", "8-017-290-43-70"], "hours": "24/7", "languages": ["Russian"], "cost": "standard_rate", "target": "people in psychological crisis", "sources": []}
+    ]
+  },
+  {
+    "country": "Moldova",
+    "alpha-2": "MD",
+    "alpha-3": "MDA",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "general_emergency": ["112"],
+    "notes": "112 is the unified emergency number.",
+    "hotlines": [
+      {"name": "Emergency (112)", "category": "emergency", "voice_numbers": ["112"], "hours": "24/7", "languages": ["Romanian", "Russian"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "National Child Helpline 116 111", "organization": "Center for Children's Rights CIDDC", "category": "child_protection", "voice_numbers": ["116 111"], "hours": "Mon-Fri 8am-8pm", "languages": ["Romanian", "Russian"], "cost": "free", "target": "children in need", "website": "https://telefonulcopilului.md", "sources": ["https://telefonulcopilului.md"]},
+      {"name": "La Strada Moldova", "organization": "La Strada Moldova", "category": "domestic_violence", "voice_numbers": ["0800 88008", "0 800 77777"], "hours": "Mon-Fri 2pm-10pm", "languages": ["Romanian", "Russian"], "cost": "free", "target": "victims of human trafficking and DV", "website": "https://lastrada.md", "sources": ["https://lastrada.md"]}
+    ]
+  },
+  {
+    "country": "Georgia",
+    "alpha-2": "GE",
+    "alpha-3": "GEO",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "general_emergency": ["112"],
+    "notes": "112 is the unified emergency number.",
+    "hotlines": [
+      {"name": "Emergency (112)", "category": "emergency", "voice_numbers": ["112"], "hours": "24/7", "languages": ["Georgian", "English", "Russian"], "cost": "free", "target": "anyone in emergency", "website": "https://112.gov.ge", "sources": ["https://112.gov.ge"]},
+      {"name": "Child Helpline 116 111", "organization": "Ministry of Internally Displaced Persons, Labour, Health and Social Affairs", "category": "child_protection", "voice_numbers": ["116 111"], "hours": "24/7", "languages": ["Georgian"], "cost": "free", "target": "children at risk", "sources": []},
+      {"name": "Women's Information Center Hotline", "organization": "Women's Information Center", "category": "domestic_violence", "voice_numbers": ["116 006"], "hours": "24/7", "languages": ["Georgian"], "cost": "free", "target": "women victims of violence", "website": "https://www.wic.org.ge", "sources": ["https://www.wic.org.ge"]}
+    ]
+  },
+  {
+    "country": "Kazakhstan",
+    "alpha-2": "KZ",
+    "alpha-3": "KAZ",
+    "region": "Asia",
+    "subregion": "Central Asia",
+    "general_emergency": ["112", "102", "103", "101"],
+    "notes": "112 unified, 102 police, 103 ambulance, 101 fire.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "102", "103", "101"], "hours": "24/7", "languages": ["Kazakh", "Russian"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "National Child Helpline 150", "organization": "UNICEF Kazakhstan / NGO Sana Sezim", "category": "child_protection", "voice_numbers": ["150", "111"], "hours": "24/7", "languages": ["Kazakh", "Russian"], "cost": "free", "target": "children in need", "website": "https://www.unicef.org/kazakhstan", "sources": []},
+      {"name": "NeMolchi Domestic Violence Helpline", "organization": "NeMolchi.kz", "category": "domestic_violence", "voice_numbers": ["150"], "hours": "24/7", "languages": ["Kazakh", "Russian"], "cost": "free", "target": "victims of violence", "website": "https://nemolchi.kz", "sources": ["https://nemolchi.kz"]}
+    ]
+  },
+  {
+    "country": "Armenia",
+    "alpha-2": "AM",
+    "alpha-3": "ARM",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "general_emergency": ["911", "112"],
+    "notes": "911 and 112 are both recognised emergency numbers.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["911", "112"], "hours": "24/7", "languages": ["Armenian", "Russian", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "FAR Child Protection Hotline", "organization": "FAR Armenia", "category": "child_protection", "voice_numbers": ["0800 61 111"], "hours": "24/7", "languages": ["Armenian"], "cost": "free", "target": "children at risk", "website": "https://www.farusa.org", "sources": ["https://www.farusa.org"]},
+      {"name": "Women's Support Center Hotline", "organization": "Women's Support Center Armenia", "category": "domestic_violence", "voice_numbers": ["+374 77 89 66 00"], "hours": "24/7", "languages": ["Armenian", "Russian", "English"], "cost": "standard_rate", "target": "women victims of DV", "website": "https://www.womensupportcenter.org", "sources": ["https://www.womensupportcenter.org"]}
+    ]
+  },
+  {
+    "country": "Azerbaijan",
+    "alpha-2": "AZ",
+    "alpha-3": "AZE",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "general_emergency": ["112", "102", "103", "101"],
+    "notes": "112 unified, 102 police, 103 ambulance, 101 fire.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "102", "103", "101"], "hours": "24/7", "languages": ["Azerbaijani", "Russian"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Child Helpline 111", "organization": "State Committee for Family, Women and Children's Affairs", "category": "child_protection", "voice_numbers": ["111"], "hours": "24/7", "languages": ["Azerbaijani"], "cost": "free", "target": "children at risk", "website": "https://scfwca.gov.az", "sources": []}
+    ]
+  },
+  {
+    "country": "Papua New Guinea",
+    "alpha-2": "PG",
+    "alpha-3": "PNG",
+    "region": "Oceania",
+    "subregion": "Melanesia",
+    "general_emergency": ["000", "111", "112"],
+    "notes": "000 police (from mobile; 111 from landline in some areas).",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["000", "111", "112"], "hours": "24/7", "languages": ["English", "Tok Pisin"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "1-Tok Kaunselin Helpim Lain", "organization": "Family and Sexual Violence Action Committee", "category": "domestic_violence", "voice_numbers": ["7150 8000", "7091 0000"], "hours": "24/7", "languages": ["English", "Tok Pisin"], "cost": "standard_rate", "target": "survivors of family and sexual violence", "website": "https://fsvac.com.pg", "sources": ["https://fsvac.com.pg"]},
+      {"name": "ChildFund PNG Helpline", "organization": "ChildFund PNG", "category": "child_protection", "voice_numbers": ["715 08000"], "hours": "24/7", "languages": ["English", "Tok Pisin"], "cost": "standard_rate", "target": "children at risk", "website": "https://www.childfund.org.au", "sources": []}
+    ]
+  },
+  {
+    "country": "Fiji",
+    "alpha-2": "FJ",
+    "alpha-3": "FJI",
+    "region": "Oceania",
+    "subregion": "Melanesia",
+    "general_emergency": ["911", "917"],
+    "notes": "911 police/ambulance/fire, 917 police emergency.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["911", "917"], "hours": "24/7", "languages": ["English", "Fijian", "Fiji Hindi"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Lifeline Fiji", "organization": "Empower Pacific / Lifeline Fiji", "category": "suicide_crisis", "voice_numbers": ["1543"], "hours": "24/7", "languages": ["English", "Fijian"], "cost": "free", "target": "people in emotional crisis", "website": "https://empowerpacific.com", "sources": []},
+      {"name": "Fiji Women's Crisis Centre", "organization": "FWCC", "category": "domestic_violence", "voice_numbers": ["1560"], "hours": "24/7", "languages": ["English", "Fijian", "Hindi"], "cost": "free", "target": "women and children survivors of violence", "website": "https://www.fijiwomen.com", "sources": ["https://www.fijiwomen.com"]},
+      {"name": "Child Helpline Fiji", "organization": "Medical Services Pacific / Department of Social Welfare", "category": "child_protection", "voice_numbers": ["1325"], "hours": "24/7", "languages": ["English", "Fijian"], "cost": "free", "target": "children at risk", "sources": []}
+    ]
+  },
+  {
+    "country": "Samoa",
+    "alpha-2": "WS",
+    "alpha-3": "WSM",
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "general_emergency": ["911", "994", "996"],
+    "notes": "911 unified, 994 fire, 996 ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["911", "994", "996"], "hours": "24/7", "languages": ["Samoan", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Samoa Victim Support Group", "organization": "SVSG", "category": "domestic_violence", "voice_numbers": ["800 7874"], "hours": "24/7", "languages": ["Samoan", "English"], "cost": "free", "target": "survivors of violence", "website": "https://svsgsamoa.ws", "sources": ["https://svsgsamoa.ws"]}
+    ]
+  },
+  {
+    "country": "Tonga",
+    "alpha-2": "TO",
+    "alpha-3": "TON",
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "general_emergency": ["911", "922", "933"],
+    "notes": "911 police/general, 922 ambulance, 933 fire.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["911", "922", "933"], "hours": "24/7", "languages": ["Tongan", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Women and Children Crisis Centre", "organization": "WCCC Tonga", "category": "domestic_violence", "voice_numbers": ["+676 22 011"], "hours": "Mon-Fri 9am-5pm", "languages": ["Tongan", "English"], "cost": "standard_rate", "target": "women and children survivors of violence", "website": "https://www.wcccvavaulavakitoga.to", "sources": []}
+    ]
+  }
+]

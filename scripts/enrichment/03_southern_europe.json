@@ -1,0 +1,42 @@
+[
+  {
+    "country": "Portugal",
+    "alpha-2": "PT",
+    "alpha-3": "PRT",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "general_emergency": ["112"],
+    "notes": "112 is the universal emergency number. SNS 24 (808 24 24 24) for non-emergency health.",
+    "hotlines": [
+      {"name": "Emergency (112)", "category": "emergency", "voice_numbers": ["112"], "hours": "24/7", "languages": ["Portuguese", "English", "Spanish", "French"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "SOS Voz Amiga", "organization": "SOS Voz Amiga", "category": "suicide_crisis", "voice_numbers": ["213 544 545", "912 802 669", "963 524 660"], "hours": "4pm-midnight daily", "languages": ["Portuguese"], "cost": "standard_rate", "target": "people in emotional crisis", "website": "https://www.sosvozamiga.org", "sources": ["https://www.sosvozamiga.org"]},
+      {"name": "Telefone da Amizade", "organization": "Telefone da Amizade", "category": "suicide_crisis", "voice_numbers": ["222 080 707"], "hours": "Mon-Fri 4pm-11pm; Sat-Sun 4pm-9pm", "languages": ["Portuguese"], "cost": "standard_rate", "target": "people in crisis", "website": "https://www.telefone-amizade.pt", "sources": ["https://www.telefone-amizade.pt"]},
+      {"name": "Voz de Apoio", "organization": "Voz de Apoio", "category": "suicide_crisis", "voice_numbers": ["22 503 04 15"], "hours": "9pm-11pm daily", "languages": ["Portuguese"], "cost": "standard_rate", "target": "people in distress", "website": "https://www.vozdeapoio.pt", "sources": ["https://www.vozdeapoio.pt"]},
+      {"name": "SNS 24", "organization": "Serviço Nacional de Saúde", "category": "mental_health", "voice_numbers": ["808 24 24 24"], "hours": "24/7", "languages": ["Portuguese"], "cost": "local_rate", "target": "general health triage including mental health", "website": "https://www.sns24.gov.pt", "sources": ["https://www.sns24.gov.pt"]},
+      {"name": "SOS Criança - Instituto de Apoio à Criança", "organization": "IAC", "category": "child_protection", "voice_numbers": ["116 111"], "hours": "Mon-Fri 9am-7pm", "languages": ["Portuguese"], "cost": "free", "target": "children in danger or need", "website": "https://www.iacrianca.pt", "sources": ["https://www.iacrianca.pt"]},
+      {"name": "Linha Nacional de Emergência Social", "organization": "Instituto da Segurança Social", "category": "domestic_violence", "voice_numbers": ["144"], "hours": "24/7", "languages": ["Portuguese"], "cost": "free", "target": "social emergencies including DV, elder abuse, homelessness", "website": "https://www.seg-social.pt", "sources": ["https://www.seg-social.pt"]},
+      {"name": "APAV — Associação Portuguesa de Apoio à Vítima", "organization": "APAV", "category": "sexual_violence", "voice_numbers": ["116 006"], "email": "apav.sede@apav.pt", "hours": "Mon-Fri 9am-9pm", "languages": ["Portuguese", "English"], "cost": "free", "target": "victims of crime including sexual and domestic violence", "website": "https://apav.pt", "sources": ["https://apav.pt"]},
+      {"name": "Linha Vida SOS Droga", "organization": "SICAD", "category": "substance_use", "voice_numbers": ["1414"], "hours": "Mon-Fri 10am-8pm", "languages": ["Portuguese"], "cost": "local_rate", "target": "people with substance-use concerns", "website": "https://www.sicad.pt", "sources": ["https://www.sicad.pt"]},
+      {"name": "Linha SOS Jogo", "organization": "SICAD", "category": "gambling", "voice_numbers": ["213 301 515"], "hours": "Mon-Fri 10am-8pm", "languages": ["Portuguese"], "cost": "standard_rate", "target": "people with gambling addiction", "website": "https://www.sicad.pt", "sources": ["https://www.sicad.pt"]},
+      {"name": "ILGA Portugal Helpline", "organization": "ILGA Portugal", "category": "lgbtqia", "voice_numbers": ["218 873 918"], "hours": "Mon-Fri 10am-6pm", "languages": ["Portuguese"], "cost": "standard_rate", "target": "LGBTI+ community", "website": "https://ilga-portugal.pt", "sources": ["https://ilga-portugal.pt"]}
+    ]
+  },
+  {
+    "country": "Greece",
+    "alpha-2": "GR",
+    "alpha-3": "GRC",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "general_emergency": ["112", "100", "166", "199"],
+    "notes": "112 universal, 100 police, 166 EKAB ambulance, 199 fire, 108 coast guard, 171 tourist police.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "100", "166", "199"], "hours": "24/7", "languages": ["Greek", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Klimaka Suicide Prevention Hotline", "organization": "Klimaka NGO", "category": "suicide_crisis", "voice_numbers": ["1018"], "hours": "24/7", "languages": ["Greek"], "cost": "free", "target": "people in suicidal crisis", "website": "https://www.klimaka.org.gr", "sources": ["https://www.klimaka.org.gr"]},
+      {"name": "The Smile of the Child 1056", "organization": "The Smile of the Child", "category": "child_protection", "voice_numbers": ["1056", "116 111"], "hours": "24/7", "languages": ["Greek"], "cost": "free", "target": "children at risk", "website": "https://www.hamogelo.gr", "sources": ["https://www.hamogelo.gr"]},
+      {"name": "SOS Child Helpline 1107", "organization": "SOS Children's Villages Greece", "category": "child_protection", "voice_numbers": ["1107"], "hours": "Mon-Fri 9am-4pm", "languages": ["Greek"], "cost": "free", "target": "children in need of protection", "website": "https://www.sos-villages.gr", "sources": ["https://www.sos-villages.gr"]},
+      {"name": "SOS Helpline for Women Victims of Violence", "organization": "General Secretariat for Gender Equality", "category": "domestic_violence", "voice_numbers": ["15900"], "chat_url": "https://15900.gr", "email": "sos15900@isotita.gr", "hours": "24/7", "languages": ["Greek", "English"], "cost": "free", "target": "women victims of gender-based violence", "website": "https://isotita.gr", "sources": ["https://isotita.gr"]},
+      {"name": "KETHEA Drug Helpline 1145", "organization": "KETHEA", "category": "substance_use", "voice_numbers": ["1145"], "hours": "Mon-Fri 9am-10pm; weekends 10am-6pm", "languages": ["Greek"], "cost": "free", "target": "people with drug addiction and families", "website": "https://www.kethea.gr", "sources": ["https://www.kethea.gr"]},
+      {"name": "HIV Aids Hotline", "organization": "HCDCP / KEELPNO", "category": "general_support", "voice_numbers": ["210 722 2222"], "hours": "Mon-Fri 9am-3pm", "languages": ["Greek", "English"], "cost": "standard_rate", "target": "people affected by HIV/AIDS", "website": "https://eody.gov.gr", "sources": []}
+    ]
+  }
+]

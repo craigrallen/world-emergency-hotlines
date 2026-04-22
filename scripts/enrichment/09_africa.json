@@ -1,0 +1,153 @@
+[
+  {
+    "country": "Nigeria",
+    "alpha-2": "NG",
+    "alpha-3": "NGA",
+    "region": "Africa",
+    "subregion": "Sub-Saharan Africa",
+    "general_emergency": ["112", "767"],
+    "notes": "112 national (NEC), 767 Lagos Emergency. State-level lines vary.",
+    "hotlines": [
+      {"name": "Emergency (112)", "category": "emergency", "voice_numbers": ["112", "767"], "hours": "24/7", "languages": ["English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Mentally Aware Nigeria Initiative (MANI)", "organization": "MANI", "category": "mental_health", "voice_numbers": ["0909 000 6463", "0806 210 6493"], "sms_numbers": ["0805 800 4250"], "hours": "24/7", "languages": ["English"], "cost": "standard_rate", "target": "people in mental-health distress", "website": "https://mentallyaware.org", "sources": ["https://mentallyaware.org"]},
+      {"name": "Suicide Research and Prevention Initiative", "organization": "SURPIN Nigeria / LUTH", "category": "suicide_crisis", "voice_numbers": ["0806 210 6493", "0902 555 0000"], "hours": "24/7", "languages": ["English"], "cost": "standard_rate", "target": "people at risk of suicide", "website": "https://luth.gov.ng", "sources": []},
+      {"name": "Child Helpline 6820", "organization": "Child Protection Network", "category": "child_protection", "voice_numbers": ["6820", "080 4400 0001"], "hours": "24/7", "languages": ["English"], "cost": "free", "target": "children at risk", "sources": []},
+      {"name": "Mirabel Centre Sexual Assault Referral", "organization": "Mirabel Centre", "category": "sexual_violence", "voice_numbers": ["0815 779 5833", "0815 520 0000"], "hours": "Mon-Fri 9am-5pm", "languages": ["English"], "cost": "standard_rate", "target": "survivors of sexual assault (Lagos)", "website": "https://mirabelcentre.org", "sources": ["https://mirabelcentre.org"]},
+      {"name": "Project Alert on Violence Against Women", "organization": "Project Alert", "category": "domestic_violence", "voice_numbers": ["0802 235 0555", "0809 210 0000"], "hours": "Mon-Fri 9am-5pm", "languages": ["English"], "cost": "standard_rate", "target": "women victims of violence", "website": "https://projectalertnig.org", "sources": ["https://projectalertnig.org"]}
+    ]
+  },
+  {
+    "country": "Kenya",
+    "alpha-2": "KE",
+    "alpha-3": "KEN",
+    "region": "Africa",
+    "subregion": "Sub-Saharan Africa",
+    "general_emergency": ["999", "112"],
+    "notes": "999 primary (police), 112 unified emergency, 911 also works. 1199 ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["999", "112", "911", "1199"], "hours": "24/7", "languages": ["English", "Swahili"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Befrienders Kenya", "organization": "Befrienders Kenya", "category": "suicide_crisis", "voice_numbers": ["+254 722 178 177"], "email": "befrienderskenya@gmail.com", "hours": "daily", "languages": ["English", "Swahili"], "cost": "standard_rate", "target": "people in emotional distress", "website": "https://www.befrienderskenya.org", "sources": ["https://www.befrienderskenya.org"]},
+      {"name": "Kenya Red Cross Psychosocial Helpline", "organization": "Kenya Red Cross", "category": "mental_health", "voice_numbers": ["1199"], "hours": "24/7", "languages": ["English", "Swahili"], "cost": "free", "target": "psychosocial support", "website": "https://www.redcross.or.ke", "sources": ["https://www.redcross.or.ke"]},
+      {"name": "Childline Kenya 116", "organization": "Childline Kenya", "category": "child_protection", "voice_numbers": ["116"], "hours": "24/7", "languages": ["English", "Swahili"], "cost": "free", "target": "children in need of protection", "website": "https://childlinekenya.co.ke", "sources": ["https://childlinekenya.co.ke"]},
+      {"name": "GBV Helpline 1195", "organization": "HAK Healthcare Assistance Kenya", "category": "domestic_violence", "voice_numbers": ["1195"], "hours": "24/7", "languages": ["English", "Swahili"], "cost": "free", "target": "survivors of gender-based violence", "website": "https://hakafrica.or.ke", "sources": ["https://hakafrica.or.ke"]}
+    ]
+  },
+  {
+    "country": "Ghana",
+    "alpha-2": "GH",
+    "alpha-3": "GHA",
+    "region": "Africa",
+    "subregion": "Sub-Saharan Africa",
+    "general_emergency": ["191", "192", "193"],
+    "notes": "191 police, 192 fire, 193 ambulance. 999 also works.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["191", "192", "193", "999"], "hours": "24/7", "languages": ["English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Mental Health Authority Helpline", "organization": "Mental Health Authority Ghana", "category": "mental_health", "voice_numbers": ["0800 67 86 78", "0800 678 678"], "hours": "24/7", "languages": ["English", "Twi"], "cost": "free", "target": "mental-health support", "website": "https://www.mhaghana.com", "sources": ["https://www.mhaghana.com"]},
+      {"name": "Domestic Violence and Victim Support Unit (DOVVSU)", "organization": "Ghana Police DOVVSU", "category": "domestic_violence", "voice_numbers": ["18555", "0800 800 333"], "hours": "24/7", "languages": ["English", "Twi"], "cost": "free", "target": "DV and abuse survivors", "sources": []},
+      {"name": "Childline Ghana", "organization": "Childline Ghana", "category": "child_protection", "voice_numbers": ["0800 111 222"], "hours": "Mon-Fri 8am-5pm", "languages": ["English"], "cost": "free", "target": "children at risk", "website": "https://www.childlineghana.org", "sources": []}
+    ]
+  },
+  {
+    "country": "Egypt",
+    "alpha-2": "EG",
+    "alpha-3": "EGY",
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "general_emergency": ["122", "123", "180"],
+    "notes": "122 police, 123 ambulance, 180 fire. 112 works from mobile.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["122", "123", "180", "112"], "hours": "24/7", "languages": ["Arabic", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Behman Hospital Suicide Helpline", "organization": "Behman Hospital", "category": "suicide_crisis", "voice_numbers": ["02 2506 2003", "08008880700"], "hours": "Sun-Thu 9am-5pm", "languages": ["Arabic"], "cost": "free (toll-free)", "target": "people in psychological crisis", "website": "https://behman.com", "sources": ["https://behman.com"]},
+      {"name": "Mental Health Secretariat Helpline 08008880700", "organization": "Ministry of Health", "category": "mental_health", "voice_numbers": ["08008880700"], "hours": "24/7", "languages": ["Arabic"], "cost": "free", "target": "people in mental-health crisis", "website": "http://www.mohp.gov.eg", "sources": []},
+      {"name": "Child Helpline 16000", "organization": "National Council for Childhood and Motherhood", "category": "child_protection", "voice_numbers": ["16000"], "hours": "24/7", "languages": ["Arabic"], "cost": "free", "target": "children at risk", "website": "http://www.nccm.gov.eg", "sources": []},
+      {"name": "National Council for Women Complaints Office", "organization": "National Council for Women", "category": "domestic_violence", "voice_numbers": ["15115"], "hours": "Sun-Thu 8am-8pm", "languages": ["Arabic"], "cost": "free", "target": "women facing violence or discrimination", "website": "https://ncw.gov.eg", "sources": ["https://ncw.gov.eg"]}
+    ]
+  },
+  {
+    "country": "Morocco",
+    "alpha-2": "MA",
+    "alpha-3": "MAR",
+    "region": "Africa",
+    "subregion": "Northern Africa",
+    "general_emergency": ["112", "19", "15", "150", "177"],
+    "notes": "112 mobile, 19 police (urban), 177 royal gendarmerie (rural), 15 SAMU, 150 fire (civil protection).",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "19", "15", "150", "177"], "hours": "24/7", "languages": ["Arabic", "French", "Berber"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Sourire de Reda (Suicide)", "organization": "Association Sourire de Reda", "category": "suicide_crisis", "voice_numbers": ["0801 000 180"], "hours": "Mon-Fri 3pm-9pm", "languages": ["Arabic", "French"], "cost": "free", "target": "young people in psychological distress", "website": "https://www.souriredereda.org", "sources": ["https://www.souriredereda.org"]},
+      {"name": "Allo Enfance (Child Protection)", "organization": "Ministry of Solidarity", "category": "child_protection", "voice_numbers": ["2511"], "hours": "24/7", "languages": ["Arabic", "French"], "cost": "free", "target": "children in danger", "website": "https://www.social.gov.ma", "sources": []},
+      {"name": "Ministry's Women Helpline 8350", "organization": "Ministry of Solidarity, Women and Family", "category": "domestic_violence", "voice_numbers": ["8350"], "hours": "24/7", "languages": ["Arabic", "French"], "cost": "free", "target": "women victims of violence", "website": "https://www.social.gov.ma", "sources": []}
+    ]
+  },
+  {
+    "country": "Ethiopia",
+    "alpha-2": "ET",
+    "alpha-3": "ETH",
+    "region": "Africa",
+    "subregion": "Sub-Saharan Africa",
+    "general_emergency": ["991", "907", "939"],
+    "notes": "991 police (Addis Ababa), 907 fire, 939 ambulance. Varies by region.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["991", "907", "939"], "hours": "24/7", "languages": ["Amharic", "English"], "cost": "free", "target": "anyone in emergency (Addis)", "sources": []},
+      {"name": "Mental Health Society Ethiopia", "organization": "Mental Health Society Ethiopia", "category": "mental_health", "voice_numbers": ["+251 91 152 5202"], "hours": "Mon-Fri 9am-5pm", "languages": ["Amharic", "English"], "cost": "standard_rate", "target": "mental-health support", "website": "https://mhse-ethiopia.org", "sources": []},
+      {"name": "Child Helpline 952", "organization": "Bureau of Women, Children and Youth Affairs", "category": "child_protection", "voice_numbers": ["952"], "hours": "24/7", "languages": ["Amharic"], "cost": "free", "target": "children at risk (Addis)", "sources": []}
+    ]
+  },
+  {
+    "country": "Uganda",
+    "alpha-2": "UG",
+    "alpha-3": "UGA",
+    "region": "Africa",
+    "subregion": "Sub-Saharan Africa",
+    "general_emergency": ["999", "112"],
+    "notes": "999 police, 112 mobile emergency.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["999", "112"], "hours": "24/7", "languages": ["English", "Luganda"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Uganda Mental Health Helpline", "organization": "Strong Minds Uganda / Butabika Hospital", "category": "mental_health", "voice_numbers": ["0800 111 121"], "hours": "Mon-Fri 9am-5pm", "languages": ["English", "Luganda"], "cost": "free", "target": "mental-health support", "website": "https://strongminds.org", "sources": ["https://strongminds.org"]},
+      {"name": "Uganda Child Helpline (Sauti)", "organization": "Ministry of Gender, Labour and Social Development", "category": "child_protection", "voice_numbers": ["116"], "hours": "24/7", "languages": ["English", "Luganda"], "cost": "free", "target": "children at risk", "website": "https://www.mglsd.go.ug", "sources": []},
+      {"name": "Uganda Gender Based Violence Hotline", "organization": "CEDOVIP", "category": "domestic_violence", "voice_numbers": ["0800 111 111"], "hours": "Mon-Fri 8am-5pm", "languages": ["English", "Luganda"], "cost": "free", "target": "GBV survivors", "website": "https://cedovip.org", "sources": ["https://cedovip.org"]}
+    ]
+  },
+  {
+    "country": "Tanzania",
+    "alpha-2": "TZ",
+    "alpha-3": "TZA",
+    "region": "Africa",
+    "subregion": "Sub-Saharan Africa",
+    "general_emergency": ["112", "115"],
+    "notes": "112 unified (Tanzania Emergency Number), 115 police.",
+    "hotlines": [
+      {"name": "Emergency (112)", "category": "emergency", "voice_numbers": ["112", "115"], "hours": "24/7", "languages": ["Swahili", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "National Child Helpline", "organization": "Ministry of Health, Community Development, Gender, Elderly and Children", "category": "child_protection", "voice_numbers": ["116"], "hours": "24/7", "languages": ["Swahili", "English"], "cost": "free", "target": "children at risk", "website": "https://www.mcdgc.go.tz", "sources": []},
+      {"name": "Tanzania Women's Helpline", "organization": "TAMWA", "category": "domestic_violence", "voice_numbers": ["+255 22 277 2681"], "hours": "Mon-Fri 9am-5pm", "languages": ["Swahili", "English"], "cost": "standard_rate", "target": "women victims of violence", "website": "https://tamwa.org", "sources": ["https://tamwa.org"]}
+    ]
+  },
+  {
+    "country": "Zimbabwe",
+    "alpha-2": "ZW",
+    "alpha-3": "ZWE",
+    "region": "Africa",
+    "subregion": "Sub-Saharan Africa",
+    "general_emergency": ["999", "112", "993", "995"],
+    "notes": "999 police, 112 ambulance (mobile), 993 fire, 995 medical.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["999", "112", "993", "995"], "hours": "24/7", "languages": ["English", "Shona", "Ndebele"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Friendship Bench", "organization": "Friendship Bench Zimbabwe", "category": "mental_health", "voice_numbers": ["+263 77 214 9158"], "hours": "Mon-Fri 9am-5pm", "languages": ["English", "Shona"], "cost": "standard_rate", "target": "people with depression and anxiety", "website": "https://www.friendshipbenchzimbabwe.org", "sources": ["https://www.friendshipbenchzimbabwe.org"]},
+      {"name": "Childline Zimbabwe", "organization": "Childline Zimbabwe", "category": "child_protection", "voice_numbers": ["116"], "hours": "24/7", "languages": ["English", "Shona", "Ndebele"], "cost": "free", "target": "children in distress", "website": "https://www.childline.org.zw", "sources": ["https://www.childline.org.zw"]},
+      {"name": "Musasa Project GBV Helpline", "organization": "Musasa Project", "category": "domestic_violence", "voice_numbers": ["+263 86 8800 2777"], "hours": "24/7", "languages": ["English", "Shona"], "cost": "standard_rate", "target": "women survivors of GBV", "website": "https://www.musasa.co.zw", "sources": []}
+    ]
+  },
+  {
+    "country": "Rwanda",
+    "alpha-2": "RW",
+    "alpha-3": "RWA",
+    "region": "Africa",
+    "subregion": "Sub-Saharan Africa",
+    "general_emergency": ["112", "111", "912"],
+    "notes": "112 police, 111 helpline, 912 ambulance/fire.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "111", "912"], "hours": "24/7", "languages": ["Kinyarwanda", "English", "French"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Isange One Stop Centre", "organization": "Ministry of Health / Rwanda Investigation Bureau", "category": "domestic_violence", "voice_numbers": ["3512"], "hours": "24/7", "languages": ["Kinyarwanda", "English"], "cost": "free", "target": "GBV and child abuse survivors", "website": "https://www.moh.gov.rw", "sources": ["https://www.moh.gov.rw"]},
+      {"name": "Child Helpline Rwanda", "organization": "National Commission for Children", "category": "child_protection", "voice_numbers": ["116"], "hours": "24/7", "languages": ["Kinyarwanda"], "cost": "free", "target": "children at risk", "sources": []}
+    ]
+  }
+]

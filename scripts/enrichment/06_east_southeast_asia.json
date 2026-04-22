@@ -1,0 +1,151 @@
+[
+  {
+    "country": "Taiwan",
+    "alpha-2": "TW",
+    "alpha-3": "TWN",
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "general_emergency": ["110", "119"],
+    "notes": "110 police, 119 fire/ambulance. 112 redirects to 110 from mobile.",
+    "hotlines": [
+      {"name": "Emergency (110 / 119)", "category": "emergency", "voice_numbers": ["110", "119", "112"], "hours": "24/7", "languages": ["Mandarin", "English", "Taiwanese"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Taiwan Lifeline International 1995", "organization": "Taiwan Lifeline International", "category": "suicide_crisis", "voice_numbers": ["1995"], "hours": "24/7", "languages": ["Mandarin", "Taiwanese", "English", "Japanese"], "cost": "standard_rate", "target": "people in emotional crisis", "website": "https://www.life1995.org.tw", "sources": ["https://www.life1995.org.tw"]},
+      {"name": "Teacher Chang 1980", "organization": "Taiwan Teacher Chang Foundation", "category": "mental_health", "voice_numbers": ["1980"], "hours": "Mon-Sat 9am-9pm; Sun 9am-5pm", "languages": ["Mandarin"], "cost": "standard_rate", "target": "young people with psychological concerns", "website": "https://www.1980.org.tw", "sources": ["https://www.1980.org.tw"]},
+      {"name": "Ministry of Health Safety Line 1925", "organization": "Ministry of Health and Welfare", "category": "suicide_crisis", "voice_numbers": ["1925"], "hours": "24/7", "languages": ["Mandarin"], "cost": "free", "target": "people in psychological crisis", "website": "https://1925.mohw.gov.tw", "sources": ["https://1925.mohw.gov.tw"]},
+      {"name": "113 Women and Children Protection Hotline", "organization": "Ministry of Health and Welfare", "category": "domestic_violence", "voice_numbers": ["113"], "hours": "24/7", "languages": ["Mandarin", "English"], "cost": "free", "target": "women and children victims of violence", "website": "https://dep.mohw.gov.tw", "sources": ["https://dep.mohw.gov.tw"]},
+      {"name": "Modern Women's Foundation", "organization": "Modern Women's Foundation", "category": "sexual_violence", "voice_numbers": ["02 7728 5098"], "hours": "Mon-Fri 9am-6pm", "languages": ["Mandarin", "English"], "cost": "standard_rate", "target": "women survivors of sexual violence", "website": "https://www.38.org.tw", "sources": ["https://www.38.org.tw"]},
+      {"name": "Hotline Association Taiwan (LGBT+)", "organization": "Taiwan Tongzhi Hotline Association", "category": "lgbtqia", "voice_numbers": ["02 2392 1970"], "hours": "Mon-Sat 7pm-10pm", "languages": ["Mandarin"], "cost": "standard_rate", "target": "LGBT+ community", "website": "https://hotline.org.tw", "sources": ["https://hotline.org.tw"]}
+    ]
+  },
+  {
+    "country": "Malaysia",
+    "alpha-2": "MY",
+    "alpha-3": "MYS",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "general_emergency": ["999", "112"],
+    "notes": "999 is the primary emergency number; 112 also works from mobile.",
+    "hotlines": [
+      {"name": "Emergency (999)", "category": "emergency", "voice_numbers": ["999", "112"], "hours": "24/7", "languages": ["Malay", "English", "Mandarin", "Tamil"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Befrienders KL", "organization": "Befrienders KL", "category": "suicide_crisis", "voice_numbers": ["03-7956 8145", "03-7956 8144"], "email": "sam@befrienders.org.my", "hours": "24/7", "languages": ["English", "Malay"], "cost": "standard_rate", "target": "people in emotional crisis", "website": "https://www.befrienders.org.my", "sources": ["https://www.befrienders.org.my"]},
+      {"name": "Talian Kasih", "organization": "Ministry of Women, Family and Community Development", "category": "domestic_violence", "voice_numbers": ["15999"], "hours": "24/7", "languages": ["Malay", "English"], "cost": "free", "target": "women, children and vulnerable people", "website": "https://www.kpwkm.gov.my", "sources": ["https://www.kpwkm.gov.my"]},
+      {"name": "Childline Malaysia (BCH)", "organization": "Buddies Childline", "category": "child_protection", "voice_numbers": ["15999"], "hours": "24/7 (via Talian Kasih)", "languages": ["Malay", "English"], "cost": "free", "target": "children", "website": "https://childlinemalaysia.org", "sources": ["https://childlinemalaysia.org"]},
+      {"name": "Women's Aid Organisation (WAO)", "organization": "WAO", "category": "sexual_violence", "voice_numbers": ["03-7956 3488"], "sms_numbers": ["018-988 8058"], "hours": "Mon-Fri 9am-5pm (hotline); WhatsApp 24/7", "languages": ["Malay", "English"], "cost": "standard_rate", "target": "women and girls survivors", "website": "https://wao.org.my", "sources": ["https://wao.org.my"]},
+      {"name": "MIASA 1-on-1 Crisis Line", "organization": "Mental Illness Awareness and Support Association", "category": "mental_health", "voice_numbers": ["1800-180-066"], "hours": "8am-midnight daily", "languages": ["English", "Malay"], "cost": "free", "target": "people with mental-health concerns", "website": "https://miasa.org.my", "sources": ["https://miasa.org.my"]},
+      {"name": "Sneham Welfare Malaysia", "organization": "Sneham Welfare Organization Malaysia", "category": "suicide_crisis", "voice_numbers": ["1800-22-5757"], "hours": "24/7", "languages": ["Tamil", "English"], "cost": "free", "target": "Tamil speakers in crisis", "website": "https://sneham.org.my", "sources": ["https://sneham.org.my"]}
+    ]
+  },
+  {
+    "country": "Philippines",
+    "alpha-2": "PH",
+    "alpha-3": "PHL",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "general_emergency": ["911"],
+    "notes": "911 replaced 117 in 2016 as the national emergency number.",
+    "hotlines": [
+      {"name": "Emergency (911)", "category": "emergency", "voice_numbers": ["911"], "hours": "24/7", "languages": ["Filipino", "English"], "cost": "free", "target": "anyone in emergency", "website": "https://911.gov.ph", "sources": ["https://911.gov.ph"]},
+      {"name": "National Center for Mental Health Crisis Hotline", "organization": "NCMH", "category": "suicide_crisis", "voice_numbers": ["0966 351 4518", "0917 899 8727", "1553"], "hours": "24/7", "languages": ["Filipino", "English"], "cost": "standard_rate (1553 is toll-free)", "target": "people in mental-health crisis", "website": "https://doh.gov.ph/ncmh-crisis-hotline", "sources": ["https://doh.gov.ph"]},
+      {"name": "In Touch Community Services", "organization": "In Touch", "category": "suicide_crisis", "voice_numbers": ["02 8893 7603", "0917 800 1123"], "email": "crisisline@in-touch.org", "hours": "24/7", "languages": ["English", "Filipino"], "cost": "standard_rate", "target": "people in emotional crisis", "website": "https://www.in-touch.org", "sources": ["https://www.in-touch.org"]},
+      {"name": "HOPELINE Philippines", "organization": "Natasha Goulbourn Foundation", "category": "suicide_crisis", "voice_numbers": ["02 8804 4673", "0917 558 4673"], "hours": "24/7", "languages": ["English", "Filipino"], "cost": "standard_rate", "target": "people at risk of suicide", "website": "https://hopeline.ph", "sources": ["https://hopeline.ph"]},
+      {"name": "Bantay Bata 163", "organization": "ABS-CBN Foundation", "category": "child_protection", "voice_numbers": ["163"], "hours": "24/7", "languages": ["Filipino", "English"], "cost": "free", "target": "children in distress", "website": "https://bantaybata163.org.ph", "sources": ["https://bantaybata163.org.ph"]},
+      {"name": "DSWD Women's Emergency Help", "organization": "Department of Social Welfare", "category": "domestic_violence", "voice_numbers": ["1343"], "hours": "24/7", "languages": ["Filipino", "English"], "cost": "free", "target": "women and children in crisis", "website": "https://www.dswd.gov.ph", "sources": ["https://www.dswd.gov.ph"]},
+      {"name": "PNP Women and Children Protection Center", "organization": "Philippine National Police", "category": "sexual_violence", "voice_numbers": ["723 0401"], "hours": "24/7", "languages": ["Filipino", "English"], "cost": "standard_rate", "target": "women and child abuse survivors", "website": "https://www.pnp.gov.ph", "sources": []}
+    ]
+  },
+  {
+    "country": "Thailand",
+    "alpha-2": "TH",
+    "alpha-3": "THA",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "general_emergency": ["191", "199", "1669"],
+    "notes": "191 police, 199 fire, 1669 medical/ambulance (EMS). 1155 tourist police.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["191", "199", "1669"], "hours": "24/7", "languages": ["Thai", "English"], "cost": "free", "target": "anyone in emergency", "notes": "Tourist Police: 1155. 191 also handles general emergencies.", "sources": []},
+      {"name": "Samaritans of Thailand", "organization": "Samaritans of Thailand", "category": "suicide_crisis", "voice_numbers": ["02 713 6793"], "email": "direct@samaritansthai.com", "hours": "Daily 12pm-10pm", "languages": ["Thai"], "cost": "standard_rate", "target": "people in emotional crisis", "website": "https://www.samaritansthai.com", "sources": ["https://www.samaritansthai.com"]},
+      {"name": "Department of Mental Health Hotline 1323", "organization": "Department of Mental Health", "category": "mental_health", "voice_numbers": ["1323"], "hours": "24/7", "languages": ["Thai"], "cost": "free", "target": "people with mental-health concerns", "website": "https://dmh.go.th", "sources": ["https://dmh.go.th"]},
+      {"name": "Hotline for Children, Women & Family 1300", "organization": "Ministry of Social Development and Human Security", "category": "child_protection", "voice_numbers": ["1300"], "hours": "24/7", "languages": ["Thai"], "cost": "free", "target": "children, women and families at risk", "website": "https://www.m-society.go.th", "sources": ["https://www.m-society.go.th"]},
+      {"name": "Thailand AIDS Hotline", "organization": "Thai Red Cross AIDS Research Centre", "category": "general_support", "voice_numbers": ["02 256 4107"], "hours": "Mon-Fri 9am-4pm", "languages": ["Thai", "English"], "cost": "standard_rate", "target": "people affected by HIV/AIDS", "website": "https://www.trcarc.org", "sources": []}
+    ]
+  },
+  {
+    "country": "Indonesia",
+    "alpha-2": "ID",
+    "alpha-3": "IDN",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "general_emergency": ["112", "110", "113", "118", "119"],
+    "notes": "112 unified (in supporting regions), 110 police, 113 fire, 118/119 ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "110", "113", "118", "119"], "hours": "24/7", "languages": ["Bahasa Indonesia"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Into The Light Indonesia", "organization": "Into The Light", "category": "suicide_crisis", "email": "ithelpline@intothelightid.org", "chat_url": "https://www.intothelightid.org", "hours": "online", "languages": ["Bahasa Indonesia"], "cost": "free", "target": "people at risk of suicide", "website": "https://www.intothelightid.org", "sources": ["https://www.intothelightid.org"]},
+      {"name": "Into The Light Crisis Line (119 ext 8)", "organization": "Kementerian Kesehatan RI", "category": "suicide_crisis", "voice_numbers": ["119 ext 8"], "hours": "24/7", "languages": ["Bahasa Indonesia"], "cost": "free", "target": "people in psychological crisis", "notes": "Dial 119 then press 8 for mental health.", "sources": []},
+      {"name": "Yayasan Pulih", "organization": "Yayasan Pulih", "category": "sexual_violence", "voice_numbers": ["021 788 42580"], "hours": "Mon-Fri 9am-5pm", "languages": ["Bahasa Indonesia"], "cost": "standard_rate", "target": "survivors of violence and trauma", "website": "https://pulih.or.id", "sources": ["https://pulih.or.id"]},
+      {"name": "Komnas Perempuan (Women's Rights)", "organization": "Komnas Perempuan", "category": "domestic_violence", "voice_numbers": ["021 390 3963"], "hours": "Mon-Fri 9am-4pm", "languages": ["Bahasa Indonesia"], "cost": "standard_rate", "target": "women experiencing violence", "website": "https://komnasperempuan.go.id", "sources": ["https://komnasperempuan.go.id"]},
+      {"name": "TePSA (Telepon Sahabat Anak)", "organization": "Ministry of Women's Empowerment and Child Protection", "category": "child_protection", "voice_numbers": ["1500 771"], "hours": "24/7", "languages": ["Bahasa Indonesia"], "cost": "free", "target": "children and families", "website": "https://kemenpppa.go.id", "sources": ["https://kemenpppa.go.id"]}
+    ]
+  },
+  {
+    "country": "Vietnam",
+    "alpha-2": "VN",
+    "alpha-3": "VNM",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "general_emergency": ["113", "114", "115"],
+    "notes": "113 police, 114 fire, 115 ambulance. 111 child protection.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["113", "114", "115"], "hours": "24/7", "languages": ["Vietnamese"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "National Child Helpline 111", "organization": "Ministry of Labour, Invalids and Social Affairs", "category": "child_protection", "voice_numbers": ["111"], "hours": "24/7", "languages": ["Vietnamese"], "cost": "free", "target": "children in need of protection", "website": "http://tongdai111.vn", "sources": ["http://tongdai111.vn"]},
+      {"name": "Peace House (CSAGA)", "organization": "CSAGA", "category": "domestic_violence", "voice_numbers": ["024 3775 9339", "024 3275 1944"], "hours": "Mon-Fri 8am-5pm", "languages": ["Vietnamese", "English"], "cost": "standard_rate", "target": "women and children victims of violence", "website": "https://csaga.org.vn", "sources": ["https://csaga.org.vn"]},
+      {"name": "Hagar Vietnam (trauma support)", "organization": "Hagar Vietnam", "category": "sexual_violence", "voice_numbers": ["024 3932 8287"], "hours": "Mon-Fri 9am-5pm", "languages": ["Vietnamese"], "cost": "standard_rate", "target": "women and children survivors of trafficking and abuse", "website": "https://hagarinternational.org", "sources": ["https://hagarinternational.org"]}
+    ]
+  },
+  {
+    "country": "Pakistan",
+    "alpha-2": "PK",
+    "alpha-3": "PAK",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "general_emergency": ["15", "16", "115"],
+    "notes": "15 police (Punjab 8787, Sindh 15), 16 fire, 115 ambulance (Edhi).",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["15", "16", "115", "1122"], "hours": "24/7", "languages": ["Urdu", "English"], "cost": "free", "target": "anyone in emergency", "notes": "1122 Rescue in Punjab/KPK/Balochistan. Edhi ambulance: 115.", "sources": []},
+      {"name": "Umang Pakistan Helpline", "organization": "Umang", "category": "mental_health", "voice_numbers": ["0311 7786264"], "hours": "daily 3pm-11pm", "languages": ["Urdu", "English"], "cost": "standard_rate", "target": "people seeking mental-health support", "website": "https://www.umang.com.pk", "sources": ["https://www.umang.com.pk"]},
+      {"name": "Rozan Helpline", "organization": "Rozan", "category": "mental_health", "voice_numbers": ["0304 1111171"], "hours": "Mon-Fri 9am-5pm", "languages": ["Urdu", "English"], "cost": "standard_rate", "target": "children, women and survivors of violence", "website": "https://rozan.org", "sources": ["https://rozan.org"]},
+      {"name": "Madadgaar Helpline", "organization": "Madadgaar National Helpline", "category": "child_protection", "voice_numbers": ["1098"], "hours": "24/7", "languages": ["Urdu", "English"], "cost": "free", "target": "children and women in distress", "website": "https://www.madadgaar.org", "sources": ["https://www.madadgaar.org"]},
+      {"name": "Bedari Helpline", "organization": "Bedari", "category": "domestic_violence", "voice_numbers": ["0803 22333"], "hours": "Mon-Fri 10am-6pm", "languages": ["Urdu"], "cost": "free", "target": "women victims of violence", "website": "https://bedari.org.pk", "sources": ["https://bedari.org.pk"]}
+    ]
+  },
+  {
+    "country": "Bangladesh",
+    "alpha-2": "BD",
+    "alpha-3": "BGD",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "general_emergency": ["999"],
+    "notes": "999 is the unified national emergency number (launched 2017).",
+    "hotlines": [
+      {"name": "National Emergency Service 999", "organization": "Bangladesh Police", "category": "emergency", "voice_numbers": ["999"], "hours": "24/7", "languages": ["Bengali", "English"], "cost": "free", "target": "anyone in emergency", "website": "https://999.gov.bd", "sources": ["https://999.gov.bd"]},
+      {"name": "Kaan Pete Roi", "organization": "Kaan Pete Roi", "category": "suicide_crisis", "voice_numbers": ["9612 11 9911"], "hours": "3pm-9pm daily", "languages": ["Bengali", "English"], "cost": "standard_rate", "target": "people in emotional distress", "website": "http://shuni.org", "sources": ["http://shuni.org"]},
+      {"name": "Child Helpline 1098", "organization": "Department of Social Services", "category": "child_protection", "voice_numbers": ["1098"], "hours": "24/7", "languages": ["Bengali"], "cost": "free", "target": "children in need of care and protection", "website": "https://childhelpline1098.gov.bd", "sources": ["https://childhelpline1098.gov.bd"]},
+      {"name": "National Helpline Centre for Violence Against Women and Children", "organization": "Ministry of Women and Children Affairs", "category": "domestic_violence", "voice_numbers": ["109"], "hours": "24/7", "languages": ["Bengali"], "cost": "free", "target": "women and children victims of violence", "website": "http://mowca.gov.bd", "sources": ["http://mowca.gov.bd"]},
+      {"name": "BRAC Legal Aid", "organization": "BRAC", "category": "sexual_violence", "voice_numbers": ["16445"], "hours": "Mon-Fri 9am-5pm", "languages": ["Bengali"], "cost": "free", "target": "women needing legal support after violence", "website": "https://www.brac.net", "sources": ["https://www.brac.net"]}
+    ]
+  },
+  {
+    "country": "Sri Lanka",
+    "alpha-2": "LK",
+    "alpha-3": "LKA",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "general_emergency": ["119", "110", "011"],
+    "notes": "119 police, 110 ambulance, 1990 suwa seriya ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["119", "110", "1990"], "hours": "24/7", "languages": ["Sinhala", "Tamil", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Sumithrayo", "organization": "Sri Lanka Sumithrayo", "category": "suicide_crisis", "voice_numbers": ["011 2692909", "011 2683555", "011 2696666"], "hours": "daily 9am-8pm", "languages": ["Sinhala", "Tamil", "English"], "cost": "standard_rate", "target": "people in emotional distress", "website": "https://srilankasumithrayo.lk", "sources": ["https://srilankasumithrayo.lk"]},
+      {"name": "Childline Sri Lanka 1929", "organization": "National Child Protection Authority", "category": "child_protection", "voice_numbers": ["1929"], "hours": "24/7", "languages": ["Sinhala", "Tamil", "English"], "cost": "free", "target": "children in need of protection", "website": "https://www.childprotection.gov.lk", "sources": ["https://www.childprotection.gov.lk"]},
+      {"name": "Women In Need Helpline", "organization": "Women In Need", "category": "domestic_violence", "voice_numbers": ["077 567 65 55", "0114 718 585"], "hours": "24/7", "languages": ["Sinhala", "Tamil", "English"], "cost": "standard_rate", "target": "women survivors of violence", "website": "https://www.winsl.net", "sources": ["https://www.winsl.net"]}
+    ]
+  }
+]

@@ -1,0 +1,15 @@
+# Big/unnecessary files don't need to ship in the Docker build context
+.git
+.github
+REPORTS
+sources
+scripts/merge_vibbrancy.py
+world-emergency-hotlines.bundle
+setup-github.ps1
+push-updates.ps1
+*.xlsx
+information.json
+CLAUDE.md
+__pycache__
+*.pyc
+.DS_Store
