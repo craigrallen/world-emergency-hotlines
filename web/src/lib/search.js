@@ -28,6 +28,14 @@ const CATEGORY_ALIASES = {
   gambling: ['gambling', 'gambling help'],
 };
 
+const CATEGORY_LABELS = {
+  child_protection: 'Child protection',
+  domestic_violence: 'Domestic violence',
+  suicide_crisis: 'Suicide crisis',
+  mental_health: 'Mental health',
+  gambling: 'Gambling',
+};
+
 const COUNTRY_ALIASES = {
   'united kingdom': ['uk'],
   'united states': ['usa', 'united states', 'us'],
@@ -56,9 +64,94 @@ function includesToken(text, token) {
   return new RegExp(`(?:^| )${escapeRegExp(token)}(?: |$)`).test(text);
 }
 
-function extractIntentFilters(normalizedQuery, informativeTokens) {
+function includesPhrase(text, phrase) {
+  return new RegExp(`(?:^| )${escapeRegExp(phrase)}(?: |$)`).test(text);
+}
+
+function buildCountryMatchers(docs = []) {
+  const seen = new Set();
+  const matchers = [];
+
+  for (const doc of docs) {
+    const country = normalizeText(doc.country_name);
+    if (!country) continue;
+
+    const aliases = uniqueNormalizedValues([country, ...(COUNTRY_ALIASES[country] ?? [])]);
+    for (const term of aliases) {
+      const key = `${country}:${term}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      matchers.push({
+        country,
+        label: doc.country_name,
+        term,
+        exact: term === country,
+      });
+    }
+  }
+
+  return matchers.sort((a, b) => b.term.length - a.term.length || Number(b.exact) - Number(a.exact));
+}
+
+function detectCountryIntent(normalizedQuery, docs = []) {
+  for (const matcher of buildCountryMatchers(docs)) {
+    if (includesPhrase(normalizedQuery, matcher.term)) {
+      return {
+        value: matcher.country,
+        label: matcher.label,
+        source: matcher.exact ? 'exact' : 'alias',
+        matched: matcher.term,
+      };
+    }
+  }
+
+  return null;
+}
+
+function detectCategoryIntent(normalizedQuery) {
+  const matchers = Object.entries(CATEGORY_ALIASES)
+    .flatMap(([value, aliases]) => uniqueNormalizedValues([value.replace(/_/g, ' '), ...aliases]).map((term) => ({
+      value,
+      label: CATEGORY_LABELS[value] ?? value.replace(/_/g, ' '),
+      term,
+      exact: term === value.replace(/_/g, ' '),
+    })))
+    .sort((a, b) => b.term.length - a.term.length || Number(b.exact) - Number(a.exact));
+
+  for (const matcher of matchers) {
+    if (includesPhrase(normalizedQuery, matcher.term)) {
+      return {
+        value: matcher.value,
+        label: matcher.label,
+        source: matcher.exact ? 'exact' : 'alias',
+        matched: matcher.term,
+      };
+    }
+  }
+
+  return null;
+}
+
+export function inferSearchIntent(queryOrParsed, docs = []) {
+  const normalized = typeof queryOrParsed === 'string' ? normalizeText(queryOrParsed) : queryOrParsed.normalized;
+  const country = detectCountryIntent(normalized, docs);
+  const category = detectCategoryIntent(normalized);
+  const channels = [];
+
+  if (includesPhrase(normalized, 'chat')) channels.push('chat');
+  if (includesPhrase(normalized, 'sms') || includesPhrase(normalized, 'text')) channels.push('sms');
+
+  return {
+    country,
+    category,
+    channels,
+  };
+}
+
+function extractIntentFilters(normalizedQuery, informativeTokens, docs = []) {
   const filters = [];
   const padded = ` ${normalizedQuery} `;
+  const intent = inferSearchIntent(normalizedQuery, docs);
 
   if (/\bchat\b/.test(padded)) {
     filters.push('chat');
@@ -72,21 +165,31 @@ function extractIntentFilters(normalizedQuery, informativeTokens) {
     filters.push('country:united states');
   }
 
+  if (intent.country) {
+    filters.push(`country:${intent.country.value}`);
+  }
+
+  if (intent.category) {
+    filters.push(`category:${intent.category.value}`);
+  }
+
   return [...new Set(filters)];
 }
 
-export function parseSearchQuery(query) {
+export function parseSearchQuery(query, docs = []) {
   const normalized = normalizeText(query);
   const informativeTokens = normalized
     .split(/\s+/)
     .filter(Boolean)
     .filter((token) => !QUERY_STOPWORDS.has(token))
     .filter((token) => token.length > 1 || /\d/.test(token));
+  const intent = inferSearchIntent(normalized, docs);
 
   return {
     normalized,
     tokens: informativeTokens.filter((token) => token !== 'chat' && token !== 'sms' && token !== 'text'),
-    filters: extractIntentFilters(normalized, informativeTokens),
+    filters: extractIntentFilters(normalized, informativeTokens, docs),
+    intent,
   };
 }
 
@@ -128,6 +231,8 @@ export function docMatchesQueryFilters(doc, queryOrParsed) {
     if (filter === 'sms' && !doc.has_sms) return false;
     if (filter === `country:${normalizeText(doc.country_name)}`) continue;
     if (filter.startsWith('country:') && normalizeText(doc.country_name) !== filter.slice(8)) return false;
+    if (filter === `category:${doc.category}`) continue;
+    if (filter.startsWith('category:') && doc.category !== filter.slice(9)) return false;
   }
 
   return true;
@@ -135,7 +240,7 @@ export function docMatchesQueryFilters(doc, queryOrParsed) {
 
 export function scoreDoc(doc, queryOrParsed) {
   const parsed = getParsedQuery(queryOrParsed);
-  const { tokens } = parsed;
+  const { tokens, intent } = parsed;
   if (tokens.length === 0) return 0;
 
   const haystack = buildHaystack(doc);
@@ -152,6 +257,14 @@ export function scoreDoc(doc, queryOrParsed) {
     if (includesToken(category, token)) score += 2;
     if (includesToken(organization, token)) score += 1;
     score += 1;
+  }
+
+  if (intent?.country?.value === countryName) {
+    score += intent.country.source === 'exact' ? 18 : 12;
+  }
+
+  if (intent?.category?.value === doc.category) {
+    score += intent.category.source === 'exact' ? 8 : 6;
   }
 
   if (parsed.filters.includes('chat') && doc.has_chat) score += 2;

@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict';
 
 import docs from '../public/data/search-index.json' with { type: 'json' };
-import { docMatchesQueryFilters, parseSearchQuery, scoreDoc } from '../src/lib/search.js';
+import { docMatchesQueryFilters, inferSearchIntent, parseSearchQuery, scoreDoc } from '../src/lib/search.js';
 
 function search(query, limit = 5) {
-  const parsed = parseSearchQuery(query);
+  const parsed = parseSearchQuery(query, docs);
   if (parsed.tokens.length === 0 && parsed.filters.length === 0) return [];
 
   return docs
@@ -112,12 +112,54 @@ const parsedCountryAliases = [
 ];
 
 for (const [query, expectedTokenOrFilter] of parsedCountryAliases) {
-  const parsed = parseSearchQuery(query);
+  const parsed = parseSearchQuery(query, docs);
   assert.ok(
     parsed.tokens.includes(expectedTokenOrFilter) || parsed.filters.includes(expectedTokenOrFilter),
     `Expected parsed query ${query} to preserve country synonym signal. Got tokens=${parsed.tokens.join(',')} filters=${parsed.filters.join(',')}`,
   );
 }
+
+const parsedIntent = parseSearchQuery('chat support sweden domestic violence', docs);
+assert.equal(parsedIntent.intent.country?.label, 'Sweden');
+assert.equal(parsedIntent.intent.category?.value, 'domestic_violence');
+assert.ok(parsedIntent.filters.includes('chat'), `Expected chat filter. Got: ${parsedIntent.filters.join(', ')}`);
+assert.ok(parsedIntent.filters.includes('country:sweden'), `Expected Sweden filter. Got: ${parsedIntent.filters.join(', ')}`);
+assert.ok(parsedIntent.filters.includes('category:domestic_violence'), `Expected domestic violence filter. Got: ${parsedIntent.filters.join(', ')}`);
+
+const mockCountryDocs = [
+  {
+    country_name: 'Sweden',
+    name: 'SafeLine',
+    organization: 'Official Service',
+    category: 'general_support',
+    numbers: [],
+    languages: [],
+    verified: true,
+    has_chat: false,
+    has_sms: false,
+  },
+  {
+    country_name: 'Norway',
+    name: 'Sweden Support Service',
+    organization: 'Regional Network',
+    category: 'general_support',
+    numbers: [],
+    languages: [],
+    verified: true,
+    has_chat: false,
+    has_sms: false,
+  },
+];
+
+const exactCountryParsed = parseSearchQuery('sweden support', mockCountryDocs);
+assert.ok(
+  scoreDoc(mockCountryDocs[0], exactCountryParsed) > scoreDoc(mockCountryDocs[1], exactCountryParsed),
+  'Expected exact country match to outrank broader alias/name matches for "sweden support".',
+);
+
+const inferredAliasIntent = inferSearchIntent('mental health uae', docs);
+assert.equal(inferredAliasIntent.country?.label, 'United Arab Emirates');
+assert.equal(inferredAliasIntent.category?.value, 'mental_health');
 
 const fillerOnlyResults = search('please help me', 5);
 assert.equal(fillerOnlyResults.length, 0, `Expected filler-only query to stay quiet. Got: ${fillerOnlyResults.join(', ')}`);

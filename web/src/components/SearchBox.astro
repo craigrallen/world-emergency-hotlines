@@ -33,6 +33,9 @@
     ></div>
   </div>
 
+  <!-- Parsed-intent chips -->
+  <div id="search-intent-chips" class="hidden flex-wrap gap-2" aria-live="polite"></div>
+
   <!-- Quick-filter chips -->
   <div id="search-filters" class="flex flex-wrap gap-2">
     <button
@@ -125,6 +128,7 @@
   const panel   = document.getElementById('search-results') as HTMLDivElement | null;
   const fallback = document.getElementById('search-fallback') as HTMLDivElement | null;
   const filterBar = document.getElementById('search-filters') as HTMLDivElement | null;
+  const intentChips = document.getElementById('search-intent-chips') as HTMLDivElement | null;
 
   if (!form || !input || !panel) throw new Error('search: missing DOM');
 
@@ -176,6 +180,37 @@
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;');
+  }
+
+  function renderIntentChips(parsedQuery: ReturnType<typeof parseSearchQuery>) {
+    if (!intentChips) return;
+
+    const chips: string[] = [];
+
+    if (parsedQuery.intent?.country) {
+      chips.push(`<span class="chip border-accent/30 bg-accent/10 text-accent text-xs">Country: ${escape(parsedQuery.intent.country.label)}</span>`);
+    }
+
+    if (parsedQuery.filters.includes('chat')) {
+      chips.push('<span class="chip border-border/60 bg-bg-elev text-fg-muted text-xs">Chat only</span>');
+    }
+
+    if (parsedQuery.filters.includes('sms')) {
+      chips.push('<span class="chip border-border/60 bg-bg-elev text-fg-muted text-xs">SMS / text</span>');
+    }
+
+    if (parsedQuery.intent?.category) {
+      chips.push(`<span class="chip border-border/60 bg-bg-elev text-fg-muted text-xs">Category: ${escape(parsedQuery.intent.category.label)}</span>`);
+    }
+
+    if (chips.length === 0) {
+      intentChips.innerHTML = '';
+      intentChips.classList.add('hidden');
+      return;
+    }
+
+    intentChips.innerHTML = chips.join('');
+    intentChips.classList.remove('hidden');
   }
 
   const CHANNEL_BADGES: Record<string, string> = {
@@ -247,6 +282,8 @@
 
     if (!q && !hasFilters) {
       panel?.classList.add('hidden');
+      intentChips?.classList.add('hidden');
+      if (intentChips) intentChips.innerHTML = '';
       fallback?.classList.remove('hidden');
       return;
     }
@@ -255,7 +292,8 @@
     window.clearTimeout(debounce);
     debounce = window.setTimeout(async () => {
       const d = await loadDocs();
-      const parsedQuery = parseSearchQuery(q);
+      const parsedQuery = parseSearchQuery(q, d);
+      renderIntentChips(parsedQuery);
       const hasQueryTokens = q && hasMeaningfulQuery(q);
       const hasIntentFilters = parsedQuery.filters.length > 0;
       let ranked: Doc[];
