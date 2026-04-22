@@ -2368,6 +2368,31 @@
               "Everyone"
             ]
           }
+        },
+        {
+          "name": "Centro Nacional de Intoxicaciones",
+          "organization": "Hospital Posadas",
+          "category": "emergency",
+          "voice_numbers": [
+            "0800 333 0160"
+          ],
+          "hours": "24/7",
+          "languages": [
+            "Spanish"
+          ],
+          "cost": "free",
+          "target": "anyone with a suspected poisoning",
+          "sources": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "geography": "Argentina",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -4727,6 +4752,64 @@
               "Children"
             ]
           }
+        },
+        {
+          "name": "Poisons Information Centre",
+          "organization": "NSW Poisons Information Centre",
+          "category": "emergency",
+          "voice_numbers": [
+            "13 11 26"
+          ],
+          "website": "https://www.poisonsinfo.nsw.gov.au",
+          "hours": "24/7",
+          "languages": [
+            "English",
+            "TIS interpreters"
+          ],
+          "cost": "local_rate",
+          "target": "anyone with a suspected poisoning — works from anywhere in Australia",
+          "sources": [
+            "https://www.poisonsinfo.nsw.gov.au",
+            "xref:wikipedia_emergency",
+            "xref:helplines.world"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Australia",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
+        },
+        {
+          "name": "HealthDirect",
+          "organization": "HealthDirect Australia",
+          "category": "emergency",
+          "voice_numbers": [
+            "1800 022 222"
+          ],
+          "website": "https://www.healthdirect.gov.au",
+          "hours": "24/7",
+          "languages": [
+            "English",
+            "TIS interpreters"
+          ],
+          "cost": "free",
+          "target": "urgent non-life-threatening medical advice (not available in Victoria)",
+          "notes": "Victoria uses NURSE-ON-CALL 1300 60 60 24.",
+          "sources": [
+            "https://www.healthdirect.gov.au"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Australia",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -11152,6 +11235,60 @@
               "Everyone"
             ]
           }
+        },
+        {
+          "name": "Delegacia Especial de Atendimento ao Turista (DEATUR)",
+          "organization": "Civil Police",
+          "category": "emergency",
+          "voice_numbers": [
+            "+55 21 2332-2924"
+          ],
+          "hours": "24/7 (Rio); hours vary by city",
+          "languages": [
+            "Portuguese",
+            "English",
+            "Spanish"
+          ],
+          "cost": "standard_rate",
+          "target": "tourists in Brazil",
+          "notes": "Each major city has a DEATUR office — see local tourism board.",
+          "sources": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "geography": "Brazil",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
+        },
+        {
+          "name": "Centro de Informação e Assistência Toxicológica (CIATox)",
+          "organization": "CIATox network",
+          "category": "emergency",
+          "voice_numbers": [
+            "0800 722 6001"
+          ],
+          "website": "https://ciatox.org.br",
+          "hours": "24/7",
+          "languages": [
+            "Portuguese"
+          ],
+          "cost": "free",
+          "target": "anyone with a suspected poisoning",
+          "sources": [
+            "https://ciatox.org.br"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Brazil",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -13528,11 +13665,12 @@
           "target": "people in emotional crisis or at risk of suicide",
           "geography": "Canada",
           "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
+          "verification_status": "cross_referenced",
+          "last_verified": "2026-04-22",
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14",
-            "xref:vibbrancy"
+            "xref:vibbrancy",
+            "xref:helplines.world"
           ],
           "_legacy": {
             "name": "Trans Lifeline",
@@ -14708,6 +14846,62 @@
               "+1 more"
             ]
           }
+        },
+        {
+          "name": "Canadian Association of Poison Centres",
+          "organization": "CAPC",
+          "category": "emergency",
+          "voice_numbers": [
+            "1-844-764-7669"
+          ],
+          "website": "https://www.infopoison.com",
+          "hours": "24/7",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "free",
+          "target": "anyone with a suspected poisoning — routes to the nearest provincial poison centre",
+          "notes": "Provinces also have direct lines, e.g. Ontario 1-800-268-9017, Quebec 1-800-463-5060.",
+          "sources": [
+            "https://www.infopoison.com"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Canada",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
+        },
+        {
+          "name": "Health Canada Drug Product Info",
+          "organization": "Health Canada",
+          "category": "general_support",
+          "voice_numbers": [
+            "1-866-225-0709"
+          ],
+          "website": "https://www.canada.ca/en/health-canada.html",
+          "hours": "Mon-Fri 8:30am-4:30pm ET",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "free",
+          "target": "drug safety, recalls, travel health information",
+          "sources": [
+            "https://www.canada.ca/en/health-canada.html"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Canada",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -21245,6 +21439,34 @@
               "Youth"
             ]
           }
+        },
+        {
+          "name": "Giftlinjen (Poison Line)",
+          "organization": "Bispebjerg Hospital",
+          "category": "emergency",
+          "voice_numbers": [
+            "82 12 12 12"
+          ],
+          "website": "https://giftlinjen.dk",
+          "hours": "24/7",
+          "languages": [
+            "Danish",
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "anyone with a suspected poisoning",
+          "sources": [
+            "https://giftlinjen.dk"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Denmark",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -24275,6 +24497,32 @@
             "phone": "16000 (text)",
             "source": "helplines.world"
           }
+        },
+        {
+          "name": "Tourist Police",
+          "organization": "Egyptian Tourism Police",
+          "category": "emergency",
+          "voice_numbers": [
+            "126"
+          ],
+          "hours": "24/7",
+          "languages": [
+            "Arabic",
+            "English"
+          ],
+          "cost": "free",
+          "target": "tourists in Egypt",
+          "sources": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "geography": "Egypt",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -28315,6 +28563,36 @@
             "phone": "116 006 (youth option)",
             "source": "helplines.world"
           }
+        },
+        {
+          "name": "Myrkytystietokeskus (Poison Information Centre)",
+          "organization": "HUS",
+          "category": "emergency",
+          "voice_numbers": [
+            "0800 147 111"
+          ],
+          "website": "https://www.myrkytystietokeskus.fi",
+          "hours": "24/7",
+          "languages": [
+            "Finnish",
+            "Swedish",
+            "English"
+          ],
+          "cost": "free",
+          "target": "anyone with a suspected poisoning",
+          "sources": [
+            "https://www.myrkytystietokeskus.fi",
+            "xref:wikipedia_emergency"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Finland",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -30459,6 +30737,61 @@
             "phone": "0 800 840 800",
             "source": "helplines.world"
           }
+        },
+        {
+          "name": "Centre Antipoison",
+          "organization": "Centres Antipoison de France",
+          "category": "emergency",
+          "voice_numbers": [
+            "+33 1 40 05 48 48"
+          ],
+          "website": "https://www.centres-antipoison.net",
+          "hours": "24/7",
+          "languages": [
+            "French",
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "anyone with a suspected poisoning",
+          "notes": "Regional centres: Paris 01 40 05 48 48, Marseille 04 91 75 25 25, Lyon 04 72 11 69 11, Toulouse 05 61 77 74 47.",
+          "sources": [
+            "https://www.centres-antipoison.net"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "France",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
+        },
+        {
+          "name": "SOS Médecins",
+          "organization": "SOS Médecins France",
+          "category": "emergency",
+          "voice_numbers": [
+            "3624"
+          ],
+          "website": "https://www.sosmedecins-france.fr",
+          "hours": "24/7",
+          "languages": [
+            "French"
+          ],
+          "cost": "standard_rate",
+          "target": "home-visit urgent medical care",
+          "sources": [
+            "https://www.sosmedecins-france.fr"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "France",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -32592,6 +32925,63 @@
               "Everyone"
             ]
           }
+        },
+        {
+          "name": "Giftnotruf (Poison Emergency)",
+          "organization": "Berliner Giftnotruf",
+          "category": "emergency",
+          "voice_numbers": [
+            "+49 30 19240",
+            "0551 19240"
+          ],
+          "website": "https://www.giftnotruf.de",
+          "hours": "24/7",
+          "languages": [
+            "German",
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "anyone with a suspected poisoning",
+          "notes": "Regional poison centres: Berlin 030 19240, Bonn 0228 19240, Erfurt 0361 730730, Freiburg 0761 19240, Göttingen 0551 19240, Homburg 06841 19240, Mainz 06131 19240, Munich 089 19240, Nürnberg 0911 398-2451, Vienna +43 1 406 43 43.",
+          "sources": [
+            "https://www.giftnotruf.de"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Germany",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
+        },
+        {
+          "name": "Ärztlicher Bereitschaftsdienst",
+          "organization": "KBV",
+          "category": "emergency",
+          "voice_numbers": [
+            "116 117"
+          ],
+          "website": "https://www.116117.de",
+          "hours": "24/7",
+          "languages": [
+            "German"
+          ],
+          "cost": "free",
+          "target": "non-life-threatening medical advice outside GP hours",
+          "sources": [
+            "https://www.116117.de",
+            "xref:wikipedia_emergency"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Germany",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -37087,6 +37477,63 @@
             ],
             "sms": []
           }
+        },
+        {
+          "name": "Hong Kong Poison Information Centre",
+          "organization": "Hospital Authority",
+          "category": "emergency",
+          "voice_numbers": [
+            "2635 1111"
+          ],
+          "website": "https://www3.ha.org.hk/hkpic",
+          "hours": "24/7 for medical professionals",
+          "languages": [
+            "Cantonese",
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "poison queries — public should dial 999",
+          "sources": [
+            "https://www3.ha.org.hk/hkpic"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Hong Kong",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
+        },
+        {
+          "name": "Hong Kong Tourism Board Visitor Hotline",
+          "organization": "HKTB",
+          "category": "general_support",
+          "voice_numbers": [
+            "+852 2508 1234"
+          ],
+          "website": "https://www.discoverhongkong.com",
+          "hours": "9am-6pm daily",
+          "languages": [
+            "English",
+            "Cantonese",
+            "Mandarin"
+          ],
+          "cost": "standard_rate",
+          "target": "visitors needing tourist info",
+          "sources": [
+            "https://www.discoverhongkong.com"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Hong Kong",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -41660,6 +42107,75 @@
             "phone": "0800‑221 890 (text)",
             "source": "helplines.world"
           }
+        },
+        {
+          "name": "National Poison Information Centre",
+          "organization": "AIIMS New Delhi",
+          "category": "emergency",
+          "voice_numbers": [
+            "1800-116-117",
+            "011-26589391"
+          ],
+          "website": "https://www.aiims.edu",
+          "hours": "24/7",
+          "languages": [
+            "English",
+            "Hindi"
+          ],
+          "cost": "free (toll-free)",
+          "target": "anyone with a suspected poisoning",
+          "sources": [
+            "https://www.aiims.edu"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "India",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
+        },
+        {
+          "name": "Tourist Helpline",
+          "organization": "Ministry of Tourism",
+          "category": "general_support",
+          "voice_numbers": [
+            "1800-11-1363",
+            "1363"
+          ],
+          "website": "https://tourism.gov.in",
+          "hours": "24/7",
+          "languages": [
+            "English",
+            "Hindi",
+            "Spanish",
+            "French",
+            "German",
+            "Italian",
+            "Russian",
+            "Japanese",
+            "Mandarin",
+            "Portuguese",
+            "Arabic",
+            "Korean"
+          ],
+          "cost": "free",
+          "target": "domestic and international tourists in India",
+          "sources": [
+            "https://tourism.gov.in",
+            "xref:wikipedia_emergency"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "India",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -43867,6 +44383,33 @@
             ],
             "sms": []
           }
+        },
+        {
+          "name": "National Poisons Information Centre",
+          "organization": "Beaumont Hospital",
+          "category": "emergency",
+          "voice_numbers": [
+            "01 809 2166"
+          ],
+          "website": "https://www.poisons.ie",
+          "hours": "24/7 for professionals; public 8am-10pm",
+          "languages": [
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "anyone with a suspected poisoning",
+          "sources": [
+            "https://www.poisons.ie"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Ireland",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -44569,6 +45112,37 @@
             "https://lgbt.org.il"
           ],
           "name": "Hotline for LGBT+"
+        },
+        {
+          "name": "Rambam National Poison Information Centre",
+          "organization": "Rambam Health Care Campus",
+          "category": "emergency",
+          "voice_numbers": [
+            "*6111",
+            "+972 4 854 2725"
+          ],
+          "website": "https://www.rambam.org.il",
+          "hours": "24/7",
+          "languages": [
+            "Hebrew",
+            "Arabic",
+            "English",
+            "Russian"
+          ],
+          "cost": "standard_rate",
+          "target": "anyone with a suspected poisoning",
+          "sources": [
+            "https://www.rambam.org.il"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Israel",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -45078,6 +45652,59 @@
             ],
             "sms": []
           }
+        },
+        {
+          "name": "Centri Antiveleno (Poison Control)",
+          "organization": "Centro Antiveleno Milano (Ospedale Niguarda)",
+          "category": "emergency",
+          "voice_numbers": [
+            "+39 02 6610 1029"
+          ],
+          "website": "https://www.centroantiveleni.org",
+          "hours": "24/7",
+          "languages": [
+            "Italian",
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "anyone with a suspected poisoning",
+          "notes": "Also Rome (Policlinico Gemelli) +39 06 305 4343 and Pavia +39 0382 24444.",
+          "sources": [
+            "https://www.centroantiveleni.org"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Italy",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
+        },
+        {
+          "name": "Guardia Medica",
+          "organization": "Servizio di Continuità Assistenziale",
+          "category": "emergency",
+          "voice_numbers": [
+            "116 117"
+          ],
+          "hours": "nights/weekends/holidays",
+          "languages": [
+            "Italian"
+          ],
+          "cost": "free",
+          "target": "non-urgent out-of-hours medical care",
+          "sources": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "geography": "Italy",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -47021,6 +47648,97 @@
             "phone": "0120‑284‑114",
             "source": "helplines.world"
           }
+        },
+        {
+          "name": "Japan Poison Information Center",
+          "organization": "JPIC",
+          "category": "emergency",
+          "voice_numbers": [
+            "072-727-2499"
+          ],
+          "website": "https://www.j-poison-ic.jp",
+          "hours": "24/7 (public line: 072-727-2499 Osaka, 029-852-9999 Tsukuba)",
+          "languages": [
+            "Japanese",
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "anyone with a suspected poisoning",
+          "sources": [
+            "https://www.j-poison-ic.jp"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Japan",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
+        },
+        {
+          "name": "AMDA International Medical Information Center",
+          "organization": "AMDA IMIC",
+          "category": "general_support",
+          "voice_numbers": [
+            "03-6233-9266"
+          ],
+          "website": "https://eng.amda-imic.com",
+          "hours": "Mon-Fri 10am-4pm",
+          "languages": [
+            "English",
+            "Chinese",
+            "Korean",
+            "Thai",
+            "Spanish",
+            "Portuguese",
+            "Filipino",
+            "Vietnamese"
+          ],
+          "cost": "standard_rate",
+          "target": "foreign residents and travellers needing medical referrals",
+          "sources": [
+            "https://eng.amda-imic.com"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Japan",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
+        },
+        {
+          "name": "JNTO Tourist Information Call Center",
+          "organization": "Japan National Tourism Organization",
+          "category": "general_support",
+          "voice_numbers": [
+            "050-3816-2787"
+          ],
+          "website": "https://www.japan.travel/en/plan/call-center",
+          "hours": "24/7",
+          "languages": [
+            "English",
+            "Chinese",
+            "Korean"
+          ],
+          "cost": "standard_rate",
+          "target": "tourists needing travel or emergency information while in Japan",
+          "sources": [
+            "https://www.japan.travel/en/plan/call-center"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Japan",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -55192,6 +55910,86 @@
               "800 822 4460"
             ]
           }
+        },
+        {
+          "name": "CAPUFE Emergencia (Highway Emergency)",
+          "organization": "Caminos y Puentes Federales",
+          "category": "emergency",
+          "voice_numbers": [
+            "074"
+          ],
+          "website": "https://www.gob.mx/capufe",
+          "hours": "24/7",
+          "languages": [
+            "Spanish"
+          ],
+          "cost": "free",
+          "target": "highway breakdown and roadside assistance",
+          "sources": [
+            "https://www.gob.mx/capufe"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Mexico",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
+        },
+        {
+          "name": "Ángeles Verdes (Green Angels roadside assistance)",
+          "organization": "SECTUR",
+          "category": "emergency",
+          "voice_numbers": [
+            "078"
+          ],
+          "website": "https://www.gob.mx/sectur/acciones-y-programas/angeles-verdes",
+          "hours": "8am-8pm daily",
+          "languages": [
+            "Spanish",
+            "English"
+          ],
+          "cost": "free",
+          "target": "tourists with roadside breakdowns on federal highways",
+          "sources": [
+            "https://www.gob.mx/sectur/acciones-y-programas/angeles-verdes"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Mexico",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
+        },
+        {
+          "name": "CENAPRED Poison Center",
+          "organization": "Centro Nacional de Prevención de Desastres",
+          "category": "emergency",
+          "voice_numbers": [
+            "800 00 214 00"
+          ],
+          "hours": "24/7",
+          "languages": [
+            "Spanish"
+          ],
+          "cost": "free",
+          "target": "anyone with a suspected poisoning",
+          "sources": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "geography": "Mexico",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -56950,6 +57748,61 @@
             "phone": "05 22 44 42 00 (text)",
             "source": "helplines.world"
           }
+        },
+        {
+          "name": "Brigade Touristique",
+          "organization": "Sûreté Nationale",
+          "category": "emergency",
+          "voice_numbers": [
+            "19"
+          ],
+          "hours": "24/7",
+          "languages": [
+            "Arabic",
+            "French",
+            "English"
+          ],
+          "cost": "free",
+          "target": "tourists",
+          "sources": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "geography": "Morocco",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
+        },
+        {
+          "name": "Centre Anti Poison du Maroc",
+          "organization": "CAPM",
+          "category": "emergency",
+          "voice_numbers": [
+            "0801 000 180"
+          ],
+          "website": "https://www.capm.ma",
+          "hours": "24/7",
+          "languages": [
+            "Arabic",
+            "French"
+          ],
+          "cost": "free",
+          "target": "anyone with a suspected poisoning",
+          "sources": [
+            "https://www.capm.ma"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Morocco",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -58308,11 +59161,15 @@
           "target": null,
           "geography": "Netherlands",
           "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
+          "verification_status": "cross_referenced",
+          "last_verified": "2026-04-22",
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14",
-            "xref:vibbrancy"
+            "xref:vibbrancy",
+            "xref:psc_app",
+            "xref:helplines.world",
+            "xref:web_verified_crisis_directory",
+            "xref:child_helpline_international"
           ],
           "_legacy": {
             "name": "De Kindertelefoon",
@@ -59045,6 +59902,60 @@
             "phone": null,
             "source": "helplines.world"
           }
+        },
+        {
+          "name": "Nationaal Vergiftigingen Informatie Centrum",
+          "organization": "UMC Utrecht",
+          "category": "emergency",
+          "voice_numbers": [
+            "+31 30 274 88 88"
+          ],
+          "website": "https://www.vergiftigingen.info",
+          "hours": "24/7 for medical professionals",
+          "languages": [
+            "Dutch",
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "medical professionals managing suspected poisonings; public via 112 and GPs",
+          "sources": [
+            "https://www.vergiftigingen.info"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Netherlands",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
+        },
+        {
+          "name": "Huisartsenpost (GP out-of-hours)",
+          "organization": "Huisartsenposten NL",
+          "category": "emergency",
+          "voice_numbers": [
+            "0900 11 22 33"
+          ],
+          "hours": "nights/weekends/holidays",
+          "languages": [
+            "Dutch",
+            "English"
+          ],
+          "cost": "paid",
+          "target": "non-urgent out-of-hours medical advice",
+          "sources": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "geography": "Netherlands",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -61518,9 +62429,10 @@
         },
         {
           "name": "National Poisons Centre",
-          "organization": "National Poisons Centre",
-          "category": "general_support",
+          "organization": "University of Otago",
+          "category": "emergency",
           "voice_numbers": [
+            "0800 POISON",
             "0800 764 766"
           ],
           "sms_numbers": [],
@@ -61528,17 +62440,20 @@
           "short_codes": [],
           "chat_url": null,
           "email": null,
-          "website": null,
+          "website": "https://www.poisons.co.nz",
           "hours": "24/7",
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
+          "languages": [
+            "English"
+          ],
+          "cost": "free",
+          "target": "anyone with a suspected poisoning",
           "geography": "New Zealand",
-          "notes": "Poison advice.",
-          "verification_status": "cross_referenced",
+          "notes": "",
+          "verification_status": "verified_knowledge",
           "last_verified": "2026-04-22",
           "sources": [
-            "https://helplines.world/",
+            "https://www.poisons.co.nz",
+            "xref:vibbrancy",
             "xref:helplines.world"
           ],
           "_legacy": {
@@ -62102,6 +63017,36 @@
             "phone": "0800 326 243",
             "source": "helplines.world"
           }
+        },
+        {
+          "name": "Healthline (nurse-led medical advice)",
+          "organization": "Whakarongorau Aotearoa",
+          "category": "emergency",
+          "voice_numbers": [
+            "0800 611 116"
+          ],
+          "website": "https://www.health.govt.nz/healthline",
+          "hours": "24/7",
+          "languages": [
+            "English",
+            "Te Reo Maori",
+            "interpreters"
+          ],
+          "cost": "free",
+          "target": "non-urgent medical advice",
+          "sources": [
+            "https://www.health.govt.nz/healthline",
+            "xref:helplines.world"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "New Zealand",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -64054,6 +64999,34 @@
             "https://hjelpelinjen.no"
           ],
           "name": "Hjelpelinjen (Problem Gambling)"
+        },
+        {
+          "name": "Giftinformasjonen",
+          "organization": "Folkehelseinstituttet",
+          "category": "emergency",
+          "voice_numbers": [
+            "22 59 13 00"
+          ],
+          "website": "https://helsenorge.no/giftinformasjon",
+          "hours": "24/7",
+          "languages": [
+            "Norwegian",
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "anyone with a suspected poisoning",
+          "sources": [
+            "https://helsenorge.no/giftinformasjon"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Norway",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -71212,6 +72185,33 @@
             ],
             "sms": []
           }
+        },
+        {
+          "name": "SGH Drug and Poison Information Centre",
+          "organization": "Singapore General Hospital",
+          "category": "emergency",
+          "voice_numbers": [
+            "6423 9119"
+          ],
+          "website": "https://www.sgh.com.sg",
+          "hours": "24/7",
+          "languages": [
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "anyone with a suspected poisoning (medical professionals preferred)",
+          "sources": [
+            "https://www.sgh.com.sg"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Singapore",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -73202,6 +74202,62 @@
               "Women"
             ]
           }
+        },
+        {
+          "name": "Poisons Information Centre",
+          "organization": "Tygerberg Poison Information Centre",
+          "category": "emergency",
+          "voice_numbers": [
+            "0861 555 777"
+          ],
+          "website": "https://www.poisonsinformation.co.za",
+          "hours": "24/7",
+          "languages": [
+            "English",
+            "Afrikaans"
+          ],
+          "cost": "local_rate",
+          "target": "anyone with a suspected poisoning",
+          "sources": [
+            "https://www.poisonsinformation.co.za"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "South Africa",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
+        },
+        {
+          "name": "AA Roadside Assistance",
+          "organization": "Automobile Association of South Africa",
+          "category": "emergency",
+          "voice_numbers": [
+            "0861 000 234"
+          ],
+          "website": "https://www.aa.co.za",
+          "hours": "24/7",
+          "languages": [
+            "English",
+            "Afrikaans"
+          ],
+          "cost": "local_rate",
+          "target": "roadside emergencies (members and non-members)",
+          "sources": [
+            "https://www.aa.co.za"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "South Africa",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -74405,6 +75461,76 @@
               "Everyone"
             ]
           }
+        },
+        {
+          "name": "Korea Tourism Organization Info Line",
+          "organization": "KTO",
+          "category": "general_support",
+          "voice_numbers": [
+            "1330"
+          ],
+          "website": "https://english.visitkorea.or.kr",
+          "hours": "24/7",
+          "languages": [
+            "Korean",
+            "English",
+            "Chinese",
+            "Japanese",
+            "Vietnamese",
+            "Thai",
+            "Malay",
+            "Indonesian",
+            "Russian",
+            "German",
+            "Spanish",
+            "French"
+          ],
+          "cost": "free",
+          "target": "tourist information, interpretation help, complaints",
+          "sources": [
+            "https://english.visitkorea.or.kr"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "South Korea",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
+        },
+        {
+          "name": "Seoul Global Center Medical Hotline",
+          "organization": "Seoul Metropolitan Government",
+          "category": "general_support",
+          "voice_numbers": [
+            "120"
+          ],
+          "website": "https://global.seoul.go.kr",
+          "hours": "24/7",
+          "languages": [
+            "English",
+            "Chinese",
+            "Japanese",
+            "Vietnamese",
+            "Mongolian",
+            "Russian"
+          ],
+          "cost": "free",
+          "target": "foreign residents of Seoul",
+          "sources": [
+            "https://global.seoul.go.kr"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "South Korea",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -75155,6 +76281,33 @@
               "Everyone"
             ]
           }
+        },
+        {
+          "name": "Instituto Nacional de Toxicología",
+          "organization": "INT",
+          "category": "emergency",
+          "voice_numbers": [
+            "91 562 04 20"
+          ],
+          "website": "https://www.mjusticia.gob.es",
+          "hours": "24/7",
+          "languages": [
+            "Spanish"
+          ],
+          "cost": "standard_rate",
+          "target": "anyone with a suspected poisoning",
+          "sources": [
+            "https://www.mjusticia.gob.es"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Spain",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -76812,6 +77965,35 @@
             ],
             "sms": []
           }
+        },
+        {
+          "name": "Giftinformationscentralen",
+          "organization": "Giftinformationscentralen",
+          "category": "emergency",
+          "voice_numbers": [
+            "+46 10 456 6700",
+            "112 (emergency)"
+          ],
+          "website": "https://giftinformation.se",
+          "hours": "24/7 via 112; info line 9am-5pm",
+          "languages": [
+            "Swedish",
+            "English"
+          ],
+          "cost": "free (112); standard otherwise",
+          "target": "anyone with a suspected poisoning",
+          "sources": [
+            "https://giftinformation.se"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Sweden",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -77242,6 +78424,66 @@
               "Parents"
             ]
           }
+        },
+        {
+          "name": "Tox Info Suisse",
+          "organization": "Tox Info Suisse",
+          "category": "emergency",
+          "voice_numbers": [
+            "145"
+          ],
+          "website": "https://www.toxinfo.ch",
+          "hours": "24/7",
+          "languages": [
+            "German",
+            "French",
+            "Italian",
+            "English"
+          ],
+          "cost": "free from Switzerland",
+          "target": "anyone with a suspected poisoning",
+          "sources": [
+            "https://www.toxinfo.ch"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Switzerland",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
+        },
+        {
+          "name": "Medgate 24/7 Telemedicine",
+          "organization": "Medgate",
+          "category": "emergency",
+          "voice_numbers": [
+            "+41 415 415 415"
+          ],
+          "website": "https://www.medgate.ch",
+          "hours": "24/7",
+          "languages": [
+            "German",
+            "French",
+            "Italian",
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "non-urgent telemedical consultation",
+          "sources": [
+            "https://www.medgate.ch"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Switzerland",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -78341,6 +79583,69 @@
           "last_verified": "2026-04-22",
           "sources": [],
           "name": "Thailand AIDS Hotline"
+        },
+        {
+          "name": "Tourist Police",
+          "organization": "Thai Tourist Police",
+          "category": "emergency",
+          "voice_numbers": [
+            "1155"
+          ],
+          "website": "https://thaipolice.go.th",
+          "hours": "24/7",
+          "languages": [
+            "Thai",
+            "English",
+            "Mandarin",
+            "Japanese",
+            "Russian",
+            "German",
+            "French",
+            "Arabic"
+          ],
+          "cost": "free",
+          "target": "tourists and expats in Thailand",
+          "sources": [
+            "https://thaipolice.go.th",
+            "xref:wikipedia_emergency"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Thailand",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
+        },
+        {
+          "name": "Ramathibodi Poison Center",
+          "organization": "Ramathibodi Hospital",
+          "category": "emergency",
+          "voice_numbers": [
+            "1367"
+          ],
+          "website": "https://med.mahidol.ac.th/poisoncenter",
+          "hours": "24/7",
+          "languages": [
+            "Thai",
+            "English"
+          ],
+          "cost": "free",
+          "target": "anyone with a suspected poisoning",
+          "sources": [
+            "https://med.mahidol.ac.th/poisoncenter"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "geography": "Thailand",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -79525,6 +80830,61 @@
             "https://kaosgl.org"
           ],
           "name": "Kaos GL LGBT+ Hotline"
+        },
+        {
+          "name": "Turizm Polisi (Tourism Police)",
+          "organization": "Turkish National Police",
+          "category": "emergency",
+          "voice_numbers": [
+            "+90 212 527 4503",
+            "+90 212 528 5369"
+          ],
+          "hours": "24/7",
+          "languages": [
+            "Turkish",
+            "English",
+            "German",
+            "French",
+            "Arabic"
+          ],
+          "cost": "standard_rate",
+          "target": "tourists in Istanbul (other cities: dial 155)",
+          "sources": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "geography": "Turkey",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
+        },
+        {
+          "name": "Zehir Danışma (Poison Advisory)",
+          "organization": "UZEM",
+          "category": "emergency",
+          "voice_numbers": [
+            "114"
+          ],
+          "hours": "24/7",
+          "languages": [
+            "Turkish"
+          ],
+          "cost": "free",
+          "target": "anyone with a suspected poisoning",
+          "sources": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "geography": "Turkey",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     },
@@ -80522,4609 +81882,38 @@
             "https://www.lighthousearabia.com"
           ],
           "name": "Lighthouse Arabia"
-        }
-      ]
-    },
-    {
-      "country": "United Kingdom",
-      "alpha-2": "GB",
-      "alpha-3": "GBR",
-      "region": "Europe",
-      "subregion": "Northern Europe",
-      "general_emergency": [
-        "999",
-        "112"
-      ],
-      "notes": "112 works from mobiles across the EU and UK. Text 999 registration (emergencySMS) is available for deaf/HoH users. 18000 is the NGT (Next Generation Text) relay emergency number.",
-      "hotlines": [
+        },
         {
-          "name": "Emergency Services (999 / 112)",
-          "organization": "BT Operator Services",
+          "name": "Dubai Police Tourist Security",
+          "organization": "Dubai Police",
           "category": "emergency",
           "voice_numbers": [
-            "999",
-            "112"
+            "901"
           ],
-          "sms_numbers": [
-            "999"
-          ],
-          "text_numbers": [],
-          "short_codes": [
-            "18000"
-          ],
-          "chat_url": null,
-          "email": null,
-          "website": "https://www.gov.uk/call-999",
+          "website": "https://www.dubaipolice.gov.ae",
           "hours": "24/7",
           "languages": [
+            "Arabic",
             "English",
-            "Welsh (Wales)",
-            "interpreters on request"
+            "Urdu",
+            "French",
+            "German",
+            "Russian"
           ],
           "cost": "free",
-          "target": "anyone needing police, fire, ambulance or coastguard",
-          "geography": "United Kingdom",
-          "notes": "Text 999 requires pre-registration. 18000 is the relay service emergency number (text or video relay).",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
+          "target": "tourists in Dubai",
           "sources": [
-            "https://www.gov.uk/call-999"
-          ]
-        },
-        {
-          "name": "NHS 111",
-          "organization": "National Health Service",
-          "category": "emergency",
-          "voice_numbers": [
-            "111"
+            "https://www.dubaipolice.gov.ae"
           ],
           "sms_numbers": [],
           "text_numbers": [],
-          "short_codes": [
-            "18001 111"
-          ],
-          "chat_url": "https://111.nhs.uk",
-          "email": null,
-          "website": "https://111.nhs.uk",
-          "hours": "24/7",
-          "languages": [
-            "English",
-            "interpreters on request",
-            "BSL via NHS 111 BSL app/website"
-          ],
-          "cost": "free",
-          "target": "anyone with a non-life-threatening medical concern",
-          "geography": "England, Wales, Scotland (NHS 24 in Scotland also 111)",
-          "notes": "For mental health crisis, NHS 111 now has a Select Mental Health option (press 2) in England.",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://111.nhs.uk"
-          ]
-        },
-        {
-          "name": "Samaritans",
-          "organization": "Samaritans",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "116 123"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": "jo@samaritans.org",
-          "website": "https://www.samaritans.org",
-          "hours": "24/7",
-          "languages": [
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone struggling to cope or in emotional distress",
-          "geography": "UK and Ireland",
-          "notes": "Confidential, non-religious listening service. Welsh-language line: 0808 164 0123 (7am–11pm).",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.samaritans.org",
-            "xref:psc_app",
-            "xref:helplines.world",
-            "xref:vibbrancy"
-          ]
-        },
-        {
-          "name": "Samaritans (Welsh language)",
-          "organization": "Samaritans",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "0808 164 0123"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": "jo@samaritans.org",
-          "website": "https://www.samaritans.org/how-we-can-help/contact-samaritan/welsh-language-line/",
-          "hours": "7am–11pm daily",
-          "languages": [
-            "Welsh"
-          ],
-          "cost": "free",
-          "target": "Welsh-speaking callers in distress",
-          "geography": "Wales",
-          "notes": "",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.samaritans.org/how-we-can-help/contact-samaritan/welsh-language-line/"
-          ]
-        },
-        {
-          "name": "Shout",
-          "organization": "Mental Health Innovations",
-          "category": "mental_health",
-          "voice_numbers": [],
-          "sms_numbers": [
-            "85258"
-          ],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://giveusashout.org",
-          "hours": "24/7",
-          "languages": [
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in crisis who prefers to text rather than call",
-          "geography": "United Kingdom",
-          "notes": "Text SHOUT to 85258. Volunteer-staffed.",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://giveusashout.org",
-            "xref:psc_app"
-          ]
-        },
-        {
-          "name": "Papyrus HOPELINE247",
-          "organization": "Papyrus Prevention of Young Suicide",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "0800 068 4141"
-          ],
-          "sms_numbers": [
-            "88247"
-          ],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": "pat@papyrus-uk.org",
-          "website": "https://www.papyrus-uk.org",
-          "hours": "24/7",
-          "languages": [
-            "English"
-          ],
-          "cost": "free",
-          "target": "under-35s experiencing suicidal thoughts, and adults concerned about a young person",
-          "geography": "United Kingdom",
-          "notes": "Renamed from HOPELineUK / HOPELINE UK to HOPELINE247 in 2023 reflecting round-the-clock service.",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.papyrus-uk.org/papyrus-hopeline247/",
-            "xref:psc_app",
-            "xref:web_verified_crisis_directory",
-            "xref:helplines.world",
-            "xref:vibbrancy"
-          ]
-        },
-        {
-          "name": "CALM (Campaign Against Living Miserably)",
-          "organization": "CALM",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "0800 58 58 58"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": "https://www.thecalmzone.net/help/webchat/",
-          "email": null,
-          "website": "https://www.thecalmzone.net",
-          "hours": "5pm–midnight daily",
-          "languages": [
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in the UK affected by suicide or a mental health issue, historically focused on men",
-          "geography": "United Kingdom",
-          "notes": "Web chat available during the same hours.",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.thecalmzone.net",
-            "xref:psc_app",
-            "xref:helplines.world",
-            "xref:vibbrancy"
-          ]
-        },
-        {
-          "name": "SANEline",
-          "organization": "SANE",
-          "category": "mental_health",
-          "voice_numbers": [
-            "0300 304 7000"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://www.sane.org.uk",
-          "hours": "4pm–10pm daily",
-          "languages": [
-            "English"
-          ],
-          "cost": "local_rate",
-          "target": "anyone affected by mental illness, including families and carers",
-          "geography": "United Kingdom",
-          "notes": "Textcare online messaging service available.",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.sane.org.uk",
-            "xref:psc_app",
-            "xref:vibbrancy"
-          ]
-        },
-        {
-          "name": "Mind Infoline",
-          "organization": "Mind",
-          "category": "mental_health",
-          "voice_numbers": [
-            "0300 123 3393"
-          ],
-          "sms_numbers": [
-            "86463"
-          ],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": "info@mind.org.uk",
-          "website": "https://www.mind.org.uk",
-          "hours": "Mon–Fri 9am–6pm (excluding bank holidays)",
-          "languages": [
-            "English"
-          ],
-          "cost": "local_rate",
-          "target": "anyone seeking information about a mental health problem, treatment or rights",
-          "geography": "England and Wales",
-          "notes": "Side by Side online community also available.",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.mind.org.uk/information-support/helplines/",
-            "xref:psc_app",
-            "xref:helplines.world"
-          ]
-        },
-        {
-          "name": "Childline",
-          "organization": "NSPCC",
-          "category": "child_protection",
-          "voice_numbers": [
-            "0800 1111"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": "https://www.childline.org.uk/get-support/1-2-1-counsellor-chat/",
-          "email": null,
-          "website": "https://www.childline.org.uk",
-          "hours": "7.30am to 3.30am daily (phone and 1-to-1 chat)",
-          "languages": [
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone under 19 in the UK",
-          "geography": "United Kingdom",
-          "notes": "Free, private and confidential service for anyone under 19 in the UK. Call 0800 1111 (the call won't show up on your phone bill). Other ways to get support via childline.org.uk: (1) 1-to-1 counsellor chat — typed conversation with a Childline counsellor. (2) Message boards for peer support — moderated by Childline. (3) Ask Sam — email a Childline advice columnist. (4) The Toolbox — games, coping activities, the Calm Zone breathing exercises, video diaries. (5) Topic pages covering abuse, bullying, mental health, exams, family, relationships and sex, LGBTQ+, your body. Also available via the 'For Me' mobile app for discreet, encrypted access.",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.childline.org.uk",
-            "https://www.childline.org.uk/get-support/contacting-childline/",
-            "https://www.childline.org.uk/get-support/1-2-1-counsellor-chat/",
-            "https://www.childline.org.uk/toolbox/",
-            "https://www.childline.org.uk/get-support/ask-sam/",
-            "https://www.childline.org.uk/get-support/message-boards/",
-            "xref:psc_app",
-            "xref:vibbrancy"
-          ]
-        },
-        {
-          "name": "NSPCC Helpline",
-          "organization": "NSPCC",
-          "category": "child_protection",
-          "voice_numbers": [
-            "0808 800 5000"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": "https://www.nspcc.org.uk/keeping-children-safe/our-services/nspcc-helpline/",
-          "email": "help@nspcc.org.uk",
-          "website": "https://www.nspcc.org.uk",
-          "hours": "Mon–Fri 8am–10pm; weekends 9am–6pm",
-          "languages": [
-            "English"
-          ],
-          "cost": "free",
-          "target": "adults worried about a child",
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.nspcc.org.uk/keeping-children-safe/our-services/nspcc-helpline/"
-          ]
-        },
-        {
-          "name": "Runaway Helpline / Missing People",
-          "organization": "Missing People",
-          "category": "missing_persons",
-          "voice_numbers": [
-            "116 000"
-          ],
-          "sms_numbers": [
-            "116000"
-          ],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": "https://www.missingpeople.org.uk/get-help/getting-support",
-          "email": "116000@missingpeople.org.uk",
-          "website": "https://www.missingpeople.org.uk",
-          "hours": "24/7",
-          "languages": [
-            "English"
-          ],
-          "cost": "free",
-          "target": "missing people, runaways, and those left behind",
-          "geography": "United Kingdom",
-          "notes": "116 000 is the pan-European missing persons number.",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.missingpeople.org.uk"
-          ]
-        },
-        {
-          "name": "National Domestic Abuse Helpline (Refuge)",
-          "organization": "Refuge",
-          "category": "domestic_violence",
-          "voice_numbers": [
-            "0808 2000 247"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": "https://www.nationaldahelpline.org.uk/en/Chat-to-us-online",
-          "email": null,
-          "website": "https://www.nationaldahelpline.org.uk",
-          "hours": "24/7 (phone); live chat Mon–Fri 10am–10pm, weekends 10am–6pm",
-          "languages": [
-            "English",
-            "interpreters on request"
-          ],
-          "cost": "free",
-          "target": "women experiencing domestic abuse (and anyone concerned about someone)",
-          "geography": "England",
-          "notes": "Separate helplines exist for Wales, Scotland and Northern Ireland — see country-specific entries.",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.nationaldahelpline.org.uk",
-            "xref:psc_app",
-            "xref:helplines.world"
-          ]
-        },
-        {
-          "name": "Men's Advice Line (Respect)",
-          "organization": "Respect",
-          "category": "male_victims",
-          "voice_numbers": [
-            "0808 801 0327"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": "https://mensadviceline.org.uk",
-          "email": "info@mensadviceline.org.uk",
-          "website": "https://mensadviceline.org.uk",
-          "hours": "Mon–Fri 10am–8pm",
-          "languages": [
-            "English"
-          ],
-          "cost": "free",
-          "target": "male victims of domestic abuse",
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://mensadviceline.org.uk",
-            "xref:psc_app",
-            "xref:helplines.world"
-          ]
-        },
-        {
-          "name": "Rape Crisis England & Wales",
-          "organization": "Rape Crisis England & Wales",
-          "category": "sexual_violence",
-          "voice_numbers": [
-            "0808 500 2222"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": "https://247sexualabusesupport.org.uk",
-          "email": null,
-          "website": "https://rapecrisis.org.uk",
-          "hours": "24/7",
-          "languages": [
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone (aged 16+) who has experienced sexual violence at any time in their life",
-          "geography": "England and Wales",
-          "notes": "Separate services in Scotland (08088 01 03 02) and Northern Ireland (0800 0246 991).",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://rapecrisis.org.uk"
-          ]
-        },
-        {
-          "name": "Galop LGBT+ Anti-Abuse Line",
-          "organization": "Galop",
-          "category": "lgbtqia",
-          "voice_numbers": [
-            "0800 999 5428"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": "help@galop.org.uk",
-          "website": "https://galop.org.uk",
-          "hours": "Mon–Fri 10am–5pm; Wed/Thu extended to 8pm",
-          "languages": [
-            "English"
-          ],
-          "cost": "free",
-          "target": "LGBT+ survivors of abuse, hate crime, sexual violence, or domestic abuse",
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://galop.org.uk"
-          ]
-        },
-        {
-          "name": "Switchboard LGBT+",
-          "organization": "Switchboard",
-          "category": "lgbtqia",
-          "voice_numbers": [
-            "0800 0119 100"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": "https://switchboard.lgbt/chat",
-          "email": "chris@switchboard.lgbt",
-          "website": "https://switchboard.lgbt",
-          "hours": "10am–10pm daily",
-          "languages": [
-            "English"
-          ],
-          "cost": "free",
-          "target": "LGBT+ people seeking information, support or just to talk",
-          "geography": "United Kingdom",
-          "notes": "UK's oldest LGBT+ helpline (founded 1974).",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://switchboard.lgbt"
-          ]
-        },
-        {
-          "name": "FRANK (drugs information)",
-          "organization": "UK Government",
-          "category": "substance_use",
-          "voice_numbers": [
-            "0300 123 6600"
-          ],
-          "sms_numbers": [
-            "82111"
-          ],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": "https://www.talktofrank.com/contact-frank",
-          "email": "frank@talktofrank.com",
-          "website": "https://www.talktofrank.com",
-          "hours": "24/7",
-          "languages": [
-            "English"
-          ],
-          "cost": "local_rate",
-          "target": "anyone with questions about drugs",
-          "geography": "United Kingdom",
-          "notes": "Anonymous. Text 82111 for a reply.",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.talktofrank.com",
-            "xref:psc_app",
-            "xref:helplines.world"
-          ]
-        },
-        {
-          "name": "National Gambling Helpline",
-          "organization": "GamCare",
-          "category": "gambling",
-          "voice_numbers": [
-            "0808 8020 133"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": "https://www.gamcare.org.uk/get-support/talk-to-us-now/",
-          "email": null,
-          "website": "https://www.gamcare.org.uk",
-          "hours": "24/7",
-          "languages": [
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone affected by problem gambling",
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.gamcare.org.uk",
-            "xref:helplines.world"
-          ]
-        },
-        {
-          "name": "Modern Slavery & Exploitation Helpline",
-          "organization": "Unseen",
-          "category": "human_trafficking",
-          "voice_numbers": [
-            "08000 121 700"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://www.unseenuk.org/modern-slavery/helpline/",
-          "hours": "24/7",
-          "languages": [
-            "English",
-            "over 200 via interpreters"
-          ],
-          "cost": "free",
-          "target": "victims of modern slavery, professionals, members of the public",
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.unseenuk.org/modern-slavery/helpline/"
-          ]
-        },
-        {
-          "name": "Cruse Bereavement Support",
-          "organization": "Cruse",
-          "category": "bereavement",
-          "voice_numbers": [
-            "0808 808 1677"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": "https://www.cruse.org.uk/get-support/cruseChat/",
-          "email": "helpline@cruse.org.uk",
-          "website": "https://www.cruse.org.uk",
-          "hours": "Mon/Fri 9.30am–5pm; Tue/Wed/Thu 9.30am–8pm; weekends 10am–2pm",
-          "languages": [
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone bereaved",
-          "geography": "England, Wales and Northern Ireland",
-          "notes": "Cruse Scotland: 0808 802 6161.",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.cruse.org.uk",
-            "xref:helplines.world"
-          ]
-        },
-        {
-          "name": "Beat Eating Disorders Helpline",
-          "organization": "Beat",
-          "category": "eating_disorders",
-          "voice_numbers": [
-            "0808 801 0677"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": "https://www.beateatingdisorders.org.uk/get-information-and-support/get-help-for-myself/i-need-support-now/helplines/",
-          "email": "help@beateatingdisorders.org.uk",
-          "website": "https://www.beateatingdisorders.org.uk",
-          "hours": "365 days a year 3pm–8pm weekdays, 4pm–8pm weekends/holidays",
-          "languages": [
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone affected by an eating disorder",
-          "geography": "United Kingdom",
-          "notes": "Separate youth line 0808 801 0711 and studentline 0808 801 0811.",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.beateatingdisorders.org.uk",
-            "xref:helplines.world"
-          ]
-        },
-        {
-          "name": "The Silver Line",
-          "organization": "The Silver Line (part of Age UK)",
-          "category": "elder_abuse",
-          "voice_numbers": [
-            "0800 4 70 80 90"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://www.thesilverline.org.uk",
-          "hours": "24/7",
-          "languages": [
-            "English"
-          ],
-          "cost": "free",
-          "target": "older people experiencing loneliness or abuse",
-          "geography": "United Kingdom",
-          "notes": "Merged with Age UK in 2019.",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.thesilverline.org.uk"
-          ]
-        },
-        {
-          "name": "Hourglass Safer Ageing Helpline",
-          "organization": "Hourglass",
-          "category": "elder_abuse",
-          "voice_numbers": [
-            "0808 808 8141"
-          ],
-          "sms_numbers": [
-            "0778 535 8501"
-          ],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": "helpline@wearehourglass.org",
-          "website": "https://wearehourglass.org",
-          "hours": "24/7",
-          "languages": [
-            "English"
-          ],
-          "cost": "free",
-          "target": "victims of elder abuse and those concerned about an older person",
-          "geography": "United Kingdom",
-          "notes": "Formerly Action on Elder Abuse.",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://wearehourglass.org"
-          ]
-        },
-        {
-          "name": "National Stalking Helpline",
-          "organization": "Suzy Lamplugh Trust",
-          "category": "stalking",
-          "voice_numbers": [
-            "0808 802 0300"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": "advice@stalkinghelpline.org",
-          "website": "https://www.suzylamplugh.org/pages/category/national-stalking-helpline",
-          "hours": "Mon/Wed/Fri 9.30am–4pm; Tue/Thu 9.30am–8pm",
-          "languages": [
-            "English"
-          ],
-          "cost": "free",
-          "target": "victims of stalking and those who support them",
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.suzylamplugh.org"
-          ]
-        },
-        {
-          "name": "Emergency",
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "999",
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Emergency",
-            "numbers": [
-              "999",
-              "112"
-            ]
-          }
-        },
-        {
-          "name": "Shout (85258)",
-          "organization": "Shout",
-          "category": "general_support",
-          "voice_numbers": [
-            "85258"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json",
-            "xref:psc_app"
-          ],
-          "_legacy": {
-            "name": "Shout",
-            "numbers": [
-              "85258"
-            ]
-          }
-        },
-        {
-          "name": "Samaritans Helpline",
-          "organization": "Samaritans Helpline",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "116 123"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://www.befrienders.org",
-          "hours": "24/7",
-          "languages": [
-            "local"
-          ],
-          "cost": "free",
-          "target": "anyone in emotional distress or at risk of suicide",
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "information.json",
-            "xref:psc_app",
-            "xref:helplines.world",
-            "xref:vibbrancy"
-          ],
-          "_legacy": {
-            "name": "Samaritans Helpline",
-            "numbers": [
-              "116 123"
-            ]
-          }
-        },
-        {
-          "name": "Runaway Helpline",
-          "organization": "Runaway Helpline",
-          "category": "missing_persons",
-          "voice_numbers": [
-            "116 000"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Runaway Helpline",
-            "numbers": [
-              "116 000"
-            ]
-          }
-        },
-        {
-          "name": "National Suicide Prevention Helpline UK",
-          "organization": "National Suicide Prevention Helpline UK",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "0800 689 5652"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "National Suicide Prevention Helpline UK",
-            "numbers": [
-              "0800 689 5652"
-            ]
-          }
-        },
-        {
-          "name": "SOS Silence of Suicide",
-          "organization": "SOS Silence of Suicide",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "08081151505"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "SOS Silence of Suicide",
-            "numbers": [
-              "08081151505"
-            ]
-          }
-        },
-        {
-          "name": "No Panic Youth Helpline",
-          "organization": "No Panic Youth Helpline",
-          "category": "youth",
-          "voice_numbers": [
-            "0300 772 9844"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "No Panic Youth Helpline",
-            "numbers": [
-              "0300 772 9844"
-            ]
-          }
-        },
-        {
-          "name": "Moodswings Helpline",
-          "organization": "Moodswings Helpline",
-          "category": "general_support",
-          "voice_numbers": [
-            "0161 832 37 36"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Moodswings Helpline",
-            "numbers": [
-              "0161 832 37 36"
-            ]
-          }
-        },
-        {
-          "name": "LGBT Foundation Helpline",
-          "organization": "LGBT Foundation Helpline",
-          "category": "lgbtqia",
-          "voice_numbers": [
-            "0345 330 3030"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "LGBT Foundation Helpline",
-            "numbers": [
-              "0345 330 3030"
-            ]
-          }
-        },
-        {
-          "name": "The National Bullying Helpline",
-          "organization": "The National Bullying Helpline",
-          "category": "general_support",
-          "voice_numbers": [
-            "0300 323 0169"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "The National Bullying Helpline",
-            "numbers": [
-              "0300 323 0169"
-            ]
-          }
-        },
-        {
-          "name": "OCD Action Helpline",
-          "organization": "OCD Action Helpline",
-          "category": "general_support",
-          "voice_numbers": [
-            "0300 636 5478"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "OCD Action Helpline",
-            "numbers": [
-              "0300 636 5478"
-            ]
-          }
-        },
-        {
-          "name": "HOPELINE247",
-          "organization": "HOPELINE247",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "0800 068 4141"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "information.json",
-            "xref:web_verified_crisis_directory",
-            "xref:child_helpline_international",
-            "xref:psc_app",
-            "xref:helplines.world",
-            "xref:vibbrancy"
-          ],
-          "_legacy": {
-            "name": "HOPELINE247",
-            "numbers": [
-              "0800 068 4141"
-            ]
-          }
-        },
-        {
-          "name": "CALM Helpline",
-          "organization": "CALM Helpline",
-          "category": "general_support",
-          "voice_numbers": [
-            "0800 58 58 58"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://www.thecalmzone.net",
-          "hours": null,
-          "languages": [],
-          "cost": "free",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "information.json",
-            "xref:psc_app",
-            "xref:helplines.world",
-            "xref:vibbrancy"
-          ],
-          "_legacy": {
-            "name": "CALM Helpline",
-            "numbers": [
-              "0800 58 58 58"
-            ]
-          }
-        },
-        {
-          "name": "Samaritans - Welsh Language Line",
-          "organization": "Samaritans - Welsh Language Line",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "0808 164 0123"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://www.befrienders.org",
-          "hours": "24/7",
-          "languages": [
-            "local"
-          ],
-          "cost": "free",
-          "target": "anyone in emotional distress or at risk of suicide",
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Samaritans - Welsh Language Line",
-            "numbers": [
-              "0808 164 0123"
-            ]
-          }
-        },
-        {
-          "name": "Nacoa (National Association for Children of Alcoholics)",
-          "organization": "Nacoa (National Association for Children of Alcoholics)",
-          "category": "child_protection",
-          "voice_numbers": [
-            "0800 358 3456"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Nacoa (National Association for Children of Alcoholics)",
-            "numbers": [
-              "0800 358 3456"
-            ]
-          }
-        },
-        {
-          "name": "MS Helpline",
-          "organization": "MS Helpline",
-          "category": "general_support",
-          "voice_numbers": [
-            "0808 800 8000"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "MS Helpline",
-            "numbers": [
-              "0808 800 8000"
-            ]
-          }
-        },
-        {
-          "name": "National Domestic Abuse Helpline",
-          "organization": "National Domestic Abuse Helpline",
-          "category": "domestic_violence",
-          "voice_numbers": [
-            "0808 2000 247"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://nationaldahelpline.org.uk",
-          "hours": "24/7",
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "24-hour helpline for anyone experiencing domestic abuse, run by Refuge.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "information.json",
-            "xref:psc_app",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "National Domestic Abuse Helpline",
-            "numbers": [
-              "0808 2000 247"
-            ]
-          }
-        },
-        {
-          "name": "Alcoholics Anonymous Helpline",
-          "organization": "Alcoholics Anonymous Helpline",
-          "category": "substance_use",
-          "voice_numbers": [
-            "0800 9177 650"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "free",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Alcoholics Anonymous Helpline",
-            "numbers": [
-              "0800 9177 650"
-            ]
-          }
-        },
-        {
-          "name": "Modern Slavery & Exploitation Helpline (Unseen UK)",
-          "organization": "Modern Slavery & Exploitation Helpline (Unseen UK)",
-          "category": "human_trafficking",
-          "voice_numbers": [
-            "08000 121 700"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Modern Slavery & Exploitation Helpline (Unseen UK)",
-            "numbers": [
-              "08000 121 700"
-            ]
-          }
-        },
-        {
-          "name": "Self Injury Support",
-          "organization": "Self Injury Support",
-          "category": "self_harm",
-          "voice_numbers": [
-            "0808 8008088"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Self Injury Support",
-            "numbers": [
-              "0808 8008088"
-            ]
-          }
-        },
-        {
-          "name": "SurvivorsUK Helpline - Web Chat, Text and Email Service",
-          "organization": "SurvivorsUK Helpline - Web Chat, Text and Email Service",
-          "category": "general_support",
-          "voice_numbers": [
-            "020 3322 1860"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "SurvivorsUK Helpline - Web Chat, Text and Email Service",
-            "numbers": [
-              "020 3322 1860"
-            ]
-          }
-        },
-        {
-          "name": "Sarcoma UK Support Line",
-          "organization": "Sarcoma UK Support Line",
-          "category": "general_support",
-          "voice_numbers": [
-            "0808 801 0401"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Sarcoma UK Support Line",
-            "numbers": [
-              "0808 801 0401"
-            ]
-          }
-        },
-        {
-          "name": "Winston's Wish Helpline",
-          "organization": "Winston's Wish Helpline",
-          "category": "bereavement",
-          "voice_numbers": [
-            "08088 020 021"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Winston's Wish Helpline",
-            "numbers": [
-              "08088 020 021"
-            ]
-          }
-        },
-        {
-          "name": "Switchboard LGBT Helpline",
-          "organization": "Switchboard LGBT Helpline",
-          "category": "lgbtqia",
-          "voice_numbers": [
-            "0800 0119 100"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json",
-            "xref:psc_app"
-          ],
-          "_legacy": {
-            "name": "Switchboard LGBT Helpline",
-            "numbers": [
-              "0800 0119 100"
-            ]
-          }
-        },
-        {
-          "name": "Grief Encounter Support line",
-          "organization": "Grief Encounter Support line",
-          "category": "bereavement",
-          "voice_numbers": [
-            "0808 802 0111"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Grief Encounter Support line",
-            "numbers": [
-              "0808 802 0111"
-            ]
-          }
-        },
-        {
-          "name": "Family Lives Helpline",
-          "organization": "Family Lives Helpline",
-          "category": "general_support",
-          "voice_numbers": [
-            "0808 800 2222"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Family Lives Helpline",
-            "numbers": [
-              "0808 800 2222"
-            ]
-          }
-        },
-        {
-          "name": "Macmillan Support Line",
-          "organization": "Macmillan Support Line",
-          "category": "general_support",
-          "voice_numbers": [
-            "0808 808 00 00"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Macmillan Support Line",
-            "numbers": [
-              "0808 808 00 00"
-            ]
-          }
-        },
-        {
-          "name": "Respect Men's Advice Line",
-          "organization": "Respect Men's Advice Line",
-          "category": "male_victims",
-          "voice_numbers": [
-            "0808 8010327"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "information.json",
-            "xref:psc_app",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Respect Men's Advice Line",
-            "numbers": [
-              "0808 8010327"
-            ]
-          }
-        },
-        {
-          "name": "Stop It Now Helpline",
-          "organization": "Stop It Now Helpline",
-          "category": "general_support",
-          "voice_numbers": [
-            "0808 1000 900"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Stop It Now Helpline",
-            "numbers": [
-              "0808 1000 900"
-            ]
-          }
-        },
-        {
-          "name": "MS-UK Helpline",
-          "organization": "MS-UK Helpline",
-          "category": "general_support",
-          "voice_numbers": [
-            "0800 783 0518"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "MS-UK Helpline",
-            "numbers": [
-              "0800 783 0518"
-            ]
-          }
-        },
-        {
-          "name": "Respect Phoneline",
-          "organization": "Respect Phoneline",
-          "category": "general_support",
-          "voice_numbers": [
-            "0808 802 4040"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Respect Phoneline",
-            "numbers": [
-              "0808 802 4040"
-            ]
-          }
-        },
-        {
-          "name": "Addiction Family Support Helpline",
-          "organization": "Addiction Family Support Helpline",
-          "category": "substance_use",
-          "voice_numbers": [
-            "0300 888 3853"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Addiction Family Support Helpline",
-            "numbers": [
-              "0300 888 3853"
-            ]
-          }
-        },
-        {
-          "name": "Child Bereavement UK Helpline",
-          "organization": "Child Bereavement UK Helpline",
-          "category": "child_protection",
-          "voice_numbers": [
-            "0800 028 8840"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Child Bereavement UK Helpline",
-            "numbers": [
-              "0800 028 8840"
-            ]
-          }
-        },
-        {
-          "name": "Marie Curie Support Line",
-          "organization": "Marie Curie Support Line",
-          "category": "general_support",
-          "voice_numbers": [
-            "0800 090 2309"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Marie Curie Support Line",
-            "numbers": [
-              "0800 090 2309"
-            ]
-          }
-        },
-        {
-          "name": "Blue Cross Pet Loss Support",
-          "organization": "Blue Cross Pet Loss Support",
-          "category": "bereavement",
-          "voice_numbers": [
-            "0800 096 6606"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Blue Cross Pet Loss Support",
-            "numbers": [
-              "0800 096 6606"
-            ]
-          }
-        },
-        {
-          "name": "Jewish Women's Aid Domestic Abuse and Sexual Violence Helpline",
-          "organization": "Jewish Women's Aid Domestic Abuse and Sexual Violence Helpline",
-          "category": "domestic_violence",
-          "voice_numbers": [
-            "0808 801 0500"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Jewish Women's Aid Domestic Abuse and Sexual Violence Helpline",
-            "numbers": [
-              "0808 801 0500"
-            ]
-          }
-        },
-        {
-          "name": "Pregnancy Loss Helpline",
-          "organization": "Pregnancy Loss Helpline",
-          "category": "bereavement",
-          "voice_numbers": [
-            "01924 200799"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Pregnancy Loss Helpline",
-            "numbers": [
-              "01924 200799"
-            ]
-          }
-        },
-        {
-          "name": "Eating Disorders Support Helpline",
-          "organization": "Eating Disorders Support Helpline",
-          "category": "eating_disorders",
-          "voice_numbers": [
-            "01494 793223"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Eating Disorders Support Helpline",
-            "numbers": [
-              "01494 793223"
-            ]
-          }
-        },
-        {
-          "name": "National Sexual Health Helpline",
-          "organization": "National Sexual Health Helpline",
-          "category": "general_support",
-          "voice_numbers": [
-            "0300 123 7123"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "National Sexual Health Helpline",
-            "numbers": [
-              "0300 123 7123"
-            ]
-          }
-        },
-        {
-          "name": "NAPAC Support Service",
-          "organization": "NAPAC Support Service",
-          "category": "general_support",
-          "voice_numbers": [
-            "0808 801 0331"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "NAPAC Support Service",
-            "numbers": [
-              "0808 801 0331"
-            ]
-          }
-        },
-        {
-          "name": "The Men Standing Up Helpline",
-          "organization": "The Men Standing Up Helpline",
-          "category": "general_support",
-          "voice_numbers": [
-            "0300 303 0167"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "The Men Standing Up Helpline",
-            "numbers": [
-              "0300 303 0167"
-            ]
-          }
-        },
-        {
-          "name": "Narcotics Anonymous",
-          "organization": "Narcotics Anonymous",
-          "category": "substance_use",
-          "voice_numbers": [
-            "0300 999 1212"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "free",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Narcotics Anonymous",
-            "numbers": [
-              "0300 999 1212"
-            ]
-          }
-        },
-        {
-          "name": "The Compassionate Friends",
-          "organization": "The Compassionate Friends",
-          "category": "bereavement",
-          "voice_numbers": [
-            "0345 123 2304"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "The Compassionate Friends",
-            "numbers": [
-              "0345 123 2304"
-            ]
-          }
-        },
-        {
-          "name": "The Survivors Trust Information, Advice and Support Line",
-          "organization": "The Survivors Trust Information, Advice and Support Line",
-          "category": "general_support",
-          "voice_numbers": [
-            "0808 801 0818"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "The Survivors Trust Information, Advice and Support Line",
-            "numbers": [
-              "0808 801 0818"
-            ]
-          }
-        },
-        {
-          "name": "Al-Anon Family Groups",
-          "organization": "Al-Anon Family Groups",
-          "category": "substance_use",
-          "voice_numbers": [
-            "0800 0086 811"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Al-Anon Family Groups",
-            "numbers": [
-              "0800 0086 811"
-            ]
-          }
-        },
-        {
-          "name": "Sands National Helpline",
-          "organization": "Sands National Helpline",
-          "category": "bereavement",
-          "voice_numbers": [
-            "0808 164 3332"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Sands National Helpline",
-            "numbers": [
-              "0808 164 3332"
-            ]
-          }
-        },
-        {
-          "name": "NCT Support Line",
-          "organization": "NCT Support Line",
-          "category": "general_support",
-          "voice_numbers": [
-            "0300 330 0700"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "NCT Support Line",
-            "numbers": [
-              "0300 330 0700"
-            ]
-          }
-        },
-        {
-          "name": "Revenge Porn Helpline",
-          "organization": "Revenge Porn Helpline",
-          "category": "general_support",
-          "voice_numbers": [
-            "0345 6000 459"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Revenge Porn Helpline",
-            "numbers": [
-              "0345 6000 459"
-            ]
-          }
-        },
-        {
-          "name": "Abortion Recovery Care & Helpline",
-          "organization": "Abortion Recovery Care & Helpline",
-          "category": "general_support",
-          "voice_numbers": [
-            "0345 603 8501"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Abortion Recovery Care & Helpline",
-            "numbers": [
-              "0345 603 8501"
-            ]
-          }
-        },
-        {
-          "name": "NSPCC FGM Helpline",
-          "organization": "NSPCC FGM Helpline",
-          "category": "child_protection",
-          "voice_numbers": [
-            "0800 028 3550"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://www.nspcc.org.uk",
-          "hours": null,
-          "languages": [],
-          "cost": "free",
-          "target": "adults worried about a child",
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "NSPCC FGM Helpline",
-            "numbers": [
-              "0800 028 3550"
-            ]
-          }
-        },
-        {
-          "name": "Forced Marriage Unit",
-          "organization": "Forced Marriage Unit",
-          "category": "general_support",
-          "voice_numbers": [
-            "020 7008 0151"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Forced Marriage Unit",
-            "numbers": [
-              "020 7008 0151"
-            ]
-          }
-        },
-        {
-          "name": "Karma Nirvana Helpline",
-          "organization": "Karma Nirvana Helpline",
-          "category": "general_support",
-          "voice_numbers": [
-            "0800 5999 247"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Karma Nirvana Helpline",
-            "numbers": [
-              "0800 5999 247"
-            ]
-          }
-        },
-        {
-          "name": "RoadPeace Helpline",
-          "organization": "RoadPeace Helpline",
-          "category": "general_support",
-          "voice_numbers": [
-            "0800 160 1069"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "RoadPeace Helpline",
-            "numbers": [
-              "0800 160 1069"
-            ]
-          }
-        },
-        {
-          "name": "Suicide&Co Helpline",
-          "organization": "Suicide&Co Helpline",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "0800 054 8400"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Suicide&Co Helpline",
-            "numbers": [
-              "0800 054 8400"
-            ]
-          }
-        },
-        {
-          "name": "Mankind Initiative Helpline",
-          "organization": "Mankind Initiative Helpline",
-          "category": "general_support",
-          "voice_numbers": [
-            "01823 334244"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Mankind Initiative Helpline",
-            "numbers": [
-              "01823 334244"
-            ]
-          }
-        },
-        {
-          "name": "THT Direct Helpline",
-          "organization": "THT Direct Helpline",
-          "category": "general_support",
-          "voice_numbers": [
-            "0808 802 1221"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "THT Direct Helpline",
-            "numbers": [
-              "0808 802 1221"
-            ]
-          }
-        },
-        {
-          "name": "Survivors of Bereavement Support Line",
-          "organization": "Survivors of Bereavement Support Line",
-          "category": "bereavement",
-          "voice_numbers": [
-            "0300 111 5065"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Survivors of Bereavement Support Line",
-            "numbers": [
-              "0300 111 5065"
-            ]
-          }
-        },
-        {
-          "name": "RNIB Helpline",
-          "organization": "RNIB Helpline",
-          "category": "general_support",
-          "voice_numbers": [
-            "0303 123 9999"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "RNIB Helpline",
-            "numbers": [
-              "0303 123 9999"
-            ]
-          }
-        },
-        {
-          "name": "Brain and Spine Helpline",
-          "organization": "Brain and Spine Helpline",
-          "category": "general_support",
-          "voice_numbers": [
-            "0808 808 1000"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Brain and Spine Helpline",
-            "numbers": [
-              "0808 808 1000"
-            ]
-          }
-        },
-        {
-          "name": "Carers UK Helpline",
-          "organization": "Carers UK Helpline",
-          "category": "general_support",
-          "voice_numbers": [
-            "0808 808 7777"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Carers UK Helpline",
-            "numbers": [
-              "0808 808 7777"
-            ]
-          }
-        },
-        {
-          "name": "LGBT+ Domestic Abuse and Hate Crime Helpline",
-          "organization": "LGBT+ Domestic Abuse and Hate Crime Helpline",
-          "category": "domestic_violence",
-          "voice_numbers": [
-            "0800 999 5428"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "LGBT+ Domestic Abuse and Hate Crime Helpline",
-            "numbers": [
-              "0800 999 5428"
-            ]
-          }
-        },
-        {
-          "name": "Lymphoma Action Helpline Services",
-          "organization": "Lymphoma Action Helpline Services",
-          "category": "general_support",
-          "voice_numbers": [
-            "0808 808 5555"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Lymphoma Action Helpline Services",
-            "numbers": [
-              "0808 808 5555"
-            ]
-          }
-        },
-        {
-          "name": "OPOKA Helpline",
-          "organization": "OPOKA Helpline",
-          "category": "general_support",
-          "voice_numbers": [
-            "0300 3651700"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "OPOKA Helpline",
-            "numbers": [
-              "0300 3651700"
-            ]
-          }
-        },
-        {
-          "name": "Blood Cancer UK Support Line",
-          "organization": "Blood Cancer UK Support Line",
-          "category": "disability",
-          "voice_numbers": [
-            "0808 208 0888"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Blood Cancer UK Support Line",
-            "numbers": [
-              "0808 208 0888"
-            ]
-          }
-        },
-        {
-          "name": "Child Death Helpline",
-          "organization": "Child Death Helpline",
-          "category": "child_protection",
-          "voice_numbers": [
-            "0800 282 986"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Child Death Helpline",
-            "numbers": [
-              "0800 282 986"
-            ]
-          }
-        },
-        {
-          "name": "Combat Stress Helplne",
-          "organization": "Combat Stress Helplne",
-          "category": "veterans",
-          "voice_numbers": [
-            "0800 138 1619"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Combat Stress Helplne",
-            "numbers": [
-              "0800 138 1619"
-            ]
-          }
-        },
-        {
-          "name": "The Silver Line Helpline",
-          "organization": "The Silver Line Helpline",
-          "category": "elder_abuse",
-          "voice_numbers": [
-            "0800 470 8090"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "The Silver Line Helpline",
-            "numbers": [
-              "0800 470 8090"
-            ]
-          }
-        },
-        {
-          "name": "Hourglass (Safer Ageing) 24/7 Helpline",
-          "organization": "Hourglass (Safer Ageing) 24/7 Helpline",
-          "category": "elder_abuse",
-          "voice_numbers": [
-            "0808 808 8141"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Hourglass (Safer Ageing) 24/7 Helpline",
-            "numbers": [
-              "0808 808 8141"
-            ]
-          }
-        },
-        {
-          "name": "Dementia Connect Support Line",
-          "organization": "Dementia Connect Support Line",
-          "category": "disability",
-          "voice_numbers": [
-            "0333 150 3456"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Dementia Connect Support Line",
-            "numbers": [
-              "0333 150 3456"
-            ]
-          }
-        },
-        {
-          "name": "Mermaids",
-          "organization": "Mermaids",
-          "category": "lgbtqia",
-          "voice_numbers": [
-            "0808 801 0400"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Mermaids",
-            "numbers": [
-              "0808 801 0400"
-            ]
-          }
-        },
-        {
-          "name": "FamilyLine",
-          "organization": "FamilyLine",
-          "category": "general_support",
-          "voice_numbers": [
-            "808 802 6666"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "FamilyLine",
-            "numbers": [
-              "808 802 6666"
-            ]
-          }
-        },
-        {
-          "name": "The Gingerbread Single Parent Helpline",
-          "organization": "The Gingerbread Single Parent Helpline",
-          "category": "general_support",
-          "voice_numbers": [
-            "0808 802 0925"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "The Gingerbread Single Parent Helpline",
-            "numbers": [
-              "0808 802 0925"
-            ]
-          }
-        },
-        {
-          "name": "Steps Helpline",
-          "organization": "Steps Helpline",
-          "category": "general_support",
-          "voice_numbers": [
-            "01925 750271"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Steps Helpline",
-            "numbers": [
-              "01925 750271"
-            ]
-          }
-        },
-        {
-          "name": "Families Need Fathers Helpline",
-          "organization": "Families Need Fathers Helpline",
-          "category": "general_support",
-          "voice_numbers": [
-            "0300 0300 363"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Families Need Fathers Helpline",
-            "numbers": [
-              "0300 0300 363"
-            ]
-          }
-        },
-        {
-          "name": "Muslim Youth Helpline",
-          "organization": "Muslim Youth Helpline",
-          "category": "youth",
-          "voice_numbers": [
-            "0808 808 2008"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://findahelpline.com",
-            "information.json",
-            "xref:findahelpline.com"
-          ],
-          "_legacy": {
-            "name": "Muslim Youth Helpline",
-            "numbers": [
-              "0808 808 2008"
-            ]
-          }
-        },
-        {
-          "name": "Premier Lifeline",
-          "organization": "Premier Lifeline",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "0300 111 0101"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": "people in emotional crisis or at risk of suicide",
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Premier Lifeline",
-            "numbers": [
-              "0300 111 0101"
-            ]
-          }
-        },
-        {
-          "name": "Towards Healing (United Kingdom)",
-          "organization": "Towards Healing (United Kingdom)",
-          "category": "general_support",
-          "voice_numbers": [
-            "0800 0963315"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Towards Healing (United Kingdom)",
-            "numbers": [
-              "0800 0963315"
-            ]
-          }
-        },
-        {
-          "name": "The Dina Support Line",
-          "organization": "The Dina Support Line",
-          "category": "general_support",
-          "voice_numbers": [
-            "0808 801 0656"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "The Dina Support Line",
-            "numbers": [
-              "0808 801 0656"
-            ]
-          }
-        },
-        {
-          "name": "Samaritans UK & ROI",
-          "organization": "Samaritans UK & ROI",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "116123",
-            "+44 (0) 8457 90 90 90",
-            "+44 (0) 8457 90 91 92",
-            "1850 60 90 90",
-            "1850 60 90 91"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://www.befrienders.org",
-          "hours": "24/7",
-          "languages": [
-            "local"
-          ],
-          "cost": "free",
-          "target": "anyone in emotional distress or at risk of suicide",
-          "geography": "United Kingdom",
-          "notes": "free call from mobile and landline | UK - local rate | UK minicom | ROI - local rate | ROI minicom",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "atlacord/Naga Hotlines.json @ 61bec14",
-            "xref:psc_app",
-            "xref:helplines.world",
-            "xref:vibbrancy"
-          ],
-          "_legacy": {
-            "name": "Samaritans UK & ROI",
-            "voice": [
-              "116123 (",
-              "+44 (0) 8457 90 90 90 (UK",
-              "+44 (0) 8457 90 91 92 (UK",
-              "1850 60 90 90 (ROI",
-              "1850 60 90 91 (ROI"
-            ],
-            "sms": []
-          }
-        },
-        {
-          "name": "The Hope Project",
-          "organization": "The Hope Project",
-          "category": "general_support",
-          "voice_numbers": [
-            "0117 428 8930"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": "hope@second-step.co.uk",
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "(Target - men 30 to 64 yrs)",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "atlacord/Naga Hotlines.json @ 61bec14",
-            "xref:vibbrancy"
-          ],
-          "_legacy": {
-            "name": "The Hope Project",
-            "voice": [
-              "0117 428 8930"
-            ],
-            "sms": []
-          }
-        },
-        {
-          "name": "Breathing Space (Scotland)",
-          "organization": "Breathing Space (Scotland)",
-          "category": "general_support",
-          "voice_numbers": [
-            "0800 83 85 87"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "atlacord/Naga Hotlines.json @ 61bec14",
-            "xref:vibbrancy"
-          ],
-          "_legacy": {
-            "name": "Breathing Space (Scotland)",
-            "voice": [
-              "0800 83 85 87"
-            ],
-            "sms": []
-          }
-        },
-        {
-          "name": "The Mix",
-          "organization": "The Mix",
-          "category": "youth",
-          "voice_numbers": [
-            "0808 808 4994"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "atlacord/Naga Hotlines.json @ 61bec14",
-            "xref:vibbrancy"
-          ],
-          "_legacy": {
-            "name": "The Mix",
-            "voice": [
-              "0808 808 4994"
-            ],
-            "sms": []
-          }
-        },
-        {
-          "name": "HOPELineUK (for under 35 yrs)",
-          "organization": "HOPELineUK (for under 35 yrs)",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "0800 068 41 41"
-          ],
-          "sms_numbers": [
-            "07786 209697"
-          ],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "atlacord/Naga Hotlines.json @ 61bec14",
-            "xref:web_verified_crisis_directory",
-            "xref:psc_app",
-            "xref:helplines.world",
-            "xref:vibbrancy"
-          ],
-          "_legacy": {
-            "name": "HOPELineUK (for under 35 yrs)",
-            "voice": [
-              "0800 068 41 41"
-            ],
-            "sms": [
-              "07786 209697"
-            ]
-          }
-        },
-        {
-          "name": "CALM",
-          "organization": "CALM",
-          "category": "general_support",
-          "voice_numbers": [
-            "0800 58 58 58",
-            "0808 802 58 58"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://www.thecalmzone.net",
-          "hours": null,
-          "languages": [],
-          "cost": "free",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "atlacord/Naga Hotlines.json @ 61bec14",
-            "xref:psc_app",
-            "xref:helplines.world",
-            "xref:vibbrancy"
-          ],
-          "_legacy": {
-            "name": "CALM",
-            "voice": [
-              "0800 58 58 58",
-              "0808 802 58 58"
-            ],
-            "sms": []
-          }
-        },
-        {
-          "name": "Get Connected (for under 25 yrs)",
-          "organization": "Get Connected (for under 25 yrs)",
-          "category": "youth",
-          "voice_numbers": [
-            "0808 808 4994"
-          ],
-          "sms_numbers": [
-            "80849"
-          ],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "atlacord/Naga Hotlines.json @ 61bec14",
-            "xref:vibbrancy"
-          ],
-          "_legacy": {
-            "name": "Get Connected (for under 25 yrs)",
-            "voice": [
-              "0808 808 4994"
-            ],
-            "sms": [
-              "80849"
-            ]
-          }
-        },
-        {
-          "name": "Maytree",
-          "organization": "Maytree",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "020 7263 7070"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://maytree.org.uk",
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "Sanctuary for people in suicidal crisis to talk and be heard in a non-judgmental environment.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "atlacord/Naga Hotlines.json @ 61bec14",
-            "https://helplines.world/",
-            "xref:helplines.world",
-            "xref:vibbrancy"
-          ],
-          "_legacy": {
-            "name": "Maytree",
-            "voice": [
-              "020 7263 7070"
-            ],
-            "sms": []
-          }
-        },
-        {
-          "name": "Rehab 4 Addiction (Addiction Helpline - open 24/7)",
-          "organization": "Rehab 4 Addiction (Addiction Helpline - open 24/7)",
-          "category": "substance_use",
-          "voice_numbers": [
-            "0800 140 4690",
-            "0345 222 3508",
-            "+44 345 222 3508"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "atlacord/Naga Hotlines.json @ 61bec14",
-            "xref:vibbrancy"
-          ],
-          "_legacy": {
-            "name": "Rehab 4 Addiction (Addiction Helpline - open 24/7)",
-            "voice": [
-              "0800 140 4690",
-              "0345 222 3508",
-              "+44 345 222 3508"
-            ],
-            "sms": []
-          }
-        },
-        {
-          "name": "The Samaritans",
-          "organization": "The Samaritans",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "116 123"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://samaritans.org",
-          "hours": "24/7",
-          "languages": [
-            "English",
-            "Welsh"
-          ],
-          "cost": "free",
-          "target": "anyone in emotional distress or at risk of suicide",
-          "geography": "United Kingdom",
-          "notes": "24/7 emotional support for anyone in emotional distress, struggling to cope, or at risk of suicide.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:psc_app",
-            "xref:helplines.world",
-            "xref:vibbrancy"
-          ],
-          "_legacy": {
-            "name": "The Samaritans",
-            "phone": "116 123",
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "Mind",
-          "organization": "Mind",
-          "category": "mental_health",
-          "voice_numbers": [
-            "0300 123 3393"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://mind.org.uk",
-          "hours": "Monday - Friday 9am - 6pm",
-          "languages": [],
-          "cost": "local_rate",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "Information and support for all mental health areas including anxiety, depression, and bipolar disorder.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:psc_app",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Mind",
-            "phone": "0300 123 3393",
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "Campaign Against Living Miserably (CALM)",
-          "organization": "Campaign Against Living Miserably (CALM)",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "0800 58 58 58"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://thecalmzone.net",
-          "hours": "Daily 5pm - midnight",
-          "languages": [],
-          "cost": "free",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "Free, confidential helpline and webchat for anyone in crisis, particularly focused on men's mental health.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:psc_app",
-            "xref:helplines.world",
-            "xref:vibbrancy"
-          ],
-          "_legacy": {
-            "name": "Campaign Against Living Miserably (CALM)",
-            "phone": "0800 58 58 58",
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "RETHINK",
-          "organization": "RETHINK",
-          "category": "mental_health",
-          "voice_numbers": [
-            "0300 5000 927"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://rethink.org",
-          "hours": "Monday - Friday 9:30am - 4pm",
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "Support and advice for people living with mental illness and those who care for them.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "RETHINK",
-            "phone": "0300 5000 927",
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "Papyrus",
-          "organization": "Papyrus",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "0800 068 4141"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://papyrus-uk.org",
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "Suicide prevention support for young people under 35.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:web_verified_crisis_directory",
-            "xref:psc_app",
-            "xref:helplines.world",
-            "xref:vibbrancy"
-          ],
-          "_legacy": {
-            "name": "Papyrus",
-            "phone": "0800 068 4141",
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "Anxiety UK",
-          "organization": "Anxiety UK",
-          "category": "mental_health",
-          "voice_numbers": [
-            "03444 775 774"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://anxietyuk.org.uk",
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "Support for those affected by anxiety, stress, and anxiety-based depression.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Anxiety UK",
-            "phone": "03444 775 774",
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "OCD UK",
-          "organization": "OCD UK",
-          "category": "mental_health",
-          "voice_numbers": [
-            "03332 127890"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://ocduk.org",
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "Support and advocacy for people affected by Obsessive-Compulsive Disorder.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "OCD UK",
-            "phone": "03332 127890",
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "Emergency Services",
-          "organization": "Emergency Services",
-          "category": "emergency",
-          "voice_numbers": [
-            "999"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "United Kingdom",
-          "notes": "For immediate life-threatening emergencies requiring police, fire, or ambulance services.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:psc_app",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Emergency Services",
-            "phone": "999",
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "Women’s Aid",
-          "organization": "Women’s Aid",
-          "category": "domestic_violence",
-          "voice_numbers": [],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://womensaid.org.uk",
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "Support for women and children facing domestic abuse.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Women’s Aid",
-            "phone": null,
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "Victim Support",
-          "organization": "Victim Support",
-          "category": "domestic_violence",
-          "voice_numbers": [],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://victimsupport.org.uk",
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "Free and confidential support to victims of crime, including domestic abuse.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Victim Support",
-            "phone": null,
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "Mankind Initiative",
-          "organization": "Mankind Initiative",
-          "category": "domestic_violence",
-          "voice_numbers": [],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://mankind.org.uk",
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "Support for male victims of domestic and partner abuse.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Mankind Initiative",
-            "phone": null,
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "Men’s Advice Line",
-          "organization": "Men’s Advice Line",
-          "category": "domestic_violence",
-          "voice_numbers": [
-            "0808 801 0327"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://mensadviceline.org.uk",
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "Helpline for male victims of domestic violence and abuse.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:psc_app",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Men’s Advice Line",
-            "phone": "0808 801 0327",
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "Galop",
-          "organization": "Galop",
-          "category": "domestic_violence",
-          "voice_numbers": [],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://galop.org.uk",
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "Support for LGBT+ people facing domestic abuse and violence.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Galop",
-            "phone": null,
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "Cruse Bereavement Care",
-          "organization": "Cruse Bereavement Care",
-          "category": "bereavement",
-          "voice_numbers": [
-            "0808 808 1677"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://cruse.org.uk",
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "Support and advice for people who are grieving.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Cruse Bereavement Care",
-            "phone": "0808 808 1677",
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "Child Bereavement UK",
-          "organization": "Child Bereavement UK",
-          "category": "bereavement",
-          "voice_numbers": [
-            "0800 028 8840"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://childbereavementuk.org",
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "Support when a baby or child dies or when a child is bereaved.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Child Bereavement UK",
-            "phone": "0800 028 8840",
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "Talk to Frank",
-          "organization": "Talk to Frank",
-          "category": "substance_use",
-          "voice_numbers": [
-            "0300 123 6600"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://talktofrank.com",
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "Friendly, confidential drug advice service.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:psc_app",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Talk to Frank",
-            "phone": "0300 123 6600",
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "Narcotics Anonymous UK",
-          "organization": "Narcotics Anonymous UK",
-          "category": "substance_use",
-          "voice_numbers": [
-            "0300 999 1212"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://ukna.org",
-          "hours": null,
-          "languages": [],
-          "cost": "free",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Narcotics Anonymous UK",
-            "phone": "0300 999 1212",
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "Alcoholics Anonymous UK",
-          "organization": "Alcoholics Anonymous UK",
-          "category": "substance_use",
-          "voice_numbers": [
-            "0800 9177 650"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://alcoholics-anonymous.org.uk",
-          "hours": null,
-          "languages": [],
-          "cost": "free",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Alcoholics Anonymous UK",
-            "phone": "0800 9177 650",
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "Step Change",
-          "organization": "Step Change",
-          "category": "financial_aid",
-          "voice_numbers": [
-            "0800 138 1111"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://stepchange.org",
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "Free expert debt advice and solutions.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Step Change",
-            "phone": "0800 138 1111",
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "National Debtline",
-          "organization": "National Debtline",
-          "category": "financial_aid",
-          "voice_numbers": [
-            "0808 808 4000"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://nationaldebtline.co.uk",
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "National Debtline",
-            "phone": "0808 808 4000",
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "Citizen’s Advice",
-          "organization": "Citizen’s Advice",
-          "category": "legal_aid",
-          "voice_numbers": [],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://citizensadvice.org.uk",
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "Free advice on legal, money, housing, and other issues.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Citizen’s Advice",
-            "phone": null,
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "Beat Eating Disorders",
-          "organization": "Beat Eating Disorders",
-          "category": "eating_disorders",
-          "voice_numbers": [
-            "0808 801 0677"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://b-eat.co.uk",
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Beat Eating Disorders",
-            "phone": "0808 801 0677",
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "National Centre for Eating Disorders",
-          "organization": "National Centre for Eating Disorders",
-          "category": "eating_disorders",
-          "voice_numbers": [
-            "0845 838 2040"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://eating-disorders.org.uk",
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "National Centre for Eating Disorders",
-            "phone": "0845 838 2040",
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "GamCare",
-          "organization": "GamCare",
-          "category": "substance_use",
-          "voice_numbers": [
-            "0808 8020 133"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://gamcare.org.uk",
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "GamCare",
-            "phone": "0808 8020 133",
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "Gamblers Anonymous UK",
-          "organization": "Gamblers Anonymous UK",
-          "category": "substance_use",
-          "voice_numbers": [],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://gamblersanonymous.org.uk",
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Gamblers Anonymous UK",
-            "phone": null,
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "Shelter",
-          "organization": "Shelter",
-          "category": "housing",
-          "voice_numbers": [
-            "0808 800 4444"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://shelter.org.uk",
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Shelter",
-            "phone": "0808 800 4444",
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "Tommy's",
-          "organization": "Tommy's",
-          "category": "perinatal",
-          "voice_numbers": [
-            "0800 0147 800"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
           "short_codes": [],
           "chat_url": null,
           "email": null,
-          "website": "https://tommys.org",
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
+          "geography": "United Arab Emirates",
           "notes": "",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Tommy's",
-            "phone": "0800 0147 800",
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "Miscarriage Association",
-          "organization": "Miscarriage Association",
-          "category": "perinatal",
-          "voice_numbers": [
-            "0192 4200 799"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://miscarriageassociation.org.uk",
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Miscarriage Association",
-            "phone": "0192 4200 799",
-            "source": "helplines.world"
-          }
-        },
-        {
-          "name": "Sands",
-          "organization": "Sands",
-          "category": "perinatal",
-          "voice_numbers": [
-            "0808 164 3332"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://sands.org.uk",
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Sands",
-            "phone": "0808 164 3332",
-            "source": "helplines.world"
-          }
-        }
-      ]
-    },
-    {
-      "country": "Zambia",
-      "alpha-2": "ZM",
-      "alpha-3": "ZMB",
-      "region": "Africa",
-      "subregion": "Eastern Africa",
-      "general_emergency": [],
-      "notes": "Restored from information.json after v2 enrichment was truncated.",
-      "hotlines": [
-        {
-          "name": "Emergency",
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "999"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "Zambia",
-          "notes": "",
-          "verification_status": "verified_authority",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Emergency",
-            "numbers": [
-              "999"
-            ]
-          }
-        },
-        {
-          "name": "Lifeline 933",
-          "organization": "Lifeline 933",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "933"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "Zambia",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Lifeline 933",
-            "numbers": [
-              "933"
-            ]
-          }
-        },
-        {
-          "name": "Lifeline Childlline Zambia",
-          "organization": "Lifeline Childlline Zambia",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "116"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "Zambia",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Lifeline Childlline Zambia",
-            "numbers": [
-              "116"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "country": "Zimbabwe",
-      "alpha-2": "ZW",
-      "alpha-3": "ZWE",
-      "region": "Africa",
-      "subregion": "Eastern Africa",
-      "general_emergency": [],
-      "notes": "Restored from information.json after v2 enrichment was truncated.",
-      "hotlines": [
-        {
-          "name": "Emergency",
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "999"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "Zimbabwe",
-          "notes": "",
-          "verification_status": "verified_authority",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Emergency",
-            "numbers": [
-              "999"
-            ]
-          }
-        },
-        {
-          "name": "Childline Zimbabwe",
-          "organization": "Childline Zimbabwe",
-          "category": "general_support",
-          "voice_numbers": [
-            "116"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "Zimbabwe",
-          "notes": "",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "information.json",
-            "xref:psc_app",
-            "xref:web_verified_crisis_directory",
-            "xref:child_helpline_international"
-          ],
-          "_legacy": {
-            "name": "Childline Zimbabwe",
-            "numbers": [
-              "116"
-            ]
-          }
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22"
         }
       ]
     }

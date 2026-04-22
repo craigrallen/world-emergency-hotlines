@@ -1,0 +1,242 @@
+[
+  {
+    "country": "United States",
+    "alpha-2": "US",
+    "hotlines": [
+      {"name": "Poison Help Line (US Poison Control)", "organization": "Poison Control", "category": "emergency", "voice_numbers": ["1-800-222-1222"], "website": "https://www.poison.org", "hours": "24/7", "languages": ["English", "Spanish", "161+ via interpreters"], "cost": "free", "target": "anyone with a suspected poisoning", "notes": "Connects to the nearest regional poison centre. Also web chat via poison.org.", "chat_url": "https://triage.webpoisoncontrol.org/", "sources": ["https://www.poison.org"]},
+      {"name": "CDC-INFO", "organization": "U.S. Centers for Disease Control and Prevention", "category": "general_support", "voice_numbers": ["1-800-232-4636", "1-800-CDC-INFO"], "website": "https://www.cdc.gov/contact/", "hours": "24/7 recorded; live agents Mon-Fri 8am-8pm ET", "languages": ["English", "Spanish"], "cost": "free", "target": "travellers and the public for health information, including vaccines and disease outbreaks", "sources": ["https://www.cdc.gov/cdc-info"]},
+      {"name": "Travelers' Health (CDC Destinations)", "organization": "CDC", "category": "general_support", "website": "https://wwwnc.cdc.gov/travel", "hours": "24/7 (online)", "languages": ["English", "Spanish"], "cost": "free", "target": "international travellers seeking destination health advice and vaccine requirements", "sources": ["https://wwwnc.cdc.gov/travel"]}
+    ]
+  },
+  {
+    "country": "United Kingdom",
+    "alpha-2": "GB",
+    "hotlines": [
+      {"name": "NHS 111 (medical advice)", "organization": "National Health Service", "category": "emergency", "voice_numbers": ["111"], "website": "https://111.nhs.uk", "hours": "24/7", "languages": ["English", "Welsh (Wales)", "interpreters"], "cost": "free", "target": "anyone with an urgent but non-life-threatening medical issue", "sources": ["https://111.nhs.uk"]},
+      {"name": "NHS Overseas Healthcare Services", "organization": "NHS Business Services Authority", "category": "general_support", "voice_numbers": ["+44 191 218 1999"], "website": "https://www.nhsbsa.nhs.uk/ohs", "hours": "Mon-Fri 8am-6pm", "languages": ["English"], "cost": "standard_rate", "target": "UK residents abroad and visitors to the UK needing NHS advice", "sources": ["https://www.nhsbsa.nhs.uk/ohs"]}
+    ]
+  },
+  {
+    "country": "Australia",
+    "alpha-2": "AU",
+    "hotlines": [
+      {"name": "Poisons Information Centre", "organization": "NSW Poisons Information Centre", "category": "emergency", "voice_numbers": ["13 11 26"], "website": "https://www.poisonsinfo.nsw.gov.au", "hours": "24/7", "languages": ["English", "TIS interpreters"], "cost": "local_rate", "target": "anyone with a suspected poisoning — works from anywhere in Australia", "sources": ["https://www.poisonsinfo.nsw.gov.au"]},
+      {"name": "HealthDirect", "organization": "HealthDirect Australia", "category": "emergency", "voice_numbers": ["1800 022 222"], "website": "https://www.healthdirect.gov.au", "hours": "24/7", "languages": ["English", "TIS interpreters"], "cost": "free", "target": "urgent non-life-threatening medical advice (not available in Victoria)", "notes": "Victoria uses NURSE-ON-CALL 1300 60 60 24.", "sources": ["https://www.healthdirect.gov.au"]}
+    ]
+  },
+  {
+    "country": "Canada",
+    "alpha-2": "CA",
+    "hotlines": [
+      {"name": "Canadian Association of Poison Centres", "organization": "CAPC", "category": "emergency", "voice_numbers": ["1-844-764-7669"], "website": "https://www.infopoison.com", "hours": "24/7", "languages": ["English", "French"], "cost": "free", "target": "anyone with a suspected poisoning — routes to the nearest provincial poison centre", "notes": "Provinces also have direct lines, e.g. Ontario 1-800-268-9017, Quebec 1-800-463-5060.", "sources": ["https://www.infopoison.com"]},
+      {"name": "Health Canada Drug Product Info", "organization": "Health Canada", "category": "general_support", "voice_numbers": ["1-866-225-0709"], "website": "https://www.canada.ca/en/health-canada.html", "hours": "Mon-Fri 8:30am-4:30pm ET", "languages": ["English", "French"], "cost": "free", "target": "drug safety, recalls, travel health information", "sources": ["https://www.canada.ca/en/health-canada.html"]}
+    ]
+  },
+  {
+    "country": "France",
+    "alpha-2": "FR",
+    "hotlines": [
+      {"name": "Centre Antipoison", "organization": "Centres Antipoison de France", "category": "emergency", "voice_numbers": ["+33 1 40 05 48 48"], "website": "https://www.centres-antipoison.net", "hours": "24/7", "languages": ["French", "English"], "cost": "standard_rate", "target": "anyone with a suspected poisoning", "notes": "Regional centres: Paris 01 40 05 48 48, Marseille 04 91 75 25 25, Lyon 04 72 11 69 11, Toulouse 05 61 77 74 47.", "sources": ["https://www.centres-antipoison.net"]},
+      {"name": "SOS Médecins", "organization": "SOS Médecins France", "category": "emergency", "voice_numbers": ["3624"], "website": "https://www.sosmedecins-france.fr", "hours": "24/7", "languages": ["French"], "cost": "standard_rate", "target": "home-visit urgent medical care", "sources": ["https://www.sosmedecins-france.fr"]}
+    ]
+  },
+  {
+    "country": "Germany",
+    "alpha-2": "DE",
+    "hotlines": [
+      {"name": "Giftnotruf (Poison Emergency)", "organization": "Berliner Giftnotruf", "category": "emergency", "voice_numbers": ["+49 30 19240", "0551 19240"], "website": "https://www.giftnotruf.de", "hours": "24/7", "languages": ["German", "English"], "cost": "standard_rate", "target": "anyone with a suspected poisoning", "notes": "Regional poison centres: Berlin 030 19240, Bonn 0228 19240, Erfurt 0361 730730, Freiburg 0761 19240, Göttingen 0551 19240, Homburg 06841 19240, Mainz 06131 19240, Munich 089 19240, Nürnberg 0911 398-2451, Vienna +43 1 406 43 43.", "sources": ["https://www.giftnotruf.de"]},
+      {"name": "Ärztlicher Bereitschaftsdienst", "organization": "KBV", "category": "emergency", "voice_numbers": ["116 117"], "website": "https://www.116117.de", "hours": "24/7", "languages": ["German"], "cost": "free", "target": "non-life-threatening medical advice outside GP hours", "sources": ["https://www.116117.de"]}
+    ]
+  },
+  {
+    "country": "Italy",
+    "alpha-2": "IT",
+    "hotlines": [
+      {"name": "Centri Antiveleno (Poison Control)", "organization": "Centro Antiveleno Milano (Ospedale Niguarda)", "category": "emergency", "voice_numbers": ["+39 02 6610 1029"], "website": "https://www.centroantiveleni.org", "hours": "24/7", "languages": ["Italian", "English"], "cost": "standard_rate", "target": "anyone with a suspected poisoning", "notes": "Also Rome (Policlinico Gemelli) +39 06 305 4343 and Pavia +39 0382 24444.", "sources": ["https://www.centroantiveleni.org"]},
+      {"name": "Guardia Medica", "organization": "Servizio di Continuità Assistenziale", "category": "emergency", "voice_numbers": ["116 117"], "hours": "nights/weekends/holidays", "languages": ["Italian"], "cost": "free", "target": "non-urgent out-of-hours medical care", "sources": []}
+    ]
+  },
+  {
+    "country": "Spain",
+    "alpha-2": "ES",
+    "hotlines": [
+      {"name": "Instituto Nacional de Toxicología", "organization": "INT", "category": "emergency", "voice_numbers": ["91 562 04 20"], "website": "https://www.mjusticia.gob.es", "hours": "24/7", "languages": ["Spanish"], "cost": "standard_rate", "target": "anyone with a suspected poisoning", "sources": ["https://www.mjusticia.gob.es"]}
+    ]
+  },
+  {
+    "country": "Japan",
+    "alpha-2": "JP",
+    "hotlines": [
+      {"name": "Japan Poison Information Center", "organization": "JPIC", "category": "emergency", "voice_numbers": ["072-727-2499"], "website": "https://www.j-poison-ic.jp", "hours": "24/7 (public line: 072-727-2499 Osaka, 029-852-9999 Tsukuba)", "languages": ["Japanese", "English"], "cost": "standard_rate", "target": "anyone with a suspected poisoning", "sources": ["https://www.j-poison-ic.jp"]},
+      {"name": "AMDA International Medical Information Center", "organization": "AMDA IMIC", "category": "general_support", "voice_numbers": ["03-6233-9266"], "website": "https://eng.amda-imic.com", "hours": "Mon-Fri 10am-4pm", "languages": ["English", "Chinese", "Korean", "Thai", "Spanish", "Portuguese", "Filipino", "Vietnamese"], "cost": "standard_rate", "target": "foreign residents and travellers needing medical referrals", "sources": ["https://eng.amda-imic.com"]},
+      {"name": "JNTO Tourist Information Call Center", "organization": "Japan National Tourism Organization", "category": "general_support", "voice_numbers": ["050-3816-2787"], "website": "https://www.japan.travel/en/plan/call-center", "hours": "24/7", "languages": ["English", "Chinese", "Korean"], "cost": "standard_rate", "target": "tourists needing travel or emergency information while in Japan", "sources": ["https://www.japan.travel/en/plan/call-center"]}
+    ]
+  },
+  {
+    "country": "Thailand",
+    "alpha-2": "TH",
+    "hotlines": [
+      {"name": "Tourist Police", "organization": "Thai Tourist Police", "category": "emergency", "voice_numbers": ["1155"], "website": "https://thaipolice.go.th", "hours": "24/7", "languages": ["Thai", "English", "Mandarin", "Japanese", "Russian", "German", "French", "Arabic"], "cost": "free", "target": "tourists and expats in Thailand", "sources": ["https://thaipolice.go.th"]},
+      {"name": "Ramathibodi Poison Center", "organization": "Ramathibodi Hospital", "category": "emergency", "voice_numbers": ["1367"], "website": "https://med.mahidol.ac.th/poisoncenter", "hours": "24/7", "languages": ["Thai", "English"], "cost": "free", "target": "anyone with a suspected poisoning", "sources": ["https://med.mahidol.ac.th/poisoncenter"]}
+    ]
+  },
+  {
+    "country": "Mexico",
+    "alpha-2": "MX",
+    "hotlines": [
+      {"name": "CAPUFE Emergencia (Highway Emergency)", "organization": "Caminos y Puentes Federales", "category": "emergency", "voice_numbers": ["074"], "website": "https://www.gob.mx/capufe", "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "highway breakdown and roadside assistance", "sources": ["https://www.gob.mx/capufe"]},
+      {"name": "Ángeles Verdes (Green Angels roadside assistance)", "organization": "SECTUR", "category": "emergency", "voice_numbers": ["078"], "website": "https://www.gob.mx/sectur/acciones-y-programas/angeles-verdes", "hours": "8am-8pm daily", "languages": ["Spanish", "English"], "cost": "free", "target": "tourists with roadside breakdowns on federal highways", "sources": ["https://www.gob.mx/sectur/acciones-y-programas/angeles-verdes"]},
+      {"name": "CENAPRED Poison Center", "organization": "Centro Nacional de Prevención de Desastres", "category": "emergency", "voice_numbers": ["800 00 214 00"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "anyone with a suspected poisoning", "sources": []}
+    ]
+  },
+  {
+    "country": "Turkey",
+    "alpha-2": "TR",
+    "hotlines": [
+      {"name": "Turizm Polisi (Tourism Police)", "organization": "Turkish National Police", "category": "emergency", "voice_numbers": ["+90 212 527 4503", "+90 212 528 5369"], "hours": "24/7", "languages": ["Turkish", "English", "German", "French", "Arabic"], "cost": "standard_rate", "target": "tourists in Istanbul (other cities: dial 155)", "sources": []},
+      {"name": "Zehir Danışma (Poison Advisory)", "organization": "UZEM", "category": "emergency", "voice_numbers": ["114"], "hours": "24/7", "languages": ["Turkish"], "cost": "free", "target": "anyone with a suspected poisoning", "sources": []}
+    ]
+  },
+  {
+    "country": "Netherlands",
+    "alpha-2": "NL",
+    "hotlines": [
+      {"name": "Nationaal Vergiftigingen Informatie Centrum", "organization": "UMC Utrecht", "category": "emergency", "voice_numbers": ["+31 30 274 88 88"], "website": "https://www.vergiftigingen.info", "hours": "24/7 for medical professionals", "languages": ["Dutch", "English"], "cost": "standard_rate", "target": "medical professionals managing suspected poisonings; public via 112 and GPs", "sources": ["https://www.vergiftigingen.info"]},
+      {"name": "Huisartsenpost (GP out-of-hours)", "organization": "Huisartsenposten NL", "category": "emergency", "voice_numbers": ["0900 11 22 33"], "hours": "nights/weekends/holidays", "languages": ["Dutch", "English"], "cost": "paid", "target": "non-urgent out-of-hours medical advice", "sources": []}
+    ]
+  },
+  {
+    "country": "Switzerland",
+    "alpha-2": "CH",
+    "hotlines": [
+      {"name": "Tox Info Suisse", "organization": "Tox Info Suisse", "category": "emergency", "voice_numbers": ["145"], "website": "https://www.toxinfo.ch", "hours": "24/7", "languages": ["German", "French", "Italian", "English"], "cost": "free from Switzerland", "target": "anyone with a suspected poisoning", "sources": ["https://www.toxinfo.ch"]},
+      {"name": "Medgate 24/7 Telemedicine", "organization": "Medgate", "category": "emergency", "voice_numbers": ["+41 415 415 415"], "website": "https://www.medgate.ch", "hours": "24/7", "languages": ["German", "French", "Italian", "English"], "cost": "standard_rate", "target": "non-urgent telemedical consultation", "sources": ["https://www.medgate.ch"]}
+    ]
+  },
+  {
+    "country": "India",
+    "alpha-2": "IN",
+    "hotlines": [
+      {"name": "National Poison Information Centre", "organization": "AIIMS New Delhi", "category": "emergency", "voice_numbers": ["1800-116-117", "011-26589391"], "website": "https://www.aiims.edu", "hours": "24/7", "languages": ["English", "Hindi"], "cost": "free (toll-free)", "target": "anyone with a suspected poisoning", "sources": ["https://www.aiims.edu"]},
+      {"name": "Tourist Helpline", "organization": "Ministry of Tourism", "category": "general_support", "voice_numbers": ["1800-11-1363", "1363"], "website": "https://tourism.gov.in", "hours": "24/7", "languages": ["English", "Hindi", "Spanish", "French", "German", "Italian", "Russian", "Japanese", "Mandarin", "Portuguese", "Arabic", "Korean"], "cost": "free", "target": "domestic and international tourists in India", "sources": ["https://tourism.gov.in"]}
+    ]
+  },
+  {
+    "country": "Singapore",
+    "alpha-2": "SG",
+    "hotlines": [
+      {"name": "SGH Drug and Poison Information Centre", "organization": "Singapore General Hospital", "category": "emergency", "voice_numbers": ["6423 9119"], "website": "https://www.sgh.com.sg", "hours": "24/7", "languages": ["English"], "cost": "standard_rate", "target": "anyone with a suspected poisoning (medical professionals preferred)", "sources": ["https://www.sgh.com.sg"]}
+    ]
+  },
+  {
+    "country": "South Korea",
+    "alpha-2": "KR",
+    "hotlines": [
+      {"name": "Korea Tourism Organization Info Line", "organization": "KTO", "category": "general_support", "voice_numbers": ["1330"], "website": "https://english.visitkorea.or.kr", "hours": "24/7", "languages": ["Korean", "English", "Chinese", "Japanese", "Vietnamese", "Thai", "Malay", "Indonesian", "Russian", "German", "Spanish", "French"], "cost": "free", "target": "tourist information, interpretation help, complaints", "sources": ["https://english.visitkorea.or.kr"]},
+      {"name": "Seoul Global Center Medical Hotline", "organization": "Seoul Metropolitan Government", "category": "general_support", "voice_numbers": ["120"], "website": "https://global.seoul.go.kr", "hours": "24/7", "languages": ["English", "Chinese", "Japanese", "Vietnamese", "Mongolian", "Russian"], "cost": "free", "target": "foreign residents of Seoul", "sources": ["https://global.seoul.go.kr"]}
+    ]
+  },
+  {
+    "country": "Hong Kong",
+    "alpha-2": "HK",
+    "hotlines": [
+      {"name": "Hong Kong Poison Information Centre", "organization": "Hospital Authority", "category": "emergency", "voice_numbers": ["2635 1111"], "website": "https://www3.ha.org.hk/hkpic", "hours": "24/7 for medical professionals", "languages": ["Cantonese", "English"], "cost": "standard_rate", "target": "poison queries — public should dial 999", "sources": ["https://www3.ha.org.hk/hkpic"]},
+      {"name": "Hong Kong Tourism Board Visitor Hotline", "organization": "HKTB", "category": "general_support", "voice_numbers": ["+852 2508 1234"], "website": "https://www.discoverhongkong.com", "hours": "9am-6pm daily", "languages": ["English", "Cantonese", "Mandarin"], "cost": "standard_rate", "target": "visitors needing tourist info", "sources": ["https://www.discoverhongkong.com"]}
+    ]
+  },
+  {
+    "country": "United Arab Emirates",
+    "alpha-2": "AE",
+    "hotlines": [
+      {"name": "Dubai Police Tourist Security", "organization": "Dubai Police", "category": "emergency", "voice_numbers": ["901"], "website": "https://www.dubaipolice.gov.ae", "hours": "24/7", "languages": ["Arabic", "English", "Urdu", "French", "German", "Russian"], "cost": "free", "target": "tourists in Dubai", "sources": ["https://www.dubaipolice.gov.ae"]}
+    ]
+  },
+  {
+    "country": "Egypt",
+    "alpha-2": "EG",
+    "hotlines": [
+      {"name": "Tourist Police", "organization": "Egyptian Tourism Police", "category": "emergency", "voice_numbers": ["126"], "hours": "24/7", "languages": ["Arabic", "English"], "cost": "free", "target": "tourists in Egypt", "sources": []}
+    ]
+  },
+  {
+    "country": "Morocco",
+    "alpha-2": "MA",
+    "hotlines": [
+      {"name": "Brigade Touristique", "organization": "Sûreté Nationale", "category": "emergency", "voice_numbers": ["19"], "hours": "24/7", "languages": ["Arabic", "French", "English"], "cost": "free", "target": "tourists", "sources": []},
+      {"name": "Centre Anti Poison du Maroc", "organization": "CAPM", "category": "emergency", "voice_numbers": ["0801 000 180"], "website": "https://www.capm.ma", "hours": "24/7", "languages": ["Arabic", "French"], "cost": "free", "target": "anyone with a suspected poisoning", "sources": ["https://www.capm.ma"]}
+    ]
+  },
+  {
+    "country": "Brazil",
+    "alpha-2": "BR",
+    "hotlines": [
+      {"name": "Delegacia Especial de Atendimento ao Turista (DEATUR)", "organization": "Civil Police", "category": "emergency", "voice_numbers": ["+55 21 2332-2924"], "hours": "24/7 (Rio); hours vary by city", "languages": ["Portuguese", "English", "Spanish"], "cost": "standard_rate", "target": "tourists in Brazil", "notes": "Each major city has a DEATUR office — see local tourism board.", "sources": []},
+      {"name": "Centro de Informação e Assistência Toxicológica (CIATox)", "organization": "CIATox network", "category": "emergency", "voice_numbers": ["0800 722 6001"], "website": "https://ciatox.org.br", "hours": "24/7", "languages": ["Portuguese"], "cost": "free", "target": "anyone with a suspected poisoning", "sources": ["https://ciatox.org.br"]}
+    ]
+  },
+  {
+    "country": "Argentina",
+    "alpha-2": "AR",
+    "hotlines": [
+      {"name": "Centro Nacional de Intoxicaciones", "organization": "Hospital Posadas", "category": "emergency", "voice_numbers": ["0800 333 0160"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "anyone with a suspected poisoning", "sources": []}
+    ]
+  },
+  {
+    "country": "South Africa",
+    "alpha-2": "ZA",
+    "hotlines": [
+      {"name": "Poisons Information Centre", "organization": "Tygerberg Poison Information Centre", "category": "emergency", "voice_numbers": ["0861 555 777"], "website": "https://www.poisonsinformation.co.za", "hours": "24/7", "languages": ["English", "Afrikaans"], "cost": "local_rate", "target": "anyone with a suspected poisoning", "sources": ["https://www.poisonsinformation.co.za"]},
+      {"name": "AA Roadside Assistance", "organization": "Automobile Association of South Africa", "category": "emergency", "voice_numbers": ["0861 000 234"], "website": "https://www.aa.co.za", "hours": "24/7", "languages": ["English", "Afrikaans"], "cost": "local_rate", "target": "roadside emergencies (members and non-members)", "sources": ["https://www.aa.co.za"]}
+    ]
+  },
+  {
+    "country": "New Zealand",
+    "alpha-2": "NZ",
+    "hotlines": [
+      {"name": "National Poisons Centre", "organization": "University of Otago", "category": "emergency", "voice_numbers": ["0800 POISON", "0800 764 766"], "website": "https://www.poisons.co.nz", "hours": "24/7", "languages": ["English"], "cost": "free", "target": "anyone with a suspected poisoning", "sources": ["https://www.poisons.co.nz"]},
+      {"name": "Healthline (nurse-led medical advice)", "organization": "Whakarongorau Aotearoa", "category": "emergency", "voice_numbers": ["0800 611 116"], "website": "https://www.health.govt.nz/healthline", "hours": "24/7", "languages": ["English", "Te Reo Maori", "interpreters"], "cost": "free", "target": "non-urgent medical advice", "sources": ["https://www.health.govt.nz/healthline"]}
+    ]
+  },
+  {
+    "country": "Ireland",
+    "alpha-2": "IE",
+    "hotlines": [
+      {"name": "National Poisons Information Centre", "organization": "Beaumont Hospital", "category": "emergency", "voice_numbers": ["01 809 2166"], "website": "https://www.poisons.ie", "hours": "24/7 for professionals; public 8am-10pm", "languages": ["English"], "cost": "standard_rate", "target": "anyone with a suspected poisoning", "sources": ["https://www.poisons.ie"]}
+    ]
+  },
+  {
+    "country": "Finland",
+    "alpha-2": "FI",
+    "hotlines": [
+      {"name": "Myrkytystietokeskus (Poison Information Centre)", "organization": "HUS", "category": "emergency", "voice_numbers": ["0800 147 111"], "website": "https://www.myrkytystietokeskus.fi", "hours": "24/7", "languages": ["Finnish", "Swedish", "English"], "cost": "free", "target": "anyone with a suspected poisoning", "sources": ["https://www.myrkytystietokeskus.fi"]}
+    ]
+  },
+  {
+    "country": "Sweden",
+    "alpha-2": "SE",
+    "hotlines": [
+      {"name": "Giftinformationscentralen", "organization": "Giftinformationscentralen", "category": "emergency", "voice_numbers": ["+46 10 456 6700", "112 (emergency)"], "website": "https://giftinformation.se", "hours": "24/7 via 112; info line 9am-5pm", "languages": ["Swedish", "English"], "cost": "free (112); standard otherwise", "target": "anyone with a suspected poisoning", "sources": ["https://giftinformation.se"]}
+    ]
+  },
+  {
+    "country": "Norway",
+    "alpha-2": "NO",
+    "hotlines": [
+      {"name": "Giftinformasjonen", "organization": "Folkehelseinstituttet", "category": "emergency", "voice_numbers": ["22 59 13 00"], "website": "https://helsenorge.no/giftinformasjon", "hours": "24/7", "languages": ["Norwegian", "English"], "cost": "standard_rate", "target": "anyone with a suspected poisoning", "sources": ["https://helsenorge.no/giftinformasjon"]}
+    ]
+  },
+  {
+    "country": "Denmark",
+    "alpha-2": "DK",
+    "hotlines": [
+      {"name": "Giftlinjen (Poison Line)", "organization": "Bispebjerg Hospital", "category": "emergency", "voice_numbers": ["82 12 12 12"], "website": "https://giftlinjen.dk", "hours": "24/7", "languages": ["Danish", "English"], "cost": "standard_rate", "target": "anyone with a suspected poisoning", "sources": ["https://giftlinjen.dk"]}
+    ]
+  },
+  {
+    "country": "Israel",
+    "alpha-2": "IL",
+    "hotlines": [
+      {"name": "Rambam National Poison Information Centre", "organization": "Rambam Health Care Campus", "category": "emergency", "voice_numbers": ["*6111", "+972 4 854 2725"], "website": "https://www.rambam.org.il", "hours": "24/7", "languages": ["Hebrew", "Arabic", "English", "Russian"], "cost": "standard_rate", "target": "anyone with a suspected poisoning", "sources": ["https://www.rambam.org.il"]}
+    ]
+  }
+]
