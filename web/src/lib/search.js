@@ -287,6 +287,38 @@ export function hasMeaningfulQuery(query) {
   return parseSearchQuery(query).tokens.length > 0;
 }
 
+/**
+ * @param {{ parsedQuery: { intent?: { country?: { label: string } | null, category?: { value: string } | null } | null }, results?: Array<any>, docs?: Array<any>, uiFilters?: string[] }} params
+ */
+export function resolveSearchNavigation({ parsedQuery, results = [], docs = [], uiFilters = [] }) {
+  const countryLabel = parsedQuery.intent?.country?.label;
+  if (countryLabel) {
+    const countryMatch = [...results, ...docs].find(
+      (doc) => normalizeText(doc.country_name) === normalizeText(countryLabel),
+    );
+    if (countryMatch?.country_code) {
+      return `/country/${countryMatch.country_code.toLowerCase()}`;
+    }
+  }
+
+  const categoryIntent = !parsedQuery.intent?.country ? parsedQuery.intent?.category?.value : null;
+  if (categoryIntent) {
+    return `/category/${categoryIntent}`;
+  }
+
+  const categoryUiFilters = uiFilters.filter((filter) => filter.startsWith('cat:'));
+  if (!parsedQuery.intent?.country && categoryUiFilters.length === 1) {
+    return `/category/${categoryUiFilters[0].slice(4)}`;
+  }
+
+  const topResult = results[0];
+  if (topResult?.country_code) {
+    return `/country/${topResult.country_code.toLowerCase()}`;
+  }
+
+  return null;
+}
+
 function levenshteinDistance(a, b) {
   if (a === b) return 0;
   if (!a.length) return b.length;

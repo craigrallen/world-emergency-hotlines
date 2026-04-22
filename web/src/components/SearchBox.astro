@@ -114,6 +114,7 @@
     docMatchesQueryFilters,
     hasMeaningfulQuery,
     parseSearchQuery,
+    resolveSearchNavigation,
     scoreDoc,
   } from '../lib/search.js';
 
@@ -348,6 +349,34 @@
 
   let debounce = 0;
 
+  async function evaluateSearch(q: string) {
+    const d = await loadDocs();
+    const parsedQuery = parseSearchQuery(q, d);
+    const hasQueryTokens = q && hasMeaningfulQuery(q);
+    const hasIntentFilters = parsedQuery.filters.length > 0;
+    let ranked: Doc[];
+
+    if (q && (hasQueryTokens || hasIntentFilters)) {
+      ranked = d
+        .filter(applyFilters)
+        .filter((doc) => docMatchesQueryFilters(doc, parsedQuery))
+        .map((doc) => ({ doc, score: hasQueryTokens ? scoreDoc(doc, parsedQuery) : (doc.verified ? 1 : 0) }))
+        .filter((x) => x.score > 0 || (!hasQueryTokens && hasIntentFilters))
+        .sort((a, b) => b.score - a.score)
+        .map((x) => x.doc);
+    } else if (q) {
+      ranked = [];
+    } else {
+      // Filters only — show top verified results
+      ranked = d
+        .filter(applyFilters)
+        .filter((doc) => doc.verified)
+        .slice(0, 20);
+    }
+
+    return { parsedQuery, ranked, docs: d };
+  }
+
   async function onChange() {
     const q = input?.value.trim() ?? '';
     const hasFilters = activeFilters.size > 0;
@@ -363,39 +392,40 @@
     fallback?.classList.add('hidden');
     window.clearTimeout(debounce);
     debounce = window.setTimeout(async () => {
-      const d = await loadDocs();
-      const parsedQuery = parseSearchQuery(q, d);
+      const { parsedQuery, ranked, docs: d } = await evaluateSearch(q);
       renderIntentChips(parsedQuery);
-      const hasQueryTokens = q && hasMeaningfulQuery(q);
-      const hasIntentFilters = parsedQuery.filters.length > 0;
-      let ranked: Doc[];
-
-      if (q && (hasQueryTokens || hasIntentFilters)) {
-        ranked = d
-          .filter(applyFilters)
-          .filter((doc) => docMatchesQueryFilters(doc, parsedQuery))
-          .map((doc) => ({ doc, score: hasQueryTokens ? scoreDoc(doc, parsedQuery) : (doc.verified ? 1 : 0) }))
-          .filter((x) => x.score > 0 || (!hasQueryTokens && hasIntentFilters))
-          .sort((a, b) => b.score - a.score)
-          .map((x) => x.doc);
-      } else if (q) {
-        ranked = [];
-      } else {
-        // Filters only — show top verified results
-        ranked = d
-          .filter(applyFilters)
-          .filter((doc) => doc.verified)
-          .slice(0, 20);
-      }
-
       render(ranked, q, parsedQuery, d);
     }, 90);
   }
 
   input.addEventListener('input', onChange);
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    onChange();
+    const q = input?.value.trim() ?? '';
+    const hasFilters = activeFilters.size > 0;
+
+    if (!q && !hasFilters) {
+      panel?.classList.add('hidden');
+      fallback?.classList.remove('hidden');
+      input?.focus();
+      return;
+    }
+
+    window.clearTimeout(debounce);
+    const { parsedQuery, ranked, docs: d } = await evaluateSearch(q);
+    renderIntentChips(parsedQuery);
+    render(ranked, q, parsedQuery, d);
+
+    const destination = resolveSearchNavigation({
+      parsedQuery,
+      results: ranked,
+      docs: d,
+      uiFilters: getUiFilters(),
+    });
+
+    if (destination) {
+      window.location.assign(destination);
+    }
   });
   document.addEventListener('click', (e) => {
     if (!form.contains(e.target as Node) && !panel.contains(e.target as Node)) {

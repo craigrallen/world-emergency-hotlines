@@ -9,6 +9,7 @@ import {
   docMatchesQueryFilters,
   inferSearchIntent,
   parseSearchQuery,
+  resolveSearchNavigation,
   scoreDoc,
 } from '../src/lib/search.js';
 
@@ -178,6 +179,39 @@ const summaryResults = docs.filter((doc) => docMatchesQueryFilters(doc, summaryP
 assert.equal(
   buildResultSummary(summaryResults, summaryParsed),
   `I found ${summaryResults.length} results for mental health support in United Arab Emirates.`,
+);
+
+const navigationCountryParsed = parseSearchQuery('i am in sweden', docs);
+assert.equal(
+  resolveSearchNavigation({ parsedQuery: navigationCountryParsed, docs }),
+  '/country/se',
+  'Expected clear country intent to navigate to the country page.',
+);
+
+const navigationCategoryParsed = parseSearchQuery('mental health', docs);
+assert.equal(
+  resolveSearchNavigation({ parsedQuery: navigationCategoryParsed, docs }),
+  '/category/mental_health',
+  'Expected category-only intent to navigate to the category page.',
+);
+
+const navigationTopResultParsed = parseSearchQuery('mind', docs);
+const navigationTopResultDocs = docs
+  .filter((doc) => docMatchesQueryFilters(doc, navigationTopResultParsed))
+  .map((doc) => ({ doc, score: scoreDoc(doc, navigationTopResultParsed) }))
+  .filter((entry) => entry.score > 0)
+  .sort((a, b) => b.score - a.score)
+  .map(({ doc }) => doc);
+assert.equal(
+  resolveSearchNavigation({ parsedQuery: navigationTopResultParsed, results: navigationTopResultDocs, docs }),
+  `/country/${navigationTopResultDocs[0].country_code.toLowerCase()}`,
+  'Expected fallback navigation to use the top-ranked country result.',
+);
+
+assert.equal(
+  resolveSearchNavigation({ parsedQuery: parseSearchQuery('qzxw nonexistent', docs), docs }),
+  null,
+  'Expected no navigation target when there is no clear intent or ranked result.',
 );
 
 const noResultParsed = parseSearchQuery('chat support sweden domestic violence', docs);
