@@ -9,6 +9,8 @@ A project to build a definitive, exhaustive reference of every country's emergen
 | `SCHEMA.md` | Full schema documentation for `hotlines.json` |
 | `hotlines.json` | The enriched, canonical dataset (schema v2.0) |
 | `information.json` | Original source dataset (preserved for reference and for migrating remaining countries) |
+| `sources/web_verified_crisis_directory/` | Vendored 2026-04-22 web-derived source artifacts plus a conservative v2 preview |
+| `scripts/integrate_web_verified_directory.py` | Converts the supplemental source directory into a reviewable v2 preview + integration report |
 | `COVERAGE.md` | Per-country coverage status: verified, legacy, or missing |
 | `VERIFICATION_LOG.md` | Running log of which sources were used to verify which numbers |
 | `README.md` | This file |
@@ -54,6 +56,10 @@ Every hotline record carries a `verification_status` so consumers can see how mu
   - 216 fully enriched (`verified_knowledge`) — pending web confirmation.
   - 1,397 migrated (`legacy_unverified`) — pending enrichment.
 - **4 uninhabited territories** have no hotlines (Bouvet Island, French Southern Territories, Heard Island and McDonald Islands, US Minor Outlying Islands) — documented as such.
+- **Supplemental 2026-04-22 source directory vendored** under `sources/web_verified_crisis_directory/`:
+  - 253 web-derived country/territory rows preserved as source artifacts.
+  - `scripts/integrate_web_verified_directory.py` converts that source into `web_verified_directory_v2_preview.json` for review without overwriting canonical data.
+  - Current conservative mapping reaches **243 / 253** source rows; the remaining 10 are kept in `unmatched_country_rows.json` for manual geopolitical review.
 
 ## Planned next sessions
 

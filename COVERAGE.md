@@ -11,6 +11,9 @@ Tracking which countries are in `hotlines.json` (schema v2.0) and at what depth.
 | Records rich-enriched (`verified_knowledge`) | 216 |
 | Records migrated but not yet enriched (`legacy_unverified`) | 1,397 |
 | Countries with 0 hotlines (genuinely uninhabited) | 4 |
+| Supplemental web-derived source rows vendored for review | 253 |
+| Supplemental rows currently mapped into preview | 243 |
+| Supplemental rows held for manual geopolitical review | 10 |
 
 ## Status legend
 
@@ -42,6 +45,15 @@ All genuinely uninhabited:
 - **French Southern Territories** — research stations only.
 - **Heard Island and McDonald Islands** — uninhabited Australian territory.
 - **United States Minor Outlying Islands** — Baker, Howland, Jarvis, Johnston Atoll, Kingman Reef, Midway, Navassa, Palmyra, Wake. No standing civilian services.
+
+## Supplemental web-derived source directory (2026-04-22)
+
+A separate generated directory is now vendored under `sources/web_verified_crisis_directory/` together with a conservative preview conversion.
+
+- **253 source rows** were preserved as auditable artifacts.
+- **243 rows** currently map to this repo's canonical country list and are available in `web_verified_directory_v2_preview.json`.
+- **10 rows** are intentionally held back in `unmatched_country_rows.json`: Abkhazia, Akrotiri and Dhekelia, Ascension Island, Clipperton Island, Northern Cyprus, Somaliland, South Ossetia, Tibet, Transnistria, and Tristan da Cunha.
+- The preview does **not** replace `hotlines.json`; it is a safe staging layer for selective future merges.
 
 ## Priority queue for next enrichment passes
 

@@ -1,0 +1,4145 @@
+[
+  {
+    "country": "Abkhazia",
+    "emergency": {
+      "police": "102",
+      "ambulance": "103",
+      "fire": "101",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Afghanistan",
+    "emergency": {
+      "police": "119",
+      "ambulance": "112",
+      "fire": "119",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://web.archive.org/web/20150103210602/http://kcp.gov.af/en/page/emergency-119/about-119-police",
+      "http://kcp.gov.af/en/page/emergency-119/about-119-police",
+      "https://web.archive.org/web/20170329142443/https://kabul.usembassy.gov/lmpa.html",
+      "https://kabul.usembassy.gov/lmpa.html"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Row references expose 4 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Akrotiri and Dhekelia",
+    "emergency": {
+      "police": "112 or 999",
+      "ambulance": "112 or 999",
+      "fire": "112 or 999",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Albania",
+    "emergency": {
+      "police": "129",
+      "ambulance": "127",
+      "fire": "128",
+      "other_numbers": [
+        "Traffic police – 126",
+        "Emergency at sea – 125",
+        "Mobile phones ambulance – 112"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://web.archive.org/web/20150923234110/http://www.eena.org/ressource/static/files/1-albania.pdf",
+      "http://www.eena.org/ressource/static/files/1-albania.pdf"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Traffic police – 126; Emergency at sea – 125. [ 71 ] Mobile phones ambulance – 112 Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Algeria",
+    "emergency": {
+      "police": "1548",
+      "ambulance": "14",
+      "fire": "14",
+      "other_numbers": [
+        "Gendarme – 1055"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://dz.usembassy.gov/u-s-citizen-services/local-resources-of-u-s-citizens/emergency-assistance/",
+      "https://web.archive.org/web/20190816160854/https://dz.usembassy.gov/u-s-citizen-services/local-resources-of-u-s-citizens/emergency-assistance/"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Gendarme – 1055 [ 1 ] Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "American Samoa",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Oceania. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Andorra",
+    "emergency": {
+      "police": "110",
+      "ambulance": "116",
+      "fire": "118",
+      "other_numbers": [
+        "112 – Mountain / Sky Rescue collaboration with Spanish (Catalan) and French authorities"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://skiandorra.ad/en/menu-16/safety-regulations.html",
+      "https://web.archive.org/web/20210812052445/https://skiandorra.ad/en/menu-16/safety-regulations.html"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: 112 – Mountain / Sky Rescue collaboration with Spanish (Catalan) and French authorities [ 72 ] Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Angola",
+    "emergency": {
+      "police": "113",
+      "ambulance": "112/116",
+      "fire": "115",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.lonelyplanet.com/angola/practical-information/directory/emergency-and-important-numbers/a/nar/13902c89-1354-442d-992f-8d871e953865/355088",
+      "https://web.archive.org/web/20190403215348/https://www.lonelyplanet.com/angola/practical-information/directory/emergency-and-important-numbers/a/nar/13902c89-1354-442d-992f-8d871e953865/355088"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Anguilla",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Antarctica",
+    "emergency": {
+      "police": "McMurdo Station: 911 (fire and medical emergency dispatch)",
+      "ambulance": "McMurdo Station: 911 (fire and medical emergency dispatch)",
+      "fire": "McMurdo Station: 911 (fire and medical emergency dispatch)",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.usap.gov/USAPgov/travelAndDeployment/documents/ParticipantGuide-Chapter7.pdf",
+      "https://web.archive.org/web/20180722095638/https://www.usap.gov/USAPgov/travelAndDeployment/documents/ParticipantGuide-Chapter7.pdf"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Antarctica. Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Antigua and Barbuda",
+    "emergency": {
+      "police": "911 or 999",
+      "ambulance": "911 or 999",
+      "fire": "911 or 999",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Argentina",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": [
+        "Police – 101",
+        "Ambulance – 107",
+        "Fire – 100",
+        "Civil defense – 103",
+        "Forest fire – 105",
+        "Coast guard – 106"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: South America. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 101; Ambulance – 107; Fire – 100; Civil defense – 103; Forest fire – 105; Coast guard – 106. 112 redirects to 911 on mobile phones No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Armenia",
+    "emergency": {
+      "police": "112 or 911",
+      "ambulance": "112 or 911",
+      "fire": "112 or 911",
+      "other_numbers": [
+        "Police – 102",
+        "Ambulance – 103",
+        "Fire – 101",
+        "Gas emergency – 104",
+        "Traffic police – 177",
+        "Search & rescue – 108"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.epress.am/en/2011/02/04/911-and-112-emergency-numbers-to-be-operational-in-armenia-this-year.html",
+      "https://web.archive.org/web/20170713094752/http://epress.am/en/2011/02/04/911-and-112-emergency-numbers-to-be-operational-in-armenia-this-year.html"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 102; Ambulance – 103; Fire – 101; Gas emergency – 104; Traffic police – 177; Search & rescue – 108 Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Aruba",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Ascension Island",
+    "emergency": {
+      "police": "999",
+      "ambulance": "999",
+      "fire": "999",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://web.archive.org/web/20180129182549/http://www.noonsite.com/Countries/AscensionIsland/?rc=GeneralInfo",
+      "http://www.noonsite.com/Countries/AscensionIsland/?rc=GeneralInfo"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Australia",
+    "emergency": {
+      "police": "000",
+      "ambulance": "000",
+      "fire": "000",
+      "other_numbers": [
+        "Mobile phones – 112",
+        "State Emergency Service – 132 500",
+        "National relay service – 106",
+        "emergency police – 131 444 (",
+        "Crime Stoppers – 1800 333 000",
+        "Threats to national security – 1800 123 400",
+        "Poison control – 13 11 26",
+        "Lifeline – 13 11 14"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.triplezero.gov.au/triple-zero/other-emergency-numbers",
+      "https://web.archive.org/web/20251001055227/https://www.triplezero.gov.au/triple-zero/other-emergency-numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Oceania. Original notes text preserved and split into other_numbers entries. Raw note text: Mobile phones – 112 or 000; [ 112 ] State Emergency Service – 132 500; National relay service – 106; Non-emergency police – 131 444 ( NSW, QLD, VIC, SA, WA, NT, TAS & ACT ); Crime Stoppers – 1800 333 000; Threats to national security – 1800 123 400; Poison control – 13 11 26; Lifeline – 13 11 14 Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Austria",
+    "emergency": {
+      "police": "112 or 133",
+      "ambulance": "144",
+      "fire": "122",
+      "other_numbers": [
+        "Gas emergency – 128",
+        "Mountain rescue – 140",
+        "Doctors – 141",
+        "Crisis hotline – 142",
+        "Support for children and teens – 147",
+        "emergency police – 059 133",
+        "Deaf fax/SMS – 0800 133 133",
+        "Poisoning Informations Center – 01 406 43 43"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Gas emergency – 128; Mountain rescue – 140; Doctors – 141; Crisis hotline – 142; Support for children and teens – 147; Non-emergency police – 059 133; Deaf fax/SMS – 0800 133 133; Poisoning Informations Center – 01 406 43 43. The emergency telephone number 112 will be answered by the police, but will also handle other emergency services No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Azerbaijan",
+    "emergency": {
+      "police": "112 or 102",
+      "ambulance": "112 or 103",
+      "fire": "112 or 101",
+      "other_numbers": [
+        "Gas Service – 104",
+        "Traffic police – 902",
+        "Electricity emergency – 199",
+        "Emergency – 112"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.fhn.gov.az/?eng/menu/23"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Gas Service – 104; Traffic police – 902; Electricity emergency – 199; Emergency – 112 Row references expose 1 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Bahrain",
+    "emergency": {
+      "police": "999",
+      "ambulance": "999",
+      "fire": "999",
+      "other_numbers": [
+        "Mobile phones – 112",
+        ", Traffic police – 199",
+        ", Coast Guard – 994"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Mobile phones – 112, Traffic police – 199, Coast Guard – 994 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Bangladesh",
+    "emergency": {
+      "police": "999",
+      "ambulance": "999",
+      "fire": "999",
+      "other_numbers": [
+        "Anti Corruption Commission – 106",
+        ", Agricultural Information Services – 16123",
+        ", Health Services – 16263",
+        ", Dhaka WASA – 16162",
+        ", Women and Children Ministry – 109",
+        ", Legal Services – 16430",
+        ", National Information Service — 333",
+        ", IEDCR Helpline for COVID-19"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://web.archive.org/web/20180721102851/https://nhd.gov.bd/mobile/",
+      "https://nhd.gov.bd/mobile/"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Anti Corruption Commission – 106, Agricultural Information Services – 16123, Health Services – 16263, Dhaka WASA – 16162, Women and Children Ministry – 109, Legal Services – 16430, National Information Service — 333, IEDCR Helpline for COVID-19 – 10655 [ 41 ] Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Barbados",
+    "emergency": {
+      "police": "211",
+      "ambulance": "511",
+      "fire": "311",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Belarus",
+    "emergency": {
+      "police": "102",
+      "ambulance": "103",
+      "fire": "101",
+      "other_numbers": [
+        "Gas emergency – 104"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Gas emergency – 104 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Belgium",
+    "emergency": {
+      "police": "101 or 112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Non-emergency number for the fire department – 1722"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://ec.europa.eu/digital-agenda/en/112-belgium",
+      "https://web.archive.org/web/20150629010158/https://ec.europa.eu/digital-agenda/en/112-belgium",
+      "http://112.be/en/faq-112.html#10",
+      "https://web.archive.org/web/20160311200128/http://112.be/en/faq-112.html#10"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Non-emergency number for the fire department – 1722. [ 76 ] Row references expose 4 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Belize",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Central America. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Benin",
+    "emergency": {
+      "police": "117",
+      "ambulance": "112",
+      "fire": "118",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "http://www.itu.int/net/itu-t/inrdb/e129_important_numbers.aspx?country=21&pg_size=50",
+      "https://web.archive.org/web/20160305013735/http://www.itu.int/net/itu-t/inrdb/e129_important_numbers.aspx?country=21&pg_size=50"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Bermuda",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Bhutan",
+    "emergency": {
+      "police": "113",
+      "ambulance": "112",
+      "fire": "110",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Bolivia",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": [
+        "Police – 110",
+        "Ambulance – 118",
+        "Fire – 119",
+        "Civil protection – 114",
+        "National police – 120"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "http://boliviatelefonos.com/bolivia/emergencias.htm",
+      "https://web.archive.org/web/20190130212253/http://boliviatelefonos.com/bolivia/emergencias.htm"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: South America. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 110; Ambulance – 118; Fire – 119; Civil protection – 114; National police – 120 Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Bosnia and Herzegovina",
+    "emergency": {
+      "police": "122",
+      "ambulance": "124",
+      "fire": "123",
+      "other_numbers": [
+        "Civil protection – 121"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Civil protection – 121 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Botswana",
+    "emergency": {
+      "police": "999",
+      "ambulance": "997",
+      "fire": "998",
+      "other_numbers": [
+        "Mobile phones – 112"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "http://www.botswanatourism.co.bw/info/general-information",
+      "https://web.archive.org/web/20190815072914/http://www.botswanatourism.co.bw/info/general-information"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Mobile phones – 112 Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Brazil",
+    "emergency": {
+      "police": "190",
+      "ambulance": "192",
+      "fire": "193",
+      "other_numbers": [
+        "Federal highway police – 191",
+        "Federal police – 194",
+        "Civil police – 197",
+        "State highway police – 198",
+        "Civil defense – 199",
+        "Municipal guard – 153",
+        "Human rights – 100",
+        "Emergency in Mercosul area – 128"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: South America. Original notes text preserved and split into other_numbers entries. Raw note text: Federal highway police – 191; Federal police – 194; Civil police – 197; State highway police – 198; Civil defense – 199; Municipal guard – 153; Human rights – 100; Emergency in Mercosul area – 128. 112 and 911 redirect to 190 on mobile phones; 188 – Hotline Help No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "British Indian Ocean Territory",
+    "emergency": {
+      "police": "112 or 999",
+      "ambulance": "112 or 999",
+      "fire": "112 or 999",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "British Virgin Islands",
+    "emergency": {
+      "police": "911 or 999",
+      "ambulance": "911 or 999",
+      "fire": "911 or 999",
+      "other_numbers": [
+        "Police – 311"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.bvi.gov.vg/media-centre/emergency-hotline-numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 311. [ 21 ] Row references expose 1 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Brunei",
+    "emergency": {
+      "police": "993",
+      "ambulance": "991",
+      "fire": "995",
+      "other_numbers": [
+        "Search and Rescue – 998"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Search and Rescue – 998 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Bulgaria",
+    "emergency": {
+      "police": "112 or 166",
+      "ambulance": "112 or 150",
+      "fire": "112 or 160",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Burkina Faso",
+    "emergency": {
+      "police": "17",
+      "ambulance": "112",
+      "fire": "18",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.police.gov.bf/index.php/a-votre-service/police-secours",
+      "https://web.archive.org/web/20190509100945/https://www.police.gov.bf/index.php/a-votre-service/police-secours",
+      "https://www.lonelyplanet.com/burkina-faso/bobo-dioulasso/practical-information/directory/emergency-and-important-numbers/a/nar/f329a7b4-e0a1-45bd-9257-1eeb22340d97/355102",
+      "https://web.archive.org/web/20190815072903/https://www.lonelyplanet.com/burkina-faso/bobo-dioulasso/practical-information/directory/emergency-and-important-numbers/a/nar/f329a7b4-e0a1-45bd-9257-1eeb22340d97/355102"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Row references expose 4 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Burundi",
+    "emergency": {
+      "police": "117",
+      "ambulance": "112",
+      "fire": "118",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.lonelyplanet.com/burundi/practical-information/directory/emergency-and-important-numbers/a/nar/ab1b1958-47cc-44a4-8492-879071e756a8/355103",
+      "https://web.archive.org/web/20190815070325/https://www.lonelyplanet.com/burundi/practical-information/directory/emergency-and-important-numbers/a/nar/ab1b1958-47cc-44a4-8492-879071e756a8/355103"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Cambodia",
+    "emergency": {
+      "police": "117",
+      "ambulance": "119",
+      "fire": "118",
+      "other_numbers": [
+        "Child helpline – 1280"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Child helpline – 1280 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Cameroon",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Police – 117",
+        "Ambulance – 119",
+        "Fire – 118",
+        "Electricity emergency – 8010"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Police – 117; Ambulance – 119; Fire – 118; Electricity emergency – 8010 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Canada",
+    "emergency": {
+      "police": "911 (suicide hotline 988)",
+      "ambulance": "911 (suicide hotline 988)",
+      "fire": "911 (suicide hotline 988)",
+      "other_numbers": [
+        "Nonemergency social services - 211",
+        "Municipal services – 311 ("
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: North America. Original notes text preserved and split into other_numbers entries. Raw note text: Nonemergency social services - 211. Municipal services – 311 (metros only). 112 may redirect to 911 on certain mobile phones No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Cape Verde",
+    "emergency": {
+      "police": "132",
+      "ambulance": "130",
+      "fire": "131",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Caribbean Netherlands",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Cayman Islands",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Central African Republic",
+    "emergency": {
+      "police": "117",
+      "ambulance": "1220",
+      "fire": "118",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Chad",
+    "emergency": {
+      "police": "17",
+      "ambulance": "2251-4242",
+      "fire": "18",
+      "other_numbers": [
+        "Ambulance – 2251-1237"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Ambulance – 2251-1237 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Chile",
+    "emergency": {
+      "police": "133",
+      "ambulance": "131",
+      "fire": "132",
+      "other_numbers": [
+        "A mbulancia (Ambulance) – 13 1",
+        ", B omberos (Fire) – 13 2",
+        ", C arabineros (Police) – 13 3"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: South America. Original notes text preserved and split into other_numbers entries. Raw note text: Useful mnemonic is ABC123: A mbulancia (Ambulance) – 13 1, B omberos (Fire) – 13 2, C arabineros (Police) – 13 3. 911 and 112 redirect to 133 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Christmas Island",
+    "emergency": {
+      "police": "000",
+      "ambulance": "000",
+      "fire": "000",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Clipperton Island",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Police – 17",
+        "Ambulance – 15",
+        "Fire – 18"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Central America. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 17; Ambulance – 15; Fire – 18 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Cocos Islands",
+    "emergency": {
+      "police": "000",
+      "ambulance": "000",
+      "fire": "000",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Colombia",
+    "emergency": {
+      "police": "112",
+      "ambulance": "125",
+      "fire": "119",
+      "other_numbers": [
+        "General emergency - 123",
+        "kidnapping and extortion hotline – 165"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.internationalinsurance.com/travel-to/colombia/#:~:text=Medical%20Emergencies%20(ambulance)%20%E2%80%93%20125,24-hour%20ambulance)%20-132",
+      "https://web.archive.org/web/20250131021040/https://www.internationalinsurance.com/travel-to/colombia/#:~:text=Medical%20Emergencies%20(ambulance)%20%E2%80%93%20125,24-hour%20ambulance)%20-132"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: South America. Original notes text preserved and split into other_numbers entries. Raw note text: General emergency - 123; Anti-kidnapping and extortion hotline – 165. [ 33 ] Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Comoros",
+    "emergency": {
+      "police": "17",
+      "ambulance": "772-03-73",
+      "fire": "18",
+      "other_numbers": [
+        "Ambulance – 773-26-04"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Ambulance – 773-26-04 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Cook Islands",
+    "emergency": {
+      "police": "999",
+      "ambulance": "999",
+      "fire": "999",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://cookislands.travel/how-to-book/faq",
+      "https://web.archive.org/web/20220411220027/https://cookislands.travel/how-to-book/faq",
+      "https://www.usp.ac.fj/handbookandcalendar2023/emergency-contact-details/",
+      "https://web.archive.org/web/20231211015503/https://www.usp.ac.fj/handbookandcalendar2023/emergency-contact-details/"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Oceania. Row references expose 4 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Costa Rica",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": [
+        "Mobile phones – 112"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Central America. Original notes text preserved and split into other_numbers entries. Raw note text: Mobile phones – 112 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Croatia",
+    "emergency": {
+      "police": "112 or 192",
+      "ambulance": "112 or 194",
+      "fire": "112 or 193",
+      "other_numbers": [
+        "Search and rescue at sea – 112",
+        "Road help – 1987"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Search and rescue at sea – 112 or 195; Road help – 1987 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Cuba",
+    "emergency": {
+      "police": "106",
+      "ambulance": "104",
+      "fire": "105",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Curacao",
+    "emergency": {
+      "police": "911",
+      "ambulance": "910 and 912",
+      "fire": "911",
+      "other_numbers": [
+        "Calls to 112 forward to 911",
+        "Please consult the current list for Emergency Services"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "http://www.curacao.com/en/directory/plan/local-services/safety-and-emergency/",
+      "https://web.archive.org/web/20170804153016/http://www.curacao.com/en/directory/plan/local-services/safety-and-emergency/"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. Original notes text preserved and split into other_numbers entries. Raw note text: Calls to 112 forward to 911. Please consult the current list for Emergency Services Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Cyprus",
+    "emergency": {
+      "police": "112 or 199",
+      "ambulance": "112 or 199",
+      "fire": "112 or 199",
+      "other_numbers": [
+        "Air/sea rescue – 1441",
+        "drug support – 1410",
+        "Poison control – 1401"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.angloinfo.com/cyprus/how-to/cyprus-healthcare-emergencies",
+      "https://web.archive.org/web/20160701102536/https://www.angloinfo.com/cyprus/how-to/cyprus-healthcare-emergencies"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Air/sea rescue – 1441; [ 77 ] Anti-drug support – 1410 or 1498; Poison control – 1401 Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Czech Republic",
+    "emergency": {
+      "police": "112 or 158",
+      "ambulance": "112 or 155",
+      "fire": "112 or 150",
+      "other_numbers": [
+        "Municipal police – 156",
+        "Mountain rescue – 1210"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Municipal police – 156; Mountain rescue – 1210 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Democratic People's Republic of Korea",
+    "emergency": {
+      "police": "local numbers only",
+      "ambulance": "local numbers only",
+      "fire": "110[a] or 8119",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://travel.state.gov/content/dam/students-abroad/pdfs/911_ABROAD.pdf#page=6",
+      "https://ghostarchive.org/archive/20221009/https://travel.state.gov/content/dam/students-abroad/pdfs/911_ABROAD.pdf#page=6",
+      "https://www.rfa.org/korean/news_indepth/publichealth-05222023072350.html",
+      "https://web.archive.org/web/20250607150825/https://www.rfa.org/korean/news_indepth/publichealth-05222023072350.html",
+      "https://www.fire-engine-photos.com/picture/number39632.asp?c=ok",
+      "https://web.archive.org/web/20210606104518/https://www.fire-engine-photos.com/picture/number39632.asp?c=ok"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Row references expose 6 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Democratic Republic of Congo",
+    "emergency": {
+      "police": "112",
+      "ambulance": null,
+      "fire": "118",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://web.archive.org/web/20150905115803/http://travel.state.gov/content/passports/english/country/congo-kinshasa.html",
+      "https://travel.state.gov/content/passports/english/country/congo-kinshasa.html"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Denmark",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Non-emergency police – 114"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Non-emergency police – 114 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Djibouti",
+    "emergency": {
+      "police": "17",
+      "ambulance": "19",
+      "fire": "18",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Dominica",
+    "emergency": {
+      "police": "999",
+      "ambulance": "999",
+      "fire": "999",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Dominican Republic",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": [
+        "112 redirects to 911 on mobile phones"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. Original notes text preserved and split into other_numbers entries. Raw note text: 112 redirects to 911 on mobile phones No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "East Timor",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Ecuador",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": [
+        "Police – 101",
+        "Ambulance – 131",
+        "Fire – 102",
+        "Emergency in Guayaquil – 112",
+        "Traffic police in Guayaquil – 103"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: South America. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 101; Ambulance – 131; Fire – 102; Emergency in Guayaquil – 112; Traffic police in Guayaquil – 103 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Egypt",
+    "emergency": {
+      "police": "112 or 122",
+      "ambulance": "123",
+      "fire": "180",
+      "other_numbers": [
+        "Tourist police – 126",
+        "Traffic police – 128",
+        "Electricity emergency – 121",
+        "Gas emergency – 129",
+        "Mobile phones – 112"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Tourist police – 126; Traffic police – 128; Electricity emergency – 121; Gas emergency – 129; Mobile phones – 112 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "El Salvador",
+    "emergency": {
+      "police": "911",
+      "ambulance": "132",
+      "fire": "913",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://twitter.com/ddovia/status/492715794275762176",
+      "https://web.archive.org/web/20210308005159/https://twitter.com/ddovia/status/492715794275762176"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Central America. Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Equatorial Guinea",
+    "emergency": {
+      "police": "114",
+      "ambulance": "115",
+      "fire": "112",
+      "other_numbers": [
+        "Traffic police – 116"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Traffic police – 116 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Eritrea",
+    "emergency": {
+      "police": "113",
+      "ambulance": "114",
+      "fire": "116",
+      "other_numbers": [
+        "Emergency call – 112",
+        "Traffic police – 115"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://eritel.com.er/faqs.php"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Emergency call – 112; Traffic police – 115. [ 11 ] Row references expose 1 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Estonia",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://web.archive.org/web/20150923234114/http://www.eena.org/ressource/static/files/1.-estonia---eerc_riga.pdf",
+      "http://www.eena.org/ressource/static/files/1.-estonia---eerc_riga.pdf"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Eswatini",
+    "emergency": {
+      "police": "999",
+      "ambulance": "977",
+      "fire": "933",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Ethiopia",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": [
+        "Police – 991",
+        "Ambulance – 907",
+        "Fire – 939",
+        "Traffic police – 945"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://web.archive.org/web/20161205105828/http://www.ethiopianexpress.net/a/destination-information/addis-ababa/list-of-important-numbers-in-addis-ababa/",
+      "http://www.ethiopianexpress.net/a/destination-information/addis-ababa/list-of-important-numbers-in-addis-ababa/",
+      "http://www.itu.int/net/itu-t/inrdb/e129_important_numbers.aspx?country=69&pg_size=50",
+      "https://web.archive.org/web/20150712213323/http://www.itu.int/net/itu-t/inrdb/e129_important_numbers.aspx?country=69&pg_size=50"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Police – 991; [ 13 ] Ambulance – 907; [ 13 ] Fire – 939; [ 13 ] Traffic police – 945 Row references expose 4 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Falkland Islands",
+    "emergency": {
+      "police": "112 or 999",
+      "ambulance": "112 or 999",
+      "fire": "112 or 999",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: South America. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Faroe Islands",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Non-emergency police – 114"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Non-emergency police – 114 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Fiji",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": [
+        "Police – 917",
+        "Fire – 910",
+        "Crime Stoppers – 919"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://taf.org.fj/national-emergency-numbers/",
+      "https://web.archive.org/web/20231211015505/https://taf.org.fj/national-emergency-numbers/"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Oceania. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 917; Fire – 910; Crime Stoppers – 919. [ 115 ] Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Finland",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Maritime rescue – 02 94 1000",
+        "Poison Control – 0800 147 111",
+        "Medical Helpline – 116117 (",
+        "Report lost or stolen credit card – 020 333 ("
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://web.archive.org/web/20190415023352/https://www.112.fi/other_languages",
+      "https://www.112.fi/other_languages",
+      "https://112.fi/hatatilanne-ulkomailla",
+      "https://web.archive.org/web/20190616130603/https://www.raja.fi/guidelines/advice_to_boaters/alarm_instructions_of_the_maritime_rescue",
+      "https://www.raja.fi/guidelines/advice_to_boaters/alarm_instructions_of_the_maritime_rescue",
+      "https://www.hus.fi/en/potilaalle/sairaalat-ja-toimipisteet/myrkytystietokeskus",
+      "https://web.archive.org/web/20210613020151/https://www.hus.fi/en/potilaalle/sairaalat-ja-toimipisteet/myrkytystietokeskus",
+      "https://116117.fi/en/Index",
+      "https://web.archive.org/web/20240420112929/https://116117.fi/en/Index",
+      "https://www.nordea.fi/en/personal/our-services/credit-payment-cards/if-you-lose-your-card.html",
+      "https://web.archive.org/web/20240219235251/https://www.nordea.fi/en/personal/our-services/credit-payment-cards/if-you-lose-your-card.html"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: +358 9 2297 0908 from abroad; [ 80 ] Maritime rescue – 02 94 1000; [ 81 ] Poison Control – 0800 147 111; [ 82 ] Medical Helpline – 116117 (except in Åland ); [ 83 ] Report lost or stolen credit card – 020 333 (for most Finnish banks) [ 84 ] Row references expose 11 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "France",
+    "emergency": {
+      "police": "112 or 17",
+      "ambulance": "112 or 15",
+      "fire": "112 or 18",
+      "other_numbers": [
+        "Deaf FAX/SMS – 114",
+        "Hotline for beaten children – 119",
+        "Missing children – 116 000",
+        "Maritime rescue – 196"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "http://girondevigilante.canalblog.com/archives/2015/11/05/32884724.html",
+      "https://web.archive.org/web/20160807175251/http://girondevigilante.canalblog.com/archives/2015/11/05/32884724.html"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Deaf FAX/SMS – 114; Hotline for beaten children – 119; Missing children – 116 000; Maritime rescue – 196. [ 85 ] in 80% of departments 112 will redirect to fire and rescue service in the rest of cases 112 will be handled either by a common platform or by ambulance (SAMU) Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "French Guiana",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Police – 17",
+        "Ambulance – 15",
+        "Fire – 18"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: South America. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 17; Ambulance – 15; Fire – 18 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "French Polynesia",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Police – 17",
+        "Ambulance – 15",
+        "Fire – 18"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Oceania. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 17; Ambulance – 15; Fire – 18 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Gabon",
+    "emergency": {
+      "police": "1730",
+      "ambulance": "1300",
+      "fire": "18",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://web.archive.org/web/20160502082927/http://gabon.emergencynumbers.org/",
+      "http://gabon.emergencynumbers.org/"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Gambia",
+    "emergency": {
+      "police": "117",
+      "ambulance": "116",
+      "fire": "118",
+      "other_numbers": [
+        "Police – 112",
+        "Electricity emergency – 124",
+        "Water emergency – 125"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Police – 112; Electricity emergency – 124; Water emergency – 125 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Georgia",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Germany",
+    "emergency": {
+      "police": "110",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Traditionally 110 for the police and 112 for the fire brigade and rescue service. Due to EU Directive 112 works also for the police",
+        "911 redirects to 112 on telephones used in USAFE bases. Rescue service additionally (outdating) 19222",
+        "Non-emergency medical on-call duty: 116 117",
+        "Debit and credit card locking call 116 116",
+        "Military police: 0800 190 9999",
+        "Federal (incl. railway) police: 0800 6 888 000"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Traditionally 110 for the police and 112 for the fire brigade and rescue service. Due to EU Directive 112 works also for the police; 911 redirects to 112 on telephones used in USAFE bases. Rescue service additionally (outdating) 19222. Non-emergency medical on-call duty: 116 117. Debit and credit card locking call 116 116. Military police: 0800 190 9999. Federal (incl. railway) police: 0800 6 888 000 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Ghana",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Police – 191",
+        "Ambulance – 193",
+        "Fire – 192"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.ghanaweb.com/GhanaHomePage/NewsArchive/Ghana-announces-112-as-new-general-emergency-number-850819",
+      "https://web.archive.org/web/20200217132943/https://www.ghanaweb.com/GhanaHomePage/NewsArchive/Ghana-announces-112-as-new-general-emergency-number-850819"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Police – 191; Ambulance – 193; Fire – 192 Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Gibraltar",
+    "emergency": {
+      "police": "199 or 112 or 999",
+      "ambulance": "190 or 112 or 999",
+      "fire": "190 or 112 or 999",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Greece",
+    "emergency": {
+      "police": "100",
+      "ambulance": "166",
+      "fire": "199",
+      "other_numbers": [
+        "General emergencies – 112",
+        "Forest fire – 1591",
+        "Coast guard – 108",
+        "narcotics – 109",
+        "Tourist police – 171",
+        "Social aid – 197"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: General emergencies – 112; Forest fire – 1591; Coast guard – 108; Counter-narcotics – 109; Tourist police – 171; Social aid – 197 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Greenland",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Mobile phones only. From landline phones dial the local police station, hospital or fire brigade"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Mobile phones only. From landline phones dial the local police station, hospital or fire brigade No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Grenada",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Guadeloupe",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Police – 17",
+        "Ambulance – 15",
+        "Fire – 18"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 17; Ambulance – 15; Fire – 18 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Guam",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://gpd.guam.gov/contact-us/",
+      "https://web.archive.org/web/20231211015503/https://gpd.guam.gov/contact-us/"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Oceania. Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Guatemala",
+    "emergency": {
+      "police": "110",
+      "ambulance": "128",
+      "fire": "122",
+      "other_numbers": [
+        "Police – 120",
+        "Fire – 123"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Central America. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 120; Fire – 123 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Guernsey",
+    "emergency": {
+      "police": "112 or 999",
+      "ambulance": "112 or 999",
+      "fire": "112 or 999",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Guinea",
+    "emergency": {
+      "police": "117",
+      "ambulance": "18",
+      "fire": "442-020",
+      "other_numbers": [
+        "Maritime Emergency Service – 19",
+        "Gendarmerie – 118",
+        "National Gendarmerie – 122"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Maritime Emergency Service – 19; Gendarmerie – 118; National Gendarmerie – 122 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Guinea-Bissau",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Police – 117",
+        "Ambulance – 119",
+        "Fire – 118"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Police – 117; Ambulance – 119; Fire – 118 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Guyana",
+    "emergency": {
+      "police": "911",
+      "ambulance": "913",
+      "fire": "912",
+      "other_numbers": [
+        "Childcare Protection Agency – 227-0979",
+        "Human Trafficking – 227-4083",
+        "Domestic Violence – 914"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://mhsss.gov.gy/",
+      "https://web.archive.org/web/20220710003259/https://mhsss.gov.gy/"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: South America. Original notes text preserved and split into other_numbers entries. Raw note text: Childcare Protection Agency – 227-0979; Human Trafficking – 227-4083, 623-5030; Domestic Violence – 914. [ 34 ] Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Haiti",
+    "emergency": {
+      "police": "114",
+      "ambulance": "116",
+      "fire": "115",
+      "other_numbers": [
+        "Police – 122"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "http://www.itu.int/net/itu-t/inrdb/e129_important_numbers.aspx?country=101&pg_size=50",
+      "https://web.archive.org/web/20150716094030/http://www.itu.int/net/itu-t/inrdb/e129_important_numbers.aspx?country=101&pg_size=50"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 122. [ 23 ] Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Honduras",
+    "emergency": {
+      "police": "911",
+      "ambulance": "195",
+      "fire": "198",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Central America. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Hong Kong",
+    "emergency": {
+      "police": "999",
+      "ambulance": "999",
+      "fire": "999",
+      "other_numbers": [
+        "Mobile phones – 911 [ citation needed ] or 112 (Automatically redirects to 999 )"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.gov.hk/en/residents/communication/mobilecomm/stayingintouch/index.htm",
+      "https://web.archive.org/web/20210417211204/https://www.gov.hk/en/residents/communication/mobilecomm/stayingintouch/index.htm"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Mobile phones – 911 [ citation needed ] or 112 [ 43 ] (Automatically redirects to 999 ) Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Hungary",
+    "emergency": {
+      "police": "112 or 107",
+      "ambulance": "112 or 104",
+      "fire": "112 or 105",
+      "other_numbers": [
+        "Water emergency – 1817"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://web.archive.org/web/20160408103837/http://welcomeinhungary.com/emergency-call-information/",
+      "http://welcomeinhungary.com/emergency-call-information/"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Water emergency – 1817. [ 86 ] Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Iceland",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Non-emergency police Reykjavík area – 444 10 00",
+        "911 redirects to 112 on mobile phones",
+        "+354 570 2112 from abroad"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Non-emergency police Reykjavík area – 444 10 00; 911 redirects to 112 on mobile phones; +354 570 2112 from abroad No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "India",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Gas leakage – 1906",
+        "Tourist Helpline – 1363",
+        "Child Helpline – 1098",
+        "Disaster management – 104",
+        "Women Helpline – 181",
+        "Police – 100",
+        "Ambulance – 108",
+        "Fire brigade – 101"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.tripadvisor.com/ShowTopic-g293860-i511-k12994056-Change_in_India_Emergency_Helpline_Number_from_100_to_112-India.html",
+      "https://web.archive.org/web/20200125145800/https://www.tripadvisor.com/ShowTopic-g293860-i511-k12994056-Change_in_India_Emergency_Helpline_Number_from_100_to_112-India.html",
+      "https://www.dnaindia.com/india/report-govt-launches-181-helpline-number-for-women-in-all-states-1791037",
+      "https://web.archive.org/web/20181118170129/https://www.dnaindia.com/india/report-govt-launches-181-helpline-number-for-women-in-all-states-1791037"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Gas leakage – 1906 Tourist Helpline – 1363 Child Helpline – 1098 Disaster management – 104 Women Helpline – 181 Police – 100 Ambulance – 108 Fire brigade – 101 [ 45 ] Row references expose 4 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Indonesia",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Police – 110",
+        "Ambulance – 118",
+        "Fire – 113",
+        "Search & rescue – 115",
+        "Natural disasters – 129",
+        "Electricity emergency – 123",
+        "Mental health – 1-500-454"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://indonesia.go.id/layanan/kependudukan/sosial/layanan-darurat-112",
+      "https://web.archive.org/web/20200204055720/https://www.indonesia.go.id/layanan/kependudukan/sosial/layanan-darurat-112",
+      "https://web.archive.org/web/20170513231332/https://www.polri.go.id/pdf/tentang%20call%20center%20polri%20110.pdf",
+      "https://www.polri.go.id/pdf/tentang%20call%20center%20polri%20110.pdf",
+      "https://beritagar.id/artikel/infografik/darurat-pencet-saja-112-bebas-pulsa",
+      "https://web.archive.org/web/20180723182443/https://beritagar.id/artikel/infografik/darurat-pencet-saja-112-bebas-pulsa",
+      "https://www.cnnindonesia.com/nasional/20170725120000-20-230158/kemenkes-buka-nomor-darurat-untuk-konseling-cegah-bunuh-diri",
+      "https://web.archive.org/web/20190820190643/https://www.cnnindonesia.com/nasional/20170725120000-20-230158/kemenkes-buka-nomor-darurat-untuk-konseling-cegah-bunuh-diri"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 110; [ 47 ] Ambulance – 118 or 119; Fire – 113 or 1131; Search & rescue – 115; Natural disasters – 129; Electricity emergency – 123; [ 48 ] Mental health – 1-500-454. [ 49 ] Row references expose 8 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Iran",
+    "emergency": {
+      "police": "110",
+      "ambulance": "115",
+      "fire": "125",
+      "other_numbers": [
+        "Social Emergency – 123",
+        "Roads Traffic Information Center – 141",
+        "Iranian Red Crescent – 112 ("
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: General emergencies is also 110. Social Emergency – 123; Roads Traffic Information Center – 141; Iranian Red Crescent – 112 (non-mobile phones). 112 and 911 redirect to 110 on mobile phones No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Iraq",
+    "emergency": {
+      "police": "112 or 911",
+      "ambulance": "112 or 911",
+      "fire": "112 or 911",
+      "other_numbers": [
+        "Police – 104",
+        "Ambulance – 122",
+        "Fire – 115"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 104; Ambulance – 122; Fire – 115 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Ireland",
+    "emergency": {
+      "police": "112 or 999",
+      "ambulance": "112 or 999",
+      "fire": "112 or 999",
+      "other_numbers": [
+        "SMS messages can be sent to 112"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: SMS messages can be sent to 112 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Isle of Man",
+    "emergency": {
+      "police": "112 or 999",
+      "ambulance": "112 or 999",
+      "fire": "112 or 999",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Israel",
+    "emergency": {
+      "police": "100",
+      "ambulance": "101",
+      "fire": "102",
+      "other_numbers": [
+        "Israel Electric Corporation – 103",
+        "Home Front Command – 104",
+        "Online child abuse hotline – 105",
+        "emergency municipal hazards – 106",
+        "emergency police inquiries – 110",
+        "Mobile phones – 112"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Israel Electric Corporation – 103; Home Front Command – 104; Online child abuse hotline – 105; Non-emergency municipal hazards – 106; Non-emergency police inquiries – 110; Mobile phones – 112 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Italy",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Police – 113",
+        "Carabinieri – 112",
+        "Ambulance – 118",
+        "Fire – 115",
+        "Forest service – 1515",
+        "Customs/Financial police – 117",
+        "Child Abuse – 114",
+        "Coast guard – 1530"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.justlanded.com/english/Italy/Italy-Guide/Telephone-Internet/Emergency-numbers",
+      "https://web.archive.org/web/20160408053040/https://www.justlanded.com/english/Italy/Italy-Guide/Telephone-Internet/Emergency-numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Older system, still in use in four regions ( Veneto, Molise, Campania and Basilicata ): Police – 113; Carabinieri – 112; Ambulance – 118; Fire – 115; Forest service – 1515; Customs/Financial police – 117; Child Abuse – 114; Coast guard – 1530. 911 redirects to 112 Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Ivory Coast",
+    "emergency": {
+      "police": "110 or 111 or 170",
+      "ambulance": "185",
+      "fire": "180",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Jamaica",
+    "emergency": {
+      "police": "119",
+      "ambulance": "110",
+      "fire": "110",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Japan",
+    "emergency": {
+      "police": "110",
+      "ambulance": "119",
+      "fire": "119",
+      "other_numbers": [
+        "Coast guard – 118",
+        "Information about emergencies – #7119 free call",
+        "Information about emergencies – #9110 pay call",
+        "Roadside assistance – #8139",
+        "112 and 911 redirect to 110 on mobile phones and telephones that are present at all United States military installations"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://web.archive.org/web/20140419025549/http://info.japantimes.co.jp/text/ek20091119wh.html",
+      "http://info.japantimes.co.jp/text/ek20091119wh.html"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Coast guard – 118; [ 50 ] Information about emergencies – #7119 free call; Information about emergencies – #9110 pay call; Roadside assistance – #8139. 112 and 911 redirect to 110 on mobile phones and telephones that are present at all United States military installations Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Jersey",
+    "emergency": {
+      "police": "112 or 999",
+      "ambulance": "112 or 999",
+      "fire": "112 or 999",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Jordan",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": [
+        "Mobile phones – 112"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Mobile phones – 112 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Kazakhstan",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Police – 102",
+        "Ambulance – 103",
+        "Fire – 101",
+        "Gas leaks – 104"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 102; Ambulance – 103; Fire – 101; Gas leaks – 104 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Kenya",
+    "emergency": {
+      "police": "112 or 999 or 911",
+      "ambulance": "112 or 999 or 911",
+      "fire": "112 or 999 or 911",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Kiribati",
+    "emergency": {
+      "police": "100 or 999",
+      "ambulance": "100 or 999",
+      "fire": "100 or 999",
+      "other_numbers": [
+        "Police – 192",
+        "Ambulance – 194",
+        "Fire – 193"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.usp.ac.fj/handbookandcalendar2023/emergency-contact-details/",
+      "https://web.archive.org/web/20231211015503/https://www.usp.ac.fj/handbookandcalendar2023/emergency-contact-details/",
+      "https://www.gov.uk/foreign-travel-advice/kiribati/health"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Oceania. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 192; Ambulance – 194 and 195; Fire – 193 Row references expose 3 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Kosovo",
+    "emergency": {
+      "police": "192",
+      "ambulance": "194",
+      "fire": "193",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Kuwait",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Kyrgyzstan",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.undp.org/kyrgyzstan/news/112-service-operator-%E2%80%9C-my-first-work-day-i-felt-uncertainty-fear-and-worry-about-my-family-members%E2%80%9D",
+      "https://web.archive.org/web/20230923214230/https://www.undp.org/kyrgyzstan/news/112-service-operator-%E2%80%9C-my-first-work-day-i-felt-uncertainty-fear-and-worry-about-my-family-members%E2%80%9D"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Laos",
+    "emergency": {
+      "police": "191",
+      "ambulance": "195",
+      "fire": "190",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Latvia",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Police – 110",
+        "Ambulance – 113",
+        "Gas emergency – 114"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 110; Ambulance – 113; Gas emergency – 114 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Lebanon",
+    "emergency": {
+      "police": "999 or 112",
+      "ambulance": "140",
+      "fire": "175",
+      "other_numbers": [
+        "Police – 160",
+        "Civil defense – 125"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 160; Civil defense – 125 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Lesotho",
+    "emergency": {
+      "police": "123",
+      "ambulance": "121",
+      "fire": "122",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Liberia",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Libya",
+    "emergency": {
+      "police": "1515",
+      "ambulance": "1515",
+      "fire": "1515",
+      "other_numbers": [
+        "Ambulance – 193"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Ambulance – 193 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Liechtenstein",
+    "emergency": {
+      "police": "117",
+      "ambulance": "144",
+      "fire": "118",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Lithuania",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Police – 022",
+        "Ambulance – 033",
+        "Fire – 011"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://web.archive.org/web/20060106122639/http://www.eena.it/Eusit.htm",
+      "http://www.eena.it/Eusit.htm"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 022; Ambulance – 033; Fire – 011 Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Luxembourg",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Police – 113"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 113 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Macau",
+    "emergency": {
+      "police": "999",
+      "ambulance": "999",
+      "fire": "999",
+      "other_numbers": [
+        "From mobile phones – 110",
+        "Judiciary Police – 993"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: From mobile phones – 110 or 112 (all redirects to 999 ); Judiciary Police – 993 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Madagascar",
+    "emergency": {
+      "police": "117",
+      "ambulance": "124",
+      "fire": "118",
+      "other_numbers": [
+        "Traffic police – 3600"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Traffic police – 3600 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Malawi",
+    "emergency": {
+      "police": "997",
+      "ambulance": "998",
+      "fire": "999",
+      "other_numbers": [
+        "Police – 990"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Police – 990 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Malaysia",
+    "emergency": {
+      "police": "999",
+      "ambulance": "999",
+      "fire": "999",
+      "other_numbers": [
+        "From mobile phones – 112"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.thestar.com.my/news/community/2012/03/21/no-more-994-from-april-1-just-call-999-instead",
+      "https://web.archive.org/web/20240120000805/https://www.thestar.com.my/news/community/2012/03/21/no-more-994-from-april-1-just-call-999-instead"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: From mobile phones – 112 Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Maldives",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": [
+        "Police – 119",
+        "Ambulance – 100",
+        "Fire – 118",
+        "Coastguard – 191",
+        "For Natural Disasters – 115"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://psmnews.mv/en/147504",
+      "https://web.archive.org/web/20241215162055/https://psmnews.mv/en/147504"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 119; Ambulance – 100; Fire – 118; Coastguard – 191; For Natural Disasters – 115 Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Mali",
+    "emergency": {
+      "police": "17",
+      "ambulance": "15",
+      "fire": "18",
+      "other_numbers": [
+        "Ambulance – 112",
+        ", Fire – 112"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Ambulance – 112, Fire – 112 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Malta",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Marshall Islands",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.rmiocit.org/health-safety#:~:text=Contact:%20911%20for%20any%20emergency%20cases.",
+      "https://web.archive.org/web/20250101202325/https://www.rmiocit.org/health-safety#:~:text=Contact:%20911%20for%20any%20emergency%20cases."
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Oceania. Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Martinique",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Police – 17",
+        "Ambulance – 15",
+        "Fire – 18"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 17; Ambulance – 15; Fire – 18 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Mauritania",
+    "emergency": {
+      "police": "117",
+      "ambulance": "101",
+      "fire": "118",
+      "other_numbers": [
+        "Gendarmerie – 116",
+        "Traffic police – 119"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Gendarmerie – 116; Traffic police – 119 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Mauritius",
+    "emergency": {
+      "police": "112",
+      "ambulance": "114",
+      "fire": "115",
+      "other_numbers": [
+        "Police – 999",
+        "Fire – 995"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Police – 999; Fire – 995 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Mayotte",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Police – 17",
+        "Ambulance – 15",
+        "Fire – 18"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Police – 17; Ambulance – 15; Fire – 18 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Mexico",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": [
+        "Emergency – 911",
+        "Anonymous complaint – 089"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: North America. Original notes text preserved and split into other_numbers entries. Raw note text: Emergency – 911; Anonymous complaint – 089 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Micronesia",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Oceania. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Moldova",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://gov.md/en/content/single-service-112-emergency-calls-becomes-active-moldova",
+      "https://web.archive.org/web/20190422095012/https://gov.md/en/content/single-service-112-emergency-calls-becomes-active-moldova"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Monaco",
+    "emergency": {
+      "police": "17",
+      "ambulance": "112 or 18",
+      "fire": "112 or 18",
+      "other_numbers": [
+        "112 and 18 redirects to fire and rescue service which can also handle ambulance service"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: 112 and 18 redirects to fire and rescue service which can also handle ambulance service No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Mongolia",
+    "emergency": {
+      "police": "105",
+      "ambulance": "105",
+      "fire": "105",
+      "other_numbers": [
+        "Police – 102",
+        "Ambulance – 103",
+        "Fire – 101"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 102; Ambulance – 103; Fire – 101 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Montenegro",
+    "emergency": {
+      "police": "122 or 112",
+      "ambulance": "124 or 112",
+      "fire": "123 or 112",
+      "other_numbers": [
+        "Emergency at sea: 129"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Emergency at sea: 129 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Montserrat",
+    "emergency": {
+      "police": "911 or 999",
+      "ambulance": "911 or 999",
+      "fire": "911 or 999",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Morocco",
+    "emergency": {
+      "police": "19",
+      "ambulance": "15",
+      "fire": "15",
+      "other_numbers": [
+        "Royal gendarmerie – 177",
+        "Drugs & alcohol service – 113",
+        "Racial discrimination hotline – 114",
+        "emergency disturbances – 110",
+        "General information – 160",
+        "National Freeway call center – 5050",
+        "Mobile phones – 112"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Royal gendarmerie – 177; Drugs & alcohol service – 113; Racial discrimination hotline – 114; Non-emergency disturbances – 110; General information – 160; National Freeway call center – 5050; Mobile phones – 112 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Mozambique",
+    "emergency": {
+      "police": "119",
+      "ambulance": "117",
+      "fire": "198",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Myanmar",
+    "emergency": {
+      "police": "999",
+      "ambulance": "999",
+      "fire": "999",
+      "other_numbers": [
+        "Police – 199",
+        "Ambulance – 192",
+        "Fire – 191 (",
+        "can also call for Natural disasters) Highway police – 1880",
+        "Relief – 067-340-4222 (",
+        "International hotline – 122",
+        "COVID-19",
+        "hotline – 2019"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 199; Ambulance – 192; Fire – 191 (can also call for Natural disasters) Highway police – 1880; Relief – 067-340-4222 (Ministry hotline); International hotline – 122; COVID-19 hotline – 2019 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Namibia",
+    "emergency": {
+      "police": "10 111",
+      "ambulance": "depends on town/city",
+      "fire": "depends on town/city",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Nauru",
+    "emergency": {
+      "police": "110",
+      "ambulance": "111",
+      "fire": "112",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.usp.ac.fj/handbookandcalendar2023/emergency-contact-details/",
+      "https://web.archive.org/web/20231211015503/https://www.usp.ac.fj/handbookandcalendar2023/emergency-contact-details/"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Oceania. Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Nepal",
+    "emergency": {
+      "police": "100",
+      "ambulance": "102",
+      "fire": "101",
+      "other_numbers": [
+        "Traffic police – 103",
+        "From mobile phones – 112"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Traffic police – 103; From mobile phones – 112 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Netherlands",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Text phone – 0800 81 12",
+        "emergency police – 0900 88 44",
+        "emergency police (text phone) – 0900 18 44",
+        "Suicide prevention – 0800-0113",
+        "Animal emergency – 144",
+        "Child abuse – 0900 123 12 30",
+        "bullying hotline – 0800 90 50"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.politie.nl/contact",
+      "https://web.archive.org/web/20160322134010/https://www.politie.nl/contact"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Text phone – 0800 81 12; Non-emergency police – 0900 88 44 [ b ] or 0343 578 844; [ 90 ] Non-emergency police (text phone) – 0900 18 44; Suicide prevention – 0800-0113; Animal emergency – 144; Child abuse – 0900 123 12 30; [ b ] Anti-bullying hotline – 0800 90 50 Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "New Caledonia",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Police – 17",
+        "Ambulance – 15",
+        "Fire – 18"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Oceania. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 17; Ambulance – 15; Fire – 18 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "New Zealand",
+    "emergency": {
+      "police": "111",
+      "ambulance": "111",
+      "fire": "111",
+      "other_numbers": [
+        "Crime Stoppers – 0800 555 111",
+        "emergency – 105"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://web.archive.org/web/20130420181756/http://www.police.govt.nz/service/111/faq.html#countries",
+      "http://www.police.govt.nz/service/111/faq.html#countries"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Oceania. Original notes text preserved and split into other_numbers entries. Raw note text: SMS messages can be sent to 111 from registered mobile phones. Traffic – *555 (mobile phones only). 112 and 911 redirect to 111 on mobile phones. [ 119 ] Dialing 000 and 999 plays a pre-recorded message advising the caller to call 111. Crime Stoppers – 0800 555 111. Police non-emergency – 105 Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Nicaragua",
+    "emergency": {
+      "police": "118",
+      "ambulance": "128",
+      "fire": "115",
+      "other_numbers": [
+        "Fire – 911"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "http://www.itu.int/net/itu-t/inrdb/e129_important_numbers.aspx?country=101&pg_size=50",
+      "https://web.archive.org/web/20150716094030/http://www.itu.int/net/itu-t/inrdb/e129_important_numbers.aspx?country=101&pg_size=50"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Central America. Original notes text preserved and split into other_numbers entries. Raw note text: Fire – 911. [ 23 ] Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Niger",
+    "emergency": {
+      "police": "17",
+      "ambulance": "15",
+      "fire": "18",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Nigeria",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.ncc.gov.ng/stakeholder/media-public/news-headlines/579-press-release-emergency-communications-centres-for-launch-by-ncc",
+      "https://web.archive.org/web/20190926145951/https://www.ncc.gov.ng/stakeholder/media-public/news-headlines/579-press-release-emergency-communications-centres-for-launch-by-ncc"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Niue",
+    "emergency": {
+      "police": "(+683) 4333",
+      "ambulance": "(+683) 4202",
+      "fire": "(+683) 4133",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.usp.ac.fj/handbookandcalendar2023/emergency-contact-details/",
+      "https://web.archive.org/web/20231211015503/https://www.usp.ac.fj/handbookandcalendar2023/emergency-contact-details/"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Oceania. Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "North Macedonia",
+    "emergency": {
+      "police": "192 or 112[c]",
+      "ambulance": "194 or 112[c]",
+      "fire": "193 or 112[c]",
+      "other_numbers": [
+        "Police – 192",
+        "Ambulance – 194",
+        "Fire – 193"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 192; Ambulance – 194; Fire – 193 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Northern Cyprus",
+    "emergency": {
+      "police": "155",
+      "ambulance": "112",
+      "fire": "199",
+      "other_numbers": [
+        "Forest Fire – 177",
+        "Coast Guard – 158",
+        "Civil Defense – 101"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "http://www.polis.gov.ct.tr/telefon.aspx.html",
+      "https://web.archive.org/web/20221224143150/http://www.polis.gov.ct.tr/telefon.aspx.html"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Forest Fire – 177; Coast Guard – 158; Civil Defense – 101 Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Northern Mariana Islands",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://web.archive.org/web/20231211015500/https://www.cia.gov/the-world-factbook/countries/northern-mariana-islands/travel-facts/",
+      "https://www.cia.gov/the-world-factbook/countries/northern-mariana-islands/travel-facts/"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Oceania. Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Norway",
+    "emergency": {
+      "police": "112",
+      "ambulance": "113",
+      "fire": "110",
+      "other_numbers": [
+        "Emergency at sea: 120",
+        "non-emergency police: 02 800",
+        "child abuse and family violence: 116 111",
+        "text phone: 1412",
+        "nearest health care outside office hours: 116 117",
+        "911 redirects to 112"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.nkom.no/telefoni-og-telefonnummer/informasjon-om-telefoni-for-sluttbruker/n%C3%B8dnummer-og-n%C3%B8danrop",
+      "https://web.archive.org/web/20211119184348/https://www.nkom.no/telefoni-og-telefonnummer/informasjon-om-telefoni-for-sluttbruker/n%C3%B8dnummer-og-n%C3%B8danrop",
+      "https://www.politiet.no/kontakt-oss/ring-politiet/",
+      "https://web.archive.org/web/20211125084418/https://www.politiet.no/kontakt-oss/ring-politiet/",
+      "https://www.helsenorge.no/hjelpetilbud-i-kommunene/legevakt/",
+      "https://web.archive.org/web/20211031001300/https://www.helsenorge.no/hjelpetilbud-i-kommunene/legevakt/",
+      "https://www.dagbladet.no/nyheter/har-snikinnfort-911/66039340",
+      "https://web.archive.org/web/20201018131159/https://www.dagbladet.no/nyheter/har-snikinnfort-911/66039340"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Emergency at sea: 120; non-emergency police: 02 800; [ 95 ] child abuse and family violence: 116 111; text phone: 1412; [ 94 ] nearest health care outside office hours: 116 117; [ 96 ] 911 redirects to 112. [ 97 ] Row references expose 8 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Oman",
+    "emergency": {
+      "police": "9999",
+      "ambulance": "9999",
+      "fire": "9999",
+      "other_numbers": [
+        "From mobile phones – 112"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: From mobile phones – 112 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Pakistan",
+    "emergency": {
+      "police": "15",
+      "ambulance": "115 and 1122",
+      "fire": "16",
+      "other_numbers": [
+        "Ambulance – 1122",
+        "Traffic police – 1915",
+        "Mobile phones – 112",
+        "Punjab Women's toll free helpline – 1043",
+        "Tourist police – 1422",
+        "National Highways & Motorway Police – 130",
+        "Child Protection & Welfare Bureau – 1121"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://web.archive.org/web/20150911001137/http://pakistan.emergencynumbers.org/",
+      "http://pakistan.emergencynumbers.org/",
+      "https://pcsw.punjab.gov.pk/helpline_",
+      "https://web.archive.org/web/20190327101931/https://pcsw.punjab.gov.pk/helpline_",
+      "https://www.dawn.com/news/1537252",
+      "https://web.archive.org/web/20210929010543/https://www.dawn.com/news/1537252",
+      "http://nhmp.gov.pk/contact_us",
+      "https://web.archive.org/web/20210517102411/http://nhmp.gov.pk/contact_us",
+      "https://cpwb.punjab.gov.pk/helpline",
+      "https://web.archive.org/web/20210627185225/https://cpwb.punjab.gov.pk/helpline"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Ambulance – 1122; [ 59 ] Traffic police – 1915; Mobile phones – 112; Punjab Women's toll free helpline – 1043; [ 60 ] Tourist police – 1422; [ 61 ] National Highways & Motorway Police – 130; [ 62 ] Child Protection & Welfare Bureau – 1121. [ 63 ] Row references expose 10 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Palau",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Oceania. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Palestine",
+    "emergency": {
+      "police": "100",
+      "ambulance": "101",
+      "fire": "102",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Panama",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": [
+        "Police – 104",
+        "Fire – 103"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Central America. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 104; Fire – 103 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Papua New Guinea",
+    "emergency": {
+      "police": "112",
+      "ambulance": "111",
+      "fire": "110",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Oceania. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Paraguay",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": [
+        "Police – 912",
+        "Ambulance – 141",
+        "Fire – 132",
+        "Rescue – 131"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "http://chartsbin.com/view/1983",
+      "https://web.archive.org/web/20170830041341/http://chartsbin.com/view/1983",
+      "https://web.archive.org/web/20190630082455/http://www.encarnacion-paraguay.com/telefonos-utiles",
+      "http://www.encarnacion-paraguay.com/telefonos-utiles"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: South America. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 912; Ambulance – 141; Fire – 132.; [ 36 ] Rescue – 131 [ 35 ] Row references expose 4 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "People's Republic of China",
+    "emergency": {
+      "police": "110",
+      "ambulance": "120",
+      "fire": "119",
+      "other_numbers": [
+        "Traffic accident reports – 122",
+        "Coast guard – 95110"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://china.embassy.gov.au/bjng/Consular1_5.html",
+      "https://web.archive.org/web/20240118125109/https://china.embassy.gov.au/bjng/Consular1_5.html"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Traffic accident reports – 122; [ 42 ] Coast guard – 95110 Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Peru",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": [
+        "Police – 105",
+        "Ambulance (SAMU) – 106",
+        "Fire – 116",
+        "Civil defense – 115",
+        "Domestic violence – 100"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: South America. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 105; Ambulance (SAMU) – 106; Fire – 116; Civil defense – 115; Domestic violence – 100 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Philippines",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": [
+        "Child abuse ( Bantay Bata ) – 163",
+        "Human trafficking – 1343",
+        "From mobile phones – 112"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Child abuse ( Bantay Bata ) – 163; Human trafficking – 1343; From mobile phones – 112 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Poland",
+    "emergency": {
+      "police": "997 or 112",
+      "ambulance": "999 or 112",
+      "fire": "998 or 112",
+      "other_numbers": [
+        "Road help – 981",
+        ", Elevator emergency – 982",
+        ", Veterinary emergency – 983",
+        ", Rescue on lakes and rivers – 984",
+        ", Sea and mountain rescue – 985",
+        ", Municipal police (where operating) – 986",
+        ", Crisis Management Centre (focus depends on voivodeship) – 987",
+        ", Electricity emergency – 991",
+        ", Gas emergency – 992",
+        ", Heat engineering emergency – 993",
+        ", Water emergency – 994",
+        ", Child alert (operated by Police) – 995",
+        ", Counterterrorism emergency – 996",
+        ", Missing children (EU hotline) – 116 000"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.gov.pl/web/kppsp-limanowa/inne-numery-alarmowe",
+      "https://web.archive.org/web/20240617083631/https://www.gov.pl/web/kppsp-limanowa/inne-numery-alarmowe",
+      "https://www.gov.pl/web/numer-alarmowy-112/inne-numery-alarmowe",
+      "https://web.archive.org/web/20231026202251/https://www.gov.pl/web/numer-alarmowy-112/inne-numery-alarmowe",
+      "https://radiopogoda.pl/telefon-alarmowy-jaki-numer-spis-najwazniejszych-numerow-alarmowych",
+      "https://web.archive.org/web/20240226222422/https://radiopogoda.pl/telefon-alarmowy-jaki-numer-spis-najwazniejszych-numerow-alarmowych",
+      "https://web.archive.org/web/20231026202450/https://ursynow.um.warszawa.pl/-/telefony-i-sygnaly-alarmowe",
+      "https://ursynow.um.warszawa.pl/-/telefony-i-sygnaly-alarmowe",
+      "https://mokotow.um.warszawa.pl/-/telefony-alarmowe",
+      "https://web.archive.org/web/20231026202254/https://mokotow.um.warszawa.pl/-/telefony-alarmowe",
+      "https://www.poznan.uw.gov.pl/numer-alarmowy-112",
+      "https://web.archive.org/web/20231026202302/https://www.poznan.uw.gov.pl/numer-alarmowy-112"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Road help – 981, Elevator emergency – 982, Veterinary emergency – 983, Rescue on lakes and rivers – 984 or +48 601 100 100, Sea and mountain rescue – 985 or +48 601 100 300, Municipal police (where operating) – 986, Crisis Management Centre (focus depends on voivodeship) – 987, Electricity emergency – 991, Gas emergency – 992, Heat engineering emergency – 993, Water emergency – 994, Child alert (operated by Police) – 995, Counterterrorism emergency – 996, Missing children (EU hotline) – 116 000 [ 99 ] [ 100 ] Warsaw additionally maintains some local emergency numbers. [ 101 ] [ 102 ] 911 redirects to 112. [ 103 ] Row references expose 12 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Portugal",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Forest fire – 117",
+        "Social emergency – 144"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Forest fire – 117; Social emergency – 144. 911 redirects to 112 on telephones located at Lajes Air Station No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Puerto Rico",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Qatar",
+    "emergency": {
+      "police": "999",
+      "ambulance": "999",
+      "fire": "999",
+      "other_numbers": [
+        "Mobile phones – 112"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Mobile phones – 112 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Republic of China (Taiwan)",
+    "emergency": {
+      "police": "110",
+      "ambulance": "119",
+      "fire": "119",
+      "other_numbers": [
+        "Domestic violence – 113",
+        "Coast guard – 118"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: 112 on mobile phones – after call is connected 0 redirects 110 and 9 redirects 119; Domestic violence – 113; Coast guard – 118 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Republic of Congo",
+    "emergency": {
+      "police": "117",
+      "ambulance": null,
+      "fire": "118",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.lonelyplanet.com/republic-of-congo/practical-information/directory/emergency-and-important-numbers/a/nar/d2f4392b-6cb7-4e42-9009-e8d496e90a12/355212",
+      "https://web.archive.org/web/20190620203325/https://www.lonelyplanet.com/republic-of-congo/practical-information/directory/emergency-and-important-numbers/a/nar/d2f4392b-6cb7-4e42-9009-e8d496e90a12/355212"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Republic of Korea",
+    "emergency": {
+      "police": "112",
+      "ambulance": "119",
+      "fire": "119",
+      "other_numbers": [
+        "Non Emergency – 110",
+        "National security – 111",
+        "Reporting spies – 113",
+        "Narcotics Report – 127",
+        "Lost and Found Center – 182",
+        "Travel Hotline – 1330"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "http://blog.naver.com/polinlove2/220096912997",
+      "https://web.archive.org/web/20160304063302/http://blog.naver.com/polinlove2/220096912997",
+      "https://english.visitkorea.or.kr/enu/TRV/TV_ENG_1_5.jsp",
+      "https://web.archive.org/web/20210204024510/https://english.visitkorea.or.kr/enu/TRV/TV_ENG_1_5.jsp"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Non Emergency – 110; [ 54 ] National security – 111; Reporting spies – 113; Narcotics Report – 127; Lost and Found Center – 182; Travel Hotline – 1330. [ 55 ] Row references expose 4 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Romania",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "911 redirects to 112"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: 911 redirects to 112 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Russia",
+    "emergency": {
+      "police": "102 or 112",
+      "ambulance": "103 or 112",
+      "fire": "101 or 112",
+      "other_numbers": [
+        "Gas emergency – 104",
+        "112 came into effect (for any emergency) in 2013"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Gas emergency – 104; 112 came into effect (for any emergency) in 2013 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Rwanda",
+    "emergency": {
+      "police": "112",
+      "ambulance": "912",
+      "fire": "112",
+      "other_numbers": [
+        "Traffic police – 113"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "http://www.itu.int/net/itu-t/inrdb/e129_important_numbers.aspx?country=194&pg_size=50",
+      "https://web.archive.org/web/20160305155228/http://www.itu.int/net/itu-t/inrdb/e129_important_numbers.aspx?country=194&pg_size=50"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Traffic police – 113 Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Réunion",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Police – 17",
+        "Ambulance – 15",
+        "Fire – 18"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Police – 17; Ambulance – 15; Fire – 18 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Saint Barthélemy",
+    "emergency": {
+      "police": "17",
+      "ambulance": "17",
+      "fire": "18",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://web.archive.org/web/20250101202322/https://www.cia.gov/the-world-factbook/countries/saint-barthelemy/travel-facts/",
+      "https://www.cia.gov/the-world-factbook/countries/saint-barthelemy/travel-facts/"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Saint Helena",
+    "emergency": {
+      "police": "999",
+      "ambulance": "999",
+      "fire": "999",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Saint Kitts and Nevis",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Saint Lucia",
+    "emergency": {
+      "police": "911 or 999",
+      "ambulance": "911 or 999",
+      "fire": "911 or 999",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Saint Martin",
+    "emergency": {
+      "police": "17",
+      "ambulance": "15",
+      "fire": "18",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://web.archive.org/web/20240226221834/https://www.st-martin.org/us/travel-easy/useful-informations/",
+      "https://www.st-martin.org/us/travel-easy/useful-informations/"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Saint Pierre and Miquelon",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Police – 17",
+        "Ambulance – 15",
+        "Fire – 18"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: North America. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 17; Ambulance – 15; Fire – 18 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Saint Vincent and the Grenadines",
+    "emergency": {
+      "police": "999 or 911 or 112",
+      "ambulance": "999 or 911 or 112",
+      "fire": "999 or 911 or 112",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "http://rsvgpf.gov.vc/rsvgpf/index.php/about-us/contact-us",
+      "https://web.archive.org/web/20200902091022/http://www.rsvgpf.gov.vc/rsvgpf/index.php/about-us/contact-us"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Samoa",
+    "emergency": {
+      "police": "999",
+      "ambulance": "999",
+      "fire": "999",
+      "other_numbers": [
+        "Police – 995",
+        "Ambulance – 996",
+        "Fire – 994"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Oceania. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 995; Ambulance – 996; Fire – 994 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "San Marino",
+    "emergency": {
+      "police": "113",
+      "ambulance": "118",
+      "fire": "115",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Sao Tome and Principe",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Saudi Arabia",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": [
+        "Police – 999",
+        "Ambulance – 997",
+        "Fire – 998",
+        "Traffic police – 993"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 999; Ambulance – 997; Fire – 998; Traffic police – 993 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Senegal",
+    "emergency": {
+      "police": "17",
+      "ambulance": "18",
+      "fire": "1515",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Serbia",
+    "emergency": {
+      "police": "192 or 112",
+      "ambulance": "194",
+      "fire": "193",
+      "other_numbers": [
+        "Civil protection – 1985",
+        "112 redirects to 192",
+        "It is possible to dial 112 and get direct connection with the emergency services by pressing 1 for police, 2 for ambulance and 3 for fire on Vip operator mobile phones"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://web.archive.org/web/20160408200924/http://www.vipmobile.rs/o-vipu/press-centar.1076.html?itemId=105",
+      "http://www.vipmobile.rs/o-vipu/press-centar.1076.html?itemId=105"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Civil protection – 1985; 112 redirects to 192. It is possible to dial 112 and get direct connection with the emergency services by pressing 1 for police, 2 for ambulance and 3 for fire on Vip operator mobile phones. [ 104 ] Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Seychelles",
+    "emergency": {
+      "police": "112 or 999",
+      "ambulance": "112 or 999",
+      "fire": "112 or 999",
+      "other_numbers": [
+        "Police – 133",
+        "Ambulance – 151"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Police – 133; Ambulance – 151 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Sierra Leone",
+    "emergency": {
+      "police": "019",
+      "ambulance": "999",
+      "fire": "999",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Singapore",
+    "emergency": {
+      "police": "999",
+      "ambulance": "995",
+      "fire": "995",
+      "other_numbers": [
+        "Mobile phones – 112",
+        "emergency ambulance – 1777",
+        "Police hotline – 1800 255 0000",
+        "Traffic police – 6547 0000"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Mobile phones – 112 or 911; Non-emergency ambulance – 1777; Police hotline – 1800 255 0000; Traffic police – 6547 0000 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Sint Maarten",
+    "emergency": {
+      "police": "911",
+      "ambulance": "912",
+      "fire": "919",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.sintmaartengov.org/Pages/Emergency-Numbers.aspx",
+      "https://web.archive.org/web/20231211015501/https://www.sintmaartengov.org/Pages/Emergency-Numbers.aspx"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Slovakia",
+    "emergency": {
+      "police": "158",
+      "ambulance": "155",
+      "fire": "150",
+      "other_numbers": [
+        "Municipal police – 159"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Municipal police – 159 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Slovenia",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Police – 113",
+        "Road help – 1987",
+        "Emergency at sea – 080 18 00"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 113; Road help – 1987; Emergency at sea – 080 18 00 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Solomon Islands",
+    "emergency": {
+      "police": "911 or 999",
+      "ambulance": "911 or 999",
+      "fire": "911 or 999",
+      "other_numbers": [
+        "Police – 999",
+        "Ambulance – 111",
+        "Fire – 988"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.usp.ac.fj/handbookandcalendar2023/emergency-contact-details/",
+      "https://web.archive.org/web/20231211015503/https://www.usp.ac.fj/handbookandcalendar2023/emergency-contact-details/"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Oceania. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 999; Ambulance – 111; Fire – 988. [ 114 ] In cities, local numbers exist which connect more quickly than either 911 or 999. [ 121 ] Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Somalia",
+    "emergency": {
+      "police": "888",
+      "ambulance": "999",
+      "fire": "555",
+      "other_numbers": [
+        "Traffic police – 777"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Traffic police – 777 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "South Africa",
+    "emergency": {
+      "police": "10 111",
+      "ambulance": "10 177",
+      "fire": "10 177",
+      "other_numbers": [
+        "Emergency in Cape Town – 107",
+        "Mobile phones – 112"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Emergency in Cape Town – 107; Mobile phones – 112 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "South Georgia and the South Sandwich Islands",
+    "emergency": {
+      "police": "999",
+      "ambulance": "999",
+      "fire": "999",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: South America. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "South Ossetia",
+    "emergency": {
+      "police": "102",
+      "ambulance": "103",
+      "fire": "101",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "South Sudan",
+    "emergency": {
+      "police": "999",
+      "ambulance": "999",
+      "fire": "999",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "http://m.countrycallingcodes.com/country.php?country=South%20Sudan",
+      "https://web.archive.org/web/20160914213628/http://m.countrycallingcodes.com/country.php?country=South%20Sudan"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Spain",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "National Police – 091",
+        "Civil Guard – 062",
+        "Autonomic Police – 112",
+        "Municipal Police – 092",
+        "Local Firefighters – 080",
+        "Autonomic Firefighters – 085",
+        "SAMUR – 061",
+        "Civil Protection – 1006",
+        ", Maritime Rescue – 902 202 202",
+        "Red Cross – 901 222 222"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Police: National Police – 091; Civil Guard – 062; Autonomic Police – 112; Municipal Police – 092. Fire: Local Firefighters – 080; Autonomic Firefighters – 085. Ambulance: SAMUR – 061. Others: Civil Protection – 1006, Maritime Rescue – 902 202 202; Red Cross – 901 222 222 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Sri Lanka",
+    "emergency": {
+      "police": "119",
+      "ambulance": "110",
+      "fire": "110",
+      "other_numbers": [
+        "Traffic police – 112 691 111"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Traffic police – 112 691 111 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Sudan",
+    "emergency": {
+      "police": "999",
+      "ambulance": "999",
+      "fire": "999",
+      "other_numbers": [
+        "Traffic police – 777 777"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Traffic police – 777 777 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Suriname",
+    "emergency": {
+      "police": "115",
+      "ambulance": "115",
+      "fire": "115",
+      "other_numbers": [
+        "Police – 115",
+        "Ambulance – 113",
+        "Fire – 110"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: South America. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 115; Ambulance – 113; Fire – 110 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Sweden",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "emergency police – 114 14",
+        "emergency medical advice – 1177",
+        "Information during accidents and crises – 113 13"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Non-emergency police – 114 14; Non-emergency medical advice – 1177; Information during accidents and crises – 113 13 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Switzerland",
+    "emergency": {
+      "police": "117",
+      "ambulance": "144",
+      "fire": "118",
+      "other_numbers": [
+        "Poison control – 145",
+        "Road help – 0800 140 140",
+        "Psychological support – 143",
+        "Psychological support for teens and children – 147",
+        "Rega air rescue – 1414",
+        "rescue ( Valais only) – 1415"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://web.archive.org/web/20081201135202/http://www.swisscom.ch/kmu/servicesupport/kontakte/notrufnummern/index.htm?languageId=en",
+      "http://www.swisscom.ch/kmu/servicesupport/kontakte/notrufnummern/index.htm?languageId=en"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Poison control – 145; Road help – 0800 140 140; Psychological support – 143; Psychological support for teens and children – 147; Rega air rescue – 1414 or by radio on 161. 300 MHz; Air Glaciers air-rescue ( Valais only) – 1415. [ 105 ] The emergency number 112 is used differently based on the Canton. While in some cantons 112, 117, 118 and 114 are routed to a common emergency call center, in other cantons 112 together with 117 is directly routed to the police Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Syria",
+    "emergency": {
+      "police": "112",
+      "ambulance": "110",
+      "fire": "113",
+      "other_numbers": [
+        "Traffic police – 115"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Traffic police – 115 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Tajikistan",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Police – 102",
+        "Ambulance – 103",
+        "Fire – 101",
+        "Gas leaks – 104"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 102; Ambulance – 103; Fire – 101; Gas leaks – 104 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Tanzania",
+    "emergency": {
+      "police": "112",
+      "ambulance": "114",
+      "fire": "115",
+      "other_numbers": [
+        "Police – 999",
+        "Health call centre - 199"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.moh.go.tz/en/news-single/mhe-ummy-ahimiza-watumishi-afya-call-centre-199-kuongeza-ufanisi-kuhudumia-wananchi",
+      "https://web.archive.org/web/20241220012254/https://www.moh.go.tz/en/news-single/mhe-ummy-ahimiza-watumishi-afya-call-centre-199-kuongeza-ufanisi-kuhudumia-wananchi"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Police – 999; Health call centre - 199 [ 19 ] Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Thailand",
+    "emergency": {
+      "police": "191",
+      "ambulance": "1669",
+      "fire": "199",
+      "other_numbers": [
+        "remain available. Ambulance (Bangkok only) – 1646",
+        "Tourist police – 1155",
+        "Traffic control center (Bangkok Metro only) – 1197",
+        "Highway patrol – 1193",
+        "Mobile Phones – 112"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.posttoday.com/politics/444779",
+      "https://web.archive.org/web/20231022021728/https://www.posttoday.com/politics/444779",
+      "https://www.nationtv.tv/news/378876866",
+      "https://web.archive.org/web/20231022021727/https://www.nationtv.tv/news/378876866",
+      "https://www.bangkokpost.com/opinion/opinion/1460574/emergency-just-dial-m-for-mayhem",
+      "https://web.archive.org/web/20230220205803/https://www.bangkokpost.com/opinion/opinion/1460574/emergency-just-dial-m-for-mayhem"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: It's been proposed that the number 1669 be discontinued and be replaced with 191. However, as of 2026, the number 191, 199 and 1669 remain available. [ 65 ] Ambulance (Bangkok only) – 1646; Tourist police – 1155; Traffic control center (Bangkok Metro only) – 1197; Highway patrol – 1193; Mobile Phones – 112. [ 66 ] Row references expose 6 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "The Bahamas",
+    "emergency": {
+      "police": "911 or 919",
+      "ambulance": "911 or 919",
+      "fire": "911 or 919",
+      "other_numbers": [
+        "Mobile phones – 112"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "http://www.royalbahamaspolice.org/services/reporting_emergencies.php",
+      "https://web.archive.org/web/20160305032813/http://www.royalbahamaspolice.org/services/reporting_emergencies.php"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. Original notes text preserved and split into other_numbers entries. Raw note text: Mobile phones – 112 Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Togo",
+    "emergency": {
+      "police": "117",
+      "ambulance": "8200",
+      "fire": "118",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Tokelau",
+    "emergency": {
+      "police": "(+690) 2116",
+      "ambulance": "(+690) 2112",
+      "fire": null,
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.usp.ac.fj/handbookandcalendar2023/emergency-contact-details/",
+      "https://web.archive.org/web/20231211015503/https://www.usp.ac.fj/handbookandcalendar2023/emergency-contact-details/"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Oceania. Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Tonga",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": [
+        "Police – 922",
+        "Ambulance – 933",
+        "Fire – 999"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Oceania. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 922; Ambulance – 933; Fire – 999 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Transnistria",
+    "emergency": {
+      "police": "102",
+      "ambulance": "103",
+      "fire": "101",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Trinidad and Tobago",
+    "emergency": {
+      "police": "999 or 911",
+      "ambulance": "811",
+      "fire": "990",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Tristan da Cunha",
+    "emergency": {
+      "police": "999",
+      "ambulance": "911",
+      "fire": "999",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Tunisia",
+    "emergency": {
+      "police": "197",
+      "ambulance": "190",
+      "fire": "198",
+      "other_numbers": [
+        "National guard – 193"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: National guard – 193 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Turkey",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Municipal police – 153 ( 112",
+        "Gas emergency and outages – 187",
+        "Electricity emergency and outages – 186",
+        "Water emergency and outages – 185",
+        "emergency medical consultation - 184",
+        "Child abuse and family violence – 183",
+        "Telephone emergency and outages – 121",
+        "Poison control – 114"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://web.archive.org/web/20160408153228/http://www.eena.org/ressource/static/files/112_in_turkey.pdf",
+      "http://www.eena.org/ressource/static/files/112_in_turkey.pdf"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Municipal police – 153 ( 112 connects to national police ); Gas emergency and outages – 187; Electricity emergency and outages – 186; Water emergency and outages – 185; Non-emergency medical consultation - 184; Child abuse and family violence – 183; Telephone emergency and outages – 121; Poison control – 114. 911 automatically connects to 112. Current service is the result of consolidation of firefighter, emergency police, Gendarmerie, Coast Guard, forest fire, search and rescue, natural disaster and medical emergency numbers into medical emergency former solo number 112 Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Turkmenistan",
+    "emergency": {
+      "police": "02",
+      "ambulance": "03",
+      "fire": "01",
+      "other_numbers": [
+        "Fire - 001",
+        "Police - 002",
+        "Ambulance - 003",
+        "Gas leak - 004",
+        "For gas leaks - 04"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: For mobile phones: Fire - 001; Police - 002; Ambulance - 003; Gas leak - 004. For gas leaks - 04 on landline No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Turks and Caicos",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.gov.tc/ddme/contact/emergency",
+      "https://web.archive.org/web/20240226222432/https://www.gov.tc/ddme/contact/emergency"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Tuvalu",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": [
+        "Police – 911",
+        "Ambulance – 999",
+        "Fire – 000"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Oceania. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 911; Ambulance – 999; Fire – 000 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "U. S. Virgin Islands",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Caribbean. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Uganda",
+    "emergency": {
+      "police": "112",
+      "ambulance": "911",
+      "fire": "112",
+      "other_numbers": [
+        "Police – 999",
+        "Fire – 999"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Police – 999; Fire – 999 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Ukraine",
+    "emergency": {
+      "police": "102",
+      "ambulance": "103",
+      "fire": "101",
+      "other_numbers": [
+        "General emergencies – 112",
+        "Gas emergency – 104"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://zakon.rada.gov.ua/laws/show/4499-17#Text",
+      "https://web.archive.org/web/20230707163139/https://zakon.rada.gov.ua/laws/show/4499-17#Text"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: General emergencies – 112; [ 107 ] Gas emergency – 104 Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "United Arab Emirates",
+    "emergency": {
+      "police": "999",
+      "ambulance": "998",
+      "fire": "997",
+      "other_numbers": [
+        "Coast guard – 996",
+        "emergency police – 901",
+        "Water failure – 922",
+        "Electricity failure – 991"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://u.ae/ar-ae/information-and-services/justice-safety-and-the-law/handling-emergencies",
+      "https://web.archive.org/web/20200524123545/https://u.ae/ar-AE/information-and-services/justice-safety-and-the-law/handling-emergencies"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Coast guard – 996; Non-emergency police – 901; Water failure – 922; Electricity failure – 991 [ 67 ] Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "United Kingdom",
+    "emergency": {
+      "police": "999 or 112",
+      "ambulance": "999 or 112",
+      "fire": "999 or 112",
+      "other_numbers": [
+        "emergency police – 101",
+        "Power outages – 105",
+        "emergency health issues – 111",
+        "COVID-19",
+        "testing helpline – 119",
+        "gas leaks – 0800 111 999"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.powercut105.com/",
+      "https://web.archive.org/web/20210923225814/https://www.powercut105.com/",
+      "https://web.archive.org/web/20210126075837/https://www.ukpowernetworks.co.uk/help/what-is-105",
+      "https://www.ukpowernetworks.co.uk/help/what-is-105",
+      "https://www.britishgas.co.uk/help-and-support/emergencies",
+      "https://web.archive.org/web/20201101020343/https://www.britishgas.co.uk/help-and-support/emergencies"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Non-emergency police – 101; Power outages – 105; [ 108 ] [ 109 ] Non-emergency health issues – 111; COVID-19 testing helpline – 119; gas leaks – 0800 111 999. [ 110 ] SMS messages can be sent to 999 after registration by sending a text message with the word 'Register' to 999. 911 redirects to 999 on mobile phones/public phonebooths [ citation needed ] and on telephones used in USAFE bases Row references expose 6 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "United States of America",
+    "emergency": {
+      "police": "911 (suicide hotline 988)",
+      "ambulance": "911 (suicide hotline 988)",
+      "fire": "911 (suicide hotline 988)",
+      "other_numbers": [
+        "Text-to-9-1-1 is available in many regions and will respond with an error anywhere else. Various services available through regional or national N11 codes (e. g.: 211 and 311 for non-emergency police or city services) in certain areas. Calling #77 from a mobile phone may reach the highway patrol in some states. Calling 112 from a mobile phone may redirect to 911 in some states/localities, but emergency officials recommend callers use the standard 911"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "http://www.snopes.com/crime/warnings/fakecop.asp",
+      "https://web.archive.org/web/20230704064016/https://www.snopes.com/fact-check/call-112-police-emergency/",
+      "https://fox6now.com/2013/03/01/alert-in-case-of-emergency-dial-911-and-not-112/",
+      "https://web.archive.org/web/20180825215851/https://fox6now.com/2013/03/01/alert-in-case-of-emergency-dial-911-and-not-112/"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: North America. Original notes text preserved and split into other_numbers entries. Raw note text: Text-to-9-1-1 is available in many regions and will respond with an error anywhere else. Various services available through regional or national N11 codes (e. g.: 211 and 311 for non-emergency police or city services) in certain areas. Calling #77 from a mobile phone may reach the highway patrol in some states. [ 30 ] Calling 112 from a mobile phone may redirect to 911 in some states/localities, but emergency officials recommend callers use the standard 911. [ 31 ] [ 30 ] Row references expose 4 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Uruguay",
+    "emergency": {
+      "police": "911",
+      "ambulance": "911",
+      "fire": "911",
+      "other_numbers": [
+        "Police – 109",
+        "Ambulance – 105",
+        "Fire – 104"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: South America. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 109; Ambulance – 105; Fire – 104 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Uzbekistan",
+    "emergency": {
+      "police": "102",
+      "ambulance": "103",
+      "fire": "101",
+      "other_numbers": [
+        "Emergency service – 1050",
+        "Gas leaks – 104",
+        "Housing and communal services – 1055"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.gazeta.uz/ru/2023/07/28/112/",
+      "https://web.archive.org/web/20231129214016/https://www.gazeta.uz/ru/2023/07/28/112/",
+      "https://www.gov.uk/foreign-travel-advice/uzbekistan/getting-help",
+      "https://web.archive.org/web/20241205105744/https://www.gov.uk/foreign-travel-advice/uzbekistan/getting-help"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: Emergency service – 1050; Gas leaks – 104; Housing and communal services – 1055. 112 is being introduced as the number for all emergencies on 1 January 2024 in Uzbekistan by the end of 2024. [ 68 ] [ 69 ] Row references expose 4 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Vanuatu",
+    "emergency": {
+      "police": "111",
+      "ambulance": "112",
+      "fire": "113",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://www.trbr.vu/attachments/article/91/emergency_numbers.pdf",
+      "https://web.archive.org/web/20240226222333/https://www.trbr.vu/attachments/article/91/emergency_numbers.pdf",
+      "https://www.usp.ac.fj/handbookandcalendar2023/emergency-contact-details/",
+      "https://web.archive.org/web/20231211015503/https://www.usp.ac.fj/handbookandcalendar2023/emergency-contact-details/"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Oceania. Row references expose 4 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Vatican City",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Police – 113",
+        "Ambulance – 118",
+        "Fire – 115"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "http://www.itu.int/net/itu-t/inrdb/e129_important_numbers.aspx?country=231&pg_size=50",
+      "https://web.archive.org/web/20160304203311/http://www.itu.int/net/itu-t/inrdb/e129_important_numbers.aspx?country=231&pg_size=50"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 113; Ambulance – 118; Fire – 115. [ citation needed ] Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Venezuela",
+    "emergency": {
+      "police": "911 and 171",
+      "ambulance": "911 and 171",
+      "fire": "911 and 171",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: South America. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Vietnam",
+    "emergency": {
+      "police": "113",
+      "ambulance": "115",
+      "fire": "114",
+      "other_numbers": [
+        "111 – Child abuse",
+        "112 – Livesaving services"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://thuvienphapluat.vn/hoi-dap-phap-luat/tong-dai-112-la-so-dien-thoai-cua-ai-goi-tong-dai-112-trong-truong-hop-nao-138022842.html",
+      "https://web.archive.org/web/20251202095520/https://thuvienphapluat.vn/hoi-dap-phap-luat/tong-dai-112-la-so-dien-thoai-cua-ai-goi-tong-dai-112-trong-truong-hop-nao-138022842.html"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: 111 – Child abuse, 112 – Livesaving services [ 70 ] Row references expose 2 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Wallis and Futuna",
+    "emergency": {
+      "police": "15",
+      "ambulance": "15",
+      "fire": "15",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://wallis-futuna.travel/en/what-to-see-do/useful-information",
+      "https://web.archive.org/web/20231211015517/https://wallis-futuna.travel/en/what-to-see-do/useful-information",
+      "https://www.gov.uk/foreign-travel-advice/wallis-and-futuna/health",
+      "https://web.archive.org/web/20231211015500/https://www.gov.uk/foreign-travel-advice/wallis-and-futuna/health"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Oceania. Row references expose 4 linked citation URL(s) beyond the Wikipedia page."
+  },
+  {
+    "country": "Western Sahara",
+    "emergency": {
+      "police": "150",
+      "ambulance": "150",
+      "fire": "150",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Yemen",
+    "emergency": {
+      "police": "194",
+      "ambulance": "191",
+      "fire": "191",
+      "other_numbers": []
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Asia. No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Zambia",
+    "emergency": {
+      "police": "999",
+      "ambulance": "999",
+      "fire": "999",
+      "other_numbers": [
+        "Police – 911",
+        "Ambulance – 992",
+        "Fire – 993",
+        "Mobile phones – 112"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Police – 911; Ambulance – 992; Fire – 993; Mobile phones – 112 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Zimbabwe",
+    "emergency": {
+      "police": "999",
+      "ambulance": "999",
+      "fire": "999",
+      "other_numbers": [
+        "Police – 995",
+        "Ambulance – 994",
+        "Fire – 993",
+        "Mobile phones – 112"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Africa. Original other numbers text preserved and split into other_numbers entries. Raw note text: Police – 995; Ambulance – 994; Fire – 993; Mobile phones – 112 No row-specific external citation URL was discoverable from the rendered references."
+  },
+  {
+    "country": "Åland Islands",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "emergency police – 018 527 100",
+        "Poison control – 09 471 977"
+      ]
+    },
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_notes": "Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Non-emergency police – 018 527 100; Poison control – 09 471 977 No row-specific external citation URL was discoverable from the rendered references."
+  }
+]
