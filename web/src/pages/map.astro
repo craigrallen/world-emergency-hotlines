@@ -70,6 +70,14 @@ import Base from '../layouts/Base.astro';
       console.error('[map]', msg);
     }
 
+    // Surface any unhandled promise rejection or thrown error on this page
+    window.addEventListener('unhandledrejection', (ev) => {
+      showError(`Unhandled error: ${(ev.reason as any)?.message ?? ev.reason ?? 'unknown'}`);
+    });
+    window.addEventListener('error', (ev) => {
+      if (ev.error) showError(`Script error: ${ev.error.message ?? String(ev.error)}`);
+    });
+
     async function main() {
       const container = document.getElementById('hotlines-map') as HTMLDivElement | null;
       const panel = document.getElementById('country-panel') as HTMLElement | null;
@@ -118,8 +126,14 @@ import Base from '../layouts/Base.astro';
       map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
       map.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-left');
 
+      let sawError = false;
       map.on('error', (e) => {
-        console.error('[maplibre error]', e?.error);
+        const msg = (e?.error as any)?.message ?? String(e?.error ?? 'unknown map error');
+        console.error('[maplibre error]', msg, e);
+        if (!sawError) {
+          sawError = true;
+          showError(`Map runtime error: ${msg}`);
+        }
       });
 
       // Load manifest in parallel; non-fatal if it 404s (base map still shows)
