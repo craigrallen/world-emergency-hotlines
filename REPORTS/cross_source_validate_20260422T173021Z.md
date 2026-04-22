@@ -1,0 +1,251 @@
+# Cross-source validation — 2026-04-22T17:30:21Z
+
+- Indexed 4947 rows across 7 source datasets
+- Promoted to `cross_referenced`: 164
+- Promoted to `verified_authority` (Wikipedia emergency list): 75
+- Source-tag entries added (audit trail on curated records): 2121
+
+## New `cross_referenced` records
+
+- [Albania] Alo 116 — child_helpline_international, web_verified_crisis_directory
+- [Argentina] S.O.S Un Amigo Anónimo — vibbrancy, web_verified_crisis_directory
+- [Argentina] Centro de Atencíon al Familiar del Suicida — helplines.world, vibbrancy
+- [Argentina] Teléfono de la Esperanza — helplines.world, vibbrancy
+- [Argentina] Centro de Atencíon al Familiar del Suicida (054-011) 4758 2554) — helplines.world, vibbrancy
+- [Armenia] Trust Social Work and Sociological Research Centre (2) 538194) — vibbrancy, web_verified_crisis_directory
+- [Australia] Lifeline — helplines.world, psc_app, vibbrancy
+- [Australia] Beyond Blue — helplines.world, psc_app
+- [Australia] eheadspace — helplines.world, psc_app
+- [Australia] Lifeline Australia (13 11 14) — helplines.world, psc_app, vibbrancy
+- [Australia] SuicideLine Victoria — psc_app, vibbrancy
+- [Austria] Rat auf Draht — psc_app, vibbrancy
+- [Bahamas] National Suicide Hotline — psc_app, vibbrancy, web_verified_crisis_directory
+- [Bahamas] The Crisis Centre — findahelpline.com, psc_app, vibbrancy
+- [Bahamas] National Hotline — psc_app, vibbrancy, web_verified_crisis_directory
+- [Bangladesh] Bangladesh Child Helpline 1098 — child_helpline_international, psc_app, web_verified_crisis_directory
+- [Barbados] Samaritans of Barbados — psc_app, vibbrancy
+- [Belgium] Centre de Prévention des Violences Conjugales et Familiales — helplines.world, psc_app
+- [Belgium] Le Centre de Prévention du Suicide — helplines.world, psc_app, vibbrancy, web_verified_crisis_directory
+- [Belgium] Vlaams Expertisecentrum Suïcidepreventie — helplines.world, psc_app, vibbrancy
+- [Botswana] National Lifeline — psc_app, vibbrancy, web_verified_crisis_directory
+- [Botswana] Lifeline — psc_app, vibbrancy, web_verified_crisis_directory
+- [Bulgaria] Национална телефонна линия за деца - National Telephone Line for Children — child_helpline_international, psc_app, web_verified_crisis_directory
+- [Cambodia] Child Helpline Cambodia — child_helpline_international, web_verified_crisis_directory
+- [Canada] First Nations and Inuit Hope for Wellness Helpline — helplines.world, psc_app
+- [Canada] Talk Suicide Canada — helplines.world, psc_app, vibbrancy
+- [Canada] Trans Lifeline — helplines.world, psc_app, vibbrancy, web_verified_crisis_directory
+- [Canada] Distress Centres Ontario — psc_app, vibbrancy
+- [Canada] Kids Help Phone (1-800-668-6868) — helplines.world, psc_app, vibbrancy
+- [Canada] Tel-Jeunes — psc_app, vibbrancy
+- [Canada] Mental Health Support — psc_app, vibbrancy
+- [Canada] 1-800-SUICIDE — psc_app, vibbrancy
+- [Chile] Fono Infancia Fundación Integra — child_helpline_international, helplines.world, psc_app, web_verified_crisis_directory
+- [China] Lifeline — psc_app, vibbrancy
+- [China] Beijing Suicide Research and Prevention Center — psc_app, vibbrancy
+- [China] Beijing Suicide Research and Prevention Center Hotline — psc_app, vibbrancy
+- [Colombia] Te Guío — child_helpline_international, web_verified_crisis_directory
+- [Croatia] Linija pomoći Plavi telefon — vibbrancy, web_verified_crisis_directory
+- [Cyprus] Cyprus Samaritans — vibbrancy, web_verified_crisis_directory
+- [Denmark] Livslinien (+45 70 201 201) — psc_app, vibbrancy, web_verified_crisis_directory
+- [Egypt] Befrienders Cairo — vibbrancy, web_verified_crisis_directory
+- [Estonia] Emotsionaalse toe telefon Eluliin — helplines.world, psc_app, vibbrancy
+- [Estonia] Lasteabi Abitelefon — helplines.world, web_verified_crisis_directory
+- [Estonia] Eluliin (Estonian Lifeline) — helplines.world, psc_app, vibbrancy
+- [Estonia] USALDUS — psc_app, vibbrancy
+- [Fiji] Ba Methodist Lifeline Counselling Service — psc_app, vibbrancy
+- [Fiji] Wesley Church Counselling Services (Lifeline) — psc_app, vibbrancy
+- [Finland] Kriisipuhelin — helplines.world, psc_app, vibbrancy
+- [Finland] Suomen Mielenterveysseura — helplines.world, vibbrancy
+- [France] SOS Homophobie, LGBTIphobias Helpline — helplines.world, psc_app
+- [France] Violences Femmes Info — helplines.world, psc_app
+- [France] E.P.E. idF. Fil Sante Jeunes — helplines.world, psc_app, vibbrancy
+- [Germany] Nummer gegen Kummer e. V. - Kinder- und Jugendtelefon — helplines.world, psc_app, web_verified_crisis_directory
+- [Germany] Weisser Ring — helplines.world, web_verified_crisis_directory
+- [Germany] Nummer gegen Kummer — helplines.world, vibbrancy
+- [Ghana] National Lifeline — vibbrancy, web_verified_crisis_directory
+- [Ghana] Lifeline — vibbrancy, web_verified_crisis_directory
+- [Greece] 1018 - 24ωρη Γραμμή Παρέμβασης για την Αυτοκτονία — psc_app, vibbrancy
+- [Greece] Together for Children 11525 Helpline — child_helpline_international, helplines.world, web_verified_crisis_directory
+- [Greece] Women SOS — helplines.world, psc_app, web_verified_crisis_directory
+- [Greece] Klimaka NGO — psc_app, vibbrancy
+- [Hong Kong] 香港撒瑪利亞防止自殺會 24 小時情緒支援熱線（廣東話）The Samaritan Befrienders Hong Kong 24-Hour Emotional Support Hotline (Cantonese) — psc_app, vibbrancy
+- [Hong Kong] The Samaritans Hong Kong — psc_app, vibbrancy
+- [Hungary] Telefonos Lelki Elsősegély-szolgálat — helplines.world, psc_app, vibbrancy
+- [Hungary] Magyar Lelki Elsősegély Telefonszolgálatok Szövetségével — helplines.world, psc_app, vibbrancy
+- [Hungary] Kek Vonal — child_helpline_international, helplines.world, psc_app, vibbrancy, web_verified_crisis_directory
+- [Iceland] Hjálparsími Rauða krossins 1717 — child_helpline_international, psc_app, web_verified_crisis_directory
+- [India] Sneha Suicide Prevention Helpline — psc_app, vibbrancy
+- [India] CHILDLINE 1098 — helplines.world, psc_app
+- [India] SNEHA — psc_app, vibbrancy
+- [Ireland] Womens Aid 24hr National Freephone Helpline — psc_app, web_verified_crisis_directory
+- [Ireland] Pieta House — psc_app, vibbrancy
+- [Israel] "ERAN" (-ï"øò) — psc_app, vibbrancy, web_verified_crisis_directory
+- [Italy] Telefono Azzurro — psc_app, web_verified_crisis_directory
+- [Japan] チャイルドライン (ChildLine) — helplines.world, psc_app, web_verified_crisis_directory
+- [Japan] Befrienders International, Tokyo — psc_app, vibbrancy
+- [Japan] Tell Lifeline — helplines.world, psc_app, vibbrancy
+- [Kenya] Befriender's Kenya — psc_app, vibbrancy
+- [Latvia] Skalbes — psc_app, vibbrancy, web_verified_crisis_directory
+- [Lebanon] The Lifeline 1564 — helplines.world, psc_app
+- [Liberia] Lifeline Liberia — psc_app, vibbrancy, web_verified_crisis_directory
+- [Lithuania] Vaikų Linija (Child Line) — psc_app, vibbrancy, web_verified_crisis_directory
+- [Lithuania] Pagalbos Moterims Linija — psc_app, vibbrancy
+- [Lithuania] Jaunimo linija (Youth line) — psc_app, vibbrancy
+- [Lithuania] Vilties linija (Hope line) — psc_app, vibbrancy
+- [Lithuania] Pagalbos moterims linija (Women’s line) — psc_app, vibbrancy
+- [Lithuania] Linija Doverija (Support for Russian-speaking clients) — psc_app, vibbrancy
+- [Luxembourg] Femmes en détresse — psc_app, web_verified_crisis_directory
+- [Luxembourg] SOS Détresse – Hëllef iwwer Telefon — psc_app, vibbrancy
+- [Malaysia] The Befrienders Kuala Lumpur — vibbrancy, web_verified_crisis_directory
+- [Maldives] ޗައިލްޑް ހެލްޕް ލައިން 1412 / Child Help Line 1412 — child_helpline_international, web_verified_crisis_directory
+- [Malta] Appogg Supportline 179 — psc_app, vibbrancy
+- [Morocco] Sourire de Reda (Befrienders Casablanca) — vibbrancy, web_verified_crisis_directory
+- [Nepal] ११६६ आत्महत्या रोकथामको लागि राष्ट्रिय हेल्पलाईन — psc_app, web_verified_crisis_directory
+- [Netherlands] De Kindertelefoon — child_helpline_international, helplines.world, psc_app, vibbrancy, web_verified_crisis_directory
+- [Netherlands] Veilig Thuis - Safe at Home — helplines.world, psc_app
+- [Netherlands] 113 Suicide Prevention (113 Zelfmoordpreventie) note: charges provider costs — helplines.world, vibbrancy, web_verified_crisis_directory
+- [Netherlands] De Luisterlijn (0900-0767) — psc_app, vibbrancy
+- [Netherlands] MIND Korrelatie (0900-1450) — psc_app, vibbrancy
+- [New Zealand] Lifeline Aotearoa (0800 543 354) — helplines.world, psc_app
+- [New Zealand] 0800 What's Up — psc_app, web_verified_crisis_directory
+- [New Zealand] 1737.org — helplines.world, psc_app, vibbrancy
+- [New Zealand] National Depression Initiative — helplines.world, vibbrancy
+- [New Zealand] KidsLine — psc_app, vibbrancy
+- [New Zealand] The Lowdown — helplines.world, vibbrancy
+- [Nigeria] Nigeria Suicide Hotline — psc_app, vibbrancy
+- [Nigeria] Nigeria Suicide Prevention Initiative (Private) — psc_app, vibbrancy
+- [North Macedonia] Alo Bushavko — child_helpline_international, web_verified_crisis_directory
+- [Norway] Kors På Halsen — child_helpline_international, web_verified_crisis_directory
+- [Norway] Studenttelefonen — psc_app, vibbrancy
+- [Norway] Foreldresupport — psc_app, vibbrancy
+- [Norway] Mental Helse — psc_app, vibbrancy
+- [Poland] Centrum Wsparcia — psc_app, vibbrancy, web_verified_crisis_directory
+- [Poland] Fundacja Dzieci Niczyje — psc_app, vibbrancy, web_verified_crisis_directory
+- [Poland] Centrum Wsparcia Dla Osob W Stanie Kryzysu Psychicznego — psc_app, vibbrancy, web_verified_crisis_directory
+- [Portugal] Linha de Apoio à Criança (SOS Criança) — psc_app, web_verified_crisis_directory
+- [Portugal] Serviço de Informação a Vítimas de Violência Doméstica Portugal — psc_app, web_verified_crisis_directory
+- [Portugal] Linha SOS-Estudante — psc_app, vibbrancy
+- [Romania] TelVerde Antisuicid — psc_app, vibbrancy
+- [Romania] Romanian Alliance for Suicide Prevention (Alianţa Română de Prevenţie a Suicidului) — psc_app, vibbrancy
+- [Russia] Экстренной психологической помощи МЧС России - Emergency Psychological Assistance EMERCOM of Russia — psc_app, vibbrancy
+- [Russia] Samaritans (Cherepovets) — psc_app, vibbrancy
+- [Russia] Youth Crisis Line — psc_app, vibbrancy
+- [Russia] Интернет-служба экстренной психологической помощи — psc_app, vibbrancy
+- [Saudi Arabia] National Center for Mental Health Promotion — psc_app, vibbrancy
+- [Saudi Arabia] Psychological Counseling Contact Center — psc_app, vibbrancy
+- [Serbia] NADEL - Nacionalna Decija Linija Srbije — psc_app, web_verified_crisis_directory
+- [Singapore] Samaritans of Singapore — psc_app, vibbrancy
+- [Singapore] Tinkle Friend — psc_app, vibbrancy
+- [Singapore] Singapore Association for Mental Health (SAMH) Helpline — psc_app, web_verified_crisis_directory
+- [Singapore] TOUCHline — psc_app, vibbrancy
+- [Slovenia] Zaupni telefon Samarijan — psc_app, vibbrancy
+- [Slovenia] Društvo Zaupni telefon Samarijan — psc_app, vibbrancy
+- [South Africa] South African Depression And Anxiety Helpline — psc_app, vibbrancy
+- [South Africa] Stop Gender Violence Helpline — psc_app, web_verified_crisis_directory
+- [South Africa] Lifeline South Africa — psc_app, vibbrancy
+- [South Africa] The South African Depression and Anxiety Group (SADAG) — psc_app, vibbrancy
+- [Spain] Fundación ANAR de Ayuda A Niños/as y Adolescentes en Riesgo — psc_app, vibbrancy, web_verified_crisis_directory
+- [Spain] Asociación Internacional Teléfono de la Esperanza (ASITES) — psc_app, vibbrancy, web_verified_crisis_directory
+- [Spain] Teléfono de la Esperanza (902500002) — psc_app, vibbrancy, web_verified_crisis_directory
+- [Spain] Anar — psc_app, vibbrancy, web_verified_crisis_directory
+- [Sri Lanka] සීසීසීලයින් 1333 / CCCline1333 — psc_app, vibbrancy
+- [Sri Lanka] Sri Lanka Sumithrayo - Bandarawela — vibbrancy, web_verified_crisis_directory
+- [Sudan] Befrienders Khartoum — psc_app, vibbrancy, web_verified_crisis_directory
+- [Sweden] Bris — psc_app, vibbrancy, web_verified_crisis_directory
+- [Sweden] Kvinnofridslinjen - Sweden's National Women's Helpline — psc_app, web_verified_crisis_directory
+- [Taiwan] 国际生命线台湾总会 (International Lifeline Taiwan Association) — psc_app, vibbrancy
+- [Taiwan] 113 Protection Hotline — child_helpline_international, psc_app
+- [Taiwan] Taiwan Lieline International — psc_app, vibbrancy
+- [Togo] VisionTogo (VTG) — psc_app, vibbrancy
+- [Tonga] Lifeline Tonga — psc_app, vibbrancy, web_verified_crisis_directory
+- [Trinidad and Tobago] Lifeline — psc_app, vibbrancy
+- [Trinidad and Tobago] Childline — psc_app, web_verified_crisis_directory
+- [United Arab Emirates] Child Helpline 800 700 — child_helpline_international, web_verified_crisis_directory
+- [United Kingdom] Samaritans Helpline — helplines.world, psc_app, vibbrancy
+- [United Kingdom] HOPELINE247 — child_helpline_international, helplines.world, psc_app, vibbrancy, web_verified_crisis_directory
+- [United Kingdom] CALM Helpline — helplines.world, psc_app, vibbrancy
+- [United Kingdom] National Domestic Abuse Helpline — helplines.world, psc_app
+- [United Kingdom] Respect Men's Advice Line — helplines.world, psc_app
+- [United Kingdom] Samaritans UK & ROI — helplines.world, psc_app, vibbrancy
+- [United Kingdom] HOPELineUK (for under 35 yrs) — helplines.world, psc_app, vibbrancy, web_verified_crisis_directory
+- [United Kingdom] CALM — helplines.world, psc_app, vibbrancy
+- [United Kingdom] Maytree — helplines.world, vibbrancy
+- [Zimbabwe] Childline Zimbabwe — child_helpline_international, psc_app, web_verified_crisis_directory
+
+## New `verified_authority` records (Wikipedia-confirmed emergency lines)
+
+- [American Samoa] Emergency
+- [Anguilla] Emergency
+- [Antarctica] Emergency
+- [Aruba] Emergency
+- [Australia] Emergency
+- [Austria] Fire Brigade
+- [Austria] Ambulance
+- [Bahrain] Emergency
+- [Bangladesh] Emergency
+- [Barbados] Police
+- [Barbados] Ambulance
+- [Barbados] Fire Station
+- [Belgium] Emergency
+- [Bermuda] Emergency
+- [Brazil] Emergency
+- [Brunei] Police
+- [Christmas Island] Emergency
+- [Colombia] Emergency
+- [Costa Rica] Emergency
+- [Denmark] Emergency
+- [Dominican Republic] Emergency
+- [Ecuador] Emergency
+- [El Salvador] Emergency
+- [Estonia] Emergency
+- [Faroe Islands] Emergency
+- [Finland] Emergency
+- [French Guiana] Emergency
+- [French Polynesia] Emergency
+- [Georgia] Emergency
+- [Germany] Emergency
+- [Guadeloupe] Emergency
+- [Guam] Emergency
+- [Honduras] Emergency
+- [Hong Kong] Emergency
+- [Iceland] Emergency
+- [India] Emergency
+- [Ireland] Emergency
+- [Italy] Emergency
+- [Japan] Emergency
+- [Jordan] Emergency
+- [Kuwait] Emergency
+- [Liberia] Emergency
+- [Lithuania] Emergency
+- [Luxembourg] Emergency
+- [Malaysia] Emergency
+- [Malta] Emergency
+- [Martinique] Emergency
+- [Mayotte] Emergency
+- [Mexico] Emergency
+- [Moldova] Emergency
+- [Netherlands] Emergency
+- [Netherlands] 113 Zelfmoordpreventie (0800 0113)
+- [New Caledonia] Emergency
+- [New Zealand] Emergency
+- [Nigeria] Emergency
+- [Oman] Emergency
+- [Palau] Emergency
+- [Philippines] Emergency
+- [Portugal] Emergency
+- [Puerto Rico] Emergency
+- [Qatar] Emergency
+- [Romania] Emergency
+- [Réunion] Emergency
+- [Saint Pierre and Miquelon] Emergency
+- [Singapore] Emergency
+- [Slovenia] Emergency
+- [South Africa] Emergency
+- [South Georgia and the South Sandwich Islands] Emergency
+- [Spain] Emergency
+- [Sudan] Emergency
+- [Sweden] Emergency
+- [Tanzania] Emergency
+- [Turkey] Emergency
+- [Zambia] Emergency
+- [Zimbabwe] Emergency
