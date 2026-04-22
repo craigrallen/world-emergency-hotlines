@@ -1,15 +1,27 @@
-# Big/unnecessary files don't need to ship in the Docker build context
+# Build context slimming for Docker — keep only what Dockerfile actually copies.
 .git
 .github
 REPORTS
 sources
-scripts/merge_vibbrancy.py
 world-emergency-hotlines.bundle
 setup-github.ps1
 push-updates.ps1
 *.xlsx
-information.json
 CLAUDE.md
 __pycache__
 *.pyc
 .DS_Store
+
+# Astro local dev artefacts
+web/node_modules
+web/dist
+web/.astro
+web/.wrangler
+web/public/data
+
+# Legacy Python site output
+site/public
+
+# Data expansion working files
+scripts/enrichment
+scripts/merge_vibbrancy.py

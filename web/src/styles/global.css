@@ -1,0 +1,100 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Night palette — deep indigo with warm amber accent */
+    --bg: 11 16 32;              /* #0b1020 */
+    --bg-elev: 21 27 48;         /* #151b30 */
+    --fg: 237 239 250;           /* #edeffa */
+    --fg-muted: 155 164 193;     /* #9ba4c1 */
+    --accent: 240 184 110;       /* #f0b86e */
+    --accent-contrast: 30 20 10;
+    --danger: 235 87 87;
+    --success: 120 200 150;
+    --border: 36 45 74;
+  }
+
+  html {
+    @apply antialiased;
+    font-feature-settings: "ss01", "cv11";
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-bg text-fg font-sans;
+    background-image:
+      radial-gradient(1200px 600px at 10% -10%, rgba(240, 184, 110, 0.08), transparent 60%),
+      radial-gradient(800px 400px at 90% 10%, rgba(124, 92, 255, 0.08), transparent 70%);
+    background-attachment: fixed;
+    min-height: 100dvh;
+  }
+
+  ::selection {
+    background: rgb(var(--accent) / 0.35);
+    color: rgb(var(--fg));
+  }
+
+  *:focus-visible {
+    @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-bg;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium
+           transition-colors duration-200;
+  }
+  .btn-primary {
+    @apply btn bg-accent text-accent-contrast hover:brightness-110;
+  }
+  .btn-ghost {
+    @apply btn border border-border text-fg hover:bg-bg-elev;
+  }
+
+  .card {
+    @apply rounded-2xl border border-border bg-bg-elev/60 backdrop-blur-sm
+           transition-colors duration-200;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-border
+           bg-bg-elev/60 px-3 py-1 text-xs text-fg-muted;
+  }
+
+  /* Used by the emergency banner; intentionally high contrast + always-on */
+  .emergency-strip {
+    @apply flex items-center justify-between gap-3 rounded-none
+           bg-danger px-4 py-2.5 text-sm font-medium text-white
+           sm:rounded-xl sm:px-5;
+  }
+}
+
+/* MapLibre tweaks — harmonize the default UI with our dark theme */
+.maplibregl-ctrl-group,
+.maplibregl-ctrl-attrib {
+  background: rgb(var(--bg-elev) / 0.9) !important;
+  color: rgb(var(--fg)) !important;
+  border: 1px solid rgb(var(--border)) !important;
+  backdrop-filter: blur(8px);
+}
+.maplibregl-ctrl-group button + button {
+  border-top: 1px solid rgb(var(--border)) !important;
+}
+.maplibregl-ctrl-attrib a {
+  color: rgb(var(--fg-muted)) !important;
+}
+.maplibregl-popup-content {
+  background: rgb(var(--bg-elev)) !important;
+  color: rgb(var(--fg)) !important;
+  border: 1px solid rgb(var(--border)) !important;
+  border-radius: 0.75rem !important;
+  padding: 0.75rem 1rem !important;
+  font-family: inherit !important;
+}
+.maplibregl-popup-tip {
+  border-top-color: rgb(var(--bg-elev)) !important;
+  border-bottom-color: rgb(var(--bg-elev)) !important;
+}

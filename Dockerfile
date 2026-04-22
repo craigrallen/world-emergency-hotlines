@@ -1,26 +1,35 @@
-# Hotlines.world — build the static site, serve it with Caddy.
-# Multi-stage build keeps the final image tiny (~40MB).
+# Hotlines.world — build the Astro site, serve it with Caddy.
+# Multi-stage build keeps the final image tiny.
+#
+# Stage 1 generates the JSON data shards from the canonical hotlines.json
+# and builds the Astro app. Stage 2 serves the produced dist/ via Caddy.
 
-# ------- stage 1: build the site -------
-FROM python:3.12-alpine AS build
+# ------- stage 1: build the Astro site -------
+FROM node:22-alpine AS build
 WORKDIR /app
 
-# Only copy what the generator needs
-COPY hotlines.json ./
-COPY site/ ./site/
+# Bring in just the web/ manifest first so npm install caches well across
+# unrelated data changes.
+COPY web/package.json web/package-lock.json* ./web/
+RUN cd web && npm install --no-audit --no-fund --loglevel=error
 
-RUN python3 site/build.py
+# Copy the canonical data + the rest of the web source
+COPY hotlines.json information.json ./
+COPY web/ ./web/
+
+# Generate /public/data and build the static Astro site
+RUN cd web && npm run build
 
 # ------- stage 2: serve -------
 FROM caddy:2.8-alpine
 
-# Copy the built site into Caddy's webroot
-COPY --from=build /app/site/public /srv
+# Astro emits its static output to web/dist/
+COPY --from=build /app/web/dist /srv
 
 # Caddy config — gzip, security headers, SPA-friendly routing
 COPY Caddyfile /etc/caddy/Caddyfile
 
-# Railway sets $PORT. Caddy's Caddyfile picks it up via environment substitution.
+# Railway sets $PORT; Caddy picks it up via environment substitution.
 ENV PORT=8080
 EXPOSE 8080
 

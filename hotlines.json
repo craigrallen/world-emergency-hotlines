@@ -3714,7 +3714,7 @@
           "cost": "free",
           "target": "anyone in emotional distress or at risk of suicide",
           "geography": "Australia",
-          "notes": "",
+          "notes": "facebook: https://www.facebook.com/befriendersworldwide\ninstagram: https://www.instagram.com/befriendersworldwide\nlinkedin: https://www.linkedin.com/company/befrienders-worldwide",
           "verification_status": "legacy_unverified",
           "last_verified": null,
           "sources": [
@@ -3747,7 +3747,7 @@
           "cost": "free",
           "target": "anyone in emotional distress or at risk of suicide",
           "geography": "Australia",
-          "notes": "",
+          "notes": "facebook: https://www.facebook.com/befriendersworldwide\ninstagram: https://www.instagram.com/befriendersworldwide\nlinkedin: https://www.linkedin.com/company/befrienders-worldwide",
           "verification_status": "legacy_unverified",
           "last_verified": null,
           "sources": [
@@ -3782,7 +3782,7 @@
           "cost": "free",
           "target": "anyone in emotional distress or at risk of suicide",
           "geography": "Australia",
-          "notes": "",
+          "notes": "facebook: https://www.facebook.com/befriendersworldwide\ninstagram: https://www.instagram.com/befriendersworldwide\nlinkedin: https://www.linkedin.com/company/befrienders-worldwide",
           "verification_status": "legacy_unverified",
           "last_verified": null,
           "sources": [
@@ -3818,7 +3818,7 @@
           "cost": "free",
           "target": "anyone in emotional distress or at risk of suicide",
           "geography": "Australia",
-          "notes": "",
+          "notes": "facebook: https://www.facebook.com/befriendersworldwide\ninstagram: https://www.instagram.com/befriendersworldwide\nlinkedin: https://www.linkedin.com/company/befrienders-worldwide",
           "verification_status": "legacy_unverified",
           "last_verified": null,
           "sources": [
@@ -3852,7 +3852,7 @@
           "cost": "free",
           "target": "anyone in emotional distress or at risk of suicide",
           "geography": "Australia",
-          "notes": "",
+          "notes": "facebook: https://www.facebook.com/befriendersworldwide\ninstagram: https://www.instagram.com/befriendersworldwide\nlinkedin: https://www.linkedin.com/company/befrienders-worldwide",
           "verification_status": "legacy_unverified",
           "last_verified": null,
           "sources": [
@@ -4491,7 +4491,7 @@
           "cost": "unknown",
           "target": "emergency response and general welfare",
           "geography": "Australia",
-          "notes": "Disaster & flood evac info.",
+          "notes": "Disaster & flood evac info.\n\ntwitter: https://x.com/ifrc\nfacebook: https://www.facebook.com/ifrc\ninstagram: https://www.instagram.com/ifrc\nyoutube: https://www.youtube.com/user/ifrc",
           "verification_status": "cross_referenced",
           "last_verified": "2026-04-22",
           "sources": [
@@ -4629,7 +4629,7 @@
           "text_numbers": [],
           "short_codes": [],
           "chat_url": null,
-          "email": null,
+          "email": "max.mustermann@mail.com",
           "website": "https://www.oesterreich.gv.at",
           "hours": "24/7",
           "languages": [
@@ -4639,7 +4639,7 @@
           "cost": "free",
           "target": "anyone in emergency",
           "geography": "Austria",
-          "notes": "141 on-call doctor; 147 Rat auf Draht child helpline.",
+          "notes": "141 on-call doctor; 147 Rat auf Draht child helpline.\n\ntwitter: https://x.com/oesterreichgvat\nfacebook: https://facebook.com/oesterreich.gv.at\nyoutube: https://www.youtube.com/@digitalaustria6212",
           "verification_status": "verified_knowledge",
           "last_verified": "2026-04-22",
           "sources": [],
@@ -4764,7 +4764,7 @@
           "cost": "free",
           "target": "anyone in emotional distress or at risk of suicide",
           "geography": "Austria",
-          "notes": "",
+          "notes": "facebook: https://www.facebook.com/befriendersworldwide\ninstagram: https://www.instagram.com/befriendersworldwide\nlinkedin: https://www.linkedin.com/company/befrienders-worldwide",
           "verification_status": "legacy_unverified",
           "last_verified": null,
           "sources": [
@@ -5243,8 +5243,8 @@
           "cost": "free",
           "target": "women and girls experiencing violence",
           "geography": "Austria",
-          "notes": "",
-          "verification_status": "verified_knowledge",
+          "notes": "facebook: https://www.facebook.com/Frauenhelpline.gegen.Gewalt\ninstagram: https://www.instagram.com/frauenhelpline.gegen.gewalt",
+          "verification_status": "verified_web",
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.frauenhelpline.at"
@@ -5340,7 +5340,7 @@
           "cost": "free",
           "target": "anyone in distress or crisis",
           "geography": "Austria",
-          "notes": "",
+          "notes": "facebook: https://www.facebook.com/TelefonSeelsorge142\ninstagram: https://www.instagram.com/telefonseelsorge142",
           "verification_status": "verified_knowledge",
           "last_verified": "2026-04-22",
           "sources": [
@@ -5358,7 +5358,7 @@
           "text_numbers": [],
           "short_codes": [],
           "chat_url": "https://www.rataufdraht.at",
-          "email": null,
+          "email": "147@rataufdraht.at",
           "website": "https://www.rataufdraht.at",
           "hours": "24/7",
           "languages": [
@@ -5367,7 +5367,7 @@
           "cost": "free",
           "target": "children and young people (up to 18)",
           "geography": "Austria",
-          "notes": "",
+          "notes": "facebook: https://www.facebook.com/rataufdraht\ninstagram: https://www.instagram.com/147rataufdraht\nyoutube: https://www.youtube.com/user/Helpline147",
           "verification_status": "verified_knowledge",
           "last_verified": "2026-04-22",
           "sources": [
@@ -5394,7 +5394,7 @@
           "cost": "standard_rate",
           "target": "LGBTIQ community",
           "geography": "Austria",
-          "notes": "",
+          "notes": "facebook: https://www.facebook.com/HOSI.Wien\ninstagram: https://www.instagram.com/hosiwien",
           "verification_status": "verified_knowledge",
           "last_verified": "2026-04-22",
           "sources": [
@@ -6242,7 +6242,7 @@
           "cost": "standard_rate",
           "target": "people in emotional distress",
           "geography": "Bangladesh",
-          "notes": "",
+          "notes": "facebook: https://www.facebook.com/kaan.pete.roi",
           "verification_status": "verified_knowledge",
           "last_verified": "2026-04-22",
           "sources": [
@@ -6336,7 +6336,7 @@
           "cost": "free",
           "target": "women and children victims of violence",
           "geography": "Bangladesh",
-          "notes": "",
+          "notes": "facebook: https://www.facebook.com/ministryofwomenchildrenaffairs\nyoutube: https://www.youtube.com/@financialliteracyprogramba6178",
           "verification_status": "verified_knowledge",
           "last_verified": "2026-04-22",
           "sources": [
@@ -6354,7 +6354,7 @@
           "text_numbers": [],
           "short_codes": [],
           "chat_url": null,
-          "email": null,
+          "email": "info@brac.net",
           "website": "https://www.brac.net",
           "hours": "Mon-Fri 9am-5pm",
           "languages": [
@@ -6363,7 +6363,7 @@
           "cost": "free",
           "target": "women needing legal support after violence",
           "geography": "Bangladesh",
-          "notes": "",
+          "notes": "twitter: https://x.com/BRACworld\nfacebook: https://www.facebook.com/BRACWorld\ninstagram: https://www.instagram.com/bracworld\nyoutube: https://www.youtube.com/user/BRACworld",
           "verification_status": "verified_knowledge",
           "last_verified": "2026-04-22",
           "sources": [
@@ -6499,7 +6499,7 @@
           "cost": "free",
           "target": "anyone in emotional distress or at risk of suicide",
           "geography": "Barbados",
-          "notes": "",
+          "notes": "facebook: https://www.facebook.com/befriendersworldwide\ninstagram: https://www.instagram.com/befriendersworldwide\nlinkedin: https://www.linkedin.com/company/befrienders-worldwide",
           "verification_status": "legacy_unverified",
           "last_verified": null,
           "sources": [
@@ -6623,7 +6623,7 @@
           "cost": "standard_rate",
           "target": "people in emotional crisis",
           "geography": "Barbados",
-          "notes": "",
+          "notes": "facebook: https://www.facebook.com/befriendersworldwide\ninstagram: https://www.instagram.com/befriendersworldwide\nlinkedin: https://www.linkedin.com/company/befrienders-worldwide",
           "verification_status": "verified_knowledge",
           "last_verified": "2026-04-22",
           "sources": [],
@@ -6784,7 +6784,7 @@
           "text_numbers": [],
           "short_codes": [],
           "chat_url": null,
-          "email": null,
+          "email": "info@redcross.by",
           "website": "https://redcross.by",
           "hours": "Mon-Fri 8am-8pm",
           "languages": [
@@ -6794,7 +6794,7 @@
           "cost": "free",
           "target": "children and young people",
           "geography": "Belarus",
-          "notes": "",
+          "notes": "facebook: https://www.facebook.com/redcross.by\ninstagram: https://www.instagram.com/redcrossbelarus\nyoutube: https://www.youtube.com/channel/UCfb6TxoqsKn_3kpk4tDSjKw",
           "verification_status": "verified_knowledge",
           "last_verified": "2026-04-22",
           "sources": [],
@@ -6866,7 +6866,7 @@
           "cost": "free",
           "target": "life-threatening emergencies",
           "geography": "Belgium",
-          "notes": "112 app supports location and chat for deaf/HoH users.",
+          "notes": "112 app supports location and chat for deaf/HoH users.\n\nfacebook: https://www.facebook.com/ADCV.DGSC\nlinkedin: https://www.linkedin.com/company/adcvdgsc",
           "verification_status": "verified_knowledge",
           "last_verified": "2026-04-22",
           "sources": [
@@ -6884,7 +6884,7 @@
           "text_numbers": [],
           "short_codes": [],
           "chat_url": "https://www.preventionsuicide.be",
-          "email": null,
+          "email": "cps@preventionsuicide.be",
           "website": "https://www.preventionsuicide.be",
           "hours": "24/7",
           "languages": [
@@ -6893,11 +6893,12 @@
           "cost": "free",
           "target": "people in suicidal crisis (French-speaking)",
           "geography": "Wallonia / Brussels",
-          "notes": "",
-          "verification_status": "verified_knowledge",
+          "notes": "facebook: https://www.facebook.com/centredepreventiondusuicide\ninstagram: https://www.instagram.com/centrepreventionsuicide",
+          "verification_status": "verified_web",
           "last_verified": "2026-04-22",
           "sources": [
-            "https://www.preventionsuicide.be"
+            "https://www.preventionsuicide.be",
+            "https://www.preventionsuicide.be/contact"
           ]
         },
         {
@@ -6920,11 +6921,12 @@
           "cost": "free",
           "target": "people with suicidal thoughts (Dutch-speaking)",
           "geography": "Flanders / Brussels",
-          "notes": "Also supports chat and email.",
-          "verification_status": "verified_knowledge",
+          "notes": "Also supports chat and email.\n\nfacebook: https://www.facebook.com/zelfmoordlijn1813\ninstagram: https://www.instagram.com/zelfmoordlijn1813\nyoutube: https://www.youtube.com/channel/UCuP9k7plbNl0KEuUVBQ7ZPA",
+          "verification_status": "verified_web",
           "last_verified": "2026-04-22",
           "sources": [
-            "https://www.zelfmoord1813.be"
+            "https://www.zelfmoord1813.be",
+            "https://www.zelfmoord1813.be/contact"
           ]
         },
         {
@@ -6965,7 +6967,7 @@
           "text_numbers": [],
           "short_codes": [],
           "chat_url": "https://www.tele-onthaal.be",
-          "email": null,
+          "email": "info@tele-onthaal.be",
           "website": "https://www.tele-onthaal.be",
           "hours": "24/7",
           "languages": [
@@ -6974,7 +6976,7 @@
           "cost": "free",
           "target": "anyone in emotional distress",
           "geography": "Flanders",
-          "notes": "",
+          "notes": "twitter: https://twitter.com/teleonthaal\nfacebook: https://www.facebook.com/TeleOnthaal\ninstagram: https://www.instagram.com/teleonthaal\nyoutube: https://www.youtube.com/channel/UC-rGVWYw5dJMp6fXGhuJlZw",
           "verification_status": "verified_knowledge",
           "last_verified": "2026-04-22",
           "sources": [
@@ -6992,7 +6994,7 @@
           "text_numbers": [],
           "short_codes": [],
           "chat_url": "https://www.awel.be",
-          "email": null,
+          "email": "brievenbus@awel.be",
           "website": "https://www.awel.be",
           "hours": "Mon–Fri 4pm–10pm; Sat 2pm–8pm; Sun 6pm–10pm",
           "languages": [
@@ -7001,7 +7003,7 @@
           "cost": "free",
           "target": "children and young people",
           "geography": "Flanders",
-          "notes": "French-speaking equivalent: 103 Écoute-Enfants.",
+          "notes": "French-speaking equivalent: 103 Écoute-Enfants.\n\ntwitter: https://twitter.com/awel_vzw\nfacebook: http://www.facebook.com/awelvzw\ninstagram: https://www.instagram.com/awel.be_",
           "verification_status": "verified_knowledge",
           "last_verified": "2026-04-22",
           "sources": [
@@ -7028,7 +7030,7 @@
           "cost": "free",
           "target": "French-speaking children and adolescents",
           "geography": "Wallonia / Brussels",
-          "notes": "",
+          "notes": "facebook: https://www.facebook.com/103.EcouteEnfants\ninstagram: https://www.instagram.com/ecoute_103",
           "verification_status": "verified_knowledge",
           "last_verified": "2026-04-22",
           "sources": [
@@ -7046,7 +7048,7 @@
           "text_numbers": [],
           "short_codes": [],
           "chat_url": "https://www.1712.be",
-          "email": null,
+          "email": "info@1712.be",
           "website": "https://www.1712.be",
           "hours": "Mon–Fri 9am–5pm",
           "languages": [
@@ -7055,11 +7057,12 @@
           "cost": "free",
           "target": "victims of violence, abuse and child maltreatment",
           "geography": "Flanders",
-          "notes": "French-speaking equivalent: 0800 30 030 (Écoute violences conjugales).",
-          "verification_status": "verified_knowledge",
+          "notes": "French-speaking equivalent: 0800 30 030 (Écoute violences conjugales).\n\nfacebook: https://www.facebook.com/1712hulplijn\ninstagram: https://www.instagram.com/hulplijn1712",
+          "verification_status": "verified_web",
           "last_verified": "2026-04-22",
           "sources": [
-            "https://www.1712.be"
+            "https://www.1712.be",
+            "https://www.1712.be/nl/contact"
           ]
         },
         {
@@ -7359,7 +7362,7 @@
           "text_numbers": [],
           "short_codes": [],
           "chat_url": null,
-          "email": null,
+          "email": "cps@preventionsuicide.be",
           "website": "https://preventionsuicide.be",
           "hours": "24/7",
           "languages": [
@@ -7368,11 +7371,12 @@
           "cost": "unknown",
           "target": null,
           "geography": "Belgium",
-          "notes": "24/7 suicide prevention (French).",
-          "verification_status": "cross_referenced",
+          "notes": "24/7 suicide prevention (French).\n\nfacebook: https://www.facebook.com/centredepreventiondusuicide\ninstagram: https://www.instagram.com/centrepreventionsuicide",
+          "verification_status": "verified_web",
           "last_verified": "2026-04-22",
           "sources": [
-            "https://helplines.world/"
+            "https://helplines.world/",
+            "https://www.preventionsuicide.be/contact"
           ],
           "_legacy": {
             "name": "Centre Prévention Suicide",
@@ -8469,7 +8473,7 @@
           "text_numbers": [],
           "short_codes": [],
           "chat_url": null,
-          "email": null,
+          "email": "user@domain.com",
           "website": "https://wrcbermuda.com",
           "hours": "Mon-Fri 9am-5pm; emergency 24/7",
           "languages": [
@@ -8478,7 +8482,7 @@
           "cost": "standard_rate",
           "target": "women survivors of violence",
           "geography": "Bermuda",
-          "notes": "",
+          "notes": "twitter: https://twitter.com/WrcBermuda\nfacebook: http://www.facebook.com/2008\ninstagram: https://www.instagram.com/wrcbermuda\nlinkedin: https://www.linkedin.com/in/women-s-resource-centre-bermuda-98139279",
           "verification_status": "verified_knowledge",
           "last_verified": "2026-04-22",
           "sources": [],
@@ -8599,7 +8603,7 @@
           "text_numbers": [],
           "short_codes": [],
           "chat_url": null,
-          "email": null,
+          "email": "renewbht@gmail.com",
           "website": "https://renew.org.bt",
           "hours": "24/7",
           "languages": [
@@ -8609,7 +8613,7 @@
           "cost": "free",
           "target": "women and girls victims of violence",
           "geography": "Bhutan",
-          "notes": "",
+          "notes": "twitter: https://twitter.com/renewbht\nfacebook: https://www.facebook.com/bhutanrenew\ninstagram: https://www.instagram.com/renew_bhutan\nyoutube: https://www.youtube.com/channel/UCIAYEMFb2dCXRAvgvqLZ6gg",
           "verification_status": "verified_knowledge",
           "last_verified": "2026-04-22",
           "sources": [
@@ -9347,7 +9351,7 @@
           "cost": "free",
           "target": "anyone in emergency",
           "geography": "Brazil",
-          "notes": "197 is federal highway police; 199 is civil defence.",
+          "notes": "197 is federal highway police; 199 is civil defence.\n\nfacebook: https://www.facebook.com/govbrasil\ninstagram: https://www.instagram.com/govbr\nlinkedin: https://linkedin.com/company/governo-do-brasil",
           "verification_status": "verified_knowledge",
           "last_verified": "2026-04-22",
           "sources": []
@@ -9372,7 +9376,7 @@
           "cost": "free",
           "target": "people in emotional crisis and suicide prevention",
           "geography": "Brazil",
-          "notes": "188 became toll-free in 2017.",
+          "notes": "188 became toll-free in 2017.\n\ntwitter: https://twitter.com/CVVoficial\nfacebook: https://www.facebook.com/cvvoficial\ninstagram: https://www.instagram.com/cvvoficial\nyoutube: https://www.youtube.com/user/CVVdivulgacao",
           "verification_status": "verified_knowledge",
           "last_verified": "2026-04-22",
           "sources": [
@@ -9426,7 +9430,7 @@
           "cost": "free",
           "target": "women victims of violence",
           "geography": "Brazil",
-          "notes": "Also reachable internationally from several countries.",
+          "notes": "Also reachable internationally from several countries.\n\ntwitter: https://x.com/mindasmulheres\nfacebook: https://www.facebook.com/min.dasmulheres\ninstagram: https://www.instagram.com/mmulheres\nyoutube: https://www.youtube.com/@min.dasmulheres",
           "verification_status": "verified_knowledge",
           "last_verified": "2026-04-22",
           "sources": [
@@ -9499,7 +9503,7 @@
           "sms_numbers": [],
           "text_numbers": [],
           "short_codes": [],
-          "chat_url": null,
+          "chat_url": "https://cvv.org.br/chat/",
           "email": null,
           "website": "https://www.cvv.org.br",
           "hours": "24/7",
@@ -9509,7 +9513,7 @@
           "cost": "free",
           "target": "pessoas em sofrimento emocional",
           "geography": "Brazil",
-          "notes": "",
+          "notes": "twitter: https://twitter.com/CVVoficial\nfacebook: https://www.facebook.com/cvvoficial\ninstagram: https://www.instagram.com/cvvoficial\nyoutube: https://www.youtube.com/user/CVVdivulgacao",
           "verification_status": "legacy_unverified",
           "last_verified": null,
           "sources": [
@@ -9532,7 +9536,7 @@
           "sms_numbers": [],
           "text_numbers": [],
           "short_codes": [],
-          "chat_url": null,
+          "chat_url": "https://cvv.org.br/chat/",
           "email": null,
           "website": "https://www.cvv.org.br",
           "hours": "24/7",
@@ -9542,7 +9546,7 @@
           "cost": "free",
           "target": "pessoas em sofrimento emocional",
           "geography": "Brazil",
-          "notes": "",
+          "notes": "twitter: https://twitter.com/CVVoficial\nfacebook: https://www.facebook.com/cvvoficial\ninstagram: https://www.instagram.com/cvvoficial\nyoutube: https://www.youtube.com/user/CVVdivulgacao",
           "verification_status": "legacy_unverified",
           "last_verified": null,
           "sources": [
@@ -9716,7 +9720,7 @@
           "sms_numbers": [],
           "text_numbers": [],
           "short_codes": [],
-          "chat_url": null,
+          "chat_url": "https://cvv.org.br/chat/",
           "email": null,
           "website": "https://www.cvv.org.br",
           "hours": "24/7",
@@ -9726,7 +9730,7 @@
           "cost": "free",
           "target": "pessoas em sofrimento emocional",
           "geography": "Brazil",
-          "notes": "hotline: 16 | hotline: 91 | hotline: 71 | hotline: 31 | hotline: 93 | hotline: 65 | hotline: 11 | hotline: 41 | hotline: 13 | hotline: 85 | hotline: 11 | hotline: 62 | hotline: 11 | hotline: 83 | hotline: 16 | hotline: 84 | hotline: 21 | hotline: 51 | hotline: 17 | hotline: 21 | hotline: 12 | hotline: 21 | hotline: 41 | hotline: 27 | hotline: 11 | hotline: 19 | hotline: 11 | hotline: 16 | hotline: 11 | hotline: 31 | hotline: 11 | hotline: 11 | hotline: 61 | hotline: 11 | hotline: 83 | hotline: 11 | hotline: 19 | hotline: 15 | hotline: 67 | hotline: 12 | hotline: 48 | hotline: 21 | hotline: 16 | hotline: 34 | hotline: 11 | hotline: 34 | hotline: 19 | hotline: 24 | hotline: 11 | hotline: 13 | hotline: 21 | hotline: 43 | hotline: 51 | hotline: 081 | hotline: 19 | hotline: 81 | hotline: 24",
+          "notes": "hotline: 16 | hotline: 91 | hotline: 71 | hotline: 31 | hotline: 93 | hotline: 65 | hotline: 11 | hotline: 41 | hotline: 13 | hotline: 85 | hotline: 11 | hotline: 62 | hotline: 11 | hotline: 83 | hotline: 16 | hotline: 84 | hotline: 21 | hotline: 51 | hotline: 17 | hotline: 21 | hotline: 12 | hotline: 21 | hotline: 41 | hotline: 27 | hotline: 11 | hotline: 19 | hotline: 11 | hotline: 16 | hotline: 11 | hotline: 31 | hotline: 11 | hotline: 11 | hotline: 61 | hotline: 11 | hotline: 83 | hotline: 11 | hotline: 19 | hotline: 15 | hotline: 67 | hotline: 12 | hotline: 48 | hotline: 21 | hotline: 16 | hotline: 34 | hotline: 11 | hotline: 34 | hotline: 19 | hotline: 24 | hotline: 11 | hotline: 13 | hotline: 21 | hotline: 43 | hotline: 51 | hotline: 081 | hotline: 19 | hotline: 81 | hotline: 24\n\ntwitter: https://twitter.com/CVVoficial\nfacebook: https://www.facebook.com/cvvoficial\ninstagram: https://www.instagram.com/cvvoficial\nyoutube: https://www.youtube.com/user/CVVdivulgacao",
           "verification_status": "legacy_unverified",
           "last_verified": null,
           "sources": [
@@ -9842,7 +9846,7 @@
           "sms_numbers": [],
           "text_numbers": [],
           "short_codes": [],
-          "chat_url": null,
+          "chat_url": "https://cvv.org.br/chat/",
           "email": null,
           "website": "https://www.cvv.org.br",
           "hours": "24/7",
@@ -9852,7 +9856,7 @@
           "cost": "free",
           "target": "pessoas em sofrimento emocional",
           "geography": "Brazil",
-          "notes": "",
+          "notes": "twitter: https://twitter.com/CVVoficial\nfacebook: https://www.facebook.com/cvvoficial\ninstagram: https://www.instagram.com/cvvoficial\nyoutube: https://www.youtube.com/user/CVVdivulgacao",
           "verification_status": "legacy_unverified",
           "last_verified": null,
           "sources": [
@@ -9906,7 +9910,7 @@
           "sms_numbers": [],
           "text_numbers": [],
           "short_codes": [],
-          "chat_url": null,
+          "chat_url": "https://cvv.org.br/chat/",
           "email": null,
           "website": "https://cvv.org.br",
           "hours": "24/7",
@@ -9916,7 +9920,7 @@
           "cost": "free",
           "target": "pessoas em sofrimento emocional",
           "geography": "Brazil",
-          "notes": "24/7 emotional support and suicide prevention.",
+          "notes": "24/7 emotional support and suicide prevention.\n\ntwitter: https://twitter.com/CVVoficial\nfacebook: https://www.facebook.com/cvvoficial\ninstagram: https://www.instagram.com/cvvoficial\nyoutube: https://www.youtube.com/user/CVVdivulgacao",
           "verification_status": "cross_referenced",
           "last_verified": "2026-04-22",
           "sources": [
@@ -10170,7 +10174,7 @@
           "cost": "free",
           "target": "pessoas em sofrimento emocional",
           "geography": "Brazil",
-          "notes": "Chat de apoio emocional, suicídio e crises.",
+          "notes": "Chat de apoio emocional, suicídio e crises.\n\ntwitter: https://twitter.com/CVVoficial\nfacebook: https://www.facebook.com/cvvoficial\ninstagram: https://www.instagram.com/cvvoficial\nyoutube: https://www.youtube.com/user/CVVdivulgacao",
           "verification_status": "cross_referenced",
           "last_verified": "2026-04-22",
           "sources": [

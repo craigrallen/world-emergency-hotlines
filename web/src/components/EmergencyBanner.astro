@@ -1,0 +1,80 @@
+---
+// Always-visible strip at the top of the page.
+// Shows a generic global 112 / 911 fallback on first paint, then the
+// visitor's regional number once we've detected their country client-side.
+// Safety rule: this component never waits on the classifier in ml/triage.ts —
+// that classifier can only *increase* its prominence (e.g. pin it sticky).
+---
+
+<aside
+  id="emergency-banner"
+  class="emergency-strip sticky top-0 z-50 shadow-lg"
+  role="region"
+  aria-label="Emergency contact information"
+>
+  <div class="flex items-center gap-3 min-w-0">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.4"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="h-5 w-5 shrink-0 animate-pulse-slow"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <line x1="12" y1="8" x2="12" y2="12" />
+      <line x1="12" y1="16" x2="12.01" y2="16" />
+    </svg>
+    <p class="truncate">
+      <strong class="font-semibold">In immediate danger?</strong>
+      <span id="emergency-text" class="ml-1 opacity-90">
+        Call your local emergency number — <span id="emergency-number" class="font-bold tabular-nums">112 / 911</span>
+      </span>
+    </p>
+  </div>
+
+  <a
+    href="/map"
+    class="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-medium transition hover:bg-white/25"
+  >
+    Find a hotline
+    <span aria-hidden="true">→</span>
+  </a>
+</aside>
+
+<script>
+  // Lightweight emergency-number lookup by region. Replaced by a full data-driven
+  // lookup in Phase 2 (read from /data/manifest.json).
+  const FALLBACK: Record<string, { label: string; number: string }> = {
+    'en-US': { label: 'United States', number: '911' },
+    'en-CA': { label: 'Canada', number: '911' },
+    'en-GB': { label: 'United Kingdom', number: '999' },
+    'en-AU': { label: 'Australia', number: '000' },
+    'en-NZ': { label: 'New Zealand', number: '111' },
+    'en-IN': { label: 'India', number: '112' },
+    'en-IE': { label: 'Ireland', number: '112' },
+    'de': { label: 'Germany / Austria', number: '112' },
+    'fr': { label: 'France', number: '112' },
+    'es': { label: 'Spain / LatAm', number: '112 / 911' },
+    'it': { label: 'Italy', number: '112' },
+    'ja': { label: 'Japan', number: '110 (police) / 119 (amb)' },
+    'zh': { label: 'China', number: '110 / 120' },
+  };
+
+  function pick() {
+    const raw = (navigator.language || 'en').toLowerCase();
+    // try full tag, then language code
+    const tag = raw;
+    const lang = raw.split('-')[0];
+    return FALLBACK[tag] ?? FALLBACK[lang] ?? null;
+  }
+
+  const hit = pick();
+  if (hit) {
+    const el = document.getElementById('emergency-number');
+    if (el) el.textContent = hit.number;
+  }
+</script>
