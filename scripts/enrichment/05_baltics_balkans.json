@@ -1,0 +1,134 @@
+[
+  {
+    "country": "Estonia",
+    "alpha-2": "EE",
+    "alpha-3": "EST",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "general_emergency": ["112"],
+    "notes": "112 is the single emergency number.",
+    "hotlines": [
+      {"name": "Emergency (112)", "category": "emergency", "voice_numbers": ["112"], "hours": "24/7", "languages": ["Estonian", "Russian", "English"], "cost": "free", "target": "anyone in emergency", "website": "https://www.112.ee", "sources": []},
+      {"name": "Peaasi.ee Noortenõuandla", "organization": "Peaasi.ee", "category": "mental_health", "chat_url": "https://peaasi.ee", "email": "info@peaasi.ee", "hours": "varies (online)", "languages": ["Estonian"], "cost": "free", "target": "young people with mental-health concerns", "website": "https://peaasi.ee", "sources": ["https://peaasi.ee"]},
+      {"name": "Eluliin (Lifeline Estonia)", "organization": "Eluliin", "category": "suicide_crisis", "voice_numbers": ["655 8088", "6558088"], "hours": "Mon-Sun 7pm-7am", "languages": ["Estonian"], "cost": "standard_rate", "target": "people in emotional crisis", "website": "https://eluliin.ee", "sources": ["https://eluliin.ee"]},
+      {"name": "Lasteabi 116 111", "organization": "Social Insurance Board", "category": "child_protection", "voice_numbers": ["116 111"], "chat_url": "https://www.lasteabi.ee", "hours": "24/7", "languages": ["Estonian", "Russian", "English"], "cost": "free", "target": "children and adults concerned about a child", "website": "https://www.lasteabi.ee", "sources": ["https://www.lasteabi.ee"]},
+      {"name": "Ohvriabi kriisitelefon", "organization": "Sotsiaalkindlustusamet", "category": "domestic_violence", "voice_numbers": ["116 006"], "chat_url": "https://www.palunabi.ee", "hours": "24/7", "languages": ["Estonian", "Russian", "English"], "cost": "free", "target": "victims of crime including DV", "website": "https://www.palunabi.ee", "sources": ["https://www.palunabi.ee"]}
+    ]
+  },
+  {
+    "country": "Latvia",
+    "alpha-2": "LV",
+    "alpha-3": "LVA",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "general_emergency": ["112", "110", "113", "114"],
+    "notes": "112 universal, 110 police, 113 medical, 114 gas emergency.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "110", "113", "114"], "hours": "24/7", "languages": ["Latvian", "Russian", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Skalbes Krīzes tālrunis", "organization": "Skalbes", "category": "suicide_crisis", "voice_numbers": ["67 222 922"], "hours": "24/7", "languages": ["Latvian", "Russian"], "cost": "standard_rate", "target": "people in crisis", "website": "https://skalbes.lv", "sources": ["https://skalbes.lv"]},
+      {"name": "Bērnu un pusaudžu uzticības tālrunis", "organization": "Valsts bērnu tiesību aizsardzības inspekcija", "category": "child_protection", "voice_numbers": ["116 111"], "chat_url": "https://www.uzticibastalrunis.lv", "hours": "24/7", "languages": ["Latvian", "Russian"], "cost": "free", "target": "children and young people", "website": "https://www.uzticibastalrunis.lv", "sources": ["https://www.uzticibastalrunis.lv"]},
+      {"name": "Marta Centrs", "organization": "Marta Centrs", "category": "domestic_violence", "voice_numbers": ["67 378 539"], "hours": "Mon-Fri 9am-5pm", "languages": ["Latvian", "Russian", "English"], "cost": "standard_rate", "target": "women victims of violence", "website": "https://www.marta.lv", "sources": ["https://www.marta.lv"]}
+    ]
+  },
+  {
+    "country": "Lithuania",
+    "alpha-2": "LT",
+    "alpha-3": "LTU",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "general_emergency": ["112"],
+    "notes": "112 is the single emergency number.",
+    "hotlines": [
+      {"name": "Emergency (112)", "category": "emergency", "voice_numbers": ["112"], "hours": "24/7", "languages": ["Lithuanian", "Russian", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Vilties linija", "organization": "Lietuvos Caritas", "category": "suicide_crisis", "voice_numbers": ["116 123"], "hours": "24/7", "languages": ["Lithuanian"], "cost": "free", "target": "adults in emotional crisis", "website": "https://www.viltieslinija.lt", "sources": ["https://www.viltieslinija.lt"]},
+      {"name": "Jaunimo linija", "organization": "Jaunimo linija", "category": "youth", "voice_numbers": ["8 800 28 888"], "chat_url": "https://www.jaunimolinija.lt", "hours": "24/7", "languages": ["Lithuanian"], "cost": "free", "target": "young people", "website": "https://www.jaunimolinija.lt", "sources": ["https://www.jaunimolinija.lt"]},
+      {"name": "Vaikų linija", "organization": "Vaikų linija", "category": "child_protection", "voice_numbers": ["116 111"], "chat_url": "https://www.vaikulinija.lt", "hours": "11am-11pm daily", "languages": ["Lithuanian"], "cost": "free", "target": "children", "website": "https://www.vaikulinija.lt", "sources": ["https://www.vaikulinija.lt"]},
+      {"name": "Specializuotos pagalbos centrų asociacija (Women's Line)", "organization": "SPC", "category": "domestic_violence", "voice_numbers": ["8 800 66 366"], "hours": "24/7", "languages": ["Lithuanian"], "cost": "free", "target": "women and girls experiencing violence", "website": "https://specializuotospagalboscentras.lt", "sources": ["https://specializuotospagalboscentras.lt"]}
+    ]
+  },
+  {
+    "country": "Serbia",
+    "alpha-2": "RS",
+    "alpha-3": "SRB",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "general_emergency": ["112", "192", "193", "194"],
+    "notes": "112 universal, 192 police, 193 fire, 194 ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "192", "193", "194"], "hours": "24/7", "languages": ["Serbian"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Centar Srce", "organization": "Centar Srce", "category": "suicide_crisis", "voice_numbers": ["0800 300 303"], "email": "vanja@centarsrce.org", "chat_url": "https://www.centarsrce.org", "hours": "2pm-11pm daily", "languages": ["Serbian"], "cost": "free", "target": "people in suicidal crisis", "website": "https://www.centarsrce.org", "sources": ["https://www.centarsrce.org"]},
+      {"name": "NADEL (Children's Helpline)", "organization": "Ministry of Internal Affairs", "category": "child_protection", "voice_numbers": ["116 111"], "hours": "24/7", "languages": ["Serbian"], "cost": "free", "target": "children in need", "website": "https://www.nadel.rs", "sources": []},
+      {"name": "SOS Ženski Centar", "organization": "SOS Women's Center", "category": "domestic_violence", "voice_numbers": ["0800 222 003"], "hours": "10am-8pm daily", "languages": ["Serbian"], "cost": "free", "target": "women experiencing violence", "website": "https://www.womenngo.org.rs", "sources": []}
+    ]
+  },
+  {
+    "country": "Bosnia and Herzegovina",
+    "alpha-2": "BA",
+    "alpha-3": "BIH",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "general_emergency": ["112", "122", "123", "124"],
+    "notes": "112 universal, 122 police, 123 fire, 124 ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "122", "123", "124"], "hours": "24/7", "languages": ["Bosnian", "Croatian", "Serbian"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Plavi telefon", "organization": "Plavi telefon", "category": "suicide_crisis", "voice_numbers": ["080 05 03 05"], "hours": "varies", "languages": ["Bosnian"], "cost": "free", "target": "people in distress", "sources": []},
+      {"name": "SOS telefon za žene i djecu žrtve nasilja", "organization": "Ženska prava", "category": "domestic_violence", "voice_numbers": ["1265"], "hours": "24/7", "languages": ["Bosnian"], "cost": "free", "target": "women and children victims of DV (Federation)", "notes": "Federation of BiH: 1265. Republika Srpska: 1264.", "sources": []},
+      {"name": "Sigurna kuća", "organization": "Sigurna kuća", "category": "domestic_violence", "voice_numbers": ["1264"], "hours": "24/7", "languages": ["Serbian"], "cost": "free", "target": "women victims of DV (Republika Srpska)", "sources": []}
+    ]
+  },
+  {
+    "country": "North Macedonia",
+    "alpha-2": "MK",
+    "alpha-3": "MKD",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "general_emergency": ["112", "192", "193", "194"],
+    "notes": "112 universal, 192 police, 193 fire, 194 ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "192", "193", "194"], "hours": "24/7", "languages": ["Macedonian", "Albanian"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Национална SOS линија за жртви на семејно насилство", "organization": "National SOS Line", "category": "domestic_violence", "voice_numbers": ["15 700"], "hours": "24/7", "languages": ["Macedonian", "Albanian"], "cost": "free", "target": "victims of DV", "sources": []},
+      {"name": "Alo Bushavko (Children's Helpline)", "organization": "First Children's Embassy in the World - Megjashi", "category": "child_protection", "voice_numbers": ["0800 12222"], "hours": "Mon-Fri 9am-5pm", "languages": ["Macedonian"], "cost": "free", "target": "children in need", "website": "https://childrensembassy.org.mk", "sources": ["https://childrensembassy.org.mk"]}
+    ]
+  },
+  {
+    "country": "Albania",
+    "alpha-2": "AL",
+    "alpha-3": "ALB",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "general_emergency": ["112", "129", "128", "127"],
+    "notes": "112 universal, 129 police, 128 fire, 127 ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "129", "128", "127"], "hours": "24/7", "languages": ["Albanian", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "ALO 116 111 Children's Helpline", "organization": "ALO 116 Albania", "category": "child_protection", "voice_numbers": ["116 111"], "chat_url": "https://www.alo116.al", "hours": "8am-10pm daily", "languages": ["Albanian"], "cost": "free", "target": "children and young people", "website": "https://www.alo116.al", "sources": ["https://www.alo116.al"]},
+      {"name": "Linja e Keshillimit per Gra dhe Vajza", "organization": "Counselling Line for Women and Girls", "category": "domestic_violence", "voice_numbers": ["116 117"], "hours": "24/7", "languages": ["Albanian"], "cost": "free", "target": "women and girls experiencing violence", "website": "https://www.linjatekeshillimitpergravajza.com", "sources": ["https://www.linjatekeshillimitpergravajza.com"]}
+    ]
+  },
+  {
+    "country": "Montenegro",
+    "alpha-2": "ME",
+    "alpha-3": "MNE",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "general_emergency": ["112", "122", "123", "124"],
+    "notes": "112 universal, 122 police, 123 fire, 124 ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "122", "123", "124"], "hours": "24/7", "languages": ["Montenegrin"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Dječija linija NVO Juventas", "organization": "NVO Juventas", "category": "child_protection", "voice_numbers": ["116 111"], "hours": "Mon-Fri 9am-9pm; weekends 10am-4pm", "languages": ["Montenegrin"], "cost": "free", "target": "children and young people", "website": "https://juventas.co.me", "sources": ["https://juventas.co.me"]},
+      {"name": "SOS telefon za žene i djecu žrtve nasilja", "organization": "SOS linija", "category": "domestic_violence", "voice_numbers": ["020 233 660"], "hours": "24/7", "languages": ["Montenegrin"], "cost": "standard_rate", "target": "women and children victims of violence", "sources": []}
+    ]
+  },
+  {
+    "country": "Kosovo",
+    "alpha-2": "XK",
+    "alpha-3": "XKX",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "general_emergency": ["112", "192", "193", "194"],
+    "notes": "112 universal, 192 police, 193 fire, 194 ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "192", "193", "194"], "hours": "24/7", "languages": ["Albanian", "Serbian"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Linja Kombëtare për Viktimat e Dhunës në Familje", "organization": "Kosovo Police", "category": "domestic_violence", "voice_numbers": ["080011112"], "hours": "24/7", "languages": ["Albanian", "Serbian"], "cost": "free", "target": "victims of DV", "sources": []}
+    ]
+  }
+]

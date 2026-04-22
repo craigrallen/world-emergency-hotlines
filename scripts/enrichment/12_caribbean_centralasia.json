@@ -1,0 +1,211 @@
+[
+  {
+    "country": "Jamaica",
+    "alpha-2": "JM",
+    "alpha-3": "JAM",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "general_emergency": ["119", "110", "911"],
+    "notes": "119 police, 110 ambulance/fire, 911 also routes.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["119", "110", "911"], "hours": "24/7", "languages": ["English", "Jamaican Patois"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Choose Life (Suicide Prevention Foundation)", "organization": "Choose Life International Jamaica", "category": "suicide_crisis", "voice_numbers": ["888-639-5433"], "hours": "24/7", "languages": ["English"], "cost": "free", "target": "people in suicidal crisis", "sources": []},
+      {"name": "Mental Health & Suicide Prevention (Ministry of Health)", "organization": "Ministry of Health & Wellness", "category": "mental_health", "voice_numbers": ["888-639-5433"], "hours": "24/7", "languages": ["English"], "cost": "free", "target": "mental-health support", "website": "https://www.moh.gov.jm", "sources": []},
+      {"name": "Child Protection & Family Services Agency", "organization": "CPFSA", "category": "child_protection", "voice_numbers": ["888-PROTECT", "888-776-8328"], "hours": "24/7", "languages": ["English"], "cost": "free", "target": "children at risk", "website": "https://www.cpfsa.gov.jm", "sources": ["https://www.cpfsa.gov.jm"]},
+      {"name": "Domestic Violence Support (WROC / Bureau of Gender Affairs)", "organization": "Bureau of Gender Affairs", "category": "domestic_violence", "voice_numbers": ["876-754-8745"], "hours": "Mon-Fri 8.30am-5pm", "languages": ["English"], "cost": "standard_rate", "target": "women victims of DV", "sources": []}
+    ]
+  },
+  {
+    "country": "Trinidad and Tobago",
+    "alpha-2": "TT",
+    "alpha-3": "TTO",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "general_emergency": ["999", "990", "811"],
+    "notes": "999 police, 990 fire/ambulance, 811 ambulance (EHS).",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["999", "990", "811"], "hours": "24/7", "languages": ["English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Lifeline T&T", "organization": "Lifeline Trinidad & Tobago", "category": "suicide_crisis", "voice_numbers": ["645-2800"], "hours": "24/7", "languages": ["English"], "cost": "standard_rate", "target": "people in crisis", "website": "https://lifelinett.com", "sources": ["https://lifelinett.com"]},
+      {"name": "Childline T&T", "organization": "Children's Authority", "category": "child_protection", "voice_numbers": ["800-2014", "131"], "hours": "24/7", "languages": ["English"], "cost": "free", "target": "children at risk", "website": "https://www.ttchildren.org", "sources": ["https://www.ttchildren.org"]},
+      {"name": "Rape Crisis Society", "organization": "Rape Crisis Society T&T", "category": "sexual_violence", "voice_numbers": ["627-7273"], "hours": "24/7", "languages": ["English"], "cost": "standard_rate", "target": "survivors of sexual violence", "website": "https://rapecrisisociety.com", "sources": []}
+    ]
+  },
+  {
+    "country": "Barbados",
+    "alpha-2": "BB",
+    "alpha-3": "BRB",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "general_emergency": ["211", "311", "511"],
+    "notes": "211 police, 311 fire, 511 ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["211", "311", "511"], "hours": "24/7", "languages": ["English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Samaritans Barbados", "organization": "Samaritans Barbados", "category": "suicide_crisis", "voice_numbers": ["(246) 429-9999"], "email": "samaritansbdos@yahoo.com", "hours": "24/7", "languages": ["English"], "cost": "standard_rate", "target": "people in emotional crisis", "sources": []}
+    ]
+  },
+  {
+    "country": "Bahamas",
+    "alpha-2": "BS",
+    "alpha-3": "BHS",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "general_emergency": ["911", "919"],
+    "notes": "911 unified, 919 police in some areas.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["911", "919"], "hours": "24/7", "languages": ["English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "BAM Crisis Line (Bahamas)", "organization": "Bahamas Ministry of Health / Sandilands", "category": "suicide_crisis", "voice_numbers": ["322-2763"], "hours": "24/7", "languages": ["English"], "cost": "standard_rate", "target": "people in mental-health crisis", "sources": []},
+      {"name": "Crisis Centre Bahamas (Women and Children)", "organization": "The Crisis Centre", "category": "domestic_violence", "voice_numbers": ["328-0922"], "hours": "24/7", "languages": ["English"], "cost": "standard_rate", "target": "victims of abuse", "website": "https://www.bahamascrisiscentre.org", "sources": ["https://www.bahamascrisiscentre.org"]}
+    ]
+  },
+  {
+    "country": "Dominican Republic",
+    "alpha-2": "DO",
+    "alpha-3": "DOM",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "general_emergency": ["911"],
+    "notes": "911 is the unified emergency number.",
+    "hotlines": [
+      {"name": "Emergency (911)", "category": "emergency", "voice_numbers": ["911"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "anyone in emergency", "website": "https://911.gob.do", "sources": ["https://911.gob.do"]},
+      {"name": "Línea Vida (Suicide Prevention)", "organization": "Ministerio de Salud Pública", "category": "suicide_crisis", "voice_numbers": ["*462"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "people in psychological crisis", "website": "https://ministeriodesalud.gob.do", "sources": []},
+      {"name": "Línea Mujer 212", "organization": "Ministerio de la Mujer", "category": "domestic_violence", "voice_numbers": ["*212"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "women victims of violence", "website": "https://mujer.gob.do", "sources": ["https://mujer.gob.do"]},
+      {"name": "Línea CONANI 700", "organization": "CONANI", "category": "child_protection", "voice_numbers": ["700"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "children at risk", "website": "https://conani.gob.do", "sources": ["https://conani.gob.do"]}
+    ]
+  },
+  {
+    "country": "Cuba",
+    "alpha-2": "CU",
+    "alpha-3": "CUB",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "general_emergency": ["106", "104", "105"],
+    "notes": "106 police, 104 ambulance, 105 fire.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["106", "104", "105"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "103 Ayuda Vida", "organization": "MINSAP", "category": "suicide_crisis", "voice_numbers": ["103"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "people in psychological crisis", "sources": []}
+    ]
+  },
+  {
+    "country": "Guatemala",
+    "alpha-2": "GT",
+    "alpha-3": "GTM",
+    "region": "Americas",
+    "subregion": "Central America",
+    "general_emergency": ["110", "120", "122", "123"],
+    "notes": "110 police, 120 Red Cross, 122 fire, 123 SAMU.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["110", "120", "122", "123"], "hours": "24/7", "languages": ["Spanish", "Mayan languages"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "PDH / PGN Línea Niñez", "organization": "Procuraduría General de la Nación", "category": "child_protection", "voice_numbers": ["1546", "110"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "children at risk", "sources": []},
+      {"name": "SVET / MP Línea 1572 Mujer", "organization": "Ministerio Público", "category": "domestic_violence", "voice_numbers": ["1572"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "women victims of violence", "sources": []}
+    ]
+  },
+  {
+    "country": "Honduras",
+    "alpha-2": "HN",
+    "alpha-3": "HND",
+    "region": "Americas",
+    "subregion": "Central America",
+    "general_emergency": ["911"],
+    "notes": "911 is the unified emergency number.",
+    "hotlines": [
+      {"name": "Emergency (911)", "category": "emergency", "voice_numbers": ["911"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Teléfono de la Esperanza Honduras", "organization": "Teléfono de la Esperanza", "category": "suicide_crisis", "voice_numbers": ["504 2558 0808"], "hours": "24/7", "languages": ["Spanish"], "cost": "standard_rate", "target": "people in crisis", "website": "https://telefonodelaesperanza.org", "sources": ["https://telefonodelaesperanza.org"]},
+      {"name": "INAM Línea 114 Mujer", "organization": "INAM", "category": "domestic_violence", "voice_numbers": ["114"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "women victims of violence", "sources": []}
+    ]
+  },
+  {
+    "country": "El Salvador",
+    "alpha-2": "SV",
+    "alpha-3": "SLV",
+    "region": "Americas",
+    "subregion": "Central America",
+    "general_emergency": ["911"],
+    "notes": "911 is the unified emergency number.",
+    "hotlines": [
+      {"name": "Emergency (911)", "category": "emergency", "voice_numbers": ["911"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "126 ISNA Niñez", "organization": "ISNA", "category": "child_protection", "voice_numbers": ["126"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "children at risk", "website": "https://www.isna.gob.sv", "sources": []},
+      {"name": "Ciudad Mujer / ISDEMU Línea 126", "organization": "ISDEMU", "category": "domestic_violence", "voice_numbers": ["2132 7272"], "hours": "24/7", "languages": ["Spanish"], "cost": "standard_rate", "target": "women victims of violence", "website": "https://www.isdemu.gob.sv", "sources": []}
+    ]
+  },
+  {
+    "country": "Nicaragua",
+    "alpha-2": "NI",
+    "alpha-3": "NIC",
+    "region": "Americas",
+    "subregion": "Central America",
+    "general_emergency": ["118", "128", "115"],
+    "notes": "118 police, 128 Red Cross ambulance, 115 fire.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["118", "128", "115"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Ministerio de la Familia Línea 133", "organization": "MIFAMILIA", "category": "child_protection", "voice_numbers": ["133"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "children and families", "sources": []}
+    ]
+  },
+  {
+    "country": "Bolivia",
+    "alpha-2": "BO",
+    "alpha-3": "BOL",
+    "region": "Americas",
+    "subregion": "South America",
+    "general_emergency": ["110", "118", "119"],
+    "notes": "110 police, 118 fire, 119 ambulance. 911 also works in some areas.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["110", "118", "119", "911"], "hours": "24/7", "languages": ["Spanish", "Quechua", "Aymara"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Línea Gratuita Contra la Violencia 800 14 0348", "organization": "Ministerio de Justicia", "category": "domestic_violence", "voice_numbers": ["800 14 0348"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "women and children victims of violence", "sources": []},
+      {"name": "Defensoría de la Niñez Línea 156", "organization": "Defensoría de la Niñez", "category": "child_protection", "voice_numbers": ["156"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "children at risk", "sources": []}
+    ]
+  },
+  {
+    "country": "Paraguay",
+    "alpha-2": "PY",
+    "alpha-3": "PRY",
+    "region": "Americas",
+    "subregion": "South America",
+    "general_emergency": ["911", "131", "132"],
+    "notes": "911 police, 131 ambulance, 132 fire.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["911", "131", "132"], "hours": "24/7", "languages": ["Spanish", "Guarani"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Fono Ayuda 147", "organization": "Ministerio de la Niñez y la Adolescencia", "category": "child_protection", "voice_numbers": ["147"], "hours": "24/7", "languages": ["Spanish", "Guarani"], "cost": "free", "target": "children at risk", "website": "https://www.minna.gov.py", "sources": ["https://www.minna.gov.py"]},
+      {"name": "SOS Mujer 137", "organization": "Ministerio de la Mujer", "category": "domestic_violence", "voice_numbers": ["137"], "hours": "24/7", "languages": ["Spanish", "Guarani"], "cost": "free", "target": "women victims of violence", "website": "https://www.mujer.gov.py", "sources": ["https://www.mujer.gov.py"]}
+    ]
+  },
+  {
+    "country": "Uzbekistan",
+    "alpha-2": "UZ",
+    "alpha-3": "UZB",
+    "region": "Asia",
+    "subregion": "Central Asia",
+    "general_emergency": ["102", "103", "101", "112"],
+    "notes": "102 police, 103 ambulance, 101 fire, 112 unified.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["102", "103", "101", "112"], "hours": "24/7", "languages": ["Uzbek", "Russian"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Ishonch Telephone Helpline for Women", "organization": "Women's Committee of Uzbekistan", "category": "domestic_violence", "voice_numbers": ["1146"], "hours": "24/7", "languages": ["Uzbek", "Russian"], "cost": "free", "target": "women victims of violence", "sources": []}
+    ]
+  },
+  {
+    "country": "Kyrgyzstan",
+    "alpha-2": "KG",
+    "alpha-3": "KGZ",
+    "region": "Asia",
+    "subregion": "Central Asia",
+    "general_emergency": ["101", "102", "103"],
+    "notes": "101 fire, 102 police, 103 ambulance, 112 universal.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["101", "102", "103", "112"], "hours": "24/7", "languages": ["Kyrgyz", "Russian"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Child Helpline 111", "organization": "Ministry of Social Development", "category": "child_protection", "voice_numbers": ["111"], "hours": "24/7", "languages": ["Kyrgyz", "Russian"], "cost": "free", "target": "children at risk", "sources": []}
+    ]
+  },
+  {
+    "country": "Mongolia",
+    "alpha-2": "MN",
+    "alpha-3": "MNG",
+    "region": "Asia",
+    "subregion": "Eastern Asia",
+    "general_emergency": ["102", "103", "101", "105"],
+    "notes": "102 police, 103 ambulance, 101 fire, 105 coast/border.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["102", "103", "101", "105"], "hours": "24/7", "languages": ["Mongolian"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Child Helpline 108", "organization": "National Authority for Children", "category": "child_protection", "voice_numbers": ["108"], "hours": "24/7", "languages": ["Mongolian"], "cost": "free", "target": "children at risk", "website": "https://www.nac.gov.mn", "sources": []},
+      {"name": "Gender Based Violence Hotline 107", "organization": "National Center Against Violence", "category": "domestic_violence", "voice_numbers": ["107"], "hours": "24/7", "languages": ["Mongolian"], "cost": "free", "target": "women victims of violence", "website": "https://www.safefuture.mn", "sources": []}
+    ]
+  }
+]

@@ -1,0 +1,141 @@
+[
+  {
+    "country": "Argentina",
+    "alpha-2": "AR",
+    "alpha-3": "ARG",
+    "region": "Americas",
+    "subregion": "South America",
+    "general_emergency": ["911", "101", "100", "107"],
+    "notes": "911 unified (Buenos Aires and most provinces), 101 police, 100 fire, 107 SAME ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["911", "101", "100", "107"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Centro de Asistencia al Suicida CABA", "organization": "CAS Buenos Aires", "category": "suicide_crisis", "voice_numbers": ["135", "(011) 5275-1135"], "hours": "24/7", "languages": ["Spanish"], "cost": "free (135)", "target": "people in suicidal crisis", "website": "https://www.asistenciaalsuicida.org.ar", "sources": ["https://www.asistenciaalsuicida.org.ar"]},
+      {"name": "Línea 102 Niñez y Adolescencia", "organization": "Ministerio de Desarrollo Social", "category": "child_protection", "voice_numbers": ["102"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "children and adolescents at risk", "website": "https://www.argentina.gob.ar/desarrollosocial/ninezyadolescencia", "sources": []},
+      {"name": "Línea 144 Violencia de Género", "organization": "Ministerio de las Mujeres, Géneros y Diversidad", "category": "domestic_violence", "voice_numbers": ["144"], "sms_numbers": ["11 2771-6463"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "women and LGBTI+ victims of gender violence", "website": "https://www.argentina.gob.ar/generos/linea-144", "sources": ["https://www.argentina.gob.ar/generos/linea-144"]},
+      {"name": "Línea 145 Trata", "organization": "Ministerio Público Fiscal", "category": "human_trafficking", "voice_numbers": ["145"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "trafficking victims and witnesses", "website": "https://www.argentina.gob.ar", "sources": []},
+      {"name": "SEDRONAR (Sustancias)", "organization": "SEDRONAR", "category": "substance_use", "voice_numbers": ["141"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "people with substance-use concerns", "website": "https://www.argentina.gob.ar/sedronar", "sources": ["https://www.argentina.gob.ar/sedronar"]}
+    ]
+  },
+  {
+    "country": "Chile",
+    "alpha-2": "CL",
+    "alpha-3": "CHL",
+    "region": "Americas",
+    "subregion": "South America",
+    "general_emergency": ["133", "132", "131", "137", "134"],
+    "notes": "133 police (Carabineros), 132 fire, 131 ambulance (SAMU), 137 maritime, 134 PDI investigative police.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["133", "132", "131", "137"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Salud Responde (Suicide Prevention)", "organization": "Ministry of Health", "category": "suicide_crisis", "voice_numbers": ["600 360 7777"], "hours": "24/7", "languages": ["Spanish"], "cost": "local_rate", "target": "people in mental-health distress (option 4 for suicide)", "website": "https://www.minsal.cl", "sources": ["https://www.minsal.cl"]},
+      {"name": "Línea Libre", "organization": "Fundación para la Confianza", "category": "youth", "voice_numbers": ["1515"], "chat_url": "https://linealibre.cl", "hours": "10am-10pm daily", "languages": ["Spanish"], "cost": "free", "target": "children and young people", "website": "https://linealibre.cl", "sources": ["https://linealibre.cl"]},
+      {"name": "SernamEG Fono Mujer 1455", "organization": "Servicio Nacional de la Mujer y Equidad de Género", "category": "domestic_violence", "voice_numbers": ["1455"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "women victims of gender violence", "website": "https://www.sernameg.gob.cl", "sources": ["https://www.sernameg.gob.cl"]},
+      {"name": "Fono Niños 147", "organization": "PDI", "category": "child_protection", "voice_numbers": ["147"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "children and adolescents in distress", "website": "https://www.pdichile.cl", "sources": ["https://www.pdichile.cl"]},
+      {"name": "Fono Drogas y Alcohol SENDA", "organization": "SENDA", "category": "substance_use", "voice_numbers": ["1412"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "people with substance-use concerns", "website": "https://www.senda.gob.cl", "sources": ["https://www.senda.gob.cl"]}
+    ]
+  },
+  {
+    "country": "Colombia",
+    "alpha-2": "CO",
+    "alpha-3": "COL",
+    "region": "Americas",
+    "subregion": "South America",
+    "general_emergency": ["123"],
+    "notes": "123 is the unified emergency number (launched 2011). Separately 112 military, 165 Red Cross.",
+    "hotlines": [
+      {"name": "Emergency (123)", "category": "emergency", "voice_numbers": ["123"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Línea 106 Bogotá", "organization": "Secretaría de Salud Bogotá", "category": "suicide_crisis", "voice_numbers": ["106"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "people in emotional crisis (Bogotá)", "website": "https://www.saludcapital.gov.co", "sources": []},
+      {"name": "Línea 155 (Violence against Women)", "organization": "Consejería Presidencial para la Equidad de la Mujer", "category": "domestic_violence", "voice_numbers": ["155"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "women victims of violence", "website": "https://www.equidadmujer.gov.co", "sources": ["https://www.equidadmujer.gov.co"]},
+      {"name": "Línea 141 Niñas, niños y adolescentes", "organization": "ICBF", "category": "child_protection", "voice_numbers": ["141"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "children and adolescents at risk", "website": "https://www.icbf.gov.co", "sources": ["https://www.icbf.gov.co"]},
+      {"name": "ASFADDES", "organization": "ASFADDES", "category": "missing_persons", "voice_numbers": ["+57 601 2855227"], "hours": "Mon-Fri 9am-5pm", "languages": ["Spanish"], "cost": "standard_rate", "target": "families of disappeared persons", "website": "https://www.asfaddes.org", "sources": ["https://www.asfaddes.org"]}
+    ]
+  },
+  {
+    "country": "Peru",
+    "alpha-2": "PE",
+    "alpha-3": "PER",
+    "region": "Americas",
+    "subregion": "South America",
+    "general_emergency": ["105", "116", "106"],
+    "notes": "105 police, 116 fire, 106 SAMU ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["105", "116", "106"], "hours": "24/7", "languages": ["Spanish", "Quechua"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Línea 113 Salud Mental", "organization": "MINSA", "category": "mental_health", "voice_numbers": ["113"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "people in psychological distress", "website": "https://www.gob.pe/minsa", "sources": ["https://www.gob.pe/minsa"]},
+      {"name": "Línea 100 Violencia Familiar", "organization": "MIMP - Ministerio de la Mujer y Poblaciones Vulnerables", "category": "domestic_violence", "voice_numbers": ["100"], "hours": "24/7", "languages": ["Spanish", "Quechua", "Aymara"], "cost": "free", "target": "victims of family and sexual violence", "website": "https://www.gob.pe/mimp", "sources": ["https://www.gob.pe/mimp"]},
+      {"name": "Línea 1818 INABIF (Children)", "organization": "INABIF", "category": "child_protection", "voice_numbers": ["1810", "0800-1-00-18"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "children and adolescents at risk", "website": "https://www.inabif.gob.pe", "sources": ["https://www.inabif.gob.pe"]}
+    ]
+  },
+  {
+    "country": "Uruguay",
+    "alpha-2": "UY",
+    "alpha-3": "URY",
+    "region": "Americas",
+    "subregion": "South America",
+    "general_emergency": ["911", "104", "911"],
+    "notes": "911 unified emergency, 104 fire, 105 ambulance.",
+    "hotlines": [
+      {"name": "Emergency (911)", "category": "emergency", "voice_numbers": ["911", "104", "105"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Línea de Vida (Last Wish Line)", "organization": "ASSE", "category": "suicide_crisis", "voice_numbers": ["0800 0767"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "people with suicidal thoughts", "website": "https://www.gub.uy/ministerio-salud-publica", "sources": []},
+      {"name": "Línea Azul INAU (Children)", "organization": "INAU", "category": "child_protection", "voice_numbers": ["0800 5050", "*5050"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "children at risk", "website": "https://www.inau.gub.uy", "sources": ["https://www.inau.gub.uy"]},
+      {"name": "INMUJERES Violencia Doméstica", "organization": "INMUJERES", "category": "domestic_violence", "voice_numbers": ["0800 4141", "*4141"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "women victims of DV", "website": "https://www.gub.uy/ministerio-desarrollo-social/inmujeres", "sources": ["https://www.gub.uy/ministerio-desarrollo-social/inmujeres"]}
+    ]
+  },
+  {
+    "country": "Costa Rica",
+    "alpha-2": "CR",
+    "alpha-3": "CRI",
+    "region": "Americas",
+    "subregion": "Central America",
+    "general_emergency": ["911"],
+    "notes": "911 is the unified emergency number.",
+    "hotlines": [
+      {"name": "Emergency (911)", "category": "emergency", "voice_numbers": ["911"], "hours": "24/7", "languages": ["Spanish", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Línea Aquí Estoy (Mental Health)", "organization": "Caja Costarricense de Seguro Social", "category": "mental_health", "voice_numbers": ["1322"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "people in psychological distress", "website": "https://www.ccss.sa.cr", "sources": ["https://www.ccss.sa.cr"]},
+      {"name": "INAMU 800-300-3000 (Women)", "organization": "INAMU", "category": "domestic_violence", "voice_numbers": ["800-300-3000", "911"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "women victims of violence", "website": "https://www.inamu.go.cr", "sources": ["https://www.inamu.go.cr"]},
+      {"name": "PANI (Patronato Nacional de la Infancia) 1147", "organization": "PANI", "category": "child_protection", "voice_numbers": ["1147"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "children at risk", "website": "https://www.pani.go.cr", "sources": ["https://www.pani.go.cr"]}
+    ]
+  },
+  {
+    "country": "Panama",
+    "alpha-2": "PA",
+    "alpha-3": "PAN",
+    "region": "Americas",
+    "subregion": "Central America",
+    "general_emergency": ["911", "104"],
+    "notes": "911 emergency, 104 fire.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["911", "104"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Acercatel 125 (Mental Health)", "organization": "Ministry of Health", "category": "mental_health", "voice_numbers": ["169"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "psychological support", "website": "https://www.minsa.gob.pa", "sources": []},
+      {"name": "SENNIAF (Children)", "organization": "SENNIAF", "category": "child_protection", "voice_numbers": ["147"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "children and adolescents at risk", "website": "https://www.senniaf.gob.pa", "sources": ["https://www.senniaf.gob.pa"]},
+      {"name": "INAMU (Women) 182", "organization": "INAMU", "category": "domestic_violence", "voice_numbers": ["182"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "women victims of DV", "website": "https://www.inamu.gob.pa", "sources": ["https://www.inamu.gob.pa"]}
+    ]
+  },
+  {
+    "country": "Ecuador",
+    "alpha-2": "EC",
+    "alpha-3": "ECU",
+    "region": "Americas",
+    "subregion": "South America",
+    "general_emergency": ["911"],
+    "notes": "911 is the unified emergency number (ECU 911).",
+    "hotlines": [
+      {"name": "Emergency (ECU 911)", "category": "emergency", "voice_numbers": ["911"], "hours": "24/7", "languages": ["Spanish", "Kichwa"], "cost": "free", "target": "anyone in emergency", "website": "https://www.ecu911.gob.ec", "sources": ["https://www.ecu911.gob.ec"]},
+      {"name": "Línea 171 Salud Mental (Opción 6)", "organization": "Ministerio de Salud Pública", "category": "mental_health", "voice_numbers": ["171 opción 6"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "psychological support", "website": "https://www.salud.gob.ec", "sources": ["https://www.salud.gob.ec"]},
+      {"name": "MIES Línea 1800-112-112", "organization": "MIES", "category": "child_protection", "voice_numbers": ["1800 112 112"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "children and adolescents at risk", "website": "https://www.inclusion.gob.ec", "sources": ["https://www.inclusion.gob.ec"]},
+      {"name": "Línea 151 Violencia de Género", "organization": "Ministerio de Gobierno", "category": "domestic_violence", "voice_numbers": ["911", "151"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "women victims of gender violence", "website": "https://www.ministeriodegobierno.gob.ec", "sources": []}
+    ]
+  },
+  {
+    "country": "Venezuela",
+    "alpha-2": "VE",
+    "alpha-3": "VEN",
+    "region": "Americas",
+    "subregion": "South America",
+    "general_emergency": ["911", "171"],
+    "notes": "911 emergency (Caracas), 171 national emergency. 0800-SALUD for health triage.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["911", "171"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Teléfono de la Esperanza Venezuela", "organization": "Teléfono de la Esperanza", "category": "suicide_crisis", "voice_numbers": ["(+58) 212 730 3322"], "hours": "varies", "languages": ["Spanish"], "cost": "standard_rate", "target": "people in emotional crisis", "website": "https://telefonodelaesperanza.org", "sources": ["https://telefonodelaesperanza.org"]},
+      {"name": "INAMUJER 0800-MUJERES", "organization": "INAMUJER", "category": "domestic_violence", "voice_numbers": ["0800 6853737"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "women victims of violence", "sources": []}
+    ]
+  }
+]

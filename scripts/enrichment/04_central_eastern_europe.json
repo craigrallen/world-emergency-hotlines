@@ -1,0 +1,131 @@
+[
+  {
+    "country": "Poland",
+    "alpha-2": "PL",
+    "alpha-3": "POL",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "general_emergency": ["112", "997", "998", "999"],
+    "notes": "112 universal, 997 police, 998 fire, 999 ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "997", "998", "999"], "hours": "24/7", "languages": ["Polish", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Telefon Zaufania dla Dzieci i Młodzieży", "organization": "Fundacja Dajemy Dzieciom Siłę", "category": "child_protection", "voice_numbers": ["116 111"], "chat_url": "https://116111.pl", "hours": "24/7", "languages": ["Polish"], "cost": "free", "target": "children and young people", "website": "https://116111.pl", "sources": ["https://116111.pl"]},
+      {"name": "Telefon Zaufania dla Dorosłych w Kryzysie Emocjonalnym", "organization": "Instytut Psychologii Zdrowia", "category": "suicide_crisis", "voice_numbers": ["116 123"], "hours": "Mon-Fri 2pm-10pm", "languages": ["Polish"], "cost": "free", "target": "adults in emotional crisis", "website": "https://www.116123.edu.pl", "sources": []},
+      {"name": "Niebieska Linia (Blue Line)", "organization": "Instytut Psychologii Zdrowia", "category": "domestic_violence", "voice_numbers": ["800 12 00 02", "22 668 70 00"], "email": "niebieskalinia@niebieskalinia.info", "hours": "24/7", "languages": ["Polish", "English", "Russian"], "cost": "free", "target": "victims of domestic violence", "website": "https://www.niebieskalinia.pl", "sources": ["https://www.niebieskalinia.pl"]},
+      {"name": "Feminoteka Antiprzemocowa", "organization": "Feminoteka", "category": "sexual_violence", "voice_numbers": ["888 88 33 88"], "hours": "Mon-Fri 11am-7pm", "languages": ["Polish"], "cost": "standard_rate", "target": "women experiencing violence", "website": "https://feminoteka.pl", "sources": ["https://feminoteka.pl"]},
+      {"name": "ITAKA - Centrum Poszukiwań Ludzi Zaginionych", "organization": "ITAKA", "category": "missing_persons", "voice_numbers": ["116 000", "22 654 70 70"], "hours": "24/7", "languages": ["Polish", "English"], "cost": "free", "target": "missing persons and families", "website": "https://itaka.org.pl", "sources": ["https://itaka.org.pl"]},
+      {"name": "Telefon Zaufania Lambda Warszawa", "organization": "Lambda Warszawa", "category": "lgbtqia", "voice_numbers": ["22 628 52 22"], "hours": "Mon/Wed/Fri 6pm-9pm", "languages": ["Polish"], "cost": "standard_rate", "target": "LGBT+ people", "website": "https://lambdawarszawa.org", "sources": ["https://lambdawarszawa.org"]},
+      {"name": "Telefon Zaufania Monar", "organization": "Monar", "category": "substance_use", "voice_numbers": ["800 120 289"], "hours": "Mon-Fri 6pm-9pm", "languages": ["Polish"], "cost": "free", "target": "people with drug/alcohol problems", "website": "https://www.monar.org", "sources": ["https://www.monar.org"]}
+    ]
+  },
+  {
+    "country": "Czech Republic",
+    "alpha-2": "CZ",
+    "alpha-3": "CZE",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "general_emergency": ["112", "158", "150", "155"],
+    "notes": "112 universal, 158 police, 150 fire, 155 ambulance, 156 municipal police.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "158", "150", "155"], "hours": "24/7", "languages": ["Czech", "English", "German"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Linka bezpečí", "organization": "Linka bezpečí", "category": "child_protection", "voice_numbers": ["116 111"], "chat_url": "https://www.linkabezpeci.cz", "email": "pomoc@linkabezpeci.cz", "hours": "24/7", "languages": ["Czech"], "cost": "free", "target": "children and young people up to 26", "website": "https://www.linkabezpeci.cz", "sources": ["https://www.linkabezpeci.cz"]},
+      {"name": "Linka první psychické pomoci", "organization": "Linka první psychické pomoci", "category": "suicide_crisis", "voice_numbers": ["116 123"], "chat_url": "https://www.linkapsychickepomoci.cz", "hours": "24/7", "languages": ["Czech"], "cost": "free", "target": "people in psychological distress", "website": "https://www.linkapsychickepomoci.cz", "sources": ["https://www.linkapsychickepomoci.cz"]},
+      {"name": "ROSA - Domestic Violence Helpline", "organization": "ROSA - centrum pro ženy", "category": "domestic_violence", "voice_numbers": ["800 60 33 30", "602 246 102"], "email": "info@rosacentrum.cz", "hours": "Mon-Fri 9am-6pm", "languages": ["Czech"], "cost": "free", "target": "women victims of DV", "website": "https://www.rosacentrum.cz", "sources": ["https://www.rosacentrum.cz"]},
+      {"name": "proFem Helpline", "organization": "proFem", "category": "sexual_violence", "voice_numbers": ["608 22 22 77"], "hours": "Mon-Thu 9am-7pm; Fri 9am-3pm", "languages": ["Czech"], "cost": "standard_rate", "target": "women victims of violence", "website": "https://www.profem.cz", "sources": ["https://www.profem.cz"]},
+      {"name": "Drop In Drug Helpline", "organization": "Drop In", "category": "substance_use", "voice_numbers": ["222 221 124"], "hours": "Mon-Fri 9am-5pm", "languages": ["Czech"], "cost": "standard_rate", "target": "people with drug concerns", "website": "https://www.dropin.cz", "sources": ["https://www.dropin.cz"]}
+    ]
+  },
+  {
+    "country": "Slovakia",
+    "alpha-2": "SK",
+    "alpha-3": "SVK",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "general_emergency": ["112", "158", "150", "155"],
+    "notes": "112 universal, 158 police, 150 fire, 155 ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "158", "150", "155"], "hours": "24/7", "languages": ["Slovak", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Linka detskej istoty", "organization": "Linka detskej istoty", "category": "child_protection", "voice_numbers": ["116 111"], "chat_url": "https://www.ldi.sk", "hours": "24/7", "languages": ["Slovak"], "cost": "free", "target": "children and young people", "website": "https://www.ldi.sk", "sources": ["https://www.ldi.sk"]},
+      {"name": "Linka dôvery Nezábudka", "organization": "Liga za duševné zdravie", "category": "suicide_crisis", "voice_numbers": ["0800 800 566"], "hours": "24/7", "languages": ["Slovak"], "cost": "free", "target": "people in psychological crisis", "website": "https://www.dusevnezdravie.sk", "sources": ["https://www.dusevnezdravie.sk"]},
+      {"name": "Národná linka pre ženy", "organization": "IVPR", "category": "domestic_violence", "voice_numbers": ["0800 212 212"], "hours": "24/7", "languages": ["Slovak"], "cost": "free", "target": "women experiencing violence", "website": "https://zastavmenasilie.gov.sk", "sources": ["https://zastavmenasilie.gov.sk"]}
+    ]
+  },
+  {
+    "country": "Hungary",
+    "alpha-2": "HU",
+    "alpha-3": "HUN",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "general_emergency": ["112", "107", "105", "104"],
+    "notes": "112 universal, 107 police, 105 fire, 104 ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "107", "105", "104"], "hours": "24/7", "languages": ["Hungarian", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Kék Vonal Gyermekkrízis Alapítvány", "organization": "Kék Vonal", "category": "child_protection", "voice_numbers": ["116 111"], "chat_url": "https://www.kek-vonal.hu", "hours": "24/7", "languages": ["Hungarian"], "cost": "free", "target": "children and young people", "website": "https://www.kek-vonal.hu", "sources": ["https://www.kek-vonal.hu"]},
+      {"name": "LESZ - Lelki Elsősegély Telefonszolgálat", "organization": "LESZ", "category": "suicide_crisis", "voice_numbers": ["116 123", "06 80 820 111"], "hours": "24/7", "languages": ["Hungarian"], "cost": "free", "target": "people in psychological crisis", "website": "https://www.sos505.hu", "sources": ["https://www.sos505.hu"]},
+      {"name": "NANE Women's Rights Association", "organization": "NANE", "category": "domestic_violence", "voice_numbers": ["06 80 505 101"], "hours": "Mon-Fri 6pm-10pm; Sun 10am-noon", "languages": ["Hungarian"], "cost": "free", "target": "women victims of violence", "website": "https://nane.hu", "sources": ["https://nane.hu"]},
+      {"name": "Országos Kríziskezelő és Információs Telefonszolgálat (OKIT)", "organization": "OKIT", "category": "domestic_violence", "voice_numbers": ["06 80 20 55 20"], "hours": "24/7", "languages": ["Hungarian"], "cost": "free", "target": "victims of family violence and human trafficking", "website": "https://bantalmazas.hu", "sources": ["https://bantalmazas.hu"]},
+      {"name": "Háttér Társaság LGBT Infóvonal", "organization": "Háttér Társaság", "category": "lgbtqia", "voice_numbers": ["06 1 329 33 80"], "chat_url": "https://hatter.hu", "hours": "Mon-Fri 6pm-11pm", "languages": ["Hungarian"], "cost": "standard_rate", "target": "LGBT+ community", "website": "https://hatter.hu", "sources": ["https://hatter.hu"]}
+    ]
+  },
+  {
+    "country": "Romania",
+    "alpha-2": "RO",
+    "alpha-3": "ROU",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "general_emergency": ["112"],
+    "notes": "112 is the single emergency number.",
+    "hotlines": [
+      {"name": "Emergency (112)", "category": "emergency", "voice_numbers": ["112"], "hours": "24/7", "languages": ["Romanian", "English", "Hungarian"], "cost": "free", "target": "anyone in emergency", "website": "https://www.sts.ro", "sources": []},
+      {"name": "Alianța Română de Prevenție a Suicidului", "organization": "ARPS DEPRES", "category": "suicide_crisis", "voice_numbers": ["0800 801 200"], "hours": "8am-8pm daily", "languages": ["Romanian"], "cost": "free", "target": "people in suicidal crisis", "website": "https://antisuicid.ro", "sources": ["https://antisuicid.ro"]},
+      {"name": "Telefonul Copilului", "organization": "Asociația Telefonul Copilului", "category": "child_protection", "voice_numbers": ["116 111"], "chat_url": "https://telefonulcopilului.ro", "hours": "Mon-Fri 8am-midnight; Sat-Sun 10am-10pm", "languages": ["Romanian"], "cost": "free", "target": "children in need", "website": "https://telefonulcopilului.ro", "sources": ["https://telefonulcopilului.ro"]},
+      {"name": "Asociatia Necuvinte", "organization": "Necuvinte", "category": "domestic_violence", "voice_numbers": ["0800 500 333"], "hours": "24/7", "languages": ["Romanian"], "cost": "free", "target": "women victims of DV", "website": "https://www.necuvinte.ro", "sources": ["https://www.necuvinte.ro"]},
+      {"name": "ANES — Agenția Națională pentru Egalitatea de Șanse între Femei și Bărbați", "organization": "ANES", "category": "domestic_violence", "voice_numbers": ["0800 500 333"], "hours": "24/7", "languages": ["Romanian"], "cost": "free", "target": "victims of gender-based violence", "website": "https://anes.gov.ro", "sources": ["https://anes.gov.ro"]}
+    ]
+  },
+  {
+    "country": "Bulgaria",
+    "alpha-2": "BG",
+    "alpha-3": "BGR",
+    "region": "Europe",
+    "subregion": "Eastern Europe",
+    "general_emergency": ["112"],
+    "notes": "112 is the single emergency number.",
+    "hotlines": [
+      {"name": "Emergency (112)", "category": "emergency", "voice_numbers": ["112"], "hours": "24/7", "languages": ["Bulgarian", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "National Helpline for Children", "organization": "SACP — State Agency for Child Protection", "category": "child_protection", "voice_numbers": ["116 111"], "chat_url": "https://www.116111.bg", "hours": "24/7", "languages": ["Bulgarian"], "cost": "free", "target": "children in need", "website": "https://www.116111.bg", "sources": ["https://www.116111.bg"]},
+      {"name": "Национална телефонна линия за жертви на домашно насилие", "organization": "Bulgarian Gender Research Foundation", "category": "domestic_violence", "voice_numbers": ["02 981 76 86"], "hours": "24/7", "languages": ["Bulgarian"], "cost": "standard_rate", "target": "victims of DV", "website": "https://www.bgrf.org", "sources": ["https://www.bgrf.org"]},
+      {"name": "Animus Association Hotline", "organization": "Animus Association Foundation", "category": "sexual_violence", "voice_numbers": ["0800 18 676"], "hours": "24/7", "languages": ["Bulgarian"], "cost": "free", "target": "survivors of violence and trafficking", "website": "https://animusassociation.org", "sources": ["https://animusassociation.org"]}
+    ]
+  },
+  {
+    "country": "Croatia",
+    "alpha-2": "HR",
+    "alpha-3": "HRV",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "general_emergency": ["112", "192", "193", "194"],
+    "notes": "112 universal, 192 police, 193 fire, 194 ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "192", "193", "194"], "hours": "24/7", "languages": ["Croatian", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Hrabri telefon", "organization": "Hrabri telefon", "category": "child_protection", "voice_numbers": ["116 111"], "chat_url": "https://hrabritelefon.hr", "hours": "Mon-Sun 9am-8pm", "languages": ["Croatian"], "cost": "free", "target": "children and young people", "website": "https://hrabritelefon.hr", "sources": ["https://hrabritelefon.hr"]},
+      {"name": "Plavi telefon", "organization": "Plavi telefon", "category": "suicide_crisis", "voice_numbers": ["01 4833 888"], "hours": "Mon-Sun 9am-9pm", "languages": ["Croatian"], "cost": "standard_rate", "target": "people in emotional crisis", "website": "https://www.plavi-telefon.hr", "sources": ["https://www.plavi-telefon.hr"]},
+      {"name": "Ženska pomoć sada", "organization": "Women's Help Now", "category": "domestic_violence", "voice_numbers": ["0800 55 44"], "hours": "Mon-Fri 11am-7pm", "languages": ["Croatian"], "cost": "free", "target": "women victims of DV", "website": "https://zenskapomocsada.hr", "sources": ["https://zenskapomocsada.hr"]}
+    ]
+  },
+  {
+    "country": "Slovenia",
+    "alpha-2": "SI",
+    "alpha-3": "SVN",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "general_emergency": ["112", "113"],
+    "notes": "112 universal, 113 police.",
+    "hotlines": [
+      {"name": "Emergency (112 / 113)", "category": "emergency", "voice_numbers": ["112", "113"], "hours": "24/7", "languages": ["Slovenian", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Telefon otrok in mladostnikov TOM", "organization": "ZPMS", "category": "child_protection", "voice_numbers": ["116 111"], "chat_url": "https://www.e-tom.si", "hours": "12pm-8pm daily", "languages": ["Slovenian"], "cost": "free", "target": "children and young people", "website": "https://www.e-tom.si", "sources": ["https://www.e-tom.si"]},
+      {"name": "Klic v duševni stiski", "organization": "UKC Ljubljana / Slovene Association for Suicide Prevention", "category": "suicide_crisis", "voice_numbers": ["01 520 99 00"], "hours": "24/7", "languages": ["Slovenian"], "cost": "standard_rate", "target": "people in psychological distress", "website": "https://www.zdusljzveza.si", "sources": []},
+      {"name": "SOS telefon za ženske in otroke, žrtve nasilja", "organization": "Društvo SOS telefon", "category": "domestic_violence", "voice_numbers": ["080 11 55"], "hours": "Mon-Fri 12pm-10pm; weekends 6pm-10pm", "languages": ["Slovenian"], "cost": "free", "target": "women and children victims of violence", "website": "https://www.drustvo-sos.si", "sources": ["https://www.drustvo-sos.si"]}
+    ]
+  }
+]

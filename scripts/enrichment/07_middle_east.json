@@ -1,0 +1,140 @@
+[
+  {
+    "country": "United Arab Emirates",
+    "alpha-2": "AE",
+    "alpha-3": "ARE",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "general_emergency": ["999", "998", "997"],
+    "notes": "999 police, 998 ambulance, 997 fire. 112 also works.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["999", "998", "997", "112"], "hours": "24/7", "languages": ["Arabic", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Estijaba (National Health Hotline)", "organization": "Ministry of Health and Prevention", "category": "mental_health", "voice_numbers": ["8001717"], "hours": "24/7", "languages": ["Arabic", "English"], "cost": "free", "target": "general health triage and mental-health support", "website": "https://mohap.gov.ae", "sources": ["https://mohap.gov.ae"]},
+      {"name": "Dubai Foundation for Women and Children", "organization": "DFWAC", "category": "domestic_violence", "voice_numbers": ["800111"], "hours": "24/7", "languages": ["Arabic", "English", "multiple"], "cost": "free", "target": "women and children victims of abuse", "website": "https://www.dfwac.ae", "sources": ["https://www.dfwac.ae"]},
+      {"name": "Child Protection Hotline 116111", "organization": "Ministry of Community Development", "category": "child_protection", "voice_numbers": ["116111", "800700"], "hours": "24/7", "languages": ["Arabic", "English"], "cost": "free", "target": "children at risk", "website": "https://www.mocd.gov.ae", "sources": ["https://www.mocd.gov.ae"]},
+      {"name": "Lighthouse Arabia", "organization": "The LightHouse Arabia", "category": "mental_health", "voice_numbers": ["+971 4380 2088"], "hours": "Sat-Thu 8am-8pm", "languages": ["English", "Arabic"], "cost": "standard_rate", "target": "people seeking mental-health support", "website": "https://www.lighthousearabia.com", "sources": ["https://www.lighthousearabia.com"]}
+    ]
+  },
+  {
+    "country": "Saudi Arabia",
+    "alpha-2": "SA",
+    "alpha-3": "SAU",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "general_emergency": ["911", "999", "997", "998"],
+    "notes": "911 unified (launched 2020 in Mecca/Riyadh), 999 police, 997 ambulance (Red Crescent), 998 fire.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["911", "999", "997", "998"], "hours": "24/7", "languages": ["Arabic", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "National Child Helpline 116111", "organization": "National Family Safety Program", "category": "child_protection", "voice_numbers": ["116111", "1919"], "hours": "24/7", "languages": ["Arabic", "English"], "cost": "free", "target": "children and adults concerned about a child", "website": "https://nfsp.org.sa", "sources": ["https://nfsp.org.sa"]},
+      {"name": "Family Violence Reporting Hotline 1919", "organization": "Ministry of Human Resources and Social Development", "category": "domestic_violence", "voice_numbers": ["1919"], "hours": "24/7", "languages": ["Arabic", "English"], "cost": "free", "target": "victims of family violence", "website": "https://hrsd.gov.sa", "sources": ["https://hrsd.gov.sa"]},
+      {"name": "Mental Health Helpline 920033360", "organization": "Ministry of Health", "category": "mental_health", "voice_numbers": ["920033360"], "hours": "Sun-Thu 8am-8pm", "languages": ["Arabic"], "cost": "standard_rate", "target": "mental-health support", "website": "https://www.moh.gov.sa", "sources": ["https://www.moh.gov.sa"]}
+    ]
+  },
+  {
+    "country": "Israel",
+    "alpha-2": "IL",
+    "alpha-3": "ISR",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "general_emergency": ["100", "101", "102"],
+    "notes": "100 police, 101 Magen David Adom ambulance, 102 fire.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["100", "101", "102"], "hours": "24/7", "languages": ["Hebrew", "Arabic", "English", "Russian"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "ERAN Emotional First Aid", "organization": "ERAN", "category": "suicide_crisis", "voice_numbers": ["1201"], "chat_url": "https://www.eran.org.il", "hours": "24/7", "languages": ["Hebrew", "Arabic", "Russian", "Amharic", "English"], "cost": "free", "target": "people in emotional crisis", "website": "https://www.eran.org.il", "sources": ["https://www.eran.org.il"]},
+      {"name": "Sahar.org.il", "organization": "Sahar", "category": "mental_health", "chat_url": "https://www.sahar.org.il", "hours": "daily", "languages": ["Hebrew"], "cost": "free", "target": "anyone in emotional distress (online chat only)", "website": "https://www.sahar.org.il", "sources": ["https://www.sahar.org.il"]},
+      {"name": "Elem (youth)", "organization": "Elem", "category": "youth", "voice_numbers": ["1800 222 557"], "hours": "24/7", "languages": ["Hebrew"], "cost": "free", "target": "youth in distress", "website": "https://www.elem.org.il", "sources": ["https://www.elem.org.il"]},
+      {"name": "Child Helpline 105 (Israeli Police)", "organization": "Israel Police", "category": "child_protection", "voice_numbers": ["105"], "hours": "24/7", "languages": ["Hebrew", "Arabic", "Russian", "English"], "cost": "free", "target": "children at risk online", "website": "https://www.gov.il/en/departments/israel_police", "sources": []},
+      {"name": "NA'AMAT Women's Helpline", "organization": "NA'AMAT", "category": "domestic_violence", "voice_numbers": ["1202", "1203"], "hours": "24/7", "languages": ["Hebrew", "Arabic", "Russian", "Amharic", "English"], "cost": "free", "target": "women victims of violence (1202 for women, 1203 for Arabic)", "website": "https://www.naamat.org", "sources": ["https://www.naamat.org"]},
+      {"name": "Association of Rape Crisis Centers", "organization": "ARCCI", "category": "sexual_violence", "voice_numbers": ["1202", "1203"], "hours": "24/7", "languages": ["Hebrew", "Arabic"], "cost": "free", "target": "survivors of sexual violence", "website": "https://www.1202.org.il", "sources": ["https://www.1202.org.il"]},
+      {"name": "Hotline for LGBT+", "organization": "The Aguda", "category": "lgbtqia", "voice_numbers": ["03 620 5590"], "hours": "Sun-Thu 7.30pm-11.30pm", "languages": ["Hebrew"], "cost": "standard_rate", "target": "LGBT+ community", "website": "https://lgbt.org.il", "sources": ["https://lgbt.org.il"]}
+    ]
+  },
+  {
+    "country": "Turkey",
+    "alpha-2": "TR",
+    "alpha-3": "TUR",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "general_emergency": ["112"],
+    "notes": "112 unified (since 2021). Previously 155 police, 110 fire, 112 ambulance.",
+    "hotlines": [
+      {"name": "Emergency (112)", "category": "emergency", "voice_numbers": ["112"], "hours": "24/7", "languages": ["Turkish", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Alo 182 Suicide Prevention", "organization": "Ministry of Health", "category": "suicide_crisis", "voice_numbers": ["182"], "hours": "24/7", "languages": ["Turkish"], "cost": "free", "target": "people in psychological crisis", "website": "https://www.saglik.gov.tr", "sources": ["https://www.saglik.gov.tr"]},
+      {"name": "Violence Emergency Hotline 183", "organization": "Ministry of Family and Social Services", "category": "domestic_violence", "voice_numbers": ["183"], "hours": "24/7", "languages": ["Turkish"], "cost": "free", "target": "women, children, elderly and disabled in need", "website": "https://www.aile.gov.tr", "sources": ["https://www.aile.gov.tr"]},
+      {"name": "Mor Çatı Kadın Sığınağı Vakfı", "organization": "Mor Çatı", "category": "domestic_violence", "voice_numbers": ["0212 292 5231"], "hours": "Mon-Fri 10am-5pm", "languages": ["Turkish"], "cost": "standard_rate", "target": "women victims of DV", "website": "https://morcati.org.tr", "sources": ["https://morcati.org.tr"]},
+      {"name": "Kaos GL LGBT+ Hotline", "organization": "Kaos GL", "category": "lgbtqia", "voice_numbers": ["0312 230 0358"], "hours": "Mon-Fri 9.30am-5.30pm", "languages": ["Turkish"], "cost": "standard_rate", "target": "LGBT+ community", "website": "https://kaosgl.org", "sources": ["https://kaosgl.org"]}
+    ]
+  },
+  {
+    "country": "Jordan",
+    "alpha-2": "JO",
+    "alpha-3": "JOR",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "general_emergency": ["911"],
+    "notes": "911 is the unified emergency number (launched 2015).",
+    "hotlines": [
+      {"name": "Emergency (911)", "category": "emergency", "voice_numbers": ["911"], "hours": "24/7", "languages": ["Arabic", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Family Protection Department Hotline", "organization": "Public Security Directorate", "category": "domestic_violence", "voice_numbers": ["911"], "hours": "24/7", "languages": ["Arabic"], "cost": "free", "target": "victims of DV", "website": "https://www.psd.gov.jo", "sources": []},
+      {"name": "Jordan River Foundation Hotline 110", "organization": "Jordan River Foundation", "category": "child_protection", "voice_numbers": ["110"], "hours": "Sun-Thu 9am-5pm", "languages": ["Arabic"], "cost": "free", "target": "children at risk", "website": "https://www.jordanriver.jo", "sources": ["https://www.jordanriver.jo"]},
+      {"name": "Institute for Family Health (Noor Al Hussein Foundation)", "organization": "NHF / IFH", "category": "sexual_violence", "voice_numbers": ["06 534 7600"], "hours": "Sun-Thu 8am-4pm", "languages": ["Arabic"], "cost": "standard_rate", "target": "survivors of gender-based violence", "website": "https://www.nooralhusseinfoundation.org", "sources": ["https://www.nooralhusseinfoundation.org"]}
+    ]
+  },
+  {
+    "country": "Qatar",
+    "alpha-2": "QA",
+    "alpha-3": "QAT",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "general_emergency": ["999"],
+    "notes": "999 is the unified emergency number.",
+    "hotlines": [
+      {"name": "Emergency (999)", "category": "emergency", "voice_numbers": ["999"], "hours": "24/7", "languages": ["Arabic", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Aman (Child Protection)", "organization": "Qatar Foundation for Social Work", "category": "child_protection", "voice_numbers": ["919"], "hours": "24/7", "languages": ["Arabic", "English"], "cost": "free", "target": "children and women needing protection", "website": "https://www.qfsw.org.qa", "sources": ["https://www.qfsw.org.qa"]},
+      {"name": "Hamad Medical Corporation Mental Health Helpline", "organization": "HMC", "category": "mental_health", "voice_numbers": ["16000"], "hours": "24/7", "languages": ["Arabic", "English"], "cost": "free", "target": "people with mental-health concerns", "website": "https://www.hamad.qa", "sources": ["https://www.hamad.qa"]}
+    ]
+  },
+  {
+    "country": "Kuwait",
+    "alpha-2": "KW",
+    "alpha-3": "KWT",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "general_emergency": ["112"],
+    "notes": "112 is the unified emergency number.",
+    "hotlines": [
+      {"name": "Emergency (112)", "category": "emergency", "voice_numbers": ["112"], "hours": "24/7", "languages": ["Arabic", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Kuwait Counseling Team Helpline", "organization": "Kuwait Counseling Team", "category": "mental_health", "voice_numbers": ["147"], "hours": "24/7", "languages": ["Arabic", "English"], "cost": "free", "target": "general psychosocial support", "website": "https://www.kct.com.kw", "sources": []},
+      {"name": "Child Protection Hotline 147", "organization": "Ministry of Health", "category": "child_protection", "voice_numbers": ["147"], "hours": "24/7", "languages": ["Arabic"], "cost": "free", "target": "children at risk", "sources": []}
+    ]
+  },
+  {
+    "country": "Bahrain",
+    "alpha-2": "BH",
+    "alpha-3": "BHR",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "general_emergency": ["999"],
+    "notes": "999 is the unified emergency number.",
+    "hotlines": [
+      {"name": "Emergency (999)", "category": "emergency", "voice_numbers": ["999"], "hours": "24/7", "languages": ["Arabic", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Bahrain Women's Union Hotline", "organization": "Bahrain Women's Union", "category": "domestic_violence", "voice_numbers": ["17 403 888"], "hours": "Mon-Fri 8am-4pm", "languages": ["Arabic"], "cost": "standard_rate", "target": "women victims of violence", "website": "https://www.bahrainwomen.org", "sources": ["https://www.bahrainwomen.org"]},
+      {"name": "Batelco Care Center for Child Protection", "organization": "Ministry of Social Development", "category": "child_protection", "voice_numbers": ["998"], "hours": "24/7", "languages": ["Arabic", "English"], "cost": "free", "target": "children at risk", "sources": []}
+    ]
+  },
+  {
+    "country": "Lebanon",
+    "alpha-2": "LB",
+    "alpha-3": "LBN",
+    "region": "Asia",
+    "subregion": "Western Asia",
+    "general_emergency": ["112", "140", "175"],
+    "notes": "112 police/ISF, 140 Red Cross ambulance, 175 fire.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "140", "175"], "hours": "24/7", "languages": ["Arabic", "English", "French"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Embrace Lifeline", "organization": "Embrace", "category": "suicide_crisis", "voice_numbers": ["1564"], "hours": "daily 12pm-2am", "languages": ["Arabic", "English"], "cost": "free", "target": "people in emotional distress", "website": "https://embracelebanon.org", "sources": ["https://embracelebanon.org"]},
+      {"name": "KAFA Listening and Counseling Center", "organization": "KAFA", "category": "domestic_violence", "voice_numbers": ["03 018 019"], "hours": "24/7", "languages": ["Arabic", "English"], "cost": "standard_rate", "target": "women and children survivors of violence", "website": "https://kafa.org.lb", "sources": ["https://kafa.org.lb"]},
+      {"name": "Helem LGBT+ Helpline", "organization": "Helem", "category": "lgbtqia", "voice_numbers": ["01 745 092"], "hours": "Mon-Fri 10am-6pm", "languages": ["Arabic", "English"], "cost": "standard_rate", "target": "LGBTQ community", "website": "https://www.helem.net", "sources": ["https://www.helem.net"]}
+    ]
+  }
+]

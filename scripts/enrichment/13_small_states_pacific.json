@@ -1,0 +1,206 @@
+[
+  {
+    "country": "Brunei",
+    "alpha-2": "BN",
+    "alpha-3": "BRN",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "general_emergency": ["993", "995", "991"],
+    "notes": "993 police, 995 fire, 991 ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["993", "995", "991"], "hours": "24/7", "languages": ["Malay", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Talian Harapan (Hope Line)", "organization": "Ministry of Culture, Youth and Sports", "category": "suicide_crisis", "voice_numbers": ["145"], "hours": "24/7", "languages": ["Malay", "English"], "cost": "free", "target": "people in emotional crisis", "sources": []}
+    ]
+  },
+  {
+    "country": "Cambodia",
+    "alpha-2": "KH",
+    "alpha-3": "KHM",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "general_emergency": ["117", "118", "119"],
+    "notes": "117 police, 118 fire, 119 ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["117", "118", "119"], "hours": "24/7", "languages": ["Khmer"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Child Helpline Cambodia 1280", "organization": "CHC", "category": "child_protection", "voice_numbers": ["1280"], "hours": "8am-6pm daily", "languages": ["Khmer"], "cost": "free", "target": "children at risk", "website": "https://childhelpline.com.kh", "sources": ["https://childhelpline.com.kh"]}
+    ]
+  },
+  {
+    "country": "Laos",
+    "alpha-2": "LA",
+    "alpha-3": "LAO",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "general_emergency": ["191", "190", "195"],
+    "notes": "191 police, 190 fire, 195 ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["191", "190", "195"], "hours": "24/7", "languages": ["Lao"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Lao Women's Union Counselling Centre", "organization": "Lao Women's Union", "category": "domestic_violence", "voice_numbers": ["1362"], "hours": "Mon-Fri 8am-5pm", "languages": ["Lao"], "cost": "free", "target": "women and children victims of violence", "sources": []}
+    ]
+  },
+  {
+    "country": "Myanmar",
+    "alpha-2": "MM",
+    "alpha-3": "MMR",
+    "region": "Asia",
+    "subregion": "South-Eastern Asia",
+    "general_emergency": ["199", "191", "192"],
+    "notes": "199 police, 191 fire, 192 ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["199", "191", "192"], "hours": "24/7", "languages": ["Burmese"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "DSW GBV Helpline 067 404 222", "organization": "Department of Social Welfare", "category": "domestic_violence", "voice_numbers": ["067 404 222"], "hours": "24/7", "languages": ["Burmese"], "cost": "standard_rate", "target": "survivors of GBV", "sources": []}
+    ]
+  },
+  {
+    "country": "Nepal",
+    "alpha-2": "NP",
+    "alpha-3": "NPL",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "general_emergency": ["100", "101", "102", "103"],
+    "notes": "100 police, 101 fire, 102 ambulance, 103 traffic police.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["100", "101", "102", "103"], "hours": "24/7", "languages": ["Nepali"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Transcultural Psychosocial Organization (TPO) Nepal Crisis Helpline", "organization": "TPO Nepal", "category": "mental_health", "voice_numbers": ["1166"], "hours": "24/7", "languages": ["Nepali"], "cost": "free", "target": "people in psychological distress", "website": "https://tponepal.org", "sources": ["https://tponepal.org"]},
+      {"name": "Child Helpline 1098", "organization": "Central Child Welfare Board", "category": "child_protection", "voice_numbers": ["1098"], "hours": "24/7", "languages": ["Nepali"], "cost": "free", "target": "children at risk", "website": "https://www.cwsn.org.np", "sources": []},
+      {"name": "Mental Hospital Lagankhel Helpline", "organization": "Mental Hospital Nepal", "category": "suicide_crisis", "voice_numbers": ["1145"], "hours": "24/7", "languages": ["Nepali"], "cost": "free", "target": "people in suicidal crisis", "sources": []}
+    ]
+  },
+  {
+    "country": "Bhutan",
+    "alpha-2": "BT",
+    "alpha-3": "BTN",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "general_emergency": ["113", "110", "112"],
+    "notes": "113 police, 110 fire, 112 ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["113", "110", "112"], "hours": "24/7", "languages": ["Dzongkha", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "RENEW Helpline", "organization": "RENEW (Respect, Educate, Nurture and Empower Women)", "category": "domestic_violence", "voice_numbers": ["1010"], "hours": "24/7", "languages": ["Dzongkha", "English"], "cost": "free", "target": "women and girls victims of violence", "website": "https://renew.org.bt", "sources": ["https://renew.org.bt"]},
+      {"name": "Pema Secretariat Mental Health Helpline", "organization": "Pema Secretariat", "category": "mental_health", "voice_numbers": ["112", "1098"], "hours": "24/7", "languages": ["Dzongkha", "English"], "cost": "free", "target": "mental-health support", "sources": []}
+    ]
+  },
+  {
+    "country": "Maldives",
+    "alpha-2": "MV",
+    "alpha-3": "MDV",
+    "region": "Asia",
+    "subregion": "Southern Asia",
+    "general_emergency": ["119", "102", "118"],
+    "notes": "119 police, 102 ambulance, 118 fire.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["119", "102", "118"], "hours": "24/7", "languages": ["Dhivehi", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Ministry of Gender Child Helpline 1412", "organization": "Ministry of Gender, Family and Social Services", "category": "child_protection", "voice_numbers": ["1412"], "hours": "24/7", "languages": ["Dhivehi"], "cost": "free", "target": "children at risk", "sources": []}
+    ]
+  },
+  {
+    "country": "Solomon Islands",
+    "alpha-2": "SB",
+    "alpha-3": "SLB",
+    "region": "Oceania",
+    "subregion": "Melanesia",
+    "general_emergency": ["911", "999"],
+    "notes": "911 and 999 both work.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["911", "999"], "hours": "24/7", "languages": ["English", "Solomon Islands Pijin"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "SAFENET / Family Support Centre", "organization": "Family Support Centre SI", "category": "domestic_violence", "voice_numbers": ["+677 22999"], "hours": "Mon-Fri 8am-4.30pm", "languages": ["English", "Pijin"], "cost": "standard_rate", "target": "survivors of DV", "sources": []}
+    ]
+  },
+  {
+    "country": "Vanuatu",
+    "alpha-2": "VU",
+    "alpha-3": "VUT",
+    "region": "Oceania",
+    "subregion": "Melanesia",
+    "general_emergency": ["112"],
+    "notes": "112 mobile emergency. 22100 police, 22000 fire.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "22100", "22000"], "hours": "24/7", "languages": ["Bislama", "English", "French"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Vanuatu Women's Centre", "organization": "VWC", "category": "domestic_violence", "voice_numbers": ["+678 25764"], "hours": "Mon-Fri 8am-5pm", "languages": ["Bislama", "English"], "cost": "standard_rate", "target": "women survivors of violence", "website": "https://www.vanuatuwomencentre.org.vu", "sources": []}
+    ]
+  },
+  {
+    "country": "Nauru",
+    "alpha-2": "NR",
+    "alpha-3": "NRU",
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "general_emergency": ["110", "111", "112"],
+    "notes": "110 police, 111 ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["110", "111", "112"], "hours": "24/7", "languages": ["Nauruan", "English"], "cost": "free", "target": "anyone in emergency", "sources": []}
+    ]
+  },
+  {
+    "country": "Tuvalu",
+    "alpha-2": "TV",
+    "alpha-3": "TUV",
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "general_emergency": ["911"],
+    "notes": "911 emergency.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["911"], "hours": "24/7", "languages": ["Tuvaluan", "English"], "cost": "free", "target": "anyone in emergency", "sources": []}
+    ]
+  },
+  {
+    "country": "Kiribati",
+    "alpha-2": "KI",
+    "alpha-3": "KIR",
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "general_emergency": ["192", "194", "195"],
+    "notes": "192 police, 194 fire, 195 ambulance.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["192", "194", "195"], "hours": "24/7", "languages": ["Gilbertese", "English"], "cost": "free", "target": "anyone in emergency", "sources": []}
+    ]
+  },
+  {
+    "country": "Marshall Islands",
+    "alpha-2": "MH",
+    "alpha-3": "MHL",
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "general_emergency": ["911", "625-8666"],
+    "notes": "911 emergency; national police can also be reached on 625-8666.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["911", "625-8666"], "hours": "24/7", "languages": ["Marshallese", "English"], "cost": "free", "target": "anyone in emergency", "sources": []}
+    ]
+  },
+  {
+    "country": "Federated States of Micronesia",
+    "alpha-2": "FM",
+    "alpha-3": "FSM",
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "general_emergency": ["911", "320-2223"],
+    "notes": "911 emergency. State-level numbers vary.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["911"], "hours": "24/7", "languages": ["English"], "cost": "free", "target": "anyone in emergency", "sources": []}
+    ]
+  },
+  {
+    "country": "Palau",
+    "alpha-2": "PW",
+    "alpha-3": "PLW",
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "general_emergency": ["911"],
+    "notes": "911 emergency.",
+    "hotlines": [
+      {"name": "Emergency (911)", "category": "emergency", "voice_numbers": ["911"], "hours": "24/7", "languages": ["Palauan", "English"], "cost": "free", "target": "anyone in emergency", "sources": []}
+    ]
+  },
+  {
+    "country": "Cook Islands",
+    "alpha-2": "CK",
+    "alpha-3": "COK",
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "general_emergency": ["999"],
+    "notes": "999 emergency (police 22499, fire 22622, ambulance 22664).",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["999", "22499", "22622", "22664"], "hours": "24/7", "languages": ["Cook Islands Māori", "English"], "cost": "free", "target": "anyone in emergency", "sources": []}
+    ]
+  }
+]

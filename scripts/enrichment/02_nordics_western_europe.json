@@ -1,0 +1,140 @@
+[
+  {
+    "country": "Finland",
+    "alpha-2": "FI",
+    "alpha-3": "FIN",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "general_emergency": ["112"],
+    "notes": "112 is the single emergency number.",
+    "hotlines": [
+      {"name": "Emergency (112)", "category": "emergency", "voice_numbers": ["112"], "hours": "24/7", "languages": ["Finnish", "Swedish", "English"], "cost": "free", "target": "anyone in emergency", "website": "https://112.fi", "sources": ["https://112.fi"]},
+      {"name": "MIELI Crisis Helpline", "organization": "MIELI Mental Health Finland", "category": "suicide_crisis", "voice_numbers": ["09 2525 0111"], "chat_url": "https://mieli.fi", "website": "https://mieli.fi", "hours": "24/7", "languages": ["Finnish"], "cost": "standard_rate", "target": "people in emotional crisis", "notes": "Swedish-language line: 09 2525 0112 (Mon-Fri 4pm-8pm). Arabic: 09 2525 0113. English: 09 2525 0114 (Mon-Tue 11am-3pm, Wed 1pm-5pm).", "sources": ["https://mieli.fi"]},
+      {"name": "Sekasin Chat", "organization": "MIELI / Setlementti / Save the Children", "category": "youth", "chat_url": "https://sekasin.fi", "website": "https://sekasin.fi", "hours": "Mon-Fri 9am-midnight; weekends 3pm-midnight", "languages": ["Finnish"], "cost": "free", "target": "12-29 year olds in distress", "sources": ["https://sekasin.fi"]},
+      {"name": "Mannerheim League Child and Youth Helpline", "organization": "Mannerheimin Lastensuojeluliitto", "category": "child_protection", "voice_numbers": ["116 111"], "hours": "Mon-Fri 2pm-8pm; Sat-Sun 5pm-8pm", "languages": ["Finnish"], "cost": "free", "target": "children and young people", "website": "https://www.mll.fi", "sources": ["https://www.mll.fi"]},
+      {"name": "Nollalinja", "organization": "THL (Finnish Institute for Health and Welfare)", "category": "domestic_violence", "voice_numbers": ["080 005 005"], "hours": "24/7", "languages": ["Finnish", "Swedish", "interpreters"], "cost": "free", "target": "women and men experiencing violence in close relationships", "website": "https://www.nollalinja.fi", "sources": ["https://www.nollalinja.fi"]},
+      {"name": "Rikosuhripäivystys (Victim Support Finland)", "organization": "RIKU", "category": "sexual_violence", "voice_numbers": ["116 006"], "hours": "Mon-Tue 9am-8pm; Wed-Fri 9am-4pm", "languages": ["Finnish", "Swedish", "English"], "cost": "free", "target": "victims of crime, including sexual violence", "website": "https://www.riku.fi", "sources": ["https://www.riku.fi"]},
+      {"name": "SEXPO Foundation", "organization": "SEXPO", "category": "lgbtqia", "voice_numbers": ["09 2525 0242"], "hours": "Mon-Fri 10am-2pm", "languages": ["Finnish"], "cost": "standard_rate", "target": "people with questions about sexuality, gender or relationships", "website": "https://sexpo.fi", "sources": ["https://sexpo.fi"]},
+      {"name": "Päihdelinkki Drug Helpline", "organization": "A-Klinikkasäätiö", "category": "substance_use", "voice_numbers": ["0800 900 45"], "hours": "Mon-Fri 10am-3pm", "languages": ["Finnish"], "cost": "free", "target": "people with substance use concerns", "website": "https://paihdelinkki.fi", "sources": ["https://paihdelinkki.fi"]},
+      {"name": "Peluuri", "organization": "Peluuri", "category": "gambling", "voice_numbers": ["0800 100 101"], "chat_url": "https://peluuri.fi", "hours": "Mon-Fri 12pm-6pm", "languages": ["Finnish", "Swedish"], "cost": "free", "target": "people affected by gambling problems", "website": "https://peluuri.fi", "sources": ["https://peluuri.fi"]}
+    ]
+  },
+  {
+    "country": "Norway",
+    "alpha-2": "NO",
+    "alpha-3": "NOR",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "general_emergency": ["112", "110", "113"],
+    "notes": "110 = fire, 112 = police, 113 = ambulance. 112 is also the universal EU emergency.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "110", "113"], "hours": "24/7", "languages": ["Norwegian", "English"], "cost": "free", "target": "anyone in emergency", "notes": "SMS 1412 available for deaf/HoH users.", "website": "https://www.politiet.no", "sources": ["https://www.politiet.no"]},
+      {"name": "Mental Helse Hjelpetelefonen", "organization": "Mental Helse", "category": "mental_health", "voice_numbers": ["116 123"], "chat_url": "https://sidetmedord.no", "hours": "24/7", "languages": ["Norwegian"], "cost": "free", "target": "anyone in emotional distress", "website": "https://mentalhelse.no/fa-hjelp/hjelpetelefonen", "sources": ["https://mentalhelse.no"]},
+      {"name": "Kirkens SOS", "organization": "Kirkens SOS", "category": "suicide_crisis", "voice_numbers": ["22 40 00 40"], "chat_url": "https://kirkens-sos.no", "email": "post@kirkens-sos.no", "hours": "24/7", "languages": ["Norwegian"], "cost": "standard_rate", "target": "people in existential crisis or suicidal despair", "website": "https://kirkens-sos.no", "sources": ["https://kirkens-sos.no"]},
+      {"name": "Alarmtelefonen for barn og unge", "organization": "Bufdir", "category": "child_protection", "voice_numbers": ["116 111"], "chat_url": "https://www.116111.no", "hours": "24/7", "languages": ["Norwegian"], "cost": "free", "target": "children and young people in difficult situations", "website": "https://www.116111.no", "sources": ["https://www.116111.no"]},
+      {"name": "Vold- og overgrepslinjen", "organization": "Ministry of Justice", "category": "domestic_violence", "voice_numbers": ["116 006"], "hours": "24/7", "languages": ["Norwegian"], "cost": "free", "target": "victims of violence and abuse", "website": "https://www.volds-ogovergrepslinjen.no", "sources": ["https://www.volds-ogovergrepslinjen.no"]},
+      {"name": "Dixi Ressurssenter mot voldtekt", "organization": "Dixi", "category": "sexual_violence", "voice_numbers": ["22 44 40 50"], "hours": "Mon-Fri 9am-3pm", "languages": ["Norwegian"], "cost": "standard_rate", "target": "survivors of sexual violence", "website": "https://www.dixi.no", "sources": ["https://www.dixi.no"]},
+      {"name": "RUStelefonen", "organization": "Oslo Municipality", "category": "substance_use", "voice_numbers": ["08588"], "hours": "11am-6pm daily", "languages": ["Norwegian"], "cost": "free", "target": "anyone concerned about alcohol or drugs", "website": "https://rustelefonen.no", "sources": ["https://rustelefonen.no"]},
+      {"name": "Hjelpelinjen (Problem Gambling)", "organization": "Sykehuset Innlandet", "category": "gambling", "voice_numbers": ["800 800 40"], "hours": "Mon-Fri 9am-9pm; Sat-Sun 12pm-10pm", "languages": ["Norwegian"], "cost": "free", "target": "people with gambling problems and their families", "website": "https://hjelpelinjen.no", "sources": ["https://hjelpelinjen.no"]}
+    ]
+  },
+  {
+    "country": "Iceland",
+    "alpha-2": "IS",
+    "alpha-3": "ISL",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "general_emergency": ["112"],
+    "notes": "112 is the single emergency number; also an app with GPS SOS.",
+    "hotlines": [
+      {"name": "Emergency (112)", "category": "emergency", "voice_numbers": ["112"], "hours": "24/7", "languages": ["Icelandic", "English"], "cost": "free", "target": "anyone in emergency", "website": "https://www.112.is", "sources": ["https://www.112.is"]},
+      {"name": "Píeta Samtökin (Pieta Iceland)", "organization": "Píeta", "category": "suicide_crisis", "voice_numbers": ["552 2218"], "hours": "24/7", "languages": ["Icelandic"], "cost": "standard_rate", "target": "people in suicidal distress and those bereaved", "website": "https://pieta.is", "sources": ["https://pieta.is"]},
+      {"name": "Rauði krossinn Hjálparsími (Red Cross Helpline)", "organization": "Icelandic Red Cross", "category": "mental_health", "voice_numbers": ["1717"], "chat_url": "https://1717.is", "hours": "24/7", "languages": ["Icelandic", "English"], "cost": "free", "target": "anyone in emotional distress or loneliness", "website": "https://www.raudikrossinn.is", "sources": ["https://www.raudikrossinn.is"]},
+      {"name": "Barnavernd (Child Protective Services)", "organization": "Barnavernd", "category": "child_protection", "voice_numbers": ["112"], "hours": "24/7", "languages": ["Icelandic"], "cost": "free", "target": "reporting child abuse or neglect", "website": "https://www.bvs.is", "sources": ["https://www.bvs.is"]},
+      {"name": "Kvennaathvarf Women's Shelter", "organization": "Samtök um kvennaathvarf", "category": "domestic_violence", "voice_numbers": ["561 1205"], "email": "kvennaathvarf@kvennaathvarf.is", "hours": "24/7", "languages": ["Icelandic", "English"], "cost": "standard_rate", "target": "women and children fleeing violence", "website": "https://www.kvennaathvarf.is", "sources": ["https://www.kvennaathvarf.is"]},
+      {"name": "Stígamót", "organization": "Stígamót", "category": "sexual_violence", "voice_numbers": ["562 6868"], "hours": "Mon-Fri 9am-5pm", "languages": ["Icelandic", "English"], "cost": "standard_rate", "target": "survivors of sexual violence", "website": "https://www.stigamot.is", "sources": ["https://www.stigamot.is"]}
+    ]
+  },
+  {
+    "country": "Switzerland",
+    "alpha-2": "CH",
+    "alpha-3": "CHE",
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "general_emergency": ["112", "117", "118", "144"],
+    "notes": "112 universal, 117 police, 118 fire, 144 ambulance. 1414 REGA air rescue.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "117", "118", "144"], "hours": "24/7", "languages": ["German", "French", "Italian", "Romansh", "English"], "cost": "free", "target": "anyone in emergency", "notes": "REGA air rescue: 1414. Poison Tox Info Suisse: 145.", "website": "https://www.ch.ch/en/emergencies/", "sources": ["https://www.ch.ch/en/emergencies/"]},
+      {"name": "Die Dargebotene Hand / La Main Tendue / Telefono Amico", "organization": "Die Dargebotene Hand", "category": "suicide_crisis", "voice_numbers": ["143"], "chat_url": "https://www.143.ch", "email": null, "hours": "24/7", "languages": ["German", "French", "Italian"], "cost": "standard_rate", "target": "anyone in crisis or distress", "website": "https://www.143.ch", "sources": ["https://www.143.ch"]},
+      {"name": "Pro Juventute 147", "organization": "Pro Juventute", "category": "child_protection", "voice_numbers": ["147"], "sms_numbers": ["147"], "chat_url": "https://www.147.ch", "email": "147@147.ch", "hours": "24/7", "languages": ["German", "French", "Italian", "Romansh"], "cost": "free", "target": "children and young people in distress", "website": "https://www.147.ch", "sources": ["https://www.147.ch"]},
+      {"name": "Opferhilfe Schweiz", "organization": "Opferhilfe Schweiz", "category": "domestic_violence", "voice_numbers": ["143", "117"], "chat_url": "https://www.opferhilfe-schweiz.ch", "hours": "24/7 (via cantonal services)", "languages": ["German", "French", "Italian"], "cost": "free", "target": "victims of crime including DV", "website": "https://www.opferhilfe-schweiz.ch", "sources": ["https://www.opferhilfe-schweiz.ch"]},
+      {"name": "Aids-Hilfe Schweiz", "organization": "Aids-Hilfe Schweiz", "category": "general_support", "voice_numbers": ["0800 820 123"], "hours": "Mon-Fri 9am-5pm", "languages": ["German", "French", "Italian"], "cost": "free", "target": "people affected by HIV/AIDS", "website": "https://www.aids.ch", "sources": ["https://www.aids.ch"]},
+      {"name": "Elternnotruf", "organization": "Elternnotruf", "category": "child_protection", "voice_numbers": ["0848 35 45 55"], "hours": "24/7", "languages": ["German", "French", "Italian"], "cost": "standard_rate", "target": "parents overwhelmed with childcare", "website": "https://www.elternnotruf.ch", "sources": ["https://www.elternnotruf.ch"]}
+    ]
+  },
+  {
+    "country": "Austria",
+    "alpha-2": "AT",
+    "alpha-3": "AUT",
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "general_emergency": ["112", "133", "122", "144"],
+    "notes": "112 universal, 133 police, 122 fire, 144 ambulance. 141 on-call doctor.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "133", "122", "144"], "hours": "24/7", "languages": ["German", "English"], "cost": "free", "target": "anyone in emergency", "notes": "141 on-call doctor; 147 Rat auf Draht child helpline.", "website": "https://www.oesterreich.gv.at", "sources": []},
+      {"name": "Telefonseelsorge 142", "organization": "Telefonseelsorge Österreich", "category": "suicide_crisis", "voice_numbers": ["142"], "chat_url": "https://onlineberatung-telefonseelsorge.at", "email": null, "hours": "24/7", "languages": ["German"], "cost": "free", "target": "anyone in distress or crisis", "website": "https://www.telefonseelsorge.at", "sources": ["https://www.telefonseelsorge.at"]},
+      {"name": "Rat auf Draht 147", "organization": "Rat auf Draht / SOS-Kinderdorf", "category": "child_protection", "voice_numbers": ["147"], "chat_url": "https://www.rataufdraht.at", "hours": "24/7", "languages": ["German"], "cost": "free", "target": "children and young people (up to 18)", "website": "https://www.rataufdraht.at", "sources": ["https://www.rataufdraht.at"]},
+      {"name": "Frauenhelpline gegen Gewalt", "organization": "Verein Autonome Österreichische Frauenhäuser", "category": "domestic_violence", "voice_numbers": ["0800 222 555"], "hours": "24/7", "languages": ["German", "Arabic", "Bosnian/Croatian/Serbian", "English", "Farsi", "French", "Polish", "Romanian", "Russian", "Spanish", "Turkish"], "cost": "free", "target": "women and girls experiencing violence", "website": "https://www.frauenhelpline.at", "sources": ["https://www.frauenhelpline.at"]},
+      {"name": "Männernotruf", "organization": "Männerberatung Wien / BMSGPK", "category": "male_victims", "voice_numbers": ["0800 246 247"], "hours": "24/7", "languages": ["German"], "cost": "free", "target": "men experiencing violence or in crisis", "website": "https://www.maennerinfo.at", "sources": ["https://www.maennerinfo.at"]},
+      {"name": "HOSI Wien HelpLine", "organization": "HOSI Wien", "category": "lgbtqia", "voice_numbers": ["01 216 66 04"], "hours": "Tue 8pm-10pm", "languages": ["German"], "cost": "standard_rate", "target": "LGBTIQ community", "website": "https://www.hosiwien.at", "sources": ["https://www.hosiwien.at"]},
+      {"name": "Suchthilfe Wien", "organization": "Suchthilfe Wien", "category": "substance_use", "voice_numbers": ["01 4000 53 000"], "hours": "Mon-Fri 8am-5pm", "languages": ["German"], "cost": "standard_rate", "target": "people with addiction problems", "website": "https://www.suchthilfe.at", "sources": ["https://www.suchthilfe.at"]}
+    ]
+  },
+  {
+    "country": "Luxembourg",
+    "alpha-2": "LU",
+    "alpha-3": "LUX",
+    "region": "Europe",
+    "subregion": "Western Europe",
+    "general_emergency": ["112", "113"],
+    "notes": "112 ambulance/fire, 113 police.",
+    "hotlines": [
+      {"name": "Emergency (112 / 113)", "category": "emergency", "voice_numbers": ["112", "113"], "hours": "24/7", "languages": ["Luxembourgish", "French", "German", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "SOS Détresse", "organization": "SOS Détresse", "category": "suicide_crisis", "voice_numbers": ["45 45 45"], "chat_url": "https://454545.lu", "hours": "11am-11pm (Fri-Sat until 3am)", "languages": ["Luxembourgish", "French", "German", "English"], "cost": "standard_rate", "target": "anyone in emotional crisis", "website": "https://www.454545.lu", "sources": ["https://www.454545.lu"]},
+      {"name": "Kanner-Jugendtelefon 116 111", "organization": "Kanner- Jugendtelefon asbl", "category": "child_protection", "voice_numbers": ["116 111"], "chat_url": "https://www.kjt.lu", "hours": "Mon-Fri 12pm-8pm; Sat 2pm-8pm", "languages": ["Luxembourgish", "French", "German"], "cost": "free", "target": "children and young people under 26", "website": "https://www.kjt.lu", "sources": ["https://www.kjt.lu"]},
+      {"name": "Violence.lu / Fraenhaus", "organization": "Fraenhaus", "category": "domestic_violence", "voice_numbers": ["44 81 81 1"], "hours": "24/7", "languages": ["Luxembourgish", "French", "German", "English", "Portuguese"], "cost": "standard_rate", "target": "women and children experiencing violence", "website": "https://www.violence.lu", "sources": ["https://www.violence.lu"]},
+      {"name": "Planning Familial", "organization": "Planning Familial", "category": "sexual_violence", "voice_numbers": ["48 59 76"], "hours": "Mon-Fri 9am-5pm", "languages": ["Luxembourgish", "French", "German", "English"], "cost": "standard_rate", "target": "sexual and reproductive health support including survivors", "website": "https://www.planningfamilial.lu", "sources": ["https://www.planningfamilial.lu"]},
+      {"name": "Rosa Lëtzebuerg / Cigale", "organization": "Rosa Lëtzebuerg", "category": "lgbtqia", "voice_numbers": ["26 19 00 18"], "hours": "Mon-Fri 10am-5pm", "languages": ["Luxembourgish", "French", "German", "English"], "cost": "standard_rate", "target": "LGBTQ+ community", "website": "https://www.cigale.lu", "sources": ["https://www.cigale.lu"]}
+    ]
+  },
+  {
+    "country": "Malta",
+    "alpha-2": "MT",
+    "alpha-3": "MLT",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "general_emergency": ["112"],
+    "notes": "112 is the single emergency number. Medical: 2545 0000.",
+    "hotlines": [
+      {"name": "Emergency (112)", "category": "emergency", "voice_numbers": ["112"], "hours": "24/7", "languages": ["Maltese", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Kellimni.com", "organization": "SOS Malta / Kellimni", "category": "mental_health", "chat_url": "https://www.kellimni.com", "email": "hello@kellimni.com", "hours": "varies (mostly evenings)", "languages": ["Maltese", "English"], "cost": "free", "target": "young people seeking online support", "website": "https://www.kellimni.com", "sources": ["https://www.kellimni.com"]},
+      {"name": "Supportline 179", "organization": "Agenzija Appogg", "category": "general_support", "voice_numbers": ["179"], "chat_url": "https://fsws.gov.mt/en/appogg", "hours": "24/7", "languages": ["Maltese", "English"], "cost": "free", "target": "anyone in personal crisis, including DV, child abuse", "website": "https://fsws.gov.mt/en/appogg", "sources": ["https://fsws.gov.mt"]},
+      {"name": "Richmond Foundation", "organization": "Richmond Foundation", "category": "mental_health", "voice_numbers": ["1770"], "chat_url": "https://www.richmond.org.mt", "hours": "Mon-Fri 9am-5pm", "languages": ["Maltese", "English"], "cost": "free", "target": "people affected by mental-health issues", "website": "https://www.richmond.org.mt", "sources": ["https://www.richmond.org.mt"]}
+    ]
+  },
+  {
+    "country": "Cyprus",
+    "alpha-2": "CY",
+    "alpha-3": "CYP",
+    "region": "Europe",
+    "subregion": "Western Asia",
+    "general_emergency": ["112", "199"],
+    "notes": "112 and 199 are both emergency numbers in the Republic of Cyprus.",
+    "hotlines": [
+      {"name": "Emergency", "category": "emergency", "voice_numbers": ["112", "199"], "hours": "24/7", "languages": ["Greek", "Turkish", "English"], "cost": "free", "target": "anyone in emergency", "sources": []},
+      {"name": "Helpline for Children and Adolescents 1466", "organization": "Hope For Children / Ministry of Health", "category": "child_protection", "voice_numbers": ["1466", "116 111"], "hours": "24/7", "languages": ["Greek", "English"], "cost": "free", "target": "children, adolescents and families", "website": "https://www.uncrcpc.org.cy", "sources": ["https://www.uncrcpc.org.cy"]},
+      {"name": "Mental Health Services", "organization": "Ministry of Health", "category": "mental_health", "voice_numbers": ["1456"], "hours": "24/7", "languages": ["Greek"], "cost": "free", "target": "people with mental-health needs", "website": "https://www.moh.gov.cy", "sources": ["https://www.moh.gov.cy"]},
+      {"name": "Association for the Prevention and Handling of Violence in the Family", "organization": "SPAVO", "category": "domestic_violence", "voice_numbers": ["1440"], "hours": "24/7", "languages": ["Greek", "English"], "cost": "free", "target": "victims of domestic violence", "website": "https://www.spavo.org.cy", "sources": ["https://www.spavo.org.cy"]}
+    ]
+  }
+]
