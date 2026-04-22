@@ -138,3 +138,7 @@ The original flat `{name, numbers[]}` structure is preserved inside every migrat
 ```
 
 This lets consumers of the old shape continue working while new fields are populated.
+
+## Internal preview metadata
+
+Review-only artifacts may add underscore-prefixed metadata such as `_legacy`, `_import_metadata`, or top-level `_preview_metadata`. These fields are supplemental and must never be used to justify overwriting richer canonical v2 hotline records.

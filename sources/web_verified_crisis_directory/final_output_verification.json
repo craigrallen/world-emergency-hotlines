@@ -1,0 +1,23 @@
+{
+  "final_json_exists": true,
+  "final_xlsx_exists": true,
+  "final_json_row_count": 253,
+  "alphabetized_by_country_name": true,
+  "workbook_sheet_names": [
+    "country_summary",
+    "helplines_flat",
+    "merge_metadata"
+  ],
+  "workbook_row_counts": {
+    "country_summary_rows_including_header": 254,
+    "helplines_flat_rows_including_header": 1515,
+    "merge_metadata_rows_including_header": 254
+  },
+  "expected_country_summary_data_rows": 253,
+  "expected_helplines_flat_data_rows": 1514,
+  "sheet_row_count_checks": {
+    "country_summary_matches": true,
+    "helplines_flat_matches": true,
+    "merge_metadata_matches": true
+  }
+}

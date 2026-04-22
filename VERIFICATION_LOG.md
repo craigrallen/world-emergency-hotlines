@@ -6,6 +6,26 @@ A running record of how each country's records were verified, and against which 
 
 All rich records written in pass 1 carry `verification_status: verified_knowledge`, meaning they were authored from Claude's training knowledge (cutoff end of May 2025). Every record's `sources` array points to the provider's primary website, which should be fetched in the next pass to confirm current numbers, hours and URLs.
 
+## Supplemental web-derived source intake (2026-04-22)
+
+A separately generated web-derived directory was vendored into `sources/web_verified_crisis_directory/` rather than merged directly into `hotlines.json`.
+
+Why it was staged instead of force-merged:
+
+1. **Different verification semantics.** The generated directory uses `pass` / `warning` / `manual_review`, which do not map cleanly onto this repo's v2 `verification_status` enum.
+2. **Mixed source types.** The generated work is grounded in live web retrieval, but includes Wikipedia, Child Helpline International, and HotPeach-derived rows rather than only first-party provider pages.
+3. **Country-list mismatch.** The generated directory has 253 rows while the canonical dataset currently has 250 countries / territories; a small unmatched set needs explicit policy decisions.
+
+To make the work immediately useful without lowering data quality, the repo now includes:
+
+- vendored source artifacts in `sources/web_verified_crisis_directory/`
+- `scripts/integrate_web_verified_directory.py`
+- `sources/web_verified_crisis_directory/web_verified_directory_v2_preview.json`
+- `sources/web_verified_crisis_directory/unmatched_country_rows.json`
+- `REPORTS/web_verified_directory_integration_report.md`
+
+The preview intentionally marks imported entries as `legacy_unverified` pending maintainer review.
+
 Known risks with knowledge-based authoring:
 
 1. **Short-code changes.** Governments occasionally replace three- or four-digit crisis lines. Examples seen recently (all captured in pass 1): UK HOPELine → HOPELINE247 rebrand (2023), Canada 9-8-8 launch (Nov 2023), US 988 launch (Jul 2022), Spain 024 launch (May 2022), France 3114 launch (Oct 2021), Australia 13YARN launch (2022).

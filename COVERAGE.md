@@ -1,4 +1,4 @@
-# Coverage Status — 2026-04-22 (pass 3, tier 2+3 enrichment complete)
+# Coverage Status — 2026-04-22 (pass 3 enrichment complete + supplemental preview safeguards preserved)
 
 ## Totals
 
@@ -10,6 +10,11 @@
 | Records migrated but not yet enriched (`legacy_unverified`) | 1,209 |
 | Countries with at least one `verified_knowledge` record | ~120 |
 | Countries with 0 hotlines (genuinely uninhabited) | 4 |
+| Supplemental web-derived source rows vendored for review | 253 |
+| Supplemental rows currently mapped to canonical country list | 243 |
+| Supplemental rows skipped because richer canonical records already exist | 207 |
+| Supplemental preview countries written | 36 |
+| Supplemental rows held for manual geopolitical review | 10 |
 
 ## Status legend
 
@@ -57,9 +62,21 @@ Every `verified_knowledge` record has:
 - `sources` array pointing to authoritative pages
 - `last_verified` date (2026-04-22)
 
+## Supplemental web-derived source directory (2026-04-22)
+
+A separate generated directory is vendored under `sources/web_verified_crisis_directory/` together with a conservative preview conversion.
+
+- **253 source rows** were preserved as auditable artifacts.
+- **243 rows** currently map to this repo's canonical country list.
+- **207 matched rows** are intentionally excluded from preview output because the canonical v2 dataset already has richer non-legacy hotline records for those countries.
+- **36 countries** are written into `web_verified_directory_v2_preview.json` for review.
+- **10 rows** are intentionally held back in `unmatched_country_rows.json`: Abkhazia, Akrotiri and Dhekelia, Ascension Island, Clipperton Island, Northern Cyprus, Somaliland, South Ossetia, Tibet, Transnistria, and Tristan da Cunha.
+- The preview does **not** replace `hotlines.json`; it is a safe staging layer for selective future merges.
+
 ## Still to do (beyond this dataset)
 
 1. **Web verification pass** — fetch each provider's website and promote `verified_knowledge` → `verified_web` with current hours and confirmation. ~743 records.
 2. **Enrich remaining legacy records** — roughly 1,209 records from the merged sources (Vibbrancy / information.json) still carry only name+number. Many could be promoted to rich form by matching against aggregator directories (Befrienders, IASP, Find A Helpline) and auto-filling hours/languages.
 3. **Category cleanup** — the legacy-import auto-categoriser defaulted to `general_support` for records it couldn't classify. Spot-check audit found ~30% of legacy records would be more accurately categorised. Widening the keyword table in `scripts/merge_all.py` and re-running would resolve most.
 4. **Small-territory deepening** — 106 countries / territories still have <3 hotlines. Most are small island states with limited infrastructure, but there are publishable national crisis lines in some (e.g. Malta, Cyprus, San Marino) that the current data doesn't capture.
+5. **Safe supplemental promotion** — review the staged web-derived preview/report artifacts and promote entries selectively under the schema-v2 roadmap without overwriting or downgrading richer canonical records.

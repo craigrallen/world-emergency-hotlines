@@ -9,8 +9,12 @@ A project to build a definitive, exhaustive reference of every country's emergen
 | `SCHEMA.md` | Full schema documentation for `hotlines.json` |
 | `hotlines.json` | The enriched, canonical dataset (schema v2.0) |
 | `information.json` | Original source dataset (preserved for reference and for migrating remaining countries) |
+| `sources/web_verified_crisis_directory/` | Vendored 2026-04-22 web-derived source artifacts plus a conservative non-canonical schema-v2 preview |
+| `scripts/integrate_web_verified_directory.py` | Converts the supplemental source directory into a reviewable schema-v2 preview + integration report while explicitly skipping countries that already have richer canonical records |
+| `tests/test_web_verified_directory_preview.py` | Regression checks that the supplemental preview stays schema-v2, non-canonical, and cannot downgrade protected rich records |
 | `COVERAGE.md` | Per-country coverage status: verified, legacy, or missing |
 | `VERIFICATION_LOG.md` | Running log of which sources were used to verify which numbers |
+| `docs/plans/2026-04-22-v2-data-expansion-roadmap.md` | Concrete implementation roadmap for safe schema-v2 data expansion and promotion |
 | `README.md` | This file |
 
 ## Scope
@@ -60,6 +64,12 @@ Every hotline record carries a `verification_status` so consumers can see how mu
   - 1,209 migrated (`legacy_unverified`) — carry name + number and some email/website, pending enrichment.
 - **120+ countries** have at least one `verified_knowledge` entry.
 - **4 uninhabited territories** have no hotlines — documented as such.
+- **Supplemental 2026-04-22 source directory vendored** under `sources/web_verified_crisis_directory/`:
+  - 253 web-derived country/territory rows preserved as source artifacts.
+  - `scripts/integrate_web_verified_directory.py` converts that source into a schema-v2-compatible `web_verified_directory_v2_preview.json` review artifact without overwriting canonical data.
+  - The generated preview is explicitly **non-canonical** and skips countries whose canonical v2 records already contain richer non-legacy hotlines, preventing accidental downgrade-by-overwrite.
+  - Regression coverage in `tests/test_web_verified_directory_preview.py` checks that protected canonical countries never appear in the preview and that preview hotlines remain `legacy_unverified`.
+  - Current conservative mapping still reaches **243 / 253** source rows; after merging upstream's richer canonical pass, **207** of those matched rows are now intentionally skipped because canonical v2 already has richer non-legacy records, **36** countries remain in the supplemental preview, and the final 10 unmatched rows stay in `unmatched_country_rows.json` for manual geopolitical review.
 
 ## Planned next sessions
 
@@ -67,6 +77,7 @@ Every hotline record carries a `verification_status` so consumers can see how mu
 2. **Legacy enrichment** — lift the remaining 1,209 `legacy_unverified` records into rich form by cross-referencing Befrienders Worldwide, IASP, Find A Helpline. Estimate: 4–6 sessions.
 3. **Categorisation cleanup** — ~30% of legacy records landed in `general_support` because the auto-categoriser's keyword table missed them. Widening the table in `scripts/merge_all.py` and re-running `merge_all.py` would move most of these to their correct category in seconds.
 4. **Small-territory deepening** — 106 territories still have <3 hotlines. Most are small island states with limited infrastructure; add what's publishable for the rest.
+5. **Safe supplemental promotion** — use `docs/plans/2026-04-22-v2-data-expansion-roadmap.md` plus the non-canonical preview/report artifacts to selectively review and promote web-derived rows without downgrading any existing rich-format canonical records.
 
 ## How to use this dataset responsibly
 

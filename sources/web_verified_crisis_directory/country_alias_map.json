@@ -1,0 +1,328 @@
+{
+  "Antigua & Barbuda": {
+    "canonical_key": "antigua and barbuda",
+    "emergency_names": [
+      "Antigua and Barbuda"
+    ],
+    "crisis_names": [
+      "Antigua & Barbuda"
+    ]
+  },
+  "Bahamas": {
+    "canonical_key": "bahamas",
+    "emergency_names": [
+      "The Bahamas"
+    ],
+    "crisis_names": [
+      "Bahamas",
+      "Bahamas, The"
+    ]
+  },
+  "Bolivia": {
+    "canonical_key": "bolivia",
+    "emergency_names": [
+      "Bolivia"
+    ],
+    "crisis_names": [
+      "Bolivia, Plurinational State of"
+    ]
+  },
+  "British Virgin Islands": {
+    "canonical_key": "british virgin islands",
+    "emergency_names": [
+      "British Virgin Islands"
+    ],
+    "crisis_names": [
+      "Virgin Islands, British"
+    ]
+  },
+  "Brunei Darussalam": {
+    "canonical_key": "brunei darussalam",
+    "emergency_names": [
+      "Brunei"
+    ],
+    "crisis_names": [
+      "Brunei Darussalam"
+    ]
+  },
+  "Cabo Verde": {
+    "canonical_key": "cabo verde",
+    "emergency_names": [
+      "Cape Verde"
+    ],
+    "crisis_names": [
+      "Cabo Verde"
+    ]
+  },
+  "China": {
+    "canonical_key": "china",
+    "emergency_names": [
+      "People's Republic of China"
+    ],
+    "crisis_names": [
+      "China"
+    ]
+  },
+  "Curacao": {
+    "canonical_key": "curacao",
+    "emergency_names": [
+      "Curacao"
+    ],
+    "crisis_names": [
+      "Curaçao"
+    ]
+  },
+  "Czechia": {
+    "canonical_key": "czechia",
+    "emergency_names": [
+      "Czech Republic"
+    ],
+    "crisis_names": [
+      "Czechia"
+    ]
+  },
+  "Côte d'Ivoire": {
+    "canonical_key": "cote d ivoire",
+    "emergency_names": [
+      "Ivory Coast"
+    ],
+    "crisis_names": [
+      "Côte d'Ivoire"
+    ]
+  },
+  "Democratic Republic of the Congo": {
+    "canonical_key": "congo democratic republic of",
+    "emergency_names": [
+      "Democratic Republic of Congo"
+    ],
+    "crisis_names": [
+      "Congo, Democratic Republic of",
+      "Democratic Republic of the Congo"
+    ]
+  },
+  "Falkland Islands (Malvinas)": {
+    "canonical_key": "falkland islands malvinas",
+    "emergency_names": [
+      "Falkland Islands"
+    ],
+    "crisis_names": [
+      "Falkland Islands (Malvinas)"
+    ]
+  },
+  "Gambia": {
+    "canonical_key": "gambia",
+    "emergency_names": [
+      "Gambia"
+    ],
+    "crisis_names": [
+      "Gambia, The"
+    ]
+  },
+  "Iran": {
+    "canonical_key": "iran",
+    "emergency_names": [
+      "Iran"
+    ],
+    "crisis_names": [
+      "Iran, Islamic Republic of"
+    ]
+  },
+  "Korea, Democratic People's Republic of": {
+    "canonical_key": "korea democratic peoples republic of",
+    "emergency_names": [
+      "Democratic People's Republic of Korea"
+    ],
+    "crisis_names": [
+      "Korea, Democratic People's Republic of"
+    ]
+  },
+  "Korea, Republic of": {
+    "canonical_key": "korea republic of",
+    "emergency_names": [
+      "Republic of Korea"
+    ],
+    "crisis_names": [
+      "Korea, Republic of"
+    ]
+  },
+  "Laos": {
+    "canonical_key": "laos",
+    "emergency_names": [
+      "Laos"
+    ],
+    "crisis_names": [
+      "Lao People's Democratic Republic"
+    ]
+  },
+  "Macao": {
+    "canonical_key": "macao",
+    "emergency_names": [
+      "Macau"
+    ],
+    "crisis_names": [
+      "Macao"
+    ]
+  },
+  "Micronesia, Federated States of": {
+    "canonical_key": "micronesia federated states of",
+    "emergency_names": [
+      "Micronesia"
+    ],
+    "crisis_names": [
+      "Micronesia, Federated States of"
+    ]
+  },
+  "Moldova": {
+    "canonical_key": "moldova",
+    "emergency_names": [
+      "Moldova"
+    ],
+    "crisis_names": [
+      "Moldova, Republic of"
+    ]
+  },
+  "New Caledonia": {
+    "canonical_key": "new caledonia",
+    "emergency_names": [
+      "New Caledonia"
+    ],
+    "crisis_names": [
+      "New Calidonia"
+    ]
+  },
+  "Palestine": {
+    "canonical_key": "palestine",
+    "emergency_names": [
+      "Palestine"
+    ],
+    "crisis_names": [
+      "Palestine, State of"
+    ]
+  },
+  "Republic of the Congo": {
+    "canonical_key": "congo republic of",
+    "emergency_names": [
+      "Republic of Congo"
+    ],
+    "crisis_names": [
+      "Congo, Republic of"
+    ]
+  },
+  "Russia": {
+    "canonical_key": "russia",
+    "emergency_names": [
+      "Russia"
+    ],
+    "crisis_names": [
+      "Russian Federation"
+    ]
+  },
+  "Saint Kitts & Nevis": {
+    "canonical_key": "saint kitts and nevis",
+    "emergency_names": [
+      "Saint Kitts and Nevis"
+    ],
+    "crisis_names": [
+      "Saint Kitts & Nevis"
+    ]
+  },
+  "Saint Martin (French part)": {
+    "canonical_key": "saint martin",
+    "emergency_names": [
+      "Saint Martin"
+    ],
+    "crisis_names": [
+      "Saint Martin (French part)"
+    ]
+  },
+  "Saint Pierre & Miquelon": {
+    "canonical_key": "saint pierre and miquelon",
+    "emergency_names": [
+      "Saint Pierre and Miquelon"
+    ],
+    "crisis_names": [
+      "Saint Pierre & Miquelon"
+    ]
+  },
+  "Syria": {
+    "canonical_key": "syria",
+    "emergency_names": [
+      "Syria"
+    ],
+    "crisis_names": [
+      "Syrian Arab Republic"
+    ]
+  },
+  "São Tomé & Príncipe": {
+    "canonical_key": "sao tome and principe",
+    "emergency_names": [
+      "Sao Tome and Principe"
+    ],
+    "crisis_names": [
+      "São Tomé & Príncipe"
+    ]
+  },
+  "Taiwan": {
+    "canonical_key": "taiwan",
+    "emergency_names": [
+      "Republic of China (Taiwan)"
+    ],
+    "crisis_names": [
+      "Taiwan, Province of China"
+    ]
+  },
+  "Tanzania": {
+    "canonical_key": "tanzania",
+    "emergency_names": [
+      "Tanzania"
+    ],
+    "crisis_names": [
+      "Tanzania, United Republic of"
+    ]
+  },
+  "Turks and Caicos Islands": {
+    "canonical_key": "turks and caicos islands",
+    "emergency_names": [
+      "Turks and Caicos"
+    ],
+    "crisis_names": [
+      "Turks & Caicos Islands"
+    ]
+  },
+  "U.S. Virgin Islands": {
+    "canonical_key": "u s virgin islands",
+    "emergency_names": [
+      "U. S. Virgin Islands"
+    ],
+    "crisis_names": [
+      "US Virgin Islands"
+    ]
+  },
+  "United States": {
+    "canonical_key": "united states",
+    "emergency_names": [
+      "United States of America"
+    ],
+    "crisis_names": [
+      "United States"
+    ]
+  },
+  "Venezuela": {
+    "canonical_key": "venezuela",
+    "emergency_names": [
+      "Venezuela"
+    ],
+    "crisis_names": [
+      "Venezuela, Bolivarian Republic of"
+    ]
+  },
+  "Vietnam": {
+    "canonical_key": "vietnam",
+    "emergency_names": [
+      "Vietnam"
+    ],
+    "crisis_names": [
+      "Viet Nam"
+    ]
+  }
+}

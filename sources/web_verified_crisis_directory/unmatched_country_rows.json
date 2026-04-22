@@ -1,0 +1,324 @@
+[
+  {
+    "country_name": "Abkhazia",
+    "emergency": {
+      "police": "102",
+      "ambulance": "103",
+      "fire": "101",
+      "other_numbers": []
+    },
+    "mental_health_helplines": [],
+    "specialist_helplines": [],
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_status": "warning",
+    "verification_notes": "Emergency dataset names: Abkhazia. | Parsed from Wikipedia table section: Asia. No row-specific external citation URL was discoverable from the rendered references.",
+    "merge_metadata": {
+      "merge_key": "abkhazia",
+      "source_presence": {
+        "emergency": true,
+        "crisis_helplines": false
+      },
+      "original_country_names": {
+        "emergency": [
+          "Abkhazia"
+        ],
+        "crisis_helplines": []
+      },
+      "name_match_confidence": "single_source"
+    }
+  },
+  {
+    "country_name": "Akrotiri and Dhekelia",
+    "emergency": {
+      "police": "112 or 999",
+      "ambulance": "112 or 999",
+      "fire": "112 or 999",
+      "other_numbers": []
+    },
+    "mental_health_helplines": [],
+    "specialist_helplines": [],
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_status": "warning",
+    "verification_notes": "Emergency dataset names: Akrotiri and Dhekelia. | Parsed from Wikipedia table section: Europe. No row-specific external citation URL was discoverable from the rendered references.",
+    "merge_metadata": {
+      "merge_key": "akrotiri and dhekelia",
+      "source_presence": {
+        "emergency": true,
+        "crisis_helplines": false
+      },
+      "original_country_names": {
+        "emergency": [
+          "Akrotiri and Dhekelia"
+        ],
+        "crisis_helplines": []
+      },
+      "name_match_confidence": "single_source"
+    }
+  },
+  {
+    "country_name": "Ascension Island",
+    "emergency": {
+      "police": "999",
+      "ambulance": "999",
+      "fire": "999",
+      "other_numbers": []
+    },
+    "mental_health_helplines": [],
+    "specialist_helplines": [],
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "https://web.archive.org/web/20180129182549/http://www.noonsite.com/Countries/AscensionIsland/?rc=GeneralInfo",
+      "http://www.noonsite.com/Countries/AscensionIsland/?rc=GeneralInfo"
+    ],
+    "verification_status": "warning",
+    "verification_notes": "Emergency dataset names: Ascension Island. | Parsed from Wikipedia table section: Africa. Row references expose 2 linked citation URL(s) beyond the Wikipedia page.",
+    "merge_metadata": {
+      "merge_key": "ascension island",
+      "source_presence": {
+        "emergency": true,
+        "crisis_helplines": false
+      },
+      "original_country_names": {
+        "emergency": [
+          "Ascension Island"
+        ],
+        "crisis_helplines": []
+      },
+      "name_match_confidence": "single_source"
+    }
+  },
+  {
+    "country_name": "Clipperton Island",
+    "emergency": {
+      "police": "112",
+      "ambulance": "112",
+      "fire": "112",
+      "other_numbers": [
+        "Police – 17",
+        "Ambulance – 15",
+        "Fire – 18"
+      ]
+    },
+    "mental_health_helplines": [],
+    "specialist_helplines": [],
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_status": "warning",
+    "verification_notes": "Emergency dataset names: Clipperton Island. | Parsed from Wikipedia table section: Central America. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 17; Ambulance – 15; Fire – 18 No row-specific external citation URL was discoverable from the rendered references.",
+    "merge_metadata": {
+      "merge_key": "clipperton island",
+      "source_presence": {
+        "emergency": true,
+        "crisis_helplines": false
+      },
+      "original_country_names": {
+        "emergency": [
+          "Clipperton Island"
+        ],
+        "crisis_helplines": []
+      },
+      "name_match_confidence": "single_source"
+    }
+  },
+  {
+    "country_name": "Northern Cyprus",
+    "emergency": {
+      "police": "155",
+      "ambulance": "112",
+      "fire": "199",
+      "other_numbers": [
+        "Forest Fire – 177",
+        "Coast Guard – 158",
+        "Civil Defense – 101"
+      ]
+    },
+    "mental_health_helplines": [],
+    "specialist_helplines": [],
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+      "http://www.polis.gov.ct.tr/telefon.aspx.html",
+      "https://web.archive.org/web/20221224143150/http://www.polis.gov.ct.tr/telefon.aspx.html"
+    ],
+    "verification_status": "warning",
+    "verification_notes": "Emergency dataset names: Northern Cyprus. | Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Forest Fire – 177; Coast Guard – 158; Civil Defense – 101 Row references expose 2 linked citation URL(s) beyond the Wikipedia page.",
+    "merge_metadata": {
+      "merge_key": "northern cyprus",
+      "source_presence": {
+        "emergency": true,
+        "crisis_helplines": false
+      },
+      "original_country_names": {
+        "emergency": [
+          "Northern Cyprus"
+        ],
+        "crisis_helplines": []
+      },
+      "name_match_confidence": "single_source"
+    }
+  },
+  {
+    "country_name": "Somaliland",
+    "emergency": null,
+    "mental_health_helplines": [],
+    "specialist_helplines": [
+      {
+        "category": "child_helpline",
+        "name": "WAAPO Child Hotline (Short-Call Helpline)",
+        "phone": "334",
+        "text_or_chat": null,
+        "notes": "WAAPO’s mission is to respond to children in need of protection- to make their voices heard and concerns relayed to policy and decision makers; and, to provide learning experiences for children in a safe and caring environment helping them develop socially, emotionally, physically and intellectually. Email: contact@waapo.org.so. Socials: https://www.facebook.com/WAAPO-Organization-727724320666578/; http://www.linkedin.com/company/child-helpline-international; https://www.facebook.com/ChildHelplineInternational; https://www.instagram.com/child_helpline_international/.",
+        "source_url": "https://childhelplineinternational.org/somaliland-waapo-child-hotline-short-call-helpline/"
+      }
+    ],
+    "source_urls": [
+      "https://childhelplineinternational.org/helplines/",
+      "https://childhelplineinternational.org/somaliland-waapo-child-hotline-short-call-helpline/"
+    ],
+    "verification_status": "warning",
+    "verification_notes": "Crisis dataset names: Somaliland. | Child helpline page fetched live from Child Helpline International and contact details extracted conservatively from the country/member page.",
+    "merge_metadata": {
+      "merge_key": "somaliland",
+      "source_presence": {
+        "emergency": false,
+        "crisis_helplines": true
+      },
+      "original_country_names": {
+        "emergency": [],
+        "crisis_helplines": [
+          "Somaliland"
+        ]
+      },
+      "name_match_confidence": "single_source"
+    }
+  },
+  {
+    "country_name": "South Ossetia",
+    "emergency": {
+      "police": "102",
+      "ambulance": "103",
+      "fire": "101",
+      "other_numbers": []
+    },
+    "mental_health_helplines": [],
+    "specialist_helplines": [],
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_status": "warning",
+    "verification_notes": "Emergency dataset names: South Ossetia. | Parsed from Wikipedia table section: Asia. No row-specific external citation URL was discoverable from the rendered references.",
+    "merge_metadata": {
+      "merge_key": "south ossetia",
+      "source_presence": {
+        "emergency": true,
+        "crisis_helplines": false
+      },
+      "original_country_names": {
+        "emergency": [
+          "South Ossetia"
+        ],
+        "crisis_helplines": []
+      },
+      "name_match_confidence": "single_source"
+    }
+  },
+  {
+    "country_name": "Tibet",
+    "emergency": null,
+    "mental_health_helplines": [],
+    "specialist_helplines": [
+      {
+        "category": "domestic_violence",
+        "name": "Tibetan Women's Association",
+        "phone": null,
+        "text_or_chat": "http://www.tibetanwomen.org/",
+        "notes": "Tibetan Women's Association",
+        "source_url": "https://www.hotpeachpages.net/asia/index.html#Tibet"
+      }
+    ],
+    "source_urls": [
+      "https://www.hotpeachpages.net/a/countries.html",
+      "https://www.hotpeachpages.net/asia/index.html#Tibet"
+    ],
+    "verification_status": "warning",
+    "verification_notes": "Crisis dataset names: Tibet. | HotPeach regional country section fetched live; domestic/sexual violence resources were extracted conservatively from the country section and may be web resources rather than phone-only lines.",
+    "merge_metadata": {
+      "merge_key": "tibet",
+      "source_presence": {
+        "emergency": false,
+        "crisis_helplines": true
+      },
+      "original_country_names": {
+        "emergency": [],
+        "crisis_helplines": [
+          "Tibet"
+        ]
+      },
+      "name_match_confidence": "single_source"
+    }
+  },
+  {
+    "country_name": "Transnistria",
+    "emergency": {
+      "police": "102",
+      "ambulance": "103",
+      "fire": "101",
+      "other_numbers": []
+    },
+    "mental_health_helplines": [],
+    "specialist_helplines": [],
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_status": "warning",
+    "verification_notes": "Emergency dataset names: Transnistria. | Parsed from Wikipedia table section: Europe. No row-specific external citation URL was discoverable from the rendered references.",
+    "merge_metadata": {
+      "merge_key": "transnistria",
+      "source_presence": {
+        "emergency": true,
+        "crisis_helplines": false
+      },
+      "original_country_names": {
+        "emergency": [
+          "Transnistria"
+        ],
+        "crisis_helplines": []
+      },
+      "name_match_confidence": "single_source"
+    }
+  },
+  {
+    "country_name": "Tristan da Cunha",
+    "emergency": {
+      "police": "999",
+      "ambulance": "911",
+      "fire": "999",
+      "other_numbers": []
+    },
+    "mental_health_helplines": [],
+    "specialist_helplines": [],
+    "source_urls": [
+      "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+    ],
+    "verification_status": "warning",
+    "verification_notes": "Emergency dataset names: Tristan da Cunha. | Parsed from Wikipedia table section: Africa. No row-specific external citation URL was discoverable from the rendered references.",
+    "merge_metadata": {
+      "merge_key": "tristan da cunha",
+      "source_presence": {
+        "emergency": true,
+        "crisis_helplines": false
+      },
+      "original_country_names": {
+        "emergency": [
+          "Tristan da Cunha"
+        ],
+        "crisis_helplines": []
+      },
+      "name_match_confidence": "single_source"
+    }
+  }
+]
