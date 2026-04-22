@@ -26,9 +26,13 @@ For each country in the enrichment file:
 
 Defaults are filled in for any missing fields so the output conforms to the
 v2.0 schema documented in SCHEMA.md.
+
+By default this command performs a dry run. Pass `--apply` to write the
+canonical dataset.
 """
 from __future__ import annotations
 
+import argparse
 import json
 import pathlib
 import re
@@ -36,7 +40,12 @@ import sys
 import unicodedata
 from datetime import datetime
 
-ROOT = pathlib.Path(__file__).parent.parent
+ROOT = pathlib.Path(__file__).resolve().parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from scripts.lib.safety import canonical_write_requested
+
 OUT = ROOT / "hotlines.json"
 ENRICH_DIR = ROOT / "scripts" / "enrichment"
 
@@ -107,7 +116,20 @@ def apply_country(existing: dict, enrich: dict) -> dict:
     return existing
 
 
-def main():
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Merge scripts/enrichment/*.json into hotlines.json. Dry run by default; pass --apply to write."
+    )
+    parser.add_argument(
+        "--apply",
+        action="store_true",
+        help="Write the merged canonical dataset back to hotlines.json.",
+    )
+    return parser.parse_args(argv)
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
     data = json.loads(OUT.read_text(encoding="utf-8"))
     by_alpha2 = {c.get("alpha-2"): c for c in data["countries"] if c.get("alpha-2")}
     by_name = {c["country"]: c for c in data["countries"]}
@@ -115,7 +137,7 @@ def main():
     files = sorted(ENRICH_DIR.glob("*.json"))
     if not files:
         print("No enrichment files found.", file=sys.stderr)
-        sys.exit(1)
+        return 1
 
     total_countries = 0
     total_hotlines = 0
@@ -126,7 +148,6 @@ def main():
             a2 = enrich.get("alpha-2")
             existing = by_alpha2.get(a2) or by_name.get(enrich["country"])
             if existing is None:
-                # Create new country
                 new_country = {
                     "country": enrich["country"],
                     "alpha-2": a2,
@@ -148,11 +169,25 @@ def main():
 
     data["countries"].sort(key=lambda c: c["country"])
     data["last_updated"] = datetime.utcnow().date().isoformat()
+
+    effective_argv = argv if argv is not None else sys.argv[1:]
+    if not canonical_write_requested(effective_argv):
+        print("\nDry run only: canonical dataset was not modified. Re-run with --apply to write hotlines.json.")
+        print(f"Would apply {total_countries} country-blocks, {total_hotlines} enriched hotlines.")
+        print(
+            f"Resulting dataset would have {len(data['countries'])} countries, "
+            f"{sum(len(c['hotlines']) for c in data['countries'])} hotlines."
+        )
+        return 0
+
     OUT.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"\nApplied {total_countries} country-blocks, {total_hotlines} enriched hotlines.")
-    print(f"hotlines.json now has {len(data['countries'])} countries, "
-          f"{sum(len(c['hotlines']) for c in data['countries'])} hotlines.")
+    print(
+        f"hotlines.json now has {len(data['countries'])} countries, "
+        f"{sum(len(c['hotlines']) for c in data['countries'])} hotlines."
+    )
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

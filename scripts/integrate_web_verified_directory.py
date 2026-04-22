@@ -3,11 +3,21 @@ from __future__ import annotations
 
 import json
 import re
+import sys
 import unicodedata
 from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from scripts.lib.safety import (
+    SUPPLEMENTAL_PREVIEW_ROLE,
+    country_has_protected_hotlines,
+    protected_statuses_for_country,
+)
+
 CANONICAL_PATH = ROOT / "hotlines.json"
 SOURCE_DIR = ROOT / "sources" / "web_verified_crisis_directory"
 SOURCE_PATH = SOURCE_DIR / "final_countries_crisis_directory.json"
@@ -16,13 +26,6 @@ UNMATCHED_PATH = SOURCE_DIR / "unmatched_country_rows.json"
 REPORT_PATH = ROOT / "REPORTS" / "web_verified_directory_integration_report.md"
 
 SCHEMA_V2 = "2.0"
-PROTECTED_CANONICAL_STATUSES = {
-    "verified_web",
-    "verified_authority",
-    "verified_knowledge",
-    "disputed",
-    "deprecated",
-}
 
 SOURCE_TO_REPO_COUNTRY = {
     "Antigua & Barbuda": "Antigua and Barbuda",
@@ -241,15 +244,6 @@ def convert_row(row: dict, canonical_country: dict) -> dict:
             "source_presence": row.get("merge_metadata", {}).get("source_presence"),
         },
     }
-
-
-def country_has_protected_hotlines(country: dict) -> bool:
-    return any(
-        hotline.get("verification_status") in PROTECTED_CANONICAL_STATUSES
-        for hotline in country.get("hotlines", [])
-    )
-
-
 def main() -> None:
     canonical = json.loads(CANONICAL_PATH.read_text(encoding="utf-8"))
     source_rows = json.loads(SOURCE_PATH.read_text(encoding="utf-8"))
@@ -286,11 +280,7 @@ def main() -> None:
             protected_rows.append({
                 "source_country_name": source_name,
                 "repo_country_name": canonical_country["country"],
-                "protected_statuses": sorted({
-                    hotline.get("verification_status")
-                    for hotline in canonical_country.get("hotlines", [])
-                    if hotline.get("verification_status") in PROTECTED_CANONICAL_STATUSES
-                }),
+                "protected_statuses": protected_statuses_for_country(canonical_country),
             })
             continue
         converted = convert_row(row, canonical_country)
@@ -318,7 +308,7 @@ def main() -> None:
         "methodology": "Supplemental preview generated from the web_verified_crisis_directory source artifacts. This file is intentionally not the canonical dataset, remains schema v2 compatible for review tooling, excludes countries that already have richer non-legacy canonical records, and preserves conservative legacy_unverified verification statuses pending maintainers' review.",
         "categories_reference": canonical.get("categories_reference", {}),
         "_preview_metadata": {
-            "dataset_role": "supplemental_preview",
+            "dataset_role": SUPPLEMENTAL_PREVIEW_ROLE,
             "canonical_dataset_path": str(CANONICAL_PATH.relative_to(ROOT)),
             "generated_from": str(SOURCE_PATH.relative_to(ROOT)),
             "guarantees": [
