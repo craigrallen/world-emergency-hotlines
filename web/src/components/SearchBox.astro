@@ -286,14 +286,19 @@
       const noResults = buildNoResultsGuidance({
         parsedQuery,
         uiFilters,
+        docs: allDocs,
         relaxedCount: relaxed.count,
         relaxedSummary: relaxed.summary,
       });
+      const suggestionList = (noResults.suggestions ?? [])
+        .map((item) => `<li>${escape(item)}</li>`)
+        .join('');
 
       panel.innerHTML = `
         <div class="px-4 py-4 text-sm text-fg-muted space-y-2">
           <p class="text-fg">${escape(noResults.title)}</p>
           <p class="text-xs">${escape(noResults.detail)}</p>
+          ${suggestionList ? `<ul class="list-disc space-y-1 pl-4 text-xs text-fg-muted">${suggestionList}</ul>` : ''}
         </div>`;
       panel.classList.remove('hidden');
       fallback?.classList.remove('hidden');

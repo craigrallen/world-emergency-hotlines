@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import docs from '../public/data/search-index.json' with { type: 'json' };
 import { 
   buildNoResultsGuidance,
+  buildNoResultsSuggestions,
   buildOverflowSummary,
   buildResultSummary,
   docMatchesQueryFilters,
@@ -182,11 +183,34 @@ assert.equal(
 const noResultParsed = parseSearchQuery('chat support sweden domestic violence', docs);
 const noResultGuidance = buildNoResultsGuidance({
   parsedQuery: noResultParsed,
+  docs,
   relaxedCount: 1,
   relaxedSummary: 'in Sweden without that channel requirement',
 });
 assert.equal(noResultGuidance.title, "I couldn't find chat-based domestic violence support in Sweden.");
 assert.match(noResultGuidance.detail, /I did find 1 alternative in Sweden without that channel requirement\./);
+assert.ok(
+  noResultGuidance.suggestions.some((item) => item.includes('without the chat/text requirement')),
+  `Expected channel relaxation suggestion. Got: ${noResultGuidance.suggestions.join(' | ')}`,
+);
+assert.ok(
+  noResultGuidance.suggestions.some((item) => item.includes('Sweden with')),
+  `Expected country/category suggestion. Got: ${noResultGuidance.suggestions.join(' | ')}`,
+);
+
+const typoParsed = parseSearchQuery('swedn', docs);
+const typoSuggestions = buildNoResultsSuggestions({ parsedQuery: typoParsed, docs });
+assert.ok(
+  typoSuggestions.some((item) => item.includes('Sweden')),
+  `Expected spelling suggestion for Sweden typo. Got: ${typoSuggestions.join(' | ')}`,
+);
+
+const categoryOnlyParsed = parseSearchQuery('mental health', docs);
+const categorySuggestions = buildNoResultsSuggestions({ parsedQuery: categoryOnlyParsed, docs });
+assert.ok(
+  categorySuggestions.some((item) => item.includes('mental health in')),
+  `Expected actionable country suggestions for category-only intent. Got: ${categorySuggestions.join(' | ')}`,
+);
 
 assert.equal(
   buildOverflowSummary(3, summaryParsed),

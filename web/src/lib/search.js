@@ -218,6 +218,16 @@ function buildHaystack(doc) {
   ].join(' '));
 }
 
+function uniqueDocsByHotline(docs = []) {
+  const seen = new Set();
+  return docs.filter((doc) => {
+    const key = `${doc.country_name}::${doc.name}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
 function getParsedQuery(queryOrParsed) {
   if (typeof queryOrParsed === 'string') return parseSearchQuery(queryOrParsed);
   return queryOrParsed;
@@ -275,6 +285,77 @@ export function scoreDoc(doc, queryOrParsed) {
 
 export function hasMeaningfulQuery(query) {
   return parseSearchQuery(query).tokens.length > 0;
+}
+
+function levenshteinDistance(a, b) {
+  if (a === b) return 0;
+  if (!a.length) return b.length;
+  if (!b.length) return a.length;
+
+  const rows = Array.from({ length: a.length + 1 }, (_, index) => [index]);
+  for (let column = 0; column <= b.length; column += 1) rows[0][column] = column;
+
+  for (let i = 1; i <= a.length; i += 1) {
+    for (let j = 1; j <= b.length; j += 1) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      rows[i][j] = Math.min(
+        rows[i - 1][j] + 1,
+        rows[i][j - 1] + 1,
+        rows[i - 1][j - 1] + cost,
+      );
+    }
+  }
+
+  return rows[a.length][b.length];
+}
+
+function findClosestTerm(rawQuery, docs = []) {
+  const parsed = getParsedQuery(rawQuery);
+  const query = typeof rawQuery === 'string' ? rawQuery : rawQuery.normalized;
+  const normalizedQuery = normalizeText(query);
+  if (!normalizedQuery) return null;
+
+  const countries = new Map();
+  for (const doc of docs) {
+    const country = normalizeText(doc.country_name);
+    if (!country) continue;
+    countries.set(country, doc.country_name);
+  }
+
+  const categories = Object.entries(CATEGORY_LABELS).map(([value, label]) => ({
+    value,
+    label,
+    normalized: normalizeText(label),
+  }));
+
+  const candidates = [
+    ...Array.from(countries.entries()).map(([normalized, label]) => ({
+      kind: 'country',
+      label,
+      normalized,
+    })),
+    ...categories.map((category) => ({
+      kind: 'category',
+      label: category.label,
+      normalized: category.normalized,
+    })),
+  ];
+
+  const queryCandidates = [normalizedQuery, ...parsed.tokens].filter(Boolean);
+  let best = null;
+
+  for (const source of queryCandidates) {
+    for (const candidate of candidates) {
+      const distance = levenshteinDistance(source, candidate.normalized);
+      const threshold = candidate.normalized.length <= 6 ? 2 : 3;
+      if (distance > threshold) continue;
+      if (!best || distance < best.distance || (distance === best.distance && candidate.normalized.length > best.normalized.length)) {
+        best = { ...candidate, distance };
+      }
+    }
+  }
+
+  return best;
 }
 
 /** @param {number} count @param {string} singular @param {string} [plural] */
@@ -355,8 +436,81 @@ export function buildOverflowSummary(hiddenCount, parsedQuery, uiFilters = []) {
   return `${pluralize(hiddenCount, 'more option')} available for ${subject} — refine your search to narrow them down.`;
 }
 
-/** @param {{ parsedQuery: { intent?: { country?: { label: string } | null, category?: { label: string } | null } | null, filters: string[] }, uiFilters?: string[], relaxedCount?: number, relaxedSummary?: string }} params */
-export function buildNoResultsGuidance({ parsedQuery, uiFilters = [], relaxedCount = 0, relaxedSummary = '' }) {
+/** @param {{ parsedQuery: { intent?: { country?: { label: string } | null, category?: { label: string } | null } | null, filters: string[] }, uiFilters?: string[], docs?: Array<any>, relaxedCount?: number }} params */
+export function buildNoResultsSuggestions({ parsedQuery, uiFilters = [], docs = [], relaxedCount = 0 }) {
+  const suggestions = [];
+  const baseDocs = uniqueDocsByHotline(docs);
+  const nonChannelQuery = {
+    ...parsedQuery,
+    filters: parsedQuery.filters.filter((filter) => filter !== 'chat' && filter !== 'sms'),
+  };
+  const nonChannelUiFilters = uiFilters.filter((filter) => filter !== 'chat' && filter !== 'sms');
+
+  const countryMatches = parsedQuery.intent?.country
+    ? baseDocs.filter((doc) => normalizeText(doc.country_name) === normalizeText(parsedQuery.intent.country.label))
+    : [];
+  const categoryMatches = parsedQuery.intent?.category
+    ? baseDocs.filter((doc) => doc.category === parsedQuery.intent.category.value)
+    : [];
+  const relaxedMatches = baseDocs
+    .filter((doc) => docMatchesQueryFilters(doc, nonChannelQuery))
+    .filter((doc) => nonChannelUiFilters.every((filter) => {
+      if (filter === 'verified') return doc.verified;
+      if (filter.startsWith('cat:')) return doc.category === filter.slice(4);
+      return true;
+    }));
+
+  if (relaxedCount > 0) {
+    suggestions.push('Try the same search without the chat/text requirement.');
+  }
+
+  if (uiFilters.includes('verified')) {
+    const broaderMatches = baseDocs.filter((doc) => docMatchesQueryFilters(doc, parsedQuery));
+    if (broaderMatches.some((doc) => !doc.verified)) {
+      suggestions.push('Turn off “Verified only” to include broader directory matches.');
+    }
+  }
+
+  if (parsedQuery.intent?.country && countryMatches.length > 0) {
+    const topCategories = [...new Map(
+      countryMatches
+        .map((doc) => doc.category)
+        .sort()
+        .map((category) => [category, category]),
+    ).values()].slice(0, 3).map((category) => titleCaseCategory(category));
+    if (topCategories.length > 0) {
+      suggestions.push(`Try ${parsedQuery.intent.country.label} with ${joinParts(topCategories.map((label) => label.toLowerCase()))}.`);
+    }
+  }
+
+  if (!parsedQuery.intent?.country && parsedQuery.intent?.category && categoryMatches.length > 0) {
+    const topCountries = [...new Map(
+      categoryMatches
+        .map((doc) => [normalizeText(doc.country_name), doc.country_name])
+        .sort((a, b) => a[1].localeCompare(b[1])),
+    ).values()].slice(0, 3);
+    if (topCountries.length > 0) {
+      suggestions.push(`Try ${parsedQuery.intent.category.label.toLowerCase()} in ${joinParts(topCountries)}.`);
+    }
+  }
+
+  if (!parsedQuery.intent?.country && !parsedQuery.intent?.category) {
+    const correction = findClosestTerm(parsedQuery, baseDocs);
+    if (correction) {
+      suggestions.push(`Did you mean ${correction.label}?`);
+    }
+  }
+
+  if (suggestions.length === 0 && relaxedMatches.length > 0) {
+    const sample = relaxedMatches.slice(0, 3).map((doc) => `${doc.country_name} (${titleCaseCategory(doc.category).toLowerCase()})`);
+    suggestions.push(`Try ${joinParts(sample)} instead.`);
+  }
+
+  return suggestions.slice(0, 3);
+}
+
+/** @param {{ parsedQuery: { intent?: { country?: { label: string } | null, category?: { label: string } | null } | null, filters: string[] }, uiFilters?: string[], docs?: Array<any>, relaxedCount?: number, relaxedSummary?: string }} params */
+export function buildNoResultsGuidance({ parsedQuery, uiFilters = [], docs = [], relaxedCount = 0, relaxedSummary = '' }) {
   const subject = describeIntent(parsedQuery, uiFilters);
   const channelRequests = [];
 
@@ -370,16 +524,19 @@ export function buildNoResultsGuidance({ parsedQuery, uiFilters = [], relaxedCou
   const suggestions = filterHints.length > 0
     ? `Try ${joinParts(filterHints)}, checking the spelling, or searching by country name.`
     : 'Try checking the spelling, searching by country name, or browsing a broader category.';
+  const suggestionItems = buildNoResultsSuggestions({ parsedQuery, uiFilters, docs, relaxedCount });
 
   if (relaxedCount > 0 && relaxedSummary) {
     return {
       title: `I couldn't find ${subject}.`,
       detail: `I did find ${pluralize(relaxedCount, 'alternative')} ${relaxedSummary}. ${suggestions}`,
+      suggestions: suggestionItems,
     };
   }
 
   return {
     title: `I couldn't find ${subject}.`,
     detail: suggestions,
+    suggestions: suggestionItems,
   };
 }

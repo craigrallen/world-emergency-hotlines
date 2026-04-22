@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import 'maplibre-gl/dist/maplibre-gl.css';
 ---
 
 <Base
@@ -53,12 +54,7 @@ import Base from '../layouts/Base.astro';
     </aside>
   </div>
 
-  <!-- MapLibre CSS (CDN, allowed by CSP style-src) -->
-  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" />
-
   <script>
-    import maplibregl from 'maplibre-gl';
-
     const errBox = document.getElementById('map-error') as HTMLDivElement | null;
     const loadingBox = document.getElementById('map-loading') as HTMLDivElement | null;
 
@@ -71,6 +67,7 @@ import Base from '../layouts/Base.astro';
     }
 
     async function main() {
+      const { default: maplibregl } = await import('maplibre-gl');
       const container = document.getElementById('hotlines-map') as HTMLDivElement | null;
       const panel = document.getElementById('country-panel') as HTMLElement | null;
       const panelBody = document.getElementById('country-panel-body') as HTMLElement | null;
