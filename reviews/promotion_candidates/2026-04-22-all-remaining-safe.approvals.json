@@ -1,0 +1,166 @@
+{
+  "decisions": [
+    {
+      "candidate_id": "antarctica-emergency-mergemissingfields-webverifieddirectoryv2previewjson-2",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "antarctica-emergencymetadata-upgradeemergencymetadata-webverifieddirectoryv2previewjson-1",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "macao-centrodeaccaosocial-appendnewhotline-webverifieddirectoryv2previewjson-9",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "macao-emergency-mergemissingfields-webverifieddirectoryv2previewjson-8",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "macao-emergencymetadata-upgradeemergencymetadata-webverifieddirectoryv2previewjson-7",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "macao-helplinesofnongovernmentalsocialserviceorganizations-appendnewhotline-webverifieddirectoryv2previewjson-10",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "macao-hotlineofsocialwelfarebureau-appendnewhotline-webverifieddirectoryv2previewjson-11",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "macao-individualandfamilycounsellingservice-appendnewhotline-webverifieddirectoryv2previewjson-12",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "macao-institutodeaccaosocialdogovernodaraem-appendnewhotline-webverifieddirectoryv2previewjson-13",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "macao-linhaabertadoinstitutodeaccaosocial-appendnewhotline-webverifieddirectoryv2previewjson-14",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "macao-linhasabertasdisponibilizadaspelasipsssparaaconselhamento-appendnewhotline-webverifieddirectoryv2previewjson-15",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "macao-servicodeaconselhamentoaindividuosefamilias-appendnewhotline-webverifieddirectoryv2previewjson-16",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "montserrat-focalpointforwomensaffairs-appendnewhotline-webverifieddirectoryv2previewjson-18",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "saintpierreandmiquelon-emergency-mergemissingfields-webverifieddirectoryv2previewjson-20",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "saintpierreandmiquelon-emergencymetadata-upgradeemergencymetadata-webverifieddirectoryv2previewjson-19",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "saintpierreandmiquelon-jaibesoindaide-appendnewhotline-webverifieddirectoryv2previewjson-21",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "saintpierreandmiquelon-lesassociationsdesoutienauxfemmesvictimes-appendnewhotline-webverifieddirectoryv2previewjson-22",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "saintpierreandmiquelon-lesassociationspresdechezvous-appendnewhotline-webverifieddirectoryv2previewjson-23",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "saintpierreandmiquelon-lesnumerosdurgence-appendnewhotline-webverifieddirectoryv2previewjson-24",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "saintpierreandmiquelon-ministeredesdroitsdesfemmes-appendnewhotline-webverifieddirectoryv2previewjson-25",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "saintpierreandmiquelon-troisvideo-appendnewhotline-webverifieddirectoryv2previewjson-26",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "saintpierreandmiquelon-violencesauseinducouple-appendnewhotline-webverifieddirectoryv2previewjson-27",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "saintpierreandmiquelon-violencescontrelesfemmeslaloivousprotege-appendnewhotline-webverifieddirectoryv2previewjson-28",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "westernsahara-asociaciondemujeressaharauisenespanaamse-appendnewhotline-webverifieddirectoryv2previewjson-31",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "westernsahara-unionnationaledesfemmessahraouies-appendnewhotline-webverifieddirectoryv2previewjson-32",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "alandislands-emergency-mergemissingfields-webverifieddirectoryv2previewjson-34",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    },
+    {
+      "candidate_id": "alandislands-emergencymetadata-upgradeemergencymetadata-webverifieddirectoryv2previewjson-33",
+      "state": "approved",
+      "reviewer": "hermes",
+      "notes": "Legacy-only canonical country; additive-only candidate supported by promotion tooling and selected for full remaining safe batch."
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "$schema_version": "2.0",
-  "generated_at": "2026-04-22T15:17:24Z",
+  "generated_at": "2026-04-22T15:54:47Z",
   "scoring_model": {
     "enrichment_weights": {
       "no_non_legacy_records": 10,
@@ -53,18 +53,18 @@
     "countries_with_no_protected_records": 17,
     "countries_with_no_first_party_sources": 250,
     "countries_with_no_last_verified": 17,
-    "countries_with_low_hotline_count": 87,
+    "countries_with_low_hotline_count": 84,
     "countries_with_reviewable_preview": 11,
     "reviewable_preview_country_keys": 11,
     "reviewable_preview_hotline_total": 30,
     "verification_status_counts": {
       "cross_referenced": 640,
-      "legacy_unverified": 1209,
+      "legacy_unverified": 1228,
       "verified_knowledge": 802
     },
     "missing_key_category_counts": {
       "child_protection": 115,
-      "domestic_violence": 125,
+      "domestic_violence": 121,
       "lgbtqia": 211,
       "missing_persons": 245,
       "suicide_crisis": 131
@@ -378,189 +378,6 @@
         ]
       },
       {
-        "country": "Macao",
-        "alpha-2": "MO",
-        "score": 48,
-        "hotline_count": 1,
-        "missing_key_categories": [
-          "suicide_crisis",
-          "child_protection",
-          "domestic_violence",
-          "lgbtqia",
-          "missing_persons"
-        ],
-        "reviewable_preview_hotline_count": 9,
-        "research_gap_interpretation": "likely_research_gap",
-        "reasons": [
-          {
-            "reason": "No non-legacy records",
-            "weight": 10
-          },
-          {
-            "reason": "No protected/richer records",
-            "weight": 5
-          },
-          {
-            "reason": "Missing suicide/crisis line",
-            "weight": 8
-          },
-          {
-            "reason": "Missing child-protection line",
-            "weight": 6
-          },
-          {
-            "reason": "Missing domestic-violence line",
-            "weight": 5
-          },
-          {
-            "reason": "Missing LGBTQIA+ line",
-            "weight": 2
-          },
-          {
-            "reason": "Missing missing-persons line",
-            "weight": 2
-          },
-          {
-            "reason": "Low hotline count (≤2)",
-            "weight": 3
-          },
-          {
-            "reason": "No first-party verified coverage",
-            "weight": 2
-          },
-          {
-            "reason": "No last_verified date on any hotline",
-            "weight": 2
-          },
-          {
-            "reason": "Has reviewable supplemental preview data",
-            "weight": 3
-          }
-        ]
-      },
-      {
-        "country": "Montserrat",
-        "alpha-2": "MS",
-        "score": 48,
-        "hotline_count": 1,
-        "missing_key_categories": [
-          "suicide_crisis",
-          "child_protection",
-          "domestic_violence",
-          "lgbtqia",
-          "missing_persons"
-        ],
-        "reviewable_preview_hotline_count": 2,
-        "research_gap_interpretation": "likely_research_gap",
-        "reasons": [
-          {
-            "reason": "No non-legacy records",
-            "weight": 10
-          },
-          {
-            "reason": "No protected/richer records",
-            "weight": 5
-          },
-          {
-            "reason": "Missing suicide/crisis line",
-            "weight": 8
-          },
-          {
-            "reason": "Missing child-protection line",
-            "weight": 6
-          },
-          {
-            "reason": "Missing domestic-violence line",
-            "weight": 5
-          },
-          {
-            "reason": "Missing LGBTQIA+ line",
-            "weight": 2
-          },
-          {
-            "reason": "Missing missing-persons line",
-            "weight": 2
-          },
-          {
-            "reason": "Low hotline count (≤2)",
-            "weight": 3
-          },
-          {
-            "reason": "No first-party verified coverage",
-            "weight": 2
-          },
-          {
-            "reason": "No last_verified date on any hotline",
-            "weight": 2
-          },
-          {
-            "reason": "Has reviewable supplemental preview data",
-            "weight": 3
-          }
-        ]
-      },
-      {
-        "country": "Saint Pierre and Miquelon",
-        "alpha-2": "PM",
-        "score": 48,
-        "hotline_count": 1,
-        "missing_key_categories": [
-          "suicide_crisis",
-          "child_protection",
-          "domestic_violence",
-          "lgbtqia",
-          "missing_persons"
-        ],
-        "reviewable_preview_hotline_count": 9,
-        "research_gap_interpretation": "likely_research_gap",
-        "reasons": [
-          {
-            "reason": "No non-legacy records",
-            "weight": 10
-          },
-          {
-            "reason": "No protected/richer records",
-            "weight": 5
-          },
-          {
-            "reason": "Missing suicide/crisis line",
-            "weight": 8
-          },
-          {
-            "reason": "Missing child-protection line",
-            "weight": 6
-          },
-          {
-            "reason": "Missing domestic-violence line",
-            "weight": 5
-          },
-          {
-            "reason": "Missing LGBTQIA+ line",
-            "weight": 2
-          },
-          {
-            "reason": "Missing missing-persons line",
-            "weight": 2
-          },
-          {
-            "reason": "Low hotline count (≤2)",
-            "weight": 3
-          },
-          {
-            "reason": "No first-party verified coverage",
-            "weight": 2
-          },
-          {
-            "reason": "No last_verified date on any hotline",
-            "weight": 2
-          },
-          {
-            "reason": "Has reviewable supplemental preview data",
-            "weight": 3
-          }
-        ]
-      },
-      {
         "country": "South Georgia and the South Sandwich Islands",
         "alpha-2": "GS",
         "score": 48,
@@ -573,67 +390,6 @@
           "missing_persons"
         ],
         "reviewable_preview_hotline_count": 1,
-        "research_gap_interpretation": "likely_research_gap",
-        "reasons": [
-          {
-            "reason": "No non-legacy records",
-            "weight": 10
-          },
-          {
-            "reason": "No protected/richer records",
-            "weight": 5
-          },
-          {
-            "reason": "Missing suicide/crisis line",
-            "weight": 8
-          },
-          {
-            "reason": "Missing child-protection line",
-            "weight": 6
-          },
-          {
-            "reason": "Missing domestic-violence line",
-            "weight": 5
-          },
-          {
-            "reason": "Missing LGBTQIA+ line",
-            "weight": 2
-          },
-          {
-            "reason": "Missing missing-persons line",
-            "weight": 2
-          },
-          {
-            "reason": "Low hotline count (≤2)",
-            "weight": 3
-          },
-          {
-            "reason": "No first-party verified coverage",
-            "weight": 2
-          },
-          {
-            "reason": "No last_verified date on any hotline",
-            "weight": 2
-          },
-          {
-            "reason": "Has reviewable supplemental preview data",
-            "weight": 3
-          }
-        ]
-      },
-      {
-        "country": "Western Sahara",
-        "alpha-2": "EH",
-        "score": 48,
-        "hotline_count": 1,
-        "missing_key_categories": [
-          "suicide_crisis",
-          "child_protection",
-          "domestic_violence",
-          "lgbtqia",
-          "missing_persons"
-        ],
-        "reviewable_preview_hotline_count": 3,
         "research_gap_interpretation": "likely_research_gap",
         "reasons": [
           {
@@ -1102,6 +858,218 @@
         ]
       },
       {
+        "country": "Montserrat",
+        "alpha-2": "MS",
+        "score": 43,
+        "hotline_count": 2,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 2,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No non-legacy records",
+            "weight": 10
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 5
+          },
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "Low hotline count (≤2)",
+            "weight": 3
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 2
+          },
+          {
+            "reason": "Has reviewable supplemental preview data",
+            "weight": 3
+          }
+        ]
+      },
+      {
+        "country": "Macao",
+        "alpha-2": "MO",
+        "score": 40,
+        "hotline_count": 9,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 9,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No non-legacy records",
+            "weight": 10
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 5
+          },
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 2
+          },
+          {
+            "reason": "Has reviewable supplemental preview data",
+            "weight": 3
+          }
+        ]
+      },
+      {
+        "country": "Saint Pierre and Miquelon",
+        "alpha-2": "PM",
+        "score": 40,
+        "hotline_count": 9,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 9,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No non-legacy records",
+            "weight": 10
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 5
+          },
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 2
+          },
+          {
+            "reason": "Has reviewable supplemental preview data",
+            "weight": 3
+          }
+        ]
+      },
+      {
+        "country": "Western Sahara",
+        "alpha-2": "EH",
+        "score": 40,
+        "hotline_count": 3,
+        "missing_key_categories": [
+          "suicide_crisis",
+          "child_protection",
+          "lgbtqia",
+          "missing_persons"
+        ],
+        "reviewable_preview_hotline_count": 3,
+        "research_gap_interpretation": "likely_research_gap",
+        "reasons": [
+          {
+            "reason": "No non-legacy records",
+            "weight": 10
+          },
+          {
+            "reason": "No protected/richer records",
+            "weight": 5
+          },
+          {
+            "reason": "Missing suicide/crisis line",
+            "weight": 8
+          },
+          {
+            "reason": "Missing child-protection line",
+            "weight": 6
+          },
+          {
+            "reason": "Missing LGBTQIA+ line",
+            "weight": 2
+          },
+          {
+            "reason": "Missing missing-persons line",
+            "weight": 2
+          },
+          {
+            "reason": "No first-party verified coverage",
+            "weight": 2
+          },
+          {
+            "reason": "No last_verified date on any hotline",
+            "weight": 2
+          },
+          {
+            "reason": "Has reviewable supplemental preview data",
+            "weight": 3
+          }
+        ]
+      },
+      {
         "country": "Afghanistan",
         "alpha-2": "AF",
         "score": 28,
@@ -1466,12 +1434,11 @@
       {
         "country": "Macao",
         "alpha-2": "MO",
-        "score": 30,
-        "hotline_count": 1,
+        "score": 29,
+        "hotline_count": 9,
         "missing_key_categories": [
           "suicide_crisis",
           "child_protection",
-          "domestic_violence",
           "lgbtqia",
           "missing_persons"
         ],
@@ -1497,22 +1464,17 @@
           {
             "reason": "Supplemental preview rows available to verify",
             "weight": 6
-          },
-          {
-            "reason": "Low hotline count (≤2)",
-            "weight": 1
           }
         ]
       },
       {
         "country": "Saint Pierre and Miquelon",
         "alpha-2": "PM",
-        "score": 30,
-        "hotline_count": 1,
+        "score": 29,
+        "hotline_count": 9,
         "missing_key_categories": [
           "suicide_crisis",
           "child_protection",
-          "domestic_violence",
           "lgbtqia",
           "missing_persons"
         ],
@@ -1538,22 +1500,17 @@
           {
             "reason": "Supplemental preview rows available to verify",
             "weight": 6
-          },
-          {
-            "reason": "Low hotline count (≤2)",
-            "weight": 1
           }
         ]
       },
       {
         "country": "Western Sahara",
         "alpha-2": "EH",
-        "score": 30,
-        "hotline_count": 1,
+        "score": 29,
+        "hotline_count": 3,
         "missing_key_categories": [
           "suicide_crisis",
           "child_protection",
-          "domestic_violence",
           "lgbtqia",
           "missing_persons"
         ],
@@ -1579,10 +1536,6 @@
           {
             "reason": "Supplemental preview rows available to verify",
             "weight": 6
-          },
-          {
-            "reason": "Low hotline count (≤2)",
-            "weight": 1
           }
         ]
       },
@@ -1590,11 +1543,10 @@
         "country": "Montserrat",
         "alpha-2": "MS",
         "score": 28,
-        "hotline_count": 1,
+        "hotline_count": 2,
         "missing_key_categories": [
           "suicide_crisis",
           "child_protection",
-          "domestic_violence",
           "lgbtqia",
           "missing_persons"
         ],
@@ -2323,12 +2275,11 @@
       {
         "country": "Macao",
         "alpha-2": "MO",
-        "score": 38,
-        "hotline_count": 1,
+        "score": 37,
+        "hotline_count": 9,
         "missing_key_categories": [
           "suicide_crisis",
           "child_protection",
-          "domestic_violence",
           "lgbtqia",
           "missing_persons"
         ],
@@ -2349,19 +2300,18 @@
           },
           {
             "reason": "Missing high-priority service categories",
-            "weight": 3
+            "weight": 2
           }
         ]
       },
       {
         "country": "Saint Pierre and Miquelon",
         "alpha-2": "PM",
-        "score": 38,
-        "hotline_count": 1,
+        "score": 37,
+        "hotline_count": 9,
         "missing_key_categories": [
           "suicide_crisis",
           "child_protection",
-          "domestic_violence",
           "lgbtqia",
           "missing_persons"
         ],
@@ -2382,19 +2332,18 @@
           },
           {
             "reason": "Missing high-priority service categories",
-            "weight": 3
+            "weight": 2
           }
         ]
       },
       {
         "country": "Western Sahara",
         "alpha-2": "EH",
-        "score": 20,
-        "hotline_count": 1,
+        "score": 19,
+        "hotline_count": 3,
         "missing_key_categories": [
           "suicide_crisis",
           "child_protection",
-          "domestic_violence",
           "lgbtqia",
           "missing_persons"
         ],
@@ -2415,19 +2364,18 @@
           },
           {
             "reason": "Missing high-priority service categories",
-            "weight": 3
+            "weight": 2
           }
         ]
       },
       {
         "country": "Montserrat",
         "alpha-2": "MS",
-        "score": 17,
-        "hotline_count": 1,
+        "score": 16,
+        "hotline_count": 2,
         "missing_key_categories": [
           "suicide_crisis",
           "child_protection",
-          "domestic_violence",
           "lgbtqia",
           "missing_persons"
         ],
@@ -2448,7 +2396,7 @@
           },
           {
             "reason": "Missing high-priority service categories",
-            "weight": 3
+            "weight": 2
           }
         ]
       },
@@ -2687,10 +2635,6 @@
   },
   "category_gap_reports": {
     "suicide_crisis": [
-      "Macao",
-      "Saint Pierre and Miquelon",
-      "Western Sahara",
-      "Montserrat",
       "Antarctica",
       "Bonaire, Sint Eustatius and Saba",
       "British Indian Ocean Territory",
@@ -2704,6 +2648,10 @@
       "United States Minor Outlying Islands",
       "Norfolk Island",
       "Pitcairn",
+      "Montserrat",
+      "Macao",
+      "Saint Pierre and Miquelon",
+      "Western Sahara",
       "Afghanistan",
       "Andorra",
       "Anguilla",
@@ -2820,10 +2768,6 @@
       "Vietnam"
     ],
     "child_protection": [
-      "Macao",
-      "Saint Pierre and Miquelon",
-      "Western Sahara",
-      "Montserrat",
       "Antarctica",
       "Bonaire, Sint Eustatius and Saba",
       "British Indian Ocean Territory",
@@ -2837,6 +2781,10 @@
       "United States Minor Outlying Islands",
       "Norfolk Island",
       "Pitcairn",
+      "Montserrat",
+      "Macao",
+      "Saint Pierre and Miquelon",
+      "Western Sahara",
       "Afghanistan",
       "Andorra",
       "Anguilla",
@@ -2937,10 +2885,6 @@
       "Turkey"
     ],
     "domestic_violence": [
-      "Macao",
-      "Saint Pierre and Miquelon",
-      "Western Sahara",
-      "Montserrat",
       "Antarctica",
       "Bonaire, Sint Eustatius and Saba",
       "British Indian Ocean Territory",
@@ -3064,10 +3008,6 @@
       "Trinidad and Tobago"
     ],
     "lgbtqia": [
-      "Macao",
-      "Saint Pierre and Miquelon",
-      "Western Sahara",
-      "Montserrat",
       "Antarctica",
       "Bonaire, Sint Eustatius and Saba",
       "British Indian Ocean Territory",
@@ -3081,6 +3021,10 @@
       "United States Minor Outlying Islands",
       "Norfolk Island",
       "Pitcairn",
+      "Montserrat",
+      "Macao",
+      "Saint Pierre and Miquelon",
+      "Western Sahara",
       "Afghanistan",
       "Andorra",
       "Anguilla",
@@ -3277,10 +3221,6 @@
       "Cyprus"
     ],
     "missing_persons": [
-      "Macao",
-      "Saint Pierre and Miquelon",
-      "Western Sahara",
-      "Montserrat",
       "Antarctica",
       "Bonaire, Sint Eustatius and Saba",
       "British Indian Ocean Territory",
@@ -3294,6 +3234,10 @@
       "United States Minor Outlying Islands",
       "Norfolk Island",
       "Pitcairn",
+      "Montserrat",
+      "Macao",
+      "Saint Pierre and Miquelon",
+      "Western Sahara",
       "Afghanistan",
       "Andorra",
       "Anguilla",
@@ -3526,237 +3470,13 @@
   },
   "countries": [
     {
-      "country": "Macao",
-      "alpha-2": "MO",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
-      "hotline_count": 1,
-      "general_emergency_count": 1,
-      "categories_present": [
-        "emergency"
-      ],
-      "missing_key_categories": [
-        "suicide_crisis",
-        "child_protection",
-        "domestic_violence",
-        "lgbtqia",
-        "missing_persons"
-      ],
-      "verification_status_counts": {
-        "legacy_unverified": 1
-      },
-      "non_legacy_hotline_count": 0,
-      "protected_hotline_count": 0,
-      "first_party_hotline_count": 0,
-      "last_verified_hotline_count": 0,
-      "no_hotlines": false,
-      "only_legacy_records": true,
-      "no_non_legacy_records": true,
-      "no_protected_records": true,
-      "no_first_party_sources": true,
-      "no_last_verified": true,
-      "low_hotline_count": true,
-      "missing_general_emergency": false,
-      "reviewable_preview_hotline_count": 9,
-      "reviewable_preview_datasets": [
-        "sources/web_verified_crisis_directory/final_countries_crisis_directory.json"
-      ],
-      "research_gap_interpretation": "likely_research_gap",
-      "gap_flags": [
-        "only_legacy_records",
-        "no_non_legacy_records",
-        "no_protected_records",
-        "no_first_party_sources",
-        "no_last_verified",
-        "low_hotline_count",
-        "has_reviewable_preview",
-        "missing_category:suicide_crisis",
-        "missing_category:child_protection",
-        "missing_category:domestic_violence",
-        "missing_category:lgbtqia",
-        "missing_category:missing_persons"
-      ],
-      "priority_score": 48,
-      "verification_priority_score": 30,
-      "preview_review_priority_score": 38
-    },
-    {
-      "country": "Saint Pierre and Miquelon",
-      "alpha-2": "PM",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
-      "hotline_count": 1,
-      "general_emergency_count": 1,
-      "categories_present": [
-        "emergency"
-      ],
-      "missing_key_categories": [
-        "suicide_crisis",
-        "child_protection",
-        "domestic_violence",
-        "lgbtqia",
-        "missing_persons"
-      ],
-      "verification_status_counts": {
-        "legacy_unverified": 1
-      },
-      "non_legacy_hotline_count": 0,
-      "protected_hotline_count": 0,
-      "first_party_hotline_count": 0,
-      "last_verified_hotline_count": 0,
-      "no_hotlines": false,
-      "only_legacy_records": true,
-      "no_non_legacy_records": true,
-      "no_protected_records": true,
-      "no_first_party_sources": true,
-      "no_last_verified": true,
-      "low_hotline_count": true,
-      "missing_general_emergency": false,
-      "reviewable_preview_hotline_count": 9,
-      "reviewable_preview_datasets": [
-        "sources/web_verified_crisis_directory/final_countries_crisis_directory.json"
-      ],
-      "research_gap_interpretation": "likely_research_gap",
-      "gap_flags": [
-        "only_legacy_records",
-        "no_non_legacy_records",
-        "no_protected_records",
-        "no_first_party_sources",
-        "no_last_verified",
-        "low_hotline_count",
-        "has_reviewable_preview",
-        "missing_category:suicide_crisis",
-        "missing_category:child_protection",
-        "missing_category:domestic_violence",
-        "missing_category:lgbtqia",
-        "missing_category:missing_persons"
-      ],
-      "priority_score": 48,
-      "verification_priority_score": 30,
-      "preview_review_priority_score": 38
-    },
-    {
-      "country": "Western Sahara",
-      "alpha-2": "EH",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
-      "hotline_count": 1,
-      "general_emergency_count": 1,
-      "categories_present": [
-        "emergency"
-      ],
-      "missing_key_categories": [
-        "suicide_crisis",
-        "child_protection",
-        "domestic_violence",
-        "lgbtqia",
-        "missing_persons"
-      ],
-      "verification_status_counts": {
-        "legacy_unverified": 1
-      },
-      "non_legacy_hotline_count": 0,
-      "protected_hotline_count": 0,
-      "first_party_hotline_count": 0,
-      "last_verified_hotline_count": 0,
-      "no_hotlines": false,
-      "only_legacy_records": true,
-      "no_non_legacy_records": true,
-      "no_protected_records": true,
-      "no_first_party_sources": true,
-      "no_last_verified": true,
-      "low_hotline_count": true,
-      "missing_general_emergency": false,
-      "reviewable_preview_hotline_count": 3,
-      "reviewable_preview_datasets": [
-        "sources/web_verified_crisis_directory/final_countries_crisis_directory.json"
-      ],
-      "research_gap_interpretation": "likely_research_gap",
-      "gap_flags": [
-        "only_legacy_records",
-        "no_non_legacy_records",
-        "no_protected_records",
-        "no_first_party_sources",
-        "no_last_verified",
-        "low_hotline_count",
-        "has_reviewable_preview",
-        "missing_category:suicide_crisis",
-        "missing_category:child_protection",
-        "missing_category:domestic_violence",
-        "missing_category:lgbtqia",
-        "missing_category:missing_persons"
-      ],
-      "priority_score": 48,
-      "verification_priority_score": 30,
-      "preview_review_priority_score": 20
-    },
-    {
-      "country": "Montserrat",
-      "alpha-2": "MS",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
-      "hotline_count": 1,
-      "general_emergency_count": 2,
-      "categories_present": [
-        "emergency"
-      ],
-      "missing_key_categories": [
-        "suicide_crisis",
-        "child_protection",
-        "domestic_violence",
-        "lgbtqia",
-        "missing_persons"
-      ],
-      "verification_status_counts": {
-        "legacy_unverified": 1
-      },
-      "non_legacy_hotline_count": 0,
-      "protected_hotline_count": 0,
-      "first_party_hotline_count": 0,
-      "last_verified_hotline_count": 0,
-      "no_hotlines": false,
-      "only_legacy_records": true,
-      "no_non_legacy_records": true,
-      "no_protected_records": true,
-      "no_first_party_sources": true,
-      "no_last_verified": true,
-      "low_hotline_count": true,
-      "missing_general_emergency": false,
-      "reviewable_preview_hotline_count": 2,
-      "reviewable_preview_datasets": [
-        "sources/web_verified_crisis_directory/final_countries_crisis_directory.json"
-      ],
-      "research_gap_interpretation": "likely_research_gap",
-      "gap_flags": [
-        "only_legacy_records",
-        "no_non_legacy_records",
-        "no_protected_records",
-        "no_first_party_sources",
-        "no_last_verified",
-        "low_hotline_count",
-        "has_reviewable_preview",
-        "missing_category:suicide_crisis",
-        "missing_category:child_protection",
-        "missing_category:domestic_violence",
-        "missing_category:lgbtqia",
-        "missing_category:missing_persons"
-      ],
-      "priority_score": 48,
-      "verification_priority_score": 28,
-      "preview_review_priority_score": 17
-    },
-    {
       "country": "Antarctica",
       "alpha-2": "AQ",
       "alpha-3": null,
       "region": null,
       "subregion": null,
       "hotline_count": 1,
-      "general_emergency_count": 1,
+      "general_emergency_count": 2,
       "categories_present": [
         "emergency"
       ],
@@ -4092,7 +3812,7 @@
       "region": null,
       "subregion": null,
       "hotline_count": 1,
-      "general_emergency_count": 1,
+      "general_emergency_count": 3,
       "categories_present": [
         "emergency"
       ],
@@ -4446,6 +4166,223 @@
       "priority_score": 45,
       "verification_priority_score": 24,
       "preview_review_priority_score": 11
+    },
+    {
+      "country": "Montserrat",
+      "alpha-2": "MS",
+      "alpha-3": null,
+      "region": null,
+      "subregion": null,
+      "hotline_count": 2,
+      "general_emergency_count": 2,
+      "categories_present": [
+        "domestic_violence",
+        "emergency"
+      ],
+      "missing_key_categories": [
+        "suicide_crisis",
+        "child_protection",
+        "lgbtqia",
+        "missing_persons"
+      ],
+      "verification_status_counts": {
+        "legacy_unverified": 2
+      },
+      "non_legacy_hotline_count": 0,
+      "protected_hotline_count": 0,
+      "first_party_hotline_count": 0,
+      "last_verified_hotline_count": 0,
+      "no_hotlines": false,
+      "only_legacy_records": true,
+      "no_non_legacy_records": true,
+      "no_protected_records": true,
+      "no_first_party_sources": true,
+      "no_last_verified": true,
+      "low_hotline_count": true,
+      "missing_general_emergency": false,
+      "reviewable_preview_hotline_count": 2,
+      "reviewable_preview_datasets": [
+        "sources/web_verified_crisis_directory/final_countries_crisis_directory.json"
+      ],
+      "research_gap_interpretation": "likely_research_gap",
+      "gap_flags": [
+        "only_legacy_records",
+        "no_non_legacy_records",
+        "no_protected_records",
+        "no_first_party_sources",
+        "no_last_verified",
+        "low_hotline_count",
+        "has_reviewable_preview",
+        "missing_category:suicide_crisis",
+        "missing_category:child_protection",
+        "missing_category:lgbtqia",
+        "missing_category:missing_persons"
+      ],
+      "priority_score": 43,
+      "verification_priority_score": 28,
+      "preview_review_priority_score": 16
+    },
+    {
+      "country": "Macao",
+      "alpha-2": "MO",
+      "alpha-3": null,
+      "region": null,
+      "subregion": null,
+      "hotline_count": 9,
+      "general_emergency_count": 3,
+      "categories_present": [
+        "domestic_violence",
+        "emergency"
+      ],
+      "missing_key_categories": [
+        "suicide_crisis",
+        "child_protection",
+        "lgbtqia",
+        "missing_persons"
+      ],
+      "verification_status_counts": {
+        "legacy_unverified": 9
+      },
+      "non_legacy_hotline_count": 0,
+      "protected_hotline_count": 0,
+      "first_party_hotline_count": 0,
+      "last_verified_hotline_count": 0,
+      "no_hotlines": false,
+      "only_legacy_records": true,
+      "no_non_legacy_records": true,
+      "no_protected_records": true,
+      "no_first_party_sources": true,
+      "no_last_verified": true,
+      "low_hotline_count": false,
+      "missing_general_emergency": false,
+      "reviewable_preview_hotline_count": 9,
+      "reviewable_preview_datasets": [
+        "sources/web_verified_crisis_directory/final_countries_crisis_directory.json"
+      ],
+      "research_gap_interpretation": "likely_research_gap",
+      "gap_flags": [
+        "only_legacy_records",
+        "no_non_legacy_records",
+        "no_protected_records",
+        "no_first_party_sources",
+        "no_last_verified",
+        "has_reviewable_preview",
+        "missing_category:suicide_crisis",
+        "missing_category:child_protection",
+        "missing_category:lgbtqia",
+        "missing_category:missing_persons"
+      ],
+      "priority_score": 40,
+      "verification_priority_score": 29,
+      "preview_review_priority_score": 37
+    },
+    {
+      "country": "Saint Pierre and Miquelon",
+      "alpha-2": "PM",
+      "alpha-3": null,
+      "region": null,
+      "subregion": null,
+      "hotline_count": 9,
+      "general_emergency_count": 4,
+      "categories_present": [
+        "domestic_violence",
+        "emergency"
+      ],
+      "missing_key_categories": [
+        "suicide_crisis",
+        "child_protection",
+        "lgbtqia",
+        "missing_persons"
+      ],
+      "verification_status_counts": {
+        "legacy_unverified": 9
+      },
+      "non_legacy_hotline_count": 0,
+      "protected_hotline_count": 0,
+      "first_party_hotline_count": 0,
+      "last_verified_hotline_count": 0,
+      "no_hotlines": false,
+      "only_legacy_records": true,
+      "no_non_legacy_records": true,
+      "no_protected_records": true,
+      "no_first_party_sources": true,
+      "no_last_verified": true,
+      "low_hotline_count": false,
+      "missing_general_emergency": false,
+      "reviewable_preview_hotline_count": 9,
+      "reviewable_preview_datasets": [
+        "sources/web_verified_crisis_directory/final_countries_crisis_directory.json"
+      ],
+      "research_gap_interpretation": "likely_research_gap",
+      "gap_flags": [
+        "only_legacy_records",
+        "no_non_legacy_records",
+        "no_protected_records",
+        "no_first_party_sources",
+        "no_last_verified",
+        "has_reviewable_preview",
+        "missing_category:suicide_crisis",
+        "missing_category:child_protection",
+        "missing_category:lgbtqia",
+        "missing_category:missing_persons"
+      ],
+      "priority_score": 40,
+      "verification_priority_score": 29,
+      "preview_review_priority_score": 37
+    },
+    {
+      "country": "Western Sahara",
+      "alpha-2": "EH",
+      "alpha-3": null,
+      "region": null,
+      "subregion": null,
+      "hotline_count": 3,
+      "general_emergency_count": 1,
+      "categories_present": [
+        "domestic_violence",
+        "emergency"
+      ],
+      "missing_key_categories": [
+        "suicide_crisis",
+        "child_protection",
+        "lgbtqia",
+        "missing_persons"
+      ],
+      "verification_status_counts": {
+        "legacy_unverified": 3
+      },
+      "non_legacy_hotline_count": 0,
+      "protected_hotline_count": 0,
+      "first_party_hotline_count": 0,
+      "last_verified_hotline_count": 0,
+      "no_hotlines": false,
+      "only_legacy_records": true,
+      "no_non_legacy_records": true,
+      "no_protected_records": true,
+      "no_first_party_sources": true,
+      "no_last_verified": true,
+      "low_hotline_count": false,
+      "missing_general_emergency": false,
+      "reviewable_preview_hotline_count": 3,
+      "reviewable_preview_datasets": [
+        "sources/web_verified_crisis_directory/final_countries_crisis_directory.json"
+      ],
+      "research_gap_interpretation": "likely_research_gap",
+      "gap_flags": [
+        "only_legacy_records",
+        "no_non_legacy_records",
+        "no_protected_records",
+        "no_first_party_sources",
+        "no_last_verified",
+        "has_reviewable_preview",
+        "missing_category:suicide_crisis",
+        "missing_category:child_protection",
+        "missing_category:lgbtqia",
+        "missing_category:missing_persons"
+      ],
+      "priority_score": 40,
+      "verification_priority_score": 29,
+      "preview_review_priority_score": 19
     },
     {
       "country": "Afghanistan",

@@ -667,7 +667,8 @@
       "region": null,
       "subregion": null,
       "general_emergency": [
-        "911"
+        "911",
+        "McMurdo Station: 911 (fire and medical emergency dispatch)"
       ],
       "notes": "No permanent population — emergencies handled by research-station home countries. McMurdo medical: via US Antarctic Program.",
       "hotlines": [
@@ -676,7 +677,8 @@
           "organization": "Local emergency services",
           "category": "emergency",
           "voice_numbers": [
-            "911"
+            "911",
+            "McMurdo Station: 911 (fire and medical emergency dispatch)"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -689,12 +691,51 @@
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Antarctica",
-          "notes": "",
+          "notes": "Police: McMurdo Station: 911 (fire and medical emergency dispatch) | Ambulance: McMurdo Station: 911 (fire and medical emergency dispatch) | Fire: McMurdo Station: 911 (fire and medical emergency dispatch) | Import note (warning): Emergency dataset names: Antarctica. | Parsed from Wikipedia table section: Antarctica. Row references expose 2 linked citation URL(s) beyond the Wikipedia page.",
           "verification_status": "legacy_unverified",
           "last_verified": null,
           "sources": [
-            "atlacord/Naga Hotlines.json @ 61bec14"
-          ]
+            "atlacord/Naga Hotlines.json @ 61bec14",
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+            "https://www.usap.gov/USAPgov/travelAndDeployment/documents/ParticipantGuide-Chapter7.pdf",
+            "https://web.archive.org/web/20180722095638/https://www.usap.gov/USAPgov/travelAndDeployment/documents/ParticipantGuide-Chapter7.pdf"
+          ],
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "voice_numbers",
+                "value": [
+                  "McMurdo Station: 911 (fire and medical emergency dispatch)"
+                ],
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "target",
+                "value": "anyone in a life-threatening emergency",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Antarctica",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
+          }
         }
       ]
     },
@@ -49758,7 +49799,9 @@
       "region": null,
       "subregion": null,
       "general_emergency": [
-        "999"
+        "999",
+        "From mobile phones – 110",
+        "Judiciary Police – 993"
       ],
       "notes": "Macao SAR — 999 emergency (112 also routes).",
       "hotlines": [
@@ -49767,7 +49810,9 @@
           "organization": "Local emergency services",
           "category": "emergency",
           "voice_numbers": [
-            "999"
+            "999",
+            "From mobile phones – 110",
+            "Judiciary Police – 993"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -49780,12 +49825,533 @@
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Macao",
-          "notes": "",
+          "notes": "Police: 999 | Ambulance: 999 | Fire: 999 | Other: From mobile phones – 110 | Other: Judiciary Police – 993 | Import note (warning): Emergency dataset names: Macau. Crisis dataset names: Macao. Merged via documented country-name alias mapping. | Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: From mobile phones – 110 or 112 (all redirects to 999 ); Judiciary Police – 993 No row-specific external citation URL was discoverable from the rendered references. | HotPeach regional country section fetched live; domestic/sexual violence resources were extracted conservatively from the country section and may be web resources rather than phone-only lines.",
           "verification_status": "legacy_unverified",
           "last_verified": null,
           "sources": [
-            "atlacord/Naga Hotlines.json @ 61bec14"
-          ]
+            "atlacord/Naga Hotlines.json @ 61bec14",
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+            "https://www.hotpeachpages.net/a/countries.html",
+            "https://www.hotpeachpages.net/asia/index.html#Macau"
+          ],
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "voice_numbers",
+                "value": [
+                  "999",
+                  "From mobile phones – 110",
+                  "Judiciary Police – 993"
+                ],
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "target",
+                "value": "anyone in a life-threatening emergency",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Macao",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
+          }
+        },
+        {
+          "organization": "Centro de Acção Social",
+          "category": "domestic_violence",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": "http://iasweb.ias.gov.mo/inst/showList1.jsp?tipo=A1&assunto=Centro--de--Ac%C3%A7%C3%A3o--Social",
+          "email": null,
+          "website": null,
+          "hours": null,
+          "languages": [],
+          "cost": "unknown",
+          "target": null,
+          "geography": "Macao",
+          "notes": "text/chat: http://iasweb.ias.gov.mo/inst/showList1.jsp?tipo=A1&assunto=Centro--de--Ac%C3%A7%C3%A3o--Social | Centro de Acção Social | Import note (warning): Emergency dataset names: Macau. Crisis dataset names: Macao. Merged via documented country-name alias mapping. | Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: From mobile phones – 110 or 112 (all redirects to 999 ); Judiciary Police – 993 No row-specific external citation URL was discoverable from the rendered references. | HotPeach regional country section fetched live; domestic/sexual violence resources were extracted conservatively from the country section and may be web resources rather than phone-only lines.",
+          "verification_status": "legacy_unverified",
+          "last_verified": null,
+          "sources": [
+            "https://www.hotpeachpages.net/asia/index.html#Macau",
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+            "https://www.hotpeachpages.net/a/countries.html"
+          ],
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://iasweb.ias.gov.mo/inst/showList1.jsp?tipo=A1&assunto=Centro--de--Ac%C3%A7%C3%A3o--Social",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Macao",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
+          },
+          "name": "Centro de Acção Social",
+          "_import_metadata": {
+            "source_dataset": "web_verified_crisis_directory",
+            "source_country_name": "Macao",
+            "source_verification_status": "warning",
+            "source_kind": "specialist_helplines",
+            "source_category": "domestic_violence"
+          }
+        },
+        {
+          "organization": "Helplines of Non-governmental Social Service Organizations",
+          "category": "domestic_violence",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": "http://www.ias.gov.mo/wp-content/themes/ias/en/aboutus/departments/f_ngohl.htm",
+          "email": null,
+          "website": null,
+          "hours": null,
+          "languages": [],
+          "cost": "unknown",
+          "target": null,
+          "geography": "Macao",
+          "notes": "text/chat: http://www.ias.gov.mo/wp-content/themes/ias/en/aboutus/departments/f_ngohl.htm | Helplines of Non-governmental Social Service Organizations | Import note (warning): Emergency dataset names: Macau. Crisis dataset names: Macao. Merged via documented country-name alias mapping. | Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: From mobile phones – 110 or 112 (all redirects to 999 ); Judiciary Police – 993 No row-specific external citation URL was discoverable from the rendered references. | HotPeach regional country section fetched live; domestic/sexual violence resources were extracted conservatively from the country section and may be web resources rather than phone-only lines.",
+          "verification_status": "legacy_unverified",
+          "last_verified": null,
+          "sources": [
+            "https://www.hotpeachpages.net/asia/index.html#Macau",
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+            "https://www.hotpeachpages.net/a/countries.html"
+          ],
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.ias.gov.mo/wp-content/themes/ias/en/aboutus/departments/f_ngohl.htm",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Macao",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
+          },
+          "name": "Helplines of Non-governmental Social Service Organizations",
+          "_import_metadata": {
+            "source_dataset": "web_verified_crisis_directory",
+            "source_country_name": "Macao",
+            "source_verification_status": "warning",
+            "source_kind": "specialist_helplines",
+            "source_category": "domestic_violence"
+          }
+        },
+        {
+          "organization": "Hotline of Social Welfare Bureau",
+          "category": "domestic_violence",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": "http://www.ias.gov.mo/wp-content/themes/ias/en/aboutus/departments/hotline_ias.htm",
+          "email": null,
+          "website": null,
+          "hours": null,
+          "languages": [],
+          "cost": "unknown",
+          "target": null,
+          "geography": "Macao",
+          "notes": "text/chat: http://www.ias.gov.mo/wp-content/themes/ias/en/aboutus/departments/hotline_ias.htm | Hotline of Social Welfare Bureau | Import note (warning): Emergency dataset names: Macau. Crisis dataset names: Macao. Merged via documented country-name alias mapping. | Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: From mobile phones – 110 or 112 (all redirects to 999 ); Judiciary Police – 993 No row-specific external citation URL was discoverable from the rendered references. | HotPeach regional country section fetched live; domestic/sexual violence resources were extracted conservatively from the country section and may be web resources rather than phone-only lines.",
+          "verification_status": "legacy_unverified",
+          "last_verified": null,
+          "sources": [
+            "https://www.hotpeachpages.net/asia/index.html#Macau",
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+            "https://www.hotpeachpages.net/a/countries.html"
+          ],
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.ias.gov.mo/wp-content/themes/ias/en/aboutus/departments/hotline_ias.htm",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Macao",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
+          },
+          "name": "Hotline of Social Welfare Bureau",
+          "_import_metadata": {
+            "source_dataset": "web_verified_crisis_directory",
+            "source_country_name": "Macao",
+            "source_verification_status": "warning",
+            "source_kind": "specialist_helplines",
+            "source_category": "domestic_violence"
+          }
+        },
+        {
+          "organization": "Individual and Family Counselling Service",
+          "category": "domestic_violence",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": "http://www.ias.gov.mo/en/swb-services/individual-and-family-service/individual-and-family-counselling-service",
+          "email": null,
+          "website": null,
+          "hours": null,
+          "languages": [],
+          "cost": "unknown",
+          "target": null,
+          "geography": "Macao",
+          "notes": "text/chat: http://www.ias.gov.mo/en/swb-services/individual-and-family-service/individual-and-family-counselling-service | Individual and Family Counselling Service | Import note (warning): Emergency dataset names: Macau. Crisis dataset names: Macao. Merged via documented country-name alias mapping. | Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: From mobile phones – 110 or 112 (all redirects to 999 ); Judiciary Police – 993 No row-specific external citation URL was discoverable from the rendered references. | HotPeach regional country section fetched live; domestic/sexual violence resources were extracted conservatively from the country section and may be web resources rather than phone-only lines.",
+          "verification_status": "legacy_unverified",
+          "last_verified": null,
+          "sources": [
+            "https://www.hotpeachpages.net/asia/index.html#Macau",
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+            "https://www.hotpeachpages.net/a/countries.html"
+          ],
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.ias.gov.mo/en/swb-services/individual-and-family-service/individual-and-family-counselling-service",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Macao",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
+          },
+          "name": "Individual and Family Counselling Service",
+          "_import_metadata": {
+            "source_dataset": "web_verified_crisis_directory",
+            "source_country_name": "Macao",
+            "source_verification_status": "warning",
+            "source_kind": "specialist_helplines",
+            "source_category": "domestic_violence"
+          }
+        },
+        {
+          "organization": "Instituto de Acção Social do Governo da RAEM",
+          "category": "domestic_violence",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": "http://www.ias.gov.mo/pt/home",
+          "email": null,
+          "website": null,
+          "hours": null,
+          "languages": [],
+          "cost": "unknown",
+          "target": null,
+          "geography": "Macao",
+          "notes": "text/chat: http://www.ias.gov.mo/pt/home | 澳門特別行政區政府 - 社會工作局 Instituto de Acção Social do Governo da RAEM Social Welfare Bureau of MSAR Government | Import note (warning): Emergency dataset names: Macau. Crisis dataset names: Macao. Merged via documented country-name alias mapping. | Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: From mobile phones – 110 or 112 (all redirects to 999 ); Judiciary Police – 993 No row-specific external citation URL was discoverable from the rendered references. | HotPeach regional country section fetched live; domestic/sexual violence resources were extracted conservatively from the country section and may be web resources rather than phone-only lines.",
+          "verification_status": "legacy_unverified",
+          "last_verified": null,
+          "sources": [
+            "https://www.hotpeachpages.net/asia/index.html#Macau",
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+            "https://www.hotpeachpages.net/a/countries.html"
+          ],
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.ias.gov.mo/pt/home",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Macao",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
+          },
+          "name": "Instituto de Acção Social do Governo da RAEM",
+          "_import_metadata": {
+            "source_dataset": "web_verified_crisis_directory",
+            "source_country_name": "Macao",
+            "source_verification_status": "warning",
+            "source_kind": "specialist_helplines",
+            "source_category": "domestic_violence"
+          }
+        },
+        {
+          "organization": "Linha Aberta do Instituto de Acção Social",
+          "category": "domestic_violence",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": "http://www.ias.gov.mo/wp-content/themes/ias/pt/aboutus/departments/hotline_ias.htm",
+          "email": null,
+          "website": null,
+          "hours": null,
+          "languages": [],
+          "cost": "unknown",
+          "target": null,
+          "geography": "Macao",
+          "notes": "text/chat: http://www.ias.gov.mo/wp-content/themes/ias/pt/aboutus/departments/hotline_ias.htm | Linha Aberta do Instituto de Acção Social | Import note (warning): Emergency dataset names: Macau. Crisis dataset names: Macao. Merged via documented country-name alias mapping. | Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: From mobile phones – 110 or 112 (all redirects to 999 ); Judiciary Police – 993 No row-specific external citation URL was discoverable from the rendered references. | HotPeach regional country section fetched live; domestic/sexual violence resources were extracted conservatively from the country section and may be web resources rather than phone-only lines.",
+          "verification_status": "legacy_unverified",
+          "last_verified": null,
+          "sources": [
+            "https://www.hotpeachpages.net/asia/index.html#Macau",
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+            "https://www.hotpeachpages.net/a/countries.html"
+          ],
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.ias.gov.mo/wp-content/themes/ias/pt/aboutus/departments/hotline_ias.htm",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Macao",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
+          },
+          "name": "Linha Aberta do Instituto de Acção Social",
+          "_import_metadata": {
+            "source_dataset": "web_verified_crisis_directory",
+            "source_country_name": "Macao",
+            "source_verification_status": "warning",
+            "source_kind": "specialist_helplines",
+            "source_category": "domestic_violence"
+          }
+        },
+        {
+          "organization": "Linhas Abertas Disponibilizadas pelas IPSSs para Aconselhamento",
+          "category": "domestic_violence",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": "http://www.ias.gov.mo/wp-content/themes/ias/pt/aboutus/departments/f_ngohl.htm",
+          "email": null,
+          "website": null,
+          "hours": null,
+          "languages": [],
+          "cost": "unknown",
+          "target": null,
+          "geography": "Macao",
+          "notes": "text/chat: http://www.ias.gov.mo/wp-content/themes/ias/pt/aboutus/departments/f_ngohl.htm | Linhas Abertas Disponibilizadas pelas IPSSs para Aconselhamento | Import note (warning): Emergency dataset names: Macau. Crisis dataset names: Macao. Merged via documented country-name alias mapping. | Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: From mobile phones – 110 or 112 (all redirects to 999 ); Judiciary Police – 993 No row-specific external citation URL was discoverable from the rendered references. | HotPeach regional country section fetched live; domestic/sexual violence resources were extracted conservatively from the country section and may be web resources rather than phone-only lines.",
+          "verification_status": "legacy_unverified",
+          "last_verified": null,
+          "sources": [
+            "https://www.hotpeachpages.net/asia/index.html#Macau",
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+            "https://www.hotpeachpages.net/a/countries.html"
+          ],
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.ias.gov.mo/wp-content/themes/ias/pt/aboutus/departments/f_ngohl.htm",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Macao",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
+          },
+          "name": "Linhas Abertas Disponibilizadas pelas IPSSs para Aconselhamento",
+          "_import_metadata": {
+            "source_dataset": "web_verified_crisis_directory",
+            "source_country_name": "Macao",
+            "source_verification_status": "warning",
+            "source_kind": "specialist_helplines",
+            "source_category": "domestic_violence"
+          }
+        },
+        {
+          "organization": "Serviço de Aconselhamento a Indivíduos e Famílias",
+          "category": "domestic_violence",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": "http://www.ias.gov.mo/pt/swb-services/individual-and-family-service/individual-and-family-counselling-service",
+          "email": null,
+          "website": null,
+          "hours": null,
+          "languages": [],
+          "cost": "unknown",
+          "target": null,
+          "geography": "Macao",
+          "notes": "text/chat: http://www.ias.gov.mo/pt/swb-services/individual-and-family-service/individual-and-family-counselling-service | Serviço de Aconselhamento a Indivíduos e Famílias | Import note (warning): Emergency dataset names: Macau. Crisis dataset names: Macao. Merged via documented country-name alias mapping. | Parsed from Wikipedia table section: Asia. Original notes text preserved and split into other_numbers entries. Raw note text: From mobile phones – 110 or 112 (all redirects to 999 ); Judiciary Police – 993 No row-specific external citation URL was discoverable from the rendered references. | HotPeach regional country section fetched live; domestic/sexual violence resources were extracted conservatively from the country section and may be web resources rather than phone-only lines.",
+          "verification_status": "legacy_unverified",
+          "last_verified": null,
+          "sources": [
+            "https://www.hotpeachpages.net/asia/index.html#Macau",
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+            "https://www.hotpeachpages.net/a/countries.html"
+          ],
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.ias.gov.mo/pt/swb-services/individual-and-family-service/individual-and-family-counselling-service",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Macao",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
+          },
+          "name": "Serviço de Aconselhamento a Indivíduos e Famílias",
+          "_import_metadata": {
+            "source_dataset": "web_verified_crisis_directory",
+            "source_country_name": "Macao",
+            "source_verification_status": "warning",
+            "source_kind": "specialist_helplines",
+            "source_category": "domestic_violence"
+          }
         }
       ]
     },
@@ -53018,6 +53584,66 @@
                 "confidence": "medium"
               }
             ]
+          }
+        },
+        {
+          "organization": "Focal Point for Women's Affairs",
+          "category": "domestic_violence",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": "http://www.eclac.cl/cgi-bin/getProd.asp?xml=/mujer/noticias/fichas/2/6402/P6402.xml&xsl=/mujer/tpl/p21f.xsl&base=/mujer/tpl/top-bottom.xsl",
+          "email": null,
+          "website": null,
+          "hours": null,
+          "languages": [],
+          "cost": "unknown",
+          "target": null,
+          "geography": "Montserrat",
+          "notes": "text/chat: http://www.eclac.cl/cgi-bin/getProd.asp?xml=/mujer/noticias/fichas/2/6402/P6402.xml&xsl=/mujer/tpl/p21f.xsl&base=/mujer/tpl/top-bottom.xsl | Focal Point for Women's Affairs | Import note (pass): Emergency dataset names: Montserrat. Crisis dataset names: Montserrat. | Parsed from Wikipedia table section: Caribbean. No row-specific external citation URL was discoverable from the rendered references. | HotPeach regional country section fetched live; domestic/sexual violence resources were extracted conservatively from the country section and may be web resources rather than phone-only lines.",
+          "verification_status": "legacy_unverified",
+          "last_verified": null,
+          "sources": [
+            "https://www.hotpeachpages.net/caribbean/index.html#Montserrat",
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+            "https://www.hotpeachpages.net/a/countries.html"
+          ],
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "pass",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.eclac.cl/cgi-bin/getProd.asp?xml=/mujer/noticias/fichas/2/6402/P6402.xml&xsl=/mujer/tpl/p21f.xsl&base=/mujer/tpl/top-bottom.xsl",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Montserrat",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
+          },
+          "name": "Focal Point for Women's Affairs",
+          "_import_metadata": {
+            "source_dataset": "web_verified_crisis_directory",
+            "source_country_name": "Montserrat",
+            "source_verification_status": "pass",
+            "source_kind": "specialist_helplines",
+            "source_category": "domestic_violence"
           }
         }
       ]
@@ -66027,7 +66653,10 @@
       "region": null,
       "subregion": null,
       "general_emergency": [
-        "112"
+        "112",
+        "Police – 17",
+        "Ambulance – 15",
+        "Fire – 18"
       ],
       "notes": "French overseas collectivity — uses French emergency numbering.",
       "hotlines": [
@@ -66036,7 +66665,10 @@
           "organization": "Local emergency services",
           "category": "emergency",
           "voice_numbers": [
-            "112"
+            "112",
+            "Police – 17",
+            "Ambulance – 15",
+            "Fire – 18"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -66049,12 +66681,534 @@
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Saint Pierre and Miquelon",
-          "notes": "",
+          "notes": "Police: 112 | Ambulance: 112 | Fire: 112 | Other: Police – 17 | Other: Ambulance – 15 | Other: Fire – 18 | Import note (warning): Emergency dataset names: Saint Pierre and Miquelon. Crisis dataset names: Saint Pierre & Miquelon. Merged via documented country-name alias mapping. | Parsed from Wikipedia table section: North America. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 17; Ambulance – 15; Fire – 18 No row-specific external citation URL was discoverable from the rendered references. | HotPeach regional country section fetched live; domestic/sexual violence resources were extracted conservatively from the country section and may be web resources rather than phone-only lines.",
           "verification_status": "legacy_unverified",
           "last_verified": null,
           "sources": [
-            "atlacord/Naga Hotlines.json @ 61bec14"
-          ]
+            "atlacord/Naga Hotlines.json @ 61bec14",
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+            "https://www.hotpeachpages.net/a/countries.html",
+            "https://www.hotpeachpages.net/canada/index.html#STPM"
+          ],
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "voice_numbers",
+                "value": [
+                  "112",
+                  "Police – 17",
+                  "Ambulance – 15",
+                  "Fire – 18"
+                ],
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "target",
+                "value": "anyone in a life-threatening emergency",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Saint Pierre & Miquelon",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
+          }
+        },
+        {
+          "organization": "J’ai besoin d’aide",
+          "category": "domestic_violence",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": "http://stop-violences-femmes.gouv.fr/Suis-je-concernee.html",
+          "email": null,
+          "website": null,
+          "hours": null,
+          "languages": [],
+          "cost": "unknown",
+          "target": null,
+          "geography": "Saint Pierre & Miquelon",
+          "notes": "text/chat: http://stop-violences-femmes.gouv.fr/Suis-je-concernee.html | J’ai besoin d’aide | Import note (warning): Emergency dataset names: Saint Pierre and Miquelon. Crisis dataset names: Saint Pierre & Miquelon. Merged via documented country-name alias mapping. | Parsed from Wikipedia table section: North America. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 17; Ambulance – 15; Fire – 18 No row-specific external citation URL was discoverable from the rendered references. | HotPeach regional country section fetched live; domestic/sexual violence resources were extracted conservatively from the country section and may be web resources rather than phone-only lines.",
+          "verification_status": "legacy_unverified",
+          "last_verified": null,
+          "sources": [
+            "https://www.hotpeachpages.net/canada/index.html#STPM",
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+            "https://www.hotpeachpages.net/a/countries.html"
+          ],
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://stop-violences-femmes.gouv.fr/Suis-je-concernee.html",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Saint Pierre & Miquelon",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
+          },
+          "name": "J’ai besoin d’aide",
+          "_import_metadata": {
+            "source_dataset": "web_verified_crisis_directory",
+            "source_country_name": "Saint Pierre & Miquelon",
+            "source_verification_status": "warning",
+            "source_kind": "specialist_helplines",
+            "source_category": "domestic_violence"
+          }
+        },
+        {
+          "organization": "Les associations de soutien aux femmes victimes",
+          "category": "domestic_violence",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": "http://www.stop-violences-femmes.gouv.fr/Les-associations-de-soutien-aux.html",
+          "email": null,
+          "website": null,
+          "hours": null,
+          "languages": [],
+          "cost": "unknown",
+          "target": null,
+          "geography": "Saint Pierre & Miquelon",
+          "notes": "text/chat: http://www.stop-violences-femmes.gouv.fr/Les-associations-de-soutien-aux.html | Les associations de soutien aux femmes victimes | Import note (warning): Emergency dataset names: Saint Pierre and Miquelon. Crisis dataset names: Saint Pierre & Miquelon. Merged via documented country-name alias mapping. | Parsed from Wikipedia table section: North America. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 17; Ambulance – 15; Fire – 18 No row-specific external citation URL was discoverable from the rendered references. | HotPeach regional country section fetched live; domestic/sexual violence resources were extracted conservatively from the country section and may be web resources rather than phone-only lines.",
+          "verification_status": "legacy_unverified",
+          "last_verified": null,
+          "sources": [
+            "https://www.hotpeachpages.net/canada/index.html#STPM",
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+            "https://www.hotpeachpages.net/a/countries.html"
+          ],
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.stop-violences-femmes.gouv.fr/Les-associations-de-soutien-aux.html",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Saint Pierre & Miquelon",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
+          },
+          "name": "Les associations de soutien aux femmes victimes",
+          "_import_metadata": {
+            "source_dataset": "web_verified_crisis_directory",
+            "source_country_name": "Saint Pierre & Miquelon",
+            "source_verification_status": "warning",
+            "source_kind": "specialist_helplines",
+            "source_category": "domestic_violence"
+          }
+        },
+        {
+          "organization": "Les associations près de chez vous",
+          "category": "domestic_violence",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": "http://www.stop-violences-femmes.gouv.fr/-Les-associations-pres-de-chez-vous-.html",
+          "email": null,
+          "website": null,
+          "hours": null,
+          "languages": [],
+          "cost": "unknown",
+          "target": null,
+          "geography": "Saint Pierre & Miquelon",
+          "notes": "text/chat: http://www.stop-violences-femmes.gouv.fr/-Les-associations-pres-de-chez-vous-.html | Les associations près de chez vous | Import note (warning): Emergency dataset names: Saint Pierre and Miquelon. Crisis dataset names: Saint Pierre & Miquelon. Merged via documented country-name alias mapping. | Parsed from Wikipedia table section: North America. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 17; Ambulance – 15; Fire – 18 No row-specific external citation URL was discoverable from the rendered references. | HotPeach regional country section fetched live; domestic/sexual violence resources were extracted conservatively from the country section and may be web resources rather than phone-only lines.",
+          "verification_status": "legacy_unverified",
+          "last_verified": null,
+          "sources": [
+            "https://www.hotpeachpages.net/canada/index.html#STPM",
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+            "https://www.hotpeachpages.net/a/countries.html"
+          ],
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.stop-violences-femmes.gouv.fr/-Les-associations-pres-de-chez-vous-.html",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Saint Pierre & Miquelon",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
+          },
+          "name": "Les associations près de chez vous",
+          "_import_metadata": {
+            "source_dataset": "web_verified_crisis_directory",
+            "source_country_name": "Saint Pierre & Miquelon",
+            "source_verification_status": "warning",
+            "source_kind": "specialist_helplines",
+            "source_category": "domestic_violence"
+          }
+        },
+        {
+          "organization": "Les numéros d’urgence",
+          "category": "domestic_violence",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": "http://stop-violences-femmes.gouv.fr/Les-numeros-d-urgence,13.html",
+          "email": null,
+          "website": null,
+          "hours": null,
+          "languages": [],
+          "cost": "unknown",
+          "target": null,
+          "geography": "Saint Pierre & Miquelon",
+          "notes": "text/chat: http://stop-violences-femmes.gouv.fr/Les-numeros-d-urgence,13.html | Les numéros d’urgence | Import note (warning): Emergency dataset names: Saint Pierre and Miquelon. Crisis dataset names: Saint Pierre & Miquelon. Merged via documented country-name alias mapping. | Parsed from Wikipedia table section: North America. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 17; Ambulance – 15; Fire – 18 No row-specific external citation URL was discoverable from the rendered references. | HotPeach regional country section fetched live; domestic/sexual violence resources were extracted conservatively from the country section and may be web resources rather than phone-only lines.",
+          "verification_status": "legacy_unverified",
+          "last_verified": null,
+          "sources": [
+            "https://www.hotpeachpages.net/canada/index.html#STPM",
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+            "https://www.hotpeachpages.net/a/countries.html"
+          ],
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://stop-violences-femmes.gouv.fr/Les-numeros-d-urgence,13.html",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Saint Pierre & Miquelon",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
+          },
+          "name": "Les numéros d’urgence",
+          "_import_metadata": {
+            "source_dataset": "web_verified_crisis_directory",
+            "source_country_name": "Saint Pierre & Miquelon",
+            "source_verification_status": "warning",
+            "source_kind": "specialist_helplines",
+            "source_category": "domestic_violence"
+          }
+        },
+        {
+          "organization": "Ministére des droits des femmes",
+          "category": "domestic_violence",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": "http://www.femmes.gouv.fr/",
+          "email": null,
+          "website": null,
+          "hours": null,
+          "languages": [],
+          "cost": "unknown",
+          "target": null,
+          "geography": "Saint Pierre & Miquelon",
+          "notes": "text/chat: http://www.femmes.gouv.fr/ | Ministére des droits des femmes | Import note (warning): Emergency dataset names: Saint Pierre and Miquelon. Crisis dataset names: Saint Pierre & Miquelon. Merged via documented country-name alias mapping. | Parsed from Wikipedia table section: North America. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 17; Ambulance – 15; Fire – 18 No row-specific external citation URL was discoverable from the rendered references. | HotPeach regional country section fetched live; domestic/sexual violence resources were extracted conservatively from the country section and may be web resources rather than phone-only lines.",
+          "verification_status": "legacy_unverified",
+          "last_verified": null,
+          "sources": [
+            "https://www.hotpeachpages.net/canada/index.html#STPM",
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+            "https://www.hotpeachpages.net/a/countries.html"
+          ],
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.femmes.gouv.fr/",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Saint Pierre & Miquelon",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
+          },
+          "name": "Ministére des droits des femmes",
+          "_import_metadata": {
+            "source_dataset": "web_verified_crisis_directory",
+            "source_country_name": "Saint Pierre & Miquelon",
+            "source_verification_status": "warning",
+            "source_kind": "specialist_helplines",
+            "source_category": "domestic_violence"
+          }
+        },
+        {
+          "organization": "Trois vidéo",
+          "category": "domestic_violence",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": "http://www.stop-violences-femmes.gouv.fr/Les-films-des-precedentes.html",
+          "email": null,
+          "website": null,
+          "hours": null,
+          "languages": [],
+          "cost": "unknown",
+          "target": null,
+          "geography": "Saint Pierre & Miquelon",
+          "notes": "text/chat: http://www.stop-violences-femmes.gouv.fr/Les-films-des-precedentes.html | Trois vidéo | Import note (warning): Emergency dataset names: Saint Pierre and Miquelon. Crisis dataset names: Saint Pierre & Miquelon. Merged via documented country-name alias mapping. | Parsed from Wikipedia table section: North America. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 17; Ambulance – 15; Fire – 18 No row-specific external citation URL was discoverable from the rendered references. | HotPeach regional country section fetched live; domestic/sexual violence resources were extracted conservatively from the country section and may be web resources rather than phone-only lines.",
+          "verification_status": "legacy_unverified",
+          "last_verified": null,
+          "sources": [
+            "https://www.hotpeachpages.net/canada/index.html#STPM",
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+            "https://www.hotpeachpages.net/a/countries.html"
+          ],
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.stop-violences-femmes.gouv.fr/Les-films-des-precedentes.html",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Saint Pierre & Miquelon",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
+          },
+          "name": "Trois vidéo",
+          "_import_metadata": {
+            "source_dataset": "web_verified_crisis_directory",
+            "source_country_name": "Saint Pierre & Miquelon",
+            "source_verification_status": "warning",
+            "source_kind": "specialist_helplines",
+            "source_category": "domestic_violence"
+          }
+        },
+        {
+          "organization": "Violences au sein du couple",
+          "category": "domestic_violence",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": "http://stop-violences-femmes.gouv.fr/Suis-je-concernee,331.html",
+          "email": null,
+          "website": null,
+          "hours": null,
+          "languages": [],
+          "cost": "unknown",
+          "target": null,
+          "geography": "Saint Pierre & Miquelon",
+          "notes": "text/chat: http://stop-violences-femmes.gouv.fr/Suis-je-concernee,331.html | Violences au sein du couple | Import note (warning): Emergency dataset names: Saint Pierre and Miquelon. Crisis dataset names: Saint Pierre & Miquelon. Merged via documented country-name alias mapping. | Parsed from Wikipedia table section: North America. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 17; Ambulance – 15; Fire – 18 No row-specific external citation URL was discoverable from the rendered references. | HotPeach regional country section fetched live; domestic/sexual violence resources were extracted conservatively from the country section and may be web resources rather than phone-only lines.",
+          "verification_status": "legacy_unverified",
+          "last_verified": null,
+          "sources": [
+            "https://www.hotpeachpages.net/canada/index.html#STPM",
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+            "https://www.hotpeachpages.net/a/countries.html"
+          ],
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://stop-violences-femmes.gouv.fr/Suis-je-concernee,331.html",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Saint Pierre & Miquelon",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
+          },
+          "name": "Violences au sein du couple",
+          "_import_metadata": {
+            "source_dataset": "web_verified_crisis_directory",
+            "source_country_name": "Saint Pierre & Miquelon",
+            "source_verification_status": "warning",
+            "source_kind": "specialist_helplines",
+            "source_category": "domestic_violence"
+          }
+        },
+        {
+          "organization": "Violences contre les femmes—la loi vous protège",
+          "category": "domestic_violence",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": "http://www.stop-violences-femmes.gouv.fr/",
+          "email": null,
+          "website": null,
+          "hours": null,
+          "languages": [],
+          "cost": "unknown",
+          "target": null,
+          "geography": "Saint Pierre & Miquelon",
+          "notes": "text/chat: http://www.stop-violences-femmes.gouv.fr/ | Violences contre les femmes—la loi vous protège | Import note (warning): Emergency dataset names: Saint Pierre and Miquelon. Crisis dataset names: Saint Pierre & Miquelon. Merged via documented country-name alias mapping. | Parsed from Wikipedia table section: North America. Original notes text preserved and split into other_numbers entries. Raw note text: Police – 17; Ambulance – 15; Fire – 18 No row-specific external citation URL was discoverable from the rendered references. | HotPeach regional country section fetched live; domestic/sexual violence resources were extracted conservatively from the country section and may be web resources rather than phone-only lines.",
+          "verification_status": "legacy_unverified",
+          "last_verified": null,
+          "sources": [
+            "https://www.hotpeachpages.net/canada/index.html#STPM",
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+            "https://www.hotpeachpages.net/a/countries.html"
+          ],
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.stop-violences-femmes.gouv.fr/",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Saint Pierre & Miquelon",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
+          },
+          "name": "Violences contre les femmes—la loi vous protège",
+          "_import_metadata": {
+            "source_dataset": "web_verified_crisis_directory",
+            "source_country_name": "Saint Pierre & Miquelon",
+            "source_verification_status": "warning",
+            "source_kind": "specialist_helplines",
+            "source_category": "domestic_violence"
+          }
         }
       ]
     },
@@ -84496,6 +85650,126 @@
               }
             ]
           }
+        },
+        {
+          "organization": "Asociación de Mujeres Saharauis en España (AMSE)",
+          "category": "domestic_violence",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": "http://www.mujeresaharauis.es/",
+          "email": null,
+          "website": null,
+          "hours": null,
+          "languages": [],
+          "cost": "unknown",
+          "target": null,
+          "geography": "Western Sahara",
+          "notes": "text/chat: http://www.mujeresaharauis.es/ | Asociación de Mujeres Saharauis en España (AMSE) | Import note (pass): Emergency dataset names: Western Sahara. Crisis dataset names: Western Sahara. | Parsed from Wikipedia table section: Africa. No row-specific external citation URL was discoverable from the rendered references. | HotPeach regional country section fetched live; domestic/sexual violence resources were extracted conservatively from the country section and may be web resources rather than phone-only lines.",
+          "verification_status": "legacy_unverified",
+          "last_verified": null,
+          "sources": [
+            "https://www.hotpeachpages.net/africa/index.html#WS",
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+            "https://www.hotpeachpages.net/a/countries.html"
+          ],
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "pass",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.mujeresaharauis.es/",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Western Sahara",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
+          },
+          "name": "Asociación de Mujeres Saharauis en España (AMSE)",
+          "_import_metadata": {
+            "source_dataset": "web_verified_crisis_directory",
+            "source_country_name": "Western Sahara",
+            "source_verification_status": "pass",
+            "source_kind": "specialist_helplines",
+            "source_category": "domestic_violence"
+          }
+        },
+        {
+          "organization": "Union Nationale des Femmes Sahraouies",
+          "category": "domestic_violence",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": "http://www.arso.org/UNFS-Homepage.htm",
+          "email": null,
+          "website": null,
+          "hours": null,
+          "languages": [],
+          "cost": "unknown",
+          "target": null,
+          "geography": "Western Sahara",
+          "notes": "text/chat: http://www.arso.org/UNFS-Homepage.htm | Union Nationale des Femmes Sahraouies National Union of Saharawi Women (NUSW) | Import note (pass): Emergency dataset names: Western Sahara. Crisis dataset names: Western Sahara. | Parsed from Wikipedia table section: Africa. No row-specific external citation URL was discoverable from the rendered references. | HotPeach regional country section fetched live; domestic/sexual violence resources were extracted conservatively from the country section and may be web resources rather than phone-only lines.",
+          "verification_status": "legacy_unverified",
+          "last_verified": null,
+          "sources": [
+            "https://www.hotpeachpages.net/africa/index.html#WS",
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+            "https://www.hotpeachpages.net/a/countries.html"
+          ],
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "pass",
+            "evidence": [
+              {
+                "field": "chat_url",
+                "value": "http://www.arso.org/UNFS-Homepage.htm",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Western Sahara",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
+          },
+          "name": "Union Nationale des Femmes Sahraouies",
+          "_import_metadata": {
+            "source_dataset": "web_verified_crisis_directory",
+            "source_country_name": "Western Sahara",
+            "source_verification_status": "pass",
+            "source_kind": "specialist_helplines",
+            "source_category": "domestic_violence"
+          }
         }
       ]
     },
@@ -84990,7 +86264,9 @@
       "region": null,
       "subregion": null,
       "general_emergency": [
-        "112"
+        "112",
+        "emergency police – 018 527 100",
+        "Poison control – 09 471 977"
       ],
       "notes": "Finnish autonomous region — 112 emergency.",
       "hotlines": [
@@ -84999,7 +86275,9 @@
           "organization": "Local emergency services",
           "category": "emergency",
           "voice_numbers": [
-            "112"
+            "112",
+            "emergency police – 018 527 100",
+            "Poison control – 09 471 977"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -85012,12 +86290,55 @@
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Åland Islands",
-          "notes": "",
+          "notes": "Police: 112 | Ambulance: 112 | Fire: 112 | Other: emergency police – 018 527 100 | Other: Poison control – 09 471 977 | Import note (warning): Emergency dataset names: Åland Islands. | Parsed from Wikipedia table section: Europe. Original notes text preserved and split into other_numbers entries. Raw note text: Non-emergency police – 018 527 100; Poison control – 09 471 977 No row-specific external citation URL was discoverable from the rendered references.",
           "verification_status": "legacy_unverified",
           "last_verified": null,
           "sources": [
-            "atlacord/Naga Hotlines.json @ 61bec14"
-          ]
+            "atlacord/Naga Hotlines.json @ 61bec14",
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+          ],
+          "provenance": {
+            "record_status": "legacy_unverified",
+            "source_class": "aggregator_directory",
+            "verification_method": "scripted_import",
+            "review_state": "staged",
+            "source_dataset": "web_verified_crisis_directory",
+            "source_status": "warning",
+            "evidence": [
+              {
+                "field": "voice_numbers",
+                "value": [
+                  "112",
+                  "emergency police – 018 527 100",
+                  "Poison control – 09 471 977"
+                ],
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "cost",
+                "value": "unknown",
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "target",
+                "value": "anyone in a life-threatening emergency",
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              },
+              {
+                "field": "geography",
+                "value": "Åland Islands",
+                "source_url": "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers",
+                "source_type": "aggregator_directory",
+                "confidence": "medium"
+              }
+            ]
+          }
         }
       ]
     }
