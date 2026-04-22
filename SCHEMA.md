@@ -93,6 +93,11 @@ Every field except `name` and `category` is optional. Missing data is represente
 | `stalking` | Stalking, harassment |
 | `male_victims` | Helplines specifically for male victims of abuse |
 | `refugee_migrant` | Refugee / asylum seeker / migrant support |
+| `legal_aid` | Civil legal advice, legal clinics, ombudsperson lines |
+| `financial_aid` | Financial hardship, debt, fraud reporting |
+| `housing` | Homelessness, emergency shelter, housing advice |
+| `human_rights` | Human-rights reporting, discrimination, civil liberties |
+| `animal_welfare` | Animal welfare and RSPCA-type services |
 
 ## `cost` enum
 
@@ -113,6 +118,7 @@ Every field except `name` and `category` is optional. Missing data is represente
 | `verified_web` | The number was confirmed against the provider's official website on `last_verified` |
 | `verified_authority` | Confirmed against a government or authoritative body (WHO, IFRC, national health ministry) |
 | `verified_knowledge` | Asserted from Claude's training knowledge (cutoff May 2025) but not yet re-confirmed on the public web |
+| `cross_referenced` | Record originated from a third-party public directory (e.g. helplines.world). Trust is moderate — the directory has presumably done some diligence, but we have not re-verified on the provider's own site |
 | `legacy_unverified` | Inherited from the source dataset without independent verification |
 | `disputed` | Conflicting sources found — value in this record is best guess; see `notes` |
 | `deprecated` | Service has closed or the number is no longer in use |

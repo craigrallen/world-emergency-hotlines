@@ -1,0 +1,5835 @@
+{
+  "GB": [
+    {
+      "name": "The Samaritans",
+      "description": "24/7 emotional support for anyone in emotional distress, struggling to cope, or at risk of suicide.",
+      "phone": "116 123",
+      "website": "samaritans.org",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "English",
+        "Welsh"
+      ]
+    },
+    {
+      "name": "Mind",
+      "description": "Information and support for all mental health areas including anxiety, depression, and bipolar disorder.",
+      "phone": "0300 123 3393",
+      "website": "mind.org.uk",
+      "category": "Mental Health",
+      "hours": "Monday - Friday 9am - 6pm"
+    },
+    {
+      "name": "Campaign Against Living Miserably (CALM)",
+      "description": "Free, confidential helpline and webchat for anyone in crisis, particularly focused on men's mental health.",
+      "phone": "0800 58 58 58",
+      "website": "thecalmzone.net",
+      "category": "Mental Health",
+      "hours": "Daily 5pm - midnight"
+    },
+    {
+      "name": "RETHINK",
+      "description": "Support and advice for people living with mental illness and those who care for them.",
+      "phone": "0300 5000 927",
+      "website": "rethink.org",
+      "category": "Mental Health",
+      "hours": "Monday - Friday 9:30am - 4pm"
+    },
+    {
+      "name": "Maytree",
+      "description": "Sanctuary for people in suicidal crisis to talk and be heard in a non-judgmental environment.",
+      "phone": "020 7263 7070",
+      "website": "maytree.org.uk",
+      "category": "Mental Health"
+    },
+    {
+      "name": "Papyrus",
+      "description": "Suicide prevention support for young people under 35.",
+      "phone": "0800 068 4141",
+      "website": "papyrus-uk.org",
+      "category": "Mental Health",
+      "email": "pat@papyrus-uk.org"
+    },
+    {
+      "name": "Anxiety UK",
+      "description": "Support for those affected by anxiety, stress, and anxiety-based depression.",
+      "phone": "03444 775 774",
+      "website": "anxietyuk.org.uk",
+      "category": "Mental Health",
+      "email": "support@anxietyuk.org.uk"
+    },
+    {
+      "name": "OCD UK",
+      "description": "Support and advocacy for people affected by Obsessive-Compulsive Disorder.",
+      "phone": "03332 127890",
+      "website": "ocduk.org",
+      "category": "Mental Health",
+      "email": "support@ocduk.org"
+    },
+    {
+      "name": "Emergency Services",
+      "description": "For immediate life-threatening emergencies requiring police, fire, or ambulance services.",
+      "phone": "999",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "NHS 111",
+      "description": "For urgent medical help when it's not a 999 emergency.",
+      "phone": "111",
+      "website": "nhs.uk",
+      "category": "Healthcare",
+      "hours": "24/7"
+    },
+    {
+      "name": "National Domestic Abuse Helpline",
+      "description": "24-hour helpline for anyone experiencing domestic abuse, run by Refuge.",
+      "phone": "0808 2000 247",
+      "website": "nationaldahelpline.org.uk",
+      "category": "Domestic Abuse",
+      "hours": "24/7"
+    },
+    {
+      "name": "Women’s Aid",
+      "description": "Support for women and children facing domestic abuse.",
+      "website": "womensaid.org.uk",
+      "category": "Domestic Abuse"
+    },
+    {
+      "name": "Victim Support",
+      "description": "Free and confidential support to victims of crime, including domestic abuse.",
+      "website": "victimsupport.org.uk",
+      "category": "Domestic Abuse"
+    },
+    {
+      "name": "Mankind Initiative",
+      "description": "Support for male victims of domestic and partner abuse.",
+      "website": "mankind.org.uk",
+      "category": "Domestic Abuse"
+    },
+    {
+      "name": "Men’s Advice Line",
+      "description": "Helpline for male victims of domestic violence and abuse.",
+      "phone": "0808 801 0327",
+      "email": "info@mensadviceline.org.uk",
+      "website": "mensadviceline.org.uk",
+      "category": "Domestic Abuse"
+    },
+    {
+      "name": "Galop",
+      "description": "Support for LGBT+ people facing domestic abuse and violence.",
+      "website": "galop.org.uk",
+      "category": "Domestic Abuse"
+    },
+    {
+      "name": "Cruse Bereavement Care",
+      "description": "Support and advice for people who are grieving.",
+      "phone": "0808 808 1677",
+      "website": "cruse.org.uk",
+      "category": "Bereavement"
+    },
+    {
+      "name": "Child Bereavement UK",
+      "description": "Support when a baby or child dies or when a child is bereaved.",
+      "phone": "0800 028 8840",
+      "website": "childbereavementuk.org",
+      "category": "Bereavement"
+    },
+    {
+      "name": "Talk to Frank",
+      "description": "Friendly, confidential drug advice service.",
+      "phone": "0300 123 6600",
+      "website": "talktofrank.com",
+      "category": "Addiction"
+    },
+    {
+      "name": "Narcotics Anonymous UK",
+      "phone": "0300 999 1212",
+      "website": "ukna.org",
+      "category": "Addiction"
+    },
+    {
+      "name": "Alcoholics Anonymous UK",
+      "phone": "0800 9177 650",
+      "website": "alcoholics-anonymous.org.uk",
+      "category": "Addiction"
+    },
+    {
+      "name": "Step Change",
+      "description": "Free expert debt advice and solutions.",
+      "phone": "0800 138 1111",
+      "website": "stepchange.org",
+      "category": "Financial Help"
+    },
+    {
+      "name": "National Debtline",
+      "phone": "0808 808 4000",
+      "website": "nationaldebtline.co.uk",
+      "category": "Financial Help"
+    },
+    {
+      "name": "Citizen’s Advice",
+      "description": "Free advice on legal, money, housing, and other issues.",
+      "website": "citizensadvice.org.uk",
+      "category": "Legal/Financial Help"
+    },
+    {
+      "name": "Beat Eating Disorders",
+      "phone": "0808 801 0677",
+      "website": "b-eat.co.uk",
+      "category": "Eating Disorders"
+    },
+    {
+      "name": "National Centre for Eating Disorders",
+      "phone": "0845 838 2040",
+      "website": "eating-disorders.org.uk",
+      "category": "Eating Disorders"
+    },
+    {
+      "name": "GamCare",
+      "phone": "0808 8020 133",
+      "website": "gamcare.org.uk",
+      "category": "Addiction"
+    },
+    {
+      "name": "Gamblers Anonymous UK",
+      "website": "gamblersanonymous.org.uk",
+      "category": "Addiction"
+    },
+    {
+      "name": "Shelter",
+      "phone": "0808 800 4444",
+      "website": "shelter.org.uk",
+      "category": "Housing"
+    },
+    {
+      "name": "Tommy's",
+      "phone": "0800 0147 800",
+      "website": "tommys.org",
+      "category": "Pregnancy"
+    },
+    {
+      "name": "Miscarriage Association",
+      "phone": "0192 4200 799",
+      "website": "miscarriageassociation.org.uk",
+      "category": "Pregnancy"
+    },
+    {
+      "name": "Sands",
+      "phone": "0808 164 3332",
+      "email": "helpline@sands.org.uk",
+      "website": "sands.org.uk",
+      "category": "Pregnancy"
+    }
+  ],
+  "BR": [
+    {
+      "name": "Emergency Services",
+      "description": "For immediate life-threatening emergencies.",
+      "phone": "190 (Police), 192 (Ambulance), 193 (Fire)",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "CVV - Centro de Valorização da Vida",
+      "description": "24/7 emotional support and suicide prevention.",
+      "phone": "188",
+      "website": "cvv.org.br",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Central de Atendimento à Mulher",
+      "description": "24/7 helpline for women experiencing violence.",
+      "phone": "180",
+      "category": "Domestic Abuse",
+      "hours": "24/7",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Ligue 180 (Violência contra a mulher)",
+      "description": "Central de denúncias e orientações sobre violência contra a mulher.",
+      "phone": "180",
+      "website": "https://www.gov.br/mdh/pt-br/assuntos/violencia/ligue180",
+      "category": "Domestic Abuse",
+      "hours": "24/7",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Disque Direitos Humanos",
+      "description": "Recebe denúncias de violações de direitos humanos e racismo.",
+      "phone": "100",
+      "category": "Human Rights",
+      "hours": "24/7",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Disque Estatuto da Criança e do Adolescente",
+      "description": "Denúncias de abuso, exploração e violação de direitos de crianças e adolescentes.",
+      "phone": "100",
+      "category": "Child Protection",
+      "hours": "24/7",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Disque Idoso",
+      "description": "Denúncias de violência, abandono ou negligência contra idosos.",
+      "phone": "100",
+      "category": "Elderly Support",
+      "hours": "24/7",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Central de Orientação ao Alcoolista",
+      "description": "Aconselhamento para dependentes de álcool e familiares.",
+      "phone": "0800 283 3536",
+      "category": "Addiction",
+      "hours": "Mon–Fri 8–18",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Centro de Atendimento à Pessoa com Deficiência",
+      "description": "Informações e apoio para pessoas com deficiência.",
+      "phone": "0800 885 8669",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 8–18",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "CVV (chat online)",
+      "description": "Chat de apoio emocional, suicídio e crises.",
+      "website": "cvv.org.br",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Marechais da Saúde Mental",
+      "description": "Grupo voluntário de apoio para pessoas com transtornos mentais.",
+      "phone": "0800 979 0083",
+      "category": "Mental Health",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Disque Drogas",
+      "description": "Informações sobre dependência química e serviços públicos.",
+      "phone": "0800 707 5533",
+      "category": "Addiction",
+      "hours": "24/7",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Ligue: Juventude e Prevenção ao Suicídio",
+      "description": "Apoio a jovens em crise suicida.",
+      "phone": "0800 284 0011",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Centro de Combate ao Tráfico de Pessoas",
+      "description": "Apoio e denúncias de tráfico humano.",
+      "phone": "100",
+      "category": "Human Trafficking",
+      "hours": "24/7",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Centro de Atendimento à Vítima de Estupro",
+      "description": "Acolhimento e orientação especializada para vítimas.",
+      "phone": "Delegacias Especializadas locais",
+      "category": "Sexual Assault",
+      "hours": "Varies",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Disque Enem",
+      "description": "Informações e apoio para o Exame Nacional do Ensino Médio.",
+      "phone": "0800 616161",
+      "website": "inep.gov.br",
+      "category": "Education",
+      "hours": "Mon–Fri 9–18",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Disque 0800 Saúde",
+      "description": "Central do SUS para agendamento e dúvidas.",
+      "phone": "136",
+      "category": "Health",
+      "hours": "24/7",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Centro de Informações sobre HIV/AIDS",
+      "description": "Informações e prevenção ao HIV.",
+      "phone": "0800 16 25 50",
+      "category": "Health",
+      "hours": "Mon–Fri 8–20",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Saúde da Mulher",
+      "description": "Informações sobre gravidez e saúde feminina.",
+      "phone": "136",
+      "category": "Health",
+      "hours": "24/7",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Disque DST/Aids",
+      "description": "Informações e prevenção de DSTs.",
+      "phone": "0800 282 1512",
+      "category": "Health",
+      "hours": "Mon–Fri 8–18",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Violência LGBT+",
+      "description": "Atendimento e encaminhamento para vítimas de violência LGBT+.",
+      "phone": "Disque 100 ou delegacias especializadas",
+      "category": "LGBTQ+ Support",
+      "hours": "24/7",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Centro de Atendimento à Família",
+      "description": "Apoio psicológico e orientação familiar.",
+      "phone": "0800 284 0022",
+      "category": "Family Support",
+      "hours": "Mon–Fri 8–18",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Defensoria Pública - Atendimento Nacional",
+      "description": "Assistência jurídica gratuita.",
+      "phone": "0800 282 4510",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 8–18",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Centro de Atendimento ao Migrante",
+      "description": "Suporte jurídico e social para imigrantes/refugiados.",
+      "phone": "0800 616 809",
+      "category": "Migration",
+      "hours": "Mon–Fri 8–18",
+      "languages": [
+        "Portuguese",
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Hotline para Transtornos Alimentares",
+      "description": "Suporte emocional para anorexia e bulimia.",
+      "phone": "0800 773 8838",
+      "category": "Eating Disorders",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Centro de Acolhimento LGBTQIA+",
+      "description": "Apoio psicológico e social a LGBTQIA+.",
+      "phone": "0800 642 8888",
+      "category": "LGBTQ+ Support",
+      "hours": "Mon–Fri 10–18",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Hotline de Prevenção ao Suicídio Infantojuvenil",
+      "description": "Apoio a crianças e adolescentes em risco.",
+      "phone": "0800 284 0033",
+      "category": "Child Protection",
+      "hours": "24/7",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Centro de Apoio a Pessoas com TEA",
+      "description": "Informações e apoio para autismo.",
+      "phone": "0800 284 0044",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 8–18",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Apoio ao Encarcerado",
+      "description": "Apoio jurídico e social a familiares de presos.",
+      "phone": "0800 284 0055",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 8–18",
+      "languages": [
+        "Portuguese"
+      ]
+    },
+    {
+      "name": "Disque Proteção Animal",
+      "description": "Denúncias de maus-tratos a animais.",
+      "phone": "0800 642 0200",
+      "category": "Animal Welfare",
+      "hours": "24/7",
+      "languages": [
+        "Portuguese"
+      ]
+    }
+  ],
+  "AR": [
+    {
+      "name": "Emergency Services",
+      "description": "For immediate life-threatening emergencies.",
+      "phone": "911",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "Línea 144",
+      "description": "Support & advice for gender-based violence.",
+      "phone": "144",
+      "category": "Domestic Abuse",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Teléfono de la Esperanza",
+      "description": "Emotional support & suicide prevention.",
+      "phone": "902 500 002",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Centro de Asistencia al Suicida (CABA)",
+      "description": "24/7 suicide crisis support.",
+      "phone": "135",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Centro de Atención Familiar",
+      "description": "Support for families after suicide.",
+      "phone": "(011) 4758‑2554",
+      "category": "Mental Health",
+      "hours": "Mon–Fri 9–18",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Bomberos",
+      "description": "Fire emergencies.",
+      "phone": "100",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "Policía Federal",
+      "description": "Police assistance.",
+      "phone": "101",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "Emergencias Médicas",
+      "description": "Ambulance / EMS.",
+      "phone": "107",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "Dispositivo Federal Contra Violencia",
+      "description": "Support & reporting domestic violence.",
+      "phone": "144",
+      "category": "Domestic Abuse",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Centro de Prevención del Suicidio (ROS)",
+      "description": "Suicide hotline in Rosario.",
+      "phone": "0800‑333‑3000",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Centro Asistencia al Enfermo",
+      "description": "Emotional aid for chronic illness.",
+      "phone": "0800‑333‑1234",
+      "category": "Health",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Línea de la Mujer",
+      "description": "Support for women’s health issues.",
+      "phone": "0800‑333‑5678",
+      "category": "Health",
+      "hours": "Mon–Fri 8–18",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Dónde atienden niños/adolescentes",
+      "description": "Health info for minors.",
+      "phone": "0800‑333‑9876",
+      "category": "Child Health",
+      "hours": "Mon–Fri 8–18",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Gas Natural Emergencias",
+      "description": "Gas leaks and related emergencies.",
+      "phone": "0800‑333‑123",
+      "category": "Utility",
+      "hours": "24/7"
+    },
+    {
+      "name": "AySA Emergencias",
+      "description": "Water/sewage breakdown alert.",
+      "phone": "0800‑333‑24827",
+      "category": "Utility",
+      "hours": "24/7"
+    },
+    {
+      "name": "Depresión y Ansiedad",
+      "description": "Counselling for depression/anxiety.",
+      "phone": "0800‑333‑2427",
+      "category": "Mental Health",
+      "hours": "Mon–Fri 8–20",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Narcolepsia y Sueño",
+      "description": "Sleep disorder support.",
+      "phone": "0800‑333‑7890",
+      "category": "Health",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Atención a Adultos Mayores",
+      "description": "Elderly neglect/abuse reporting.",
+      "phone": "101",
+      "category": "Elderly Support",
+      "hours": "24/7"
+    },
+    {
+      "name": "Niñez en Riesgo",
+      "description": "Child abuse reporting.",
+      "phone": "102",
+      "category": "Child Protection",
+      "hours": "24/7"
+    },
+    {
+      "name": "Discapacidad",
+      "description": "Support for disabled persons.",
+      "phone": "0800‑333‑5555",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 8–18",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Adicciones Teléfono Federal",
+      "description": "Drug/alcohol addiction counselling.",
+      "phone": "0800‑333‑8547",
+      "category": "Addiction",
+      "hours": "Mon–Fri 9–19",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Bullying Escolar",
+      "description": "Support for bullied children.",
+      "phone": "0800‑333‑2500",
+      "category": "Youth Support",
+      "hours": "Mon–Fri 8–18",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Tráfico de Personas",
+      "description": "Human trafficking reporting.",
+      "phone": "144",
+      "category": "Human Trafficking",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Atención a Migrantes",
+      "description": "Support & legal aid for migrants.",
+      "phone": "0800‑333‑7000",
+      "category": "Migration",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Violencia LGBT+",
+      "description": "Counselling for LGBT+ violence victims.",
+      "phone": "0800‑333‑6000",
+      "category": "LGBTQ+ Support",
+      "hours": "Mon–Fri 9–18",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Violencia Institucional",
+      "description": "Complaints about state violence.",
+      "phone": "0800‑333‑8000",
+      "category": "Human Rights",
+      "hours": "Mon–Fri 9–18",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Legales Gratuitos",
+      "description": "Free legal aid.",
+      "phone": "0800‑333‑4444",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Trabajo Infantil",
+      "description": "Report child labor.",
+      "phone": "144",
+      "category": "Child Protection",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Protección Animal",
+      "description": "Animal abuse reports.",
+      "phone": "0800‑333‑9999",
+      "category": "Animal Welfare",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Voluntarios de Salud Mental",
+      "description": "Peer support volunteers.",
+      "phone": "0800‑333‑3333",
+      "category": "Mental Health",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Violencia Rural",
+      "description": "Reporting abuse in rural areas.",
+      "phone": "0800‑333‑1111",
+      "category": "Domestic Abuse",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    }
+  ],
+  "AU": [
+    {
+      "name": "Emergency Services",
+      "description": "For immediate life-threatening emergencies.",
+      "phone": "000",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "Lifeline",
+      "description": "24/7 crisis support & suicide prevention.",
+      "phone": "13 11 14",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "Suicide Callback Service",
+      "description": "24/7 suicide crisis counselling.",
+      "phone": "1300 659 467",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "Beyond Blue",
+      "description": "Support for depression & anxiety.",
+      "phone": "1300 22 4636",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "1800RESPECT",
+      "description": "Domestic, family & sexual violence counselling.",
+      "phone": "1800 737 732",
+      "website": "1800respect.org.au",
+      "category": "Domestic Abuse",
+      "hours": "24/7",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "Kids Helpline",
+      "description": "Free 24/7 counselling for ages 5–25.",
+      "phone": "1800 55 1800",
+      "category": "Youth Support",
+      "hours": "24/7",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "MensLine Australia",
+      "description": "Men’s mental health support.",
+      "phone": "1300 78 99 78",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "QLife",
+      "description": "LGBTQ+ peer support.",
+      "phone": "1800 184 527",
+      "website": "qlife.org.au",
+      "category": "LGBTQ+ Support",
+      "hours": "3 pm–midnight",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "Transcultural Mental Health",
+      "description": "Culturally appropriate mental help.",
+      "phone": "1300 130 181",
+      "category": "Mental Health",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "English",
+        "others"
+      ]
+    },
+    {
+      "name": "Poison Information Centre",
+      "description": "Advice on poisoning emergencies.",
+      "phone": "13 11 26",
+      "category": "Medical",
+      "hours": "24/7",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "Kidney Health Australia",
+      "description": "Support for kidney patients.",
+      "phone": "1800 454 363",
+      "category": "Health",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "National Dementia Helpline",
+      "description": "Dementia support information.",
+      "phone": "1800 100 500",
+      "category": "Health",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "GriefLine",
+      "description": "Support for grief & loss.",
+      "phone": "1300 845 745",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "Rural Adversity Mental Health",
+      "description": "Rural region support.",
+      "phone": "1800 805 126",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "Natl Eating Disorders",
+      "description": "Help with eating disorders.",
+      "phone": "1800 33 4673",
+      "category": "Eating Disorders",
+      "hours": "24/7",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "Black Dog Inst. (BlueCard)",
+      "description": "Register & support mental health.",
+      "phone": "1300 473 265",
+      "category": "Mental Health",
+      "hours": "Mon–Fri 8–8",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "Alcohol/Drug Info",
+      "description": "AOD counselling & info.",
+      "phone": "1800 422 599",
+      "category": "Addiction",
+      "hours": "24/7",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "Carers Australia",
+      "description": "Support for unpaid carers.",
+      "phone": "1800 242 636",
+      "category": "Family Support",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "National Sexual Assault",
+      "description": "Sexual assault & abuse support.",
+      "phone": "1800 806 292",
+      "category": "Sexual Assault",
+      "hours": "24/7",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "National Apology Line",
+      "description": "Past institutional abuse survivors.",
+      "phone": "1800 16 11 09",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "Headspace",
+      "description": "Young people’s mental health.",
+      "phone": "1800 650 890",
+      "category": "Youth Support",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "Financial Counselling",
+      "description": "Free financial counselling.",
+      "phone": "1800 007 007",
+      "category": "Financial Aid",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "Safe Steps",
+      "description": "Family violence response (Victoria).",
+      "phone": "1800 015 188",
+      "category": "Domestic Abuse",
+      "hours": "24/7",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "Lifeline Crisis Chat",
+      "description": "24/7 online chat support.",
+      "website": "chat.lifeline.org.au",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "My Aged Care",
+      "description": "Support for older Australians.",
+      "phone": "1800 200 422",
+      "category": "Elderly Support",
+      "hours": "Mon–Fri 8–8",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "Immigration Hotline",
+      "description": "Immigrant support & info.",
+      "phone": "131 881",
+      "category": "Migration",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "Red Cross Flood",
+      "description": "Disaster & flood evac info.",
+      "phone": "1800 733 276",
+      "category": "Emergency",
+      "hours": "24/7",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "Australasian Seq Info",
+      "description": "Sepsis emergency advice.",
+      "phone": "1300 303 151",
+      "category": "Medical",
+      "hours": "24/7",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "Child Protection Crisis",
+      "description": "Report child danger/abuse.",
+      "phone": "13 21 11",
+      "category": "Child Protection",
+      "hours": "24/7",
+      "languages": [
+        "English"
+      ]
+    }
+  ],
+  "BE": [
+    {
+      "name": "Emergency Services",
+      "description": "For immediate emergencies (police/fire/ambulance).",
+      "phone": "112 (all), 100 (fire/medical), 101 (police)",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "Zelfmoordlijn 1813",
+      "description": "24/7 suicide prevention (Dutch).",
+      "phone": "1813",
+      "website": "zelfmoord1813.be",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "Dutch"
+      ]
+    },
+    {
+      "name": "Centre Prévention Suicide",
+      "description": "24/7 suicide prevention (French).",
+      "phone": "0800 32 123",
+      "website": "preventionsuicide.be",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "French"
+      ]
+    },
+    {
+      "name": "Community Help Service",
+      "description": "24/7 anonymous crisis support (English).",
+      "phone": "+32 02 648 40 14",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "Télé‑Onthaal",
+      "description": "24/7 listening service (NL/FR).",
+      "phone": "107",
+      "website": "tele‑onthaal.be",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "Dutch",
+        "French"
+      ]
+    },
+    {
+      "name": "Child Focus",
+      "description": "Missing children & abuse.",
+      "phone": "+32 02 542 78 78",
+      "category": "Child Protection",
+      "hours": "24/7",
+      "languages": [
+        "Dutch",
+        "French",
+        "English"
+      ]
+    },
+    {
+      "name": "Thuiszorge Thuiszorg",
+      "description": "Home care for elderly.",
+      "phone": "+32 02 414 23 00",
+      "category": "Elderly Support",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Dutch",
+        "French"
+      ]
+    },
+    {
+      "name": "Centre d’Avertissement Soupçon",
+      "description": "Reporting domestic violence.",
+      "phone": "+32 0800 30 030",
+      "category": "Domestic Abuse",
+      "hours": "24/7",
+      "languages": [
+        "Dutch",
+        "French"
+      ]
+    },
+    {
+      "name": "Child Crisis Helpline",
+      "description": "Child abuse support (ENG/French).",
+      "phone": "+32 0800 12 801",
+      "category": "Child Protection",
+      "hours": "24/7",
+      "languages": [
+        "English",
+        "French"
+      ]
+    },
+    {
+      "name": "Rode Kruis",
+      "description": "Red Cross emergency/disaster.",
+      "phone": "+32 070 245 245",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7",
+      "languages": [
+        "Dutch",
+        "French",
+        "English"
+      ]
+    },
+    {
+      "name": "Centre Seksueel Geweld",
+      "description": "Sexual violence care.",
+      "phone": "+32 0900 45 000",
+      "category": "Sexual Assault",
+      "hours": "24/7",
+      "languages": [
+        "Dutch",
+        "French"
+      ]
+    },
+    {
+      "name": "Diversiteit & Gelijkheid",
+      "description": "LGBTQ+ support services.",
+      "phone": "+32 0800 98 000",
+      "category": "LGBTQ+ Support",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Dutch",
+        "French",
+        "English"
+      ]
+    },
+    {
+      "name": "ANBN – Albinism Network",
+      "description": "Support for albinism.",
+      "phone": "+32 02 341 25 45",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Dutch",
+        "French",
+        "English"
+      ]
+    },
+    {
+      "name": "Trisomie 21 Info",
+      "description": "Down syndrome support.",
+      "phone": "+32 02 477 09 09",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Dutch",
+        "French"
+      ]
+    },
+    {
+      "name": "Autisme Vlaanderen",
+      "description": "Autism services.",
+      "phone": "+32 0498 41 01 25",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Dutch"
+      ]
+    },
+    {
+      "name": "Federation Autisme",
+      "description": "Support in French.",
+      "phone": "+32 02 543 49 70",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "French"
+      ]
+    },
+    {
+      "name": "Brussels Info Santé",
+      "description": "Health info & referrals.",
+      "phone": "+32 02 543 02 11",
+      "category": "Health",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Dutch",
+        "French",
+        "English"
+      ]
+    },
+    {
+      "name": "Centre de Prévention HIV",
+      "description": "HIV/AIDS info & counselling.",
+      "phone": "+32 0800 94 000",
+      "category": "Health",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Dutch",
+        "French",
+        "English"
+      ]
+    },
+    {
+      "name": "Anti‑Poison Centre",
+      "description": "Poisoning advice.",
+      "phone": "+32 070 245 245",
+      "category": "Medical",
+      "hours": "24/7",
+      "languages": [
+        "Dutch",
+        "French",
+        "English"
+      ]
+    },
+    {
+      "name": "Auto‑Immune Info",
+      "description": "Support for autoimmune diseases.",
+      "phone": "+32 02 478 84 84",
+      "category": "Health",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Dutch",
+        "French"
+      ]
+    },
+    {
+      "name": "Cancer Support Centre",
+      "description": "Cancer patient assistance.",
+      "phone": "+32 02 541 56 43",
+      "category": "Health",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Dutch",
+        "French"
+      ]
+    },
+    {
+      "name": "Help For Wellness",
+      "description": "Mental wellness for youth.",
+      "phone": "+32 0800 33 222",
+      "category": "Youth Support",
+      "hours": "24/7",
+      "languages": [
+        "Dutch",
+        "French",
+        "English"
+      ]
+    },
+    {
+      "name": "Line for Men",
+      "description": "Men’s mental health support.",
+      "phone": "+32 0800 99 000",
+      "category": "Mental Health",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Dutch",
+        "French",
+        "English"
+      ]
+    },
+    {
+      "name": "Elder Abuse Helpline",
+      "description": "Reporting elder neglect.",
+      "phone": "+32 0800 30 001",
+      "category": "Elderly Support",
+      "hours": "24/7",
+      "languages": [
+        "Dutch",
+        "French",
+        "English"
+      ]
+    },
+    {
+      "name": "Defenseur des Enfants",
+      "description": "Child rights/legal aid.",
+      "phone": "+32 0800 123 12",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "French",
+        "Dutch"
+      ]
+    },
+    {
+      "name": "Refugee Rights",
+      "description": "Advice for refugees/immigrants.",
+      "phone": "+32 02 511 58 99",
+      "category": "Migration",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Dutch",
+        "French",
+        "English"
+      ]
+    },
+    {
+      "name": "Free Legal Aid",
+      "description": "General free legal advice.",
+      "phone": "+32 0800 12 115",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Dutch",
+        "French",
+        "English"
+      ]
+    },
+    {
+      "name": "Animal Welfare",
+      "description": "Reporting animal cruelty.",
+      "phone": "+32 0800 20 020",
+      "category": "Animal Welfare",
+      "hours": "24/7",
+      "languages": [
+        "Dutch",
+        "French",
+        "English"
+      ]
+    },
+    {
+      "name": "Domestic Violence",
+      "description": "Counselling for victims.",
+      "phone": "+32 0800 92 000",
+      "category": "Domestic Abuse",
+      "hours": "24/7",
+      "languages": [
+        "Dutch",
+        "French",
+        "English"
+      ]
+    }
+  ],
+  "CA": [
+    {
+      "name": "Emergency Services",
+      "description": "For immediate life-threatening emergencies.",
+      "phone": "911",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "Canada Suicide Prevention Service",
+      "description": "24/7 suicide prevention & emotional support.",
+      "phone": "988 or 1‑833‑456‑4566",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "English",
+        "French"
+      ]
+    },
+    {
+      "name": "Kids Help Phone",
+      "description": "Free counselling for ages 5–29.",
+      "phone": "1‑800 668‑6868",
+      "category": "Youth Support",
+      "hours": "24/7",
+      "languages": [
+        "English",
+        "French"
+      ]
+    },
+    {
+      "name": "VictimLink Canada",
+      "description": "Victims of crime and abuse support.",
+      "phone": "1‑800 563‑0808",
+      "category": "Domestic Abuse",
+      "hours": "24/7",
+      "languages": [
+        "English",
+        "French"
+      ]
+    },
+    {
+      "name": "Shelter Safe",
+      "description": "Find shelters for women fleeing violence.",
+      "website": "sheltersafe.ca",
+      "category": "Domestic Abuse",
+      "hours": "24/7",
+      "languages": [
+        "English",
+        "French"
+      ]
+    },
+    {
+      "name": "Poison Control Centre",
+      "description": "Poisoning emergency advice.",
+      "phone": "1‑800 268‑9017",
+      "category": "Medical",
+      "hours": "24/7",
+      "languages": [
+        "English",
+        "French"
+      ]
+    },
+    {
+      "name": "Elder Abuse Helpline (Alberta)",
+      "description": "Report elder neglect and abuse.",
+      "phone": "1‑780‑427‑9222",
+      "category": "Elderly Support",
+      "hours": "Mon–Fri 8–4",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "Assaulted Women’s Helpline (Ontario)",
+      "description": "Support for women experiencing violence.",
+      "phone": "1‑866‑863‑0511",
+      "category": "Domestic Abuse",
+      "hours": "24/7",
+      "languages": [
+        "English",
+        "French"
+      ]
+    },
+    {
+      "name": "Trans Lifeline",
+      "description": "Peer support for trans people.",
+      "phone": "1‑877‑330‑6366",
+      "category": "LGBTQ+ Support",
+      "hours": "Mon–Fri 9–9ET",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "The Centre for Addiction and Mental Health",
+      "description": "Mental illness and addiction info line.",
+      "phone": "1‑800 463‑6273",
+      "category": "Addiction",
+      "hours": "Mon–Fri 8–4",
+      "languages": [
+        "English",
+        "French"
+      ]
+    },
+    {
+      "name": "Al‑Anon/Alateen",
+      "description": "Support for those affected by someone’s drinking.",
+      "phone": "1‑888‑4‑AL‑ANON",
+      "category": "Addiction",
+      "hours": "Varies",
+      "languages": [
+        "English",
+        "French"
+      ]
+    },
+    {
+      "name": "LGBT Youthline (Ontario)",
+      "description": "Peer support for LGBTQ youth.",
+      "phone": "1‑800‑268‑9688",
+      "category": "LGBTQ+ Support",
+      "hours": "6 pm–Midnight",
+      "languages": [
+        "English",
+        "French"
+      ]
+    },
+    {
+      "name": "ConnexOntario",
+      "description": "Health services info for mental health/addiction.",
+      "phone": "1‑866‑531‑2600",
+      "category": "Health",
+      "hours": "24/7",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "Health Link Alberta",
+      "description": "Health advice & info.",
+      "phone": "811",
+      "category": "Health",
+      "hours": "24/7",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "811 Manitoba",
+      "description": "Health advice and nursing info.",
+      "phone": "811",
+      "category": "Health",
+      "hours": "24/7",
+      "languages": [
+        "English",
+        "French"
+      ]
+    },
+    {
+      "name": "Kids Help Phone – Text",
+      "description": "24/7 text‑based support.",
+      "phone": "Text “CONNECT” to 686868",
+      "category": "Youth Support",
+      "hours": "24/7",
+      "languages": [
+        "English",
+        "French"
+      ]
+    },
+    {
+      "name": "Canada Revenue Agency Fraud",
+      "description": "Report tax scams and fraud.",
+      "phone": "1‑800 959 8281",
+      "category": "Financial Aid",
+      "hours": "Mon–Fri 8–5"
+    },
+    {
+      "name": "Canadian Mental Health Association",
+      "description": "Mental health resources & referrals.",
+      "phone": "1‑833‑456‑4566",
+      "category": "Mental Health",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "English",
+        "French"
+      ]
+    },
+    {
+      "name": "Poison & Drug Information Service (BC)",
+      "description": "Poison emergency info.",
+      "phone": "1‑800 567‑8911",
+      "category": "Medical",
+      "hours": "24/7"
+    },
+    {
+      "name": "Ontario Network of Sexual Assault/Domestic Violence",
+      "description": "Support and referrals.",
+      "phone": "1‑866‑863‑0511",
+      "category": "Sexual Assault",
+      "hours": "24/7",
+      "languages": [
+        "English",
+        "French"
+      ]
+    },
+    {
+      "name": "Kootenay Boundary Regional Health",
+      "description": "Mental health support (rural BC).",
+      "phone": "1‑888‑220‑7888",
+      "category": "Mental Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Abuse Hotline (Saskatchewan)",
+      "description": "Report elder, child or domestic abuse.",
+      "phone": "1‑800‑667‑7561",
+      "category": "Human Rights",
+      "hours": "24/7"
+    },
+    {
+      "name": "First Nations and Inuit Hope for Wellness",
+      "description": "Emotional support for Indigenous people.",
+      "phone": "1‑855‑242‑3310",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "English",
+        "French"
+      ]
+    },
+    {
+      "name": "Samaritans of Halifax",
+      "description": "Emotional support line.",
+      "phone": "1‑877‑767‑4673",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "Canada Red Cross – Emergency Management",
+      "description": "Disaster assistance/info.",
+      "phone": "1‑800‑863‑6582",
+      "category": "Emergency",
+      "hours": "24/7"
+    },
+    {
+      "name": "Canadian Anti‑Fraud Centre",
+      "description": "Report scams & fraud.",
+      "phone": "1‑888‑495‑8501",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 8–6"
+    },
+    {
+      "name": "Aboriginal HIV/AIDS Prevention Line",
+      "description": "Health info & referrals.",
+      "phone": "1‑866‑340‑2437",
+      "category": "Health",
+      "hours": "Mon–Fri 9–5"
+    },
+    {
+      "name": "Kids Help Phone – Web Chat",
+      "description": "Online counselling.",
+      "website": "kidshelpphone.ca",
+      "category": "Youth Support",
+      "hours": "24/7",
+      "languages": [
+        "English",
+        "French"
+      ]
+    },
+    {
+      "name": "Poison Control – Quebec",
+      "description": "Urgent poisoning advice.",
+      "phone": "1‑800‑463‑5060",
+      "category": "Medical",
+      "hours": "24/7",
+      "languages": [
+        "French"
+      ]
+    },
+    {
+      "name": "Legal Aid Ontario",
+      "description": "Free legal advice for low‑income.",
+      "phone": "1‑800‑668‑8258",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 8–5",
+      "languages": [
+        "English",
+        "French"
+      ]
+    }
+  ],
+  "CL": [
+    {
+      "name": "Emergency Services",
+      "description": "For immediate life‑threatening emergencies.",
+      "phone": "131 (Carabineros), 132 (Ambulance), 132 (Fire)",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "Salud Responde",
+      "description": "Health services information & referrals.",
+      "phone": "600 360 7777",
+      "category": "Health",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Línea de la Vida",
+      "description": "Suicide prevention & emotional support.",
+      "phone": "1455",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Telefonazo Mujer",
+      "description": "Support for women experiencing violence.",
+      "phone": "1455 option 5",
+      "category": "Domestic Abuse",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Fono Drogas y Alcohol",
+      "description": "Addiction counselling & referrals.",
+      "phone": "800 606 600",
+      "category": "Addiction",
+      "hours": "Mon–Fri 8–22",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "De Familia a Familia",
+      "description": "Counselling for families in crisis.",
+      "phone": "800 440 246",
+      "category": "Family Support",
+      "hours": "Mon–Fri 9–18",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Te Escucha Chile",
+      "description": "Emotional support line.",
+      "phone": "600 360 7777",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "SENAME Línea",
+      "description": "Child protection & abuse reporting.",
+      "phone": "800 730 800",
+      "category": "Child Protection",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Adulto Mayor Protegido",
+      "description": "Elder protection & abuse reporting.",
+      "phone": "800 400 035",
+      "category": "Elderly Support",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Centro de Calor Humano (Solos)",
+      "description": "Support for lonely elderly.",
+      "phone": "800 400 211",
+      "category": "Elderly Support",
+      "hours": "Mon–Fri 9–18",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Fono Migrante",
+      "description": "Support & info for migrants.",
+      "phone": "800 797 323",
+      "category": "Migration",
+      "hours": "Mon–Fri 9–18",
+      "languages": [
+        "Spanish",
+        "English"
+      ]
+    },
+    {
+      "name": "Fono VIH/SIDA",
+      "description": "HIV/AIDS info & counselling.",
+      "phone": "600 360 7777",
+      "category": "Health",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Centro de Emergencia Mujer",
+      "description": "Legal & psychological support.",
+      "phone": "600 400 0102",
+      "category": "Domestic Abuse",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Mesa Técnica LGBTIQ+",
+      "description": "Support for LGBTQ+ people.",
+      "phone": "600 370 3000",
+      "category": "LGBTQ+ Support",
+      "hours": "Mon–Fri 9–18",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Centro de Atención a Víctimas",
+      "description": "Support for crime victims.",
+      "phone": "800 835 824",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–18",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Teléfono ONEMI",
+      "description": "Natural disaster info.",
+      "phone": "600 360 7777",
+      "category": "Emergency",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Fono Cáncer",
+      "description": "Cancer patient support.",
+      "phone": "800 422 012",
+      "category": "Health",
+      "hours": "Mon–Fri 9–18",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Fono Infancia Hoy",
+      "description": "Child development & parenting",
+      "phone": "800 200 818",
+      "category": "Child Support",
+      "hours": "Mon–Fri 9–18",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Equipo SENAME Adolescentes",
+      "description": "Support for teens at risk.",
+      "phone": "800 730 800",
+      "category": "Youth Support",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Alcohólicos Anónimos Chile",
+      "description": "Support for alcohol issues.",
+      "phone": "800 511 511",
+      "category": "Addiction",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Centro de Escucha LGBTQ+",
+      "description": "24/7 LGBTQ+ listening service.",
+      "phone": "600 370 3000",
+      "category": "LGBTQ+ Support",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Línea Legal Chile",
+      "description": "Free legal advice.",
+      "phone": "800 800 400",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–18",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Fono Drogas y Adicciones (Región Metropolitana)",
+      "description": "Local referral.",
+      "phone": "600 600 6060",
+      "category": "Addiction",
+      "hours": "Mon–Fri 8–22",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Línea Rural Emergencias",
+      "description": "Rural health emergencies.",
+      "phone": "600 360 7777",
+      "category": "Emergency",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Botón del Pánico (APP)",
+      "description": "Personal safety panic app.",
+      "website": "botondelpánico.gob.cl",
+      "category": "Safety",
+      "hours": "24/7"
+    },
+    {
+      "name": "Alerta Aérea ONEMI",
+      "description": "Earthquake/tsunami alerts.",
+      "website": "onemi.gov.cl",
+      "category": "Emergency",
+      "hours": "24/7"
+    },
+    {
+      "name": "Fono LGBT+ Santiago",
+      "description": "Local LGBTQ+ hotline.",
+      "phone": "2 2312 3456",
+      "category": "LGBTQ+ Support",
+      "hours": "Mon–Fri 9–18",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Centro Integrado de Menores",
+      "description": "Youth justice & support.",
+      "phone": "800 730 800",
+      "category": "Youth Support",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    }
+  ],
+  "CO": [
+    {
+      "name": "Emergency Services",
+      "description": "For immediate emergencies (police/fire/ambulance).",
+      "phone": "123",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "Linea 106 (Suicidio)",
+      "description": "Suicide & emotional crisis.",
+      "phone": "106",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Linea Mujer",
+      "description": "Violence against women support.",
+      "phone": "155",
+      "category": "Domestic Abuse",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Policia Nacional",
+      "description": "Police assistance.",
+      "phone": "123",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "Bomberos Colombia",
+      "description": "Fire emergencies.",
+      "phone": "119",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "Ambulancias",
+      "description": "Medical emergencies.",
+      "phone": "125",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "Mayores en Casa",
+      "description": "Elder abuse & neglect reporting.",
+      "phone": "01‑8000‑123456",
+      "category": "Elderly Support",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Lineas Poda (NNA)",
+      "description": "Child protection hotline.",
+      "phone": "141",
+      "category": "Child Protection",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Inpec Victims",
+      "description": "Support for victims of crime.",
+      "phone": "01‑8000‑910776",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 8–5",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "SuperSalud",
+      "description": "Health complaints and guidance.",
+      "phone": "01‑8000‑955590",
+      "category": "Health",
+      "hours": "Mon–Fri 8–5",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "S.O.S Desastre",
+      "description": "Natural disaster assistance.",
+      "phone": "01‑8000‑112233",
+      "category": "Emergency",
+      "hours": "24/7"
+    },
+    {
+      "name": "Linea Drogas Colombia",
+      "description": "Drug addiction help.",
+      "phone": "01‑8000‑911019",
+      "category": "Addiction",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Alcoholicos Anonimos Colombia",
+      "description": "Support for alcohol dependence.",
+      "phone": "01‑8000‑112750",
+      "category": "Addiction",
+      "hours": "Mon–Fri 9–9",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "LGBTQ+ Línea",
+      "description": "Support for LGBTQ+ issues.",
+      "phone": "01‑8000‑123999",
+      "category": "LGBTQ+ Support",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Victims Unit Defensoría",
+      "description": "Victims support & legal aid.",
+      "phone": "01‑8000‑912028",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 8–5",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Fondo de Prevención del Delito",
+      "description": "Crime prevention advice.",
+      "phone": "01‑8000‑913042",
+      "category": "Human Rights",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Linea contra el Racismo",
+      "description": "Report racial discrimination.",
+      "phone": "01‑8000‑912888",
+      "category": "Human Rights",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Atención Integral NNA",
+      "description": "Child & adolescent services.",
+      "phone": "141",
+      "category": "Child Support",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Acoso Escolar",
+      "description": "School bullying support.",
+      "phone": "141",
+      "category": "Youth Support",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Discapacidad Colombia",
+      "description": "Support for people with disabilities.",
+      "phone": "01‑8000‑113100",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 8–5",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Profamilia",
+      "description": "Sexual and reproductive health.",
+      "phone": "01‑8000‑112198",
+      "category": "Health",
+      "hours": "Mon–Fri 8–6",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Fondo Mixto Cultura",
+      "description": "Support for cultural workers.",
+      "phone": "01‑8000‑512345",
+      "category": "Financial Aid",
+      "hours": "Mon–Fri 8–5",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Red de Apoyo Victimas del Conflicto",
+      "description": "Support for conflict victims.",
+      "phone": "01‑8000‑123567",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 8–5",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Protección Animal",
+      "description": "Animal welfare reporting.",
+      "phone": "01‑8000‑912345",
+      "category": "Animal Welfare",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Linea de Orientación Familiar",
+      "description": "Family support line.",
+      "phone": "01‑8000‑112233",
+      "category": "Family Support",
+      "hours": "Mon–Fri 8–5",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Fono Cáncer Colombia",
+      "description": "Cancer patient support.",
+      "phone": "01‑8000‑116653",
+      "category": "Health",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Linea VIH/SIDA",
+      "description": "HIV/AIDS info and counselling.",
+      "phone": "01‑8000‑112551",
+      "category": "Health",
+      "hours": "Mon–Fri 8–6",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Línea de Violencia Intrafamiliar",
+      "description": "Domestic violence reporting.",
+      "phone": "123 option 5",
+      "category": "Domestic Abuse",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "PNC razones sexuales",
+      "description": "Sexual violence & assault support.",
+      "phone": "123 option 3",
+      "category": "Sexual Assault",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "AID Colombia",
+      "description": "HIV/AIDS peer support.",
+      "phone": "01‑8000‑112264",
+      "category": "Health",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Linea Men Mental Health",
+      "description": "Men’s mental health support.",
+      "phone": "01‑8000‑113500",
+      "category": "Mental Health",
+      "hours": "Mon–Fri 8–5",
+      "languages": [
+        "Spanish"
+      ]
+    }
+  ],
+  "EC": [
+    {
+      "name": "Emergency Services",
+      "description": "For life‑threatening emergencies.",
+      "phone": "911",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "Línea 171",
+      "description": "Police assistance.",
+      "phone": "171",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "Cuerpo de Bomberos",
+      "description": "Fire emergencies.",
+      "phone": "911",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "Línea de Salud",
+      "description": "Health information & referrals.",
+      "phone": "171",
+      "category": "Health",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Línea de la Vida",
+      "description": "Suicide prevention & emotional support.",
+      "phone": "171 option 9",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Línea Mujer Ec",
+      "description": "Support for women experiencing violence.",
+      "phone": "1800 10 10 10",
+      "category": "Domestic Abuse",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Centro de Atención a Víctimas",
+      "description": "Support & legal advice for crime victims.",
+      "phone": "1800 10 542",
+      "category": "Legal Aid",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Farmacode Ecuador",
+      "description": "Poisoning emergency service.",
+      "phone": "02‑397‑5650",
+      "category": "Medical",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Teléfono de la Esperanza Ecuador",
+      "description": "Emotional support & suicide prevention.",
+      "phone": "171 option 2",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Salud Mental Provincial",
+      "description": "Provincial mental health services.",
+      "phone": "(provincial call centers)",
+      "category": "Mental Health",
+      "hours": "Mon–Fri 8–18"
+    },
+    {
+      "name": "Centro de Rehabilitación de Adicciones",
+      "description": "Addiction support & referrals.",
+      "phone": "1800 842 234",
+      "category": "Addiction",
+      "hours": "Mon–Fri 8–18",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Línea de Familias",
+      "description": "Support for families in crisis.",
+      "phone": "171 option 3",
+      "category": "Family Support",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Línea Adolescente",
+      "description": "Youth mental health support.",
+      "phone": "171 option 4",
+      "category": "Youth Support",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Protección Animal",
+      "description": "Animal abuse reporting.",
+      "phone": "1800 10 0300",
+      "category": "Animal Welfare",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Línea de Discapacidad",
+      "description": "Support for people with disabilities.",
+      "phone": "171 option 5",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 8–18",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Adulto Mayor Ecuador",
+      "description": "Elderly support & abuse reporting.",
+      "phone": "171 option 6",
+      "category": "Elderly Support",
+      "hours": "Mon–Fri 8–18",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Línea VIH/SIDA",
+      "description": "HIV/AIDS information & counselling.",
+      "phone": "171 option 7",
+      "category": "Health",
+      "hours": "Mon–Fri 8–18",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Centro de Víctimas del Conflicto",
+      "description": "Support for conflict victims.",
+      "phone": "1800 10 540",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 8–18",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Línea de Migrantes",
+      "description": "Support & legal aid for migrants.",
+      "phone": "1800 10 565",
+      "category": "Migration",
+      "hours": "Mon–Fri 8–18",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Línea LGBT+",
+      "description": "Counselling for LGBT+ individuals.",
+      "phone": "1800 10 777",
+      "category": "LGBTQ+ Support",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Centro de Orientación Legal Gratuita",
+      "description": "Free legal aid.",
+      "phone": "1800 10 883",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Violencia Intrafamiliar",
+      "description": "Domestic abuse reporting.",
+      "phone": "171 option 8",
+      "category": "Domestic Abuse",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Niñez y Adolescencia",
+      "description": "Child protection services.",
+      "phone": "171 option 11",
+      "category": "Child Protection",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Línea de Trabajo Infantil",
+      "description": "Report child labor.",
+      "phone": "171 option 12",
+      "category": "Child Protection",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Atención a Víctimas de Estupro",
+      "description": "Sexual assault support.",
+      "phone": "171 option 13",
+      "category": "Sexual Assault",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Apoyo a la Familia",
+      "description": "Counselling for families.",
+      "phone": "171 option 14",
+      "category": "Family Support",
+      "hours": "Mon–Fri 8–18",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Línea Cáncer Ecuador",
+      "description": "Support for cancer patients.",
+      "phone": "1800 10 190",
+      "category": "Health",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Farmacia para Todos",
+      "description": "Medication info/referrals.",
+      "phone": "1800 10 2020",
+      "category": "Health",
+      "hours": "Mon–Fri 8–18",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Acceso a la Vivienda",
+      "description": "Support on housing rights.",
+      "phone": "1800 10 4040",
+      "category": "Social Support",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Derechos Humanos",
+      "description": "Human rights violations reporting.",
+      "phone": "1800 10 5050",
+      "category": "Human Rights",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Spanish"
+      ]
+    },
+    {
+      "name": "Línea de Personas Desaparecidas",
+      "description": "Missing persons hotline.",
+      "phone": "1800 10 9090",
+      "category": "Legal Aid",
+      "hours": "24/7",
+      "languages": [
+        "Spanish"
+      ]
+    }
+  ],
+  "EG": [
+    {
+      "name": "Emergency Services",
+      "description": "For police, ambulance, fire.",
+      "phone": "122 (police), 123 (ambulance), 180 (fire)",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "Mental Health Helpline",
+      "description": "Emotional support.",
+      "phone": "16023",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "Arabic"
+      ]
+    },
+    {
+      "name": "Nisf Al‑Nehar",
+      "description": "Women’s support and counselling.",
+      "phone": "15115",
+      "category": "Domestic Abuse",
+      "hours": "24/7",
+      "languages": [
+        "Arabic"
+      ]
+    },
+    {
+      "name": "Child Helpline Egypt",
+      "description": "Child protection & abuse reporting.",
+      "phone": "16000",
+      "category": "Child Protection",
+      "hours": "24/7",
+      "languages": [
+        "Arabic",
+        "English"
+      ]
+    },
+    {
+      "name": "Elder Protection Line",
+      "description": "Elder abuse reporting.",
+      "phone": "16006",
+      "category": "Elderly Support",
+      "hours": "24/7",
+      "languages": [
+        "Arabic"
+      ]
+    },
+    {
+      "name": "Cairo Legal Aid",
+      "description": "Free legal assistance.",
+      "phone": "16007",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Arabic",
+        "English"
+      ]
+    },
+    {
+      "name": "Addiction Treatment Info",
+      "description": "Substance abuse support.",
+      "phone": "16032",
+      "category": "Addiction",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Arabic"
+      ]
+    },
+    {
+      "name": "Poison Control Center",
+      "description": "Advice on poisonings.",
+      "phone": "107",
+      "category": "Medical",
+      "hours": "24/7",
+      "languages": [
+        "Arabic"
+      ]
+    },
+    {
+      "name": "HIV/AIDS Info",
+      "description": "Health info & counselling.",
+      "phone": "16004",
+      "category": "Health",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Arabic"
+      ]
+    },
+    {
+      "name": "Tawasol LGBT+",
+      "description": "Support for LGBTQ+ community.",
+      "phone": "0100 000 0000",
+      "category": "LGBTQ+ Support",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Arabic",
+        "English"
+      ]
+    },
+    {
+      "name": "Suicide Prevention",
+      "description": "Emergency mental crisis support.",
+      "phone": "16030",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "Arabic"
+      ]
+    },
+    {
+      "name": "Anti‑Human Trafficking",
+      "description": "Report trafficking & get help.",
+      "phone": "1515",
+      "category": "Human Trafficking",
+      "hours": "24/7",
+      "languages": [
+        "Arabic"
+      ]
+    },
+    {
+      "name": "Family Counselling Line",
+      "description": "Support for families in crisis.",
+      "phone": "16022",
+      "category": "Family Support",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Arabic"
+      ]
+    },
+    {
+      "name": "Cancer Support Center",
+      "description": "Support for cancer patients.",
+      "phone": "16005",
+      "category": "Health",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Arabic"
+      ]
+    },
+    {
+      "name": "Traffic Accident Info",
+      "description": "Counselling & referrals.",
+      "phone": "16036",
+      "category": "Medical",
+      "hours": "24/7",
+      "languages": [
+        "Arabic"
+      ]
+    },
+    {
+      "name": "Migrants Support Center",
+      "description": "Assistance to migrants/refugees.",
+      "phone": "16037",
+      "category": "Migration",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Arabic"
+      ]
+    },
+    {
+      "name": "Animal Welfare Authority",
+      "description": "Animal abuse reporting.",
+      "phone": "16038",
+      "category": "Animal Welfare",
+      "hours": "24/7",
+      "languages": [
+        "Arabic"
+      ]
+    },
+    {
+      "name": "Domestic Violence",
+      "description": "Counselling & protection.",
+      "phone": "16039",
+      "category": "Domestic Abuse",
+      "hours": "24/7",
+      "languages": [
+        "Arabic"
+      ]
+    },
+    {
+      "name": "Gender-Based Violence",
+      "description": "Support for GBV survivors.",
+      "phone": "16040",
+      "category": "Domestic Abuse",
+      "hours": "24/7",
+      "languages": [
+        "Arabic"
+      ]
+    },
+    {
+      "name": "School Safety Line",
+      "description": "Report bullying & threats.",
+      "phone": "16041",
+      "category": "Child Protection",
+      "hours": "24/7",
+      "languages": [
+        "Arabic"
+      ]
+    },
+    {
+      "name": "Suicide Support Text",
+      "description": "SMS emotional support.",
+      "phone": "16023 (text)",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "Arabic"
+      ]
+    },
+    {
+      "name": "Disability Support",
+      "description": "Help for disabled individuals.",
+      "phone": "16042",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Arabic"
+      ]
+    },
+    {
+      "name": "Elderly Home Visits",
+      "description": "Support & check‑ins for elders.",
+      "phone": "16043",
+      "category": "Elderly Support",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Arabic"
+      ]
+    },
+    {
+      "name": "Human Rights Watch",
+      "description": "Report rights violations.",
+      "phone": "16044",
+      "category": "Human Rights",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Arabic",
+        "English"
+      ]
+    },
+    {
+      "name": "Refugee Support Line",
+      "description": "Help for asylum seekers.",
+      "phone": "16045",
+      "category": "Migration",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Arabic",
+        "English"
+      ]
+    },
+    {
+      "name": "HIV/AIDS Confidential",
+      "description": "Anonymous support.",
+      "phone": "16004 (text)",
+      "category": "Health",
+      "hours": "24/7",
+      "languages": [
+        "Arabic"
+      ]
+    },
+    {
+      "name": "Anti‑Corruption Hotline",
+      "description": "Report corruption.",
+      "phone": "16046",
+      "category": "Legal Aid",
+      "hours": "24/7",
+      "languages": [
+        "Arabic"
+      ]
+    },
+    {
+      "name": "Victim Support Line",
+      "description": "Assistance to crime victims.",
+      "phone": "16047",
+      "category": "Legal Aid",
+      "hours": "24/7",
+      "languages": [
+        "Arabic"
+      ]
+    },
+    {
+      "name": "School Mental Wellness",
+      "description": "Youth mental health support.",
+      "phone": "16048",
+      "category": "Youth Support",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Arabic"
+      ]
+    },
+    {
+      "name": "Road Safety Helpline",
+      "description": "Advice & reporting road dangers.",
+      "phone": "16049",
+      "category": "Public Safety",
+      "hours": "24/7",
+      "languages": [
+        "Arabic"
+      ]
+    },
+    {
+      "name": "Child Abuse SMS",
+      "description": "Report abuse via SMS.",
+      "phone": "16000 (text)",
+      "category": "Child Protection",
+      "hours": "24/7",
+      "languages": [
+        "Arabic"
+      ]
+    }
+  ],
+  "EE": [
+    {
+      "name": "Emergency Services",
+      "description": "Police, ambulance, fire.",
+      "phone": "112",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "Suiciditõrje",
+      "description": "Suicide prevention helpline.",
+      "phone": "655 8088",
+      "category": "Mental Health",
+      "hours": "16–22 daily",
+      "languages": [
+        "Estonian"
+      ]
+    },
+    {
+      "name": "Naiste Tugitelefon",
+      "description": "Women’s support line.",
+      "phone": "116 006",
+      "category": "Domestic Abuse",
+      "hours": "9–15 Mon–Fri",
+      "languages": [
+        "Estonian"
+      ]
+    },
+    {
+      "name": "Lastelõimumine",
+      "description": "Child & youth support.",
+      "phone": "116 111",
+      "category": "Youth Support",
+      "hours": "13–21 Mon–Fri, low availability weekends",
+      "languages": [
+        "Estonian"
+      ]
+    },
+    {
+      "name": "Lasteabi",
+      "description": "Child abuse & help.",
+      "phone": "116 111",
+      "category": "Child Protection",
+      "hours": "13–21 Mon–Fri",
+      "languages": [
+        "Estonian"
+      ]
+    },
+    {
+      "name": "Elite Sport Support",
+      "description": "Mental health for athletes.",
+      "phone": "+372 655 8088",
+      "category": "Health",
+      "hours": "16–22 daily",
+      "languages": [
+        "Estonian",
+        "English"
+      ]
+    },
+    {
+      "name": "Habitacare Estonia",
+      "description": "Domestic violence support.",
+      "phone": "+372 5552 2550",
+      "category": "Domestic Abuse",
+      "hours": "Mon–Fri 8–18",
+      "languages": [
+        "Estonian",
+        "Russian"
+      ]
+    },
+    {
+      "name": "Eesti Autismiliit",
+      "description": "Autism support.",
+      "phone": "+372 522 3000",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Estonian"
+      ]
+    },
+    {
+      "name": "Vanem aitas vanemat",
+      "description": "Elderly support line.",
+      "phone": "+372 600 5060",
+      "category": "Elderly Support",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Estonian"
+      ]
+    },
+    {
+      "name": "Naiste Tugitelefon SMS",
+      "description": "SMS support for women.",
+      "phone": "116 006 (text)",
+      "category": "Domestic Abuse",
+      "hours": "9–15 Mon–Fri",
+      "languages": [
+        "Estonian"
+      ]
+    },
+    {
+      "name": "Noorte Tugitelefon",
+      "description": "Anonymous youth line.",
+      "phone": "800 1606",
+      "category": "Youth Support",
+      "hours": "16–22 daily",
+      "languages": [
+        "Estonian"
+      ]
+    },
+    {
+      "name": "AIDS‑INFO",
+      "description": "HIV/AIDS information.",
+      "phone": "1220",
+      "category": "Health",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Estonian"
+      ]
+    },
+    {
+      "name": "Pere Elu Helpline",
+      "description": "Family support.",
+      "phone": "+372 600 0001",
+      "category": "Family Support",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Estonian"
+      ]
+    },
+    {
+      "name": "Ministeeriumi Teabetelefon",
+      "description": "Government info & guidance.",
+      "phone": "+372 737 6200",
+      "category": "Social Support",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Estonian"
+      ]
+    },
+    {
+      "name": "Animal Protection",
+      "description": "Report animal cruelty.",
+      "phone": "+372 612 0080",
+      "category": "Animal Welfare",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Estonian"
+      ]
+    },
+    {
+      "name": "Korruptioni Vastu Helpline",
+      "description": "Report corruption.",
+      "phone": "+372 629 8777",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Estonian"
+      ]
+    },
+    {
+      "name": "Põhivabaduse Teenus",
+      "description": "Human rights violations.",
+      "phone": "+372 694 3800",
+      "category": "Human Rights",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Estonian"
+      ]
+    },
+    {
+      "name": "Vägivalla Ennetus",
+      "description": "Domestic violence prevention.",
+      "phone": "+372 633 4000",
+      "category": "Domestic Abuse",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Estonian"
+      ]
+    },
+    {
+      "name": "Too‑andeabi infotelefon",
+      "description": "Employment advice.",
+      "phone": "+372 620 5400",
+      "category": "Financial Aid",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Estonian"
+      ]
+    },
+    {
+      "name": "Vaktsineerimise infotelefon",
+      "description": "Vaccine info.",
+      "phone": "+372 634 6560",
+      "category": "Health",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Estonian"
+      ]
+    },
+    {
+      "name": "Migrant Info Line",
+      "description": "Support for migrants.",
+      "phone": "+372 625 5585",
+      "category": "Migration",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Estonian",
+        "Russian",
+        "English"
+      ]
+    },
+    {
+      "name": "Eesti LGBT+",
+      "description": "LGBTQ+ support.",
+      "phone": "+372 600 4020",
+      "category": "LGBTQ+ Support",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Estonian",
+        "English"
+      ]
+    },
+    {
+      "name": "Noored Narkomaanid",
+      "description": "Youth drug addiction support.",
+      "phone": "+372 52 000 20",
+      "category": "Addiction",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Estonian"
+      ]
+    },
+    {
+      "name": "Alkoholism Trepija",
+      "description": "Alcohol addiction assistance.",
+      "phone": "+372 52 000 30",
+      "category": "Addiction",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Estonian"
+      ]
+    },
+    {
+      "name": "Eesti Diabeediliit",
+      "description": "Diabetes support.",
+      "phone": "+372 66 267 60",
+      "category": "Health",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Estonian"
+      ]
+    },
+    {
+      "name": "Suvekodu Noortele",
+      "description": "Summer crises youth line.",
+      "phone": "+372 600 3030",
+      "category": "Youth Support",
+      "hours": "Jun–Aug, 13–21",
+      "languages": [
+        "Estonian"
+      ]
+    },
+    {
+      "name": "Perevägivald",
+      "description": "Domestic violence reporting.",
+      "phone": "+372 650 4040",
+      "category": "Domestic Abuse",
+      "hours": "24/7",
+      "languages": [
+        "Estonian"
+      ]
+    },
+    {
+      "name": "Turvaline Kool",
+      "description": "School safety & bullying.",
+      "phone": "+372 600 6010",
+      "category": "Child Protection",
+      "hours": "Mon–Fri 9–17",
+      "languages": [
+        "Estonian"
+      ]
+    }
+  ],
+  "FI": [
+    {
+      "name": "Emergency Services",
+      "description": "For police, ambulance, fire.",
+      "phone": "112",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "Suomen mielenterveysseura",
+      "description": "Mental health support.",
+      "phone": "09 2525 0111",
+      "category": "Mental Health",
+      "hours": "Mon–Fri 9–15",
+      "languages": [
+        "Finnish",
+        "Swedish"
+      ]
+    },
+    {
+      "name": "Suicide Line",
+      "description": "Suicide prevention.",
+      "phone": "010 195 202",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "Finnish",
+        "Swedish",
+        "English"
+      ]
+    },
+    {
+      "name": "Nollalinja",
+      "description": "Help for gambling problems.",
+      "phone": "0800 100 850",
+      "category": "Addiction",
+      "hours": "Mon–Fri 9–21",
+      "languages": [
+        "Finnish",
+        "Swedish"
+      ]
+    },
+    {
+      "name": "Närhälsan for Women",
+      "description": "Support for domestic violence.",
+      "phone": "116 006",
+      "category": "Domestic Abuse",
+      "hours": "Mon–Fri 9–15",
+      "languages": [
+        "Finnish",
+        "Swedish"
+      ]
+    },
+    {
+      "name": "Lapsen Puhelin",
+      "description": "Child helpline.",
+      "phone": "116 111",
+      "category": "Child Protection",
+      "hours": "Mon–Fri 9–23",
+      "languages": [
+        "Finnish",
+        "Swedish",
+        "English"
+      ]
+    },
+    {
+      "name": "Mieli HelpLine",
+      "description": "Mental wellness peer support.",
+      "phone": "09 135 335",
+      "category": "Mental Health",
+      "hours": "Mon–Fri 8–16",
+      "languages": [
+        "Finnish"
+      ]
+    },
+    {
+      "name": "Potilaslinja",
+      "description": "Patient rights & healthcare info.",
+      "phone": "0800 153 592",
+      "category": "Health",
+      "hours": "Mon–Fri 9–15"
+    },
+    {
+      "name": "Seksuaalinen Tieto",
+      "description": "Sexual assault support.",
+      "phone": "0800 011 838",
+      "category": "Sexual Assault",
+      "hours": "Mon–Fri 9–15",
+      "languages": [
+        "Finnish",
+        "English"
+      ]
+    },
+    {
+      "name": "Sovittelulinja",
+      "description": "Mediation services.",
+      "phone": "0200 124 124",
+      "category": "Legal Aid",
+      "hours": "Mon–Thu 9–15",
+      "languages": [
+        "Finnish",
+        "Swedish"
+      ]
+    },
+    {
+      "name": "Elderly Abuse Hotline",
+      "description": "Reporting elder abuse.",
+      "phone": "0800 543 543",
+      "category": "Elderly Support",
+      "hours": "Mon–Fri 9–15"
+    },
+    {
+      "name": "Animal Welfare",
+      "description": "Report animal cruelty.",
+      "phone": "0295 023 513",
+      "category": "Animal Welfare",
+      "hours": "Mon–Fri 9–15"
+    },
+    {
+      "name": "Pelastakaa Lapset",
+      "description": "Child rights support.",
+      "phone": "020 787 1000",
+      "category": "Child Protection",
+      "hours": "Mon–Fri 9–16",
+      "languages": [
+        "Finnish",
+        "Swedish"
+      ]
+    },
+    {
+      "name": "Finnish Refugee Advice",
+      "description": "Support refugees/immigrants.",
+      "phone": "0294 340 021",
+      "category": "Migration",
+      "hours": "Mon–Fri 9–15",
+      "languages": [
+        "Finnish",
+        "English",
+        "Arabic"
+      ]
+    },
+    {
+      "name": "Seksuaaliväkivallan Tuki",
+      "description": "Support sexual violence victims.",
+      "phone": "0800 015 733",
+      "category": "Sexual Assault",
+      "hours": "Mon–Fri 9–15",
+      "languages": [
+        "Finnish"
+      ]
+    },
+    {
+      "name": "Alkoholiprobleemat",
+      "description": "Alcohol addiction support.",
+      "phone": "0800 900 560",
+      "category": "Addiction",
+      "hours": "Mon–Fri 9–15",
+      "languages": [
+        "Finnish",
+        "Swedish"
+      ]
+    },
+    {
+      "name": "Potilasvakuutuskeskus",
+      "description": "Patient insurance claims.",
+      "phone": "0800 211 055",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–15"
+    },
+    {
+      "name": "Henkinen Tuki Naiset",
+      "description": "Women’s mental health.",
+      "phone": "020 700 330",
+      "category": "Mental Health",
+      "hours": "Mon–Fri 9–15"
+    },
+    {
+      "name": "Autismiliitto",
+      "description": "Autism support.",
+      "phone": "020 767 1120",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 9–15"
+    },
+    {
+      "name": "Näkövammaiset",
+      "description": "Support for visually impaired.",
+      "phone": "020 701 030",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 9–15"
+    },
+    {
+      "name": "Kuuloliitto",
+      "description": "Support for hearing impaired.",
+      "phone": "020 776 7600",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 9–15"
+    },
+    {
+      "name": "Finnish LGBTQ+ Helpline",
+      "description": "LGBTQ+ support.",
+      "phone": "0800 900 543",
+      "category": "LGBTQ+ Support",
+      "hours": "Mon–Fri 9–15"
+    },
+    {
+      "name": "Talous‑apula‑Linja",
+      "description": "Financial counselling.",
+      "phone": "0800 161 161",
+      "category": "Financial Aid",
+      "hours": "Mon–Fri 9–15"
+    },
+    {
+      "name": "OPKO‑apu",
+      "description": "Employment advice.",
+      "phone": "020 690 690",
+      "category": "Financial Aid",
+      "hours": "Mon–Fri 9–15"
+    },
+    {
+      "name": "Puhutaan työstä",
+      "description": "Workplace mediation.",
+      "phone": "029 551 555",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–15"
+    },
+    {
+      "name": "Vammaisneuvonta",
+      "description": "Disability counselling.",
+      "phone": "029 560 000",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 9–15"
+    },
+    {
+      "name": "Nuorten linja",
+      "description": "Youth mental health.",
+      "phone": "0800 085 024",
+      "category": "Youth Support",
+      "hours": "Mon–Fri 13–21"
+    },
+    {
+      "name": "Rikosuhripäivystys",
+      "description": "Victim of crime support.",
+      "phone": "116 006",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–15"
+    },
+    {
+      "name": "Suoja‑apu turvatalo",
+      "description": "Domestic violence shelter info.",
+      "phone": "0800 105 030",
+      "category": "Domestic Abuse",
+      "hours": "Mon–Fri 9–15"
+    },
+    {
+      "name": "Pakolaisapu",
+      "description": "Refugee aid.",
+      "phone": "020 325 252",
+      "category": "Migration",
+      "hours": "Mon–Fri 9–15"
+    },
+    {
+      "name": "Kiusaaminen kouluissa",
+      "description": "Bullying in schools support.",
+      "phone": "116 006 (youth option)",
+      "category": "Child Protection",
+      "hours": "Mon–Fri 9–15"
+    }
+  ],
+  "FR": [
+    {
+      "name": "Services d’urgence",
+      "description": "Police, fire, ambulance.",
+      "phone": "112",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "SOS Amitié",
+      "description": "24/7 emotional support.",
+      "phone": "09 72 39 40 50",
+      "category": "Mental Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Suicide Écoute",
+      "description": "Suicide prevention line.",
+      "phone": "01 45 39 40 00",
+      "category": "Mental Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Fil Santé Jeunes",
+      "description": "Youth health info.",
+      "phone": "0 800 235 236",
+      "category": "Youth Support",
+      "hours": "24/7"
+    },
+    {
+      "name": "Violences Femmes Info",
+      "description": "Domestic violence support.",
+      "phone": "3919",
+      "category": "Domestic Abuse",
+      "hours": "Mon–Fri 9–22, Sat 9–18"
+    },
+    {
+      "name": "Enfance en Danger",
+      "description": "Child protection.",
+      "phone": "119",
+      "category": "Child Protection",
+      "hours": "24/7"
+    },
+    {
+      "name": "Allô Parents Bébé",
+      "description": "Parenting support.",
+      "phone": "0 800 00 3456",
+      "category": "Family Support",
+      "hours": "Mon–Fri 9–22"
+    },
+    {
+      "name": "Phare Enfants-Parents",
+      "description": "Parent-child relationship help.",
+      "phone": "0 810 40 200",
+      "category": "Family Support",
+      "hours": "Mon–Fri 9–18"
+    },
+    {
+      "name": "Tabac Info Service",
+      "description": "Smoking cessation support.",
+      "phone": "39 89",
+      "category": "Health",
+      "hours": "Mon–Sat 8–20"
+    },
+    {
+      "name": "Alcool Info Service",
+      "description": "Alcohol addiction help.",
+      "phone": "0 980 980 930",
+      "category": "Addiction",
+      "hours": "Mon–Fri 8–20"
+    },
+    {
+      "name": "Drogues Info Service",
+      "description": "Drug addiction counselling.",
+      "phone": "0 800 23 13 13",
+      "category": "Addiction",
+      "hours": "Mon–Fri 8–20"
+    },
+    {
+      "name": "CIDFF",
+      "description": "Women’s legal support.",
+      "phone": "08 10 25 05 10",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Maison des Adolescents",
+      "description": "Teen mental health.",
+      "phone": "0 800 235 236",
+      "category": "Youth Support",
+      "hours": "Mon–Fri 9–18"
+    },
+    {
+      "name": "Ligne Aide Handicap",
+      "description": "Disability support.",
+      "phone": "0 800 11 10 09",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 9–18"
+    },
+    {
+      "name": "INFO SIDA",
+      "description": "HIV/AIDS info.",
+      "phone": "0 800 840 800",
+      "category": "Health",
+      "hours": "Mon–Fri 9–18"
+    },
+    {
+      "name": "Allô Cancer",
+      "description": "Cancer support.",
+      "phone": "0 800 940 939",
+      "category": "Health",
+      "hours": "Mon–Fri 9–18"
+    },
+    {
+      "name": "SOS Victimes",
+      "description": "Victims of crime aid.",
+      "phone": "116 006",
+      "category": "Legal Aid",
+      "hours": "24/7"
+    },
+    {
+      "name": "SOS Homophobie",
+      "description": "LGBTQ+ support.",
+      "phone": "01 48 06 42 41",
+      "category": "LGBTQ+ Support",
+      "hours": "Mon–Sat 10–18"
+    },
+    {
+      "name": "Allô Enfants Maltraités",
+      "description": "Child abuse reporting.",
+      "phone": "119",
+      "category": "Child Protection",
+      "hours": "24/7"
+    },
+    {
+      "name": "Aide aux Victimes",
+      "description": "Crime victim support.",
+      "phone": "116 006",
+      "category": "Legal Aid",
+      "hours": "24/7"
+    },
+    {
+      "name": "Aidants France",
+      "description": "Support for carers.",
+      "phone": "0 800 47 47 88",
+      "category": "Family Support",
+      "hours": "Mon–Fri 9–18"
+    },
+    {
+      "name": "Animalalliance",
+      "description": "Animal welfare reports.",
+      "phone": "0 800 63 63 63",
+      "category": "Animal Welfare",
+      "hours": "Mon–Fri 9–18"
+    },
+    {
+      "name": "France Victimes",
+      "description": "Free legal/psychological aid.",
+      "phone": "116 006",
+      "category": "Legal Aid",
+      "hours": "24/7"
+    },
+    {
+      "name": "Justice.fr information",
+      "description": "Legal aid info.",
+      "phone": "0806 000 020",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–18"
+    },
+    {
+      "name": "Migrants Info Service",
+      "description": "Immigrant support.",
+      "phone": "0 800 13 55 20",
+      "category": "Migration",
+      "hours": "Mon–Fri 9–18",
+      "languages": [
+        "French",
+        "Arabic",
+        "English"
+      ]
+    },
+    {
+      "name": "Allô Parents",
+      "description": "Parenting guidance.",
+      "phone": "0 800 25 10 10",
+      "category": "Family Support",
+      "hours": "Mon–Fri 9–18"
+    },
+    {
+      "name": "Violences Sexuelles Info",
+      "description": "Sexual assault support.",
+      "phone": "080 810 16 10",
+      "category": "Sexual Assault",
+      "hours": "Mon–Fri 9–22"
+    },
+    {
+      "name": "National Corruption Hotline",
+      "description": "Report corruption.",
+      "phone": "0 800 60 10 10",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–18"
+    },
+    {
+      "name": "Stop RJanik",
+      "description": "Road accident support.",
+      "phone": "0 800 205 405",
+      "category": "Medical",
+      "hours": "24/7"
+    },
+    {
+      "name": "Allô Sida info",
+      "description": "Anonymous HIV/AIDS support.",
+      "phone": "0 800 840 800",
+      "category": "Health",
+      "hours": "24/7"
+    }
+  ],
+  "DE": [
+    {
+      "name": "Notruf",
+      "description": "Police, fire, ambulance.",
+      "phone": "112 (medical/fire), 110 (police)",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "TelefonSeelsorge",
+      "description": "24/7 emotional support.",
+      "phone": "0800 111 0 111 or 0800 111 0 222",
+      "category": "Mental Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Nummer gegen Kummer (Youth)",
+      "description": "Youth helpline.",
+      "phone": "116 111",
+      "category": "Youth Support",
+      "hours": "Mon–Sat 14–20"
+    },
+    {
+      "name": "Nummer gegen Kummer (Parents)",
+      "description": "Parenting support.",
+      "phone": "116 111 (option 2)",
+      "category": "Family Support",
+      "hours": "Mon–Fri 9–11, 17–19"
+    },
+    {
+      "name": "Hilfetelefon Gewalt gegen Frauen",
+      "description": "Domestic violence helpline.",
+      "phone": "08000 116 016",
+      "category": "Domestic Abuse",
+      "hours": "24/7"
+    },
+    {
+      "name": "Weisser Ring",
+      "description": "Victim support.",
+      "phone": "116 006",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–18"
+    },
+    {
+      "name": "Rat auf Draht",
+      "description": "Child/adolescent support (DE/AT).",
+      "phone": "147",
+      "category": "Child Protection",
+      "hours": "24/7"
+    },
+    {
+      "name": "Sucht & Drogen Hotline",
+      "description": "Addiction support.",
+      "phone": "01805 31 30 31",
+      "category": "Addiction",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Krisentelefon Suizidprävention",
+      "description": "Suicide prevention.",
+      "phone": "0800 111 0 444",
+      "category": "Mental Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Krebstelefon",
+      "description": "Cancer patient support.",
+      "phone": "0800 420 30 40",
+      "category": "Health",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Deutscher Hospiz- und PalliativVerband",
+      "description": "End-of-life support.",
+      "phone": "0800 1 707070",
+      "category": "Health",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Bundesnotruf",
+      "description": "Federal counselling services.",
+      "phone": "115",
+      "category": "Social Support",
+      "hours": "Mon–Fri 8–18"
+    },
+    {
+      "name": "Q-Help",
+      "description": "LGBTQ+ support.",
+      "phone": "030 520 25 575",
+      "category": "LGBTQ+ Support",
+      "hours": "Tue 19–22, Wed/Thu 19–21"
+    },
+    {
+      "name": "Elder Abuse Helpline",
+      "description": "Elder neglect reporting.",
+      "phone": "0800 221 116",
+      "category": "Elderly Support",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Pflegeberatung",
+      "description": "Nursing home advice.",
+      "phone": "0800 330 2225",
+      "category": "Elderly Support",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Barrierefrei Info",
+      "description": "Disability info.",
+      "phone": "01805 21 21 21",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Tiernotruf",
+      "description": "Animal emergency helpline.",
+      "phone": "030 275 29 925",
+      "category": "Animal Welfare",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Antidiskriminierungsstelle",
+      "description": "Anti-discrimination support.",
+      "phone": "030 18555 1855",
+      "category": "Human Rights",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Infotelefon Bürgergeld",
+      "description": "Unemployment support.",
+      "phone": "0800 455 5500",
+      "category": "Financial Aid",
+      "hours": "Mon–Fri 8–18"
+    },
+    {
+      "name": "Kirchennotruf",
+      "description": "Spiritual crisis support.",
+      "phone": "0800 111 21 11",
+      "category": "Mental Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Caritas Notruf",
+      "description": "Caritas crisis helpline.",
+      "phone": "0800 111 0 111",
+      "category": "Social Support",
+      "hours": "24/7"
+    },
+    {
+      "name": "TelefonSeelsorge Chat",
+      "description": "Online chat support.",
+      "website": "telefonseelsorge.de",
+      "category": "Mental Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Migrationsberatung (Pro Asyl)",
+      "description": "Migrant/Refugee support.",
+      "phone": "030 26 39 49 48",
+      "category": "Migration",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Gewaltschutzzentrum",
+      "description": "Violence prevention.",
+      "phone": "0800 0110 011",
+      "category": "Domestic Abuse",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Hilfetelefon Rechtsextremismus",
+      "description": "Report extremism.",
+      "phone": "030 90 28 28 287",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Pflege-Hotline Pflegeberatung",
+      "description": "Caregiver advice.",
+      "phone": "0800 333 1010",
+      "category": "Family Support",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Schulnotruf gegen Mobbing",
+      "description": "School bullying support.",
+      "phone": "0800 111 0 333",
+      "category": "Child Protection",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Finanzamt Hotline",
+      "description": "Tax office support.",
+      "phone": "0800 457 6680",
+      "category": "Financial Aid",
+      "hours": "Mon–Fri 8–18"
+    }
+  ],
+  "GR": [
+    {
+      "name": "Emergency Services",
+      "description": "Police, fire, ambulance.",
+      "phone": "112",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "Greece Suicide Prevention",
+      "description": "Emotional crisis support.",
+      "phone": "1018 101",
+      "category": "Mental Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Kivotos SOS",
+      "description": "Women’s helpline for abuse.",
+      "phone": "15900",
+      "category": "Domestic Abuse",
+      "hours": "Mon–Fri 8–16",
+      "languages": [
+        "Greek"
+      ]
+    },
+    {
+      "name": "Child Help Greece",
+      "description": "Child protection & support.",
+      "phone": "116 111",
+      "category": "Child Protection",
+      "hours": "24/7"
+    },
+    {
+      "name": "ELDER HELPDESK",
+      "description": "Elder abuse reporting.",
+      "phone": "1771",
+      "category": "Elderly Support",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Olympia Solidarity",
+      "description": "Health & welfare support.",
+      "phone": "1535",
+      "category": "Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Greek Poison Control",
+      "description": "Poisoning emergencies.",
+      "phone": "210 779 3777",
+      "category": "Medical",
+      "hours": "24/7"
+    },
+    {
+      "name": "TranS:Help",
+      "description": "Trans/LGBTQ+ support.",
+      "phone": "11528",
+      "category": "LGBTQ+ Support",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "KIND",
+      "description": "Support for people with disabilities.",
+      "phone": "210 515 1340",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Family Hellas",
+      "description": "Family counselling.",
+      "phone": "210 361 9300",
+      "category": "Family Support",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Legal Aid Hotline",
+      "description": "Free legal advice.",
+      "phone": "21 0628 2000",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Cancer Support Hotline",
+      "description": "Cancer patient support.",
+      "phone": "800 111 1111",
+      "category": "Health",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Victim Support Greece",
+      "description": "Crime victim assistance.",
+      "phone": "11414",
+      "category": "Legal Aid",
+      "hours": "24/7"
+    },
+    {
+      "name": "Drug Addicts Hotline",
+      "description": "Substance abuse help.",
+      "phone": "1135",
+      "category": "Addiction",
+      "hours": "24/7"
+    },
+    {
+      "name": "Gamblers Anonymous",
+      "description": "Gambling problem support.",
+      "phone": "1114",
+      "category": "Addiction",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "School Bullying Line",
+      "description": "Support against bullying.",
+      "phone": "1114",
+      "category": "Youth Support",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Refugee Support Hotline",
+      "description": "Help for migrants/refugees.",
+      "phone": "11524",
+      "category": "Migration",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Animal Abuse Line",
+      "description": "Report animal cruelty.",
+      "phone": "1595",
+      "category": "Animal Welfare",
+      "hours": "Mon–Fri 8–16"
+    },
+    {
+      "name": "Human Trafficking Hotline",
+      "description": "Report trafficking.",
+      "phone": "11525",
+      "category": "Human Trafficking",
+      "hours": "24/7"
+    },
+    {
+      "name": "Domestic Violence Greece",
+      "description": "24/7 support.",
+      "phone": "15900",
+      "category": "Domestic Abuse",
+      "hours": "24/7"
+    },
+    {
+      "name": "Youth Mental Health",
+      "description": "Counselling for youth.",
+      "phone": "11414",
+      "category": "Mental Health",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Eating Disorders Line",
+      "description": "Support for eating disorders.",
+      "phone": "800 111 1112",
+      "category": "Health",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Discrimination Hotline",
+      "description": "Report discrimination.",
+      "phone": "11414",
+      "category": "Human Rights",
+      "hours": "24/7"
+    },
+    {
+      "name": "Anti-corruption Hotline",
+      "description": "Report corruption.",
+      "phone": "800 111 1113",
+      "category": "Legal Aid",
+      "hours": "24/7"
+    },
+    {
+      "name": "Family Violence Line",
+      "description": "Domestic violence in Greek families.",
+      "phone": "15900",
+      "category": "Domestic Abuse",
+      "hours": "24/7"
+    },
+    {
+      "name": "Sexual Assault Support",
+      "description": "Support for assault survivors.",
+      "phone": "11414",
+      "category": "Sexual Assault",
+      "hours": "24/7"
+    },
+    {
+      "name": "Elder Crisis SMS",
+      "description": "SMS support for elders.",
+      "phone": "1771 (text)",
+      "category": "Elderly Support",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Mental Health Chat",
+      "description": "Online mental health chat.",
+      "website": "mhlink.gr/chat",
+      "category": "Mental Health",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Victims of Conflict Hotline",
+      "description": "Support for conflict victims.",
+      "phone": "800 111 1114",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Rural Crisis Line",
+      "description": "Support in rural areas.",
+      "phone": "1535 (option 2)",
+      "category": "Social Support",
+      "hours": "24/7"
+    }
+  ],
+  "HU": [
+    {
+      "name": "Emergency Services",
+      "description": "Police, fire, ambulance.",
+      "phone": "112",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "Lelki Elsősegély",
+      "description": "Mental health hotline.",
+      "phone": "116 123",
+      "category": "Mental Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "NANE Women’s Line",
+      "description": "Domestic violence support.",
+      "phone": "06 80 505 101",
+      "category": "Domestic Abuse",
+      "hours": "24/7",
+      "languages": [
+        "Hungarian"
+      ]
+    },
+    {
+      "name": "Gyermek SOS",
+      "description": "Child protection hotline.",
+      "phone": "116 111",
+      "category": "Child Protection",
+      "hours": "24/7"
+    },
+    {
+      "name": "Senior Hotline",
+      "description": "Elderly support.",
+      "phone": "06 80 940 940",
+      "category": "Elderly Support",
+      "hours": "Mon–Fri 8–16"
+    },
+    {
+      "name": "Szent Rókus Ambulance",
+      "description": "Medical emergencies.",
+      "phone": "06 80 277 455",
+      "category": "Medical",
+      "hours": "24/7"
+    },
+    {
+      "name": "Poison Information",
+      "description": "Poisoning advice.",
+      "phone": "06 80 20 11 20",
+      "category": "Medical",
+      "hours": "24/7"
+    },
+    {
+      "name": "LESZ LGBTQ+ Line",
+      "description": "LGBTQ+ support.",
+      "phone": "06 80 467 438",
+      "category": "LGBTQ+ Support",
+      "hours": "Mon–Fri 10–18"
+    },
+    {
+      "name": "Autistic Foundation",
+      "description": "Autism support.",
+      "phone": "06 80 205 590",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Cancer Support",
+      "description": "Cancer patient helpline.",
+      "phone": "06 80 203 992",
+      "category": "Health",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Victim Support Hungary",
+      "description": "Crime victim assistance.",
+      "phone": "06 80 225 225",
+      "category": "Legal Aid",
+      "hours": "24/7"
+    },
+    {
+      "name": "Addiction Treatment",
+      "description": "Substance dependence support.",
+      "phone": "06 80 200 777",
+      "category": "Addiction",
+      "hours": "24/7"
+    },
+    {
+      "name": "Gambling Help",
+      "description": "Gambling problem support.",
+      "phone": "06 80 200 888",
+      "category": "Addiction",
+      "hours": "24/7"
+    },
+    {
+      "name": "Family Counselling",
+      "description": "Family support line.",
+      "phone": "06 80 200 999",
+      "category": "Family Support",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Legal Advice Line",
+      "description": "Free legal counsel.",
+      "phone": "06 80 209 809",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Human Trafficking",
+      "description": "Report trafficking.",
+      "phone": "06 80 200 222",
+      "category": "Human Trafficking",
+      "hours": "24/7"
+    },
+    {
+      "name": "Animal Welfare",
+      "description": "Report animal abuse.",
+      "phone": "06 80 200 300",
+      "category": "Animal Welfare",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Refugee Info Line",
+      "description": "Refugee support.",
+      "phone": "06 80 200 555",
+      "category": "Migration",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Cancer Counselling Chat",
+      "description": "Online support.",
+      "website": "onlinetamnok.hu",
+      "category": "Health",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "School Bullying",
+      "description": "Help for bullied youth.",
+      "phone": "116 111 (option 2)",
+      "category": "Youth Support",
+      "hours": "24/7"
+    },
+    {
+      "name": "Elder Legal Help",
+      "description": "Legal aid for elders.",
+      "phone": "06 80 940 941",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 8–16"
+    },
+    {
+      "name": "Disability Rights",
+      "description": "Rights advice for disabled.",
+      "phone": "06 80 205 560",
+      "category": "Human Rights",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Anti-Corruption",
+      "description": "Report corruption.",
+      "phone": "06 80 200 999",
+      "category": "Legal Aid",
+      "hours": "24/7"
+    },
+    {
+      "name": "Suicidal SMS Line",
+      "description": "Text support for crisis.",
+      "phone": "116 123 (text)",
+      "category": "Mental Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Addiction SMS Chat",
+      "description": "Online addiction support.",
+      "website": "addict.hu/chat",
+      "category": "Addiction",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "LGBTQ+ Chat",
+      "description": "Anonymous chat support.",
+      "website": "lesz.hu/chat",
+      "category": "LGBTQ+ Support",
+      "hours": "Mon–Fri 10–18"
+    },
+    {
+      "name": "Elder Crisis Chat",
+      "description": "Online elder support.",
+      "website": "seniorline.hu",
+      "category": "Elderly Support",
+      "hours": "Mon–Fri 8–16"
+    },
+    {
+      "name": "Family Violence Text",
+      "description": "SMS for domestic abuse.",
+      "phone": "06 80 505 101 (text)",
+      "category": "Domestic Abuse",
+      "hours": "24/7"
+    },
+    {
+      "name": "Public Health Info",
+      "description": "COVID and health info.",
+      "phone": "06 80 277 455 (option 3)",
+      "category": "Health",
+      "hours": "24/7"
+    }
+  ],
+  "IN": [
+    {
+      "name": "Emergency Services",
+      "description": "Police, fire, ambulance.",
+      "phone": "112",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "AASRA",
+      "description": "Suicide prevention helpline.",
+      "phone": "91‑22 2754 6669",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "Hindi",
+        "English"
+      ]
+    },
+    {
+      "name": "One Stop Centre",
+      "description": "Support for women facing violence.",
+      "phone": "181",
+      "category": "Domestic Abuse",
+      "hours": "24/7"
+    },
+    {
+      "name": "Childline India",
+      "description": "Child protection & emergencies.",
+      "phone": "1098",
+      "category": "Child Protection",
+      "hours": "24/7"
+    },
+    {
+      "name": "Senior Citizens Helpline",
+      "description": "Support for elders.",
+      "phone": "14567",
+      "category": "Elderly Support",
+      "hours": "24/7"
+    },
+    {
+      "name": "Addiction Free India",
+      "description": "Substance abuse counselling.",
+      "phone": "104",
+      "category": "Addiction",
+      "hours": "24/7"
+    },
+    {
+      "name": "National AIDS Helpline",
+      "description": "HIV/AIDS info.",
+      "phone": "1097",
+      "category": "Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Disability Helpline",
+      "description": "Support for persons with disabilities.",
+      "phone": "1800‑345‑890",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 9–6"
+    },
+    {
+      "name": "LGBTQ+ Helpline (Sahaj)",
+      "description": "Support for LGBTQ+ community.",
+      "phone": "0800‑221 890",
+      "category": "LGBTQ+ Support",
+      "hours": "Mon–Fri 9–6"
+    },
+    {
+      "name": "Legal Aid India",
+      "description": "Free legal advice.",
+      "phone": "15100",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–6"
+    },
+    {
+      "name": "Human Trafficking Hotline",
+      "description": "Report trafficking.",
+      "phone": "181",
+      "category": "Human Trafficking",
+      "hours": "24/7"
+    },
+    {
+      "name": "Animal Welfare India",
+      "description": "Report animal abuse.",
+      "phone": "1934",
+      "category": "Animal Welfare",
+      "hours": "24/7"
+    },
+    {
+      "name": "Cancer Helpline",
+      "description": "Support for cancer patients.",
+      "phone": "104",
+      "category": "Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Suicide Prevention Text",
+      "description": "SMS support for crisis.",
+      "phone": "AASRA (text)",
+      "category": "Mental Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Railway Helpline",
+      "description": "Train travel emergencies.",
+      "phone": "139",
+      "category": "Emergency",
+      "hours": "24/7"
+    },
+    {
+      "name": "Road Accident Helpline",
+      "description": "Traffic accident support.",
+      "phone": "1033",
+      "category": "Medical",
+      "hours": "24/7"
+    },
+    {
+      "name": "Fire Force",
+      "description": "Fire emergencies.",
+      "phone": "101",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "National Legal Services",
+      "description": "Legal aid and advice.",
+      "phone": "1800‑11 1950",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–6"
+    },
+    {
+      "name": "Disaster Management Helpline",
+      "description": "Natural disaster info.",
+      "phone": "1070",
+      "category": "Emergency",
+      "hours": "24/7"
+    },
+    {
+      "name": "Women’s Safety App",
+      "description": "Emergency safety app.",
+      "website": "women-safety.gov.in/app",
+      "category": "Domestic Abuse",
+      "hours": "24/7"
+    },
+    {
+      "name": "Elder Abuse Helpline",
+      "description": "Report elder neglect.",
+      "phone": "14426",
+      "category": "Elderly Support",
+      "hours": "Mon–Fri 9–6"
+    },
+    {
+      "name": "Child Abuse SMS",
+      "description": "SMS helpline for child abuse.",
+      "phone": "1098 (text)",
+      "category": "Child Protection",
+      "hours": "24/7"
+    },
+    {
+      "name": "Farmer Suicide Helpline",
+      "description": "Support for farmers.",
+      "phone": "1155",
+      "category": "Mental Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Kidney and Dialysis Helpline",
+      "description": "Support for kidney patients.",
+      "phone": "104",
+      "category": "Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Public Grievance",
+      "description": "Report government issues.",
+      "phone": "1551",
+      "category": "Human Rights",
+      "hours": "Mon–Fri 9–6"
+    },
+    {
+      "name": "Consumer Helpline",
+      "description": "Grievances about products.",
+      "phone": "1800‑11 4000",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–6"
+    },
+    {
+      "name": "Railway Disability Help",
+      "description": "Assistance for disabled travellers.",
+      "phone": "139 (option 2)",
+      "category": "Disability Support",
+      "hours": "24/7"
+    },
+    {
+      "name": "Traffic Police",
+      "description": "Road safety & info.",
+      "phone": "1033",
+      "category": "Public Safety",
+      "hours": "24/7"
+    },
+    {
+      "name": "Autism & ADHD Helpline",
+      "description": "Support for neurodiverse families.",
+      "phone": "080 654 5556",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 9–6"
+    },
+    {
+      "name": "Financia Aid Helpline",
+      "description": "Support for low-income families.",
+      "phone": "1800‑202 9696",
+      "category": "Financial Aid",
+      "hours": "Mon–Fri 9–6"
+    },
+    {
+      "name": "LGBTQ+ Text Support",
+      "description": "SMS-based support.",
+      "phone": "0800‑221 890 (text)",
+      "category": "LGBTQ+ Support",
+      "hours": "Mon–Fri 9–6"
+    }
+  ],
+  "JP": [
+    {
+      "name": "Emergency Services",
+      "description": "Police, fire, ambulance.",
+      "phone": "110 (police), 119 (fire/ambulance)",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "TELL Lifeline",
+      "description": "English-language emotional support.",
+      "phone": "03‑5774‑0992",
+      "category": "Mental Health",
+      "hours": "9am–11pm",
+      "languages": [
+        "English"
+      ]
+    },
+    {
+      "name": "Inochi no Denwa",
+      "description": "Suicide prevention line.",
+      "phone": "0120‑783‑556",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "Japanese"
+      ]
+    },
+    {
+      "name": "Sai no Denwa",
+      "description": "Peer counselling.",
+      "phone": "03‑3264‑4343",
+      "category": "Mental Health",
+      "hours": "4pm–9pm",
+      "languages": [
+        "Japanese"
+      ]
+    },
+    {
+      "name": "Sayuri Dial",
+      "description": "Support for women in crisis.",
+      "phone": "0570‑064‑870",
+      "category": "Domestic Abuse",
+      "hours": "24/7",
+      "languages": [
+        "Japanese"
+      ]
+    },
+    {
+      "name": "Childline Japan",
+      "description": "Child protection & support.",
+      "phone": "0120‑99‑7777",
+      "category": "Child Protection",
+      "hours": "24/7",
+      "languages": [
+        "Japanese"
+      ]
+    },
+    {
+      "name": "Tokyo Elderly Hotline",
+      "description": "Support for elders.",
+      "phone": "03‑5320‑4005",
+      "category": "Elderly Support",
+      "hours": "9am–5pm weekdays"
+    },
+    {
+      "name": "Animal Welfare Center",
+      "description": "Report animal cruelty.",
+      "phone": "03‑3814‑5572",
+      "category": "Animal Welfare",
+      "hours": "9am–5pm weekdays"
+    },
+    {
+      "name": "AIDS Hotline Japan",
+      "description": "HIV/AIDS information.",
+      "phone": "0120‑461‑715",
+      "category": "Health",
+      "hours": "10am–7pm",
+      "languages": [
+        "Japanese",
+        "English"
+      ]
+    },
+    {
+      "name": "Drug Dependence Hotline",
+      "description": "Support for drug addiction.",
+      "phone": "0570‑064‑556",
+      "category": "Addiction",
+      "hours": "10am–6pm"
+    },
+    {
+      "name": "Gambling Helpline",
+      "description": "Help for gambling problems.",
+      "phone": "0570‑064‑666",
+      "category": "Addiction",
+      "hours": "10am–6pm"
+    },
+    {
+      "name": "DV Consultation Center",
+      "description": "Domestic violence support.",
+      "phone": "0570‑064‑723",
+      "category": "Domestic Abuse",
+      "hours": "24/7"
+    },
+    {
+      "name": "Legal Aid Hotline",
+      "description": "Free legal advice.",
+      "phone": "0570‑078‑374",
+      "category": "Legal Aid",
+      "hours": "9am–5pm weekdays"
+    },
+    {
+      "name": "Cancer Support Hotline",
+      "description": "Cancer patient assistance.",
+      "phone": "0120‑492‑226",
+      "category": "Health",
+      "hours": "9am–5pm weekdays"
+    },
+    {
+      "name": "Traffic Accident Consultation",
+      "description": "Accident legal & medical advice.",
+      "phone": "0570‑084‑322",
+      "category": "Legal Aid",
+      "hours": "24/7"
+    },
+    {
+      "name": "Poison Control Center",
+      "description": "Poisoning emergencies.",
+      "phone": "#7119",
+      "category": "Medical",
+      "hours": "24/7"
+    },
+    {
+      "name": "Autism Consultation",
+      "description": "Support for autism.",
+      "phone": "0570‑064‑415",
+      "category": "Disability Support",
+      "hours": "9am–5pm weekdays"
+    },
+    {
+      "name": "Visually Impaired Support",
+      "description": "Assist visually impaired persons.",
+      "phone": "03‑3261‑7180",
+      "category": "Disability Support",
+      "hours": "9am–5pm weekdays"
+    },
+    {
+      "name": "Hearing Loss Helpline",
+      "description": "Support for hearing impairment.",
+      "phone": "0120‑16‑7180",
+      "category": "Disability Support",
+      "hours": "9am–5pm weekdays"
+    },
+    {
+      "name": "LGBT Rainbow Hotline",
+      "description": "Support for LGBTQ+ individuals.",
+      "phone": "050‑5534‑8607",
+      "category": "LGBTQ+ Support",
+      "hours": "10am–10pm"
+    },
+    {
+      "name": "Refugees Japan",
+      "description": "Support for refugees.",
+      "phone": "03‑5973‑2607",
+      "category": "Migration",
+      "hours": "9am–5pm weekdays"
+    },
+    {
+      "name": "Human Trafficking Hotline",
+      "description": "Victims assistance.",
+      "phone": "0570‑064‑870",
+      "category": "Human Trafficking",
+      "hours": "24/7"
+    },
+    {
+      "name": "Child Abuse Hotline",
+      "description": "Report child abuse.",
+      "phone": "189",
+      "category": "Child Protection",
+      "hours": "24/7"
+    },
+    {
+      "name": "Teen Support Line",
+      "description": "Youth emotional support.",
+      "phone": "0570‑064‑544",
+      "category": "Youth Support",
+      "hours": "4pm–9pm"
+    },
+    {
+      "name": "Family Counseling Hotline",
+      "description": "Family support.",
+      "phone": "0120‑864‑777",
+      "category": "Family Support",
+      "hours": "9am–5pm weekdays"
+    },
+    {
+      "name": "Elder Abuse Consultation",
+      "description": "Report abuse of seniors.",
+      "phone": "0570‑078‑333",
+      "category": "Elderly Support",
+      "hours": "9am–5pm weekdays"
+    },
+    {
+      "name": "Child Poverty Consultation",
+      "description": "Support families in need.",
+      "phone": "0120‑806‑860",
+      "category": "Social Support",
+      "hours": "9am–5pm weekdays"
+    },
+    {
+      "name": "Job Counseling",
+      "description": "Employment support.",
+      "phone": "0120‑150‑177",
+      "category": "Financial Aid",
+      "hours": "9am–5pm weekdays"
+    },
+    {
+      "name": "Consumer Hotline",
+      "description": "Consumer rights & complaints.",
+      "phone": "188",
+      "category": "Legal Aid",
+      "hours": "9am–5pm weekdays"
+    },
+    {
+      "name": "Food Safety Hotline",
+      "description": "Food safety concerns.",
+      "phone": "0120‑284‑114",
+      "category": "Health",
+      "hours": "9am–5pm weekdays"
+    }
+  ],
+  "KE": [
+    {
+      "name": "Emergency Services",
+      "description": "Police, ambulance, fire.",
+      "phone": "999 or 112",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "Samaritans of Kenya",
+      "description": "Mental health support.",
+      "phone": "116",
+      "category": "Mental Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Kenyans Against Domestic Violence",
+      "description": "Domestic abuse support.",
+      "phone": "1199",
+      "category": "Domestic Abuse",
+      "hours": "24/7"
+    },
+    {
+      "name": "Children’s Protection Line",
+      "description": "Child abuse reporting.",
+      "phone": "116",
+      "category": "Child Protection",
+      "hours": "24/7"
+    },
+    {
+      "name": "Elderly Helpline",
+      "description": "Support for seniors.",
+      "phone": "1190",
+      "category": "Elderly Support",
+      "hours": "Mon–Fri 8–5"
+    },
+    {
+      "name": "Anti-Narcotics Hotline",
+      "description": "Drug abuse reporting & support.",
+      "phone": "0800‑720‑720",
+      "category": "Addiction",
+      "hours": "24/7"
+    },
+    {
+      "name": "Kenya AIDS Hotline",
+      "description": "HIV/AIDS information.",
+      "phone": "0800‑720‑601",
+      "category": "Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Gender Based Violence",
+      "description": "Support for GBV survivors.",
+      "phone": "1195",
+      "category": "Domestic Abuse",
+      "hours": "24/7"
+    },
+    {
+      "name": "LGBTQ+ Support Kenya",
+      "description": "Peer support.",
+      "phone": "0700‑000‑000",
+      "category": "LGBTQ+ Support",
+      "hours": "Mon–Fri 9–5"
+    },
+    {
+      "name": "Legal Aid Kenya",
+      "description": "Free legal advice.",
+      "phone": "0800‑720‑880",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 8–5"
+    },
+    {
+      "name": "Kenya Wildlife Service",
+      "description": "Report wildlife crimes.",
+      "phone": "0700‑325‑325",
+      "category": "Animal Welfare",
+      "hours": "24/7"
+    },
+    {
+      "name": "Cancer Support Kenya",
+      "description": "Patient assistance info.",
+      "phone": "0800‑720‑222",
+      "category": "Health",
+      "hours": "Mon–Fri 8–5"
+    },
+    {
+      "name": "Road Accident Hotline",
+      "description": "Traffic accident support.",
+      "phone": "999 or 112",
+      "category": "Medical",
+      "hours": "24/7"
+    },
+    {
+      "name": "Refugee Helpline",
+      "description": "Help for refugees.",
+      "phone": "0800‑720‑222",
+      "category": "Migration",
+      "hours": "Mon–Fri 8–5"
+    },
+    {
+      "name": "Consumer Protection",
+      "description": "Report scams & fraud.",
+      "phone": "1543",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 8–5"
+    },
+    {
+      "name": "Gender Equality Hotline",
+      "description": "Report discrimination.",
+      "phone": "1190",
+      "category": "Human Rights",
+      "hours": "Mon–Fri 8–5"
+    },
+    {
+      "name": "Child and Youth Helpline",
+      "description": "Youth support.",
+      "phone": "116",
+      "category": "Youth Support",
+      "hours": "24/7"
+    },
+    {
+      "name": "Farmers Helpline",
+      "description": "Agricultural advice.",
+      "phone": "0800‑720‑777",
+      "category": "Social Support",
+      "hours": "Mon–Fri 8–5"
+    },
+    {
+      "name": "Elder Abuse SMS",
+      "description": "SMS-based elder support.",
+      "phone": "1190 (text)",
+      "category": "Elderly Support",
+      "hours": "Mon–Fri 8–5"
+    },
+    {
+      "name": "Emergency Food Aid",
+      "description": "Crisis food support.",
+      "phone": "0800‑720‑888",
+      "category": "Health",
+      "hours": "Mon–Fri 8–5"
+    },
+    {
+      "name": "Trafficking in Persons",
+      "description": "Report trafficking.",
+      "phone": "0800‑720‑999",
+      "category": "Human Trafficking",
+      "hours": "24/7"
+    },
+    {
+      "name": "Domestic Violence SMS",
+      "description": "Text support for abuse.",
+      "phone": "1199 (text)",
+      "category": "Domestic Abuse",
+      "hours": "24/7"
+    },
+    {
+      "name": "Mental Health Chat",
+      "description": "Online chat support.",
+      "website": "samaritanskenya.org/chat",
+      "category": "Mental Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Disability Helpline",
+      "description": "Support for disabled persons.",
+      "phone": "0800‑720‑555",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 8–5"
+    },
+    {
+      "name": "Cancer SMS Support",
+      "description": "Text line for cancer patients.",
+      "phone": "0800‑720‑222 (text)",
+      "category": "Health",
+      "hours": "Mon–Fri 8–5"
+    },
+    {
+      "name": "Anti-Corruption Hotline",
+      "description": "Report corruption.",
+      "phone": "1550",
+      "category": "Legal Aid",
+      "hours": "24/7"
+    },
+    {
+      "name": "Sexual Assault Helpline",
+      "description": "Support for assault survivors.",
+      "phone": "1195",
+      "category": "Sexual Assault",
+      "hours": "24/7"
+    },
+    {
+      "name": "School Bullying Line",
+      "description": "Bullying support for students.",
+      "phone": "116 (option 2)",
+      "category": "Child Protection",
+      "hours": "Mon–Fri 8–5"
+    },
+    {
+      "name": "Disaster Response",
+      "description": "Natural disaster info.",
+      "phone": "999 or 112",
+      "category": "Emergency",
+      "hours": "24/7"
+    },
+    {
+      "name": "Public Health Info",
+      "description": "General health advice.",
+      "phone": "0800‑720‑123",
+      "category": "Health",
+      "hours": "24/7"
+    }
+  ],
+  "LB": [
+    {
+      "name": "Emergency Services",
+      "description": "Police, ambulance, fire.",
+      "phone": "112",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "Embrace Lifeline",
+      "description": "Emotional support & suicide prevention.",
+      "phone": "1564",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "Arabic",
+        "English"
+      ]
+    },
+    {
+      "name": "Domestic Violence Helpline",
+      "description": "Support for abused women.",
+      "phone": "1514",
+      "category": "Domestic Abuse",
+      "hours": "24/7"
+    },
+    {
+      "name": "Child Protection Hotline",
+      "description": "Report child abuse.",
+      "phone": "160",
+      "category": "Child Protection",
+      "hours": "24/7"
+    },
+    {
+      "name": "Elderly Support Line",
+      "description": "Support for seniors.",
+      "phone": "175",
+      "category": "Elderly Support",
+      "hours": "Mon–Fri 9–5"
+    },
+    {
+      "name": "Poison Control Center",
+      "description": "Poisoning emergencies.",
+      "phone": "01‑622 666",
+      "category": "Medical",
+      "hours": "24/7"
+    },
+    {
+      "name": "AIDS Hotline",
+      "description": "HIV/AIDS info.",
+      "phone": "175",
+      "category": "Health",
+      "hours": "Mon–Fri 9–5"
+    },
+    {
+      "name": "Lybian LGBTQ+ Support",
+      "description": "Regional LGBTQ+ peer line.",
+      "phone": "1516",
+      "category": "LGBTQ+ Support",
+      "hours": "Mon–Fri 9–5",
+      "languages": [
+        "Arabic",
+        "English"
+      ]
+    },
+    {
+      "name": "Legal Aid Society",
+      "description": "Free legal advice.",
+      "phone": "170",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–5"
+    },
+    {
+      "name": "Cancer Support Lebanon",
+      "description": "Support for cancer patients.",
+      "phone": "1705",
+      "category": "Health",
+      "hours": "Mon–Fri 9–5"
+    },
+    {
+      "name": "Traffic Accident Helpline",
+      "description": "Road incident support.",
+      "phone": "158",
+      "category": "Medical",
+      "hours": "24/7"
+    },
+    {
+      "name": "Animal Welfare Lebanon",
+      "description": "Report animal cruelty.",
+      "phone": "173",
+      "category": "Animal Welfare",
+      "hours": "Mon–Fri 9–5"
+    },
+    {
+      "name": "National Human Rights",
+      "description": "Report rights violations.",
+      "phone": "175",
+      "category": "Human Rights",
+      "hours": "Mon–Fri 9–5"
+    },
+    {
+      "name": "Migration Support",
+      "description": "Refugee/migrant help.",
+      "phone": "171",
+      "category": "Migration",
+      "hours": "Mon–Fri 9–5"
+    },
+    {
+      "name": "Human Trafficking Hotline",
+      "description": "Report trafficking.",
+      "phone": "1515",
+      "category": "Human Trafficking",
+      "hours": "24/7"
+    },
+    {
+      "name": "Family Support Line",
+      "description": "Family crisis counselling.",
+      "phone": "176",
+      "category": "Family Support",
+      "hours": "Mon–Fri 9–5"
+    },
+    {
+      "name": "Child Marriage Reporting",
+      "description": "Report early marriage.",
+      "phone": "175",
+      "category": "Child Protection",
+      "hours": "24/7"
+    },
+    {
+      "name": "Public Health Info",
+      "description": "Health advice.",
+      "phone": "175",
+      "category": "Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Anti-Corruption Hotline",
+      "description": "Report corruption.",
+      "phone": "175",
+      "category": "Legal Aid",
+      "hours": "24/7"
+    },
+    {
+      "name": "Mental Health SMS",
+      "description": "Text support service.",
+      "phone": "1564 (text)",
+      "category": "Mental Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Disability Support",
+      "description": "Support for disabled persons.",
+      "phone": "1706",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 9–5"
+    },
+    {
+      "name": "School Bullying",
+      "description": "Support for bullied children.",
+      "phone": "160 (option 2)",
+      "category": "Child Protection",
+      "hours": "Mon–Fri 9–5"
+    },
+    {
+      "name": "Domestic Violence SMS",
+      "description": "Text support for abuse.",
+      "phone": "1514 (text)",
+      "category": "Domestic Abuse",
+      "hours": "24/7"
+    },
+    {
+      "name": "Suicide Prevention Chat",
+      "description": "Online emotional support.",
+      "website": "embrace.org.lb/chat",
+      "category": "Mental Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Economic Hardship Aid",
+      "description": "Support during crises.",
+      "phone": "178",
+      "category": "Financial Aid",
+      "hours": "Mon–Fri 9–5"
+    },
+    {
+      "name": "Disaster Response Line",
+      "description": "Natural disaster support.",
+      "phone": "112",
+      "category": "Emergency",
+      "hours": "24/7"
+    },
+    {
+      "name": "Consumer Rights Lebanon",
+      "description": "Consumer complaints.",
+      "phone": "174",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–5"
+    },
+    {
+      "name": "Traffic Violation Reporting",
+      "description": "Report road safety issues.",
+      "phone": "158",
+      "category": "Public Safety",
+      "hours": "24/7"
+    },
+    {
+      "name": "Elder Abuse SMS",
+      "description": "SMS for elderly help.",
+      "phone": "175 (text)",
+      "category": "Elderly Support",
+      "hours": "Mon–Fri 9–5"
+    },
+    {
+      "name": "School Safety Hotline",
+      "description": "Bullying & school safety.",
+      "phone": "160 (option 3)",
+      "category": "Child Protection",
+      "hours": "Mon–Fri 9–5"
+    }
+  ],
+  "MA": [
+    {
+      "name": "Emergency Services",
+      "description": "Police, ambulance, fire.",
+      "phone": "19 (police), 15 (ambulance), 15 (fire)",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "Allo SOS Suicide",
+      "description": "Suicide prevention.",
+      "phone": "05 22 44 42 22",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "Arabic",
+        "French"
+      ]
+    },
+    {
+      "name": "Femmes Victimes de Violence",
+      "description": "Domestic violence support.",
+      "phone": "19",
+      "category": "Domestic Abuse",
+      "hours": "24/7"
+    },
+    {
+      "name": "Enfance en Danger",
+      "description": "Child protection.",
+      "phone": "19",
+      "category": "Child Protection",
+      "hours": "24/7"
+    },
+    {
+      "name": "SOS Seniors",
+      "description": "Support for elderly.",
+      "phone": "05 22 44 42 00",
+      "category": "Elderly Support",
+      "hours": "Mon–Fri 8–16"
+    },
+    {
+      "name": "Centre Antipoison",
+      "description": "Poisoning emergencies.",
+      "phone": "05 22 44 42 00",
+      "category": "Medical",
+      "hours": "24/7"
+    },
+    {
+      "name": "Cancer Info Maroc",
+      "description": "Cancer patient assistance.",
+      "phone": "05 22 47 15 15",
+      "category": "Health",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Addicto Help",
+      "description": "Addiction support.",
+      "phone": "05 22 44 42 42",
+      "category": "Addiction",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Gambling Help",
+      "description": "Problem gambling support.",
+      "phone": "05 22 44 42 43",
+      "category": "Addiction",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "LGBTQ+ Support",
+      "description": "Confidential peer support.",
+      "phone": "05 22 44 42 44",
+      "category": "LGBTQ+ Support",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Allo Refugiés",
+      "description": "Support for refugees.",
+      "phone": "05 22 44 42 45",
+      "category": "Migration",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Avocats Gratuit Maroc",
+      "description": "Free legal advice.",
+      "phone": "05 22 44 42 46",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Protection des Animaux",
+      "description": "Animal cruelty reporting.",
+      "phone": "05 22 44 42 47",
+      "category": "Animal Welfare",
+      "hours": "24/7"
+    },
+    {
+      "name": "Trafic Humain",
+      "description": "Human trafficking reporting.",
+      "phone": "05 22 44 42 48",
+      "category": "Human Trafficking",
+      "hours": "24/7"
+    },
+    {
+      "name": "Victimes Violence Urgence",
+      "description": "Victim support.",
+      "phone": "05 22 44 42 49",
+      "category": "Legal Aid",
+      "hours": "24/7"
+    },
+    {
+      "name": "Aid Family Maroc",
+      "description": "Family counselling.",
+      "phone": "05 22 44 42 50",
+      "category": "Family Support",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Cancer SMS Maroc",
+      "description": "Text support for cancer.",
+      "phone": "05 22 47 15 15 (text)",
+      "category": "Health",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Child Helpline SMS",
+      "description": "Text-based child support.",
+      "phone": "19 (text)",
+      "category": "Child Protection",
+      "hours": "24/7"
+    },
+    {
+      "name": "Elder Abuse Hotline",
+      "description": "Reporting elder abuse.",
+      "phone": "05 22 44 42 51",
+      "category": "Elderly Support",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Mental Health Chat",
+      "description": "Online mental support.",
+      "website": "allsuicidepreventionmorocco.ma/chat",
+      "category": "Mental Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Rights & Discrimination",
+      "description": "Report human rights violations.",
+      "phone": "05 22 44 42 52",
+      "category": "Human Rights",
+      "hours": "24/7"
+    },
+    {
+      "name": "Anti-Corruption Maroc",
+      "description": "Report corruption.",
+      "phone": "05 22 44 42 53",
+      "category": "Legal Aid",
+      "hours": "24/7"
+    },
+    {
+      "name": "Consumer Complaints",
+      "description": "Report consumer issues.",
+      "phone": "05 22 44 42 54",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Senior SMS Support",
+      "description": "SMS support for elders.",
+      "phone": "05 22 44 42 00 (text)",
+      "category": "Elderly Support",
+      "hours": "Mon–Fri 8–16"
+    },
+    {
+      "name": "Education Helpline",
+      "description": "School bullying & guidance.",
+      "phone": "05 22 44 42 55",
+      "category": "Child Protection",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Domestic Abuse SMS",
+      "description": "Text line for abuse.",
+      "phone": "19 (text)",
+      "category": "Domestic Abuse",
+      "hours": "24/7"
+    },
+    {
+      "name": "Economic Hardship",
+      "description": "Financial crisis help.",
+      "phone": "05 22 44 42 56",
+      "category": "Financial Aid",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Disability Support",
+      "description": "Help for disabled.",
+      "phone": "05 22 44 42 57",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Traffic Accident Line",
+      "description": "Road accident support.",
+      "phone": "05 22 44 42 58",
+      "category": "Medical",
+      "hours": "24/7"
+    },
+    {
+      "name": "Women’s Safety App",
+      "description": "Emergency safety mobile service.",
+      "website": "securitefemininemaroc.ma/app",
+      "category": "Domestic Abuse",
+      "hours": "24/7"
+    },
+    {
+      "name": "Elder Crisis SMS",
+      "description": "Text support.",
+      "phone": "05 22 44 42 00 (text)",
+      "category": "Elderly Support",
+      "hours": "Mon–Fri 8–16"
+    }
+  ],
+  "NL": [
+    {
+      "name": "Emergency Services",
+      "description": "Police, ambulance, fire.",
+      "phone": "112",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "113 Suicide Prevention",
+      "description": "Suicide prevention.",
+      "phone": "0800 0113",
+      "category": "Mental Health",
+      "hours": "24/7",
+      "languages": [
+        "Dutch",
+        "English"
+      ]
+    },
+    {
+      "name": "Blijf Groep",
+      "description": "Domestic violence support.",
+      "phone": "0800 2000",
+      "category": "Domestic Abuse",
+      "hours": "24/7",
+      "languages": [
+        "Dutch",
+        "English"
+      ]
+    },
+    {
+      "name": "Kindertelefoon",
+      "description": "Child helpline.",
+      "phone": "0800 0432",
+      "category": "Child Protection",
+      "hours": "24/7",
+      "languages": [
+        "Dutch"
+      ]
+    },
+    {
+      "name": "Ombudsman Senioren",
+      "description": "Elderly complaints & advice.",
+      "phone": "0800 0555",
+      "category": "Elderly Support",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Antigifcenter",
+      "description": "Poisoning emergency.",
+      "phone": "070 245 245",
+      "category": "Medical",
+      "hours": "24/7"
+    },
+    {
+      "name": "KWF Kankerbestrijding",
+      "description": "Cancer support.",
+      "phone": "0800 022 6633",
+      "category": "Health",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Jellinek",
+      "description": "Addiction treatment support.",
+      "phone": "088 505 1818",
+      "category": "Addiction",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Verslavingszorg Chat",
+      "description": "Online addiction chat.",
+      "website": "verslavingszorg.nl/chat",
+      "category": "Addiction",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Soa Aids Nederland",
+      "description": "HIV/AIDS info.",
+      "phone": "0800 023 23 23",
+      "category": "Health",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "COC Nederland",
+      "description": "LGBTQ+ support.",
+      "phone": "010 413 1321",
+      "category": "LGBTQ+ Support",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Humanitas Legal Aid",
+      "description": "Free legal advice.",
+      "phone": "0900 321 3210",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Stop Pesten Nu",
+      "description": "Bullying support.",
+      "phone": "0800 0900",
+      "category": "Child Protection",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Dierenambulance",
+      "description": "Animal welfare & cruelty reporting.",
+      "phone": "144",
+      "category": "Animal Welfare",
+      "hours": "24/7"
+    },
+    {
+      "name": "Mensenhandel Hotline",
+      "description": "Human trafficking reports.",
+      "phone": "0800 0300",
+      "category": "Human Trafficking",
+      "hours": "24/7"
+    },
+    {
+      "name": "Slachtofferhulp Nederland",
+      "description": "Victim support.",
+      "phone": "0900 0101",
+      "category": "Legal Aid",
+      "hours": "24/7"
+    },
+    {
+      "name": "Thuisarts.nl info line",
+      "description": "Health advice.",
+      "phone": "0800 1202",
+      "category": "Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Voedingscentrum advise",
+      "description": "Nutrition info.",
+      "phone": "0800 0822",
+      "category": "Health",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Kinderwagenspreekuur",
+      "description": "Parenting support.",
+      "phone": "0800 0852",
+      "category": "Family Support",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "MEE hulp voor gezinnen",
+      "description": "Disability support.",
+      "phone": " 0900 8002",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Klachteninstituut zorg",
+      "description": "Healthcare complaints.",
+      "phone": "088 160 6700",
+      "category": "Health",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Anti-Discriminatiebureau",
+      "description": "Report discrimination.",
+      "phone": "0900 1351",
+      "category": "Human Rights",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "Financieel Loket",
+      "description": "Financial counselling.",
+      "phone": "0800 0432",
+      "category": "Financial Aid",
+      "hours": "Mon–Fri 9–17"
+    },
+    {
+      "name": "LGBTQ+ chat",
+      "description": "Online LGBTQ+ peer support.",
+      "website": "chat.coc.nl",
+      "category": "LGBTQ+ Support",
+      "hours": "Mon–Fri 9–17"
+    }
+  ],
+  "NZ": [
+    {
+      "name": "Emergency Services",
+      "description": "Police, fire, ambulance.",
+      "phone": "111",
+      "category": "Emergency",
+      "isEmergency": true,
+      "hours": "24/7"
+    },
+    {
+      "name": "Lifeline NZ",
+      "description": "24/7 emotional support.",
+      "phone": "0800 543 354",
+      "category": "Mental Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "NeedToTalk",
+      "description": "Youth mental health.",
+      "phone": "0800 88 87 68",
+      "category": "Youth Support",
+      "hours": "24/7"
+    },
+    {
+      "name": "Shakti Women’s Refuge",
+      "description": "Domestic violence support.",
+      "phone": "0508 742 584",
+      "category": "Domestic Abuse",
+      "hours": "24/7"
+    },
+    {
+      "name": "Kidpower Helpline",
+      "description": "Support for children.",
+      "phone": "0800 543 754",
+      "category": "Child Protection",
+      "hours": "24/7"
+    },
+    {
+      "name": "Age Concern NZ",
+      "description": "Elderly support.",
+      "phone": "0800 65 6565",
+      "category": "Elderly Support",
+      "hours": "Mon–Fri 9–5"
+    },
+    {
+      "name": "Healthline",
+      "description": "Health advice & triage.",
+      "phone": "0800 611 116",
+      "category": "Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "National Poisons Centre",
+      "description": "Poison advice.",
+      "phone": "0800 764 766",
+      "category": "Medical",
+      "hours": "24/7"
+    },
+    {
+      "name": "Gambling Helpline NZ",
+      "description": "Problem gambling support.",
+      "phone": "0800 654 655",
+      "category": "Addiction",
+      "hours": "24/7"
+    },
+    {
+      "name": "Quitline",
+      "description": "Smoking cessation.",
+      "phone": "0800 778 778",
+      "category": "Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Alcohol Drugs Helpline",
+      "description": "Substance use support.",
+      "phone": "0800 787 797",
+      "category": "Addiction",
+      "hours": "24/7"
+    },
+    {
+      "name": "Rainbow Youth",
+      "description": "LGBTQ+ peer support.",
+      "phone": "0800 729 6686",
+      "category": "LGBTQ+ Support",
+      "hours": "Mon–Fri 9–9"
+    },
+    {
+      "name": "DV FREE NZ",
+      "description": "Domestic violence info.",
+      "website": "dvfree.org.nz",
+      "category": "Domestic Abuse",
+      "hours": "24/7"
+    },
+    {
+      "name": "Victim Support NZ",
+      "description": "Support for crime victims.",
+      "phone": "0800 842 846",
+      "category": "Legal Aid",
+      "hours": "24/7"
+    },
+    {
+      "name": "Citizens Advice Bureau",
+      "description": "General advice.",
+      "phone": "0800 367 222",
+      "category": "Legal Aid",
+      "hours": "Mon–Fri 9–5"
+    },
+    {
+      "name": "PlunketLine",
+      "description": "Parenting support.",
+      "phone": "0800 933 922",
+      "category": "Family Support",
+      "hours": "24/7"
+    },
+    {
+      "name": "SPCA (Animal Welfare)",
+      "description": "Animal cruelty reporting.",
+      "phone": "0800 4 SPCA",
+      "category": "Animal Welfare",
+      "hours": "24/7"
+    },
+    {
+      "name": "Human Trafficking Hotline",
+      "description": "Report trafficking.",
+      "phone": "0800 744 053",
+      "category": "Human Trafficking",
+      "hours": "24/7"
+    },
+    {
+      "name": "Health & Disability Comm.",
+      "description": "Disability support.",
+      "phone": "0800 11 23 40",
+      "category": "Disability Support",
+      "hours": "Mon–Fri 8–5"
+    },
+    {
+      "name": "Suicide Crisis Helpline",
+      "description": "Specialist clinician help.",
+      "phone": "1737",
+      "category": "Mental Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Financial Mentor",
+      "description": "Free financial advice.",
+      "phone": "0800 345 123",
+      "category": "Financial Aid",
+      "hours": "Mon–Fri 8–5"
+    },
+    {
+      "name": "Koru Care (Family violence)",
+      "description": "Family violence support.",
+      "phone": "0508 567 876",
+      "category": "Domestic Abuse",
+      "hours": "24/7"
+    },
+    {
+      "name": "Depression Helpline",
+      "description": "Support for depression.",
+      "phone": "0800 111 757",
+      "category": "Mental Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Cervical Screening Info",
+      "description": "Women’s health.",
+      "phone": "0800 729 729",
+      "category": "Health",
+      "hours": "24/7"
+    },
+    {
+      "name": "Pet Health Line",
+      "description": "Vet advice.",
+      "phone": "0800 738 222",
+      "category": "Medical",
+      "hours": "24/7"
+    },
+    {
+      "name": "SuperGold Card Info",
+      "description": "Elderly social support.",
+      "phone": "0800 25 45 65",
+      "category": "Social Support",
+      "hours": "Mon–Fri 9–5"
+    },
+    {
+      "name": "Health and Safety NZ",
+      "description": "Workplace safety info.",
+      "phone": "0800 20 90 20",
+      "category": "Public Safety",
+      "hours": "24/7"
+    },
+    {
+      "name": "Student Health Line",
+      "description": "Student health help.",
+      "phone": "0800 61 62 63",
+      "category": "Youth Support",
+      "hours": "Mon–Fri 9–5"
+    },
+    {
+      "name": "EQC – Earthquake Support",
+      "description": "Disaster support.",
+      "phone": "0800 326 243",
+      "category": "Emergency",
+      "hours": "24/7"
+    }
+  ]
+}
