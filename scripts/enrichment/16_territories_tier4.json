@@ -1,0 +1,392 @@
+[
+  {
+    "country": "Puerto Rico",
+    "alpha-2": "PR",
+    "alpha-3": "PRI",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "general_emergency": ["911"],
+    "notes": "US territory using US 911. US federal crisis lines (988, Trevor Project, Trans Lifeline) also reachable.",
+    "hotlines": [
+      {"name": "Línea PAS (Primera Ayuda Sicosocial)", "organization": "ASSMCA", "category": "suicide_crisis", "voice_numbers": ["1-800-981-0023"], "hours": "24/7", "languages": ["Spanish", "English"], "cost": "free", "target": "people in emotional/psychological crisis", "website": "https://www.assmca.pr.gov", "sources": ["https://www.assmca.pr.gov"]},
+      {"name": "988 Suicide & Crisis Lifeline (Spanish)", "organization": "SAMHSA / Vibrant Emotional Health", "category": "suicide_crisis", "voice_numbers": ["988"], "chat_url": "https://988lifeline.org/es/chat/", "hours": "24/7", "languages": ["Spanish", "English"], "cost": "free", "target": "anyone in suicidal crisis (Spanish option = press 2)", "website": "https://988lineadevida.com", "sources": ["https://988lineadevida.com"]},
+      {"name": "Línea Mujer (Puerto Rico)", "organization": "Oficina de la Procuradora de las Mujeres", "category": "domestic_violence", "voice_numbers": ["1-800-981-9676"], "hours": "24/7", "languages": ["Spanish"], "cost": "free", "target": "women survivors of violence", "website": "https://mujer.pr.gov", "sources": []}
+    ]
+  },
+  {
+    "country": "Virgin Islands (U.S.)",
+    "alpha-2": "VI",
+    "alpha-3": "VIR",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "general_emergency": ["911"],
+    "notes": "US territory. US 988 and other federal crisis lines reachable.",
+    "hotlines": [
+      {"name": "USVI Department of Health Behavioral Health", "organization": "USVI DOH", "category": "mental_health", "voice_numbers": ["340-774-7700"], "hours": "business hours", "languages": ["English"], "cost": "standard_rate", "target": "people with mental-health concerns", "website": "https://doh.vi.gov", "sources": ["https://doh.vi.gov"]},
+      {"name": "988 Suicide & Crisis Lifeline", "organization": "SAMHSA", "category": "suicide_crisis", "voice_numbers": ["988"], "sms_numbers": ["988"], "chat_url": "https://988lifeline.org/chat/", "hours": "24/7", "languages": ["English", "Spanish"], "cost": "free", "target": "anyone in suicidal crisis", "website": "https://988lifeline.org", "sources": ["https://988lifeline.org"]}
+    ]
+  },
+  {
+    "country": "Guam",
+    "alpha-2": "GU",
+    "alpha-3": "GUM",
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "general_emergency": ["911"],
+    "notes": "US territory. US 988 and other federal crisis lines reachable from Guam.",
+    "hotlines": [
+      {"name": "Guam Behavioral Health and Wellness Center Hotline", "organization": "GBHWC", "category": "mental_health", "voice_numbers": ["671-647-8833", "671-647-8834"], "hours": "24/7", "languages": ["English", "Chamorro"], "cost": "standard_rate", "target": "people with mental-health/substance-use concerns", "website": "https://gbhwc.guam.gov", "sources": ["https://gbhwc.guam.gov"]},
+      {"name": "Sanctuary Incorporated of Guam", "organization": "Sanctuary Inc.", "category": "youth", "voice_numbers": ["671-475-7100"], "hours": "24/7", "languages": ["English", "Chamorro"], "cost": "standard_rate", "target": "youth in crisis / runaways", "website": "https://www.sanctuaryguam.org", "sources": []}
+    ]
+  },
+  {
+    "country": "American Samoa",
+    "alpha-2": "AS",
+    "alpha-3": "ASM",
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "general_emergency": ["911"],
+    "notes": "US territory, 911 routes via local police/fire.",
+    "hotlines": [
+      {"name": "American Samoa Department of Human and Social Services", "organization": "DHSS American Samoa", "category": "general_support", "voice_numbers": ["684-633-2696"], "hours": "Mon-Fri 8am-4.30pm", "languages": ["English", "Samoan"], "cost": "standard_rate", "target": "social services and referral", "website": "https://dhss.americansamoa.gov", "sources": []},
+      {"name": "988 Suicide & Crisis Lifeline (via US)", "organization": "SAMHSA", "category": "suicide_crisis", "voice_numbers": ["988"], "hours": "24/7", "languages": ["English", "Spanish"], "cost": "free", "target": "people in suicidal crisis", "website": "https://988lifeline.org", "sources": ["https://988lifeline.org"]}
+    ]
+  },
+  {
+    "country": "Northern Mariana Islands",
+    "alpha-2": "MP",
+    "alpha-3": "MNP",
+    "region": "Oceania",
+    "subregion": "Micronesia",
+    "general_emergency": ["911"],
+    "notes": "US territory. 911 and 988 both work.",
+    "hotlines": [
+      {"name": "CNMI Community Guidance Center", "organization": "CNMI CGC", "category": "mental_health", "voice_numbers": ["670-323-6560"], "hours": "Mon-Fri 7.30am-4.30pm", "languages": ["English", "Chamorro", "Carolinian"], "cost": "standard_rate", "target": "mental-health services", "website": "https://www.chcc.health", "sources": []},
+      {"name": "988 Suicide & Crisis Lifeline (via US)", "organization": "SAMHSA", "category": "suicide_crisis", "voice_numbers": ["988"], "hours": "24/7", "languages": ["English", "Spanish"], "cost": "free", "target": "people in suicidal crisis", "website": "https://988lifeline.org", "sources": ["https://988lifeline.org"]}
+    ]
+  },
+  {
+    "country": "French Polynesia",
+    "alpha-2": "PF",
+    "alpha-3": "PYF",
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "general_emergency": ["112", "15", "17", "18"],
+    "notes": "French overseas collectivity — all French metropolitan crisis lines reachable from here.",
+    "hotlines": [
+      {"name": "SOS Suicide Polynesie", "organization": "SOS Suicide Polynésie", "category": "suicide_crisis", "voice_numbers": ["+689 40 45 34 44"], "hours": "24/7", "languages": ["French", "Tahitian"], "cost": "standard_rate", "target": "people in psychological distress", "sources": []},
+      {"name": "Fare Tama Hau (child protection)", "organization": "Fare Tama Hau", "category": "child_protection", "voice_numbers": ["+689 40 42 16 16"], "hours": "Mon-Fri 7am-5pm", "languages": ["French", "Tahitian"], "cost": "standard_rate", "target": "children at risk", "sources": []},
+      {"name": "3114 (metropolitan France, reachable)", "organization": "Ministère de la Santé (France)", "category": "suicide_crisis", "voice_numbers": ["+33 3114"], "hours": "24/7", "languages": ["French"], "cost": "standard_rate", "target": "people in suicidal crisis", "website": "https://3114.fr", "sources": ["https://3114.fr"]}
+    ]
+  },
+  {
+    "country": "New Caledonia",
+    "alpha-2": "NC",
+    "alpha-3": "NCL",
+    "region": "Oceania",
+    "subregion": "Melanesia",
+    "general_emergency": ["112", "15", "17", "18"],
+    "notes": "French collectivity. French crisis infrastructure reachable.",
+    "hotlines": [
+      {"name": "SOS Écoute", "organization": "SOS Écoute Nouvelle-Calédonie", "category": "suicide_crisis", "voice_numbers": ["05 30 30"], "hours": "daily 12pm-9pm", "languages": ["French"], "cost": "local_rate", "target": "people in emotional distress", "sources": []},
+      {"name": "DTESS Child Protection", "organization": "Direction de l'enfance", "category": "child_protection", "voice_numbers": ["05 44 44"], "hours": "Mon-Fri 8am-4pm", "languages": ["French"], "cost": "local_rate", "target": "children at risk", "sources": []}
+    ]
+  },
+  {
+    "country": "Réunion",
+    "alpha-2": "RE",
+    "alpha-3": "REU",
+    "region": "Africa",
+    "subregion": "Sub-Saharan Africa",
+    "general_emergency": ["112", "15", "17", "18"],
+    "notes": "French overseas department — metropolitan French lines apply.",
+    "hotlines": [
+      {"name": "SOS Solitude", "organization": "SOS Solitude La Réunion", "category": "suicide_crisis", "voice_numbers": ["02 62 97 00 00"], "hours": "24/7", "languages": ["French", "Creole"], "cost": "standard_rate", "target": "people in distress", "sources": []},
+      {"name": "3114 Numéro national de prévention du suicide", "organization": "Ministère de la Santé", "category": "suicide_crisis", "voice_numbers": ["3114"], "hours": "24/7", "languages": ["French"], "cost": "free", "target": "people in suicidal crisis", "website": "https://3114.fr", "sources": ["https://3114.fr"]},
+      {"name": "119 Allô Enfance en Danger", "organization": "GIP Enfance en Danger", "category": "child_protection", "voice_numbers": ["119"], "hours": "24/7", "languages": ["French"], "cost": "free", "target": "children in danger", "website": "https://www.allo119.gouv.fr", "sources": ["https://www.allo119.gouv.fr"]},
+      {"name": "3919 Violences Femmes Info", "organization": "FNSF", "category": "domestic_violence", "voice_numbers": ["3919"], "hours": "24/7", "languages": ["French"], "cost": "free", "target": "women victims of violence", "sources": []}
+    ]
+  },
+  {
+    "country": "Guadeloupe",
+    "alpha-2": "GP",
+    "alpha-3": "GLP",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "general_emergency": ["112", "15", "17", "18"],
+    "notes": "French overseas department.",
+    "hotlines": [
+      {"name": "3114", "organization": "Ministère de la Santé", "category": "suicide_crisis", "voice_numbers": ["3114"], "hours": "24/7", "languages": ["French"], "cost": "free", "target": "people in suicidal crisis", "website": "https://3114.fr", "sources": []},
+      {"name": "119 Allô Enfance en Danger", "organization": "GIPED", "category": "child_protection", "voice_numbers": ["119"], "hours": "24/7", "languages": ["French"], "cost": "free", "target": "children in danger", "sources": []},
+      {"name": "3919", "organization": "FNSF", "category": "domestic_violence", "voice_numbers": ["3919"], "hours": "24/7", "languages": ["French"], "cost": "free", "target": "women victims of violence", "sources": []}
+    ]
+  },
+  {
+    "country": "Martinique",
+    "alpha-2": "MQ",
+    "alpha-3": "MTQ",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "general_emergency": ["112", "15", "17", "18"],
+    "notes": "French overseas department.",
+    "hotlines": [
+      {"name": "3114", "organization": "Ministère de la Santé", "category": "suicide_crisis", "voice_numbers": ["3114"], "hours": "24/7", "languages": ["French"], "cost": "free", "target": "people in suicidal crisis", "website": "https://3114.fr", "sources": []},
+      {"name": "119 Allô Enfance en Danger", "organization": "GIPED", "category": "child_protection", "voice_numbers": ["119"], "hours": "24/7", "languages": ["French"], "cost": "free", "target": "children in danger", "sources": []},
+      {"name": "3919", "organization": "FNSF", "category": "domestic_violence", "voice_numbers": ["3919"], "hours": "24/7", "languages": ["French"], "cost": "free", "target": "women victims of violence", "sources": []}
+    ]
+  },
+  {
+    "country": "French Guiana",
+    "alpha-2": "GF",
+    "alpha-3": "GUF",
+    "region": "Americas",
+    "subregion": "South America",
+    "general_emergency": ["112", "15", "17", "18"],
+    "notes": "French overseas department.",
+    "hotlines": [
+      {"name": "3114", "organization": "Ministère de la Santé", "category": "suicide_crisis", "voice_numbers": ["3114"], "hours": "24/7", "languages": ["French"], "cost": "free", "target": "people in suicidal crisis", "website": "https://3114.fr", "sources": []},
+      {"name": "119 Allô Enfance en Danger", "organization": "GIPED", "category": "child_protection", "voice_numbers": ["119"], "hours": "24/7", "languages": ["French"], "cost": "free", "target": "children in danger", "sources": []}
+    ]
+  },
+  {
+    "country": "Mayotte",
+    "alpha-2": "YT",
+    "alpha-3": "MYT",
+    "region": "Africa",
+    "subregion": "Sub-Saharan Africa",
+    "general_emergency": ["112", "15", "17", "18"],
+    "notes": "French overseas department.",
+    "hotlines": [
+      {"name": "3114", "organization": "Ministère de la Santé", "category": "suicide_crisis", "voice_numbers": ["3114"], "hours": "24/7", "languages": ["French"], "cost": "free", "target": "people in suicidal crisis", "website": "https://3114.fr", "sources": []},
+      {"name": "119 Allô Enfance en Danger", "organization": "GIPED", "category": "child_protection", "voice_numbers": ["119"], "hours": "24/7", "languages": ["French"], "cost": "free", "target": "children in danger", "sources": []},
+      {"name": "3919", "organization": "FNSF", "category": "domestic_violence", "voice_numbers": ["3919"], "hours": "24/7", "languages": ["French"], "cost": "free", "target": "women victims of violence", "sources": []}
+    ]
+  },
+  {
+    "country": "Jersey",
+    "alpha-2": "JE",
+    "alpha-3": "JEY",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "general_emergency": ["999", "112"],
+    "notes": "Crown Dependency, uses UK-style 999/112. Several UK helplines are reachable.",
+    "hotlines": [
+      {"name": "Jersey Samaritans", "organization": "Samaritans of Jersey", "category": "suicide_crisis", "voice_numbers": ["116 123"], "email": "jo@samaritans.org", "hours": "24/7", "languages": ["English"], "cost": "free", "target": "anyone in emotional distress", "website": "https://www.samaritans.org/channel-islands/samaritans-jersey/", "sources": ["https://www.samaritans.org/channel-islands/samaritans-jersey/"]},
+      {"name": "Jersey Domestic Abuse Support", "organization": "Jersey Women's Refuge", "category": "domestic_violence", "voice_numbers": ["01534 880505"], "hours": "24/7", "languages": ["English"], "cost": "standard_rate", "target": "women and children fleeing violence", "website": "https://www.jerseywomensrefuge.org", "sources": ["https://www.jerseywomensrefuge.org"]},
+      {"name": "NSPCC Helpline (reachable from Jersey)", "organization": "NSPCC", "category": "child_protection", "voice_numbers": ["0808 800 5000"], "hours": "Mon-Fri 8am-10pm; weekends 9am-6pm", "languages": ["English"], "cost": "free", "target": "adults worried about a child", "website": "https://www.nspcc.org.uk", "sources": ["https://www.nspcc.org.uk"]}
+    ]
+  },
+  {
+    "country": "Isle of Man",
+    "alpha-2": "IM",
+    "alpha-3": "IMN",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "general_emergency": ["999", "112"],
+    "notes": "Crown Dependency, UK-style emergency. UK helplines reachable.",
+    "hotlines": [
+      {"name": "Isle of Man Samaritans", "organization": "Samaritans of the Isle of Man", "category": "suicide_crisis", "voice_numbers": ["116 123"], "email": "jo@samaritans.org", "hours": "24/7", "languages": ["English"], "cost": "free", "target": "anyone in emotional distress", "website": "https://www.samaritans.org/branches/isle-man/", "sources": ["https://www.samaritans.org/branches/isle-man/"]},
+      {"name": "MIND Isle of Man", "organization": "Isle of Man Mind", "category": "mental_health", "voice_numbers": ["01624 612323"], "hours": "Mon-Fri 9.30am-4.30pm", "languages": ["English"], "cost": "standard_rate", "target": "people with mental-health concerns", "website": "https://www.iommind.im", "sources": []},
+      {"name": "Childline (reachable from IoM)", "organization": "NSPCC", "category": "child_protection", "voice_numbers": ["0800 1111"], "chat_url": "https://www.childline.org.uk/get-support/1-2-1-counsellor-chat/", "hours": "7.30am-3.30am daily", "languages": ["English"], "cost": "free", "target": "anyone under 19", "website": "https://www.childline.org.uk", "sources": ["https://www.childline.org.uk"]}
+    ]
+  },
+  {
+    "country": "Aruba",
+    "alpha-2": "AW",
+    "alpha-3": "ABW",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "general_emergency": ["911", "100", "115", "911"],
+    "notes": "Constituent country of the Kingdom of the Netherlands.",
+    "hotlines": [
+      {"name": "Fundacion Respaldo Aruba", "organization": "Fundacion Respaldo", "category": "suicide_crisis", "voice_numbers": ["+297 582 4000"], "hours": "Mon-Sun 7pm-9pm", "languages": ["Papiamento", "Dutch", "English"], "cost": "standard_rate", "target": "people in emotional distress", "sources": []},
+      {"name": "113 Zelfmoordpreventie (reachable from Aruba)", "organization": "Stichting 113 Zelfmoordpreventie", "category": "suicide_crisis", "voice_numbers": ["+31 800 0113"], "chat_url": "https://www.113.nl/ik-denk-aan-zelfmoord", "hours": "24/7", "languages": ["Dutch"], "cost": "standard_rate", "target": "people with suicidal thoughts (Dutch-speaking)", "website": "https://www.113.nl", "sources": ["https://www.113.nl"]}
+    ]
+  },
+  {
+    "country": "Curaçao",
+    "alpha-2": "CW",
+    "alpha-3": "CUW",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "general_emergency": ["911", "912", "919"],
+    "notes": "Constituent country of the Kingdom of the Netherlands.",
+    "hotlines": [
+      {"name": "Fundashon Telefon pa Ayudo", "organization": "Fundashon Telefon pa Ayudo", "category": "suicide_crisis", "voice_numbers": ["+599 9 7131111"], "hours": "24/7", "languages": ["Papiamento", "Dutch", "English"], "cost": "standard_rate", "target": "people in emotional crisis", "sources": []}
+    ]
+  },
+  {
+    "country": "Sint Maarten (Dutch part)",
+    "alpha-2": "SX",
+    "alpha-3": "SXM",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "general_emergency": ["911", "919"],
+    "notes": "Dutch Caribbean.",
+    "hotlines": [
+      {"name": "Safe Haven Domestic Violence Shelter", "organization": "Safe Haven Foundation", "category": "domestic_violence", "voice_numbers": ["+1 721 542 2000"], "hours": "24/7", "languages": ["English", "Dutch"], "cost": "standard_rate", "target": "survivors of DV", "sources": []}
+    ]
+  },
+  {
+    "country": "Bermuda",
+    "alpha-2": "BM",
+    "alpha-3": "BMU",
+    "region": "Americas",
+    "subregion": "Northern America",
+    "general_emergency": ["911"],
+    "notes": "British Overseas Territory, 911 emergency.",
+    "hotlines": [
+      {"name": "Bermuda Mental Health Foundation Helpline", "organization": "Bermuda Mental Health Foundation", "category": "mental_health", "voice_numbers": ["+1 441 236 3770"], "hours": "business hours", "languages": ["English"], "cost": "standard_rate", "target": "mental-health concerns", "website": "https://www.mentalhealth.bm", "sources": []},
+      {"name": "Women's Resource Centre Bermuda", "organization": "Women's Resource Centre", "category": "domestic_violence", "voice_numbers": ["+1 441 295 7273"], "hours": "Mon-Fri 9am-5pm; emergency 24/7", "languages": ["English"], "cost": "standard_rate", "target": "women survivors of violence", "website": "https://wrcbermuda.com", "sources": []}
+    ]
+  },
+  {
+    "country": "Cayman Islands",
+    "alpha-2": "KY",
+    "alpha-3": "CYM",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "general_emergency": ["911", "999"],
+    "notes": "British Overseas Territory.",
+    "hotlines": [
+      {"name": "Cayman Islands Crisis Centre", "organization": "Cayman Islands Crisis Centre", "category": "domestic_violence", "voice_numbers": ["345-943-2422"], "hours": "24/7", "languages": ["English"], "cost": "standard_rate", "target": "women and children survivors of abuse", "website": "https://www.cicc.ky", "sources": ["https://www.cicc.ky"]}
+    ]
+  },
+  {
+    "country": "Faroe Islands",
+    "alpha-2": "FO",
+    "alpha-3": "FRO",
+    "region": "Europe",
+    "subregion": "Northern Europe",
+    "general_emergency": ["112"],
+    "notes": "Autonomous country of Denmark.",
+    "hotlines": [
+      {"name": "LIVSlinjan (Faroe Islands lifeline)", "organization": "LIVSlinjan", "category": "suicide_crisis", "voice_numbers": ["808 05 05"], "hours": "24/7", "languages": ["Faroese", "Danish"], "cost": "free", "target": "people in emotional distress", "sources": []},
+      {"name": "Blað (Children's Helpline)", "organization": "Barnaverndarstovan", "category": "child_protection", "voice_numbers": ["116 111"], "hours": "Mon-Fri business hours", "languages": ["Faroese"], "cost": "free", "target": "children at risk", "sources": []}
+    ]
+  },
+  {
+    "country": "Holy See",
+    "alpha-2": "VA",
+    "alpha-3": "VAT",
+    "region": "Europe",
+    "subregion": "Southern Europe",
+    "general_emergency": ["112", "113", "115", "118"],
+    "notes": "Uses Italian emergency numbers. Vatican Gendarmerie directly: +39 06 6982.",
+    "hotlines": [
+      {"name": "Vatican Gendarmerie", "organization": "Corpo della Gendarmeria", "category": "emergency", "voice_numbers": ["+39 06 6982"], "hours": "24/7", "languages": ["Italian", "English"], "cost": "standard_rate", "target": "on-site emergencies in Vatican City", "sources": []},
+      {"name": "Telefono Amico Italia (reachable)", "organization": "Telefono Amico Italia", "category": "suicide_crisis", "voice_numbers": ["02 2327 2327"], "chat_url": "https://www.telefonoamico.it", "hours": "10am-midnight daily", "languages": ["Italian"], "cost": "standard_rate", "target": "people in emotional distress", "website": "https://www.telefonoamico.it", "sources": ["https://www.telefonoamico.it"]}
+    ]
+  },
+  {
+    "country": "Greenland",
+    "alpha-2": "GL",
+    "alpha-3": "GRL",
+    "region": "Americas",
+    "subregion": "Northern America",
+    "general_emergency": ["112"],
+    "notes": "Autonomous country of Denmark.",
+    "hotlines": [
+      {"name": "Attavik 146", "organization": "Attavik", "category": "suicide_crisis", "voice_numbers": ["146"], "hours": "daily 4pm-10pm", "languages": ["Greenlandic", "Danish"], "cost": "free", "target": "people in emotional distress", "sources": []},
+      {"name": "MIO Child Helpline", "organization": "MIO (Børnetalsmand)", "category": "child_protection", "voice_numbers": ["329949"], "hours": "Mon-Fri business hours", "languages": ["Greenlandic", "Danish"], "cost": "free", "target": "children at risk", "website": "https://mio.gl", "sources": ["https://mio.gl"]}
+    ]
+  },
+  {
+    "country": "Falkland Islands",
+    "alpha-2": "FK",
+    "alpha-3": "FLK",
+    "region": "Americas",
+    "subregion": "South America",
+    "general_emergency": ["999"],
+    "notes": "British Overseas Territory.",
+    "hotlines": [
+      {"name": "Royal Falkland Islands Police", "organization": "RFIP", "category": "emergency", "voice_numbers": ["+500 28100"], "hours": "24/7", "languages": ["English"], "cost": "standard_rate", "target": "non-urgent police", "website": "https://www.police.gov.fk", "sources": []},
+      {"name": "KEMH Mental Health Services", "organization": "King Edward VII Memorial Hospital", "category": "mental_health", "voice_numbers": ["+500 28000"], "hours": "business hours", "languages": ["English"], "cost": "standard_rate", "target": "mental-health support", "sources": []}
+    ]
+  },
+  {
+    "country": "Saint Helena, Ascension and Tristan da Cunha",
+    "alpha-2": "SH",
+    "alpha-3": "SHN",
+    "region": "Africa",
+    "subregion": "Sub-Saharan Africa",
+    "general_emergency": ["999", "911"],
+    "notes": "British Overseas Territory. 999 on Saint Helena; 911 on Ascension.",
+    "hotlines": [
+      {"name": "St Helena Safeguarding Directorate", "organization": "Safeguarding Directorate St Helena", "category": "child_protection", "voice_numbers": ["+290 22713"], "hours": "business hours", "languages": ["English"], "cost": "standard_rate", "target": "children and adults at risk", "website": "https://www.sainthelena.gov.sh", "sources": []}
+    ]
+  },
+  {
+    "country": "Cook Islands",
+    "alpha-2": "CK",
+    "alpha-3": "COK",
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "general_emergency": ["999"],
+    "notes": "NZ-associated state. Lifeline Aotearoa reachable via +64.",
+    "hotlines": [
+      {"name": "Te Kainga o Pa Taunga", "organization": "Te Kainga", "category": "mental_health", "voice_numbers": ["+682 29 100"], "hours": "business hours", "languages": ["Cook Islands Māori", "English"], "cost": "standard_rate", "target": "mental-health concerns", "sources": []},
+      {"name": "Lifeline Aotearoa (reachable from Cook Islands)", "organization": "Lifeline Aotearoa", "category": "suicide_crisis", "voice_numbers": ["+64 800 543 354"], "hours": "24/7", "languages": ["English"], "cost": "standard_rate", "target": "people in crisis", "website": "https://www.lifeline.org.nz", "sources": ["https://www.lifeline.org.nz"]}
+    ]
+  },
+  {
+    "country": "Niue",
+    "alpha-2": "NU",
+    "alpha-3": "NIU",
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "general_emergency": ["999", "112"],
+    "notes": "NZ-associated state.",
+    "hotlines": [
+      {"name": "Lifeline Aotearoa (reachable from Niue)", "organization": "Lifeline Aotearoa", "category": "suicide_crisis", "voice_numbers": ["+64 800 543 354"], "hours": "24/7", "languages": ["English"], "cost": "standard_rate", "target": "people in crisis", "website": "https://www.lifeline.org.nz", "sources": ["https://www.lifeline.org.nz"]}
+    ]
+  },
+  {
+    "country": "Tokelau",
+    "alpha-2": "TK",
+    "alpha-3": "TKL",
+    "region": "Oceania",
+    "subregion": "Polynesia",
+    "general_emergency": ["999"],
+    "notes": "NZ dependency.",
+    "hotlines": [
+      {"name": "Lifeline Aotearoa (reachable from Tokelau)", "organization": "Lifeline Aotearoa", "category": "suicide_crisis", "voice_numbers": ["+64 800 543 354"], "hours": "24/7", "languages": ["English"], "cost": "standard_rate", "target": "people in crisis", "website": "https://www.lifeline.org.nz", "sources": ["https://www.lifeline.org.nz"]}
+    ]
+  },
+  {
+    "country": "Turks and Caicos Islands",
+    "alpha-2": "TC",
+    "alpha-3": "TCA",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "general_emergency": ["911", "999"],
+    "notes": "British Overseas Territory.",
+    "hotlines": [
+      {"name": "TCI Social Services Crisis Line", "organization": "TCI Social Services", "category": "general_support", "voice_numbers": ["+1 649 338 2100"], "hours": "Mon-Fri 8am-5pm", "languages": ["English"], "cost": "standard_rate", "target": "people at risk or in crisis", "website": "https://www.gov.tc", "sources": []}
+    ]
+  },
+  {
+    "country": "Anguilla",
+    "alpha-2": "AI",
+    "alpha-3": "AIA",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "general_emergency": ["911"],
+    "notes": "British Overseas Territory.",
+    "hotlines": [
+      {"name": "Her Majesty's Prison Hotline (Crime Stoppers)", "organization": "Anguilla Crime Stoppers", "category": "emergency", "voice_numbers": ["+1 264 497 3333"], "hours": "24/7", "languages": ["English"], "cost": "standard_rate", "target": "anonymous tip reporting", "sources": []}
+    ]
+  },
+  {
+    "country": "Virgin Islands (British)",
+    "alpha-2": "VG",
+    "alpha-3": "VGB",
+    "region": "Americas",
+    "subregion": "Caribbean",
+    "general_emergency": ["911", "999"],
+    "notes": "British Overseas Territory.",
+    "hotlines": [
+      {"name": "Family Support Network BVI", "organization": "Family Support Network", "category": "domestic_violence", "voice_numbers": ["+1 284 494 0581"], "hours": "Mon-Fri 9am-5pm", "languages": ["English"], "cost": "standard_rate", "target": "families in crisis, DV survivors", "sources": []}
+    ]
+  }
+]

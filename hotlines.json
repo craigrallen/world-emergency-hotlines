@@ -383,13 +383,13 @@
     {
       "country": "American Samoa",
       "alpha-2": "AS",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "ASM",
+      "region": "Oceania",
+      "subregion": "Polynesia",
       "general_emergency": [
         "911"
       ],
-      "notes": "US territory — 911 emergency. Local police dispatcher: 633-1111.",
+      "notes": "US territory, 911 routes via local police/fire.",
       "hotlines": [
         {
           "name": "Emergency",
@@ -415,6 +415,60 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "organization": "DHSS American Samoa",
+          "category": "general_support",
+          "voice_numbers": [
+            "684-633-2696"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://dhss.americansamoa.gov",
+          "hours": "Mon-Fri 8am-4.30pm",
+          "languages": [
+            "English",
+            "Samoan"
+          ],
+          "cost": "standard_rate",
+          "target": "social services and referral",
+          "geography": "American Samoa",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "American Samoa Department of Human and Social Services"
+        },
+        {
+          "organization": "SAMHSA",
+          "category": "suicide_crisis",
+          "voice_numbers": [
+            "988"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://988lifeline.org",
+          "hours": "24/7",
+          "languages": [
+            "English",
+            "Spanish"
+          ],
+          "cost": "free",
+          "target": "people in suicidal crisis",
+          "geography": "American Samoa",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [
+            "https://988lifeline.org"
+          ],
+          "name": "988 Suicide & Crisis Lifeline (via US)"
         }
       ]
     },
@@ -546,13 +600,13 @@
     {
       "country": "Anguilla",
       "alpha-2": "AI",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "AIA",
+      "region": "Americas",
+      "subregion": "Caribbean",
       "general_emergency": [
         "911"
       ],
-      "notes": "British Overseas Territory — 911.",
+      "notes": "British Overseas Territory.",
       "hotlines": [
         {
           "name": "Emergency",
@@ -578,6 +632,31 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "organization": "Anguilla Crime Stoppers",
+          "category": "emergency",
+          "voice_numbers": [
+            "+1 264 497 3333"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "anonymous tip reporting",
+          "geography": "Anguilla",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "Her Majesty's Prison Hotline (Crime Stoppers)"
         }
       ]
     },
@@ -2302,13 +2381,16 @@
     {
       "country": "Aruba",
       "alpha-2": "AW",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "ABW",
+      "region": "Americas",
+      "subregion": "Caribbean",
       "general_emergency": [
+        "911",
+        "100",
+        "115",
         "911"
       ],
-      "notes": "Constituent country of the Kingdom of the Netherlands — 911 (all emergencies), 100 (police), 115 (ambulance), 911 (fire).",
+      "notes": "Constituent country of the Kingdom of the Netherlands.",
       "hotlines": [
         {
           "name": "Emergency",
@@ -2334,6 +2416,60 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "organization": "Fundacion Respaldo",
+          "category": "suicide_crisis",
+          "voice_numbers": [
+            "+297 582 4000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "Mon-Sun 7pm-9pm",
+          "languages": [
+            "Papiamento",
+            "Dutch",
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "people in emotional distress",
+          "geography": "Aruba",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "Fundacion Respaldo Aruba"
+        },
+        {
+          "organization": "Stichting 113 Zelfmoordpreventie",
+          "category": "suicide_crisis",
+          "voice_numbers": [
+            "+31 800 0113"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": "https://www.113.nl/ik-denk-aan-zelfmoord",
+          "email": null,
+          "website": "https://www.113.nl",
+          "hours": "24/7",
+          "languages": [
+            "Dutch"
+          ],
+          "cost": "standard_rate",
+          "target": "people with suicidal thoughts (Dutch-speaking)",
+          "geography": "Aruba",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [
+            "https://www.113.nl"
+          ],
+          "name": "113 Zelfmoordpreventie (reachable from Aruba)"
         }
       ]
     },
@@ -8044,13 +8180,13 @@
     {
       "country": "Bermuda",
       "alpha-2": "BM",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "BMU",
+      "region": "Americas",
+      "subregion": "Northern America",
       "general_emergency": [
         "911"
       ],
-      "notes": "British Overseas Territory — 911.",
+      "notes": "British Overseas Territory, 911 emergency.",
       "hotlines": [
         {
           "name": "Emergency",
@@ -8076,6 +8212,56 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "organization": "Bermuda Mental Health Foundation",
+          "category": "mental_health",
+          "voice_numbers": [
+            "+1 441 236 3770"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mentalhealth.bm",
+          "hours": "business hours",
+          "languages": [
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "mental-health concerns",
+          "geography": "Bermuda",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "Bermuda Mental Health Foundation Helpline"
+        },
+        {
+          "organization": "Women's Resource Centre",
+          "category": "domestic_violence",
+          "voice_numbers": [
+            "+1 441 295 7273"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://wrcbermuda.com",
+          "hours": "Mon-Fri 9am-5pm; emergency 24/7",
+          "languages": [
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "women survivors of violence",
+          "geography": "Bermuda",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "Women's Resource Centre Bermuda"
         }
       ]
     },
@@ -13625,7 +13811,7 @@
         "911",
         "999"
       ],
-      "notes": "British Overseas Territory — 911 or 999.",
+      "notes": "British Overseas Territory.",
       "hotlines": [
         {
           "organization": "Emergency",
@@ -13689,6 +13875,33 @@
               "1 800 534 6463"
             ]
           }
+        },
+        {
+          "organization": "Cayman Islands Crisis Centre",
+          "category": "domestic_violence",
+          "voice_numbers": [
+            "345-943-2422"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.cicc.ky",
+          "hours": "24/7",
+          "languages": [
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "women and children survivors of abuse",
+          "geography": "Cayman Islands",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [
+            "https://www.cicc.ky"
+          ],
+          "name": "Cayman Islands Crisis Centre"
         }
       ]
     },
@@ -17430,7 +17643,7 @@
       "general_emergency": [
         "999"
       ],
-      "notes": "999 emergency (police 22499, fire 22622, ambulance 22664).",
+      "notes": "NZ-associated state. Lifeline Aotearoa reachable via +64.",
       "hotlines": [
         {
           "organization": "Emergency",
@@ -17468,11 +17681,10 @@
           }
         },
         {
-          "name": "Te Kainga O Pa Taunga",
-          "organization": "Te Kainga O Pa Taunga",
-          "category": "general_support",
+          "organization": "Te Kainga",
+          "category": "mental_health",
           "voice_numbers": [
-            "20162"
+            "+682 29 100"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -17480,23 +17692,52 @@
           "chat_url": null,
           "email": null,
           "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": null,
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
+          "hours": "business hours",
+          "languages": [
+            "Cook Islands Māori",
+            "English"
           ],
+          "cost": "standard_rate",
+          "target": "mental-health concerns",
+          "geography": "Cook Islands",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "Te Kainga o Pa Taunga",
           "_legacy": {
             "name": "Te Kainga O Pa Taunga",
             "numbers": [
               "20162"
             ]
           }
+        },
+        {
+          "organization": "Lifeline Aotearoa",
+          "category": "suicide_crisis",
+          "voice_numbers": [
+            "+64 800 543 354"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.lifeline.org.nz",
+          "hours": "24/7",
+          "languages": [
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "people in crisis",
+          "geography": "Cook Islands",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [
+            "https://www.lifeline.org.nz"
+          ],
+          "name": "Lifeline Aotearoa (reachable from Cook Islands)"
         }
       ]
     },
@@ -18098,7 +18339,7 @@
         "912",
         "919"
       ],
-      "notes": "911 police, 912 ambulance, 919 fire.",
+      "notes": "Constituent country of the Kingdom of the Netherlands.",
       "hotlines": [
         {
           "organization": "Emergency",
@@ -18165,6 +18406,33 @@
               "918"
             ]
           }
+        },
+        {
+          "organization": "Fundashon Telefon pa Ayudo",
+          "category": "suicide_crisis",
+          "voice_numbers": [
+            "+599 9 7131111"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [
+            "Papiamento",
+            "Dutch",
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "people in emotional crisis",
+          "geography": "Curaçao",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "Fundashon Telefon pa Ayudo"
         }
       ]
     },
@@ -24164,14 +24432,13 @@
     {
       "country": "Falkland Islands",
       "alpha-2": "FK",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "FLK",
+      "region": "Americas",
+      "subregion": "South America",
       "general_emergency": [
-        "112",
         "999"
       ],
-      "notes": "British Overseas Territory — 999 emergency.",
+      "notes": "British Overseas Territory.",
       "hotlines": [
         {
           "name": "Emergency",
@@ -24198,19 +24465,69 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "organization": "RFIP",
+          "category": "emergency",
+          "voice_numbers": [
+            "+500 28100"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.police.gov.fk",
+          "hours": "24/7",
+          "languages": [
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "non-urgent police",
+          "geography": "Falkland Islands",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "Royal Falkland Islands Police"
+        },
+        {
+          "organization": "King Edward VII Memorial Hospital",
+          "category": "mental_health",
+          "voice_numbers": [
+            "+500 28000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "business hours",
+          "languages": [
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "mental-health support",
+          "geography": "Falkland Islands",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "KEMH Mental Health Services"
         }
       ]
     },
     {
       "country": "Faroe Islands",
       "alpha-2": "FO",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "FRO",
+      "region": "Europe",
+      "subregion": "Northern Europe",
       "general_emergency": [
         "112"
       ],
-      "notes": "Danish autonomous country — 112 universal emergency.",
+      "notes": "Autonomous country of Denmark.",
       "hotlines": [
         {
           "name": "Emergency",
@@ -24236,6 +24553,57 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "organization": "LIVSlinjan",
+          "category": "suicide_crisis",
+          "voice_numbers": [
+            "808 05 05"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [
+            "Faroese",
+            "Danish"
+          ],
+          "cost": "free",
+          "target": "people in emotional distress",
+          "geography": "Faroe Islands",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "LIVSlinjan (Faroe Islands lifeline)"
+        },
+        {
+          "organization": "Barnaverndarstovan",
+          "category": "child_protection",
+          "voice_numbers": [
+            "116 111"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "Mon-Fri business hours",
+          "languages": [
+            "Faroese"
+          ],
+          "cost": "free",
+          "target": "children at risk",
+          "geography": "Faroe Islands",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "Blað (Children's Helpline)"
         }
       ]
     },
@@ -28363,13 +28731,16 @@
     {
       "country": "French Guiana",
       "alpha-2": "GF",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "GUF",
+      "region": "Americas",
+      "subregion": "South America",
       "general_emergency": [
-        "112"
+        "112",
+        "15",
+        "17",
+        "18"
       ],
-      "notes": "French overseas department — uses French emergency numbering.",
+      "notes": "French overseas department.",
       "hotlines": [
         {
           "name": "Emergency",
@@ -28395,19 +28766,72 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "organization": "Ministère de la Santé",
+          "category": "suicide_crisis",
+          "voice_numbers": [
+            "3114"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://3114.fr",
+          "hours": "24/7",
+          "languages": [
+            "French"
+          ],
+          "cost": "free",
+          "target": "people in suicidal crisis",
+          "geography": "French Guiana",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "3114"
+        },
+        {
+          "organization": "GIPED",
+          "category": "child_protection",
+          "voice_numbers": [
+            "119"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [
+            "French"
+          ],
+          "cost": "free",
+          "target": "children in danger",
+          "geography": "French Guiana",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "119 Allô Enfance en Danger"
         }
       ]
     },
     {
       "country": "French Polynesia",
       "alpha-2": "PF",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "PYF",
+      "region": "Oceania",
+      "subregion": "Polynesia",
       "general_emergency": [
-        "112"
+        "112",
+        "15",
+        "17",
+        "18"
       ],
-      "notes": "French overseas collectivity — uses French emergency numbering.",
+      "notes": "French overseas collectivity — all French metropolitan crisis lines reachable from here.",
       "hotlines": [
         {
           "name": "Emergency",
@@ -28433,6 +28857,85 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "organization": "SOS Suicide Polynésie",
+          "category": "suicide_crisis",
+          "voice_numbers": [
+            "+689 40 45 34 44"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [
+            "French",
+            "Tahitian"
+          ],
+          "cost": "standard_rate",
+          "target": "people in psychological distress",
+          "geography": "French Polynesia",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "SOS Suicide Polynesie"
+        },
+        {
+          "organization": "Fare Tama Hau",
+          "category": "child_protection",
+          "voice_numbers": [
+            "+689 40 42 16 16"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "Mon-Fri 7am-5pm",
+          "languages": [
+            "French",
+            "Tahitian"
+          ],
+          "cost": "standard_rate",
+          "target": "children at risk",
+          "geography": "French Polynesia",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "Fare Tama Hau (child protection)"
+        },
+        {
+          "organization": "Ministère de la Santé (France)",
+          "category": "suicide_crisis",
+          "voice_numbers": [
+            "+33 3114"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://3114.fr",
+          "hours": "24/7",
+          "languages": [
+            "French"
+          ],
+          "cost": "standard_rate",
+          "target": "people in suicidal crisis",
+          "geography": "French Polynesia",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [
+            "https://3114.fr"
+          ],
+          "name": "3114 (metropolitan France, reachable)"
         }
       ]
     },
@@ -31956,10 +32459,9 @@
       "region": "Americas",
       "subregion": "Northern America",
       "general_emergency": [
-        "112",
-        "113"
+        "112"
       ],
-      "notes": "112 emergency, 113 police.",
+      "notes": "Autonomous country of Denmark.",
       "hotlines": [
         {
           "organization": "Emergency",
@@ -32023,6 +32525,60 @@
               "80 11 80"
             ]
           }
+        },
+        {
+          "organization": "Attavik",
+          "category": "suicide_crisis",
+          "voice_numbers": [
+            "146"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "daily 4pm-10pm",
+          "languages": [
+            "Greenlandic",
+            "Danish"
+          ],
+          "cost": "free",
+          "target": "people in emotional distress",
+          "geography": "Greenland",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "Attavik 146"
+        },
+        {
+          "organization": "MIO (Børnetalsmand)",
+          "category": "child_protection",
+          "voice_numbers": [
+            "329949"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://mio.gl",
+          "hours": "Mon-Fri business hours",
+          "languages": [
+            "Greenlandic",
+            "Danish"
+          ],
+          "cost": "free",
+          "target": "children at risk",
+          "geography": "Greenland",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [
+            "https://mio.gl"
+          ],
+          "name": "MIO Child Helpline"
         }
       ]
     },
@@ -32075,13 +32631,16 @@
     {
       "country": "Guadeloupe",
       "alpha-2": "GP",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "GLP",
+      "region": "Americas",
+      "subregion": "Caribbean",
       "general_emergency": [
-        "112"
+        "112",
+        "15",
+        "17",
+        "18"
       ],
-      "notes": "French overseas department — uses French emergency numbering.",
+      "notes": "French overseas department.",
       "hotlines": [
         {
           "name": "Emergency",
@@ -32107,19 +32666,94 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "organization": "Ministère de la Santé",
+          "category": "suicide_crisis",
+          "voice_numbers": [
+            "3114"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://3114.fr",
+          "hours": "24/7",
+          "languages": [
+            "French"
+          ],
+          "cost": "free",
+          "target": "people in suicidal crisis",
+          "geography": "Guadeloupe",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "3114"
+        },
+        {
+          "organization": "GIPED",
+          "category": "child_protection",
+          "voice_numbers": [
+            "119"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [
+            "French"
+          ],
+          "cost": "free",
+          "target": "children in danger",
+          "geography": "Guadeloupe",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "119 Allô Enfance en Danger"
+        },
+        {
+          "organization": "FNSF",
+          "category": "domestic_violence",
+          "voice_numbers": [
+            "3919"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [
+            "French"
+          ],
+          "cost": "free",
+          "target": "women victims of violence",
+          "geography": "Guadeloupe",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "3919"
         }
       ]
     },
     {
       "country": "Guam",
       "alpha-2": "GU",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "GUM",
+      "region": "Oceania",
+      "subregion": "Micronesia",
       "general_emergency": [
         "911"
       ],
-      "notes": "US territory — 911 emergency system.",
+      "notes": "US territory. US 988 and other federal crisis lines reachable from Guam.",
       "hotlines": [
         {
           "name": "Emergency",
@@ -32145,6 +32779,61 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "organization": "GBHWC",
+          "category": "mental_health",
+          "voice_numbers": [
+            "671-647-8833",
+            "671-647-8834"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://gbhwc.guam.gov",
+          "hours": "24/7",
+          "languages": [
+            "English",
+            "Chamorro"
+          ],
+          "cost": "standard_rate",
+          "target": "people with mental-health/substance-use concerns",
+          "geography": "Guam",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [
+            "https://gbhwc.guam.gov"
+          ],
+          "name": "Guam Behavioral Health and Wellness Center Hotline"
+        },
+        {
+          "organization": "Sanctuary Inc.",
+          "category": "youth",
+          "voice_numbers": [
+            "671-475-7100"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.sanctuaryguam.org",
+          "hours": "24/7",
+          "languages": [
+            "English",
+            "Chamorro"
+          ],
+          "cost": "standard_rate",
+          "target": "youth in crisis / runaways",
+          "geography": "Guam",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "Sanctuary Incorporated of Guam"
         }
       ]
     },
@@ -32906,13 +33595,16 @@
     {
       "country": "Holy See",
       "alpha-2": "VA",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "VAT",
+      "region": "Europe",
+      "subregion": "Southern Europe",
       "general_emergency": [
-        "112"
+        "112",
+        "113",
+        "115",
+        "118"
       ],
-      "notes": "Vatican City uses Italian emergency numbers: 112 universal, 113 police, 115 fire, 118 medical. Vatican Gendarmerie: +39 06 6982.",
+      "notes": "Uses Italian emergency numbers. Vatican Gendarmerie directly: +39 06 6982.",
       "hotlines": [
         {
           "name": "Emergency",
@@ -32938,6 +33630,59 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "organization": "Corpo della Gendarmeria",
+          "category": "emergency",
+          "voice_numbers": [
+            "+39 06 6982"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [
+            "Italian",
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "on-site emergencies in Vatican City",
+          "geography": "Holy See",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "Vatican Gendarmerie"
+        },
+        {
+          "organization": "Telefono Amico Italia",
+          "category": "suicide_crisis",
+          "voice_numbers": [
+            "02 2327 2327"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": "https://www.telefonoamico.it",
+          "email": null,
+          "website": "https://www.telefonoamico.it",
+          "hours": "10am-midnight daily",
+          "languages": [
+            "Italian"
+          ],
+          "cost": "standard_rate",
+          "target": "people in emotional distress",
+          "geography": "Holy See",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [
+            "https://www.telefonoamico.it"
+          ],
+          "name": "Telefono Amico Italia (reachable)"
         }
       ]
     },
@@ -40673,14 +41418,14 @@
     {
       "country": "Isle of Man",
       "alpha-2": "IM",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "IMN",
+      "region": "Europe",
+      "subregion": "Northern Europe",
       "general_emergency": [
-        "112",
-        "999"
+        "999",
+        "112"
       ],
-      "notes": "Crown Dependency — uses UK-style 999/112.",
+      "notes": "Crown Dependency, UK-style emergency. UK helplines reachable.",
       "hotlines": [
         {
           "name": "Emergency",
@@ -40707,6 +41452,85 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "organization": "Samaritans of the Isle of Man",
+          "category": "suicide_crisis",
+          "voice_numbers": [
+            "116 123"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "jo@samaritans.org",
+          "website": "https://www.samaritans.org/branches/isle-man/",
+          "hours": "24/7",
+          "languages": [
+            "English"
+          ],
+          "cost": "free",
+          "target": "anyone in emotional distress",
+          "geography": "Isle of Man",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [
+            "https://www.samaritans.org/branches/isle-man/"
+          ],
+          "name": "Isle of Man Samaritans"
+        },
+        {
+          "organization": "Isle of Man Mind",
+          "category": "mental_health",
+          "voice_numbers": [
+            "01624 612323"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.iommind.im",
+          "hours": "Mon-Fri 9.30am-4.30pm",
+          "languages": [
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "people with mental-health concerns",
+          "geography": "Isle of Man",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "MIND Isle of Man"
+        },
+        {
+          "organization": "NSPCC",
+          "category": "child_protection",
+          "voice_numbers": [
+            "0800 1111"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": "https://www.childline.org.uk/get-support/1-2-1-counsellor-chat/",
+          "email": null,
+          "website": "https://www.childline.org.uk",
+          "hours": "7.30am-3.30am daily",
+          "languages": [
+            "English"
+          ],
+          "cost": "free",
+          "target": "anyone under 19",
+          "geography": "Isle of Man",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [
+            "https://www.childline.org.uk"
+          ],
+          "name": "Childline (reachable from IoM)"
         }
       ]
     },
@@ -43624,14 +44448,14 @@
     {
       "country": "Jersey",
       "alpha-2": "JE",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "JEY",
+      "region": "Europe",
+      "subregion": "Northern Europe",
       "general_emergency": [
-        "112",
-        "999"
+        "999",
+        "112"
       ],
-      "notes": "Crown Dependency — uses UK-style 999/112.",
+      "notes": "Crown Dependency, uses UK-style 999/112. Several UK helplines are reachable.",
       "hotlines": [
         {
           "name": "Emergency",
@@ -43658,6 +44482,87 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "organization": "Samaritans of Jersey",
+          "category": "suicide_crisis",
+          "voice_numbers": [
+            "116 123"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "jo@samaritans.org",
+          "website": "https://www.samaritans.org/channel-islands/samaritans-jersey/",
+          "hours": "24/7",
+          "languages": [
+            "English"
+          ],
+          "cost": "free",
+          "target": "anyone in emotional distress",
+          "geography": "Jersey",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [
+            "https://www.samaritans.org/channel-islands/samaritans-jersey/"
+          ],
+          "name": "Jersey Samaritans"
+        },
+        {
+          "organization": "Jersey Women's Refuge",
+          "category": "domestic_violence",
+          "voice_numbers": [
+            "01534 880505"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.jerseywomensrefuge.org",
+          "hours": "24/7",
+          "languages": [
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "women and children fleeing violence",
+          "geography": "Jersey",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [
+            "https://www.jerseywomensrefuge.org"
+          ],
+          "name": "Jersey Domestic Abuse Support"
+        },
+        {
+          "organization": "NSPCC",
+          "category": "child_protection",
+          "voice_numbers": [
+            "0808 800 5000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.nspcc.org.uk",
+          "hours": "Mon-Fri 8am-10pm; weekends 9am-6pm",
+          "languages": [
+            "English"
+          ],
+          "cost": "free",
+          "target": "adults worried about a child",
+          "geography": "Jersey",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [
+            "https://www.nspcc.org.uk"
+          ],
+          "name": "NSPCC Helpline (reachable from Jersey)"
         }
       ]
     },
@@ -50158,13 +51063,16 @@
     {
       "country": "Martinique",
       "alpha-2": "MQ",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "MTQ",
+      "region": "Americas",
+      "subregion": "Caribbean",
       "general_emergency": [
-        "112"
+        "112",
+        "15",
+        "17",
+        "18"
       ],
-      "notes": "French overseas department — uses French emergency numbering.",
+      "notes": "French overseas department.",
       "hotlines": [
         {
           "name": "Emergency",
@@ -50190,6 +51098,81 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "organization": "Ministère de la Santé",
+          "category": "suicide_crisis",
+          "voice_numbers": [
+            "3114"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://3114.fr",
+          "hours": "24/7",
+          "languages": [
+            "French"
+          ],
+          "cost": "free",
+          "target": "people in suicidal crisis",
+          "geography": "Martinique",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "3114"
+        },
+        {
+          "organization": "GIPED",
+          "category": "child_protection",
+          "voice_numbers": [
+            "119"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [
+            "French"
+          ],
+          "cost": "free",
+          "target": "children in danger",
+          "geography": "Martinique",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "119 Allô Enfance en Danger"
+        },
+        {
+          "organization": "FNSF",
+          "category": "domestic_violence",
+          "voice_numbers": [
+            "3919"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [
+            "French"
+          ],
+          "cost": "free",
+          "target": "women victims of violence",
+          "geography": "Martinique",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "3919"
         }
       ]
     },
@@ -50513,13 +51496,16 @@
     {
       "country": "Mayotte",
       "alpha-2": "YT",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "MYT",
+      "region": "Africa",
+      "subregion": "Sub-Saharan Africa",
       "general_emergency": [
-        "112"
+        "112",
+        "15",
+        "17",
+        "18"
       ],
-      "notes": "French overseas department — uses French emergency numbering.",
+      "notes": "French overseas department.",
       "hotlines": [
         {
           "name": "Emergency",
@@ -50545,6 +51531,81 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "organization": "Ministère de la Santé",
+          "category": "suicide_crisis",
+          "voice_numbers": [
+            "3114"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://3114.fr",
+          "hours": "24/7",
+          "languages": [
+            "French"
+          ],
+          "cost": "free",
+          "target": "people in suicidal crisis",
+          "geography": "Mayotte",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "3114"
+        },
+        {
+          "organization": "GIPED",
+          "category": "child_protection",
+          "voice_numbers": [
+            "119"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [
+            "French"
+          ],
+          "cost": "free",
+          "target": "children in danger",
+          "geography": "Mayotte",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "119 Allô Enfance en Danger"
+        },
+        {
+          "organization": "FNSF",
+          "category": "domestic_violence",
+          "voice_numbers": [
+            "3919"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [
+            "French"
+          ],
+          "cost": "free",
+          "target": "women victims of violence",
+          "geography": "Mayotte",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "3919"
         }
       ]
     },
@@ -54534,13 +55595,16 @@
     {
       "country": "New Caledonia",
       "alpha-2": "NC",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "NCL",
+      "region": "Oceania",
+      "subregion": "Melanesia",
       "general_emergency": [
-        "112"
+        "112",
+        "15",
+        "17",
+        "18"
       ],
-      "notes": "French collectivity — uses French emergency numbering.",
+      "notes": "French collectivity. French crisis infrastructure reachable.",
       "hotlines": [
         {
           "name": "Emergency",
@@ -54566,6 +55630,56 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "organization": "SOS Écoute Nouvelle-Calédonie",
+          "category": "suicide_crisis",
+          "voice_numbers": [
+            "05 30 30"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "daily 12pm-9pm",
+          "languages": [
+            "French"
+          ],
+          "cost": "local_rate",
+          "target": "people in emotional distress",
+          "geography": "New Caledonia",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "SOS Écoute"
+        },
+        {
+          "organization": "Direction de l'enfance",
+          "category": "child_protection",
+          "voice_numbers": [
+            "05 44 44"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "Mon-Fri 8am-4pm",
+          "languages": [
+            "French"
+          ],
+          "cost": "local_rate",
+          "target": "children at risk",
+          "geography": "New Caledonia",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "DTESS Child Protection"
         }
       ]
     },
@@ -58178,13 +59292,14 @@
     {
       "country": "Niue",
       "alpha-2": "NU",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "NIU",
+      "region": "Oceania",
+      "subregion": "Polynesia",
       "general_emergency": [
-        "999"
+        "999",
+        "112"
       ],
-      "notes": "NZ-associated state — 999 emergency.",
+      "notes": "NZ-associated state.",
       "hotlines": [
         {
           "name": "Emergency",
@@ -58210,6 +59325,33 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "organization": "Lifeline Aotearoa",
+          "category": "suicide_crisis",
+          "voice_numbers": [
+            "+64 800 543 354"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.lifeline.org.nz",
+          "hours": "24/7",
+          "languages": [
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "people in crisis",
+          "geography": "Niue",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [
+            "https://www.lifeline.org.nz"
+          ],
+          "name": "Lifeline Aotearoa (reachable from Niue)"
         }
       ]
     },
@@ -58494,13 +59636,13 @@
     {
       "country": "Northern Mariana Islands",
       "alpha-2": "MP",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "MNP",
+      "region": "Oceania",
+      "subregion": "Micronesia",
       "general_emergency": [
         "911"
       ],
-      "notes": "US territory — 911 emergency system.",
+      "notes": "US territory. 911 and 988 both work.",
       "hotlines": [
         {
           "name": "Emergency",
@@ -58526,6 +59668,61 @@
           "sources": [
             "Claude knowledge (cutoff May 2025)"
           ]
+        },
+        {
+          "organization": "CNMI CGC",
+          "category": "mental_health",
+          "voice_numbers": [
+            "670-323-6560"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.chcc.health",
+          "hours": "Mon-Fri 7.30am-4.30pm",
+          "languages": [
+            "English",
+            "Chamorro",
+            "Carolinian"
+          ],
+          "cost": "standard_rate",
+          "target": "mental-health services",
+          "geography": "Northern Mariana Islands",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "CNMI Community Guidance Center"
+        },
+        {
+          "organization": "SAMHSA",
+          "category": "suicide_crisis",
+          "voice_numbers": [
+            "988"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://988lifeline.org",
+          "hours": "24/7",
+          "languages": [
+            "English",
+            "Spanish"
+          ],
+          "cost": "free",
+          "target": "people in suicidal crisis",
+          "geography": "Northern Mariana Islands",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [
+            "https://988lifeline.org"
+          ],
+          "name": "988 Suicide & Crisis Lifeline (via US)"
         }
       ]
     },
@@ -62761,13 +63958,13 @@
     {
       "country": "Puerto Rico",
       "alpha-2": "PR",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "PRI",
+      "region": "Americas",
+      "subregion": "Caribbean",
       "general_emergency": [
         "911"
       ],
-      "notes": "US territory — 911 emergency system.",
+      "notes": "US territory using US 911. US federal crisis lines (988, Trevor Project, Trans Lifeline) also reachable.",
       "hotlines": [
         {
           "name": "Emergency",
@@ -62793,6 +63990,87 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "organization": "ASSMCA",
+          "category": "suicide_crisis",
+          "voice_numbers": [
+            "1-800-981-0023"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.assmca.pr.gov",
+          "hours": "24/7",
+          "languages": [
+            "Spanish",
+            "English"
+          ],
+          "cost": "free",
+          "target": "people in emotional/psychological crisis",
+          "geography": "Puerto Rico",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [
+            "https://www.assmca.pr.gov"
+          ],
+          "name": "Línea PAS (Primera Ayuda Sicosocial)"
+        },
+        {
+          "organization": "SAMHSA / Vibrant Emotional Health",
+          "category": "suicide_crisis",
+          "voice_numbers": [
+            "988"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": "https://988lifeline.org/es/chat/",
+          "email": null,
+          "website": "https://988lineadevida.com",
+          "hours": "24/7",
+          "languages": [
+            "Spanish",
+            "English"
+          ],
+          "cost": "free",
+          "target": "anyone in suicidal crisis (Spanish option = press 2)",
+          "geography": "Puerto Rico",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [
+            "https://988lineadevida.com"
+          ],
+          "name": "988 Suicide & Crisis Lifeline (Spanish)"
+        },
+        {
+          "organization": "Oficina de la Procuradora de las Mujeres",
+          "category": "domestic_violence",
+          "voice_numbers": [
+            "1-800-981-9676"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://mujer.pr.gov",
+          "hours": "24/7",
+          "languages": [
+            "Spanish"
+          ],
+          "cost": "free",
+          "target": "women survivors of violence",
+          "geography": "Puerto Rico",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "Línea Mujer (Puerto Rico)"
         }
       ]
     },
@@ -63783,13 +65061,16 @@
     {
       "country": "Réunion",
       "alpha-2": "RE",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "REU",
+      "region": "Africa",
+      "subregion": "Sub-Saharan Africa",
       "general_emergency": [
-        "112"
+        "112",
+        "15",
+        "17",
+        "18"
       ],
-      "notes": "French overseas department — uses French emergency numbering.",
+      "notes": "French overseas department — metropolitan French lines apply.",
       "hotlines": [
         {
           "name": "Emergency",
@@ -63815,6 +65096,111 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "organization": "SOS Solitude La Réunion",
+          "category": "suicide_crisis",
+          "voice_numbers": [
+            "02 62 97 00 00"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [
+            "French",
+            "Creole"
+          ],
+          "cost": "standard_rate",
+          "target": "people in distress",
+          "geography": "Réunion",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "SOS Solitude"
+        },
+        {
+          "organization": "Ministère de la Santé",
+          "category": "suicide_crisis",
+          "voice_numbers": [
+            "3114"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://3114.fr",
+          "hours": "24/7",
+          "languages": [
+            "French"
+          ],
+          "cost": "free",
+          "target": "people in suicidal crisis",
+          "geography": "Réunion",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [
+            "https://3114.fr"
+          ],
+          "name": "3114 Numéro national de prévention du suicide"
+        },
+        {
+          "organization": "GIP Enfance en Danger",
+          "category": "child_protection",
+          "voice_numbers": [
+            "119"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.allo119.gouv.fr",
+          "hours": "24/7",
+          "languages": [
+            "French"
+          ],
+          "cost": "free",
+          "target": "children in danger",
+          "geography": "Réunion",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [
+            "https://www.allo119.gouv.fr"
+          ],
+          "name": "119 Allô Enfance en Danger"
+        },
+        {
+          "organization": "FNSF",
+          "category": "domestic_violence",
+          "voice_numbers": [
+            "3919"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [
+            "French"
+          ],
+          "cost": "free",
+          "target": "women victims of violence",
+          "geography": "Réunion",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "3919 Violences Femmes Info"
         }
       ]
     },
@@ -63865,13 +65251,14 @@
     {
       "country": "Saint Helena, Ascension and Tristan da Cunha",
       "alpha-2": "SH",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "SHN",
+      "region": "Africa",
+      "subregion": "Sub-Saharan Africa",
       "general_emergency": [
-        "999"
+        "999",
+        "911"
       ],
-      "notes": "British Overseas Territory — 999 on Saint Helena, 911 on Ascension.",
+      "notes": "British Overseas Territory. 999 on Saint Helena; 911 on Ascension.",
       "hotlines": [
         {
           "name": "Emergency",
@@ -63897,6 +65284,31 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "organization": "Safeguarding Directorate St Helena",
+          "category": "child_protection",
+          "voice_numbers": [
+            "+290 22713"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.sainthelena.gov.sh",
+          "hours": "business hours",
+          "languages": [
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "children and adults at risk",
+          "geography": "Saint Helena, Ascension and Tristan da Cunha",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "St Helena Safeguarding Directorate"
         }
       ]
     },
@@ -65676,16 +67088,14 @@
     {
       "country": "Sint Maarten (Dutch part)",
       "alpha-2": "SX",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "SXM",
+      "region": "Americas",
+      "subregion": "Caribbean",
       "general_emergency": [
-        "910",
         "911",
-        "912",
         "919"
       ],
-      "notes": "Constituent country of the Kingdom of the Netherlands — 911 emergency, 919 ambulance.",
+      "notes": "Dutch Caribbean.",
       "hotlines": [
         {
           "name": "Emergency",
@@ -65714,6 +67124,32 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "organization": "Safe Haven Foundation",
+          "category": "domestic_violence",
+          "voice_numbers": [
+            "+1 721 542 2000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [
+            "English",
+            "Dutch"
+          ],
+          "cost": "standard_rate",
+          "target": "survivors of DV",
+          "geography": "Sint Maarten (Dutch part)",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "Safe Haven Domestic Violence Shelter"
         }
       ]
     },
@@ -72534,13 +73970,13 @@
     {
       "country": "Tokelau",
       "alpha-2": "TK",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "TKL",
+      "region": "Oceania",
+      "subregion": "Polynesia",
       "general_emergency": [
-        "111"
+        "999"
       ],
-      "notes": "NZ dependency — 999 emergency (limited emergency infrastructure).",
+      "notes": "NZ dependency.",
       "hotlines": [
         {
           "name": "Emergency",
@@ -72566,6 +74002,33 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "organization": "Lifeline Aotearoa",
+          "category": "suicide_crisis",
+          "voice_numbers": [
+            "+64 800 543 354"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.lifeline.org.nz",
+          "hours": "24/7",
+          "languages": [
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "people in crisis",
+          "geography": "Tokelau",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [
+            "https://www.lifeline.org.nz"
+          ],
+          "name": "Lifeline Aotearoa (reachable from Tokelau)"
         }
       ]
     },
@@ -73483,13 +74946,12 @@
     {
       "country": "Turks and Caicos Islands",
       "alpha-2": "TC",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "TCA",
+      "region": "Americas",
+      "subregion": "Caribbean",
       "general_emergency": [
-        "16499418067",
         "911",
-        "16599418090"
+        "999"
       ],
       "notes": "British Overseas Territory.",
       "hotlines": [
@@ -73519,6 +74981,31 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "organization": "TCI Social Services",
+          "category": "general_support",
+          "voice_numbers": [
+            "+1 649 338 2100"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.gov.tc",
+          "hours": "Mon-Fri 8am-5pm",
+          "languages": [
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "people at risk or in crisis",
+          "geography": "Turks and Caicos Islands",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "TCI Social Services Crisis Line"
         }
       ]
     },
@@ -82128,14 +83615,14 @@
     {
       "country": "Virgin Islands (British)",
       "alpha-2": "VG",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "VGB",
+      "region": "Americas",
+      "subregion": "Caribbean",
       "general_emergency": [
         "911",
         "999"
       ],
-      "notes": "British Overseas Territory — 911 and 999 both work.",
+      "notes": "British Overseas Territory.",
       "hotlines": [
         {
           "name": "Emergency",
@@ -82162,20 +83649,44 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "organization": "Family Support Network",
+          "category": "domestic_violence",
+          "voice_numbers": [
+            "+1 284 494 0581"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "Mon-Fri 9am-5pm",
+          "languages": [
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "families in crisis, DV survivors",
+          "geography": "Virgin Islands (British)",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [],
+          "name": "Family Support Network BVI"
         }
       ]
     },
     {
       "country": "Virgin Islands (U.S.)",
       "alpha-2": "VI",
-      "alpha-3": null,
-      "region": null,
-      "subregion": null,
+      "alpha-3": "VIR",
+      "region": "Americas",
+      "subregion": "Caribbean",
       "general_emergency": [
-        "911",
-        "3407729111"
+        "911"
       ],
-      "notes": "US territory — 911 emergency.",
+      "notes": "US territory. US 988 and other federal crisis lines reachable.",
       "hotlines": [
         {
           "name": "Emergency",
@@ -82202,6 +83713,63 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "organization": "USVI DOH",
+          "category": "mental_health",
+          "voice_numbers": [
+            "340-774-7700"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://doh.vi.gov",
+          "hours": "business hours",
+          "languages": [
+            "English"
+          ],
+          "cost": "standard_rate",
+          "target": "people with mental-health concerns",
+          "geography": "Virgin Islands (U.S.)",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [
+            "https://doh.vi.gov"
+          ],
+          "name": "USVI Department of Health Behavioral Health"
+        },
+        {
+          "organization": "SAMHSA",
+          "category": "suicide_crisis",
+          "voice_numbers": [
+            "988"
+          ],
+          "sms_numbers": [
+            "988"
+          ],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": "https://988lifeline.org/chat/",
+          "email": null,
+          "website": "https://988lifeline.org",
+          "hours": "24/7",
+          "languages": [
+            "English",
+            "Spanish"
+          ],
+          "cost": "free",
+          "target": "anyone in suicidal crisis",
+          "geography": "Virgin Islands (U.S.)",
+          "notes": "",
+          "verification_status": "verified_knowledge",
+          "last_verified": "2026-04-22",
+          "sources": [
+            "https://988lifeline.org"
+          ],
+          "name": "988 Suicide & Crisis Lifeline"
         }
       ]
     },
