@@ -929,7 +929,7 @@
         {
           "name": "Teléfono de la Esperanza",
           "organization": "Teléfono de la Esperanza",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "902 500 002"
           ],
@@ -2183,7 +2183,7 @@
         {
           "name": "National Dementia Helpline",
           "organization": "National Dementia Helpline",
-          "category": "general_support",
+          "category": "disability",
           "voice_numbers": [
             "1800 100 500"
           ],
@@ -3300,7 +3300,7 @@
         {
           "name": "Kindernotruf",
           "organization": "Kindernotruf",
-          "category": "general_support",
+          "category": "child_protection",
           "voice_numbers": [
             "0800 567 567"
           ],
@@ -4301,7 +4301,7 @@
         {
           "name": "Kaan Pete Roi",
           "organization": "Kaan Pete Roi",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "09612 119911"
           ],
@@ -5909,7 +5909,7 @@
         {
           "name": "Telefono de la Esperanza",
           "organization": "Telefono de la Esperanza",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "00 591 4 4 25 42 42",
             "75288084"
@@ -6635,7 +6635,7 @@
         {
           "name": "Centro de Valorização da Vida",
           "organization": "Centro de Valorização da Vida",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "188"
           ],
@@ -7709,7 +7709,7 @@
         {
           "name": "SOS FED - SOS Femmes en Detresse",
           "organization": "SOS FED - SOS Femmes en Detresse",
-          "category": "general_support",
+          "category": "domestic_violence",
           "voice_numbers": [
             "75 33 17 27"
           ],
@@ -9055,7 +9055,7 @@
         {
           "name": "Tel-Jeunes",
           "organization": "Tel-Jeunes",
-          "category": "general_support",
+          "category": "youth",
           "voice_numbers": [
             "1 800 263 2266"
           ],
@@ -9123,7 +9123,7 @@
         {
           "name": "Distress Line of Southwestern Alberta (Canada)",
           "organization": "Distress Line of Southwestern Alberta (Canada)",
-          "category": "general_support",
+          "category": "mental_health",
           "voice_numbers": [
             "403 327 7905"
           ],
@@ -9317,7 +9317,7 @@
         {
           "name": "The Seniors' Distress Line",
           "organization": "The Seniors' Distress Line",
-          "category": "general_support",
+          "category": "elder_abuse",
           "voice_numbers": [
             "604-872-1234"
           ],
@@ -9854,7 +9854,7 @@
         {
           "name": "Teléfono de la Esperanza",
           "organization": "Teléfono de la Esperanza",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "0056 42 22 12 00"
           ],
@@ -10899,7 +10899,7 @@
         {
           "name": "Línea Salvavidas",
           "organization": "Línea Salvavidas",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "+573117668666"
           ],
@@ -11054,7 +11054,7 @@
         {
           "name": "Telefono de la Esperanza - Baranquilla",
           "organization": "Telefono de la Esperanza - Baranquilla",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "00 57 5 372 27 27"
           ],
@@ -11085,7 +11085,7 @@
         {
           "name": "Telefono de la Esperanza - Bogota",
           "organization": "Telefono de la Esperanza - Bogota",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "1 323 24 25"
           ],
@@ -11116,7 +11116,7 @@
         {
           "name": "Telefono de la Esperanza",
           "organization": "Telefono de la Esperanza",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "00 57 5) 372 27 27",
             "57-1) 323 24 25",
@@ -12232,7 +12232,7 @@
         {
           "name": "116000",
           "organization": "116000",
-          "category": "general_support",
+          "category": "missing_persons",
           "voice_numbers": [
             "116000"
           ],
@@ -12719,7 +12719,7 @@
         {
           "name": "Linka Seniorů",
           "organization": "Linka Seniorů",
-          "category": "general_support",
+          "category": "elder_abuse",
           "voice_numbers": [
             "+420 800 200 007"
           ],
@@ -13659,7 +13659,7 @@
         {
           "name": "Livslinien",
           "organization": "Livslinien",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "+45 70 201 201"
           ],
@@ -14121,7 +14121,7 @@
         {
           "name": "Linea de Apoyo a Mujeres, para enfrentar la violencia NO ESTAMOS SOLAS",
           "organization": "Linea de Apoyo a Mujeres, para enfrentar la violencia NO ESTAMOS SOLAS",
-          "category": "general_support",
+          "category": "domestic_violence",
           "voice_numbers": [
             "2832817"
           ],
@@ -14152,7 +14152,7 @@
         {
           "name": "Telefono de la Esperanza",
           "organization": "Telefono de la Esperanza",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "6000477"
           ],
@@ -14183,7 +14183,7 @@
         {
           "name": "Telefono De La Esperanza",
           "organization": "Telefono De La Esperanza",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "593 2 6000 477",
             "593) 2 2923327"
@@ -14376,7 +14376,7 @@
         {
           "name": "Befrienders Cairo",
           "organization": "Befrienders Cairo",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "762 1602",
             "762 2381"
@@ -14805,7 +14805,7 @@
         {
           "name": "Emotsionaalse toe telefon Eluliin",
           "organization": "Emotsionaalse toe telefon Eluliin",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "655 8088"
           ],
@@ -16826,7 +16826,7 @@
         {
           "name": "SOS Help - emotional support in English in France",
           "organization": "SOS Help - emotional support in English in France",
-          "category": "general_support",
+          "category": "mental_health",
           "voice_numbers": [
             "01 46 21 46 46"
           ],
@@ -17229,7 +17229,7 @@
         {
           "name": "Violences Femmes Info",
           "organization": "Violences Femmes Info",
-          "category": "general_support",
+          "category": "domestic_violence",
           "voice_numbers": [
             "3919"
           ],
@@ -17260,7 +17260,7 @@
         {
           "name": "SOS Joueurs",
           "organization": "SOS Joueurs",
-          "category": "general_support",
+          "category": "gambling",
           "voice_numbers": [
             "09 69 39 55 12"
           ],
@@ -17353,7 +17353,7 @@
         {
           "name": "Associations Femmes pour le Dire, Femmes pour Agir (FDFA)- Écoute Violences Femmes Handicapées (EVFH)",
           "organization": "Associations Femmes pour le Dire, Femmes pour Agir (FDFA)- Écoute Violences Femmes Handicapées (EVFH)",
-          "category": "general_support",
+          "category": "domestic_violence",
           "voice_numbers": [
             "01 40 47 06 06"
           ],
@@ -17384,7 +17384,7 @@
         {
           "name": "EMPREINTES - Accompagner le deuil (Ligne d'écoute téléphonique nationale)",
           "organization": "EMPREINTES - Accompagner le deuil (Ligne d'écoute téléphonique nationale)",
-          "category": "general_support",
+          "category": "bereavement",
           "voice_numbers": [
             "01 42 380 808"
           ],
@@ -17539,7 +17539,7 @@
         {
           "name": "Joueurs info service",
           "organization": "Joueurs info service",
-          "category": "general_support",
+          "category": "gambling",
           "voice_numbers": [
             "09 74 75 13 13"
           ],
@@ -17694,7 +17694,7 @@
         {
           "name": "Autisme Info Service",
           "organization": "Autisme Info Service",
-          "category": "general_support",
+          "category": "disability",
           "voice_numbers": [
             "08 00 71 40 40"
           ],
@@ -17788,7 +17788,7 @@
         {
           "name": "E.P.E. idF. Fil Sante Jeunes",
           "organization": "E.P.E. idF. Fil Sante Jeunes",
-          "category": "general_support",
+          "category": "youth",
           "voice_numbers": [
             "0800 235 236"
           ],
@@ -18614,7 +18614,7 @@
         {
           "name": "TelefonSeelsorge",
           "organization": "TelefonSeelsorge",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "0800 111 0 111"
           ],
@@ -18868,7 +18868,7 @@
         {
           "name": "Telefonseelsorge Deutschland",
           "organization": "Telefonseelsorge Deutschland",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "0800 1110 111",
             "0800 1110 222"
@@ -20866,7 +20866,7 @@
         {
           "name": "Asociación Hondureña del Teléfono de la Esperanza",
           "organization": "Asociación Hondureña del Teléfono de la Esperanza",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "150"
           ],
@@ -20897,7 +20897,7 @@
         {
           "name": "Telefono De La Esperanza",
           "organization": "Telefono De La Esperanza",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "00 504) 2558 08 08",
             "2232-1314 (O"
@@ -21463,7 +21463,7 @@
         {
           "name": "English Emotional Support Hotline",
           "organization": "English Emotional Support Hotline",
-          "category": "general_support",
+          "category": "mental_health",
           "voice_numbers": [
             "2389 2223"
           ],
@@ -21742,7 +21742,7 @@
         {
           "name": "RainLily Sexual Violence Helpline 風雨蘭性暴力求助熱線",
           "organization": "RainLily Sexual Violence Helpline 風雨蘭性暴力求助熱線",
-          "category": "general_support",
+          "category": "sexual_violence",
           "voice_numbers": [
             "23755322"
           ],
@@ -22138,7 +22138,7 @@
         {
           "name": "NANE segélyvonal / NANE Helpline",
           "organization": "NANE segélyvonal / NANE Helpline",
-          "category": "general_support",
+          "category": "domestic_violence",
           "voice_numbers": [
             "+36 80 505 101"
           ],
@@ -22543,7 +22543,7 @@
         {
           "name": "Pieta Organization",
           "organization": "Pieta Organization",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "552 2218"
           ],
@@ -24604,7 +24604,7 @@
         {
           "name": "Vandrevala Foundation",
           "organization": "Vandrevala Foundation",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "+91 730 459 9836",
             "+91 730 459 9837"
@@ -25120,7 +25120,7 @@
         {
           "name": "Iran Dementia and Alzheimer's Association",
           "organization": "Iran Dementia and Alzheimer's Association",
-          "category": "general_support",
+          "category": "disability",
           "voice_numbers": [
             "021 44645510"
           ],
@@ -26551,7 +26551,7 @@
         {
           "name": "Pieta House",
           "organization": "Pieta House",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "01-6235606"
           ],
@@ -28851,7 +28851,7 @@
         {
           "name": "Befrienders International, Tokyo",
           "organization": "Befrienders International, Tokyo",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "+81 (0) 3 5286 9090"
           ],
@@ -29419,7 +29419,7 @@
         {
           "name": "Befriender's Kenya",
           "organization": "Befriender's Kenya",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "+254 722 178 177"
           ],
@@ -31253,7 +31253,7 @@
         {
           "name": "Vilties linija (Hope line)",
           "organization": "Vilties linija (Hope line)",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "116 123"
           ],
@@ -31542,7 +31542,7 @@
         {
           "name": "Femmes en détresse",
           "organization": "Femmes en détresse",
-          "category": "general_support",
+          "category": "domestic_violence",
           "voice_numbers": [
             "00352448181"
           ],
@@ -32390,7 +32390,7 @@
         {
           "name": "Befrienders Kuala Lumpur",
           "organization": "Befrienders Kuala Lumpur",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "0376272929"
           ],
@@ -32886,7 +32886,7 @@
         {
           "name": "Befrienders Malacca",
           "organization": "Befrienders Malacca",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "06) 284 2500"
           ],
@@ -32918,7 +32918,7 @@
         {
           "name": "Befrienders Penang",
           "organization": "Befrienders Penang",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "04) 281 5161",
             "04) 281 1108"
@@ -32952,7 +32952,7 @@
         {
           "name": "The Befrienders Kuala Lumpur",
           "organization": "The Befrienders Kuala Lumpur",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "03) 7956 8144",
             "03) 7956 8145"
@@ -32986,7 +32986,7 @@
         {
           "name": "Befrienders Ipoh",
           "organization": "Befrienders Ipoh",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "05) 547 7933",
             "05) 547 7599"
@@ -33020,7 +33020,7 @@
         {
           "name": "Befrienders Seremban",
           "organization": "Befrienders Seremban",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "06 7653588",
             "06 7653589"
@@ -33999,7 +33999,7 @@
         {
           "name": "PILS (Prevention Information Lutte contre le SIDA)- 8999 Helpline for HIV/AIDS support",
           "organization": "PILS (Prevention Information Lutte contre le SIDA)- 8999 Helpline for HIV/AIDS support",
-          "category": "general_support",
+          "category": "disability",
           "voice_numbers": [
             "8999"
           ],
@@ -34496,7 +34496,7 @@
         {
           "name": "Red Nacional de Refugios (RNR) Línea de ayuda - National Shelter Network Helpline",
           "organization": "Red Nacional de Refugios (RNR) Línea de ayuda - National Shelter Network Helpline",
-          "category": "general_support",
+          "category": "domestic_violence",
           "voice_numbers": [
             "800 822 4460"
           ],
@@ -35163,7 +35163,7 @@
         {
           "name": "Sourire de Reda (Befrienders Casablanca)",
           "organization": "Sourire de Reda (Befrienders Casablanca)",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "212 (5) 22 87 47 40",
             "212 (6) 62 58 95 70"
@@ -36155,7 +36155,7 @@
         {
           "name": "113 Zelfmoordpreventie",
           "organization": "113 Zelfmoordpreventie",
-          "category": "general_support",
+          "category": "emergency",
           "voice_numbers": [
             "0800 0113"
           ],
@@ -36248,7 +36248,7 @@
         {
           "name": "Switchboard Helpline",
           "organization": "Switchboard Helpline",
-          "category": "general_support",
+          "category": "lgbtqia",
           "voice_numbers": [
             "020 6236565"
           ],
@@ -37337,7 +37337,7 @@
         {
           "name": "Prostate Cancer Foundation NZ",
           "organization": "Prostate Cancer Foundation NZ",
-          "category": "general_support",
+          "category": "disability",
           "voice_numbers": [
             "0800 477 678"
           ],
@@ -37554,7 +37554,7 @@
         {
           "name": "Family Violence Information Line (are you ok?)",
           "organization": "Family Violence Information Line (are you ok?)",
-          "category": "general_support",
+          "category": "domestic_violence",
           "voice_numbers": [
             "0800 456 450"
           ],
@@ -37678,7 +37678,7 @@
         {
           "name": "OutLine",
           "organization": "OutLine",
-          "category": "general_support",
+          "category": "lgbtqia",
           "voice_numbers": [
             "0800 688 5463"
           ],
@@ -38481,7 +38481,7 @@
         {
           "name": "Rotorua Lifelink/Youthline",
           "organization": "Rotorua Lifelink/Youthline",
-          "category": "general_support",
+          "category": "youth",
           "voice_numbers": [
             "07) 348 0567",
             "7) 348 0566",
@@ -38645,7 +38645,7 @@
         {
           "name": "KidsLine",
           "organization": "KidsLine",
-          "category": "general_support",
+          "category": "child_protection",
           "voice_numbers": [
             "0800 KIDSLINE"
           ],
@@ -40183,7 +40183,7 @@
         {
           "name": "Rusinfo Substance Abuse: Rustelefonen.no Helpline",
           "organization": "Rusinfo Substance Abuse: Rustelefonen.no Helpline",
-          "category": "general_support",
+          "category": "substance_use",
           "voice_numbers": [
             "915 08 588"
           ],
@@ -40598,7 +40598,7 @@
         {
           "name": "Rozan Counseling Helpline",
           "organization": "Rozan Counseling Helpline",
-          "category": "general_support",
+          "category": "substance_use",
           "voice_numbers": [
             "0304 111 1741"
           ],
@@ -41690,7 +41690,7 @@
         {
           "name": "Telefono De La Esperanza",
           "organization": "Telefono De La Esperanza",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "717 003 717",
             "00 51 1 273 8026"
@@ -41976,7 +41976,7 @@
         {
           "name": "Bantay Bata Helpline 163",
           "organization": "Bantay Bata Helpline 163",
-          "category": "general_support",
+          "category": "child_protection",
           "voice_numbers": [
             "163"
           ],
@@ -42894,7 +42894,7 @@
         {
           "name": "Телефон для жінок, які зазнають насильства - Hotline for abused women",
           "organization": "Телефон для жінок, які зазнають насильства - Hotline for abused women",
-          "category": "general_support",
+          "category": "domestic_violence",
           "voice_numbers": [
             "+48 888 88 79 88"
           ],
@@ -43049,7 +43049,7 @@
         {
           "name": "Fundacja Słonie na Balkonie",
           "organization": "Fundacja Słonie na Balkonie",
-          "category": "general_support",
+          "category": "substance_use",
           "voice_numbers": [
             "800 800 602"
           ],
@@ -43449,7 +43449,7 @@
         {
           "name": "Vozes Amigas de Esperança",
           "organization": "Vozes Amigas de Esperança",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "222 030 707"
           ],
@@ -46708,7 +46708,7 @@
         {
           "name": "Tinkle Friend",
           "organization": "Tinkle Friend",
-          "category": "general_support",
+          "category": "child_protection",
           "voice_numbers": [
             "1800 2744 788"
           ],
@@ -46896,7 +46896,7 @@
         {
           "name": "Youthline",
           "organization": "Youthline",
-          "category": "general_support",
+          "category": "youth",
           "voice_numbers": [
             "6336-3434"
           ],
@@ -48269,7 +48269,7 @@
         {
           "name": "Department of Social Development Substance Abuse Line 24hr helpline",
           "organization": "Department of Social Development Substance Abuse Line 24hr helpline",
-          "category": "general_support",
+          "category": "substance_use",
           "voice_numbers": [
             "0800 12 13 14"
           ],
@@ -48331,7 +48331,7 @@
         {
           "name": "National Aids Helpline",
           "organization": "National Aids Helpline",
-          "category": "general_support",
+          "category": "disability",
           "voice_numbers": [
             "0800 012 322"
           ],
@@ -48362,7 +48362,7 @@
         {
           "name": "AL-ANON",
           "organization": "AL-ANON",
-          "category": "general_support",
+          "category": "substance_use",
           "voice_numbers": [
             "0861 252 666"
           ],
@@ -48487,7 +48487,7 @@
         {
           "name": "Befrienders South Africa",
           "organization": "Befrienders South Africa",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "051 444 5691"
           ],
@@ -48519,7 +48519,7 @@
         {
           "name": "Befrienders Botshabelo",
           "organization": "Befrienders Botshabelo",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "27 (0) 51 532 1100"
           ],
@@ -48551,7 +48551,7 @@
         {
           "name": "Befrienders Setshabelo",
           "organization": "Befrienders Setshabelo",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "051 430 3555"
           ],
@@ -48583,7 +48583,7 @@
         {
           "name": "Befrienders Kwa Nobuhle",
           "organization": "Befrienders Kwa Nobuhle",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "+27 (0) 41 977 3003"
           ],
@@ -48615,7 +48615,7 @@
         {
           "name": "Befrienders Mitchell's Plain",
           "organization": "Befrienders Mitchell's Plain",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "+27 (0) 21 371 1481"
           ],
@@ -48647,7 +48647,7 @@
         {
           "name": "Befrienders Uitenhage",
           "organization": "Befrienders Uitenhage",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "+27 (0) 41 922 0068"
           ],
@@ -48679,7 +48679,7 @@
         {
           "name": "Befrienders Umkomaas",
           "organization": "Befrienders Umkomaas",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "+27 (0) 39 979 5741"
           ],
@@ -48711,7 +48711,7 @@
         {
           "name": "Befrienders Bloemfontein",
           "organization": "Befrienders Bloemfontein",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "051 444 5000"
           ],
@@ -50265,7 +50265,7 @@
         {
           "name": "Asociación Internacional Teléfono de la Esperanza (ASITES)",
           "organization": "Asociación Internacional Teléfono de la Esperanza (ASITES)",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "717 003 717"
           ],
@@ -50513,7 +50513,7 @@
         {
           "name": "Teléfono 016 - Servicio de atención a todas las formas de violencia contra las mujeres",
           "organization": "Teléfono 016 - Servicio de atención a todas las formas de violencia contra las mujeres",
-          "category": "general_support",
+          "category": "domestic_violence",
           "voice_numbers": [
             "016"
           ],
@@ -50544,7 +50544,7 @@
         {
           "name": "Teléfono de la Esperanza",
           "organization": "Teléfono de la Esperanza",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "902500002",
             "717 003 717",
@@ -50757,7 +50757,7 @@
         {
           "name": "Sri Lanka Sumithrayo",
           "organization": "Sri Lanka Sumithrayo",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "+94 707 308 308"
           ],
@@ -50824,7 +50824,7 @@
         {
           "name": "Sri Lanka Sumithrayo - Bandarawela",
           "organization": "Sri Lanka Sumithrayo - Bandarawela",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "011 057 2222662"
           ],
@@ -50856,7 +50856,7 @@
         {
           "name": "Sri Lanka Sumithrayo - Colombo",
           "organization": "Sri Lanka Sumithrayo - Colombo",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "011 2692 909",
             "011 2 683 555"
@@ -50890,7 +50890,7 @@
         {
           "name": "Sri Lanka Sumithrayo - Panduwasnuwara",
           "organization": "Sri Lanka Sumithrayo - Panduwasnuwara",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "037 2291718"
           ],
@@ -50922,7 +50922,7 @@
         {
           "name": "Sri Lanka Sumithrayo - Kandy",
           "organization": "Sri Lanka Sumithrayo - Kandy",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "081) 2234 806"
           ],
@@ -50954,7 +50954,7 @@
         {
           "name": "Sri Lanka Sumithrayo - Matale",
           "organization": "Sri Lanka Sumithrayo - Matale",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "066 2223521"
           ],
@@ -50986,7 +50986,7 @@
         {
           "name": "Sri Lanka Sumithrayo - Panadura",
           "organization": "Sri Lanka Sumithrayo - Panadura",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "038) 2235291"
           ],
@@ -51018,7 +51018,7 @@
         {
           "name": "Sri Lanka Sumithrayo - Colombo South",
           "organization": "Sri Lanka Sumithrayo - Colombo South",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "011 401 094",
             "011 4 404 536"
@@ -51052,7 +51052,7 @@
         {
           "name": "Sri Lanka Sumithrayo 'Mel Medura'",
           "organization": "Sri Lanka Sumithrayo 'Mel Medura'",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "011 2694665"
           ],
@@ -51188,7 +51188,7 @@
         {
           "name": "Befrienders Khartoum",
           "organization": "Befrienders Khartoum",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "249) 11-555-253"
           ],
@@ -51294,7 +51294,7 @@
         {
           "name": "Kinder-en Jongerentelefoon",
           "organization": "Kinder-en Jongerentelefoon",
-          "category": "general_support",
+          "category": "youth",
           "voice_numbers": [
             "123"
           ],
@@ -51667,7 +51667,7 @@
         {
           "name": "Stödlinjen | Rise Sverige - The support line | Rise Sweden",
           "organization": "Stödlinjen | Rise Sverige - The support line | Rise Sweden",
-          "category": "general_support",
+          "category": "gambling",
           "voice_numbers": [
             "08 696 00 95"
           ],
@@ -52283,7 +52283,7 @@
         {
           "name": "Verband Tel 143 - Die Dargebotene Hand",
           "organization": "Verband Tel 143 - Die Dargebotene Hand",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "143"
           ],
@@ -52806,7 +52806,7 @@
         {
           "name": "113 Protection Hotline",
           "organization": "113 Protection Hotline",
-          "category": "general_support",
+          "category": "emergency",
           "voice_numbers": [
             "113"
           ],
@@ -56998,7 +56998,7 @@
         {
           "name": "Winston's Wish Helpline",
           "organization": "Winston's Wish Helpline",
-          "category": "general_support",
+          "category": "bereavement",
           "voice_numbers": [
             "08088 020 021"
           ],
@@ -57370,7 +57370,7 @@
         {
           "name": "Blue Cross Pet Loss Support",
           "organization": "Blue Cross Pet Loss Support",
-          "category": "general_support",
+          "category": "bereavement",
           "voice_numbers": [
             "0800 096 6606"
           ],
@@ -57432,7 +57432,7 @@
         {
           "name": "Pregnancy Loss Helpline",
           "organization": "Pregnancy Loss Helpline",
-          "category": "general_support",
+          "category": "bereavement",
           "voice_numbers": [
             "01924 200799"
           ],
@@ -57618,7 +57618,7 @@
         {
           "name": "The Compassionate Friends",
           "organization": "The Compassionate Friends",
-          "category": "general_support",
+          "category": "bereavement",
           "voice_numbers": [
             "0345 123 2304"
           ],
@@ -57680,7 +57680,7 @@
         {
           "name": "Al-Anon Family Groups",
           "organization": "Al-Anon Family Groups",
-          "category": "general_support",
+          "category": "substance_use",
           "voice_numbers": [
             "0800 0086 811"
           ],
@@ -57835,7 +57835,7 @@
         {
           "name": "NSPCC FGM Helpline",
           "organization": "NSPCC FGM Helpline",
-          "category": "general_support",
+          "category": "child_protection",
           "voice_numbers": [
             "0800 028 3550"
           ],
@@ -58269,7 +58269,7 @@
         {
           "name": "Blood Cancer UK Support Line",
           "organization": "Blood Cancer UK Support Line",
-          "category": "general_support",
+          "category": "disability",
           "voice_numbers": [
             "0808 208 0888"
           ],
@@ -58424,7 +58424,7 @@
         {
           "name": "Dementia Connect Support Line",
           "organization": "Dementia Connect Support Line",
-          "category": "general_support",
+          "category": "disability",
           "voice_numbers": [
             "0333 150 3456"
           ],
@@ -58455,7 +58455,7 @@
         {
           "name": "Mermaids",
           "organization": "Mermaids",
-          "category": "general_support",
+          "category": "lgbtqia",
           "voice_numbers": [
             "0808 801 0400"
           ],
@@ -58838,7 +58838,7 @@
         {
           "name": "The Mix",
           "organization": "The Mix",
-          "category": "general_support",
+          "category": "youth",
           "voice_numbers": [
             "0808 808 4994"
           ],
@@ -58940,7 +58940,7 @@
         {
           "name": "Get Connected (for under 25 yrs)",
           "organization": "Get Connected (for under 25 yrs)",
-          "category": "general_support",
+          "category": "youth",
           "voice_numbers": [
             "0808 808 4994"
           ],
@@ -58976,7 +58976,7 @@
         {
           "name": "Maytree",
           "organization": "Maytree",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "020 7263 7070"
           ],
@@ -60183,7 +60183,7 @@
         {
           "name": "YouthLine",
           "organization": "YouthLine",
-          "category": "general_support",
+          "category": "youth",
           "voice_numbers": [
             "877 968 8491"
           ],
@@ -60462,7 +60462,7 @@
         {
           "name": "Postpartum Support International Helpline",
           "organization": "Postpartum Support International Helpline",
-          "category": "general_support",
+          "category": "perinatal",
           "voice_numbers": [
             "800 944 4773"
           ],
@@ -60493,7 +60493,7 @@
         {
           "name": "Childhelp's Courage First Athlete Helpline",
           "organization": "Childhelp's Courage First Athlete Helpline",
-          "category": "general_support",
+          "category": "child_protection",
           "voice_numbers": [
             "888 279 1026"
           ],
@@ -60989,7 +60989,7 @@
         {
           "name": "Centerstone Military Services",
           "organization": "Centerstone Military Services",
-          "category": "general_support",
+          "category": "veterans",
           "voice_numbers": [
             "866 781 8010"
           ],
@@ -61558,7 +61558,7 @@
         {
           "name": "Postpartum Support International",
           "organization": "Postpartum Support International",
-          "category": "general_support",
+          "category": "perinatal",
           "voice_numbers": [
             "1-800-944-4773"
           ],
@@ -61654,7 +61654,7 @@
         {
           "name": "YouthLine",
           "organization": "YouthLine",
-          "category": "general_support",
+          "category": "youth",
           "voice_numbers": [
             "877 968 8491"
           ],
@@ -62176,7 +62176,7 @@
         {
           "name": "Telefono de la Esperanza",
           "organization": "Telefono de la Esperanza",
-          "category": "general_support",
+          "category": "suicide_crisis",
           "voice_numbers": [
             "0241-8433308"
           ],

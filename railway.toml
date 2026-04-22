@@ -1,0 +1,14 @@
+# Railway configuration for Hotlines.world
+# https://docs.railway.com/reference/config-as-code
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+# Caddy listens on $PORT, Railway injects this automatically
+startCommand = "caddy run --config /etc/caddy/Caddyfile --adapter caddyfile"
+healthcheckPath = "/"
+healthcheckTimeout = 30
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10

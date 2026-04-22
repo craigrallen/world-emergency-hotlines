@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About — Hotlines.world</title>
+  <meta name="description" content="Methodology, data sources and verification status for Hotlines.world.">
+  <link rel="canonical" href="https://hotlines.world/about.html">
+  <meta property="og:title" content="About — Hotlines.world">
+  <meta property="og:description" content="Methodology, data sources and verification status for Hotlines.world.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#dc2626">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <style>
+    .prose a { color: #2563eb; text-decoration: underline; }
+    [x-cloak] { display: none !important; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 antialiased">
+
+<header class="border-b border-slate-200 bg-white">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between gap-4">
+    <a href="/" class="flex items-center gap-2 text-slate-900 font-semibold text-lg">
+      <span aria-hidden="true" class="text-red-600 text-2xl">🆘</span>
+      <span>Hotlines.world</span>
+    </a>
+    <nav class="flex items-center gap-5 text-sm">
+      <a href="/" class="text-slate-600 hover:text-slate-900">Find a line</a>
+      <a href="/about.html" class="text-red-700 font-semibold">About</a>
+      <a href="https://github.com/craigrallen/world-emergency-hotlines" class="text-slate-600 hover:text-slate-900" rel="noopener">Source</a>
+    </nav>
+  </div>
+</header>
+<main class="max-w-3xl mx-auto px-4 sm:px-6 py-10 prose">
+  <h1>About Hotlines.world</h1>
+  <p>A free, open-source directory of emergency numbers and crisis support helplines for every country in the world — suicide and mental-health crisis lines, child protection, domestic violence, LGBTQIA+, substance use, bereavement, and more.</p>
+
+  <h2>How the data is sourced</h2>
+  <p>Records come from three pipelines merged together:</p>
+  <ol>
+    <li><strong>Curated tier</strong> — hand-authored rich records (category, hours, languages, cost, target audience, website, notes) for every major country and most of the long tail. Labeled <em>Curated</em> in the UI.</li>
+    <li><strong>Imported tier</strong> — records from public open-data sources (<code>atlacord/Naga</code>, <code>information.json</code>), re-categorised and deduplicated. Labeled <em>Imported</em> in the UI.</li>
+    <li><strong>Web-verified tier</strong> — records that have been re-checked against the provider's official website. Labeled <em>Verified on site</em>.</li>
+  </ol>
+
+  <h2>Can I rely on it?</h2>
+  <p>Treat this as a starting point, not a final source of truth. Crisis-line numbers and hours change. If you're routing someone in distress, confirm the number on the provider's official site on the day you publish. The <em>Verified on site</em> tag shows which records have been checked that way.</p>
+
+  <h2>Data licence</h2>
+  <p>The dataset is released under CC0 (public domain). See <a href="https://github.com/craigrallen/world-emergency-hotlines">github.com/craigrallen/world-emergency-hotlines</a> for the JSON, schema docs and change log.</p>
+
+  <h2>Global crisis aggregators</h2>
+  <ul>
+    <li><a href="https://findahelpline.com" rel="noopener">Find A Helpline</a> (ThroughLine) — curated global directory with 13,000+ helplines.</li>
+    <li><a href="https://www.befrienders.org" rel="noopener">Befrienders Worldwide</a> — network of emotional-support lines.</li>
+    <li><a href="https://www.iasp.info/resources/Crisis_Centres/" rel="noopener">IASP Crisis Centres</a> — International Association for Suicide Prevention directory.</li>
+  </ul>
+
+  <h2>Report a correction</h2>
+  <p>Open an issue on <a href="https://github.com/craigrallen/world-emergency-hotlines/issues">GitHub</a> or email the maintainer. Corrections land in the next dataset pass.</p>
+</main>
+
+<footer class="border-t border-slate-200 bg-slate-50 mt-16">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 text-sm text-slate-600 space-y-2">
+    <p><strong>If you're in immediate danger,</strong> dial the general emergency number for your country — for example, 911 (North America), 999 (UK), 112 (EU), 000 (Australia). Most mobile phones route 112 to the local emergency service.</p>
+    <p>Hotlines.world is a free directory built from open data sources. Numbers and hours change — verify on the provider's official site before acting. Not medical or legal advice. <a href="/about.html" class="underline">Methodology</a> · <a href="https://github.com/craigrallen/world-emergency-hotlines" class="underline" rel="noopener">Source on GitHub</a>.</p>
+    <p class="text-slate-500">Last updated 2026-04-22.</p>
+  </div>
+</footer>
+</body></html>
