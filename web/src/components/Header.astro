@@ -1,0 +1,50 @@
+---
+const nav: Array<{ href: string; label: string }> = [
+  { href: '/', label: 'Home' },
+  { href: '/map', label: 'Map' },
+  { href: '/about', label: 'About' },
+];
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+---
+
+<header class="border-b border-border/60 bg-bg/80 backdrop-blur-md">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+    <a href="/" class="group inline-flex items-center gap-2.5">
+      <span
+        class="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-accent text-accent-contrast shadow-glow transition group-hover:scale-105"
+      >
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="h-4 w-4">
+          <path
+            d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"
+            fill="currentColor"
+          />
+        </svg>
+      </span>
+      <span class="flex flex-col leading-none">
+        <span class="font-display text-xl tracking-tight text-fg">Hotlines</span>
+        <span class="text-[11px] uppercase tracking-[0.2em] text-fg-muted">world directory</span>
+      </span>
+    </a>
+
+    <nav aria-label="Primary" class="flex items-center gap-1 sm:gap-3">
+      {
+        nav.map((item) => {
+          const active = path === item.href || (item.href !== '/' && path.startsWith(item.href));
+          return (
+            <a
+              href={item.href}
+              class={`rounded-full px-3 py-1.5 text-sm transition-colors ${
+                active
+                  ? 'bg-bg-elev text-fg'
+                  : 'text-fg-muted hover:bg-bg-elev/60 hover:text-fg'
+              }`}
+              aria-current={active ? 'page' : undefined}
+            >
+              {item.label}
+            </a>
+          );
+        })
+      }
+    </nav>
+  </div>
+</header>

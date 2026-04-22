@@ -1,0 +1,30 @@
+{
+  "name": "world-emergency-hotlines-web",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Astro site for the World Emergency & Hotlines directory.",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "node scripts/build-static-data.mjs && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "data:build": "node scripts/build-static-data.mjs",
+    "db:init": "wrangler d1 execute world-hotlines --file=./db/schema.sql",
+    "db:seed": "node db/seed.mjs > db/seed.sql && wrangler d1 execute world-hotlines --file=./db/seed.sql",
+    "typecheck": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^10.4.1",
+    "@astrojs/tailwind": "^5.1.2",
+    "astro": "^4.16.7",
+    "maplibre-gl": "^4.7.1",
+    "tailwindcss": "^3.4.14"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.5",
+    "typescript": "^5.6.3",
+    "wrangler": "^3.80.0"
+  }
+}

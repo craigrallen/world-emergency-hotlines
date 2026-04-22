@@ -1,0 +1,18 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-10 border-t border-border/60 bg-bg/60">
+  <div
+    class="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-8 text-sm text-fg-muted sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8"
+  >
+    <p>
+      © {year} · Open data, best-effort verification. Always double-check a number before relying on it.
+    </p>
+    <div class="flex items-center gap-4">
+      <a href="/about" class="hover:text-fg">About</a>
+      <a href="https://github.com" class="hover:text-fg" rel="noopener">Contribute</a>
+      <a href="/methodology" class="hover:text-fg">Methodology</a>
+    </div>
+  </div>
+</footer>

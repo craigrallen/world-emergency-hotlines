@@ -1,0 +1,148 @@
+---
+// Client-side search box.
+// Phase 1: substring + simple scoring against /data/search-index.json.
+// Phase 3 hook: replace `scoreDoc` with a transformers.js semantic embedder
+// using the ONNX model described in ARCHITECTURE.md §6.1. All the UI stays.
+---
+
+<div class="card relative p-2 shadow-glow">
+  <form id="hotline-search-form" class="flex items-center gap-2" role="search">
+    <svg viewBox="0 0 24 24" fill="none" class="ml-3 h-5 w-5 shrink-0 text-fg-muted" aria-hidden="true" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8" />
+      <path d="m21 21-4.3-4.3" />
+    </svg>
+    <input
+      id="hotline-search-input"
+      type="search"
+      placeholder="Search: 'suicide help Germany', 'childline UK', 'domestic violence Brazil'…"
+      class="flex-1 bg-transparent px-1 py-3 text-base text-fg placeholder:text-fg-muted focus:outline-none"
+      autocomplete="off"
+      aria-label="Search hotlines"
+      aria-controls="search-results"
+    />
+    <button
+      type="submit"
+      class="btn-primary mr-1 hidden sm:inline-flex"
+    >Search</button>
+  </form>
+
+  <div
+    id="search-results"
+    class="absolute left-0 right-0 top-full z-20 mt-2 hidden overflow-hidden rounded-2xl border border-border bg-bg-elev shadow-2xl"
+    role="listbox"
+  ></div>
+</div>
+
+<script>
+  type Doc = {
+    country_code: string;
+    country_name: string;
+    name: string;
+    organization: string | null;
+    category: string;
+    numbers: string[];
+    languages: string[];
+    verified: boolean;
+  };
+
+  const form = document.getElementById('hotline-search-form') as HTMLFormElement | null;
+  const input = document.getElementById('hotline-search-input') as HTMLInputElement | null;
+  const panel = document.getElementById('search-results') as HTMLDivElement | null;
+  if (!form || !input || !panel) throw new Error('search: missing DOM');
+
+  let docs: Doc[] | null = null;
+  let fetching: Promise<Doc[]> | null = null;
+
+  async function loadDocs(): Promise<Doc[]> {
+    if (docs) return docs;
+    if (fetching) return fetching;
+    fetching = fetch('/data/search-index.json')
+      .then((r) => r.json())
+      .then((d: Doc[]) => (docs = d));
+    return fetching;
+  }
+
+  function scoreDoc(doc: Doc, q: string): number {
+    // Phase 1 scorer: token-overlap with a small boost for matches in the
+    // country name and verified records. Good enough to feel responsive.
+    const haystack =
+      `${doc.country_name} ${doc.name} ${doc.organization ?? ''} ${doc.category} ${doc.numbers.join(' ')}`.toLowerCase();
+    const tokens = q.toLowerCase().split(/\s+/).filter(Boolean);
+    if (tokens.length === 0) return 0;
+    let score = 0;
+    for (const t of tokens) {
+      if (!haystack.includes(t)) return 0;
+      if (doc.country_name.toLowerCase().includes(t)) score += 2;
+      if (doc.name.toLowerCase().includes(t)) score += 2;
+      if (doc.category.includes(t)) score += 1;
+      score += 1;
+    }
+    if (doc.verified) score += 1;
+    return score;
+  }
+
+  function render(results: Doc[]) {
+    if (!panel) return;
+    if (results.length === 0) {
+      panel.innerHTML = `<div class="px-4 py-4 text-sm text-fg-muted">No matches. Try a country name or a category like "suicide", "childline", "veterans".</div>`;
+      panel.classList.remove('hidden');
+      return;
+    }
+    panel.innerHTML = results
+      .slice(0, 12)
+      .map((r) => {
+        const primary = r.numbers[0] ?? '';
+        return `
+          <a href="/country/${r.country_code.toLowerCase()}" class="flex items-center justify-between gap-4 border-b border-border/60 px-4 py-3 last:border-b-0 hover:bg-bg/60">
+            <div class="min-w-0">
+              <div class="truncate text-sm font-medium text-fg">${escape(r.name)}</div>
+              <div class="truncate text-xs text-fg-muted">${escape(r.country_name)} · ${r.category.replace(/_/g, ' ')}${r.verified ? ' · verified' : ''}</div>
+            </div>
+            ${primary ? `<div class="shrink-0 font-mono text-sm text-accent">${escape(primary)}</div>` : ''}
+          </a>`;
+      })
+      .join('');
+    panel.classList.remove('hidden');
+  }
+
+  function escape(s: string): string {
+    return s
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  let debounce = 0;
+  async function onChange() {
+    const q = input?.value.trim() ?? '';
+    if (!q) {
+      panel?.classList.add('hidden');
+      return;
+    }
+    window.clearTimeout(debounce);
+    debounce = window.setTimeout(async () => {
+      const d = await loadDocs();
+      const ranked = d
+        .map((doc) => ({ doc, score: scoreDoc(doc, q) }))
+        .filter((x) => x.score > 0)
+        .sort((a, b) => b.score - a.score)
+        .map((x) => x.doc);
+      render(ranked);
+    }, 90);
+  }
+
+  input.addEventListener('input', onChange);
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    onChange();
+  });
+  document.addEventListener('click', (e) => {
+    if (!form.contains(e.target as Node) && !panel.contains(e.target as Node)) {
+      panel.classList.add('hidden');
+    }
+  });
+  input.addEventListener('focus', () => {
+    if (input.value.trim()) panel.classList.remove('hidden');
+  });
+</script>

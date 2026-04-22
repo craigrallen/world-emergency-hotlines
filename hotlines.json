@@ -13230,7 +13230,7 @@
           "target": null,
           "geography": "Canada",
           "notes": "Find shelters for women fleeing violence.",
-          "verification_status": "cross_referenced",
+          "verification_status": "deprecated",
           "last_verified": "2026-04-22",
           "sources": [
             "https://helplines.world/"
@@ -15398,7 +15398,7 @@
           "target": null,
           "geography": "Chile",
           "notes": "Personal safety panic app.",
-          "verification_status": "cross_referenced",
+          "verification_status": "deprecated",
           "last_verified": "2026-04-22",
           "sources": [
             "https://helplines.world/"
@@ -15426,7 +15426,7 @@
           "target": null,
           "geography": "Chile",
           "notes": "Earthquake/tsunami alerts.",
-          "verification_status": "cross_referenced",
+          "verification_status": "deprecated",
           "last_verified": "2026-04-22",
           "sources": [
             "https://helplines.world/"
@@ -39362,7 +39362,7 @@
           "target": null,
           "geography": "India",
           "notes": "Emergency safety app.",
-          "verification_status": "cross_referenced",
+          "verification_status": "deprecated",
           "last_verified": "2026-04-22",
           "sources": [
             "https://helplines.world/"
@@ -49800,8 +49800,8 @@
       "subregion": null,
       "general_emergency": [
         "999",
-        "From mobile phones – 110",
-        "Judiciary Police – 993"
+        "From mobile phones - 110",
+        "Judiciary Police - 993"
       ],
       "notes": "Macao SAR — 999 emergency (112 also routes).",
       "hotlines": [
@@ -49811,8 +49811,8 @@
           "category": "emergency",
           "voice_numbers": [
             "999",
-            "From mobile phones – 110",
-            "Judiciary Police – 993"
+            "From mobile phones - 110",
+            "Judiciary Police - 993"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -50351,6 +50351,39 @@
             "source_verification_status": "warning",
             "source_kind": "specialist_helplines",
             "source_category": "domestic_violence"
+          }
+        },
+        {
+          "name": "Get free, confidential crisis counseling support in Macao",
+          "organization": "Get free, confidential crisis counseling support in Macao",
+          "category": "child_protection",
+          "voice_numbers": [
+            "2885 5218"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": null,
+          "languages": [],
+          "cost": "unknown",
+          "target": null,
+          "geography": "Macao",
+          "notes": "",
+          "verification_status": "cross_referenced",
+          "last_verified": "2026-04-22",
+          "sources": [
+            "https://findahelpline.com"
+          ],
+          "_legacy": {
+            "source": "findahelpline.com",
+            "tags": [
+              "Parents",
+              "Youth",
+              "Children"
+            ]
           }
         }
       ]
@@ -54736,7 +54769,7 @@
           "target": null,
           "geography": "Morocco",
           "notes": "Emergency safety mobile service.",
-          "verification_status": "cross_referenced",
+          "verification_status": "deprecated",
           "last_verified": "2026-04-22",
           "sources": [
             "https://helplines.world/"
@@ -59264,7 +59297,7 @@
           "target": null,
           "geography": "New Zealand",
           "notes": "Domestic violence info.",
-          "verification_status": "cross_referenced",
+          "verification_status": "deprecated",
           "last_verified": "2026-04-22",
           "sources": [
             "https://helplines.world/"
@@ -66654,9 +66687,9 @@
       "subregion": null,
       "general_emergency": [
         "112",
-        "Police – 17",
-        "Ambulance – 15",
-        "Fire – 18"
+        "Police - 17",
+        "Ambulance - 15",
+        "Fire - 18"
       ],
       "notes": "French overseas collectivity — uses French emergency numbering.",
       "hotlines": [
@@ -66666,9 +66699,9 @@
           "category": "emergency",
           "voice_numbers": [
             "112",
-            "Police – 17",
-            "Ambulance – 15",
-            "Fire – 18"
+            "Police - 17",
+            "Ambulance - 15",
+            "Fire - 18"
           ],
           "sms_numbers": [],
           "text_numbers": [],
@@ -81265,7 +81298,7 @@
           "target": null,
           "geography": "United Kingdom",
           "notes": "Support for women and children facing domestic abuse.",
-          "verification_status": "cross_referenced",
+          "verification_status": "deprecated",
           "last_verified": "2026-04-22",
           "sources": [
             "https://helplines.world/"
@@ -81293,7 +81326,7 @@
           "target": null,
           "geography": "United Kingdom",
           "notes": "Free and confidential support to victims of crime, including domestic abuse.",
-          "verification_status": "cross_referenced",
+          "verification_status": "deprecated",
           "last_verified": "2026-04-22",
           "sources": [
             "https://helplines.world/"
@@ -81321,7 +81354,7 @@
           "target": null,
           "geography": "United Kingdom",
           "notes": "Support for male victims of domestic and partner abuse.",
-          "verification_status": "cross_referenced",
+          "verification_status": "deprecated",
           "last_verified": "2026-04-22",
           "sources": [
             "https://helplines.world/"
@@ -81379,7 +81412,7 @@
           "target": null,
           "geography": "United Kingdom",
           "notes": "Support for LGBT+ people facing domestic abuse and violence.",
-          "verification_status": "cross_referenced",
+          "verification_status": "deprecated",
           "last_verified": "2026-04-22",
           "sources": [
             "https://helplines.world/"
@@ -81617,7 +81650,7 @@
           "target": null,
           "geography": "United Kingdom",
           "notes": "Free advice on legal, money, housing, and other issues.",
-          "verification_status": "cross_referenced",
+          "verification_status": "deprecated",
           "last_verified": "2026-04-22",
           "sources": [
             "https://helplines.world/"
@@ -81735,7 +81768,7 @@
           "target": null,
           "geography": "United Kingdom",
           "notes": "",
-          "verification_status": "cross_referenced",
+          "verification_status": "deprecated",
           "last_verified": "2026-04-22",
           "sources": [
             "https://helplines.world/"
@@ -82354,7 +82387,7 @@
           "target": "people with eating disorders and their loved ones",
           "geography": "United States",
           "notes": "NEDA's phone helpline was discontinued in June 2023. For immediate eating-disorder support, the National Alliance for Eating Disorders helpline is 1-866-662-1235 (Mon-Fri 9am-7pm ET) and offers extensive resources online.",
-          "verification_status": "legacy_unverified",
+          "verification_status": "deprecated",
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.nationaleatingdisorders.org",
@@ -86265,8 +86298,8 @@
       "subregion": null,
       "general_emergency": [
         "112",
-        "emergency police – 018 527 100",
-        "Poison control – 09 471 977"
+        "emergency police - 018 527 100",
+        "Poison control - 09 471 977"
       ],
       "notes": "Finnish autonomous region — 112 emergency.",
       "hotlines": [
@@ -86276,8 +86309,8 @@
           "category": "emergency",
           "voice_numbers": [
             "112",
-            "emergency police – 018 527 100",
-            "Poison control – 09 471 977"
+            "emergency police - 018 527 100",
+            "Poison control - 09 471 977"
           ],
           "sms_numbers": [],
           "text_numbers": [],
