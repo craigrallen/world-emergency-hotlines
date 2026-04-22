@@ -246,12 +246,26 @@ import Base from '../layouts/Base.astro';
         return String.fromCodePoint(cc.charCodeAt(0) + A, cc.charCodeAt(1) + A);
       }
 
+      // Defensive: trim unclosed-paren artefacts before rendering a phone number.
+      function cleanNumber(raw: string): string {
+        let n = String(raw).trim();
+        while ((n.split('(').length - 1) > (n.split(')').length - 1)) {
+          const i = n.lastIndexOf(' (');
+          if (i <= 0) break;
+          n = n.slice(0, i).trim();
+        }
+        if (/^\d\)/.test(n) && !n.includes('(')) n = '(' + n;
+        return n;
+      }
+
       function renderCountry(c: any): string {
         const flag = flagEmoji(c.alpha2);
         const emergency = (c.general_emergency ?? []).join(' · ') || '—';
         const items = (c.hotlines ?? [])
           .map((h: any) => {
-            const nums = [...(h.voice_numbers ?? []), ...(h.short_codes ?? [])];
+            const nums = [...(h.voice_numbers ?? []), ...(h.short_codes ?? [])]
+              .map(cleanNumber)
+              .filter((n: string) => n.length > 0);
             const numHtml = nums
               .map((n: string) =>
                 `<a href="tel:${escape(n.replace(/\s+/g, ''))}" class="mr-2 inline-block rounded-md bg-accent/10 px-2 py-1 font-mono text-xs text-accent hover:bg-accent/20">${escape(n)}</a>`

@@ -16,7 +16,25 @@ const badgeTone: Record<string, string> = {
   deprecated: 'bg-fg-muted/15 text-fg-muted border-fg-muted/30',
 };
 const tone = badgeTone[hotline.verification_status] ?? badgeTone.legacy_unverified;
-const numbers = [...hotline.voice_numbers, ...hotline.short_codes];
+
+// Defensive sanitizer: protect the UI from any residual parse artefacts.
+// A well-formed number should not end with an unclosed " (...".
+function cleanNumber(raw: string): string {
+  let n = String(raw).trim();
+  // Trim trailing unclosed-paren labels: "0800 123 456 (UK" -> "0800 123 456"
+  while (n.split('(').length - 1 > n.split(')').length - 1) {
+    const i = n.lastIndexOf(' (');
+    if (i <= 0) break;
+    n = n.slice(0, i).trim();
+  }
+  // Restore leading "(" on orphan "N) 12345" (lost in an upstream splitter)
+  if (/^\d\)/.test(n) && !n.includes('(')) n = '(' + n;
+  return n;
+}
+
+const numbers = [...hotline.voice_numbers, ...hotline.short_codes]
+  .map(cleanNumber)
+  .filter((n) => n.length > 0);
 ---
 
 <article class="card p-5 hover:border-accent/50">

@@ -29692,7 +29692,7 @@
           "cost": "unknown",
           "target": null,
           "geography": "France",
-          "notes": "hotline: +33 | 0",
+          "notes": "+33 | 0",
           "verification_status": "legacy_unverified",
           "last_verified": null,
           "sources": [
@@ -35957,7 +35957,7 @@
           "cost": "unknown",
           "target": "people in emotional crisis",
           "geography": "Honduras",
-          "notes": "-San Pedro Sula | 504 | -Tegucigalpa | hotline: Of. 2232-2707",
+          "notes": "-San Pedro Sula | 504 | -Tegucigalpa | Of. 2232-2707",
           "verification_status": "legacy_unverified",
           "last_verified": null,
           "sources": [
@@ -43550,7 +43550,7 @@
           "cost": "free",
           "target": "anyone in emotional distress or at risk of suicide",
           "geography": "Ireland",
-          "notes": "UK - local rate | UK minicom | hotline: ROI local rate | hotline: ROI minicom",
+          "notes": "UK - local rate | UK minicom | ROI local rate | ROI minicom",
           "verification_status": "legacy_unverified",
           "last_verified": null,
           "sources": [
@@ -65738,7 +65738,7 @@
           "cost": "unknown",
           "target": null,
           "geography": "Philippines",
-          "notes": "hotline: Globe & TM Subscribers",
+          "notes": "Globe & TM Subscribers",
           "verification_status": "legacy_unverified",
           "last_verified": null,
           "sources": [
@@ -69647,7 +69647,7 @@
           "cost": "unknown",
           "target": null,
           "geography": "Samoa",
-          "notes": "hotline: +381",
+          "notes": "+381",
           "verification_status": "legacy_unverified",
           "last_verified": null,
           "sources": [
@@ -83739,7 +83739,7 @@
           "cost": "free",
           "target": "anyone in emotional distress or at risk of suicide",
           "geography": "United Kingdom",
-          "notes": "hotline: free call from mobile and landline | UK - local rate | UK minicom | hotline: ROI - local rate | hotline: ROI minicom",
+          "notes": "free call from mobile and landline | UK - local rate | UK minicom | ROI - local rate | ROI minicom",
           "verification_status": "cross_referenced",
           "last_verified": "2026-04-22",
           "sources": [
