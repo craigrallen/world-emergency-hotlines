@@ -2,17 +2,15 @@ import json
 import unittest
 from pathlib import Path
 
+from scripts.lib.safety import (
+    PROTECTED_CANONICAL_STATUSES,
+    SUPPLEMENTAL_PREVIEW_ROLE,
+    country_has_protected_hotlines,
+)
+
 ROOT = Path(__file__).resolve().parent.parent
 CANONICAL_PATH = ROOT / "hotlines.json"
 PREVIEW_PATH = ROOT / "sources" / "web_verified_crisis_directory" / "web_verified_directory_v2_preview.json"
-
-PROTECTED_CANONICAL_STATUSES = {
-    "verified_web",
-    "verified_authority",
-    "verified_knowledge",
-    "disputed",
-    "deprecated",
-}
 
 
 class WebVerifiedDirectoryPreviewTests(unittest.TestCase):
@@ -24,17 +22,14 @@ class WebVerifiedDirectoryPreviewTests(unittest.TestCase):
     def test_preview_uses_schema_v2_but_is_marked_non_canonical(self):
         self.assertEqual(self.preview["$schema_version"], self.canonical["$schema_version"])
         self.assertEqual(self.preview["$schema_version"], "2.0")
-        self.assertEqual(self.preview.get("_preview_metadata", {}).get("dataset_role"), "supplemental_preview")
+        self.assertEqual(self.preview.get("_preview_metadata", {}).get("dataset_role"), SUPPLEMENTAL_PREVIEW_ROLE)
         self.assertIn("not the canonical dataset", self.preview.get("methodology", ""))
 
     def test_preview_excludes_countries_with_protected_canonical_records(self):
         protected_countries = {
             country["country"]
             for country in self.canonical["countries"]
-            if any(
-                hotline.get("verification_status") in PROTECTED_CANONICAL_STATUSES
-                for hotline in country.get("hotlines", [])
-            )
+            if country_has_protected_hotlines(country)
         }
         preview_countries = {country["country"] for country in self.preview["countries"]}
         overlap = sorted(protected_countries.intersection(preview_countries))
@@ -48,10 +43,10 @@ class WebVerifiedDirectoryPreviewTests(unittest.TestCase):
         bad_statuses = []
         for country in self.preview["countries"]:
             for hotline in country.get("hotlines", []):
-                if hotline.get("verification_status") != "legacy_unverified":
-                    bad_statuses.append(
-                        (country["country"], hotline.get("name"), hotline.get("verification_status"))
-                    )
+                status = hotline.get("verification_status")
+                if status != "legacy_unverified":
+                    bad_statuses.append((country["country"], hotline.get("name"), status))
+                self.assertNotIn(status, PROTECTED_CANONICAL_STATUSES)
         self.assertEqual(bad_statuses, [])
 
 
