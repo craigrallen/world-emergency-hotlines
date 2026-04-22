@@ -2,6 +2,7 @@ import hashlib
 import json
 import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -17,6 +18,7 @@ ROOT = Path(__file__).resolve().parent.parent
 CANONICAL_PATH = ROOT / "hotlines.json"
 PREVIEW_PATH = ROOT / "sources" / "web_verified_crisis_directory" / "web_verified_directory_v2_preview.json"
 APPLY_ENRICHMENT = ROOT / "scripts" / "apply_enrichment.py"
+APPLY_PROMOTION_CANDIDATES = ROOT / "scripts" / "apply_promotion_candidates.py"
 
 
 def sha256(path: Path) -> str:
@@ -67,6 +69,31 @@ class CanonicalPromotionSafetyTests(unittest.TestCase):
         after_hash = sha256(CANONICAL_PATH)
 
         self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(before_hash, after_hash, "hotlines.json changed without --apply")
+        self.assertIn("Dry run only", result.stdout)
+        self.assertIn("--apply", result.stdout)
+
+    def test_promotion_apply_requires_explicit_apply_and_keeps_canonical_unchanged(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            before_hash = sha256(CANONICAL_PATH)
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    str(APPLY_PROMOTION_CANDIDATES),
+                    "--canonical",
+                    str(CANONICAL_PATH),
+                    "--candidates",
+                    str(PREVIEW_PATH),
+                    "--report",
+                    str(Path(tmpdir) / "promotion_apply_report.md"),
+                ],
+                cwd=ROOT,
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            after_hash = sha256(CANONICAL_PATH)
+
         self.assertEqual(before_hash, after_hash, "hotlines.json changed without --apply")
         self.assertIn("Dry run only", result.stdout)
         self.assertIn("--apply", result.stdout)

@@ -12,6 +12,15 @@ PROTECTED_CANONICAL_STATUSES = frozenset(
     }
 )
 
+STATUS_RANK = {
+    "legacy_unverified": 0,
+    "verified_web": 1,
+    "verified_authority": 2,
+    "verified_knowledge": 3,
+    "disputed": 4,
+    "deprecated": 5,
+}
+
 SUPPLEMENTAL_PREVIEW_ROLE = "supplemental_preview"
 CANONICAL_DATASET_ROLE = "canonical"
 ALLOWED_PROTECTED_PROMOTION_ACTIONS = frozenset({"merge_missing_fields", "append_new_hotline"})
@@ -23,6 +32,11 @@ def hotline_has_protected_status(hotline: dict) -> bool:
 
 def country_has_protected_hotlines(country: dict) -> bool:
     return any(hotline_has_protected_status(hotline) for hotline in country.get("hotlines", []))
+
+
+def country_has_only_legacy_hotlines(country: dict) -> bool:
+    hotlines = country.get("hotlines", [])
+    return bool(hotlines) and all(not hotline_has_protected_status(hotline) for hotline in hotlines)
 
 
 def protected_statuses_for_country(country: dict) -> list[str]:
@@ -56,3 +70,13 @@ def validate_promotion_candidate(candidate: dict, protected_countries: Iterable[
             f"Protected canonical country {country!r} cannot use candidate_type {candidate_type!r}; "
             f"allowed actions: {allowed}"
         )
+
+
+def status_rank(status: str | None) -> int:
+    return STATUS_RANK.get(status or "legacy_unverified", -1)
+
+
+def would_downgrade_status(existing_status: str | None, proposed_status: str | None) -> bool:
+    if proposed_status is None:
+        return False
+    return status_rank(proposed_status) < status_rank(existing_status)
