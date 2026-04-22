@@ -1,0 +1,95 @@
+﻿---
+import Base from '../../layouts/Base.astro';
+import HotlineCard from '../../components/HotlineCard.astro';
+import { getManifest, getCountry } from '../../lib/data';
+import type { Country } from '../../lib/types';
+
+export async function getStaticPaths() {
+  const manifest = await getManifest();
+  return manifest.countries.map((c) => ({
+    params: { code: c.alpha2.toLowerCase() },
+    props: { alpha2: c.alpha2 },
+  }));
+}
+
+const { alpha2 } = Astro.props as { alpha2: string };
+const country = (await getCountry(alpha2)) as Country | null;
+
+if (!country) {
+  return Astro.redirect('/404');
+}
+
+function flagEmoji(cc: string): string {
+  if (!/^[A-Z]{2}$/.test(cc)) return '🏳️';
+  const A = 127397;
+  return String.fromCodePoint(cc.charCodeAt(0) + A, cc.charCodeAt(1) + A);
+}
+
+const emergency = country.general_emergency.join(' · ');
+const groups = country.hotlines.reduce<Record<string, typeof country.hotlines>>((acc, h) => {
+  (acc[h.category] ||= []).push(h);
+  return acc;
+}, {});
+const orderedCategories = Object.keys(groups).sort((a, b) => {
+  const rank = (k: string) => (k === 'emergency' ? 0 : k === 'suicide_crisis' ? 1 : 2);
+  return rank(a) - rank(b) || a.localeCompare(b);
+});
+---
+
+<Base
+  title={`${country.country} · Hotlines`}
+  description={`Emergency and crisis support hotlines for ${country.country}.`}
+>
+  <nav aria-label="Breadcrumb" class="mb-6 text-sm text-fg-muted">
+    <a href="/" class="hover:text-fg">Home</a>
+    <span class="px-1">/</span>
+    <span class="text-fg">{country.country}</span>
+  </nav>
+
+  <header class="mb-8 flex flex-wrap items-center gap-4">
+    <span class="text-5xl" aria-hidden="true">{flagEmoji(country.alpha2)}</span>
+    <div>
+      <h1 class="font-display text-4xl text-fg sm:text-5xl">{country.country}</h1>
+      <p class="text-sm text-fg-muted">
+        {country.alpha2}{country.region ? ` · ${country.region}` : ''}{country.subregion ? ` · ${country.subregion}` : ''}
+      </p>
+    </div>
+  </header>
+
+  {emergency && (
+    <aside class="mb-8 rounded-2xl border border-danger/40 bg-danger/10 p-5">
+      <p class="text-xs uppercase tracking-wider text-danger">Immediate emergency</p>
+      <p class="mt-1 font-mono text-2xl text-fg">{emergency}</p>
+      {country.notes && <p class="mt-2 text-sm text-fg-muted">{country.notes}</p>}
+    </aside>
+  )}
+
+  <p class="mb-8 text-sm text-fg-muted">
+    {country.hotlines.length} hotline{country.hotlines.length === 1 ? '' : 's'} listed. Double-check a number
+    against the provider's official site before you rely on it — we label verification status on each card so you
+    can judge confidence at a glance.
+  </p>
+
+  {orderedCategories.map((cat) => (
+    <section class="mb-10">
+      <h2 class="mb-4 font-display text-2xl capitalize text-fg">{cat.replace(/_/g, ' ')}</h2>
+      <div class="grid gap-4 sm:grid-cols-2">
+        {groups[cat].map((h) => <HotlineCard hotline={h} />)}
+      </div>
+    </section>
+  ))}
+
+  {country.hotlines.length === 0 && (
+    <div class="card p-8 text-center">
+      <p class="text-fg-muted">
+        We do not have any hotlines on file for {country.country} yet.
+        If you know of an official one,
+        <a href="/about" class="text-accent hover:underline">help us add it</a>.
+      </p>
+    </div>
+  )}
+
+  <p class="mt-10 text-center text-sm text-fg-muted">
+    <a href="/map" class="text-accent hover:underline">← Back to the world map</a>
+  </p>
+</Base>

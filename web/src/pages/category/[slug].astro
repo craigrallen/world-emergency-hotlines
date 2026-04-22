@@ -1,0 +1,58 @@
+﻿---
+import Base from '../../layouts/Base.astro';
+import HotlineCard from '../../components/HotlineCard.astro';
+import { getManifest, getByCategory } from '../../lib/data';
+
+export async function getStaticPaths() {
+  const manifest = await getManifest();
+  const slugs = new Set<string>();
+  for (const c of manifest.countries) {
+    for (const cat of c.categories) slugs.add(cat);
+  }
+  return Array.from(slugs).map((slug) => ({
+    params: { slug },
+    props: { slug, label: manifest.categories_reference?.[slug] ?? slug.replace(/_/g, ' ') },
+  }));
+}
+
+const { slug, label } = Astro.props as { slug: string; label: string };
+const entries = await getByCategory(slug);
+const totalLines = entries.reduce((n, e) => n + e.hotlines.length, 0);
+---
+
+<Base
+  title={`${label} · Hotlines`}
+  description={`All ${label.toLowerCase()} hotlines in our directory, grouped by country.`}
+>
+  <nav aria-label="Breadcrumb" class="mb-6 text-sm text-fg-muted">
+    <a href="/" class="hover:text-fg">Home</a>
+    <span class="px-1">/</span>
+    <span class="text-fg capitalize">{label}</span>
+  </nav>
+
+  <header class="mb-10">
+    <p class="mb-2 text-xs uppercase tracking-[0.2em] text-fg-muted">Category</p>
+    <h1 class="font-display text-4xl capitalize text-fg sm:text-5xl">{label}</h1>
+    <p class="mt-3 text-sm text-fg-muted">
+      {totalLines} hotline{totalLines === 1 ? '' : 's'} across {entries.length} countries.
+    </p>
+  </header>
+
+  <div class="space-y-10">
+    {entries
+      .sort((a, b) => a.country.country.localeCompare(b.country.country))
+      .map((e) => (
+        <section>
+          <h2 class="mb-3 flex items-baseline gap-2">
+            <a href={`/country/${e.country.alpha2.toLowerCase()}`} class="font-display text-xl text-fg hover:text-accent">
+              {e.country.country}
+            </a>
+            <span class="text-xs text-fg-muted">{e.country.alpha2}</span>
+          </h2>
+          <div class="grid gap-3 sm:grid-cols-2">
+            {e.hotlines.map((h) => <HotlineCard hotline={h} country={e.country.country} />)}
+          </div>
+        </section>
+      ))}
+  </div>
+</Base>
