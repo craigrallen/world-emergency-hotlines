@@ -15,6 +15,15 @@ PREVIEW_PATH = SOURCE_DIR / "web_verified_directory_v2_preview.json"
 UNMATCHED_PATH = SOURCE_DIR / "unmatched_country_rows.json"
 REPORT_PATH = ROOT / "REPORTS" / "web_verified_directory_integration_report.md"
 
+SCHEMA_V2 = "2.0"
+PROTECTED_CANONICAL_STATUSES = {
+    "verified_web",
+    "verified_authority",
+    "verified_knowledge",
+    "disputed",
+    "deprecated",
+}
+
 SOURCE_TO_REPO_COUNTRY = {
     "Antigua & Barbuda": "Antigua and Barbuda",
     "British Virgin Islands": "Virgin Islands (British)",
@@ -234,14 +243,27 @@ def convert_row(row: dict, canonical_country: dict) -> dict:
     }
 
 
+def country_has_protected_hotlines(country: dict) -> bool:
+    return any(
+        hotline.get("verification_status") in PROTECTED_CANONICAL_STATUSES
+        for hotline in country.get("hotlines", [])
+    )
+
+
 def main() -> None:
     canonical = json.loads(CANONICAL_PATH.read_text(encoding="utf-8"))
     source_rows = json.loads(SOURCE_PATH.read_text(encoding="utf-8"))
+
+    if canonical.get("$schema_version") != SCHEMA_V2:
+        raise AssertionError(
+            f"Expected canonical dataset schema version {SCHEMA_V2}, got {canonical.get('$schema_version')!r}"
+        )
 
     canonical_by_norm = {normalize_name(country["country"]): country for country in canonical["countries"]}
     exact_matches = 0
     alias_matches = 0
     unmatched_rows = []
+    protected_rows = []
     preview_countries = []
     source_status_counts = Counter()
     preview_hotline_count = 0
@@ -260,15 +282,52 @@ def main() -> None:
         if canonical_country is None:
             unmatched_rows.append(row)
             continue
+        if country_has_protected_hotlines(canonical_country):
+            protected_rows.append({
+                "source_country_name": source_name,
+                "repo_country_name": canonical_country["country"],
+                "protected_statuses": sorted({
+                    hotline.get("verification_status")
+                    for hotline in canonical_country.get("hotlines", [])
+                    if hotline.get("verification_status") in PROTECTED_CANONICAL_STATUSES
+                }),
+            })
+            continue
         converted = convert_row(row, canonical_country)
         preview_hotline_count += len(converted["hotlines"])
         preview_countries.append(converted)
 
+    protected_country_names = {row["repo_country_name"] for row in protected_rows}
+    preview_country_names = {country["country"] for country in preview_countries}
+    overlap = sorted(protected_country_names.intersection(preview_country_names))
+    if overlap:
+        raise AssertionError(
+            "Preview generation would overwrite or downgrade canonical rich records for: "
+            + ", ".join(overlap)
+        )
+    for country in preview_countries:
+        statuses = {hotline.get("verification_status") for hotline in country.get("hotlines", [])}
+        if statuses - {"legacy_unverified"}:
+            raise AssertionError(
+                f"Preview country {country['country']} contains unexpected verification statuses: {sorted(statuses)}"
+            )
+
     preview = {
-        "$schema_version": "2.0-preview",
+        "$schema_version": canonical.get("$schema_version", SCHEMA_V2),
         "last_updated": canonical.get("last_updated"),
-        "methodology": "Supplemental preview generated from the web_verified_crisis_directory source artifacts. This file is intentionally not the canonical dataset and preserves conservative legacy_unverified verification statuses pending maintainers' review.",
+        "methodology": "Supplemental preview generated from the web_verified_crisis_directory source artifacts. This file is intentionally not the canonical dataset, remains schema v2 compatible for review tooling, excludes countries that already have richer non-legacy canonical records, and preserves conservative legacy_unverified verification statuses pending maintainers' review.",
         "categories_reference": canonical.get("categories_reference", {}),
+        "_preview_metadata": {
+            "dataset_role": "supplemental_preview",
+            "canonical_dataset_path": str(CANONICAL_PATH.relative_to(ROOT)),
+            "generated_from": str(SOURCE_PATH.relative_to(ROOT)),
+            "guarantees": [
+                "does_not_modify_canonical_hotlines_json",
+                "does_not_replace_countries_with_existing_non_legacy_canonical_hotlines",
+                "preview_hotlines_remain_legacy_unverified",
+            ],
+            "excluded_countries_with_existing_rich_records": len(protected_rows),
+        },
         "countries": sorted(preview_countries, key=lambda item: item["country"]),
     }
 
@@ -284,6 +343,7 @@ def main() -> None:
         f"- Matched directly by country name: {exact_matches}",
         f"- Matched via explicit alias map: {alias_matches}",
         f"- Unmatched rows kept out of preview: {len(unmatched_rows)}",
+        f"- Matched rows skipped because canonical v2 already has richer non-legacy records: {len(protected_rows)}",
         f"- Preview countries written: {len(preview_countries)}",
         f"- Preview hotline records written: {preview_hotline_count}",
         "",
@@ -301,6 +361,16 @@ def main() -> None:
         lines.append(f"- `{source_name}` → `{repo_name}`")
     lines.extend([
         "",
+        "## Protected canonical countries skipped from preview",
+        "",
+    ])
+    for row in protected_rows:
+        lines.append(
+            f"- `{row['source_country_name']}` → `{row['repo_country_name']}` "
+            f"(protected statuses: {', '.join(row['protected_statuses'])})"
+        )
+    lines.extend([
+        "",
         "## Unmatched source rows",
         "",
     ])
@@ -311,6 +381,8 @@ def main() -> None:
         "## Safety notes",
         "",
         "- The preview intentionally does **not** overwrite `hotlines.json`.",
+        "- The preview writes schema-`2.0` records so review tooling can validate them against the canonical v2 shape, but `_preview_metadata.dataset_role` and the filename make clear that the output is non-canonical.",
+        "- Countries that already contain richer non-legacy canonical hotlines are **excluded** from the preview to avoid any chance of downgrade-by-confusion.",
         "- Imported hotline records are marked `legacy_unverified` in v2 preview output even when the source row passed its own QA, because the generated directory mixes Wikipedia, Child Helpline International, and HotPeach-derived data rather than only first-party provider pages.",
         "- `unmatched_country_rows.json` preserves disputed or out-of-scope political entities for manual review instead of forcing them into the canonical country list.",
     ])

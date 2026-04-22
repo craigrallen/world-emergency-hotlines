@@ -9,8 +9,9 @@ A project to build a definitive, exhaustive reference of every country's emergen
 | `SCHEMA.md` | Full schema documentation for `hotlines.json` |
 | `hotlines.json` | The enriched, canonical dataset (schema v2.0) |
 | `information.json` | Original source dataset (preserved for reference and for migrating remaining countries) |
-| `sources/web_verified_crisis_directory/` | Vendored 2026-04-22 web-derived source artifacts plus a conservative v2 preview |
-| `scripts/integrate_web_verified_directory.py` | Converts the supplemental source directory into a reviewable v2 preview + integration report |
+| `sources/web_verified_crisis_directory/` | Vendored 2026-04-22 web-derived source artifacts plus a conservative non-canonical schema-v2 preview |
+| `scripts/integrate_web_verified_directory.py` | Converts the supplemental source directory into a reviewable schema-v2 preview + integration report while explicitly skipping countries that already have richer canonical records |
+| `tests/test_web_verified_directory_preview.py` | Regression checks that the supplemental preview stays schema-v2, non-canonical, and cannot downgrade protected rich records |
 | `COVERAGE.md` | Per-country coverage status: verified, legacy, or missing |
 | `VERIFICATION_LOG.md` | Running log of which sources were used to verify which numbers |
 | `README.md` | This file |
@@ -58,8 +59,10 @@ Every hotline record carries a `verification_status` so consumers can see how mu
 - **4 uninhabited territories** have no hotlines (Bouvet Island, French Southern Territories, Heard Island and McDonald Islands, US Minor Outlying Islands) — documented as such.
 - **Supplemental 2026-04-22 source directory vendored** under `sources/web_verified_crisis_directory/`:
   - 253 web-derived country/territory rows preserved as source artifacts.
-  - `scripts/integrate_web_verified_directory.py` converts that source into `web_verified_directory_v2_preview.json` for review without overwriting canonical data.
-  - Current conservative mapping reaches **243 / 253** source rows; the remaining 10 are kept in `unmatched_country_rows.json` for manual geopolitical review.
+  - `scripts/integrate_web_verified_directory.py` converts that source into a schema-v2-compatible `web_verified_directory_v2_preview.json` review artifact without overwriting canonical data.
+  - The generated preview is explicitly **non-canonical** and now skips every country whose canonical v2 record already contains richer non-legacy hotlines, preventing accidental downgrade-by-overwrite.
+  - Regression coverage in `tests/test_web_verified_directory_preview.py` checks that protected canonical countries never appear in the preview and that preview hotlines remain `legacy_unverified`.
+  - Current conservative mapping reaches **243 / 253** source rows; **26** of those matched rows are now intentionally skipped because canonical v2 already has richer non-legacy records, **217** countries remain in the supplemental preview, and the final 10 unmatched rows stay in `unmatched_country_rows.json` for manual geopolitical review.
 
 ## Planned next sessions
 

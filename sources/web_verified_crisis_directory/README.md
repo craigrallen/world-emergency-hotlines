@@ -2,6 +2,8 @@
 
 This directory vendors the 2026-04-22 generated crisis-directory work so it can be reviewed and integrated inside this repository without immediately overwriting the canonical `hotlines.json` dataset.
 
+The generated preview in this directory now stays explicitly **schema v2 compatible but non-canonical**: it uses the v2 record shape for tooling/validation, carries `_preview_metadata.dataset_role = "supplemental_preview"`, and intentionally skips any country whose canonical dataset already has richer non-legacy hotline records.
+
 ## Included artifacts
 
 - `final_countries_crisis_directory.json` — merged 253-row country/territory directory
@@ -17,6 +19,6 @@ This directory vendors the 2026-04-22 generated crisis-directory work so it can 
 
 ## Why this is not merged directly into `hotlines.json`
 
-The generated directory is valuable, but it uses a different schema and verification model from this repo's canonical v2 dataset. It also includes a small set of political/geographic entities that do not map cleanly onto the repo's current country list.
+The generated directory is valuable, but it uses a different source-verification model from this repo's canonical v2 dataset. It also includes a small set of political/geographic entities that do not map cleanly onto the repo's current country list.
 
-To keep the canonical dataset stable, this source directory is checked in together with a conservative integration script and report. Maintainers can now review the generated work, inspect the preview conversion, and selectively merge it later.
+To keep the canonical dataset stable, this source directory is checked in together with a conservative integration script and report. Maintainers can now review the generated work, inspect the preview conversion, and selectively merge it later. The preview is limited to countries that do **not** already have richer non-legacy canonical records, so it cannot be mistaken for a safe overwrite of the canonical v2 data.
