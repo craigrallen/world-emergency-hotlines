@@ -17,7 +17,7 @@ const country = await getCountry(code.toUpperCase());
 
 // Should never happen since paths come from manifest, but guard for type safety
 if (!country) {
-  return Astro.redirect('/');
+  return Astro.redirect('/404');
 }
 
 const VERIFIED_SET = new Set(['verified_web', 'verified_authority', 'verified_knowledge']);

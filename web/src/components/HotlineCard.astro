@@ -35,8 +35,30 @@ const statusTooltip: Record<string, string> = {
 };
 const tooltip = statusTooltip[hotline.verification_status] ?? '';
 
+// Defensive sanitizer: protect the UI from any residual parse artefacts.
+// A well-formed number should not end with an unclosed " (..." nor start
+// with a bare "NN)" (country/area code that lost its leading paren).
+function cleanNumber(raw: string): string {
+  let n = String(raw).trim();
+  while (n.split('(').length - 1 > n.split(')').length - 1) {
+    const i = n.lastIndexOf(' (');
+    if (i <= 0) break;
+    n = n.slice(0, i).trim();
+  }
+  while (
+    n.split(')').length - 1 > n.split('(').length - 1 &&
+    n.endsWith(')')
+  ) {
+    n = n.slice(0, -1).trim();
+  }
+  if (/^\d+\)/.test(n) && !n.includes('(')) n = '(' + n;
+  return n;
+}
+
 // Numbers: voice first, then short codes
-const numbers = [...hotline.voice_numbers, ...hotline.short_codes];
+const numbers = [...hotline.voice_numbers, ...hotline.short_codes]
+  .map(cleanNumber)
+  .filter((n) => n.length > 0);
 
 // Channel availability flags
 const hasSms   = hotline.sms_numbers.length > 0 || hotline.text_numbers.length > 0;
