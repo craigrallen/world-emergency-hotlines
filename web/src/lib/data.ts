@@ -15,7 +15,10 @@ import type {
   VerificationStatus,
 } from './types';
 
-const DATA_DIR = new URL('../../public/data/', import.meta.url);
+// Resolved against `process.cwd()` so paths survive Astro 6's prerender
+// chunk relocation (`import.meta.url` points at `dist/.prerender/chunks/`
+// at build time, which breaks `../../public/data/` relative walks).
+const DATA_DIR = new URL('public/data/', `file://${process.cwd()}/`);
 
 async function readJson<T>(path: URL): Promise<T> {
   const fs = await import('node:fs/promises');
