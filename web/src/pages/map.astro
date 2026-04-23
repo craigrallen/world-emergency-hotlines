@@ -7,7 +7,7 @@ import Base from '../layouts/Base.astro';
   description="Explore emergency and crisis hotlines on a zoomable, mobile-friendly world map."
   bleed={true}
 >
-  <div class="relative h-[calc(100dvh-64px)] min-h-[560px] w-full">
+  <div class="map-shell relative w-full">
     <div
       id="hotlines-map"
       class="absolute inset-0 bg-bg"
@@ -280,6 +280,29 @@ import Base from '../layouts/Base.astro';
       });
     })();
   </script>
+
+  <style is:global>
+    /* When the map page is rendered, make the body a flex column with
+       no extra whitespace so the map-shell can fill all remaining space
+       below the header/banner regardless of their actual heights. */
+    body:has(.map-shell) > main {
+      display: flex;
+      flex-direction: column;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    body:has(.map-shell) > main > .map-shell {
+      flex: 1 1 auto;
+      min-height: 560px;
+    }
+    /* Fallback for browsers without :has() — use a generous viewport height */
+    @supports not selector(:has(*)) {
+      .map-shell {
+        height: calc(100dvh - 180px);
+        min-height: 560px;
+      }
+    }
+  </style>
 
   <style>
     .leaflet-container {
