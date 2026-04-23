@@ -1,0 +1,2449 @@
+{
+  "source": "https://www.safetravel.govt.nz/destinations/",
+  "record_count": 122,
+  "missing": [
+    [
+      "af",
+      "Afghanistan",
+      "afghanistan"
+    ],
+    [
+      "ai",
+      "Anguilla",
+      "anguilla"
+    ],
+    [
+      "ag",
+      "Antigua and Barbuda",
+      "antigua-and-barbuda"
+    ],
+    [
+      "aw",
+      "Aruba",
+      "aruba"
+    ],
+    [
+      "bs",
+      "Bahamas",
+      "bahamas"
+    ],
+    [
+      "bb",
+      "Barbados",
+      "barbados"
+    ],
+    [
+      "bz",
+      "Belize",
+      "belize"
+    ],
+    [
+      "bj",
+      "Benin",
+      "benin"
+    ],
+    [
+      "bm",
+      "Bermuda",
+      "bermuda"
+    ],
+    [
+      "bt",
+      "Bhutan",
+      "bhutan"
+    ],
+    [
+      "vg",
+      "British Virgin Islands",
+      "british-virgin-islands"
+    ],
+    [
+      "bf",
+      "Burkina Faso",
+      "burkina-faso"
+    ],
+    [
+      "bi",
+      "Burundi",
+      "burundi"
+    ],
+    [
+      "cv",
+      "Cabo Verde",
+      "cabo-verde"
+    ],
+    [
+      "cm",
+      "Cameroon",
+      "cameroon"
+    ],
+    [
+      "ky",
+      "Cayman Islands",
+      "cayman-islands"
+    ],
+    [
+      "cf",
+      "Central African Republic",
+      "central-african-republic"
+    ],
+    [
+      "td",
+      "Chad",
+      "chad"
+    ],
+    [
+      "km",
+      "Comoros",
+      "comoros"
+    ],
+    [
+      "cd",
+      "Democratic Republic of the Congo",
+      "democratic-republic-of-the-congo"
+    ],
+    [
+      "dk",
+      "Denmark",
+      "denmark"
+    ],
+    [
+      "dj",
+      "Djibouti",
+      "djibouti"
+    ],
+    [
+      "dm",
+      "Dominica",
+      "dominica"
+    ],
+    [
+      "gq",
+      "Equatorial Guinea",
+      "equatorial-guinea"
+    ],
+    [
+      "er",
+      "Eritrea",
+      "eritrea"
+    ],
+    [
+      "et",
+      "Ethiopia",
+      "ethiopia"
+    ],
+    [
+      "fm",
+      "Federated States of Micronesia",
+      "federated-states-of-micronesia"
+    ],
+    [
+      "fi",
+      "Finland",
+      "finland"
+    ],
+    [
+      "gf",
+      "French Guiana",
+      "french-guiana"
+    ],
+    [
+      "pf",
+      "French Polynesia",
+      "french-polynesia"
+    ],
+    [
+      "ga",
+      "Gabon",
+      "gabon"
+    ],
+    [
+      "gh",
+      "Ghana",
+      "ghana"
+    ],
+    [
+      "gi",
+      "Gibraltar",
+      "gibraltar"
+    ],
+    [
+      "gl",
+      "Greenland",
+      "greenland"
+    ],
+    [
+      "gd",
+      "Grenada",
+      "grenada"
+    ],
+    [
+      "gp",
+      "Guadeloupe",
+      "guadeloupe"
+    ],
+    [
+      "gu",
+      "Guam",
+      "guam"
+    ],
+    [
+      "gn",
+      "Guinea",
+      "guinea"
+    ],
+    [
+      "gw",
+      "Guinea-Bissau",
+      "guinea-bissau"
+    ],
+    [
+      "gy",
+      "Guyana",
+      "guyana"
+    ],
+    [
+      "ht",
+      "Haiti",
+      "haiti"
+    ],
+    [
+      "hn",
+      "Honduras",
+      "honduras"
+    ],
+    [
+      "hk",
+      "Hong Kong",
+      "hong-kong"
+    ],
+    [
+      "is",
+      "Iceland",
+      "iceland"
+    ],
+    [
+      "id",
+      "Indonesia",
+      "indonesia"
+    ],
+    [
+      "ir",
+      "Iran",
+      "iran"
+    ],
+    [
+      "iq",
+      "Iraq",
+      "iraq"
+    ],
+    [
+      "il",
+      "Israel and the Occupied Palestinian Territories",
+      "israel-and-the-occupied-palestinian-territories"
+    ],
+    [
+      "jm",
+      "Jamaica",
+      "jamaica"
+    ],
+    [
+      "ke",
+      "Kenya",
+      "kenya"
+    ],
+    [
+      "lr",
+      "Liberia",
+      "liberia"
+    ],
+    [
+      "mo",
+      "Macau (China)",
+      "macau"
+    ],
+    [
+      "mg",
+      "Madagascar",
+      "madagascar"
+    ],
+    [
+      "ml",
+      "Mali",
+      "mali"
+    ],
+    [
+      "mh",
+      "Marshall Islands",
+      "marshall-islands"
+    ],
+    [
+      "mq",
+      "Martinique",
+      "martinique"
+    ],
+    [
+      "mr",
+      "Mauritania",
+      "mauritania"
+    ],
+    [
+      "yt",
+      "Mayotte",
+      "mayotte"
+    ],
+    [
+      "ms",
+      "Montserrat",
+      "montserrat"
+    ],
+    [
+      "nr",
+      "Nauru",
+      "nauru"
+    ],
+    [
+      "an",
+      "Netherlands Antilles",
+      "netherlands-antilles"
+    ],
+    [
+      "nc",
+      "New Caledonia",
+      "new-caledonia"
+    ],
+    [
+      "ne",
+      "Niger",
+      "niger"
+    ],
+    [
+      "ng",
+      "Nigeria",
+      "nigeria"
+    ],
+    [
+      "mp",
+      "Northern Mariana Islands",
+      "northern-mariana-islands"
+    ],
+    [
+      "no",
+      "Norway",
+      "norway"
+    ],
+    [
+      "pw",
+      "Palau",
+      "palau"
+    ],
+    [
+      "pr",
+      "Puerto Rico",
+      "puerto-rico"
+    ],
+    [
+      "cg",
+      "Republic of the Congo",
+      "republic-of-the-congo"
+    ],
+    [
+      "rw",
+      "Rwanda",
+      "rwanda"
+    ],
+    [
+      "kn",
+      "Saint Kitts and Nevis",
+      "st-kitts-and-nevis"
+    ],
+    [
+      "st",
+      "Sao Tome and Principe",
+      "sao-tome-and-principe"
+    ],
+    [
+      "sc",
+      "Seychelles",
+      "seychelles"
+    ],
+    [
+      "sl",
+      "Sierra Leone",
+      "sierra-leone"
+    ],
+    [
+      "so",
+      "Somalia",
+      "somalia"
+    ],
+    [
+      "ss",
+      "South Sudan",
+      "south-sudan"
+    ],
+    [
+      "lc",
+      "St. Lucia",
+      "st-lucia"
+    ],
+    [
+      "vc",
+      "St. Vincent and the Grenadines",
+      "st-vincent-and-the-grenadines"
+    ],
+    [
+      "sd",
+      "Sudan",
+      "sudan"
+    ],
+    [
+      "sr",
+      "Suriname",
+      "suriname"
+    ],
+    [
+      "se",
+      "Sweden",
+      "sweden"
+    ],
+    [
+      "ch",
+      "Switzerland",
+      "switzerland"
+    ],
+    [
+      "sy",
+      "Syria",
+      "syria"
+    ],
+    [
+      "tw",
+      "Taiwan",
+      "taiwan"
+    ],
+    [
+      "gm",
+      "The Gambia",
+      "the-gambia"
+    ],
+    [
+      "tg",
+      "Togo",
+      "togo"
+    ],
+    [
+      "tk",
+      "Tokelau",
+      "tokelau"
+    ],
+    [
+      "tt",
+      "Trinidad and Tobago",
+      "trinidad-and-tobago"
+    ],
+    [
+      "tc",
+      "Turks and Caicos",
+      "turks-and-caicos"
+    ],
+    [
+      "tv",
+      "Tuvalu",
+      "tuvalu"
+    ],
+    [
+      "ug",
+      "Uganda",
+      "uganda"
+    ],
+    [
+      "gb",
+      "United Kingdom",
+      "united-kingdom"
+    ],
+    [
+      "vi",
+      "Virgin Islands, US",
+      "virgin-islands,-u-s"
+    ],
+    [
+      "wf",
+      "Wallis and Futuna",
+      "wallis-and-futuna"
+    ],
+    [
+      "ye",
+      "Yemen",
+      "yemen"
+    ]
+  ],
+  "records": [
+    {
+      "country_name": "Albania",
+      "country": "AL",
+      "slug": "albania",
+      "source_url": "https://www.safetravel.govt.nz/destinations/albania",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+39 06 853 7501"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/italy",
+        "street": "Via Clitunno, 44, 00198 Rome, Italy",
+        "hours": "Mon- Fri 0900 -1230 and 1330-1630"
+      }
+    },
+    {
+      "country_name": "Algeria",
+      "country": "DZ",
+      "slug": "algeria",
+      "source_url": "https://www.safetravel.govt.nz/destinations/algeria",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+202 2461 9186"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/en/countries-and-regions/middle-east/egypt/new-zealand-embassy-to-arab-republic-of-egypt/",
+        "street": "8th floor, North Tower, Nile City Towers, Corniche El Nil, Ramlet Beaulac.",
+        "hours": "Sun-Wed 0900-1500 hrs, Thurs 0900-1330 hrs"
+      }
+    },
+    {
+      "country_name": "American Samoa",
+      "country": "AS",
+      "slug": "american-samoa",
+      "source_url": "https://www.safetravel.govt.nz/destinations/american-samoa",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+685 21 711",
+          "+685 21 712"
+        ],
+        "email": null,
+        "website": "http://www.nzembassy.com/samoa",
+        "street": "Beach Road, Apia, Samoa",
+        "hours": "Mon - Fri 0800 - 1600 hrs"
+      }
+    },
+    {
+      "country_name": "Andorra",
+      "country": "AD",
+      "slug": "andorra",
+      "source_url": "https://www.safetravel.govt.nz/destinations/andorra",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+34 915 230 226"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/spain",
+        "street": "Calle del Pinar, 7, 3rd floor, 28006 Madrid, Spain",
+        "hours": "Mon-Fri 0900-1400, and 1500-1730, July and August"
+      }
+    },
+    {
+      "country_name": "Angola",
+      "country": "AO",
+      "slug": "angola",
+      "source_url": "https://www.safetravel.govt.nz/destinations/angola",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+27 12 435 9000"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/south-africa",
+        "street": "125 Middel Street, Nieuw Muckleneuk, 0181 Pretoria, South Africa",
+        "hours": "Mon - Fri 0800 - 1630hrs"
+      }
+    },
+    {
+      "country_name": "Argentina",
+      "country": "AR",
+      "slug": "argentina",
+      "source_url": "https://www.safetravel.govt.nz/destinations/argentina",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+54 (11) 5070 0700"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/argentina/",
+        "street": "Carlos Pellegrini 1427, 5th Floor, Ciudad de Buenos Aires CP1011, Argentina",
+        "hours": "Mon-Fri 10"
+      }
+    },
+    {
+      "country_name": "Armenia",
+      "country": "AM",
+      "slug": "armenia",
+      "source_url": "https://www.safetravel.govt.nz/destinations/armenia",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+7 495 956 3579",
+          "+7 495 956 3580"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/russia",
+        "street": "44 Povarskaya Ulitsa , Moscow 121069, Russian Federation",
+        "hours": "Mon - Fri 0900 - 1230, 1330 - 1730 hrs"
+      }
+    },
+    {
+      "country_name": "Australia",
+      "country": "AU",
+      "slug": "australia",
+      "source_url": "https://www.safetravel.govt.nz/destinations/australia",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+61 2 6270 4211"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/australia",
+        "street": "140 Commonwealth Avenue, Yarralumla, ACT 2600 (visitor entrance on Forster Crescent)",
+        "hours": "By appointment only, please call or email"
+      }
+    },
+    {
+      "country_name": "Austria",
+      "country": "AT",
+      "slug": "austria",
+      "source_url": "https://www.safetravel.govt.nz/destinations/austria",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+43 1 505 3021"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/austria",
+        "street": "The ICON Vienna, Tower 24, Level 15, Suite 15.02, Wiedner G&#xFC;rtel 13, 1100 Vienna, Austria",
+        "hours": "Mon-Fri"
+      }
+    },
+    {
+      "country_name": "Azerbaijan",
+      "country": "AZ",
+      "slug": "azerbaijan",
+      "source_url": "https://www.safetravel.govt.nz/destinations/azerbaijan",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+ 90 312 446 3333"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/en/countries-and-regions/middle-east/turkey/new-zealand-embassy-to-turkey/",
+        "street": "Kizkulesi Sokak No.11, Gaziosmanpasa, Ankara, T&#xFC;rkiye",
+        "hours": "Mon - Thur"
+      }
+    },
+    {
+      "country_name": "Bahrain",
+      "country": "BH",
+      "slug": "bahrain",
+      "source_url": "https://www.safetravel.govt.nz/destinations/bahrain",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+966 11 488 7988"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/saudi-arabia",
+        "street": "Diplomatic Quarter, Riyadh, Saudi Arabia",
+        "hours": "Sun - Thurs 0900 - 1200hrs, 1230 -1500hrs"
+      }
+    },
+    {
+      "country_name": "Bangladesh",
+      "country": "BD",
+      "slug": "bangladesh",
+      "source_url": "https://www.safetravel.govt.nz/destinations/bangladesh",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+94 11 217 4717"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/sri-lanka/",
+        "street": "Unit 2401&#x2212;2402, Level 24 One Galle Face Tower 1A Centre Road, Galle Face 00200 Colombo Sri Lanka",
+        "hours": "By appointment"
+      }
+    },
+    {
+      "country_name": "Belarus",
+      "country": "BY",
+      "slug": "belarus",
+      "source_url": "https://www.safetravel.govt.nz/destinations/belarus",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+7 495 956 3579",
+          "+7 495 956 3580"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/russia",
+        "street": "44 Povarskaya Ulitsa , Moscow 121069, Russian Federation",
+        "hours": "Mon - Fri 0900 - 1230, 1330 - 1730 hrs"
+      }
+    },
+    {
+      "country_name": "Belgium",
+      "country": "BE",
+      "slug": "belgium",
+      "source_url": "https://www.safetravel.govt.nz/destinations/belgium",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+32 2 512 1040"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/belgium",
+        "street": "Avenue des Nerviens 9/31, B-1040 Brussels, Belgium",
+        "hours": "Mon-Fri 0900-1300 hrs, 1400-1700 hrs"
+      }
+    },
+    {
+      "country_name": "Bolivia",
+      "country": "BO",
+      "slug": "bolivia",
+      "source_url": "https://www.safetravel.govt.nz/destinations/bolivia",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+56 2 2616 3000"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/chile",
+        "street": "Isidora Goyenechea 3000, 12th Floor, Las Condes, Santiago, Chile",
+        "hours": "Mon-Fri 0845-1300, 1400-1715 hrs"
+      }
+    },
+    {
+      "country_name": "Bosnia and Herzegovina",
+      "country": "BA",
+      "slug": "bosnia-and-herzegovina",
+      "source_url": "https://www.safetravel.govt.nz/destinations/bosnia-and-herzegovina",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+39 06 853 7501"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/italy",
+        "street": "Via Clitunno, 44, 00198 Rome, Italy",
+        "hours": "Mon- Fri 0900 -1230 and 1330-1630"
+      }
+    },
+    {
+      "country_name": "Botswana",
+      "country": "BW",
+      "slug": "botswana",
+      "source_url": "https://www.safetravel.govt.nz/destinations/botswana",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+27 12 435 9000"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/south-africa",
+        "street": "125 Middel Street, Nieuw Muckleneuk, 0181 Pretoria, South Africa",
+        "hours": "Mon - Fri 0800 - 1630hrs"
+      }
+    },
+    {
+      "country_name": "Brazil",
+      "country": "BR",
+      "slug": "brazil",
+      "source_url": "https://www.safetravel.govt.nz/destinations/brazil",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+55 61 3248 9900"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/brazil",
+        "street": "SHIS QI 09, conj. 16, casa 01, Lago Sul 71625-160, Brasilia DF, Brazil",
+        "hours": "Mon - Fri 0830 -1700 hrs"
+      }
+    },
+    {
+      "country_name": "Brunei Darussalam",
+      "country": "BN",
+      "slug": "brunei-darussalam",
+      "source_url": "https://www.safetravel.govt.nz/destinations/brunei-darussalam",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+60 3 2027 8998"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/malaysia",
+        "street": "Level 8, Menara Hap Seng 3, Jalan P Ramlee, 50250, Kuala Lumpur",
+        "hours": "Mon-Fri 0830am to 1230 hrs (reception); Mon-Thurs 0800-1630 hrs, Fri 0800-1600 hr"
+      }
+    },
+    {
+      "country_name": "Bulgaria",
+      "country": "BG",
+      "slug": "bulgaria",
+      "source_url": "https://www.safetravel.govt.nz/destinations/bulgaria",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+32 2 512 1040"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/belgium",
+        "street": "Avenue des Nerviens 9/31, B-1040 Brussels, Belgium",
+        "hours": "Mon-Fri 0900-1300 hrs, 1400-1700 hrs"
+      }
+    },
+    {
+      "country_name": "Cambodia",
+      "country": "KH",
+      "slug": "cambodia",
+      "source_url": "https://www.safetravel.govt.nz/destinations/cambodia",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+66 2 254 2530"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/thailand",
+        "street": "M Thai Tower, 14th floor, All Seasons Place, 87 Wireless Road, Bangkok",
+        "hours": "Mon-Fri 0800-1200, 1300-1630 hrs"
+      }
+    },
+    {
+      "country_name": "Canada",
+      "country": "CA",
+      "slug": "canada",
+      "source_url": "https://www.safetravel.govt.nz/destinations/canada",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+1 613 238 5991"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/en/countries-and-regions/americas/canada/new-zealand-high-commission/",
+        "street": "150 Elgin Street, Suite 1401 Ottawa Ontario K2P 1L4",
+        "hours": "Mon - Fri 0830 - 1630 hrs (Public office hours are 0900 - 1400)"
+      }
+    },
+    {
+      "country_name": "Chile",
+      "country": "CL",
+      "slug": "chile",
+      "source_url": "https://www.safetravel.govt.nz/destinations/chile",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+56 2 2616 3000"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/chile",
+        "street": "Isidora Goyenechea 3000, 12th Floor, Las Condes, Santiago, Chile",
+        "hours": "Mon-Fri 0845-1300, 1400-1715 hrs"
+      }
+    },
+    {
+      "country_name": "China",
+      "country": "CN",
+      "slug": "china",
+      "source_url": "https://www.safetravel.govt.nz/destinations/china",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+86 10 8532 7000"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/china",
+        "street": "1 Ritan Dongerjie, Chaoyang District, Beijing 100600",
+        "hours": "Mon - Fri 0830 - 1700 hrs"
+      }
+    },
+    {
+      "country_name": "Colombia",
+      "country": "CO",
+      "slug": "colombia",
+      "source_url": "https://www.safetravel.govt.nz/destinations/colombia",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+57 601 439 1666"
+        ],
+        "email": null,
+        "website": null,
+        "street": "Embajada de Nueva Zelandia, Calle 81 #11-08, Office 802, Edificio 8111, Bogot&#xE1;, Colombia",
+        "hours": "Mon-Thu"
+      }
+    },
+    {
+      "country_name": "Cook Islands",
+      "country": "CK",
+      "slug": "cook-islands",
+      "source_url": "https://www.safetravel.govt.nz/destinations/cook-islands",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+682 22 201"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/cook-islands",
+        "street": "1st floor, Philatelic Bureau Building, Takuvaine Road, Avarua, Rarotonga, Cook Islands",
+        "hours": "Mon - Fri 1000 - 1400 hrs"
+      }
+    },
+    {
+      "country_name": "Costa Rica",
+      "country": "CR",
+      "slug": "costa-rica",
+      "source_url": "https://www.safetravel.govt.nz/destinations/costa-rica",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+52 55 5283 9460"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/mexico",
+        "street": "Jaime Balmes No 8, 4th Floor, Los Morales, Polanco, Mexico D.F. 11510",
+        "hours": "Mon - Fri 0930 - 1400"
+      }
+    },
+    {
+      "country_name": "Croatia",
+      "country": "HR",
+      "slug": "croatia",
+      "source_url": "https://www.safetravel.govt.nz/destinations/croatia",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+39 06 853 7501"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/italy",
+        "street": "Via Clitunno, 44, 00198 Rome, Italy",
+        "hours": "Mon- Fri 0900 -1230 and 1330-1630"
+      }
+    },
+    {
+      "country_name": "Cuba",
+      "country": "CU",
+      "slug": "cuba",
+      "source_url": "https://www.safetravel.govt.nz/destinations/cuba",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+52 55 5283 9460"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/mexico",
+        "street": "Jaime Balmes No 8, 4th Floor, Los Morales, Polanco, Mexico D.F. 11510",
+        "hours": "Mon - Fri 0930 - 1400"
+      }
+    },
+    {
+      "country_name": "Cyprus",
+      "country": "CY",
+      "slug": "cyprus",
+      "source_url": "https://www.safetravel.govt.nz/destinations/cyprus",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+39 06 853 7501"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/italy",
+        "street": "Via Clitunno, 44, 00198 Rome, Italy",
+        "hours": "Mon- Fri 0900 -1230 and 1330-1630"
+      }
+    },
+    {
+      "country_name": "Czech Republic",
+      "country": "CZ",
+      "slug": "czech-republic",
+      "source_url": "https://www.safetravel.govt.nz/destinations/czech-republic",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+49 30 206 210"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/germany",
+        "street": "Atrium 4th Floor, Friedrichstrasse 60 10117",
+        "hours": "Mon - Fri 09"
+      }
+    },
+    {
+      "country_name": "Dominican Republic",
+      "country": "DO",
+      "slug": "dominican-republic",
+      "source_url": "https://www.safetravel.govt.nz/destinations/dominican-republic",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+57 601 439 1666"
+        ],
+        "email": null,
+        "website": null,
+        "street": "Embajada de Nueva Zelandia, Calle 81 #11-08, Office 802, Edificio 8111, Bogot&#xE1;, Colombia",
+        "hours": "Mon-Thu"
+      }
+    },
+    {
+      "country_name": "Ecuador",
+      "country": "EC",
+      "slug": "ecuador",
+      "source_url": "https://www.safetravel.govt.nz/destinations/ecuador",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+57 601 439 1666"
+        ],
+        "email": null,
+        "website": null,
+        "street": "Embajada de Nueva Zelandia, Calle 81 #11-08, Office 802, Edificio 8111, Bogot&#xE1;, Colombia",
+        "hours": "Mon-Thu"
+      }
+    },
+    {
+      "country_name": "Egypt",
+      "country": "EG",
+      "slug": "egypt",
+      "source_url": "https://www.safetravel.govt.nz/destinations/egypt",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+202 2461 9186"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/en/countries-and-regions/middle-east/egypt/new-zealand-embassy-to-arab-republic-of-egypt/",
+        "street": "8th floor, North Tower, Nile City Towers, Corniche El Nil, Ramlet Beaulac.",
+        "hours": "Sun-Wed 0900-1500 hrs, Thurs 0900-1330 hrs"
+      }
+    },
+    {
+      "country_name": "El Salvador",
+      "country": "SV",
+      "slug": "el-salvador",
+      "source_url": "https://www.safetravel.govt.nz/destinations/el-salvador",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+52 55 5283 9460"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/mexico",
+        "street": "Jaime Balmes No 8, 4th Floor, Los Morales, Polanco, Mexico D.F. 11510",
+        "hours": "Mon - Fri 0930 - 1400"
+      }
+    },
+    {
+      "country_name": "Estonia",
+      "country": "EE",
+      "slug": "estonia",
+      "source_url": "https://www.safetravel.govt.nz/destinations/estonia",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+48 22 521 0500"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/poland",
+        "street": "n/a Telephone: +48 22 521 0500",
+        "hours": "By appointment"
+      }
+    },
+    {
+      "country_name": "Eswatini",
+      "country": "SZ",
+      "slug": "eswatini",
+      "source_url": "https://www.safetravel.govt.nz/destinations/eswatini",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+27 12 435 9000"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/south-africa",
+        "street": "125 Middel Street, Nieuw Muckleneuk, 0181 Pretoria, South Africa",
+        "hours": "Mon - Fri 0800 - 1630hrs"
+      }
+    },
+    {
+      "country_name": "Fiji",
+      "country": "FJ",
+      "slug": "fiji",
+      "source_url": "https://www.safetravel.govt.nz/destinations/fiji",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+679 331 1422"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/en/countries-and-regions/australia-and-pacific/fiji/new-zealand-high-commission/",
+        "street": "Lot 12 Banuve Street, Nasese, Suva&#xA;",
+        "hours": "Mon - Fri 0800-1200, 1300-1630 hrs"
+      }
+    },
+    {
+      "country_name": "France",
+      "country": "FR",
+      "slug": "france",
+      "source_url": "https://www.safetravel.govt.nz/destinations/france",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+33 1 45 01 43 43",
+          "+44 (20) 7968 2730"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/france",
+        "street": "103, rue de Grenelle, 75007 Paris, France",
+        "hours": "Mon-Fri 09"
+      }
+    },
+    {
+      "country_name": "Georgia",
+      "country": "GE",
+      "slug": "georgia",
+      "source_url": "https://www.safetravel.govt.nz/destinations/georgia",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+48 22 521 0500"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/poland",
+        "street": "n/a Telephone: +48 22 521 0500",
+        "hours": "By appointment"
+      }
+    },
+    {
+      "country_name": "Germany",
+      "country": "DE",
+      "slug": "germany",
+      "source_url": "https://www.safetravel.govt.nz/destinations/germany",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+49 30 206 210"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/germany",
+        "street": "Atrium 4th Floor, Friedrichstrasse 60 10117",
+        "hours": "Mon - Fri 09"
+      }
+    },
+    {
+      "country_name": "Greece",
+      "country": "GR",
+      "slug": "greece",
+      "source_url": "https://www.safetravel.govt.nz/destinations/greece",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+39 06 853 7501"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/italy",
+        "street": "Via Clitunno, 44, 00198 Rome, Italy",
+        "hours": "Mon- Fri 0900 -1230 and 1330-1630"
+      }
+    },
+    {
+      "country_name": "Guatemala",
+      "country": "GT",
+      "slug": "guatemala",
+      "source_url": "https://www.safetravel.govt.nz/destinations/guatemala",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+52 55 5283 9460"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/mexico",
+        "street": "Jaime Balmes No 8, 4th Floor, Los Morales, Polanco, Mexico D.F. 11510",
+        "hours": "Mon - Fri 0930 - 1400"
+      }
+    },
+    {
+      "country_name": "Hungary",
+      "country": "HU",
+      "slug": "hungary",
+      "source_url": "https://www.safetravel.govt.nz/destinations/hungary",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+43 1 505 3021"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/austria",
+        "street": "The ICON Vienna, Tower 24, Level 15, Suite 15.02, Wiedner G&#xFC;rtel 13, 1100 Vienna, Austria",
+        "hours": "Mon-Fri"
+      }
+    },
+    {
+      "country_name": "India",
+      "country": "IN",
+      "slug": "india",
+      "source_url": "https://www.safetravel.govt.nz/destinations/india",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+91 11 4688 3170"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/en/countries-and-regions/asia/india/new-zealand-high-commission/",
+        "street": "Sir Edmund Hillary Marg, Chanakyapuri, New Delhi 110 021, India",
+        "hours": "Mon - Fri 0830 - 1700 hrs"
+      }
+    },
+    {
+      "country_name": "Ireland",
+      "country": "IE",
+      "slug": "ireland",
+      "source_url": "https://www.safetravel.govt.nz/destinations/ireland",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+353 (0)1 5677680"
+        ],
+        "email": null,
+        "website": null,
+        "street": "Level 3, 2-4 Merrion Row, Dublin D02 WP23",
+        "hours": "By appointment"
+      }
+    },
+    {
+      "country_name": "Italy",
+      "country": "IT",
+      "slug": "italy",
+      "source_url": "https://www.safetravel.govt.nz/destinations/italy",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+39 06 853 7501"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/italy",
+        "street": "Via Clitunno, 44, 00198 Rome, Italy",
+        "hours": "Mon- Fri 0900 -1230 and 1330-1630"
+      }
+    },
+    {
+      "country_name": "Japan",
+      "country": "JP",
+      "slug": "japan",
+      "source_url": "https://www.safetravel.govt.nz/destinations/japan",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+81 3 3467 2271"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/japan",
+        "street": "20-40 Kamiyama-cho, Shibuya-ku, Tokyo 150 - 0047, Japan",
+        "hours": "Mon - Fri 0900 - 1730 hrs"
+      }
+    },
+    {
+      "country_name": "Jordan",
+      "country": "JO",
+      "slug": "jordan",
+      "source_url": "https://www.safetravel.govt.nz/destinations/jordan",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+ 90 312 446 3333"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/en/countries-and-regions/middle-east/turkey/new-zealand-embassy-to-turkey/",
+        "street": "Kizkulesi Sokak No.11, Gaziosmanpasa, Ankara, T&#xFC;rkiye",
+        "hours": "Mon - Thur"
+      }
+    },
+    {
+      "country_name": "Kazakhstan",
+      "country": "KZ",
+      "slug": "kazakhstan",
+      "source_url": "https://www.safetravel.govt.nz/destinations/kazakhstan",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+7 495 956 3579",
+          "+7 495 956 3580"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/russia",
+        "street": "44 Povarskaya Ulitsa , Moscow 121069, Russian Federation",
+        "hours": "Mon - Fri 0900 - 1230, 1330 - 1730 hrs"
+      }
+    },
+    {
+      "country_name": "Kiribati",
+      "country": "KI",
+      "slug": "kiribati",
+      "source_url": "https://www.safetravel.govt.nz/destinations/kiribati",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+686 7402 1400"
+        ],
+        "email": null,
+        "website": null,
+        "street": "PO Box 53, Bairiki, Tarawa, Republic of Kiribati",
+        "hours": "Mon - Fri 0830 - 1230, 1330 - 1700 hrs"
+      }
+    },
+    {
+      "country_name": "Kuwait",
+      "country": "KW",
+      "slug": "kuwait",
+      "source_url": "https://www.safetravel.govt.nz/destinations/kuwait",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+966 11 488 7988"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/saudi-arabia",
+        "street": "Diplomatic Quarter, Riyadh, Saudi Arabia",
+        "hours": "Sun - Thurs 0900 - 1200hrs, 1230 -1500hrs"
+      }
+    },
+    {
+      "country_name": "Kyrgyzstan",
+      "country": "KG",
+      "slug": "kyrgyzstan",
+      "source_url": "https://www.safetravel.govt.nz/destinations/kyrgyzstan",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+7 495 956 3579",
+          "+7 495 956 3580"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/russia",
+        "street": "44 Povarskaya Ulitsa , Moscow 121069, Russian Federation",
+        "hours": "Mon - Fri 0900 - 1230, 1330 - 1730 hrs"
+      }
+    },
+    {
+      "country_name": "Laos",
+      "country": "LA",
+      "slug": "laos",
+      "source_url": "https://www.safetravel.govt.nz/destinations/laos",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+66 2 254 2530"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/thailand",
+        "street": "M Thai Tower, 14th floor, All Seasons Place, 87 Wireless Road, Bangkok",
+        "hours": "Mon-Fri 0800-1200, 1300-1630 hrs"
+      }
+    },
+    {
+      "country_name": "Latvia",
+      "country": "LV",
+      "slug": "latvia",
+      "source_url": "https://www.safetravel.govt.nz/destinations/latvia",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+48 22 521 0500"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/poland",
+        "street": "n/a Telephone: +48 22 521 0500",
+        "hours": "By appointment"
+      }
+    },
+    {
+      "country_name": "Lebanon",
+      "country": "LB",
+      "slug": "lebanon",
+      "source_url": "https://www.safetravel.govt.nz/destinations/lebanon",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+202 2461 9186"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/en/countries-and-regions/middle-east/egypt/new-zealand-embassy-to-arab-republic-of-egypt/",
+        "street": "8th floor, North Tower, Nile City Towers, Corniche El Nil, Ramlet Beaulac.",
+        "hours": "Sun-Wed 0900-1500 hrs, Thurs 0900-1330 hrs"
+      }
+    },
+    {
+      "country_name": "Lesotho",
+      "country": "LS",
+      "slug": "lesotho",
+      "source_url": "https://www.safetravel.govt.nz/destinations/lesotho",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+27 12 435 9000"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/south-africa",
+        "street": "125 Middel Street, Nieuw Muckleneuk, 0181 Pretoria, South Africa",
+        "hours": "Mon - Fri 0800 - 1630hrs"
+      }
+    },
+    {
+      "country_name": "Libya",
+      "country": "LY",
+      "slug": "libya",
+      "source_url": "https://www.safetravel.govt.nz/destinations/libya",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+202 2461 9186"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/en/countries-and-regions/middle-east/egypt/new-zealand-embassy-to-arab-republic-of-egypt/",
+        "street": "8th floor, North Tower, Nile City Towers, Corniche El Nil, Ramlet Beaulac.",
+        "hours": "Sun-Wed 0900-1500 hrs, Thurs 0900-1330 hrs"
+      }
+    },
+    {
+      "country_name": "Liechtenstein",
+      "country": "LI",
+      "slug": "liechtenstein",
+      "source_url": "https://www.safetravel.govt.nz/destinations/liechtenstein",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+49 30 206 210"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/germany",
+        "street": "Atrium 4th Floor, Friedrichstrasse 60 10117",
+        "hours": "Mon - Fri 09"
+      }
+    },
+    {
+      "country_name": "Lithuania",
+      "country": "LT",
+      "slug": "lithuania",
+      "source_url": "https://www.safetravel.govt.nz/destinations/lithuania",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+48 22 521 0500"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/poland",
+        "street": "n/a Telephone: +48 22 521 0500",
+        "hours": "By appointment"
+      }
+    },
+    {
+      "country_name": "Luxembourg",
+      "country": "LU",
+      "slug": "luxembourg",
+      "source_url": "https://www.safetravel.govt.nz/destinations/luxembourg",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+32 2 512 1040"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/belgium",
+        "street": "Avenue des Nerviens 9/31, B-1040 Brussels, Belgium",
+        "hours": "Mon-Fri 0900-1300 hrs, 1400-1700 hrs"
+      }
+    },
+    {
+      "country_name": "Malawi",
+      "country": "MW",
+      "slug": "malawi",
+      "source_url": "https://www.safetravel.govt.nz/destinations/malawi",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+27 12 435 9000"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/south-africa",
+        "street": "125 Middel Street, Nieuw Muckleneuk, 0181 Pretoria, South Africa",
+        "hours": "Mon - Fri 0800 - 1630hrs"
+      }
+    },
+    {
+      "country_name": "Malaysia",
+      "country": "MY",
+      "slug": "malaysia",
+      "source_url": "https://www.safetravel.govt.nz/destinations/malaysia",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+60 3 2027 8998"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/malaysia",
+        "street": "Level 8, Menara Hap Seng 3, Jalan P Ramlee, 50250, Kuala Lumpur",
+        "hours": "Mon-Fri 0830am to 1230 hrs (reception); Mon-Thurs 0800-1630 hrs, Fri 0800-1600 hr"
+      }
+    },
+    {
+      "country_name": "Maldives",
+      "country": "MV",
+      "slug": "maldives",
+      "source_url": "https://www.safetravel.govt.nz/destinations/maldives",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+94 11 217 4717"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/sri-lanka/",
+        "street": "Unit 2401&#x2212;2402, Level 24 One Galle Face Tower 1A Centre Road, Galle Face 00200 Colombo Sri Lanka",
+        "hours": "By appointment"
+      }
+    },
+    {
+      "country_name": "Malta",
+      "country": "MT",
+      "slug": "malta",
+      "source_url": "https://www.safetravel.govt.nz/destinations/malta",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+34 915 230 226"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/spain",
+        "street": "Calle del Pinar, 7, 3rd floor, 28006 Madrid, Spain",
+        "hours": "Mon-Fri 0900-1400, and 1500-1730, July and August"
+      }
+    },
+    {
+      "country_name": "Mauritius",
+      "country": "MU",
+      "slug": "mauritius",
+      "source_url": "https://www.safetravel.govt.nz/destinations/mauritius",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+27 12 435 9000"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/south-africa",
+        "street": "125 Middel Street, Nieuw Muckleneuk, 0181 Pretoria, South Africa",
+        "hours": "Mon - Fri 0800 - 1630hrs"
+      }
+    },
+    {
+      "country_name": "Mexico",
+      "country": "MX",
+      "slug": "mexico",
+      "source_url": "https://www.safetravel.govt.nz/destinations/mexico",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+52 55 5283 9460"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/mexico",
+        "street": "Jaime Balmes No 8, 4th Floor, Los Morales, Polanco, Mexico D.F. 11510",
+        "hours": "Mon - Fri 0930 - 1400"
+      }
+    },
+    {
+      "country_name": "Moldova",
+      "country": "MD",
+      "slug": "moldova",
+      "source_url": "https://www.safetravel.govt.nz/destinations/moldova",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+32 2 512 1040"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/belgium",
+        "street": "Avenue des Nerviens 9/31, B-1040 Brussels, Belgium",
+        "hours": "Mon-Fri 0900-1300 hrs, 1400-1700 hrs"
+      }
+    },
+    {
+      "country_name": "Monaco",
+      "country": "MC",
+      "slug": "monaco",
+      "source_url": "https://www.safetravel.govt.nz/destinations/monaco",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+33 1 45 01 43 43",
+          "+44 (20) 7968 2730"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/france",
+        "street": "103, rue de Grenelle, 75007 Paris, France",
+        "hours": "Mon-Fri 09"
+      }
+    },
+    {
+      "country_name": "Mongolia",
+      "country": "MN",
+      "slug": "mongolia",
+      "source_url": "https://www.safetravel.govt.nz/destinations/mongolia",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+86 10 8532 7000"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/china",
+        "street": "1 Ritan Dongerjie, Chaoyang District, Beijing 100600",
+        "hours": "Mon - Fri 0830 - 1700 hrs"
+      }
+    },
+    {
+      "country_name": "Montenegro",
+      "country": "ME",
+      "slug": "montenegro",
+      "source_url": "https://www.safetravel.govt.nz/destinations/montenegro",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+39 06 853 7501"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/italy",
+        "street": "Via Clitunno, 44, 00198 Rome, Italy",
+        "hours": "Mon- Fri 0900 -1230 and 1330-1630"
+      }
+    },
+    {
+      "country_name": "Morocco",
+      "country": "MA",
+      "slug": "morocco",
+      "source_url": "https://www.safetravel.govt.nz/destinations/morocco",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+34 915 230 226"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/spain",
+        "street": "Calle del Pinar, 7, 3rd floor, 28006 Madrid, Spain",
+        "hours": "Mon-Fri 0900-1400, and 1500-1730, July and August"
+      }
+    },
+    {
+      "country_name": "Mozambique",
+      "country": "MZ",
+      "slug": "mozambique",
+      "source_url": "https://www.safetravel.govt.nz/destinations/mozambique",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+27 12 435 9000"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/south-africa",
+        "street": "125 Middel Street, Nieuw Muckleneuk, 0181 Pretoria, South Africa",
+        "hours": "Mon - Fri 0800 - 1630hrs"
+      }
+    },
+    {
+      "country_name": "Myanmar",
+      "country": "MM",
+      "slug": "myanmar",
+      "source_url": "https://www.safetravel.govt.nz/destinations/myanmar",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+95 9 403 323 982"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/myanmar",
+        "street": "No. 43 (C), Inya Myaing Road, Shwe Taung Kyar (2) Ward, Bahan Township, Yangon, Myanmar",
+        "hours": "Mon-Fri"
+      }
+    },
+    {
+      "country_name": "Namibia",
+      "country": "NA",
+      "slug": "namibia",
+      "source_url": "https://www.safetravel.govt.nz/destinations/namibia",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+27 12 435 9000"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/south-africa",
+        "street": "125 Middel Street, Nieuw Muckleneuk, 0181 Pretoria, South Africa",
+        "hours": "Mon - Fri 0800 - 1630hrs"
+      }
+    },
+    {
+      "country_name": "Nepal",
+      "country": "NP",
+      "slug": "nepal",
+      "source_url": "https://www.safetravel.govt.nz/destinations/nepal",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+91 11 4688 3170"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/en/countries-and-regions/asia/india/new-zealand-high-commission/",
+        "street": "Sir Edmund Hillary Marg, Chanakyapuri, New Delhi 110 021, India",
+        "hours": "Mon - Fri 0830 - 1700 hrs"
+      }
+    },
+    {
+      "country_name": "Netherlands",
+      "country": "NL",
+      "slug": "the-netherlands",
+      "source_url": "https://www.safetravel.govt.nz/destinations/the-netherlands",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+31 70 346 9324"
+        ],
+        "email": null,
+        "website": "https://www.facebook.com/NZthehague/",
+        "street": "Eisenhowerlaan 77N, 2517 KK The Hague The Netherlands",
+        "hours": "Mon - Fri 0900 - 1230 hrs, 1330 - 1700 hrs"
+      }
+    },
+    {
+      "country_name": "Nicaragua ",
+      "country": "NI",
+      "slug": "nicaragua",
+      "source_url": "https://www.safetravel.govt.nz/destinations/nicaragua",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+52 55 5283 9460"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/mexico",
+        "street": "Jaime Balmes No 8, 4th Floor, Los Morales, Polanco, Mexico D.F. 11510",
+        "hours": "Mon - Fri 0930 - 1400"
+      }
+    },
+    {
+      "country_name": "Niue",
+      "country": "NU",
+      "slug": "niue",
+      "source_url": "https://www.safetravel.govt.nz/destinations/niue",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+683 4022"
+        ],
+        "email": null,
+        "website": null,
+        "street": "Tapeu, Alofi, Niue",
+        "hours": "Mon - Fri 0730 - 1200, 1300 - 1600"
+      }
+    },
+    {
+      "country_name": "North Macedonia ",
+      "country": "MK",
+      "slug": "north-macedonia",
+      "source_url": "https://www.safetravel.govt.nz/destinations/north-macedonia",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+39 06 853 7501"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/italy",
+        "street": "Via Clitunno, 44, 00198 Rome, Italy",
+        "hours": "Mon- Fri 0900 -1230 and 1330-1630"
+      }
+    },
+    {
+      "country_name": "Oman",
+      "country": "OM",
+      "slug": "oman",
+      "source_url": "https://www.safetravel.govt.nz/destinations/oman",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+966 11 488 7988"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/saudi-arabia",
+        "street": "Diplomatic Quarter, Riyadh, Saudi Arabia",
+        "hours": "Sun - Thurs 0900 - 1200hrs, 1230 -1500hrs"
+      }
+    },
+    {
+      "country_name": "Pakistan",
+      "country": "PK",
+      "slug": "pakistan",
+      "source_url": "https://www.safetravel.govt.nz/destinations/pakistan",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+94 11 217 4717"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/sri-lanka/",
+        "street": "Unit 2401&#x2212;2402, Level 24 One Galle Face Tower 1A Centre Road, Galle Face 00200 Colombo Sri Lanka",
+        "hours": "By appointment"
+      }
+    },
+    {
+      "country_name": "Panama",
+      "country": "PA",
+      "slug": "panama",
+      "source_url": "https://www.safetravel.govt.nz/destinations/panama",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+57 601 439 1666"
+        ],
+        "email": null,
+        "website": null,
+        "street": "Embajada de Nueva Zelandia, Calle 81 #11-08, Office 802, Edificio 8111, Bogot&#xE1;, Colombia",
+        "hours": "Mon-Thu"
+      }
+    },
+    {
+      "country_name": "Papua New Guinea ",
+      "country": "PG",
+      "slug": "papua-new-guinea",
+      "source_url": "https://www.safetravel.govt.nz/destinations/papua-new-guinea",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+675 7373 7000"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/papua-new-guinea",
+        "street": "Waigani, Port Moresby, Papua New Guinea",
+        "hours": "Mon - Thurs 0800 - 1200, 1300 - 1630 hrs; Fri 0800 - 1200, 1230 - 1600 hrs"
+      }
+    },
+    {
+      "country_name": "Paraguay",
+      "country": "PY",
+      "slug": "paraguay",
+      "source_url": "https://www.safetravel.govt.nz/destinations/paraguay",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+54 (11) 5070 0700"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/argentina/",
+        "street": "Carlos Pellegrini 1427, 5th Floor, Ciudad de Buenos Aires CP1011, Argentina",
+        "hours": "Mon-Fri 10"
+      }
+    },
+    {
+      "country_name": "Peru",
+      "country": "PE",
+      "slug": "peru",
+      "source_url": "https://www.safetravel.govt.nz/destinations/peru",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+56 2 2616 3000"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/chile",
+        "street": "Isidora Goyenechea 3000, 12th Floor, Las Condes, Santiago, Chile",
+        "hours": "Mon-Fri 0845-1300, 1400-1715 hrs"
+      }
+    },
+    {
+      "country_name": "Philippines",
+      "country": "PH",
+      "slug": "philippines",
+      "source_url": "https://www.safetravel.govt.nz/destinations/philippines",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+63 2 234 3800"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/philippines",
+        "street": "35th floor Zuellig Building, Makati Avenue cor Paseo de Roxas, Makati City 1225",
+        "hours": "Mon-Fri 0800-1500 hrs"
+      }
+    },
+    {
+      "country_name": "Poland ",
+      "country": "PL",
+      "slug": "poland",
+      "source_url": "https://www.safetravel.govt.nz/destinations/poland",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+48 22 521 0500"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/poland",
+        "street": "n/a Telephone: +48 22 521 0500",
+        "hours": "By appointment"
+      }
+    },
+    {
+      "country_name": "Portugal",
+      "country": "PT",
+      "slug": "portugal",
+      "source_url": "https://www.safetravel.govt.nz/destinations/portugal",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+33 1 45 01 43 43",
+          "+44 (20) 7968 2730"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/france",
+        "street": "103, rue de Grenelle, 75007 Paris, France",
+        "hours": "Mon-Fri 09"
+      }
+    },
+    {
+      "country_name": "Qatar",
+      "country": "QA",
+      "slug": "qatar",
+      "source_url": "https://www.safetravel.govt.nz/destinations/qatar",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+971 2 496-3333"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/united-arab-emirates",
+        "street": "Level 25, Suite 2503, International Tower, Capital Centre, Abu Dhabi, UAE",
+        "hours": "Mon-Wed 0900-1600, Thu 0900-1530, Fri 0900-1130 &#xA;Notarial Services"
+      }
+    },
+    {
+      "country_name": "Romania",
+      "country": "RO",
+      "slug": "romania",
+      "source_url": "https://www.safetravel.govt.nz/destinations/romania",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+32 2 512 1040"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/belgium",
+        "street": "Avenue des Nerviens 9/31, B-1040 Brussels, Belgium",
+        "hours": "Mon-Fri 0900-1300 hrs, 1400-1700 hrs"
+      }
+    },
+    {
+      "country_name": "Russia (Russian Federation)",
+      "country": "RU",
+      "slug": "russia",
+      "source_url": "https://www.safetravel.govt.nz/destinations/russia",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+7 495 956 3579",
+          "+7 495 956 3580"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/russia",
+        "street": "44 Povarskaya Ulitsa , Moscow 121069, Russian Federation",
+        "hours": "Mon - Fri 0900 - 1230, 1330 - 1730 hrs"
+      }
+    },
+    {
+      "country_name": "Samoa",
+      "country": "WS",
+      "slug": "samoa",
+      "source_url": "https://www.safetravel.govt.nz/destinations/samoa",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+685 21 711",
+          "+685 21 712"
+        ],
+        "email": null,
+        "website": "http://www.nzembassy.com/samoa",
+        "street": "Beach Road, Apia, Samoa",
+        "hours": "Mon - Fri 0800 - 1600 hrs"
+      }
+    },
+    {
+      "country_name": "San Marino",
+      "country": "SM",
+      "slug": "san-marino",
+      "source_url": "https://www.safetravel.govt.nz/destinations/san-marino",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+39 06 853 7501"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/italy",
+        "street": "Via Clitunno, 44, 00198 Rome, Italy",
+        "hours": "Mon- Fri 0900 -1230 and 1330-1630"
+      }
+    },
+    {
+      "country_name": "Saudi Arabia",
+      "country": "SA",
+      "slug": "saudi-arabia",
+      "source_url": "https://www.safetravel.govt.nz/destinations/saudi-arabia",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+966 11 488 7988"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/saudi-arabia",
+        "street": "Diplomatic Quarter, Riyadh, Saudi Arabia",
+        "hours": "Sun - Thurs 0900 - 1200hrs, 1230 -1500hrs"
+      }
+    },
+    {
+      "country_name": "Senegal",
+      "country": "SN",
+      "slug": "senegal",
+      "source_url": "https://www.safetravel.govt.nz/destinations/senegal",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+33 1 45 01 43 43",
+          "+44 (20) 7968 2730"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/france",
+        "street": "103, rue de Grenelle, 75007 Paris, France",
+        "hours": "Mon-Fri 09"
+      }
+    },
+    {
+      "country_name": "Serbia",
+      "country": "RS",
+      "slug": "serbia",
+      "source_url": "https://www.safetravel.govt.nz/destinations/serbia",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+39 06 853 7501"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/italy",
+        "street": "Via Clitunno, 44, 00198 Rome, Italy",
+        "hours": "Mon- Fri 0900 -1230 and 1330-1630"
+      }
+    },
+    {
+      "country_name": "Singapore",
+      "country": "SG",
+      "slug": "singapore",
+      "source_url": "https://www.safetravel.govt.nz/destinations/singapore",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+65 6235 9966"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/singapore",
+        "street": "1 George Street, Level 21-04, Singapore 049145",
+        "hours": "Reception/Consular hours"
+      }
+    },
+    {
+      "country_name": "Slovakia (Slovak Republic)",
+      "country": "SK",
+      "slug": "slovakia",
+      "source_url": "https://www.safetravel.govt.nz/destinations/slovakia",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+43 1 505 3021"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/austria",
+        "street": "The ICON Vienna, Tower 24, Level 15, Suite 15.02, Wiedner G&#xFC;rtel 13, 1100 Vienna, Austria",
+        "hours": "Mon-Fri"
+      }
+    },
+    {
+      "country_name": "Slovenia",
+      "country": "SI",
+      "slug": "slovenia",
+      "source_url": "https://www.safetravel.govt.nz/destinations/slovenia",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+43 1 505 3021"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/austria",
+        "street": "The ICON Vienna, Tower 24, Level 15, Suite 15.02, Wiedner G&#xFC;rtel 13, 1100 Vienna, Austria",
+        "hours": "Mon-Fri"
+      }
+    },
+    {
+      "country_name": "Solomon Islands",
+      "country": "SB",
+      "slug": "solomon-islands",
+      "source_url": "https://www.safetravel.govt.nz/destinations/solomon-islands",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+677 21 502"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/solomon-islands",
+        "street": "Town Ground, Honiara, Solomon Islands",
+        "hours": "Mon - Fri 0800 - 1200, 1300 - 1630 hrs"
+      }
+    },
+    {
+      "country_name": "South Africa",
+      "country": "ZA",
+      "slug": "south-africa",
+      "source_url": "https://www.safetravel.govt.nz/destinations/south-africa",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+27 12 435 9000"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/south-africa",
+        "street": "125 Middel Street, Nieuw Muckleneuk, 0181 Pretoria, South Africa",
+        "hours": "Mon - Fri 0800 - 1630hrs"
+      }
+    },
+    {
+      "country_name": "South Korea (Republic of Korea)",
+      "country": "KR",
+      "slug": "south-korea",
+      "source_url": "https://www.safetravel.govt.nz/destinations/south-korea",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+82 2 3701 7700"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/korea",
+        "street": "Jeong-Dong Building, Level 8 (West Tower), 15-5 Jeong-Dong, Jung-Gu, Seoul 110-784, Republic of Korea",
+        "hours": "Mon - Fri 0900 - 1230, 1330 - 1730 hrs"
+      }
+    },
+    {
+      "country_name": "Spain",
+      "country": "ES",
+      "slug": "spain",
+      "source_url": "https://www.safetravel.govt.nz/destinations/spain",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+34 915 230 226"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/spain",
+        "street": "Calle del Pinar, 7, 3rd floor, 28006 Madrid, Spain",
+        "hours": "Mon-Fri 0900-1400, and 1500-1730, July and August"
+      }
+    },
+    {
+      "country_name": "Sri Lanka",
+      "country": "LK",
+      "slug": "sri-lanka",
+      "source_url": "https://www.safetravel.govt.nz/destinations/sri-lanka",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+94 11 217 4717"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/sri-lanka/",
+        "street": "Unit 2401&#x2212;2402, Level 24 One Galle Face Tower 1A Centre Road, Galle Face 00200 Colombo Sri Lanka",
+        "hours": "By appointment"
+      }
+    },
+    {
+      "country_name": "Tajikistan",
+      "country": "TJ",
+      "slug": "tajikistan",
+      "source_url": "https://www.safetravel.govt.nz/destinations/tajikistan",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+7 495 956 3579",
+          "+7 495 956 3580"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/russia",
+        "street": "44 Povarskaya Ulitsa , Moscow 121069, Russian Federation",
+        "hours": "Mon - Fri 0900 - 1230, 1330 - 1730 hrs"
+      }
+    },
+    {
+      "country_name": "Tanzania",
+      "country": "TZ",
+      "slug": "tanzania",
+      "source_url": "https://www.safetravel.govt.nz/destinations/tanzania",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+27 12 435 9000"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/south-africa",
+        "street": "125 Middel Street, Nieuw Muckleneuk, 0181 Pretoria, South Africa",
+        "hours": "Mon - Fri 0800 - 1630hrs"
+      }
+    },
+    {
+      "country_name": "Thailand",
+      "country": "TH",
+      "slug": "thailand",
+      "source_url": "https://www.safetravel.govt.nz/destinations/thailand",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+66 2 254 2530"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/thailand",
+        "street": "M Thai Tower, 14th floor, All Seasons Place, 87 Wireless Road, Bangkok",
+        "hours": "Mon-Fri 0800-1200, 1300-1630 hrs"
+      }
+    },
+    {
+      "country_name": "Timor-Leste",
+      "country": "TL",
+      "slug": "timor-leste",
+      "source_url": "https://www.safetravel.govt.nz/destinations/timor-leste",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+670 331 0087"
+        ],
+        "email": null,
+        "website": null,
+        "street": "Rua de Ermera, No.19, Motael, Dili, Timor-Leste",
+        "hours": "Mon - Fri 8"
+      }
+    },
+    {
+      "country_name": "Tonga",
+      "country": "TO",
+      "slug": "tonga",
+      "source_url": "https://www.safetravel.govt.nz/destinations/tonga",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+676 23122"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/tonga",
+        "street": "Corner Taufa'ahau and Salote Roads, Nuku'alofa, Tonga",
+        "hours": "Mon - Fri, 9am-12"
+      }
+    },
+    {
+      "country_name": "Tunisia",
+      "country": "TN",
+      "slug": "tunisia",
+      "source_url": "https://www.safetravel.govt.nz/destinations/tunisia",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+202 2461 9186"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/en/countries-and-regions/middle-east/egypt/new-zealand-embassy-to-arab-republic-of-egypt/",
+        "street": "8th floor, North Tower, Nile City Towers, Corniche El Nil, Ramlet Beaulac.",
+        "hours": "Sun-Wed 0900-1500 hrs, Thurs 0900-1330 hrs"
+      }
+    },
+    {
+      "country_name": "Turkmenistan",
+      "country": "TM",
+      "slug": "turkmenistan",
+      "source_url": "https://www.safetravel.govt.nz/destinations/turkmenistan",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+7 495 956 3579",
+          "+7 495 956 3580"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/russia",
+        "street": "44 Povarskaya Ulitsa , Moscow 121069, Russian Federation",
+        "hours": "Mon - Fri 0900 - 1230, 1330 - 1730 hrs"
+      }
+    },
+    {
+      "country_name": "Ukraine",
+      "country": "UA",
+      "slug": "ukraine",
+      "source_url": "https://www.safetravel.govt.nz/destinations/ukraine",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+48 22 521 0500"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/poland",
+        "street": "n/a Telephone: +48 22 521 0500",
+        "hours": "By appointment"
+      }
+    },
+    {
+      "country_name": "United Arab Emirates",
+      "country": "AE",
+      "slug": "united-arab-emirates",
+      "source_url": "https://www.safetravel.govt.nz/destinations/united-arab-emirates",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+971 2 496-3333"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/united-arab-emirates",
+        "street": "Level 25, Suite 2503, International Tower, Capital Centre, Abu Dhabi, UAE",
+        "hours": "Mon-Wed 0900-1600, Thu 0900-1530, Fri 0900-1130 &#xA;Notarial Services"
+      }
+    },
+    {
+      "country_name": "United States of America",
+      "country": "US",
+      "slug": "united-states-of-america",
+      "source_url": "https://www.safetravel.govt.nz/destinations/united-states-of-america",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+1 202 328 4848"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/en/countries-and-regions/americas/united-states-of-america/new-zealand-embassy-to-the-united-states-of-america/",
+        "street": "37 Observatory Circle NW, Washington, DC 20008, United States of America",
+        "hours": "Mon - Fri 0830 - 1700 hrs"
+      }
+    },
+    {
+      "country_name": "Uruguay",
+      "country": "UY",
+      "slug": "uruguay",
+      "source_url": "https://www.safetravel.govt.nz/destinations/uruguay",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+54 (11) 5070 0700"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/argentina/",
+        "street": "Carlos Pellegrini 1427, 5th Floor, Ciudad de Buenos Aires CP1011, Argentina",
+        "hours": "Mon-Fri 10"
+      }
+    },
+    {
+      "country_name": "Uzbekistan",
+      "country": "UZ",
+      "slug": "uzbekistan",
+      "source_url": "https://www.safetravel.govt.nz/destinations/uzbekistan",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+7 495 956 3579",
+          "+7 495 956 3580"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/russia",
+        "street": "44 Povarskaya Ulitsa , Moscow 121069, Russian Federation",
+        "hours": "Mon - Fri 0900 - 1230, 1330 - 1730 hrs"
+      }
+    },
+    {
+      "country_name": "Vanuatu",
+      "country": "VU",
+      "slug": "vanuatu",
+      "source_url": "https://www.safetravel.govt.nz/destinations/vanuatu",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+678 33933"
+        ],
+        "email": null,
+        "website": "https://www.nzembassy.com/vanuatu",
+        "street": "We are currently working out of a temporary location. If you need to contact us, please email us.",
+        "hours": "Mon-Fri 0900-1200, 1300-1500 hrs (please note that no walk-ins and only very limi"
+      }
+    },
+    {
+      "country_name": "Venezuela",
+      "country": "VE",
+      "slug": "venezuela",
+      "source_url": "https://www.safetravel.govt.nz/destinations/venezuela",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+52 55 5283 9460"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/mexico",
+        "street": "Jaime Balmes No 8, 4th Floor, Los Morales, Polanco, Mexico D.F. 11510",
+        "hours": "Mon - Fri 0930 - 1400"
+      }
+    },
+    {
+      "country_name": "Viet Nam",
+      "country": "VN",
+      "slug": "viet-nam",
+      "source_url": "https://www.safetravel.govt.nz/destinations/viet-nam",
+      "office": {
+        "kind": "Embassy",
+        "phones": [
+          "+84 24 3824 1481"
+        ],
+        "email": null,
+        "website": "https://www.mfat.govt.nz/viet-nam",
+        "street": "Level 5, 63 Ly Thai To Street, Ha Noi, Viet Nam",
+        "hours": "Mon - Fri 0830 - 1200, 1300 - 1700 hrs"
+      }
+    },
+    {
+      "country_name": "Zambia",
+      "country": "ZM",
+      "slug": "zambia",
+      "source_url": "https://www.safetravel.govt.nz/destinations/zambia",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+27 12 435 9000"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/south-africa",
+        "street": "125 Middel Street, Nieuw Muckleneuk, 0181 Pretoria, South Africa",
+        "hours": "Mon - Fri 0800 - 1630hrs"
+      }
+    },
+    {
+      "country_name": "Zimbabwe",
+      "country": "ZW",
+      "slug": "zimbabwe",
+      "source_url": "https://www.safetravel.govt.nz/destinations/zimbabwe",
+      "office": {
+        "kind": "High Commission",
+        "phones": [
+          "+27 12 435 9000"
+        ],
+        "email": null,
+        "website": "http://www.mfat.govt.nz/south-africa",
+        "street": "125 Middel Street, Nieuw Muckleneuk, 0181 Pretoria, South Africa",
+        "hours": "Mon - Fri 0800 - 1630hrs"
+      }
+    }
+  ]
+}

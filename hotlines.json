@@ -286,6 +286,33 @@
               "Children"
             ]
           }
+        },
+        {
+          "name": "New Zealand Embassy in Albania",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+39 06 853 7501"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/italy",
+          "hours": "Mon- Fri 0900 -1230 and 1330-1630",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Albania",
+          "notes": "Address: Via Clitunno, 44, 00198 Rome, Italy. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/albania"
+          ]
         }
       ]
     },
@@ -506,6 +533,33 @@
           "sources": [
             "https://travel.gc.ca/destinations/algeria"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Algeria",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+202 2461 9186"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/en/countries-and-regions/middle-east/egypt/new-zealand-embassy-to-arab-republic-of-egypt/",
+          "hours": "Sun-Wed 0900-1500 hrs, Thurs 0900-1330 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Algeria",
+          "notes": "Address: 8th floor, North Tower, Nile City Towers, Corniche El Nil, Ramlet Beaulac.. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/algeria"
+          ]
         }
       ]
     },
@@ -598,6 +652,34 @@
             "https://988lifeline.org"
           ],
           "name": "988 Suicide & Crisis Lifeline (via US)"
+        },
+        {
+          "name": "New Zealand High Commission in American Samoa",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+685 21 711",
+            "+685 21 712"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.nzembassy.com/samoa",
+          "hours": "Mon - Fri 0800 - 1600 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "American Samoa",
+          "notes": "Address: Beach Road, Apia, Samoa. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/american-samoa"
+          ]
         }
       ]
     },
@@ -652,6 +734,33 @@
               "112"
             ]
           }
+        },
+        {
+          "name": "New Zealand Embassy in Andorra",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+34 915 230 226"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/spain",
+          "hours": "Mon-Fri 0900-1400, and 1500-1730, July and August",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Andorra",
+          "notes": "Address: Calle del Pinar, 7, 3rd floor, 28006 Madrid, Spain. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/andorra"
+          ]
         }
       ]
     },
@@ -776,6 +885,33 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/angola"
+          ]
+        },
+        {
+          "name": "New Zealand High Commission in Angola",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+27 12 435 9000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/south-africa",
+          "hours": "Mon - Fri 0800 - 1630hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Angola",
+          "notes": "Address: 125 Middel Street, Nieuw Muckleneuk, 0181 Pretoria, South Africa. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/angola"
           ]
         }
       ]
@@ -2554,6 +2690,33 @@
           "sources": [
             "https://travel.gc.ca/destinations/argentina"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Argentina",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+54 (11) 5070 0700"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/argentina/",
+          "hours": "Mon-Fri 10",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Argentina",
+          "notes": "Address: Carlos Pellegrini 1427, 5th Floor, Ciudad de Buenos Aires CP1011, Argentina. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/argentina"
+          ]
         }
       ]
     },
@@ -2742,6 +2905,34 @@
             "https://www.womensupportcenter.org"
           ],
           "name": "Women's Support Center Hotline"
+        },
+        {
+          "name": "New Zealand Embassy in Armenia",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+7 495 956 3579",
+            "+7 495 956 3580"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/russia",
+          "hours": "Mon - Fri 0900 - 1230, 1330 - 1730 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Armenia",
+          "notes": "Address: 44 Povarskaya Ulitsa , Moscow 121069, Russian Federation. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/armenia"
+          ]
         }
       ]
     },
@@ -5017,6 +5208,33 @@
           "sources": [
             "https://www.health.qld.gov.au/13health"
           ]
+        },
+        {
+          "name": "New Zealand High Commission in Australia",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+61 2 6270 4211"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/australia",
+          "hours": "By appointment only, please call or email",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Australia",
+          "notes": "Address: 140 Commonwealth Avenue, Yarralumla, ACT 2600 (visitor entrance on Forster Crescent). Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/australia"
+          ]
         }
       ]
     },
@@ -5909,6 +6127,33 @@
           "verification_status": "verified_knowledge",
           "last_verified": "2026-04-22",
           "sources": []
+        },
+        {
+          "name": "New Zealand Embassy in Austria",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+43 1 505 3021"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/austria",
+          "hours": "Mon-Fri",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Austria",
+          "notes": "Address: The ICON Vienna, Tower 24, Level 15, Suite 15.02, Wiedner G&#xFC;rtel 13, 1100 Vienna, Austria. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/austria"
+          ]
         }
       ]
     },
@@ -6112,6 +6357,33 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/azerbaijan"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Azerbaijan",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+ 90 312 446 3333"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/en/countries-and-regions/middle-east/turkey/new-zealand-embassy-to-turkey/",
+          "hours": "Mon - Thur",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Azerbaijan",
+          "notes": "Address: Kizkulesi Sokak No.11, Gaziosmanpasa, Ankara, T&#xFC;rkiye. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/azerbaijan"
           ]
         }
       ]
@@ -6587,6 +6859,33 @@
           "sources": [
             "https://travel.gc.ca/destinations/bahrain"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Bahrain",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+966 11 488 7988"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/saudi-arabia",
+          "hours": "Sun - Thurs 0900 - 1200hrs, 1230 -1500hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Bahrain",
+          "notes": "Address: Diplomatic Quarter, Riyadh, Saudi Arabia. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/bahrain"
+          ]
         }
       ]
     },
@@ -6979,6 +7278,33 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/bangladesh"
+          ]
+        },
+        {
+          "name": "New Zealand High Commission in Bangladesh",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+94 11 217 4717"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/sri-lanka/",
+          "hours": "By appointment",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Bangladesh",
+          "notes": "Address: Unit 2401&#x2212;2402, Level 24 One Galle Face Tower 1A Centre Road, Galle Face 00200 Colombo Sri Lanka. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/bangladesh"
           ]
         }
       ]
@@ -7450,6 +7776,34 @@
           "last_verified": "2026-04-22",
           "sources": [],
           "name": "Minsk City Psychiatric Dispensary Helpline"
+        },
+        {
+          "name": "New Zealand Embassy in Belarus",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+7 495 956 3579",
+            "+7 495 956 3580"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/russia",
+          "hours": "Mon - Fri 0900 - 1230, 1330 - 1730 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Belarus",
+          "notes": "Address: 44 Povarskaya Ulitsa , Moscow 121069, Russian Federation. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/belarus"
+          ]
         }
       ]
     },
@@ -8832,6 +9186,33 @@
           "sources": [
             "https://www.health.belgium.be"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Belgium",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+32 2 512 1040"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/belgium",
+          "hours": "Mon-Fri 0900-1300 hrs, 1400-1700 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Belgium",
+          "notes": "Address: Avenue des Nerviens 9/31, B-1040 Brussels, Belgium. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/belgium"
+          ]
         }
       ]
     },
@@ -9539,6 +9920,33 @@
           "sources": [
             "https://travel.gc.ca/destinations/bolivia"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Bolivia",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+56 2 2616 3000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/chile",
+          "hours": "Mon-Fri 0845-1300, 1400-1715 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Bolivia",
+          "notes": "Address: Isidora Goyenechea 3000, 12th Floor, Las Condes, Santiago, Chile. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/bolivia"
+          ]
         }
       ]
     },
@@ -9827,6 +10235,33 @@
           "sources": [
             "https://travel.gc.ca/destinations/bosnia-and-herzegovina"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Bosnia and Herzegovina",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+39 06 853 7501"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/italy",
+          "hours": "Mon- Fri 0900 -1230 and 1330-1630",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Bosnia and Herzegovina",
+          "notes": "Address: Via Clitunno, 44, 00198 Rome, Italy. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/bosnia-and-herzegovina"
+          ]
         }
       ]
     },
@@ -10071,6 +10506,33 @@
             "xref:psc_app"
           ],
           "name": "Childline Botswana"
+        },
+        {
+          "name": "New Zealand High Commission in Botswana",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+27 12 435 9000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/south-africa",
+          "hours": "Mon - Fri 0800 - 1630hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Botswana",
+          "notes": "Address: 125 Middel Street, Nieuw Muckleneuk, 0181 Pretoria, South Africa. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/botswana"
+          ]
         }
       ]
     },
@@ -11635,6 +12097,33 @@
               "Everyone"
             ]
           }
+        },
+        {
+          "name": "New Zealand Embassy in Brazil",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+55 61 3248 9900"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/brazil",
+          "hours": "Mon - Fri 0830 -1700 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Brazil",
+          "notes": "Address: SHIS QI 09, conj. 16, casa 01, Lago Sul 71625-160, Brasilia DF, Brazil. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/brazil"
+          ]
         }
       ]
     },
@@ -11838,6 +12327,33 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/brunei"
+          ]
+        },
+        {
+          "name": "New Zealand High Commission in Brunei Darussalam",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+60 3 2027 8998"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/malaysia",
+          "hours": "Mon-Fri 0830am to 1230 hrs (reception); Mon-Thurs 0800-1630 hrs, Fri 0800-1600 hr",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Brunei Darussalam",
+          "notes": "Address: Level 8, Menara Hap Seng 3, Jalan P Ramlee, 50250, Kuala Lumpur. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/brunei-darussalam"
           ]
         }
       ]
@@ -12209,6 +12725,33 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/bulgaria"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Bulgaria",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+32 2 512 1040"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/belgium",
+          "hours": "Mon-Fri 0900-1300 hrs, 1400-1700 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Bulgaria",
+          "notes": "Address: Avenue des Nerviens 9/31, B-1040 Brussels, Belgium. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/bulgaria"
           ]
         }
       ]
@@ -12802,6 +13345,33 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/cambodia"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Cambodia",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+66 2 254 2530"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/thailand",
+          "hours": "Mon-Fri 0800-1200, 1300-1630 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Cambodia",
+          "notes": "Address: M Thai Tower, 14th floor, All Seasons Place, 87 Wireless Road, Bangkok. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/cambodia"
           ]
         }
       ]
@@ -15298,6 +15868,33 @@
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/canada"
           ]
+        },
+        {
+          "name": "New Zealand High Commission in Canada",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+1 613 238 5991"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/en/countries-and-regions/americas/canada/new-zealand-high-commission/",
+          "hours": "Mon - Fri 0830 - 1630 hrs (Public office hours are 0900 - 1400)",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Canada",
+          "notes": "Address: 150 Elgin Street, Suite 1401 Ottawa Ontario K2P 1L4. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/canada"
+          ]
         }
       ]
     },
@@ -16996,6 +17593,33 @@
             "phone": "800 730 800",
             "source": "helplines.world"
           }
+        },
+        {
+          "name": "New Zealand Embassy in Chile",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+56 2 2616 3000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/chile",
+          "hours": "Mon-Fri 0845-1300, 1400-1715 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Chile",
+          "notes": "Address: Isidora Goyenechea 3000, 12th Floor, Las Condes, Santiago, Chile. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/chile"
+          ]
         }
       ]
     },
@@ -17793,6 +18417,33 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/china"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in China",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+86 10 8532 7000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/china",
+          "hours": "Mon - Fri 0830 - 1700 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "China",
+          "notes": "Address: 1 Ritan Dongerjie, Chaoyang District, Beijing 100600. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/china"
           ]
         }
       ]
@@ -19335,6 +19986,33 @@
           "sources": [
             "https://www.minsalud.gov.co"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Colombia",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+57 601 439 1666"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.safetravel.govt.nz/destinations/colombia",
+          "hours": "Mon-Thu",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Colombia",
+          "notes": "Address: Embajada de Nueva Zelandia, Calle 81 #11-08, Office 802, Edificio 8111, Bogot&#xE1;, Colombia. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/colombia"
+          ]
         }
       ]
     },
@@ -19581,6 +20259,33 @@
             "https://www.lifeline.org.nz"
           ],
           "name": "Lifeline Aotearoa (reachable from Cook Islands)"
+        },
+        {
+          "name": "New Zealand High Commission in Cook Islands",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+682 22 201"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/cook-islands",
+          "hours": "Mon - Fri 1000 - 1400 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Cook Islands",
+          "notes": "Address: 1st floor, Philatelic Bureau Building, Takuvaine Road, Avarua, Rarotonga, Cook Islands. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/cook-islands"
+          ]
         }
       ]
     },
@@ -19814,6 +20519,33 @@
             "xref:psc_app"
           ],
           "name": "PANI (Patronato Nacional de la Infancia) 1147"
+        },
+        {
+          "name": "New Zealand Embassy in Costa Rica",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+52 55 5283 9460"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/mexico",
+          "hours": "Mon - Fri 0930 - 1400",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Costa Rica",
+          "notes": "Address: Jaime Balmes No 8, 4th Floor, Los Morales, Polanco, Mexico D.F. 11510. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/costa-rica"
+          ]
         }
       ]
     },
@@ -20124,6 +20856,33 @@
               "Women"
             ]
           }
+        },
+        {
+          "name": "New Zealand Embassy in Croatia",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+39 06 853 7501"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/italy",
+          "hours": "Mon- Fri 0900 -1230 and 1330-1630",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Croatia",
+          "notes": "Address: Via Clitunno, 44, 00198 Rome, Italy. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/croatia"
+          ]
         }
       ]
     },
@@ -20254,6 +21013,33 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/cuba"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Cuba",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+52 55 5283 9460"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/mexico",
+          "hours": "Mon - Fri 0930 - 1400",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Cuba",
+          "notes": "Address: Jaime Balmes No 8, 4th Floor, Los Morales, Polanco, Mexico D.F. 11510. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/cuba"
           ]
         }
       ]
@@ -20759,6 +21545,33 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/cyprus"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Cyprus",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+39 06 853 7501"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/italy",
+          "hours": "Mon- Fri 0900 -1230 and 1330-1630",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Cyprus",
+          "notes": "Address: Via Clitunno, 44, 00198 Rome, Italy. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/cyprus"
           ]
         }
       ]
@@ -21477,6 +22290,33 @@
           "verification_status": "verified_knowledge",
           "last_verified": "2026-04-22",
           "sources": []
+        },
+        {
+          "name": "New Zealand Embassy in Czech Republic",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+49 30 206 210"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/germany",
+          "hours": "Mon - Fri 09",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Czech Republic",
+          "notes": "Address: Atrium 4th Floor, Friedrichstrasse 60 10117. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/czech-republic"
+          ]
         }
       ]
     },
@@ -22649,6 +23489,33 @@
           "sources": [
             "https://travel.gc.ca/destinations/dominican-republic"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Dominican Republic",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+57 601 439 1666"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.safetravel.govt.nz/destinations/dominican-republic",
+          "hours": "Mon-Thu",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Dominican Republic",
+          "notes": "Address: Embajada de Nueva Zelandia, Calle 81 #11-08, Office 802, Edificio 8111, Bogot&#xE1;, Colombia. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/dominican-republic"
+          ]
         }
       ]
     },
@@ -22756,6 +23623,33 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/timor-leste"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Timor-Leste",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+670 331 0087"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.safetravel.govt.nz/destinations/timor-leste",
+          "hours": "Mon - Fri 8",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Timor-Leste",
+          "notes": "Address: Rua de Ermera, No.19, Motael, Dili, Timor-Leste. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/timor-leste"
           ]
         }
       ]
@@ -24006,6 +24900,33 @@
             "phone": "1800 10 9090",
             "source": "helplines.world"
           }
+        },
+        {
+          "name": "New Zealand Embassy in Ecuador",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+57 601 439 1666"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.safetravel.govt.nz/destinations/ecuador",
+          "hours": "Mon-Thu",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Ecuador",
+          "notes": "Address: Embajada de Nueva Zelandia, Calle 81 #11-08, Office 802, Edificio 8111, Bogot&#xE1;, Colombia. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/ecuador"
+          ]
         }
       ]
     },
@@ -25259,6 +26180,33 @@
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/egypt"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Egypt",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+202 2461 9186"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/en/countries-and-regions/middle-east/egypt/new-zealand-embassy-to-arab-republic-of-egypt/",
+          "hours": "Sun-Wed 0900-1500 hrs, Thurs 0900-1330 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Egypt",
+          "notes": "Address: 8th floor, North Tower, Nile City Towers, Corniche El Nil, Ramlet Beaulac.. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/egypt"
+          ]
         }
       ]
     },
@@ -25383,6 +26331,33 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/el-salvador"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in El Salvador",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+52 55 5283 9460"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/mexico",
+          "hours": "Mon - Fri 0930 - 1400",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "El Salvador",
+          "notes": "Address: Jaime Balmes No 8, 4th Floor, Los Morales, Polanco, Mexico D.F. 11510. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/el-salvador"
           ]
         }
       ]
@@ -26883,6 +27858,33 @@
             "phone": "+372 600 6010",
             "source": "helplines.world"
           }
+        },
+        {
+          "name": "New Zealand Embassy in Estonia",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+48 22 521 0500"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/poland",
+          "hours": "By appointment",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Estonia",
+          "notes": "Address: n/a Telephone: +48 22 521 0500. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/estonia"
+          ]
         }
       ]
     },
@@ -27018,6 +28020,33 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/eswatini"
+          ]
+        },
+        {
+          "name": "New Zealand High Commission in Eswatini",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+27 12 435 9000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/south-africa",
+          "hours": "Mon - Fri 0800 - 1630hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Eswatini",
+          "notes": "Address: 125 Middel Street, Nieuw Muckleneuk, 0181 Pretoria, South Africa. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/eswatini"
           ]
         }
       ]
@@ -27718,6 +28747,33 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/fiji"
+          ]
+        },
+        {
+          "name": "New Zealand High Commission in Fiji",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+679 331 1422"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/en/countries-and-regions/australia-and-pacific/fiji/new-zealand-high-commission/",
+          "hours": "Mon - Fri 0800-1200, 1300-1630 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Fiji",
+          "notes": "Address: Lot 12 Banuve Street, Nasese, Suva&#xA;. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/fiji"
           ]
         }
       ]
@@ -31619,6 +32675,34 @@
           "sources": [
             "https://travel.gc.ca/destinations/france"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in France",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+33 1 45 01 43 43",
+            "+44 (20) 7968 2730"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/france",
+          "hours": "Mon-Fri 09",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "France",
+          "notes": "Address: 103, rue de Grenelle, 75007 Paris, France. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/france"
+          ]
         }
       ]
     },
@@ -32451,6 +33535,33 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/georgia"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Georgia",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+48 22 521 0500"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/poland",
+          "hours": "By appointment",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Georgia",
+          "notes": "Address: n/a Telephone: +48 22 521 0500. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/georgia"
           ]
         }
       ]
@@ -34074,6 +35185,33 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/germany"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Germany",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+49 30 206 210"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/germany",
+          "hours": "Mon - Fri 09",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Germany",
+          "notes": "Address: Atrium 4th Floor, Friedrichstrasse 60 10117. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/germany"
           ]
         }
       ]
@@ -36008,6 +37146,33 @@
           "sources": [
             "https://travel.gc.ca/destinations/greece"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Greece",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+39 06 853 7501"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/italy",
+          "hours": "Mon- Fri 0900 -1230 and 1330-1630",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Greece",
+          "notes": "Address: Via Clitunno, 44, 00198 Rome, Italy. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/greece"
+          ]
         }
       ]
     },
@@ -36770,6 +37935,33 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/guatemala"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Guatemala",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+52 55 5283 9460"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/mexico",
+          "hours": "Mon - Fri 0930 - 1400",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Guatemala",
+          "notes": "Address: Jaime Balmes No 8, 4th Floor, Los Morales, Polanco, Mexico D.F. 11510. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/guatemala"
           ]
         }
       ]
@@ -40208,6 +41400,33 @@
           "sources": [
             "https://e-egeszsegugy.gov.hu"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Hungary",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+43 1 505 3021"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/austria",
+          "hours": "Mon-Fri",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Hungary",
+          "notes": "Address: The ICON Vienna, Tower 24, Level 15, Suite 15.02, Wiedner G&#xFC;rtel 13, 1100 Vienna, Austria. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/hungary"
+          ]
         }
       ]
     },
@@ -43468,6 +44687,33 @@
           "sources": [
             "https://travel.gc.ca/destinations/india"
           ]
+        },
+        {
+          "name": "New Zealand High Commission in India",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+91 11 4688 3170"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/en/countries-and-regions/asia/india/new-zealand-high-commission/",
+          "hours": "Mon - Fri 0830 - 1700 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "India",
+          "notes": "Address: Sir Edmund Hillary Marg, Chanakyapuri, New Delhi 110 021, India. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/india"
+          ]
         }
       ]
     },
@@ -45737,6 +46983,33 @@
           "sources": [
             "https://www.hse.ie/contact"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Ireland",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+353 (0)1 5677680"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.safetravel.govt.nz/destinations/ireland",
+          "hours": "By appointment",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Ireland",
+          "notes": "Address: Level 3, 2-4 Merrion Row, Dublin D02 WP23. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/ireland"
+          ]
         }
       ]
     },
@@ -47094,6 +48367,33 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/italy"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Italy",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+39 06 853 7501"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/italy",
+          "hours": "Mon- Fri 0900 -1230 and 1330-1630",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Italy",
+          "notes": "Address: Via Clitunno, 44, 00198 Rome, Italy. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/italy"
           ]
         }
       ]
@@ -49185,6 +50485,33 @@
           "sources": [
             "https://travel.gc.ca/destinations/japan"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Japan",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+81 3 3467 2271"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/japan",
+          "hours": "Mon - Fri 0900 - 1730 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Japan",
+          "notes": "Address: 20-40 Kamiyama-cho, Shibuya-ku, Tokyo 150 - 0047, Japan. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/japan"
+          ]
         }
       ]
     },
@@ -49557,6 +50884,33 @@
           "sources": [
             "https://www.moh.gov.jo"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Jordan",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+ 90 312 446 3333"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/en/countries-and-regions/middle-east/turkey/new-zealand-embassy-to-turkey/",
+          "hours": "Mon - Thur",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Jordan",
+          "notes": "Address: Kizkulesi Sokak No.11, Gaziosmanpasa, Ankara, T&#xFC;rkiye. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/jordan"
+          ]
         }
       ]
     },
@@ -49698,6 +51052,34 @@
             "https://nemolchi.kz"
           ],
           "name": "NeMolchi Domestic Violence Helpline"
+        },
+        {
+          "name": "New Zealand Embassy in Kazakhstan",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+7 495 956 3579",
+            "+7 495 956 3580"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/russia",
+          "hours": "Mon - Fri 0900 - 1230, 1330 - 1730 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Kazakhstan",
+          "notes": "Address: 44 Povarskaya Ulitsa , Moscow 121069, Russian Federation. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/kazakhstan"
+          ]
         }
       ]
     },
@@ -51160,6 +52542,33 @@
             "https://travel.gc.ca/destinations/kiribati",
             "https://www.gov.uk/foreign-travel-advice/kiribati"
           ]
+        },
+        {
+          "name": "New Zealand High Commission in Kiribati",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+686 7402 1400"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.safetravel.govt.nz/destinations/kiribati",
+          "hours": "Mon - Fri 0830 - 1230, 1330 - 1700 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Kiribati",
+          "notes": "Address: PO Box 53, Bairiki, Tarawa, Republic of Kiribati. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/kiribati"
+          ]
         }
       ]
     },
@@ -51406,6 +52815,33 @@
           "last_verified": "2026-04-22",
           "sources": [],
           "name": "Child Protection Hotline 147"
+        },
+        {
+          "name": "New Zealand Embassy in Kuwait",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+966 11 488 7988"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/saudi-arabia",
+          "hours": "Sun - Thurs 0900 - 1200hrs, 1230 -1500hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Kuwait",
+          "notes": "Address: Diplomatic Quarter, Riyadh, Saudi Arabia. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/kuwait"
+          ]
         }
       ]
     },
@@ -51574,6 +53010,34 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/kyrgyzstan"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Kyrgyzstan",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+7 495 956 3579",
+            "+7 495 956 3580"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/russia",
+          "hours": "Mon - Fri 0900 - 1230, 1330 - 1730 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Kyrgyzstan",
+          "notes": "Address: 44 Povarskaya Ulitsa , Moscow 121069, Russian Federation. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/kyrgyzstan"
           ]
         }
       ]
@@ -51781,6 +53245,33 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/laos"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Laos",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+66 2 254 2530"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/thailand",
+          "hours": "Mon-Fri 0800-1200, 1300-1630 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Laos",
+          "notes": "Address: M Thai Tower, 14th floor, All Seasons Place, 87 Wireless Road, Bangkok. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/laos"
           ]
         }
       ]
@@ -52109,6 +53600,33 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/latvia"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Latvia",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+48 22 521 0500"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/poland",
+          "hours": "By appointment",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Latvia",
+          "notes": "Address: n/a Telephone: +48 22 521 0500. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/latvia"
           ]
         }
       ]
@@ -53305,6 +54823,33 @@
           "sources": [
             "https://www.moph.gov.lb"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Lebanon",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+202 2461 9186"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/en/countries-and-regions/middle-east/egypt/new-zealand-embassy-to-arab-republic-of-egypt/",
+          "hours": "Sun-Wed 0900-1500 hrs, Thurs 0900-1330 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Lebanon",
+          "notes": "Address: 8th floor, North Tower, Nile City Towers, Corniche El Nil, Ramlet Beaulac.. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/lebanon"
+          ]
         }
       ]
     },
@@ -53379,6 +54924,33 @@
           "sources": [
             "https://travel.gc.ca/destinations/lesotho",
             "https://www.gov.uk/foreign-travel-advice/lesotho"
+          ]
+        },
+        {
+          "name": "New Zealand High Commission in Lesotho",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+27 12 435 9000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/south-africa",
+          "hours": "Mon - Fri 0800 - 1630hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Lesotho",
+          "notes": "Address: 125 Middel Street, Nieuw Muckleneuk, 0181 Pretoria, South Africa. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/lesotho"
           ]
         }
       ]
@@ -53624,6 +55196,33 @@
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/libya"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Libya",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+202 2461 9186"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/en/countries-and-regions/middle-east/egypt/new-zealand-embassy-to-arab-republic-of-egypt/",
+          "hours": "Sun-Wed 0900-1500 hrs, Thurs 0900-1330 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Libya",
+          "notes": "Address: 8th floor, North Tower, Nile City Towers, Corniche El Nil, Ramlet Beaulac.. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/libya"
+          ]
         }
       ]
     },
@@ -53732,6 +55331,33 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/liechtenstein"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Liechtenstein",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+49 30 206 210"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/germany",
+          "hours": "Mon - Fri 09",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Liechtenstein",
+          "notes": "Address: Atrium 4th Floor, Friedrichstrasse 60 10117. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/liechtenstein"
           ]
         }
       ]
@@ -54266,6 +55892,33 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/lithuania"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Lithuania",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+48 22 521 0500"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/poland",
+          "hours": "By appointment",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Lithuania",
+          "notes": "Address: n/a Telephone: +48 22 521 0500. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/lithuania"
           ]
         }
       ]
@@ -54856,6 +56509,33 @@
           "sources": [
             "https://travel.gc.ca/destinations/luxembourg"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Luxembourg",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+32 2 512 1040"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/belgium",
+          "hours": "Mon-Fri 0900-1300 hrs, 1400-1700 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Luxembourg",
+          "notes": "Address: Avenue des Nerviens 9/31, B-1040 Brussels, Belgium. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/luxembourg"
+          ]
         }
       ]
     },
@@ -55372,6 +57052,33 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/malawi"
+          ]
+        },
+        {
+          "name": "New Zealand High Commission in Malawi",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+27 12 435 9000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/south-africa",
+          "hours": "Mon - Fri 0800 - 1630hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Malawi",
+          "notes": "Address: 125 Middel Street, Nieuw Muckleneuk, 0181 Pretoria, South Africa. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/malawi"
           ]
         }
       ]
@@ -56367,6 +58074,33 @@
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/malaysia"
           ]
+        },
+        {
+          "name": "New Zealand High Commission in Malaysia",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+60 3 2027 8998"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/malaysia",
+          "hours": "Mon-Fri 0830am to 1230 hrs (reception); Mon-Thurs 0800-1630 hrs, Fri 0800-1600 hr",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Malaysia",
+          "notes": "Address: Level 8, Menara Hap Seng 3, Jalan P Ramlee, 50250, Kuala Lumpur. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/malaysia"
+          ]
         }
       ]
     },
@@ -56536,6 +58270,33 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/maldives"
+          ]
+        },
+        {
+          "name": "New Zealand High Commission in Maldives",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+94 11 217 4717"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/sri-lanka/",
+          "hours": "By appointment",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Maldives",
+          "notes": "Address: Unit 2401&#x2212;2402, Level 24 One Galle Face Tower 1A Centre Road, Galle Face 00200 Colombo Sri Lanka. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/maldives"
           ]
         }
       ]
@@ -56876,6 +58637,33 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/malta"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Malta",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+34 915 230 226"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/spain",
+          "hours": "Mon-Fri 0900-1400, and 1500-1730, July and August",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Malta",
+          "notes": "Address: Calle del Pinar, 7, 3rd floor, 28006 Madrid, Spain. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/malta"
           ]
         }
       ]
@@ -57614,6 +59402,33 @@
           "last_verified": "2026-04-22",
           "sources": [],
           "name": "Child Line 113"
+        },
+        {
+          "name": "New Zealand High Commission in Mauritius",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+27 12 435 9000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/south-africa",
+          "hours": "Mon - Fri 0800 - 1630hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Mauritius",
+          "notes": "Address: 125 Middel Street, Nieuw Muckleneuk, 0181 Pretoria, South Africa. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/mauritius"
+          ]
         }
       ]
     },
@@ -58292,6 +60107,33 @@
           "sources": [
             "https://travel.gc.ca/destinations/mexico"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Mexico",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+52 55 5283 9460"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/mexico",
+          "hours": "Mon - Fri 0930 - 1400",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Mexico",
+          "notes": "Address: Jaime Balmes No 8, 4th Floor, Los Morales, Polanco, Mexico D.F. 11510. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/mexico"
+          ]
         }
       ]
     },
@@ -58435,6 +60277,33 @@
             "https://telefonulcopilului.md"
           ],
           "name": "National Child Helpline 116 111"
+        },
+        {
+          "name": "New Zealand Embassy in Moldova",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+32 2 512 1040"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/belgium",
+          "hours": "Mon-Fri 0900-1300 hrs, 1400-1700 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Moldova",
+          "notes": "Address: Avenue des Nerviens 9/31, B-1040 Brussels, Belgium. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/moldova"
+          ]
         }
       ]
     },
@@ -58548,6 +60417,34 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/monaco"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Monaco",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+33 1 45 01 43 43",
+            "+44 (20) 7968 2730"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/france",
+          "hours": "Mon-Fri 09",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Monaco",
+          "notes": "Address: 103, rue de Grenelle, 75007 Paris, France. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/monaco"
           ]
         }
       ]
@@ -58748,6 +60645,33 @@
               "Children"
             ]
           }
+        },
+        {
+          "name": "New Zealand Embassy in Mongolia",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+86 10 8532 7000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/china",
+          "hours": "Mon - Fri 0830 - 1700 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Mongolia",
+          "notes": "Address: 1 Ritan Dongerjie, Chaoyang District, Beijing 100600. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/mongolia"
+          ]
         }
       ]
     },
@@ -58877,6 +60801,33 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/montenegro"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Montenegro",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+39 06 853 7501"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/italy",
+          "hours": "Mon- Fri 0900 -1230 and 1330-1630",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Montenegro",
+          "notes": "Address: Via Clitunno, 44, 00198 Rome, Italy. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/montenegro"
           ]
         }
       ]
@@ -60198,6 +62149,33 @@
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/morocco"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Morocco",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+34 915 230 226"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/spain",
+          "hours": "Mon-Fri 0900-1400, and 1500-1730, July and August",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Morocco",
+          "notes": "Address: Calle del Pinar, 7, 3rd floor, 28006 Madrid, Spain. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/morocco"
+          ]
         }
       ]
     },
@@ -60381,6 +62359,33 @@
           "sources": [
             "https://travel.gc.ca/destinations/mozambique"
           ]
+        },
+        {
+          "name": "New Zealand High Commission in Mozambique",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+27 12 435 9000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/south-africa",
+          "hours": "Mon - Fri 0800 - 1630hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Mozambique",
+          "notes": "Address: 125 Middel Street, Nieuw Muckleneuk, 0181 Pretoria, South Africa. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/mozambique"
+          ]
         }
       ]
     },
@@ -60489,6 +62494,33 @@
               "Children"
             ]
           }
+        },
+        {
+          "name": "New Zealand Embassy in Myanmar",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+95 9 403 323 982"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/myanmar",
+          "hours": "Mon-Fri",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Myanmar",
+          "notes": "Address: No. 43 (C), Inya Myaing Road, Shwe Taung Kyar (2) Ward, Bahan Township, Yangon, Myanmar. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/myanmar"
+          ]
         }
       ]
     },
@@ -60659,6 +62691,33 @@
           "last_verified": "2026-04-22",
           "sources": [],
           "name": "Gender Based Violence Helpline"
+        },
+        {
+          "name": "New Zealand High Commission in Namibia",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+27 12 435 9000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/south-africa",
+          "hours": "Mon - Fri 0800 - 1630hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Namibia",
+          "notes": "Address: 125 Middel Street, Nieuw Muckleneuk, 0181 Pretoria, South Africa. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/namibia"
+          ]
         }
       ]
     },
@@ -61051,6 +63110,33 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/nepal"
+          ]
+        },
+        {
+          "name": "New Zealand High Commission in Nepal",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+91 11 4688 3170"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/en/countries-and-regions/asia/india/new-zealand-high-commission/",
+          "hours": "Mon - Fri 0830 - 1700 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Nepal",
+          "notes": "Address: Sir Edmund Hillary Marg, Chanakyapuri, New Delhi 110 021, India. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/nepal"
           ]
         }
       ]
@@ -62432,6 +64518,33 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.huisartsenposten.nl"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Netherlands",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+31 70 346 9324"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.facebook.com/NZthehague/",
+          "hours": "Mon - Fri 0900 - 1230 hrs, 1330 - 1700 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Netherlands",
+          "notes": "Address: Eisenhowerlaan 77N, 2517 KK The Hague The Netherlands. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/the-netherlands"
           ]
         }
       ]
@@ -65643,6 +67756,33 @@
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/nicaragua"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Nicaragua ",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+52 55 5283 9460"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/mexico",
+          "hours": "Mon - Fri 0930 - 1400",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Nicaragua ",
+          "notes": "Address: Jaime Balmes No 8, 4th Floor, Los Morales, Polanco, Mexico D.F. 11510. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/nicaragua"
+          ]
         }
       ]
     },
@@ -66526,6 +68666,33 @@
             "https://www.lifeline.org.nz"
           ],
           "name": "Lifeline Aotearoa (reachable from Niue)"
+        },
+        {
+          "name": "New Zealand High Commission in Niue",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+683 4022"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.safetravel.govt.nz/destinations/niue",
+          "hours": "Mon - Fri 0730 - 1200, 1300 - 1600",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Niue",
+          "notes": "Address: Tapeu, Alofi, Niue. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/niue"
+          ]
         }
       ]
     },
@@ -66844,6 +69011,33 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/north-macedonia"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in North Macedonia ",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+39 06 853 7501"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/italy",
+          "hours": "Mon- Fri 0900 -1230 and 1330-1630",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "North Macedonia ",
+          "notes": "Address: Via Clitunno, 44, 00198 Rome, Italy. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/north-macedonia"
           ]
         }
       ]
@@ -67788,6 +69982,33 @@
           "sources": [
             "https://travel.gc.ca/destinations/oman"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Oman",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+966 11 488 7988"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/saudi-arabia",
+          "hours": "Sun - Thurs 0900 - 1200hrs, 1230 -1500hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Oman",
+          "notes": "Address: Diplomatic Quarter, Riyadh, Saudi Arabia. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/oman"
+          ]
         }
       ]
     },
@@ -68242,6 +70463,33 @@
           "sources": [
             "https://travel.gc.ca/destinations/pakistan"
           ]
+        },
+        {
+          "name": "New Zealand High Commission in Pakistan",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+94 11 217 4717"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/sri-lanka/",
+          "hours": "By appointment",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Pakistan",
+          "notes": "Address: Unit 2401&#x2212;2402, Level 24 One Galle Face Tower 1A Centre Road, Galle Face 00200 Colombo Sri Lanka. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/pakistan"
+          ]
         }
       ]
     },
@@ -68617,6 +70865,33 @@
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/panama"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Panama",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+57 601 439 1666"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.safetravel.govt.nz/destinations/panama",
+          "hours": "Mon-Thu",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Panama",
+          "notes": "Address: Embajada de Nueva Zelandia, Calle 81 #11-08, Office 802, Edificio 8111, Bogot&#xE1;, Colombia. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/panama"
+          ]
         }
       ]
     },
@@ -68761,6 +71036,33 @@
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/papua-new-guinea"
           ]
+        },
+        {
+          "name": "New Zealand High Commission in Papua New Guinea ",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+675 7373 7000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/papua-new-guinea",
+          "hours": "Mon - Thurs 0800 - 1200, 1300 - 1630 hrs; Fri 0800 - 1200, 1230 - 1600 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Papua New Guinea ",
+          "notes": "Address: Waigani, Port Moresby, Papua New Guinea. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/papua-new-guinea"
+          ]
         }
       ]
     },
@@ -68898,6 +71200,33 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/paraguay"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Paraguay",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+54 (11) 5070 0700"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/argentina/",
+          "hours": "Mon-Fri 10",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Paraguay",
+          "notes": "Address: Carlos Pellegrini 1427, 5th Floor, Ciudad de Buenos Aires CP1011, Argentina. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/paraguay"
           ]
         }
       ]
@@ -69221,6 +71550,33 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/peru"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Peru",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+56 2 2616 3000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/chile",
+          "hours": "Mon-Fri 0845-1300, 1400-1715 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Peru",
+          "notes": "Address: Isidora Goyenechea 3000, 12th Floor, Las Condes, Santiago, Chile. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/peru"
           ]
         }
       ]
@@ -69731,6 +72087,33 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/philippines"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Philippines",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+63 2 234 3800"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/philippines",
+          "hours": "Mon-Fri 0800-1500 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Philippines",
+          "notes": "Address: 35th floor Zuellig Building, Makati Avenue cor Paseo de Roxas, Makati City 1225. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/philippines"
           ]
         }
       ]
@@ -70919,6 +73302,33 @@
           "sources": [
             "https://www.gov.pl/web/zdrowie"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Poland ",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+48 22 521 0500"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/poland",
+          "hours": "By appointment",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Poland ",
+          "notes": "Address: n/a Telephone: +48 22 521 0500. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/poland"
+          ]
         }
       ]
     },
@@ -71616,6 +74026,34 @@
           "sources": [
             "https://travel.gc.ca/destinations/portugal"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Portugal",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+33 1 45 01 43 43",
+            "+44 (20) 7968 2730"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/france",
+          "hours": "Mon-Fri 09",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Portugal",
+          "notes": "Address: 103, rue de Grenelle, 75007 Paris, France. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/portugal"
+          ]
         }
       ]
     },
@@ -71945,6 +74383,33 @@
             "xref:psc_app"
           ],
           "name": "Hamad Medical Corporation Mental Health Helpline"
+        },
+        {
+          "name": "New Zealand Embassy in Qatar",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+971 2 496-3333"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/united-arab-emirates",
+          "hours": "Mon-Wed 0900-1600, Thu 0900-1530, Fri 0900-1130 &#xA;Notarial Services",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Qatar",
+          "notes": "Address: Level 25, Suite 2503, International Tower, Capital Centre, Abu Dhabi, UAE. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/qatar"
+          ]
         }
       ]
     },
@@ -72248,6 +74713,33 @@
             "xref:psc_app"
           ],
           "name": "ANES — Agenția Națională pentru Egalitatea de Șanse între Femei și Bărbați"
+        },
+        {
+          "name": "New Zealand Embassy in Romania",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+32 2 512 1040"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/belgium",
+          "hours": "Mon-Fri 0900-1300 hrs, 1400-1700 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Romania",
+          "notes": "Address: Avenue des Nerviens 9/31, B-1040 Brussels, Belgium. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/romania"
+          ]
         }
       ]
     },
@@ -72700,6 +75192,34 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/russia"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Russia (Russian Federation)",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+7 495 956 3579",
+            "+7 495 956 3580"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/russia",
+          "hours": "Mon - Fri 0900 - 1230, 1330 - 1730 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Russia (Russian Federation)",
+          "notes": "Address: 44 Povarskaya Ulitsa , Moscow 121069, Russian Federation. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/russia"
           ]
         }
       ]
@@ -73861,6 +76381,34 @@
             "xref:findahelpline.com"
           ],
           "name": "Samoa Victim Support Group"
+        },
+        {
+          "name": "New Zealand High Commission in Samoa",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+685 21 711",
+            "+685 21 712"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.nzembassy.com/samoa",
+          "hours": "Mon - Fri 0800 - 1600 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Samoa",
+          "notes": "Address: Beach Road, Apia, Samoa. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/samoa"
+          ]
         }
       ]
     },
@@ -73913,6 +76461,33 @@
               "113"
             ]
           }
+        },
+        {
+          "name": "New Zealand Embassy in San Marino",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+39 06 853 7501"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/italy",
+          "hours": "Mon- Fri 0900 -1230 and 1330-1630",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "San Marino",
+          "notes": "Address: Via Clitunno, 44, 00198 Rome, Italy. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/san-marino"
+          ]
         }
       ]
     },
@@ -74300,6 +76875,33 @@
           "sources": [
             "https://travel.gc.ca/destinations/saudi-arabia"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Saudi Arabia",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+966 11 488 7988"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/saudi-arabia",
+          "hours": "Sun - Thurs 0900 - 1200hrs, 1230 -1500hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Saudi Arabia",
+          "notes": "Address: Diplomatic Quarter, Riyadh, Saudi Arabia. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/saudi-arabia"
+          ]
         }
       ]
     },
@@ -74403,6 +77005,34 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/senegal"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Senegal",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+33 1 45 01 43 43",
+            "+44 (20) 7968 2730"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/france",
+          "hours": "Mon-Fri 09",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Senegal",
+          "notes": "Address: 103, rue de Grenelle, 75007 Paris, France. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/senegal"
           ]
         }
       ]
@@ -74677,6 +77307,33 @@
               "Women"
             ]
           }
+        },
+        {
+          "name": "New Zealand Embassy in Serbia",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+39 06 853 7501"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/italy",
+          "hours": "Mon- Fri 0900 -1230 and 1330-1630",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Serbia",
+          "notes": "Address: Via Clitunno, 44, 00198 Rome, Italy. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/serbia"
+          ]
         }
       ]
     },
@@ -75590,6 +78247,33 @@
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/singapore"
           ]
+        },
+        {
+          "name": "New Zealand High Commission in Singapore",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+65 6235 9966"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/singapore",
+          "hours": "Reception/Consular hours",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Singapore",
+          "notes": "Address: 1 George Street, Level 21-04, Singapore 049145. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/singapore"
+          ]
         }
       ]
     },
@@ -76050,6 +78734,33 @@
             "xref:findahelpline.com"
           ],
           "name": "Národná linka pre ženy"
+        },
+        {
+          "name": "New Zealand Embassy in Slovakia (Slovak Republic)",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+43 1 505 3021"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/austria",
+          "hours": "Mon-Fri",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Slovakia (Slovak Republic)",
+          "notes": "Address: The ICON Vienna, Tower 24, Level 15, Suite 15.02, Wiedner G&#xFC;rtel 13, 1100 Vienna, Austria. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/slovakia"
+          ]
         }
       ]
     },
@@ -76380,6 +79091,33 @@
           "sources": [
             "https://travel.gc.ca/destinations/slovenia"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Slovenia",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+43 1 505 3021"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/austria",
+          "hours": "Mon-Fri",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Slovenia",
+          "notes": "Address: The ICON Vienna, Tower 24, Level 15, Suite 15.02, Wiedner G&#xFC;rtel 13, 1100 Vienna, Austria. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/slovenia"
+          ]
         }
       ]
     },
@@ -76538,6 +79276,33 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/solomon-islands"
+          ]
+        },
+        {
+          "name": "New Zealand High Commission in Solomon Islands",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+677 21 502"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/solomon-islands",
+          "hours": "Mon - Fri 0800 - 1200, 1300 - 1630 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Solomon Islands",
+          "notes": "Address: Town Ground, Honiara, Solomon Islands. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/solomon-islands"
           ]
         }
       ]
@@ -77832,6 +80597,33 @@
           "sources": [
             "https://travel.gc.ca/destinations/south-africa"
           ]
+        },
+        {
+          "name": "New Zealand High Commission in South Africa",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+27 12 435 9000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/south-africa",
+          "hours": "Mon - Fri 0800 - 1630hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "South Africa",
+          "notes": "Address: 125 Middel Street, Nieuw Muckleneuk, 0181 Pretoria, South Africa. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/south-africa"
+          ]
         }
       ]
     },
@@ -79034,6 +81826,33 @@
           "verification_status": "verified_knowledge",
           "last_verified": "2026-04-22",
           "sources": []
+        },
+        {
+          "name": "New Zealand Embassy in South Korea (Republic of Korea)",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+82 2 3701 7700"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/korea",
+          "hours": "Mon - Fri 0900 - 1230, 1330 - 1730 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "South Korea (Republic of Korea)",
+          "notes": "Address: Jeong-Dong Building, Level 8 (West Tower), 15-5 Jeong-Dong, Jung-Gu, Seoul 110-784, Republic of Korea. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/south-korea"
+          ]
         }
       ]
     },
@@ -79806,6 +82625,33 @@
           "sources": [
             "https://travel.gc.ca/destinations/spain"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Spain",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+34 915 230 226"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/spain",
+          "hours": "Mon-Fri 0900-1400, and 1500-1730, July and August",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Spain",
+          "notes": "Address: Calle del Pinar, 7, 3rd floor, 28006 Madrid, Spain. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/spain"
+          ]
         }
       ]
     },
@@ -80488,6 +83334,33 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/sri-lanka"
+          ]
+        },
+        {
+          "name": "New Zealand High Commission in Sri Lanka",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+94 11 217 4717"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/sri-lanka/",
+          "hours": "By appointment",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Sri Lanka",
+          "notes": "Address: Unit 2401&#x2212;2402, Level 24 One Galle Face Tower 1A Centre Road, Galle Face 00200 Colombo Sri Lanka. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/sri-lanka"
           ]
         }
       ]
@@ -82824,6 +85697,34 @@
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/tajikistan"
           ]
+        },
+        {
+          "name": "New Zealand Embassy in Tajikistan",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+7 495 956 3579",
+            "+7 495 956 3580"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/russia",
+          "hours": "Mon - Fri 0900 - 1230, 1330 - 1730 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Tajikistan",
+          "notes": "Address: 44 Povarskaya Ulitsa , Moscow 121069, Russian Federation. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/tajikistan"
+          ]
         }
       ]
     },
@@ -82993,6 +85894,33 @@
               "Adults"
             ]
           }
+        },
+        {
+          "name": "New Zealand High Commission in Tanzania",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+27 12 435 9000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/south-africa",
+          "hours": "Mon - Fri 0800 - 1630hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Tanzania",
+          "notes": "Address: 125 Middel Street, Nieuw Muckleneuk, 0181 Pretoria, South Africa. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/tanzania"
+          ]
         }
       ]
     },
@@ -83437,6 +86365,33 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/thailand"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Thailand",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+66 2 254 2530"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/thailand",
+          "hours": "Mon-Fri 0800-1200, 1300-1630 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Thailand",
+          "notes": "Address: M Thai Tower, 14th floor, All Seasons Place, 87 Wireless Road, Bangkok. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/thailand"
           ]
         }
       ]
@@ -83912,6 +86867,33 @@
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/tonga"
           ]
+        },
+        {
+          "name": "New Zealand High Commission in Tonga",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+676 23122"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/tonga",
+          "hours": "Mon - Fri, 9am-12",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Tonga",
+          "notes": "Address: Corner Taufa'ahau and Salote Roads, Nuku'alofa, Tonga. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/tonga"
+          ]
         }
       ]
     },
@@ -84379,6 +87361,33 @@
           "last_verified": "2026-04-22",
           "sources": [],
           "name": "Child Helpline 1809"
+        },
+        {
+          "name": "New Zealand Embassy in Tunisia",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+202 2461 9186"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/en/countries-and-regions/middle-east/egypt/new-zealand-embassy-to-arab-republic-of-egypt/",
+          "hours": "Sun-Wed 0900-1500 hrs, Thurs 0900-1330 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Tunisia",
+          "notes": "Address: 8th floor, North Tower, Nile City Towers, Corniche El Nil, Ramlet Beaulac.. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/tunisia"
+          ]
         }
       ]
     },
@@ -84775,6 +87784,34 @@
               "Children"
             ]
           }
+        },
+        {
+          "name": "New Zealand Embassy in Turkmenistan",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+7 495 956 3579",
+            "+7 495 956 3580"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/russia",
+          "hours": "Mon - Fri 0900 - 1230, 1330 - 1730 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Turkmenistan",
+          "notes": "Address: 44 Povarskaya Ulitsa , Moscow 121069, Russian Federation. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/turkmenistan"
+          ]
         }
       ]
     },
@@ -85568,6 +88605,33 @@
             "xref:psc_app"
           ],
           "name": "Child Helpline 116 111"
+        },
+        {
+          "name": "New Zealand Embassy in Ukraine",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+48 22 521 0500"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/poland",
+          "hours": "By appointment",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Ukraine",
+          "notes": "Address: n/a Telephone: +48 22 521 0500. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/ukraine"
+          ]
         }
       ]
     },
@@ -85806,6 +88870,33 @@
             "https://www.lighthousearabia.com"
           ],
           "name": "Lighthouse Arabia"
+        },
+        {
+          "name": "New Zealand Embassy in United Arab Emirates",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+971 2 496-3333"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/united-arab-emirates",
+          "hours": "Mon-Wed 0900-1600, Thu 0900-1530, Fri 0900-1130 &#xA;Notarial Services",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "United Arab Emirates",
+          "notes": "Address: Level 25, Suite 2503, International Tower, Capital Centre, Abu Dhabi, UAE. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/united-arab-emirates"
+          ]
         }
       ]
     },
@@ -92952,6 +96043,33 @@
           "verification_status": "verified_knowledge",
           "last_verified": "2026-04-22",
           "sources": []
+        },
+        {
+          "name": "New Zealand Embassy in United States of America",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+1 202 328 4848"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/en/countries-and-regions/americas/united-states-of-america/new-zealand-embassy-to-the-united-states-of-america/",
+          "hours": "Mon - Fri 0830 - 1700 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "United States of America",
+          "notes": "Address: 37 Observatory Circle NW, Washington, DC 20008, United States of America. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/united-states-of-america"
+          ]
         }
       ]
     },
@@ -93161,6 +96279,33 @@
             "https://www.gub.uy/ministerio-desarrollo-social/inmujeres"
           ],
           "name": "INMUJERES Violencia Doméstica"
+        },
+        {
+          "name": "New Zealand Embassy in Uruguay",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+54 (11) 5070 0700"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/argentina/",
+          "hours": "Mon-Fri 10",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Uruguay",
+          "notes": "Address: Carlos Pellegrini 1427, 5th Floor, Ciudad de Buenos Aires CP1011, Argentina. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/uruguay"
+          ]
         }
       ]
     },
@@ -93267,6 +96412,34 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/uzbekistan"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Uzbekistan",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+7 495 956 3579",
+            "+7 495 956 3580"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/russia",
+          "hours": "Mon - Fri 0900 - 1230, 1330 - 1730 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Uzbekistan",
+          "notes": "Address: 44 Povarskaya Ulitsa , Moscow 121069, Russian Federation. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/uzbekistan"
           ]
         }
       ]
@@ -93434,6 +96607,33 @@
           "last_verified": "2026-04-23",
           "sources": [
             "https://travel.gc.ca/destinations/vanuatu"
+          ]
+        },
+        {
+          "name": "New Zealand High Commission in Vanuatu",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+678 33933"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.nzembassy.com/vanuatu",
+          "hours": "Mon-Fri 0900-1200, 1300-1500 hrs (please note that no walk-ins and only very limi",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Vanuatu",
+          "notes": "Address: We are currently working out of a temporary location. If you need to contact us, please email us.. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/vanuatu"
           ]
         }
       ]
@@ -93603,6 +96803,33 @@
           "last_verified": "2026-04-22",
           "sources": [],
           "name": "INAMUJER 0800-MUJERES"
+        },
+        {
+          "name": "New Zealand Embassy in Venezuela",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+52 55 5283 9460"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/mexico",
+          "hours": "Mon - Fri 0930 - 1400",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Venezuela",
+          "notes": "Address: Jaime Balmes No 8, 4th Floor, Los Morales, Polanco, Mexico D.F. 11510. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/venezuela"
+          ]
         }
       ]
     },
@@ -93944,6 +97171,33 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/vietnam"
+          ]
+        },
+        {
+          "name": "New Zealand Embassy in Viet Nam",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+84 24 3824 1481"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "https://www.mfat.govt.nz/viet-nam",
+          "hours": "Mon - Fri 0830 - 1200, 1300 - 1700 hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Viet Nam",
+          "notes": "Address: Level 5, 63 Ly Thai To Street, Ha Noi, Viet Nam. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/viet-nam"
           ]
         }
       ]
@@ -94465,6 +97719,33 @@
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/zambia"
           ]
+        },
+        {
+          "name": "New Zealand High Commission in Zambia",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+27 12 435 9000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/south-africa",
+          "hours": "Mon - Fri 0800 - 1630hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Zambia",
+          "notes": "Address: 125 Middel Street, Nieuw Muckleneuk, 0181 Pretoria, South Africa. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/zambia"
+          ]
         }
       ]
     },
@@ -94720,6 +98001,33 @@
           "last_verified": "2026-04-22",
           "sources": [],
           "name": "Musasa Project GBV Helpline"
+        },
+        {
+          "name": "New Zealand High Commission in Zimbabwe",
+          "organization": "NZ Ministry of Foreign Affairs and Trade",
+          "category": "consular",
+          "voice_numbers": [
+            "+27 12 435 9000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": "http://www.mfat.govt.nz/south-africa",
+          "hours": "Mon - Fri 0800 - 1630hrs",
+          "languages": [
+            "English"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for New Zealand nationals",
+          "geography": "Zimbabwe",
+          "notes": "Address: 125 Middel Street, Nieuw Muckleneuk, 0181 Pretoria, South Africa. Sourced from NZ SafeTravel.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://www.safetravel.govt.nz/destinations/zimbabwe"
+          ]
         }
       ]
     },
