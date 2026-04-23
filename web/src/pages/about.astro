@@ -4,13 +4,13 @@ import Base from '../layouts/Base.astro';
 
 <Base title="About · Hotlines" description="How the World Emergency & Hotlines directory works: data sourcing, verification, routing, and privacy.">
   <article class="prose prose-invert mx-auto max-w-2xl text-fg">
-    <h1 class="font-display text-4xl text-fg">About this project</h1>
+    <h1 class="text-4xl font-semibold text-fg" data-i18n="about.title">About this project</h1>
     <p class="text-fg-muted">
       World Emergency & Hotlines is an open directory of every crisis, emergency, and support line we can
       verify, for every country on Earth. We think nobody should have to search in a panic.
     </p>
 
-    <h2 class="font-display mt-8 text-2xl text-fg">If you're in crisis right now</h2>
+    <h2 class="mt-8 text-2xl font-semibold text-fg" data-i18n="about.crisisTitle">If you're in crisis right now</h2>
     <div class="rounded-2xl border border-danger/40 bg-danger/10 p-4 not-prose mb-6">
       <p class="text-sm text-fg-muted">
         Call your country's emergency number. In most of Europe: <span class="font-mono text-fg">112</span>.
@@ -22,7 +22,7 @@ import Base from '../layouts/Base.astro';
       </p>
     </div>
 
-    <h2 class="font-display mt-8 text-2xl text-fg">How to use this site</h2>
+    <h2 class="mt-8 text-2xl font-semibold text-fg" data-i18n="about.useTitle">How to use this site</h2>
     <ul class="list-disc pl-6 text-fg-muted">
       <li>
         <strong class="text-fg">Search</strong> by country, category, or service name (e.g. "Italy domestic violence",
@@ -42,7 +42,7 @@ import Base from '../layouts/Base.astro';
       </li>
     </ul>
 
-    <h2 class="font-display mt-8 text-2xl text-fg">How verification works</h2>
+    <h2 class="mt-8 text-2xl font-semibold text-fg" data-i18n="about.verificationTitle">How verification works</h2>
     <p class="text-fg-muted">
       Every hotline record carries a verification status. We never hide a record — we label its confidence level
       so you can make an informed decision.
@@ -64,7 +64,7 @@ import Base from '../layouts/Base.astro';
       ))}
     </dl>
 
-    <h2 class="font-display mt-8 text-2xl text-fg">Best-available routing</h2>
+    <h2 class="mt-8 text-2xl font-semibold text-fg" data-i18n="about.routingTitle">Best-available routing</h2>
     <p class="text-fg-muted">
       On each country page, the site automatically selects the "best available help" — a verified crisis line if one
       exists, falling back to verified mental health support, then to unverified lines if that's all we have. This is
@@ -75,7 +75,7 @@ import Base from '../layouts/Base.astro';
       let you explicitly restrict results to verified or channel-specific services.
     </p>
 
-    <h2 class="font-display mt-8 text-2xl text-fg">Travellers & expats</h2>
+    <h2 class="mt-8 text-2xl font-semibold text-fg" data-i18n="about.travellersTitle">Travellers & expats</h2>
     <p class="text-fg-muted">
       Most freephone/toll-free numbers require a local SIM or network connection for the country. If you're abroad:
     </p>
@@ -86,14 +86,14 @@ import Base from '../layouts/Base.astro';
       <li>Hotel staff and local emergency numbers will always have up-to-date local contacts.</li>
     </ul>
 
-    <h2 class="font-display mt-8 text-2xl text-fg">Privacy</h2>
+    <h2 class="mt-8 text-2xl font-semibold text-fg" data-i18n="about.privacyTitle">Privacy</h2>
     <p class="text-fg-muted">
       The search runs entirely in your browser — your search terms and results never leave your device.
       No queries are logged. The emergency banner reads your browser language setting only (no server call, no location).
       We don't use tracking cookies or analytics that identify individuals.
     </p>
 
-    <h2 class="font-display mt-8 text-2xl text-fg">Open data & contributing</h2>
+    <h2 class="mt-8 text-2xl font-semibold text-fg" data-i18n="about.openDataTitle">Open data & contributing</h2>
     <p class="text-fg-muted">
       The entire dataset is open. Download it from the <a href="/data" class="text-accent hover:underline">data page</a>
       in JSON format. To contribute corrections or new hotlines, open a pull request or issue on GitHub.

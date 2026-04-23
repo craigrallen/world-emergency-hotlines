@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import HotlineCard from '../../components/HotlineCard.astro';
+import Icon from '../../components/Icon.astro';
 import { getManifest, getCountry, getBestAvailableHelp, getFreshnessInfo } from '../../lib/data';
 import { CATEGORY_META } from '../../lib/types';
 import type { Hotline, HotlineCategory } from '../../lib/types';
@@ -76,7 +77,7 @@ const description = `Emergency numbers, crisis lines, and support hotlines for $
   <div class="mb-8 flex flex-wrap items-start gap-4">
     <span class="text-5xl leading-none" aria-hidden="true">{flag}</span>
     <div class="min-w-0 flex-1">
-      <h1 class="font-display text-4xl text-fg sm:text-5xl">{country.country}</h1>
+      <h1 class="text-4xl font-semibold text-fg sm:text-5xl">{country.country}</h1>
       <p class="mt-1 text-sm text-fg-muted">
         {country.alpha2}
         {country.region && <span> · {country.region}</span>}
@@ -99,7 +100,7 @@ const description = `Emergency numbers, crisis lines, and support hotlines for $
       </div>
     </div>
     <div class="flex shrink-0 gap-2">
-      <a href={`/map#${country.alpha2}`} class="btn-ghost text-xs">View on map ↗</a>
+      <a href={`/map#${country.alpha2}`} class="btn-ghost text-xs"><Icon name="map" class="h-3.5 w-3.5" /> View on map</a>
     </div>
   </div>
 
@@ -107,7 +108,7 @@ const description = `Emergency numbers, crisis lines, and support hotlines for $
   {emergency.length > 0 && (
     <div class="mb-6 rounded-2xl border border-danger/50 bg-danger/10 p-5">
       <div class="flex items-start gap-3">
-        <span class="text-2xl" aria-hidden="true">🚨</span>
+        <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-danger/15 text-danger" aria-hidden="true"><Icon name="alert" class="h-5 w-5" /></span>
         <div>
           <h2 class="font-semibold text-danger">Emergency numbers</h2>
           <p class="mt-1 text-xs text-fg-muted">Police · Fire · Ambulance</p>
@@ -167,7 +168,7 @@ const description = `Emergency numbers, crisis lines, and support hotlines for $
               href={`tel:${n.replace(/\s+/g, '')}`}
               class="inline-flex items-center gap-1.5 rounded-lg bg-accent/15 px-3 py-2 font-mono text-base font-semibold text-accent hover:bg-accent/25"
             >
-              📞 {n}
+              <Icon name="phone" class="h-3.5 w-3.5" /> {n}
             </a>
           ))}
           {bestHelp.chat_url && (
@@ -177,7 +178,7 @@ const description = `Emergency numbers, crisis lines, and support hotlines for $
               rel="noopener"
               class="inline-flex items-center gap-1.5 rounded-lg bg-accent/15 px-3 py-2 text-sm text-accent hover:bg-accent/25"
             >
-              💬 Chat
+              <Icon name="chat" class="h-3.5 w-3.5" /> Chat
             </a>
           )}
         </div>
@@ -187,7 +188,7 @@ const description = `Emergency numbers, crisis lines, and support hotlines for $
 
   {country.hotlines.length === 0 && (
     <div class="mb-6 rounded-2xl border border-border bg-bg-elev/40 p-6 text-center">
-      <p class="text-2xl" aria-hidden="true">📋</p>
+      <span class="mx-auto inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-accent/12 text-accent" aria-hidden="true"><Icon name="dataset" class="h-5 w-5" /></span>
       <h2 class="mt-2 font-semibold text-fg">No hotlines listed yet</h2>
       <p class="mt-1 text-sm text-fg-muted">
         We don't have specific hotline data for {country.country} yet.
@@ -204,7 +205,7 @@ const description = `Emergency numbers, crisis lines, and support hotlines for $
 
   <!-- Traveller guidance -->
   <div class="mb-8 rounded-2xl border border-border bg-bg-elev/30 p-4 text-sm text-fg-muted">
-    <span class="mr-2 text-base" aria-hidden="true">✈️</span>
+    <span class="mr-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent/10 text-accent" aria-hidden="true"><Icon name="map" class="h-4 w-4" /></span>
     <strong class="text-fg">Traveller note:</strong> Most hotlines listed here require a local {country.country} phone number or SIM card.
     If calling from abroad, you may need to dial your country's international exit code followed by the {country.country} country code,
     and some free-call numbers may not connect internationally. When in doubt, ask your hotel or the local emergency number.
@@ -213,7 +214,7 @@ const description = `Emergency numbers, crisis lines, and support hotlines for $
   <!-- Data quality notice if all unverified -->
   {country.hotlines.length > 0 && verifiedHotlines.length === 0 && (
     <div class="mb-6 rounded-xl border border-accent/30 bg-accent/5 p-4 text-sm">
-      <span class="mr-1" aria-hidden="true">⚠️</span>
+      <span class="mr-1 inline-flex align-middle text-accent" aria-hidden="true"><Icon name="alert" class="h-4 w-4" /></span>
       <strong class="text-accent">Data not independently verified.</strong>
       <span class="text-fg-muted"> These records come from legacy sources and haven't been confirmed against official provider websites. Please double-check any number before relying on it.</span>
     </div>

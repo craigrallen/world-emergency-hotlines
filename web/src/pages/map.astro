@@ -8,7 +8,6 @@ import Base from '../layouts/Base.astro';
   bleed={true}
 >
   <div class="relative h-[calc(100dvh-64px)] min-h-[560px] w-full">
-    <!-- Map container -->
     <div
       id="hotlines-map"
       class="absolute inset-0 bg-bg"
@@ -16,33 +15,29 @@ import Base from '../layouts/Base.astro';
       aria-label="World map of hotlines"
     ></div>
 
-    <!-- Loading overlay -->
     <div
       id="map-loading"
       class="pointer-events-none absolute inset-0 z-[400] flex items-center justify-center bg-bg/80 text-sm text-fg-muted"
     >
-      <div class="rounded-full border border-border bg-bg-elev px-4 py-2">Loading world map…</div>
+      <div class="rounded-full border border-border bg-bg-elev px-4 py-2" data-i18n="map.loading">Loading world map…</div>
     </div>
 
-    <!-- Error banner (hidden unless something fails) -->
     <div
       id="map-error"
       class="pointer-events-auto absolute left-3 right-3 top-3 z-[500] hidden rounded-xl border border-danger/60 bg-danger/15 p-3 text-sm text-fg"
       role="alert"
     ></div>
 
-    <!-- Legend -->
     <div
       class="pointer-events-auto absolute left-3 bottom-20 z-[450] flex flex-col gap-1.5 rounded-xl border border-border bg-bg-elev/85 p-3 text-xs text-fg shadow-xl backdrop-blur sm:left-4 sm:bottom-24"
       aria-label="Legend"
     >
-      <p class="mb-1 text-[11px] uppercase tracking-wider text-fg-muted">Data coverage</p>
-      <div class="flex items-center gap-2"><span class="inline-block h-3 w-3 rounded-sm" style="background:#f0b86e"></span> Verified hotlines</div>
-      <div class="flex items-center gap-2"><span class="inline-block h-3 w-3 rounded-sm" style="background:#7a6a9e"></span> Legacy / unverified</div>
-      <div class="flex items-center gap-2"><span class="inline-block h-3 w-3 rounded-sm" style="background:#2a3252"></span> No data yet</div>
+      <p class="mb-1 text-[11px] uppercase tracking-wider text-fg-muted" data-i18n="map.legend">Data coverage</p>
+      <div class="flex items-center gap-2"><span class="inline-block h-3 w-3 rounded-sm bg-accent"></span> <span data-i18n="map.legendVerified">Verified hotlines</span></div>
+      <div class="flex items-center gap-2"><span class="inline-block h-3 w-3 rounded-sm bg-fg-muted/60"></span> <span data-i18n="map.legendLegacy">Legacy / unverified</span></div>
+      <div class="flex items-center gap-2"><span class="inline-block h-3 w-3 rounded-sm bg-border"></span> <span data-i18n="map.legendEmpty">No data yet</span></div>
     </div>
 
-    <!-- Country panel (slide-in drawer) -->
     <aside
       id="country-panel"
       class="pointer-events-auto absolute right-0 top-0 z-[460] hidden h-full w-full max-w-md translate-x-full overflow-y-auto border-l border-border bg-bg/95 p-5 backdrop-blur transition-transform duration-300 ease-out sm:w-[420px]"
@@ -53,14 +48,13 @@ import Base from '../layouts/Base.astro';
         type="button"
         class="sticky top-0 ml-auto flex items-center gap-1 rounded-full bg-bg-elev px-3 py-1.5 text-xs text-fg-muted hover:text-fg"
         aria-label="Close country panel"
-      >Close ✕</button>
+        data-i18n-aria-label="map.closePanel"
+      ><span data-i18n="common.close">Close</span> ✕</button>
       <div id="country-panel-body" class="mt-4"></div>
     </aside>
   </div>
 
-  <!-- Leaflet CSS (CDN, allowed by CSP style-src) -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
-  <!-- Leaflet JS (CDN, allowed by CSP script-src). Loads synchronously before our inline script. -->
   <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
 
   <script is:inline>
@@ -70,6 +64,12 @@ import Base from '../layouts/Base.astro';
       const panel = document.getElementById('country-panel');
       const panelBody = document.getElementById('country-panel-body');
       const panelClose = document.getElementById('country-panel-close');
+      const container = document.getElementById('hotlines-map');
+
+      function t(key, fallback, vars) {
+        if (window.__WEH__?.t) return window.__WEH__.t(key, vars);
+        return fallback;
+      }
 
       function showError(msg) {
         console.error('[map]', msg);
@@ -92,10 +92,17 @@ import Base from '../layouts/Base.astro';
         return;
       }
 
-      const container = document.getElementById('hotlines-map');
       if (!container) {
         showError('Map container missing — please reload.');
         return;
+      }
+
+      function getAppliedTheme() {
+        return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+      }
+
+      function tileUrlForTheme(theme) {
+        return `https://{s}.basemaps.cartocdn.com/${theme === 'dark' ? 'dark_nolabels' : 'light_nolabels'}/{z}/{x}/{y}{r}.png`;
       }
 
       let map;
@@ -112,28 +119,29 @@ import Base from '../layouts/Base.astro';
         return;
       }
 
-      // Dark raster basemap from CARTO (free, no key needed)
-      L.tileLayer(
-        'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png',
-        {
+      let baseLayer = null;
+      function applyBasemap() {
+        if (baseLayer) map.removeLayer(baseLayer);
+        baseLayer = L.tileLayer(tileUrlForTheme(getAppliedTheme()), {
           subdomains: 'abcd',
           maxZoom: 19,
           attribution:
             '© <a href="https://www.openstreetmap.org/copyright">OSM</a> · © <a href="https://carto.com/attributions">CARTO</a>',
-        }
-      ).addTo(map);
+        });
+        baseLayer.addTo(map);
+      }
+      applyBasemap();
 
-      // Hide loading overlay once the first tile loads (safe upper-bound fallback after 4s)
       let hidden = false;
       function hideLoading() {
         if (hidden) return;
         hidden = true;
         if (loadingBox) loadingBox.style.display = 'none';
       }
+      baseLayer.on('load', hideLoading);
       map.whenReady(hideLoading);
       setTimeout(hideLoading, 4000);
 
-      // Load country manifest and plot markers
       fetch('/data/manifest.json')
         .then(function (r) {
           if (!r.ok) throw new Error('manifest ' + r.status);
@@ -147,7 +155,7 @@ import Base from '../layouts/Base.astro';
             const radius = 4 + Math.sqrt(c.hotline_count || 1) * 1.2;
             const marker = L.circleMarker([c.centroid.lat, c.centroid.lng], {
               radius: radius,
-              color: '#0b1020',
+              color: getAppliedTheme() === 'dark' ? '#0b1020' : '#ffffff',
               weight: 1.5,
               fillColor: color,
               fillOpacity: 0.9,
@@ -165,17 +173,18 @@ import Base from '../layouts/Base.astro';
           console.warn('[map] manifest unavailable:', err);
         });
 
-      // --- Country panel ---
       function escape(s) {
         return String(s).replace(/[&<>"']/g, function (c) {
           return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
         });
       }
+
       function flagEmoji(cc) {
         if (!/^[A-Z]{2}$/.test(cc)) return '🏳️';
         const A = 127397;
         return String.fromCodePoint(cc.charCodeAt(0) + A, cc.charCodeAt(1) + A);
       }
+
       function cleanNumber(raw) {
         let n = String(raw).trim();
         while ((n.split('(').length - 1) > (n.split(')').length - 1)) {
@@ -226,11 +235,11 @@ import Base from '../layouts/Base.astro';
             '</div>' +
           '</div>' +
           '<div class="mb-5 rounded-xl border border-danger/40 bg-danger/10 p-3 text-sm text-fg">' +
-            '<p class="font-semibold text-danger">Immediate emergency</p>' +
+            '<p class="font-semibold text-danger">' + escape(t('map.immediateEmergency', 'Immediate emergency')) + '</p>' +
             '<p class="font-mono text-lg text-fg">' + escape(emergency) + '</p>' +
             (c.notes ? '<p class="mt-1 text-xs text-fg-muted">' + escape(c.notes) + '</p>' : '') +
           '</div>' +
-          '<h3 class="mb-3 text-xs uppercase tracking-wider text-fg-muted">' + ((c.hotlines || []).length) + ' hotlines</h3>' +
+          '<h3 class="mb-3 text-xs uppercase tracking-wider text-fg-muted">' + ((c.hotlines || []).length) + ' ' + escape(t('common.hotlines', 'hotlines')) + '</h3>' +
           '<div class="space-y-3">' + (items || '<p class="text-sm text-fg-muted">No hotlines listed yet.</p>') + '</div>' +
           '<p class="mt-4 text-center"><a href="/country/' + c.alpha2.toLowerCase() + '" class="text-sm text-accent hover:underline">Full page for ' + escape(c.country) + ' →</a></p>'
         );
@@ -238,7 +247,7 @@ import Base from '../layouts/Base.astro';
 
       function openCountry(alpha2) {
         if (!panel || !panelBody) return;
-        panelBody.innerHTML = '<p class="text-sm text-fg-muted">Loading ' + alpha2 + '…</p>';
+        panelBody.innerHTML = '<p class="text-sm text-fg-muted">Loading ' + escape(alpha2) + '…</p>';
         panel.classList.remove('hidden');
         requestAnimationFrame(function () {
           panel.classList.remove('translate-x-full');
@@ -266,10 +275,12 @@ import Base from '../layouts/Base.astro';
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape') closePanel();
       });
+      window.addEventListener('weh:theme-changed', function () {
+        applyBasemap();
+      });
     })();
   </script>
 
-  <!-- Harmonize Leaflet controls with dark theme -->
   <style>
     .leaflet-container {
       background: rgb(var(--bg));

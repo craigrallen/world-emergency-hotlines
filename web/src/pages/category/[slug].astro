@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import HotlineCard from '../../components/HotlineCard.astro';
+import Icon from '../../components/Icon.astro';
 import { getByCategory, getCategoriesStats } from '../../lib/data';
 import { CATEGORY_META } from '../../lib/types';
 
@@ -82,7 +83,7 @@ const pageDescription = `${description} — ${totalHotlines} hotlines in ${resul
     <div class="flex items-center gap-4">
       <span class="text-5xl" aria-hidden="true">{icon}</span>
       <div>
-        <h1 class="font-display text-4xl text-fg sm:text-5xl">{label}</h1>
+        <h1 class="text-4xl font-semibold text-fg sm:text-5xl">{label}</h1>
         {description && <p class="mt-1 text-base text-fg-muted">{description}</p>}
       </div>
     </div>
@@ -90,20 +91,20 @@ const pageDescription = `${description} — ${totalHotlines} hotlines in ${resul
     <!-- Stats row -->
     <div class="mt-6 flex flex-wrap gap-4">
       <div class="card flex flex-col p-4 text-center">
-        <span class="font-display text-3xl text-fg">{totalHotlines}</span>
+        <span class="text-3xl font-semibold text-fg">{totalHotlines}</span>
         <span class="text-xs text-fg-muted">hotlines</span>
       </div>
       <div class="card flex flex-col p-4 text-center">
-        <span class="font-display text-3xl text-fg">{results.length}</span>
+        <span class="text-3xl font-semibold text-fg">{results.length}</span>
         <span class="text-xs text-fg-muted">countries</span>
       </div>
       <div class="card flex flex-col p-4 text-center">
-        <span class="font-display text-3xl text-success">{totalVerified}</span>
+        <span class="text-3xl font-semibold text-success">{totalVerified}</span>
         <span class="text-xs text-fg-muted">verified</span>
       </div>
       {totalVerified < totalHotlines && (
         <div class="card flex flex-col p-4 text-center">
-          <span class="font-display text-3xl text-fg-muted">{totalHotlines - totalVerified}</span>
+          <span class="text-3xl font-semibold text-fg-muted">{totalHotlines - totalVerified}</span>
           <span class="text-xs text-fg-muted">unverified</span>
         </div>
       )}
@@ -194,8 +195,8 @@ const pageDescription = `${description} — ${totalHotlines} hotlines in ${resul
 
   {results.length === 0 && (
     <div class="rounded-2xl border border-border bg-bg-elev/40 p-12 text-center">
-      <p class="text-3xl" aria-hidden="true">📋</p>
-      <h2 class="mt-4 font-display text-2xl text-fg">No data yet for this category</h2>
+      <span class="mx-auto inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-accent/12 text-accent" aria-hidden="true"><Icon name="dataset" class="h-5 w-5" /></span>
+      <h2 class="mt-4 text-2xl font-semibold text-fg">No data yet for this category</h2>
       <p class="mt-2 text-fg-muted">
         We're working on adding hotlines for this category. Contributions welcome!
       </p>
