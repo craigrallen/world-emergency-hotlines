@@ -80,7 +80,7 @@ const featuredCategories = [
       {featuredCategories.map((c) => (
         <a href={`/category/${c.slug}`} class="card group flex flex-col justify-between gap-6 p-5 transition hover:-translate-y-0.5 hover:border-accent/60">
           <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-accent/12 text-accent"><Icon name={c.icon} class="h-5 w-5" /></span>
-          <span class="text-sm font-medium text-fg">{c.label}</span>
+          <span class="text-sm font-medium text-fg" data-i18n={`category.${c.slug}`}>{c.label}</span>
         </a>
       ))}
     </div>

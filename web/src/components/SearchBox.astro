@@ -59,19 +59,19 @@ import Icon from './Icon.astro';
     </button>
     {(
       [
-        { slug: 'suicide_crisis', label: 'Crisis', icon: 'alert' },
-        { slug: 'child_protection', label: 'Child', icon: 'child' },
-        { slug: 'domestic_violence', label: 'Safety', icon: 'shield' },
-        { slug: 'mental_health', label: 'Mental health', icon: 'brain' },
-      ] as { slug: string; label: string; icon: 'alert' | 'child' | 'shield' | 'brain' }[]
-    ).map(({ slug, label, icon }) => (
+        { slug: 'suicide_crisis', i18nKey: 'search.filterCrisis', label: 'Crisis', icon: 'alert' },
+        { slug: 'child_protection', i18nKey: 'search.filterChild', label: 'Child', icon: 'child' },
+        { slug: 'domestic_violence', i18nKey: 'search.filterSafety', label: 'Safety', icon: 'shield' },
+        { slug: 'mental_health', i18nKey: 'search.filterMental', label: 'Mental health', icon: 'brain' },
+      ] as { slug: string; i18nKey: string; label: string; icon: 'alert' | 'child' | 'shield' | 'brain' }[]
+    ).map(({ slug, i18nKey, label, icon }) => (
       <button
         class="filter-chip chip border-border/60 text-fg-muted hover:border-accent/50 hover:text-fg text-xs"
         data-filter={`cat:${slug}`}
         aria-pressed="false"
       >
         <Icon name={icon} class="h-3.5 w-3.5" />
-        {label}
+        <span data-i18n={i18nKey}>{label}</span>
       </button>
     ))}
   </div>
