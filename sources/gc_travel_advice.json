@@ -1,0 +1,2460 @@
+{
+  "source": "https://travel.gc.ca/destinations",
+  "scraped_at": "2026-04-23T06:50:34+00:00",
+  "record_count": 128,
+  "missing_alpha2": [
+    [
+      "azores",
+      "Azores"
+    ],
+    [
+      "bonaire",
+      "Bonaire"
+    ],
+    [
+      "cabo-verde",
+      "Cabo Verde"
+    ],
+    [
+      "canary-islands",
+      "Canary Islands"
+    ],
+    [
+      "cote-d-ivoire-ivory-coast",
+      "C&#244;te d&#39;Ivoire (Ivory Coast)"
+    ],
+    [
+      "curacao",
+      "Cura&#231;ao"
+    ],
+    [
+      "czechia",
+      "Czechia"
+    ],
+    [
+      "congo-kinshasa",
+      "Democratic Republic of Congo (Kinshasa)"
+    ],
+    [
+      "gambia-the",
+      "Gambia, The"
+    ],
+    [
+      "israel-and-palestine",
+      "Israel and Palestine"
+    ],
+    [
+      "micronesia-fsm",
+      "Micronesia (FSM)"
+    ],
+    [
+      "northern-marianas",
+      "Northern Marianas"
+    ],
+    [
+      "congo-brazzaville",
+      "Republic of Congo (Brazzaville)"
+    ],
+    [
+      "reunion",
+      "R&#233;union"
+    ],
+    [
+      "saint-pierre-et-miquelon",
+      "Saint-Pierre-et-Miquelon"
+    ],
+    [
+      "saint-vincent-the-grenadines",
+      "Saint Vincent &amp; the Grenadines"
+    ],
+    [
+      "timor-leste-east-timor",
+      "Timor-Leste (East Timor)"
+    ],
+    [
+      "turkiye",
+      "T&#252;rkiye"
+    ]
+  ],
+  "records": [
+    {
+      "country_name": "Algeria",
+      "country": "DZ",
+      "slug": "algeria",
+      "source_url": "https://travel.gc.ca/destinations/algeria",
+      "emergency": [
+        {
+          "number": "1548",
+          "label": ""
+        },
+        {
+          "number": "23 54 44 28",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Antigua and Barbuda",
+      "country": "AG",
+      "slug": "antigua-and-barbuda",
+      "source_url": "https://travel.gc.ca/destinations/antigua-and-barbuda",
+      "emergency": [
+        {
+          "number": "1-246-629-3550",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Argentina",
+      "country": "AR",
+      "slug": "argentina",
+      "source_url": "https://travel.gc.ca/destinations/argentina",
+      "emergency": [
+        {
+          "number": "54 11 4323",
+          "label": ""
+        },
+        {
+          "number": "8900",
+          "label": ""
+        },
+        {
+          "number": "116311",
+          "label": ""
+        },
+        {
+          "number": "54 911 5050",
+          "label": ""
+        },
+        {
+          "number": "3293",
+          "label": ""
+        },
+        {
+          "number": "54 911 5050",
+          "label": ""
+        },
+        {
+          "number": "9260",
+          "label": ""
+        },
+        {
+          "number": "54 261 413",
+          "label": ""
+        },
+        {
+          "number": "2135",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Australia",
+      "country": "AU",
+      "slug": "australia",
+      "source_url": "https://travel.gc.ca/destinations/australia",
+      "emergency": [
+        {
+          "number": "000",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Austria",
+      "country": "AT",
+      "slug": "austria",
+      "source_url": "https://travel.gc.ca/destinations/austria",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Azerbaijan",
+      "country": "AZ",
+      "slug": "azerbaijan",
+      "source_url": "https://travel.gc.ca/destinations/azerbaijan",
+      "emergency": [
+        {
+          "number": "944 12 590",
+          "label": ""
+        },
+        {
+          "number": "9966",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Bahamas",
+      "country": "BS",
+      "slug": "bahamas",
+      "source_url": "https://travel.gc.ca/destinations/bahamas",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Nassau",
+          "kind": "Honorary consul",
+          "phones": [
+            "1-876-926-1500"
+          ],
+          "emails": [
+            "ccs.scc@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/bahamas/nassau.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Bahrain",
+      "country": "BH",
+      "slug": "bahrain",
+      "source_url": "https://travel.gc.ca/destinations/bahrain",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Consular assistance Manama",
+          "kind": "Honorary consul",
+          "phones": [],
+          "emails": [
+            "canadabh@zubipartners.com"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/bahrain-bahrein/manama.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Bangladesh",
+      "country": "BD",
+      "slug": "bangladesh",
+      "source_url": "https://travel.gc.ca/destinations/bangladesh",
+      "emergency": [
+        {
+          "number": "10921",
+          "label": ""
+        },
+        {
+          "number": "88 017 133",
+          "label": ""
+        },
+        {
+          "number": "98311",
+          "label": ""
+        },
+        {
+          "number": "8802 951 4400",
+          "label": ""
+        },
+        {
+          "number": "8802 955 5555",
+          "label": ""
+        },
+        {
+          "number": "8802 955 6666",
+          "label": ""
+        },
+        {
+          "number": "8802 955 6667",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Barbados",
+      "country": "BB",
+      "slug": "barbados",
+      "source_url": "https://travel.gc.ca/destinations/barbados",
+      "emergency": [
+        {
+          "number": "1-246-629-3550",
+          "label": ""
+        },
+        {
+          "number": "1-888-949-9993",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Belize",
+      "country": "BZ",
+      "slug": "belize",
+      "source_url": "https://travel.gc.ca/destinations/belize",
+      "emergency": [
+        {
+          "number": "911",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Bermuda",
+      "country": "BM",
+      "slug": "bermuda",
+      "source_url": "https://travel.gc.ca/destinations/bermuda",
+      "emergency": [
+        {
+          "number": "911",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Bolivia",
+      "country": "BO",
+      "slug": "bolivia",
+      "source_url": "https://travel.gc.ca/destinations/bolivia",
+      "emergency": [
+        {
+          "number": "800-14-0348",
+          "label": ""
+        },
+        {
+          "number": "591-2-222-5016",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Bosnia and Herzegovina",
+      "country": "BA",
+      "slug": "bosnia-and-herzegovina",
+      "source_url": "https://travel.gc.ca/destinations/bosnia-and-herzegovina",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Consular assistance Sarajevo",
+          "kind": "Consulate",
+          "phones": [
+            "387 (60) 32-32-407"
+          ],
+          "emails": [
+            "sarajevo@international.gc.ca"
+          ],
+          "url": null
+        }
+      ]
+    },
+    {
+      "country_name": "British Virgin Islands",
+      "country": "VG",
+      "slug": "british-virgin-islands",
+      "source_url": "https://travel.gc.ca/destinations/british-virgin-islands",
+      "emergency": [
+        {
+          "number": "999",
+          "label": ""
+        },
+        {
+          "number": "911",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Bulgaria",
+      "country": "BG",
+      "slug": "bulgaria",
+      "source_url": "https://travel.gc.ca/destinations/bulgaria",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        }
+      ],
+      "embassies": [
+        {
+          "city": "Consular assistance Sofia",
+          "kind": "Honorary consul",
+          "phones": [
+            "359-2-969-9710"
+          ],
+          "emails": [
+            "sofia@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/bulgaria-bulgarie/sofia.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Cambodia",
+      "country": "KH",
+      "slug": "cambodia",
+      "source_url": "https://travel.gc.ca/destinations/cambodia",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Consular assistance Phnom Penh",
+          "kind": "Embassy",
+          "phones": [
+            "+855 (0) 99 430 811"
+          ],
+          "emails": [
+            "pnpen-consular@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/cambodia-cambodge/phnom_penh.aspx?lang=eng"
+        },
+        {
+          "city": "Book your appointment online Siem Reap",
+          "kind": "Consulate",
+          "phones": [
+            "+855 (0) 12 652 086"
+          ],
+          "emails": [
+            "siemreap@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/cambodia-cambodge/siem_reap.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Cayman Islands",
+      "country": "KY",
+      "slug": "cayman-islands",
+      "source_url": "https://travel.gc.ca/destinations/cayman-islands",
+      "emergency": [
+        {
+          "number": "911",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Chad",
+      "country": "TD",
+      "slug": "chad",
+      "source_url": "https://travel.gc.ca/destinations/chad",
+      "emergency": [
+        {
+          "number": "2020",
+          "label": ""
+        },
+        {
+          "number": "235 225 17728",
+          "label": ""
+        },
+        {
+          "number": "235 225 21211",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Chile",
+      "country": "CL",
+      "slug": "chile",
+      "source_url": "https://travel.gc.ca/destinations/chile",
+      "emergency": [
+        {
+          "number": "1455",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Cuba",
+      "country": "CU",
+      "slug": "cuba",
+      "source_url": "https://travel.gc.ca/destinations/cuba",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Consular assistance Havana",
+          "kind": "Embassy",
+          "phones": [
+            "+53 7 204-2516"
+          ],
+          "emails": [
+            "HAVAN.Consular-Consulaire@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/cuba/havana-la_havane.aspx?lang=eng"
+        },
+        {
+          "city": "Book your appointment online Guardalavaca",
+          "kind": "Consulate",
+          "phones": [],
+          "emails": [
+            "guardalavaca@international.gc.ca"
+          ],
+          "url": null
+        }
+      ]
+    },
+    {
+      "country_name": "Cyprus",
+      "country": "CY",
+      "slug": "cyprus",
+      "source_url": "https://travel.gc.ca/destinations/cyprus",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        }
+      ],
+      "embassies": [
+        {
+          "city": "Consular assistance Nicosia",
+          "kind": "Honorary consul",
+          "phones": [
+            "+357 22 77 55 08"
+          ],
+          "emails": [
+            "info@consulcanada.com.cy"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/cyprus-chypre/nicosia-nicosie.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Denmark",
+      "country": "DK",
+      "slug": "denmark",
+      "source_url": "https://travel.gc.ca/destinations/denmark",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Djibouti",
+      "country": "DJ",
+      "slug": "djibouti",
+      "source_url": "https://travel.gc.ca/destinations/djibouti",
+      "emergency": [
+        {
+          "number": "18",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Dominica",
+      "country": "DM",
+      "slug": "dominica",
+      "source_url": "https://travel.gc.ca/destinations/dominica",
+      "emergency": [
+        {
+          "number": "999",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Dominican Republic",
+      "country": "DO",
+      "slug": "dominican-republic",
+      "source_url": "https://travel.gc.ca/destinations/dominican-republic",
+      "emergency": [
+        {
+          "number": "911",
+          "label": ""
+        }
+      ],
+      "embassies": [
+        {
+          "city": "Consular assistance Santo Domingo",
+          "kind": "Embassy",
+          "phones": [],
+          "emails": [
+            "sdmgo.consul@international.gc.ca",
+            "sdmgo.consul@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/dominican_republic-republique_dominicaine/santo_domingo.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "El Salvador",
+      "country": "SV",
+      "slug": "el-salvador",
+      "source_url": "https://travel.gc.ca/destinations/el-salvador",
+      "emergency": [
+        {
+          "number": "911",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Estonia",
+      "country": "EE",
+      "slug": "estonia",
+      "source_url": "https://travel.gc.ca/destinations/estonia",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Eswatini",
+      "country": "SZ",
+      "slug": "eswatini",
+      "source_url": "https://travel.gc.ca/destinations/eswatini",
+      "emergency": [
+        {
+          "number": "999",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Ethiopia",
+      "country": "ET",
+      "slug": "ethiopia",
+      "source_url": "https://travel.gc.ca/destinations/ethiopia",
+      "emergency": [
+        {
+          "number": "991",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Falkland Islands",
+      "country": "FK",
+      "slug": "falkland-islands",
+      "source_url": "https://travel.gc.ca/destinations/falkland-islands",
+      "emergency": [
+        {
+          "number": "999",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Fiji",
+      "country": "FJ",
+      "slug": "fiji",
+      "source_url": "https://travel.gc.ca/destinations/fiji",
+      "emergency": [
+        {
+          "number": "911",
+          "label": ""
+        },
+        {
+          "number": "917",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "France",
+      "country": "FR",
+      "slug": "france",
+      "source_url": "https://travel.gc.ca/destinations/france",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        },
+        {
+          "number": "17",
+          "label": ""
+        }
+      ],
+      "embassies": [
+        {
+          "city": "Paris",
+          "kind": "Embassy",
+          "phones": [
+            "+33 (0)1 44 43 29 02"
+          ],
+          "emails": [
+            "paris-consulaire@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/france/paris.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Gabon",
+      "country": "GA",
+      "slug": "gabon",
+      "source_url": "https://travel.gc.ca/destinations/gabon",
+      "emergency": [
+        {
+          "number": "07 63 93 63",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Georgia",
+      "country": "GE",
+      "slug": "georgia",
+      "source_url": "https://travel.gc.ca/destinations/georgia",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        }
+      ],
+      "embassies": [
+        {
+          "city": "Consular assistance Tbilisi",
+          "kind": "Consulate",
+          "phones": [
+            "995 (32) 298-2072"
+          ],
+          "emails": [
+            "tbilisi@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/georgia-georgie/tbilisi-tbilissi.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Germany",
+      "country": "DE",
+      "slug": "germany",
+      "source_url": "https://travel.gc.ca/destinations/germany",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Consular assistance Berlin",
+          "kind": "Embassy",
+          "phones": [
+            "49 (30) 20312 470",
+            "+49 211 172 170"
+          ],
+          "emails": [
+            "brlin-cs@international.gc.ca",
+            "ddorf@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/germany-allemagne/berlin.aspx?lang=eng"
+        },
+        {
+          "city": "Book your appointment online Munich",
+          "kind": "Consulate",
+          "phones": [
+            "+49 89 21 99 57 0"
+          ],
+          "emails": [
+            "munic@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/germany-allemagne/munich.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Ghana",
+      "country": "GH",
+      "slug": "ghana",
+      "source_url": "https://travel.gc.ca/destinations/ghana",
+      "emergency": [
+        {
+          "number": "18555",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Gibraltar",
+      "country": "GI",
+      "slug": "gibraltar",
+      "source_url": "https://travel.gc.ca/destinations/gibraltar",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Greece",
+      "country": "GR",
+      "slug": "greece",
+      "source_url": "https://travel.gc.ca/destinations/greece",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Consular assistance Athens",
+          "kind": "Embassy",
+          "phones": [
+            "+30 210 727 3400"
+          ],
+          "emails": [
+            "athns-cs@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/greece-grece/athens-athenes.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Greenland",
+      "country": "GL",
+      "slug": "greenland",
+      "source_url": "https://travel.gc.ca/destinations/greenland",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        }
+      ],
+      "embassies": [
+        {
+          "city": "Consular assistance Nuuk",
+          "kind": "Consulate",
+          "phones": [],
+          "emails": [
+            "nuuk-g@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/greenland-groenland/nuuk.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Grenada",
+      "country": "GD",
+      "slug": "grenada",
+      "source_url": "https://travel.gc.ca/destinations/grenada",
+      "emergency": [
+        {
+          "number": "911",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Guadeloupe",
+      "country": "GP",
+      "slug": "guadeloupe",
+      "source_url": "https://travel.gc.ca/destinations/guadeloupe",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Pitre",
+          "kind": "Honorary consul",
+          "phones": [
+            "+33 (0)1 44 43 29 02"
+          ],
+          "emails": [
+            "guadeloupe@international.gc.ca"
+          ],
+          "url": null
+        }
+      ]
+    },
+    {
+      "country_name": "Guam",
+      "country": "GU",
+      "slug": "guam",
+      "source_url": "https://travel.gc.ca/destinations/guam",
+      "emergency": [
+        {
+          "number": "911",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Guinea",
+      "country": "GN",
+      "slug": "guinea",
+      "source_url": "https://travel.gc.ca/destinations/guinea",
+      "emergency": [
+        {
+          "number": "1717",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Guyana",
+      "country": "GY",
+      "slug": "guyana",
+      "source_url": "https://travel.gc.ca/destinations/guyana",
+      "emergency": [
+        {
+          "number": "592-225-8196",
+          "label": ""
+        },
+        {
+          "number": "592-226-2411",
+          "label": ""
+        },
+        {
+          "number": "1-592-227-2081",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Haiti",
+      "country": "HT",
+      "slug": "haiti",
+      "source_url": "https://travel.gc.ca/destinations/haiti",
+      "emergency": [
+        {
+          "number": "114",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Hong Kong",
+      "country": "HK",
+      "slug": "hong-kong",
+      "source_url": "https://travel.gc.ca/destinations/hong-kong",
+      "emergency": [
+        {
+          "number": "999",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "India",
+      "country": "IN",
+      "slug": "india",
+      "source_url": "https://travel.gc.ca/destinations/india",
+      "emergency": [
+        {
+          "number": "1091",
+          "label": ""
+        },
+        {
+          "number": "1-800 111-363",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Indonesia",
+      "country": "ID",
+      "slug": "indonesia",
+      "source_url": "https://travel.gc.ca/destinations/indonesia",
+      "emergency": [
+        {
+          "number": "110",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Ireland",
+      "country": "IE",
+      "slug": "ireland",
+      "source_url": "https://travel.gc.ca/destinations/ireland",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Italy",
+      "country": "IT",
+      "slug": "italy",
+      "source_url": "https://travel.gc.ca/destinations/italy",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Consular assistance Rome",
+          "kind": "Embassy",
+          "phones": [
+            "+39 06-85444-1"
+          ],
+          "emails": [
+            "consul.rome@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/italy-italie/rome.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Jamaica",
+      "country": "JM",
+      "slug": "jamaica",
+      "source_url": "https://travel.gc.ca/destinations/jamaica",
+      "emergency": [
+        {
+          "number": "1-867-926-1500",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Japan",
+      "country": "JP",
+      "slug": "japan",
+      "source_url": "https://travel.gc.ca/destinations/japan",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Consular assistance Tokyo",
+          "kind": "Embassy",
+          "phones": [
+            "81 (3) 5412-6200"
+          ],
+          "emails": [
+            "tokyo-consul@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/japan-japon/tokyo.aspx?lang=eng"
+        },
+        {
+          "city": "Embassy of Canada to Japan Fukuoka",
+          "kind": "Honorary consul",
+          "phones": [],
+          "emails": [
+            "info@canadian-consulate-fukuoka.jp"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/japan-japon/fukuoka.aspx?lang=eng"
+        },
+        {
+          "city": "Hiroshima",
+          "kind": "Honorary consul",
+          "phones": [
+            "81(82) 875-7530"
+          ],
+          "emails": [
+            "hiroshima-honcon@hue.ac.jp"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/japan-japon/hiroshima.aspx?lang=eng"
+        },
+        {
+          "city": "Nagoya",
+          "kind": "Consulate",
+          "phones": [
+            "81 (52) 972-0450"
+          ],
+          "emails": [
+            "ngoya@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/japan-japon/nagoya.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Jordan",
+      "country": "JO",
+      "slug": "jordan",
+      "source_url": "https://travel.gc.ca/destinations/jordan",
+      "emergency": [
+        {
+          "number": "911",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Kenya",
+      "country": "KE",
+      "slug": "kenya",
+      "source_url": "https://travel.gc.ca/destinations/kenya",
+      "emergency": [
+        {
+          "number": "999",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Kiribati",
+      "country": "KI",
+      "slug": "kiribati",
+      "source_url": "https://travel.gc.ca/destinations/kiribati",
+      "emergency": [
+        {
+          "number": "686 28100",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Kosovo",
+      "country": "XK",
+      "slug": "kosovo",
+      "source_url": "https://travel.gc.ca/destinations/kosovo",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Kuwait",
+      "country": "KW",
+      "slug": "kuwait",
+      "source_url": "https://travel.gc.ca/destinations/kuwait",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Kyrgyzstan",
+      "country": "KG",
+      "slug": "kyrgyzstan",
+      "source_url": "https://travel.gc.ca/destinations/kyrgyzstan",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        }
+      ],
+      "embassies": [
+        {
+          "city": "Consular assistance Bishkek",
+          "kind": "Honorary consul",
+          "phones": [],
+          "emails": [
+            "bishkek@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/kyrgyzstan-kirghizistan/bishkek-bichkek.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Laos",
+      "country": "LA",
+      "slug": "laos",
+      "source_url": "https://travel.gc.ca/destinations/laos",
+      "emergency": [
+        {
+          "number": "1191",
+          "label": ""
+        },
+        {
+          "number": "1195",
+          "label": ""
+        },
+        {
+          "number": "1190",
+          "label": ""
+        },
+        {
+          "number": "021 251 128",
+          "label": ""
+        }
+      ],
+      "embassies": [
+        {
+          "city": "Consular assistance Vientiane",
+          "kind": "Embassy",
+          "phones": [
+            "+856 (0) 21 35 38 34"
+          ],
+          "emails": [
+            "vntne@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/laos/vientiane.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Latvia",
+      "country": "LV",
+      "slug": "latvia",
+      "source_url": "https://travel.gc.ca/destinations/latvia",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Lesotho",
+      "country": "LS",
+      "slug": "lesotho",
+      "source_url": "https://travel.gc.ca/destinations/lesotho",
+      "emergency": [
+        {
+          "number": "266 5888 1024",
+          "label": ""
+        },
+        {
+          "number": "266 2232 2099",
+          "label": ""
+        },
+        {
+          "number": "266 2831 9539",
+          "label": ""
+        },
+        {
+          "number": "1-800 10999",
+          "label": ""
+        },
+        {
+          "number": "266 5886 8090",
+          "label": ""
+        },
+        {
+          "number": "266 6358 0347",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Liechtenstein",
+      "country": "LI",
+      "slug": "liechtenstein",
+      "source_url": "https://travel.gc.ca/destinations/liechtenstein",
+      "emergency": [
+        {
+          "number": "1414",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Lithuania",
+      "country": "LT",
+      "slug": "lithuania",
+      "source_url": "https://travel.gc.ca/destinations/lithuania",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        },
+        {
+          "number": "1414",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Luxembourg",
+      "country": "LU",
+      "slug": "luxembourg",
+      "source_url": "https://travel.gc.ca/destinations/luxembourg",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Consular assistance Luxembourg",
+          "kind": "Honorary consul",
+          "phones": [
+            "32 (2) 741-0611"
+          ],
+          "emails": [
+            "bru-consular@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/luxembourg/luxembourg.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Macao",
+      "country": "MO",
+      "slug": "macao",
+      "source_url": "https://travel.gc.ca/destinations/macao",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Madagascar",
+      "country": "MG",
+      "slug": "madagascar",
+      "source_url": "https://travel.gc.ca/destinations/madagascar",
+      "emergency": [
+        {
+          "number": "117",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Malaysia",
+      "country": "MY",
+      "slug": "malaysia",
+      "source_url": "https://travel.gc.ca/destinations/malaysia",
+      "emergency": [
+        {
+          "number": "999",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Maldives",
+      "country": "MV",
+      "slug": "maldives",
+      "source_url": "https://travel.gc.ca/destinations/maldives",
+      "emergency": [
+        {
+          "number": "960-332-2111",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Malta",
+      "country": "MT",
+      "slug": "malta",
+      "source_url": "https://travel.gc.ca/destinations/malta",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Consular assistance Valletta",
+          "kind": "Honorary consul",
+          "phones": [
+            "356 2552-3233"
+          ],
+          "emails": [
+            "valletta@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/malta-malte/valletta-valette.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Marshall Islands",
+      "country": "MH",
+      "slug": "marshall-islands",
+      "source_url": "https://travel.gc.ca/destinations/marshall-islands",
+      "emergency": [
+        {
+          "number": "625 8666",
+          "label": ""
+        },
+        {
+          "number": "625 2333",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Mauritania",
+      "country": "MR",
+      "slug": "mauritania",
+      "source_url": "https://travel.gc.ca/destinations/mauritania",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Consular assistance Nouakchott",
+          "kind": "Honorary consul",
+          "phones": [
+            "222 45-29-26-97"
+          ],
+          "emails": [
+            "nouakchott@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/mauritania-mauritanie/nouakchott.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Mexico",
+      "country": "MX",
+      "slug": "mexico",
+      "source_url": "https://travel.gc.ca/destinations/mexico",
+      "emergency": [
+        {
+          "number": "911",
+          "label": ""
+        },
+        {
+          "number": "078",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Moldova",
+      "country": "MD",
+      "slug": "moldova",
+      "source_url": "https://travel.gc.ca/destinations/moldova",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Monaco",
+      "country": "MC",
+      "slug": "monaco",
+      "source_url": "https://travel.gc.ca/destinations/monaco",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        }
+      ],
+      "embassies": [
+        {
+          "city": "Consular assistance Monaco",
+          "kind": "Honorary consul",
+          "phones": [
+            "377 99 99 67 23"
+          ],
+          "emails": [
+            "monaco@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/monaco/monaco.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Montenegro",
+      "country": "ME",
+      "slug": "montenegro",
+      "source_url": "https://travel.gc.ca/destinations/montenegro",
+      "emergency": [
+        {
+          "number": "19807",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Montserrat",
+      "country": "MS",
+      "slug": "montserrat",
+      "source_url": "https://travel.gc.ca/destinations/montserrat",
+      "emergency": [
+        {
+          "number": "664-491-2555",
+          "label": ""
+        },
+        {
+          "number": "664-491-2802",
+          "label": ""
+        },
+        {
+          "number": "1-246-629-3550",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Mozambique",
+      "country": "MZ",
+      "slug": "mozambique",
+      "source_url": "https://travel.gc.ca/destinations/mozambique",
+      "emergency": [
+        {
+          "number": "845555911",
+          "label": ""
+        },
+        {
+          "number": "84911 82911",
+          "label": ""
+        },
+        {
+          "number": "258 82 476",
+          "label": ""
+        },
+        {
+          "number": "8990",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Namibia",
+      "country": "NA",
+      "slug": "namibia",
+      "source_url": "https://travel.gc.ca/destinations/namibia",
+      "emergency": [
+        {
+          "number": "10111",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Nepal",
+      "country": "NP",
+      "slug": "nepal",
+      "source_url": "https://travel.gc.ca/destinations/nepal",
+      "emergency": [
+        {
+          "number": "977 1 424 7041",
+          "label": ""
+        },
+        {
+          "number": "1144",
+          "label": ""
+        },
+        {
+          "number": "977 61 462761",
+          "label": ""
+        },
+        {
+          "number": "977 1 4700750",
+          "label": ""
+        }
+      ],
+      "embassies": [
+        {
+          "city": "Police Consular assistance Kathmandu",
+          "kind": "Honorary consul",
+          "phones": [
+            "+977 1 4987910"
+          ],
+          "emails": [
+            "kathmandu@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/nepal/kathmandu-katmandou.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Netherlands",
+      "country": "NL",
+      "slug": "netherlands",
+      "source_url": "https://travel.gc.ca/destinations/netherlands",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Niger",
+      "country": "NE",
+      "slug": "niger",
+      "source_url": "https://travel.gc.ca/destinations/niger",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Consular assistance Niamey",
+          "kind": "Honorary consul",
+          "phones": [
+            "227 20 37 09 81"
+          ],
+          "emails": [
+            "bmakoconsular@international.gc.ca"
+          ],
+          "url": "https://www.Canada.ca/"
+        }
+      ]
+    },
+    {
+      "country_name": "Nigeria",
+      "country": "NG",
+      "slug": "nigeria",
+      "source_url": "https://travel.gc.ca/destinations/nigeria",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Consular assistance Port Harcourt",
+          "kind": "Honorary consul",
+          "phones": [
+            "+234 (806) 399 7054",
+            "+2342012715665"
+          ],
+          "emails": [
+            "port-harcourt@international.gc.ca",
+            "lagosconsular-consulaire@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/nigeria/port_harcourt.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Niue",
+      "country": "NU",
+      "slug": "niue",
+      "source_url": "https://travel.gc.ca/destinations/niue",
+      "emergency": [
+        {
+          "number": "999",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "North Macedonia",
+      "country": "MK",
+      "slug": "north-macedonia",
+      "source_url": "https://travel.gc.ca/destinations/north-macedonia",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Consular assistance Skopje",
+          "kind": "Honorary consul",
+          "phones": [
+            "389 (2) 3225-630"
+          ],
+          "emails": [
+            "skopje@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/north_macedonia-macedoine_nord/skopje.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Norway",
+      "country": "NO",
+      "slug": "norway",
+      "source_url": "https://travel.gc.ca/destinations/norway",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Consular assistance Oslo",
+          "kind": "Embassy",
+          "phones": [
+            "47 22-99-53-00"
+          ],
+          "emails": [
+            "OSLO-Consular@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/norway-norvege/oslo.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Oman",
+      "country": "OM",
+      "slug": "oman",
+      "source_url": "https://travel.gc.ca/destinations/oman",
+      "emergency": [
+        {
+          "number": "9999",
+          "label": ""
+        }
+      ],
+      "embassies": [
+        {
+          "city": "Consular assistance Muscat",
+          "kind": "Honorary consul",
+          "phones": [],
+          "emails": [
+            "canadianconsulate@daud.om"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/oman/muscat-mascate.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Pakistan",
+      "country": "PK",
+      "slug": "pakistan",
+      "source_url": "https://travel.gc.ca/destinations/pakistan",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Consular assistance Islamabad",
+          "kind": "High Commission",
+          "phones": [
+            "92 (51) 208-6000"
+          ],
+          "emails": [
+            "islamabad.consular@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/pakistan/islamabad.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Palau",
+      "country": "PW",
+      "slug": "palau",
+      "source_url": "https://travel.gc.ca/destinations/palau",
+      "emergency": [
+        {
+          "number": "911",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Peru",
+      "country": "PE",
+      "slug": "peru",
+      "source_url": "https://travel.gc.ca/destinations/peru",
+      "emergency": [
+        {
+          "number": "51 980 122 335",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Philippines",
+      "country": "PH",
+      "slug": "philippines",
+      "source_url": "https://travel.gc.ca/destinations/philippines",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Consular assistance Manila",
+          "kind": "Embassy",
+          "phones": [
+            "+63 2 8857 9000"
+          ],
+          "emails": [
+            "manila-consular@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/philippines/manila-manille.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Poland",
+      "country": "PL",
+      "slug": "poland",
+      "source_url": "https://travel.gc.ca/destinations/poland",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Portugal",
+      "country": "PT",
+      "slug": "portugal",
+      "source_url": "https://travel.gc.ca/destinations/portugal",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        }
+      ],
+      "embassies": [
+        {
+          "city": "Consular assistance Lisbon",
+          "kind": "Embassy",
+          "phones": [
+            "+351 21 316 4600"
+          ],
+          "emails": [
+            "lsbon.consular@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/portugal/lisbon-lisbonne.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Puerto Rico",
+      "country": "PR",
+      "slug": "puerto-rico",
+      "source_url": "https://travel.gc.ca/destinations/puerto-rico",
+      "emergency": [
+        {
+          "number": "911",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Qatar",
+      "country": "QA",
+      "slug": "qatar",
+      "source_url": "https://travel.gc.ca/destinations/qatar",
+      "emergency": [
+        {
+          "number": "999",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Romania",
+      "country": "RO",
+      "slug": "romania",
+      "source_url": "https://travel.gc.ca/destinations/romania",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Russia",
+      "country": "RU",
+      "slug": "russia",
+      "source_url": "https://travel.gc.ca/destinations/russia",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        }
+      ],
+      "embassies": [
+        {
+          "city": "Consular assistance Moscow",
+          "kind": "Embassy",
+          "phones": [
+            "+7 (495) 925-6000"
+          ],
+          "emails": [
+            "moscoconsular@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/russia-russie/index.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Rwanda",
+      "country": "RW",
+      "slug": "rwanda",
+      "source_url": "https://travel.gc.ca/destinations/rwanda",
+      "emergency": [
+        {
+          "number": "3512",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Saint-Barth&#233;lemy",
+      "country": "BL",
+      "slug": "saint-barthelemy",
+      "source_url": "https://travel.gc.ca/destinations/saint-barthelemy",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Saint Kitts and Nevis",
+      "country": "KN",
+      "slug": "saint-kitts-and-nevis",
+      "source_url": "https://travel.gc.ca/destinations/saint-kitts-and-nevis",
+      "emergency": [
+        {
+          "number": "1-246-629-3550",
+          "label": ""
+        },
+        {
+          "number": "1-888-949-9993",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Saint Lucia",
+      "country": "LC",
+      "slug": "saint-lucia",
+      "source_url": "https://travel.gc.ca/destinations/saint-lucia",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Castries",
+          "kind": "Honorary consul",
+          "phones": [
+            "1-246-629-3550"
+          ],
+          "emails": [
+            "ccs.scc@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/saint_lucia-sainte_lucie/castries.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Samoa",
+      "country": "WS",
+      "slug": "samoa",
+      "source_url": "https://travel.gc.ca/destinations/samoa",
+      "emergency": [
+        {
+          "number": "911",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Sao Tome and Principe",
+      "country": "ST",
+      "slug": "sao-tome-and-principe",
+      "source_url": "https://travel.gc.ca/destinations/sao-tome-and-principe",
+      "emergency": [
+        {
+          "number": "2222222",
+          "label": ""
+        },
+        {
+          "number": "221221",
+          "label": ""
+        },
+        {
+          "number": "2222222",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Saudi Arabia",
+      "country": "SA",
+      "slug": "saudi-arabia",
+      "source_url": "https://travel.gc.ca/destinations/saudi-arabia",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Consular assistance Riyadh",
+          "kind": "Embassy",
+          "phones": [
+            "966 (11) 202-3288"
+          ],
+          "emails": [
+            "ryadh-cs@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/saudi_arabia-arabie_saoudite/riyadh-riyad.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Seychelles",
+      "country": "SC",
+      "slug": "seychelles",
+      "source_url": "https://travel.gc.ca/destinations/seychelles",
+      "emergency": [
+        {
+          "number": "999",
+          "label": ""
+        },
+        {
+          "number": "151",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Sierra Leone",
+      "country": "SL",
+      "slug": "sierra-leone",
+      "source_url": "https://travel.gc.ca/destinations/sierra-leone",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Consular assistance Freetown",
+          "kind": "Honorary consul",
+          "phones": [
+            "+232 76 300600"
+          ],
+          "emails": [
+            "sierra.leone@international.gc.ca"
+          ],
+          "url": "https://www.Canada.ca/Canada-And-Sierra-Leone"
+        }
+      ]
+    },
+    {
+      "country_name": "Sint Maarten",
+      "country": "SX",
+      "slug": "sint-maarten",
+      "source_url": "https://travel.gc.ca/destinations/sint-maarten",
+      "emergency": [
+        {
+          "number": "721-542-2222",
+          "label": ""
+        },
+        {
+          "number": "1-246-629-3550",
+          "label": ""
+        }
+      ],
+      "embassies": [
+        {
+          "city": "Sint Maarten",
+          "kind": "Honorary consul",
+          "phones": [
+            "1-246-629-3550"
+          ],
+          "emails": [
+            "ccs.scc@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/sint_maarten/sint_maarten.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Slovakia",
+      "country": "SK",
+      "slug": "slovakia",
+      "source_url": "https://travel.gc.ca/destinations/slovakia",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Slovenia",
+      "country": "SI",
+      "slug": "slovenia",
+      "source_url": "https://travel.gc.ca/destinations/slovenia",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        }
+      ],
+      "embassies": [
+        {
+          "city": "Consular assistance Ljubljana",
+          "kind": "Honorary consul",
+          "phones": [
+            "+386 1 252 44 44"
+          ],
+          "emails": [
+            "ljubljana@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/slovenia-slovenie/ljubljana.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "South Africa",
+      "country": "ZA",
+      "slug": "south-africa",
+      "source_url": "https://travel.gc.ca/destinations/south-africa",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Consular assistance Pretoria",
+          "kind": "High Commission",
+          "phones": [
+            "+27 12 422 3000"
+          ],
+          "emails": [
+            "pret-consul@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/south_africa-afrique_sud/pretoria.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Spain",
+      "country": "ES",
+      "slug": "spain",
+      "source_url": "https://travel.gc.ca/destinations/spain",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        },
+        {
+          "number": "902 102 112",
+          "label": ""
+        }
+      ],
+      "embassies": [
+        {
+          "city": "Nacional Consular assistance Madrid",
+          "kind": "Embassy",
+          "phones": [],
+          "emails": [
+            "espana.consulaire-consular@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/spain-espagne/madrid.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Sri Lanka",
+      "country": "LK",
+      "slug": "sri-lanka",
+      "source_url": "https://travel.gc.ca/destinations/sri-lanka",
+      "emergency": [
+        {
+          "number": "242 1052",
+          "label": ""
+        },
+        {
+          "number": "242 2222",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Suriname",
+      "country": "SR",
+      "slug": "suriname",
+      "source_url": "https://travel.gc.ca/destinations/suriname",
+      "emergency": [
+        {
+          "number": "1-592-227-2081",
+          "label": ""
+        }
+      ],
+      "embassies": [
+        {
+          "city": "Paramaribo",
+          "kind": "Honorary consul",
+          "phones": [
+            "1-592-227-2081"
+          ],
+          "emails": [
+            "ccs.scc@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/suriname/paramaribo.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Sweden",
+      "country": "SE",
+      "slug": "sweden",
+      "source_url": "https://travel.gc.ca/destinations/sweden",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Consular assistance Stockholm",
+          "kind": "Embassy",
+          "phones": [
+            "46 (0) 8 453-3000"
+          ],
+          "emails": [
+            "stkhm-cs@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/sweden-suede/stockholm.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Switzerland",
+      "country": "CH",
+      "slug": "switzerland",
+      "source_url": "https://travel.gc.ca/destinations/switzerland",
+      "emergency": [
+        {
+          "number": "1414",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Tanzania",
+      "country": "TZ",
+      "slug": "tanzania",
+      "source_url": "https://travel.gc.ca/destinations/tanzania",
+      "emergency": [
+        {
+          "number": "112",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Thailand",
+      "country": "TH",
+      "slug": "thailand",
+      "source_url": "https://travel.gc.ca/destinations/thailand",
+      "emergency": [
+        {
+          "number": "1672",
+          "label": ""
+        }
+      ],
+      "embassies": [
+        {
+          "city": "Consular assistance Bangkok",
+          "kind": "Embassy",
+          "phones": [
+            "+66 (0) 2646 4300"
+          ],
+          "emails": [
+            "bangkok-consul@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/thailand-thailande/bangkok.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Tonga",
+      "country": "TO",
+      "slug": "tonga",
+      "source_url": "https://travel.gc.ca/destinations/tonga",
+      "emergency": [
+        {
+          "number": "911",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Turks and Caicos Islands",
+      "country": "TC",
+      "slug": "turks-and-caicos-islands",
+      "source_url": "https://travel.gc.ca/destinations/turks-and-caicos-islands",
+      "emergency": [
+        {
+          "number": "911",
+          "label": ""
+        }
+      ],
+      "embassies": [
+        {
+          "city": "Providenciales",
+          "kind": "Honorary consul",
+          "phones": [
+            "1-876-926-1500"
+          ],
+          "emails": [
+            "ccs.scc@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/turks_caicos_islands-iles_turks_caicos/providenciales.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Tuvalu",
+      "country": "TV",
+      "slug": "tuvalu",
+      "source_url": "https://travel.gc.ca/destinations/tuvalu",
+      "emergency": [
+        {
+          "number": "911",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Uganda",
+      "country": "UG",
+      "slug": "uganda",
+      "source_url": "https://travel.gc.ca/destinations/uganda",
+      "emergency": [
+        {
+          "number": "999",
+          "label": ""
+        }
+      ],
+      "embassies": [
+        {
+          "city": "Consular assistance Kampala",
+          "kind": "Honorary consul",
+          "phones": [
+            "+254 (20) 366-3000"
+          ],
+          "emails": [
+            "nrobi-consular@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/uganda-ouganda/kampala.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "United Kingdom",
+      "country": "GB",
+      "slug": "united-kingdom",
+      "source_url": "https://travel.gc.ca/destinations/united-kingdom",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Consular assistance London",
+          "kind": "High Commission",
+          "phones": [
+            "+44 (0) 207 004 6000"
+          ],
+          "emails": [
+            "london.consular@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/united_kingdom-royaume_uni/london-londres.aspx?lang=eng"
+        },
+        {
+          "city": "Falkland Islands and Gibraltar Belfast",
+          "kind": "Honorary consul",
+          "phones": [
+            "+44 (0) 207 004 6000"
+          ],
+          "emails": [
+            "London.consular@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/united_kingdom-royaume_uni/belfast.aspx?lang=eng"
+        },
+        {
+          "city": "CanadianUK Edinburgh",
+          "kind": "Honorary consul",
+          "phones": [
+            "+44 (0) 207 004 6000"
+          ],
+          "emails": [
+            "London.consular@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/united_kingdom-royaume_uni/edinburgh-edimbourg.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "United States",
+      "country": "US",
+      "slug": "united-states",
+      "source_url": "https://travel.gc.ca/destinations/united-states",
+      "emergency": [
+        {
+          "number": "911",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Uzbekistan",
+      "country": "UZ",
+      "slug": "uzbekistan",
+      "source_url": "https://travel.gc.ca/destinations/uzbekistan",
+      "emergency": [],
+      "embassies": [
+        {
+          "city": "Consular assistance Tashkent",
+          "kind": "Honorary consul",
+          "phones": [
+            "+998 (78) 150 31 13"
+          ],
+          "emails": [
+            "tashkent@international.gc.ca"
+          ],
+          "url": "https://www.international.gc.ca/country-pays/uzbekistan-ouzbekistan/tashkent-tachkent.aspx?lang=eng"
+        }
+      ]
+    },
+    {
+      "country_name": "Vanuatu",
+      "country": "VU",
+      "slug": "vanuatu",
+      "source_url": "https://travel.gc.ca/destinations/vanuatu",
+      "emergency": [
+        {
+          "number": "22222",
+          "label": ""
+        },
+        {
+          "number": "25566",
+          "label": ""
+        },
+        {
+          "number": "22333",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Venezuela",
+      "country": "VE",
+      "slug": "venezuela",
+      "source_url": "https://travel.gc.ca/destinations/venezuela",
+      "emergency": [
+        {
+          "number": "911",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Virgin Islands (U.S.)",
+      "country": "VI",
+      "slug": "virgin-islands-u-s",
+      "source_url": "https://travel.gc.ca/destinations/virgin-islands-u-s",
+      "emergency": [
+        {
+          "number": "911",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    },
+    {
+      "country_name": "Zimbabwe",
+      "country": "ZW",
+      "slug": "zimbabwe",
+      "source_url": "https://travel.gc.ca/destinations/zimbabwe",
+      "emergency": [
+        {
+          "number": "999",
+          "label": ""
+        }
+      ],
+      "embassies": []
+    }
+  ]
+}

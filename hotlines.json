@@ -1,6 +1,6 @@
 {
   "$schema_version": "2.0",
-  "last_updated": "2026-04-22",
+  "last_updated": "2026-04-23",
   "methodology": "Countries marked verification_status='verified_knowledge' were authored from Claude's training knowledge (cutoff end of May 2025) and should be re-confirmed against each provider's official website before any final publication. Countries marked 'legacy_unverified' are pending migration from the original information.json source and have not been independently checked. A full web-verification pass is the next step when the sandboxed environment is available.",
   "contributors": [
     "Original information.json source dataset (contributor unknown)",
@@ -329,6 +329,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/algeria",
             "https://www.gov.uk/foreign-travel-advice/algeria",
             "xref:wikipedia_emergency"
           ],
@@ -479,6 +480,31 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/algeria"
+          ]
+        },
+        {
+          "name": "Emergency (all services) - Algeria",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "23 54 44 28"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Algeria",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/algeria"
           ]
         }
       ]
@@ -935,6 +961,31 @@
               "463 5555"
             ]
           }
+        },
+        {
+          "name": "Emergency (all services) - Antigua and Barbuda",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "1-246-629-3550"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Antigua and Barbuda",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/antigua-and-barbuda"
+          ]
         }
       ]
     },
@@ -2511,6 +2562,31 @@
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/argentina"
           ]
+        },
+        {
+          "name": "Emergency (all services) - Argentina",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "54 11 4323"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Argentina",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/argentina"
+          ]
         }
       ]
     },
@@ -2923,6 +2999,7 @@
           "verification_status": "verified_web",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/australia",
             "https://www.triplezero.gov.au"
           ]
         },
@@ -5048,9 +5125,11 @@
           "target": "anyone in emergency",
           "geography": "Austria",
           "notes": "141 on-call doctor; 147 Rat auf Draht child helpline.",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/austria"
+          ],
           "name": "Emergency",
           "_legacy": {
             "name": "Emergency",
@@ -6076,6 +6155,31 @@
           "last_verified": "2026-04-22",
           "sources": [],
           "name": "Child Helpline 111"
+        },
+        {
+          "name": "Emergency (all services) - Azerbaijan",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "944 12 590"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Azerbaijan",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/azerbaijan"
+          ]
         }
       ]
     },
@@ -6324,6 +6428,34 @@
             "xref:psc_app"
           ],
           "name": "Crisis Centre Bahamas (Women and Children)"
+        },
+        {
+          "name": "Nassau - Honorary consul of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "1-876-926-1500"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "ccs.scc@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/bahamas/nassau.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Bahamas",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/bahamas"
+          ]
         }
       ]
     },
@@ -6519,6 +6651,32 @@
             "https://findahelpline.com"
           ],
           "name": "Batelco Care Center for Child Protection"
+        },
+        {
+          "name": "Consular assistance Manama - Honorary consul of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "canadabh@zubipartners.com",
+          "website": "https://www.international.gc.ca/country-pays/bahrain-bahrein/manama.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Bahrain",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/bahrain"
+          ]
         }
       ]
     },
@@ -6911,6 +7069,31 @@
             "https://dghs.gov.bd",
             "xref:wikipedia_emergency"
           ]
+        },
+        {
+          "name": "Emergency (all services) - Bangladesh",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "10921"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Bangladesh",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/bangladesh"
+          ]
         }
       ]
     },
@@ -7178,6 +7361,31 @@
             "xref:psc_app"
           ],
           "name": "Samaritans Barbados"
+        },
+        {
+          "name": "Emergency (all services) - Barbados",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "1-246-629-3550"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Barbados",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/barbados"
+          ]
         }
       ]
     },
@@ -8862,6 +9070,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/belize",
             "https://www.gov.uk/foreign-travel-advice/belize"
           ],
           "name": "Emergency",
@@ -9078,6 +9287,7 @@
           "last_verified": "2026-04-22",
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14",
+            "https://travel.gc.ca/destinations/bermuda",
             "https://www.gov.uk/foreign-travel-advice/bermuda"
           ]
         },
@@ -9438,9 +9648,10 @@
           "target": "women and children victims of violence",
           "geography": "Bolivia",
           "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
           "sources": [
+            "https://travel.gc.ca/destinations/bolivia",
             "xref:psc_app"
           ],
           "name": "Línea Gratuita Contra la Violencia 800 14 0348"
@@ -9501,6 +9712,31 @@
               "Women"
             ]
           }
+        },
+        {
+          "name": "Emergency (all services) - Bolivia",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "591-2-222-5016"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Bolivia",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/bolivia"
+          ]
         }
       ]
     },
@@ -9761,6 +9997,34 @@
           "last_verified": "2026-04-22",
           "sources": [],
           "name": "Sigurna kuća"
+        },
+        {
+          "name": "Consular assistance Sarajevo - Consulate of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "387 (60) 32-32-407"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "sarajevo@international.gc.ca",
+          "website": "https://travel.gc.ca/destinations/bosnia-and-herzegovina",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Bosnia and Herzegovina",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/bosnia-and-herzegovina"
+          ]
         }
       ]
     },
@@ -11866,6 +12130,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/bulgaria",
             "https://www.gov.uk/foreign-travel-advice/bulgaria",
             "information.json"
           ],
@@ -12195,6 +12460,34 @@
               "Children"
             ]
           }
+        },
+        {
+          "name": "Consular assistance Sofia - Honorary consul of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "359-2-969-9710"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "sofia@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/bulgaria-bulgarie/sofia.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Bulgaria",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/bulgaria"
+          ]
         }
       ]
     },
@@ -12732,6 +13025,62 @@
             "xref:web_verified_crisis_directory"
           ],
           "name": "Child Helpline Cambodia 1280"
+        },
+        {
+          "name": "Consular assistance Phnom Penh - Embassy of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "+855 (0) 99 430 811"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "pnpen-consular@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/cambodia-cambodge/phnom_penh.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Cambodia",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/cambodia"
+          ]
+        },
+        {
+          "name": "Book your appointment online Siem Reap - Consulate of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "+855 (0) 12 652 086"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "siemreap@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/cambodia-cambodge/siem_reap.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Cambodia",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/cambodia"
+          ]
         }
       ]
     },
@@ -15296,6 +15645,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/cayman-islands",
             "https://www.gov.uk/foreign-travel-advice/cayman-islands"
           ],
           "name": "Emergency",
@@ -15560,7 +15910,33 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/chad",
             "https://www.gov.uk/foreign-travel-advice/chad"
+          ]
+        },
+        {
+          "name": "Emergency (all services) - Chad",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "235 225 17728"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Chad",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/chad"
           ]
         }
       ]
@@ -15729,15 +16105,16 @@
           "chat_url": null,
           "email": null,
           "website": null,
-          "hours": null,
+          "hours": "24/7",
           "languages": [],
           "cost": "unknown",
-          "target": null,
+          "target": "single emergency number",
           "geography": "Chile",
           "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
           "sources": [
+            "https://travel.gc.ca/destinations/chile",
             "information.json",
             "xref:helplines.world"
           ],
@@ -20207,6 +20584,60 @@
             "https://findahelpline.com"
           ],
           "name": "103 Ayuda Vida"
+        },
+        {
+          "name": "Consular assistance Havana - Embassy of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "+53 7 204-2516"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "HAVAN.Consular-Consulaire@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/cuba/havana-la_havane.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Cuba",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/cuba"
+          ]
+        },
+        {
+          "name": "Book your appointment online Guardalavaca - Consulate of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "guardalavaca@international.gc.ca",
+          "website": "https://travel.gc.ca/destinations/cuba",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Cuba",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/cuba"
+          ]
         }
       ]
     },
@@ -20385,6 +20816,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/cyprus",
             "https://www.gov.uk/foreign-travel-advice/cyprus"
           ],
           "name": "Emergency",
@@ -20683,6 +21115,34 @@
               "Children"
             ]
           }
+        },
+        {
+          "name": "Consular assistance Nicosia - Honorary consul of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "+357 22 77 55 08"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "info@consulcanada.com.cy",
+          "website": "https://www.international.gc.ca/country-pays/cyprus-chypre/nicosia-nicosie.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Cyprus",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/cyprus"
+          ]
         }
       ]
     },
@@ -20728,6 +21188,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/czechia",
             "https://www.gov.uk/foreign-travel-advice/czechia"
           ],
           "name": "Emergency",
@@ -21517,6 +21978,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/denmark",
             "https://www.gov.uk/foreign-travel-advice/denmark"
           ]
         },
@@ -22172,6 +22634,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/djibouti",
             "https://www.gov.uk/foreign-travel-advice/djibouti"
           ],
           "name": "Emergency",
@@ -22308,6 +22771,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/dominica",
             "https://www.gov.uk/foreign-travel-advice/dominica"
           ],
           "name": "Emergency",
@@ -22386,6 +22850,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/dominican-republic",
             "https://www.gov.uk/foreign-travel-advice/dominican-republic",
             "information.json"
           ],
@@ -22565,6 +23030,32 @@
               "Women"
             ]
           }
+        },
+        {
+          "name": "Consular assistance Santo Domingo - Embassy of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "sdmgo.consul@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/dominican_republic-republique_dominicaine/santo_domingo.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Dominican Republic",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/dominican-republic"
+          ]
         }
       ]
     },
@@ -25298,6 +25789,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/el-salvador",
             "https://www.gov.uk/foreign-travel-advice/el-salvador",
             "information.json"
           ],
@@ -25663,6 +26155,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/estonia",
             "https://www.gov.uk/foreign-travel-advice/estonia",
             "information.json"
           ],
@@ -26999,6 +27492,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/eswatini",
             "https://www.gov.uk/foreign-travel-advice/eswatini"
           ],
           "name": "Emergency",
@@ -27133,9 +27627,11 @@
           "target": "anyone in emergency (Addis)",
           "geography": "Ethiopia",
           "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/ethiopia"
+          ],
           "name": "Emergency",
           "_legacy": {
             "name": "Emergency",
@@ -27257,6 +27753,7 @@
           "last_verified": "2026-04-22",
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14",
+            "https://travel.gc.ca/destinations/falkland-islands",
             "https://www.gov.uk/foreign-travel-advice/falkland-islands"
           ]
         },
@@ -27489,6 +27986,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/fiji",
             "https://www.gov.uk/foreign-travel-advice/fiji"
           ],
           "name": "Emergency",
@@ -29621,6 +30119,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/france",
             "https://www.gov.uk/foreign-travel-advice/france",
             "https://www.service-public.fr/particuliers/vosdroits/F1136"
           ]
@@ -31746,6 +32245,34 @@
           "sources": [
             "https://sante.gouv.fr"
           ]
+        },
+        {
+          "name": "Paris - Embassy of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "+33 (0)1 44 43 29 02"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "paris-consulaire@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/france/paris.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "France",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/france"
+          ]
         }
       ]
     },
@@ -32281,6 +32808,31 @@
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/gabon"
           ]
+        },
+        {
+          "name": "Emergency (all services) - Gabon",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "07 63 93 63"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Gabon",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/gabon"
+          ]
         }
       ]
     },
@@ -32454,6 +33006,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/georgia",
             "https://www.gov.uk/foreign-travel-advice/georgia",
             "information.json"
           ],
@@ -32549,6 +33102,34 @@
             "xref:psc_app"
           ],
           "name": "Women's Information Center Hotline"
+        },
+        {
+          "name": "Consular assistance Tbilisi - Consulate of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "995 (32) 298-2072"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "tbilisi@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/georgia-georgie/tbilisi-tbilissi.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Georgia",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/georgia"
+          ]
         }
       ]
     },
@@ -34115,6 +34696,63 @@
             "https://www.116117.de",
             "xref:wikipedia_emergency"
           ]
+        },
+        {
+          "name": "Consular assistance Berlin - Embassy of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "49 (30) 20312 470",
+            "+49 211 172 170"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "brlin-cs@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/germany-allemagne/berlin.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Germany",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/germany"
+          ]
+        },
+        {
+          "name": "Book your appointment online Munich - Consulate of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "+49 89 21 99 57 0"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "munic@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/germany-allemagne/munich.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Germany",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/germany"
+          ]
         }
       ]
     },
@@ -34322,9 +34960,11 @@
           "target": "DV and abuse survivors",
           "geography": "Ghana",
           "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/ghana"
+          ],
           "name": "Domestic Violence and Victim Support Unit (DOVVSU)"
         },
         {
@@ -34392,9 +35032,11 @@
           "target": "anyone in emergency",
           "geography": "Gibraltar",
           "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/gibraltar"
+          ],
           "name": "Emergency",
           "_legacy": {
             "name": "Emergency",
@@ -36049,6 +36691,34 @@
             "phone": "1535 (option 2)",
             "source": "helplines.world"
           }
+        },
+        {
+          "name": "Consular assistance Athens - Embassy of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "+30 210 727 3400"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "athns-cs@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/greece-grece/athens-athenes.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Greece",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/greece"
+          ]
         }
       ]
     },
@@ -36084,9 +36754,11 @@
           "target": "anyone in emergency",
           "geography": "Greenland",
           "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/greenland"
+          ],
           "name": "Emergency",
           "_legacy": {
             "name": "Emergency",
@@ -36183,6 +36855,32 @@
             "https://mio.gl"
           ],
           "name": "MIO Child Helpline"
+        },
+        {
+          "name": "Consular assistance Nuuk - Consulate of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "nuuk-g@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/greenland-groenland/nuuk.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Greenland",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/greenland"
+          ]
         }
       ]
     },
@@ -36222,6 +36920,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/grenada",
             "https://www.gov.uk/foreign-travel-advice/grenada"
           ],
           "name": "Emergency",
@@ -36490,6 +37189,34 @@
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/guadeloupe"
           ]
+        },
+        {
+          "name": "Pitre - Honorary consul of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "+33 (0)1 44 43 29 02"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "guadeloupe@international.gc.ca",
+          "website": "https://travel.gc.ca/destinations/guadeloupe",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Guadeloupe",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/guadeloupe"
+          ]
         }
       ]
     },
@@ -36526,7 +37253,8 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
-            "atlacord/Naga Hotlines.json @ 61bec14"
+            "atlacord/Naga Hotlines.json @ 61bec14",
+            "https://travel.gc.ca/destinations/guam"
           ]
         },
         {
@@ -37094,6 +37822,31 @@
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/guinea"
           ]
+        },
+        {
+          "name": "Emergency (all services) - Guinea",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "1717"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Guinea",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/guinea"
+          ]
         }
       ]
     },
@@ -37350,6 +38103,31 @@
             ],
             "sms": []
           }
+        },
+        {
+          "name": "Emergency (all services) - Guyana",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "592-225-8196"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Guyana",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/guyana"
+          ]
         }
       ]
     },
@@ -37392,6 +38170,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/haiti",
             "https://www.gov.uk/foreign-travel-advice/haiti"
           ],
           "name": "Emergency",
@@ -37856,6 +38635,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/hong-kong",
             "https://www.gov.uk/foreign-travel-advice/hong-kong",
             "https://www.police.gov.hk"
           ]
@@ -43544,6 +44324,31 @@
           "verification_status": "verified_knowledge",
           "last_verified": "2026-04-22",
           "sources": []
+        },
+        {
+          "name": "Emergency (all services) - India",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "1091"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "India",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/india"
+          ]
         }
       ]
     },
@@ -43589,6 +44394,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/indonesia",
             "https://www.gov.uk/foreign-travel-advice/indonesia"
           ],
           "name": "Emergency",
@@ -44215,6 +45021,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/ireland",
             "https://www.112.ie",
             "https://www.gov.uk/foreign-travel-advice/ireland"
           ]
@@ -47203,6 +48010,34 @@
           "sources": [
             "https://www.salute.gov.it"
           ]
+        },
+        {
+          "name": "Consular assistance Rome - Embassy of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "+39 06-85444-1"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "consul.rome@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/italy-italie/rome.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Italy",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/italy"
+          ]
         }
       ]
     },
@@ -47533,6 +48368,31 @@
           "last_verified": "2026-04-22",
           "sources": [],
           "name": "Domestic Violence Support (WROC / Bureau of Gender Affairs)"
+        },
+        {
+          "name": "Emergency (all services) - Jamaica",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "1-867-926-1500"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Jamaica",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/jamaica"
+          ]
         }
       ]
     },
@@ -49217,6 +50077,116 @@
           "sources": [
             "https://www.japan.travel/en/plan/call-center"
           ]
+        },
+        {
+          "name": "Consular assistance Tokyo - Embassy of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "81 (3) 5412-6200"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "tokyo-consul@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/japan-japon/tokyo.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Japan",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/japan"
+          ]
+        },
+        {
+          "name": "Embassy of Canada to Japan Fukuoka - Honorary consul of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "info@canadian-consulate-fukuoka.jp",
+          "website": "https://www.international.gc.ca/country-pays/japan-japon/fukuoka.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Japan",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/japan"
+          ]
+        },
+        {
+          "name": "Hiroshima - Honorary consul of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "81(82) 875-7530"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "hiroshima-honcon@hue.ac.jp",
+          "website": "https://www.international.gc.ca/country-pays/japan-japon/hiroshima.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Japan",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/japan"
+          ]
+        },
+        {
+          "name": "Nagoya - Consulate of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "81 (52) 972-0450"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "ngoya@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/japan-japon/nagoya.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Japan",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/japan"
+          ]
         }
       ]
     },
@@ -49406,6 +50376,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/jordan",
             "https://www.gov.uk/foreign-travel-advice/jordan",
             "information.json"
           ],
@@ -49794,6 +50765,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/kenya",
             "https://www.gov.uk/foreign-travel-advice/kenya",
             "xref:helplines.world",
             "xref:psc_app"
@@ -51241,6 +52213,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/kiribati",
             "https://www.gov.uk/foreign-travel-advice/kiribati"
           ]
         }
@@ -51287,6 +52260,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/kosovo",
             "https://www.gov.uk/foreign-travel-advice/kosovo"
           ],
           "name": "Emergency",
@@ -51392,6 +52366,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/kuwait",
             "https://www.gov.uk/foreign-travel-advice/kuwait",
             "information.json"
           ],
@@ -51553,6 +52528,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/kyrgyzstan",
             "https://www.gov.uk/foreign-travel-advice/kyrgyzstan"
           ],
           "name": "Emergency",
@@ -51652,6 +52628,32 @@
               "Children"
             ]
           }
+        },
+        {
+          "name": "Consular assistance Bishkek - Honorary consul of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "bishkek@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/kyrgyzstan-kirghizistan/bishkek-bichkek.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Kyrgyzstan",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/kyrgyzstan"
+          ]
         }
       ]
     },
@@ -51751,6 +52753,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/laos",
             "https://www.gov.uk/foreign-travel-advice/laos"
           ]
         },
@@ -51776,6 +52779,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/laos",
             "https://www.gov.uk/foreign-travel-advice/laos"
           ]
         },
@@ -51801,7 +52805,61 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/laos",
             "https://www.gov.uk/foreign-travel-advice/laos"
+          ]
+        },
+        {
+          "name": "Emergency (all services) - Laos",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "1191"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Laos",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/laos"
+          ]
+        },
+        {
+          "name": "Consular assistance Vientiane - Embassy of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "+856 (0) 21 35 38 34"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "vntne@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/laos/vientiane.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Laos",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/laos"
           ]
         }
       ]
@@ -51848,6 +52906,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/latvia",
             "https://www.gov.uk/foreign-travel-advice/latvia"
           ],
           "name": "Emergency",
@@ -53430,6 +54489,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/lesotho",
             "https://www.gov.uk/foreign-travel-advice/lesotho"
           ]
         }
@@ -53783,6 +54843,31 @@
               "Adults"
             ]
           }
+        },
+        {
+          "name": "Emergency (all services) - Liechtenstein",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "1414"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Liechtenstein",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/liechtenstein"
+          ]
         }
       ]
     },
@@ -53819,6 +54904,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/lithuania",
             "https://www.gov.uk/foreign-travel-advice/lithuania",
             "information.json"
           ],
@@ -54314,6 +55400,31 @@
             "xref:psc_app"
           ],
           "name": "Specializuotos pagalbos centrų asociacija (Women's Line)"
+        },
+        {
+          "name": "Emergency (all services) - Lithuania",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "1414"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Lithuania",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/lithuania"
+          ]
         }
       ]
     },
@@ -54901,6 +56012,34 @@
             "xref:psc_app"
           ],
           "name": "Rosa Lëtzebuerg / Cigale"
+        },
+        {
+          "name": "Consular assistance Luxembourg - Honorary consul of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "32 (2) 741-0611"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "bru-consular@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/luxembourg/luxembourg.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Luxembourg",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/luxembourg"
+          ]
         }
       ]
     },
@@ -54974,6 +56113,31 @@
               "Children"
             ]
           }
+        },
+        {
+          "name": "Emergency (all services) - Macao",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "112"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Macao",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/macao"
+          ]
         }
       ]
     },
@@ -55013,9 +56177,11 @@
           "target": "anyone in emergency",
           "geography": "Madagascar",
           "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/madagascar"
+          ],
           "name": "Emergency",
           "_legacy": {
             "name": "Emergency",
@@ -55428,6 +56594,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/malaysia",
             "https://www.gov.uk/foreign-travel-advice/malaysia",
             "information.json"
           ],
@@ -56553,6 +57720,31 @@
             "xref:web_verified_crisis_directory"
           ],
           "name": "Ministry of Gender Child Helpline 1412"
+        },
+        {
+          "name": "Emergency (all services) - Maldives",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "960-332-2111"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Maldives",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/maldives"
+          ]
         }
       ]
     },
@@ -56888,6 +58080,34 @@
               "Everyone"
             ]
           }
+        },
+        {
+          "name": "Consular assistance Valletta - Honorary consul of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "356 2552-3233"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "valletta@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/malta-malte/valletta-valette.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Malta",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/malta"
+          ]
         }
       ]
     },
@@ -56928,6 +58148,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/marshall-islands",
             "https://www.gov.uk/foreign-travel-advice/marshall-islands"
           ],
           "name": "Emergency",
@@ -56961,6 +58182,31 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/marshall-islands"
+          ]
+        },
+        {
+          "name": "Emergency (all services) - Marshall Islands",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "625 2333"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Marshall Islands",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/marshall-islands"
           ]
         }
       ]
@@ -57322,6 +58568,34 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/mauritania"
+          ]
+        },
+        {
+          "name": "Consular assistance Nouakchott - Honorary consul of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "222 45-29-26-97"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "nouakchott@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/mauritania-mauritanie/nouakchott.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Mauritania",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/mauritania"
           ]
         }
       ]
@@ -57834,6 +59108,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/mexico",
             "https://www.gob.mx/sesnsp",
             "https://www.gov.uk/foreign-travel-advice/mexico"
           ]
@@ -58223,6 +59498,31 @@
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/mexico"
           ]
+        },
+        {
+          "name": "Emergency (all services) - Mexico",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "078"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Mexico",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/mexico"
+          ]
         }
       ]
     },
@@ -58259,6 +59559,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/moldova",
             "https://www.gov.uk/foreign-travel-advice/moldova",
             "information.json"
           ],
@@ -58431,6 +59732,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/monaco",
             "https://www.gov.uk/foreign-travel-advice/monaco"
           ],
           "name": "Emergency",
@@ -58473,6 +59775,34 @@
               "0800 91 90 10"
             ]
           }
+        },
+        {
+          "name": "Consular assistance Monaco - Honorary consul of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "377 99 99 67 23"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "monaco@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/monaco/monaco.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Monaco",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/monaco"
+          ]
         }
       ]
     },
@@ -58777,6 +60107,31 @@
           "last_verified": "2026-04-22",
           "sources": [],
           "name": "SOS telefon za žene i djecu žrtve nasilja"
+        },
+        {
+          "name": "Emergency (all services) - Montenegro",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "19807"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Montenegro",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/montenegro"
+          ]
         }
       ]
     },
@@ -58843,7 +60198,33 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/montserrat",
             "https://www.gov.uk/foreign-travel-advice/montserrat"
+          ]
+        },
+        {
+          "name": "Emergency (all services) - Montserrat",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "664-491-2802"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Montserrat",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/montserrat"
           ]
         }
       ]
@@ -60229,6 +61610,31 @@
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/mozambique"
           ]
+        },
+        {
+          "name": "Emergency (all services) - Mozambique",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "845555911"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Mozambique",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/mozambique"
+          ]
         }
       ]
     },
@@ -60376,6 +61782,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/namibia",
             "https://www.gov.uk/foreign-travel-advice/namibia",
             "xref:wikipedia_emergency"
           ],
@@ -60846,6 +62253,59 @@
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/nepal"
           ]
+        },
+        {
+          "name": "Emergency (all services) - Nepal",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "977 1 424 7041"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Nepal",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/nepal"
+          ]
+        },
+        {
+          "name": "Police Consular assistance Kathmandu - Honorary consul of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "+977 1 4987910"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "kathmandu@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/nepal/kathmandu-katmandou.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Nepal",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/nepal"
+          ]
         }
       ]
     },
@@ -60888,6 +62348,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/netherlands",
             "https://www.gov.uk/foreign-travel-advice/netherlands",
             "https://www.politie.nl"
           ]
@@ -65661,6 +67122,34 @@
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/niger"
           ]
+        },
+        {
+          "name": "Consular assistance Niamey - Honorary consul of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "227 20 37 09 81"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "bmakoconsular@international.gc.ca",
+          "website": "https://www.Canada.ca/",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Niger",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/niger"
+          ]
         }
       ]
     },
@@ -66337,6 +67826,35 @@
           "sources": [
             "https://ncdc.gov.ng"
           ]
+        },
+        {
+          "name": "Consular assistance Port Harcourt - Honorary consul of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "+234 (806) 399 7054",
+            "+2342012715665"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "port-harcourt@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/nigeria/port_harcourt.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Nigeria",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/nigeria"
+          ]
         }
       ]
     },
@@ -66371,10 +67889,11 @@
           "target": "anyone in a life-threatening emergency",
           "geography": "Niue",
           "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
           "sources": [
-            "atlacord/Naga Hotlines.json @ 61bec14"
+            "atlacord/Naga Hotlines.json @ 61bec14",
+            "https://travel.gc.ca/destinations/niue"
           ]
         },
         {
@@ -66717,6 +68236,34 @@
               "LGBTQ+"
             ]
           }
+        },
+        {
+          "name": "Consular assistance Skopje - Honorary consul of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "389 (2) 3225-630"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "skopje@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/north_macedonia-macedoine_nord/skopje.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "North Macedonia",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/north-macedonia"
+          ]
         }
       ]
     },
@@ -67491,6 +69038,34 @@
             "https://www.helsenorge.no/legevakt",
             "xref:wikipedia_emergency"
           ]
+        },
+        {
+          "name": "Consular assistance Oslo - Embassy of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "47 22-99-53-00"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "OSLO-Consular@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/norway-norvege/oslo.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Norway",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/norway"
+          ]
         }
       ]
     },
@@ -67527,6 +69102,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/oman",
             "https://www.gov.uk/foreign-travel-advice/oman",
             "information.json",
             "xref:psc_app",
@@ -67632,6 +69208,32 @@
               "Adults"
             ]
           }
+        },
+        {
+          "name": "Consular assistance Muscat - Honorary consul of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "canadianconsulate@daud.om",
+          "website": "https://www.international.gc.ca/country-pays/oman/muscat-mascate.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Oman",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/oman"
+          ]
         }
       ]
     },
@@ -68058,6 +69660,34 @@
           "sources": [
             "https://www.nih.org.pk"
           ]
+        },
+        {
+          "name": "Consular assistance Islamabad - High Commission of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "92 (51) 208-6000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "islamabad.consular@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/pakistan/islamabad.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Pakistan",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/pakistan"
+          ]
         }
       ]
     },
@@ -68094,6 +69724,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/palau",
             "https://www.gov.uk/foreign-travel-advice/palau",
             "information.json"
           ],
@@ -69035,6 +70666,31 @@
             "https://www.inabif.gob.pe"
           ],
           "name": "Línea 1818 INABIF (Children)"
+        },
+        {
+          "name": "Emergency (all services) - Peru",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "51 980 122 335"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Peru",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/peru"
+          ]
         }
       ]
     },
@@ -69541,6 +71197,34 @@
           "sources": [
             "https://doh.gov.ph"
           ]
+        },
+        {
+          "name": "Consular assistance Manila - Embassy of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "+63 2 8857 9000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "manila-consular@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/philippines/manila-manille.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Philippines",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/philippines"
+          ]
         }
       ]
     },
@@ -69623,6 +71307,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/poland",
             "https://www.gov.uk/foreign-travel-advice/poland"
           ],
           "name": "Emergency",
@@ -70763,6 +72448,8 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/azores",
+            "https://travel.gc.ca/destinations/portugal",
             "https://www.gov.uk/foreign-travel-advice/portugal",
             "information.json"
           ],
@@ -71417,6 +73104,34 @@
               "Youth"
             ]
           }
+        },
+        {
+          "name": "Consular assistance Lisbon - Embassy of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "+351 21 316 4600"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "lsbon.consular@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/portugal/lisbon-lisbonne.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Portugal",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/portugal"
+          ]
         }
       ]
     },
@@ -71453,7 +73168,8 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
-            "atlacord/Naga Hotlines.json @ 61bec14"
+            "atlacord/Naga Hotlines.json @ 61bec14",
+            "https://travel.gc.ca/destinations/puerto-rico"
           ]
         },
         {
@@ -71605,6 +73321,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/qatar",
             "https://www.gov.uk/foreign-travel-advice/qatar",
             "information.json"
           ],
@@ -71803,6 +73520,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/romania",
             "https://www.gov.uk/foreign-travel-advice/romania",
             "information.json"
           ],
@@ -72135,6 +73853,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/russia",
             "https://www.gov.uk/foreign-travel-advice/russia"
           ],
           "name": "Emergency",
@@ -72516,6 +74235,34 @@
           "sources": [
             "https://roszdravnadzor.gov.ru"
           ]
+        },
+        {
+          "name": "Consular assistance Moscow - Embassy of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "+7 (495) 925-6000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "moscoconsular@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/russia-russie/index.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Russia",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/russia"
+          ]
         }
       ]
     },
@@ -72593,6 +74340,7 @@
           "verification_status": "verified_web",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/rwanda",
             "https://www.moh.gov.rw",
             "xref:psc_app"
           ],
@@ -72948,10 +74696,11 @@
           "target": "anyone in a life-threatening emergency",
           "geography": "Saint Barthélemy",
           "notes": "French overseas collectivity — uses French emergency numbering: 15 SAMU (medical), 17 police, 18 fire; 112 universal.",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
           "sources": [
-            "Claude knowledge (cutoff May 2025)"
+            "Claude knowledge (cutoff May 2025)",
+            "https://travel.gc.ca/destinations/saint-barthelemy"
           ]
         }
       ]
@@ -73115,6 +74864,31 @@
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/st-kitts-and-nevis"
           ]
+        },
+        {
+          "name": "Emergency (all services) - Saint Kitts and Nevis",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "1-246-629-3550"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Saint Kitts and Nevis",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/saint-kitts-and-nevis"
+          ]
         }
       ]
     },
@@ -73197,6 +74971,34 @@
               "203"
             ]
           }
+        },
+        {
+          "name": "Castries - Honorary consul of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "1-246-629-3550"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "ccs.scc@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/saint_lucia-sainte_lucie/castries.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Saint Lucia",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/saint-lucia"
+          ]
         }
       ]
     },
@@ -73447,6 +75249,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/samoa",
             "https://www.gov.uk/foreign-travel-advice/samoa"
           ],
           "name": "Emergency",
@@ -73741,6 +75544,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/sao-tome-and-principe",
             "https://www.gov.uk/foreign-travel-advice/sao-tome-and-principe"
           ]
         },
@@ -73767,6 +75571,31 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/sao-tome-and-principe"
+          ]
+        },
+        {
+          "name": "Emergency (all services) - Sao Tome and Principe",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "221221"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Sao Tome and Principe",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/sao-tome-and-principe"
           ]
         }
       ]
@@ -74004,6 +75833,34 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.moh.gov.sa"
+          ]
+        },
+        {
+          "name": "Consular assistance Riyadh - Embassy of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "966 (11) 202-3288"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "ryadh-cs@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/saudi_arabia-arabie_saoudite/riyadh-riyad.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Saudi Arabia",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/saudi-arabia"
           ]
         }
       ]
@@ -74423,6 +76280,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/seychelles",
             "https://www.gov.uk/foreign-travel-advice/seychelles"
           ],
           "name": "Emergency",
@@ -74529,6 +76387,31 @@
               "Children"
             ]
           }
+        },
+        {
+          "name": "Emergency (all services) - Seychelles",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "151"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Seychelles",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/seychelles"
+          ]
         }
       ]
     },
@@ -74658,6 +76541,34 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/sierra-leone"
+          ]
+        },
+        {
+          "name": "Consular assistance Freetown - Honorary consul of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "+232 76 300600"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "sierra.leone@international.gc.ca",
+          "website": "https://www.Canada.ca/Canada-And-Sierra-Leone",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Sierra Leone",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/sierra-leone"
           ]
         }
       ]
@@ -75365,6 +77276,59 @@
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/st-maarten"
           ]
+        },
+        {
+          "name": "Emergency (all services) - Sint Maarten (Dutch part)",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "721-542-2222"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Sint Maarten (Dutch part)",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/sint-maarten"
+          ]
+        },
+        {
+          "name": "Sint Maarten - Honorary consul of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "1-246-629-3550"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "ccs.scc@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/sint_maarten/sint_maarten.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Sint Maarten (Dutch part)",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/sint-maarten"
+          ]
         }
       ]
     },
@@ -75409,6 +77373,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/slovakia",
             "https://www.gov.uk/foreign-travel-advice/slovakia"
           ],
           "name": "Emergency",
@@ -75714,6 +77679,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/slovenia",
             "information.json"
           ],
           "_legacy": {
@@ -76003,6 +77969,34 @@
             "xref:findahelpline.com"
           ],
           "name": "Klic v duševni stiski"
+        },
+        {
+          "name": "Consular assistance Ljubljana - Honorary consul of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "+386 1 252 44 44"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "ljubljana@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/slovenia-slovenie/ljubljana.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Slovenia",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/slovenia"
+          ]
         }
       ]
     },
@@ -77458,6 +79452,34 @@
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/south-africa"
           ]
+        },
+        {
+          "name": "Consular assistance Pretoria - High Commission of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "+27 12 422 3000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "pret-consul@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/south_africa-afrique_sud/pretoria.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "South Africa",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/south-africa"
+          ]
         }
       ]
     },
@@ -78811,6 +80833,7 @@
           "verification_status": "verified_web",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/spain",
             "https://www.112.es"
           ]
         },
@@ -79440,6 +81463,57 @@
               "Everyone"
             ]
           }
+        },
+        {
+          "name": "Emergency (all services) - Spain",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "902 102 112"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Spain",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/spain"
+          ]
+        },
+        {
+          "name": "Nacional Consular assistance Madrid - Embassy of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "espana.consulaire-consular@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/spain-espagne/madrid.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Spain",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/spain"
+          ]
         }
       ]
     },
@@ -80095,7 +82169,33 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/sri-lanka",
             "https://www.gov.uk/foreign-travel-advice/sri-lanka"
+          ]
+        },
+        {
+          "name": "Emergency (all services) - Sri Lanka",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "242 2222"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Sri Lanka",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/sri-lanka"
           ]
         }
       ]
@@ -80284,6 +82384,31 @@
               "123"
             ]
           }
+        },
+        {
+          "name": "Emergency (all services) - Suriname",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "1-592-227-2081"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Suriname",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/suriname"
+          ]
         }
       ]
     },
@@ -81208,6 +83333,34 @@
             "https://www.1177.se",
             "xref:wikipedia_emergency"
           ]
+        },
+        {
+          "name": "Consular assistance Stockholm - Embassy of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "46 (0) 8 453-3000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "stkhm-cs@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/sweden-suede/stockholm.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Sweden",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/sweden"
+          ]
         }
       ]
     },
@@ -81699,6 +83852,31 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.medi24.ch"
+          ]
+        },
+        {
+          "name": "Emergency (all services) - Switzerland",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "1414"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Switzerland",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/switzerland"
           ]
         }
       ]
@@ -82441,6 +84619,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/tanzania",
             "https://www.gov.uk/foreign-travel-advice/tanzania",
             "information.json"
           ],
@@ -82988,6 +85167,59 @@
             "https://www.gov.uk/foreign-travel-advice/thailand",
             "xref:wikipedia_emergency"
           ]
+        },
+        {
+          "name": "Emergency (all services) - Thailand",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "1672"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Thailand",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/thailand"
+          ]
+        },
+        {
+          "name": "Consular assistance Bangkok - Embassy of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "+66 (0) 2646 4300"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "bangkok-consul@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/thailand-thailande/bangkok.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Thailand",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/thailand"
+          ]
         }
       ]
     },
@@ -83329,6 +85561,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/tonga",
             "https://www.gov.uk/foreign-travel-advice/tonga"
           ],
           "name": "Emergency",
@@ -84387,6 +86620,7 @@
           "last_verified": "2026-04-22",
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14",
+            "https://travel.gc.ca/destinations/turks-and-caicos-islands",
             "https://www.gov.uk/foreign-travel-advice/turks-and-caicos-islands",
             "xref:vibbrancy"
           ]
@@ -84415,6 +86649,34 @@
           "last_verified": "2026-04-22",
           "sources": [],
           "name": "TCI Social Services Crisis Line"
+        },
+        {
+          "name": "Providenciales - Honorary consul of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "1-876-926-1500"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "ccs.scc@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/turks_caicos_islands-iles_turks_caicos/providenciales.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Turks and Caicos Islands",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/turks-and-caicos-islands"
+          ]
         }
       ]
     },
@@ -84453,6 +86715,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/tuvalu",
             "https://www.gov.uk/foreign-travel-advice/tuvalu"
           ],
           "name": "Emergency",
@@ -84552,6 +86815,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/uganda",
             "https://www.gov.uk/foreign-travel-advice/uganda"
           ],
           "name": "Emergency",
@@ -84771,6 +87035,34 @@
               "Children"
             ]
           }
+        },
+        {
+          "name": "Consular assistance Kampala - Honorary consul of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "+254 (20) 366-3000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "nrobi-consular@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/uganda-ouganda/kampala.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Uganda",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/uganda"
+          ]
         }
       ]
     },
@@ -89745,6 +92037,34 @@
             "phone": "0808 164 3332",
             "source": "helplines.world"
           }
+        },
+        {
+          "name": "Consular assistance London - High Commission of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "+44 (0) 207 004 6000"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "london.consular@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/united_kingdom-royaume_uni/london-londres.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "United Kingdom",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/united-kingdom"
+          ]
         }
       ]
     },
@@ -89787,6 +92107,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/united-states",
             "https://www.fcc.gov/general/9-1-1-and-e9-1-1-services",
             "https://www.gov.uk/foreign-travel-advice/usa"
           ]
@@ -92810,6 +95131,34 @@
           "last_verified": "2026-04-22",
           "sources": [],
           "name": "Ishonch Telephone Helpline for Women"
+        },
+        {
+          "name": "Consular assistance Tashkent - Honorary consul of Canada",
+          "organization": "Global Affairs Canada",
+          "category": "consular",
+          "voice_numbers": [
+            "+998 (78) 150 31 13"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": "tashkent@international.gc.ca",
+          "website": "https://www.international.gc.ca/country-pays/uzbekistan-ouzbekistan/tashkent-tachkent.aspx?lang=eng",
+          "hours": "office hours; 24/7 Emergency Watch and Response Centre at +1 613-996-8885",
+          "languages": [
+            "English",
+            "French"
+          ],
+          "cost": "unknown",
+          "target": "consular assistance for Canadian nationals",
+          "geography": "Uzbekistan",
+          "notes": "Canadian consular post listed on travel.gc.ca country page.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/uzbekistan"
+          ]
         }
       ]
     },
@@ -92952,6 +95301,31 @@
               "Children"
             ]
           }
+        },
+        {
+          "name": "Emergency (all services) - Vanuatu",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "22222"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number",
+          "geography": "Vanuatu",
+          "notes": "Sourced from Government of Canada travel advice.",
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://travel.gc.ca/destinations/vanuatu"
+          ]
         }
       ]
     },
@@ -92991,6 +95365,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/venezuela",
             "https://www.gov.uk/foreign-travel-advice/venezuela"
           ],
           "name": "Emergency",
@@ -93500,6 +95875,7 @@
           "last_verified": "2026-04-22",
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14",
+            "https://travel.gc.ca/destinations/british-virgin-islands",
             "https://www.gov.uk/foreign-travel-advice/british-virgin-islands"
           ]
         },
@@ -93561,10 +95937,11 @@
           "target": "anyone in a life-threatening emergency",
           "geography": "Virgin Islands (U.S.)",
           "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
+          "verification_status": "verified_authority",
+          "last_verified": "2026-04-23",
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14",
+            "https://travel.gc.ca/destinations/virgin-islands-u-s",
             "xref:vibbrancy"
           ]
         },
@@ -94024,6 +96401,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://travel.gc.ca/destinations/zimbabwe",
             "https://www.gov.uk/foreign-travel-advice/zimbabwe"
           ],
           "name": "Emergency",

@@ -1,243 +1,4903 @@
 {
   "records": {
     "AF:Afghan Behavioral Health Support": {
-      "last": "2026-04-22T19:14:02+00:00",
+      "last": "2026-04-22T15:56:09+00:00",
+      "website": ""
+    },
+    "AF:Emergency": {
+      "last": "2026-04-22T15:56:10+00:00",
+      "website": ""
+    },
+    "AL:Alo 116": {
+      "last": "2026-04-22T15:56:10+00:00",
+      "website": ""
+    },
+    "AL:Linja e Keshillimit per Gra dhe Vajza": {
+      "last": "2026-04-22T15:56:10+00:00",
+      "website": "https://www.linjatekeshillimitpergravajza.com"
+    },
+    "AL:Emergency": {
+      "last": "2026-04-22T15:56:16+00:00",
+      "website": ""
+    },
+    "AL:ALO 116 111 Children's Helpline": {
+      "last": "2026-04-22T15:56:16+00:00",
+      "website": "https://www.alo116.al"
+    },
+    "AL:Contact a hotline or helpline in Albania for free, confidential support": {
+      "last": "2026-04-22T15:56:30+00:00",
+      "website": ""
+    },
+    "DZ:Emergency": {
+      "last": "2026-04-22T15:56:31+00:00",
       "website": ""
     },
     "DZ:Suicide Hotline": {
-      "last": "2026-04-22T19:14:02+00:00",
+      "last": "2026-04-22T15:56:31+00:00",
+      "website": ""
+    },
+    "DZ:Child Protection Helpline 3131": {
+      "last": "2026-04-22T15:56:31+00:00",
+      "website": ""
+    },
+    "DZ:SOS Femmes en détresse": {
+      "last": "2026-04-22T15:56:32+00:00",
+      "website": "https://www.sos-femmes-en-detresse.org"
+    },
+    "DZ:Get free, confidential crisis counseling support in Algeria": {
+      "last": "2026-04-22T15:56:38+00:00",
+      "website": ""
+    },
+    "AS:Emergency": {
+      "last": "2026-04-22T15:56:38+00:00",
+      "website": ""
+    },
+    "AS:American Samoa Department of Human and Social Services": {
+      "last": "2026-04-22T15:56:38+00:00",
+      "website": "https://dhss.americansamoa.gov"
+    },
+    "AS:988 Suicide & Crisis Lifeline (via US)": {
+      "last": "2026-04-22T15:56:43+00:00",
+      "website": "https://988lifeline.org"
+    },
+    "AD:Emergency": {
+      "last": "2026-04-22T15:56:51+00:00",
+      "website": ""
+    },
+    "AO:Emergency": {
+      "last": "2026-04-22T15:56:51+00:00",
+      "website": ""
+    },
+    "AO:SOS Criança Linha 15015": {
+      "last": "2026-04-22T15:56:51+00:00",
+      "website": ""
+    },
+    "AI:Emergency": {
+      "last": "2026-04-22T15:56:52+00:00",
+      "website": ""
+    },
+    "AI:Her Majesty's Prison Hotline (Crime Stoppers)": {
+      "last": "2026-04-22T15:56:52+00:00",
+      "website": ""
+    },
+    "AQ:Emergency": {
+      "last": "2026-04-22T15:56:52+00:00",
+      "website": ""
+    },
+    "AG:Emergency": {
+      "last": "2026-04-22T15:56:53+00:00",
+      "website": ""
+    },
+    "AG:Antigua & Barbuda Support And Referral Centre": {
+      "last": "2026-04-22T15:56:53+00:00",
+      "website": ""
+    },
+    "AR:Emergency": {
+      "last": "2026-04-22T15:56:53+00:00",
       "website": ""
     },
     "AR:Centro de Asistencia al Suicida": {
-      "last": "2026-04-22T19:14:02+00:00",
+      "last": "2026-04-22T15:56:54+00:00",
+      "website": ""
+    },
+    "AR:S.O.S Un Amigo Anónimo": {
+      "last": "2026-04-22T15:56:54+00:00",
       "website": ""
     },
     "AR:Línea de Prevención Del Suicidio": {
-      "last": "2026-04-22T19:14:02+00:00",
+      "last": "2026-04-22T15:56:54+00:00",
       "website": ""
     },
     "AR:144 Víctimas de Violencia": {
-      "last": "2026-04-22T19:14:02+00:00",
+      "last": "2026-04-22T15:56:55+00:00",
+      "website": ""
+    },
+    "AR:Centro de Atencíon al Familiar del Suicida": {
+      "last": "2026-04-22T15:56:55+00:00",
       "website": ""
     },
     "AR:Centro de Valorizacion de la Vida Samaritanos": {
-      "last": "2026-04-22T19:14:02+00:00",
+      "last": "2026-04-22T15:56:55+00:00",
       "website": "https://www.befrienders.org"
     },
+    "AR:Teléfono de la Esperanza": {
+      "last": "2026-04-22T15:57:08+00:00",
+      "website": "https://telefonodelaesperanza.org"
+    },
+    "AR:Centro de Atencíon al Familiar del Suicida (054-011) 4758 2554)": {
+      "last": "2026-04-22T15:57:15+00:00",
+      "website": ""
+    },
     "AR:CAS Buenos Aires": {
-      "last": "2026-04-22T19:14:07+00:00",
+      "last": "2026-04-22T15:57:15+00:00",
       "website": ""
     },
     "AR:S.O.S. Un Amigo Anonimo": {
-      "last": "2026-04-22T19:14:07+00:00",
+      "last": "2026-04-22T15:57:15+00:00",
       "website": ""
     },
     "AR:Programa de Prevención, Atención y Posvención del Suicidio": {
-      "last": "2026-04-22T19:14:07+00:00",
+      "last": "2026-04-22T15:57:16+00:00",
+      "website": ""
+    },
+    "AR:Centro de Asistencia al Suicida CABA": {
+      "last": "2026-04-22T15:57:16+00:00",
+      "website": "https://www.asistenciaalsuicida.org.ar"
+    },
+    "AR:Línea 102 Niñez y Adolescencia": {
+      "last": "2026-04-22T15:57:22+00:00",
+      "website": "https://www.argentina.gob.ar/desarrollosocial/ninezyadolescencia"
+    },
+    "AR:Línea 144 Violencia de Género": {
+      "last": "2026-04-22T15:57:36+00:00",
+      "website": "https://www.argentina.gob.ar/generos/linea-144"
+    },
+    "AR:Línea 145 Trata": {
+      "last": "2026-04-22T15:57:47+00:00",
+      "website": "https://www.argentina.gob.ar"
+    },
+    "AR:SEDRONAR (Sustancias)": {
+      "last": "2026-04-22T15:57:58+00:00",
+      "website": "https://www.argentina.gob.ar/sedronar"
+    },
+    "AR:Emergency Services": {
+      "last": "2026-04-22T15:58:10+00:00",
+      "website": ""
+    },
+    "AR:Línea 144": {
+      "last": "2026-04-22T15:58:10+00:00",
+      "website": ""
+    },
+    "AR:Centro de Atención Familiar": {
+      "last": "2026-04-22T15:58:11+00:00",
+      "website": ""
+    },
+    "AR:Bomberos": {
+      "last": "2026-04-22T15:58:11+00:00",
+      "website": ""
+    },
+    "AR:Policía Federal": {
+      "last": "2026-04-22T15:58:11+00:00",
+      "website": ""
+    },
+    "AR:Emergencias Médicas": {
+      "last": "2026-04-22T15:58:12+00:00",
+      "website": ""
+    },
+    "AR:Dispositivo Federal Contra Violencia": {
+      "last": "2026-04-22T15:58:12+00:00",
+      "website": ""
+    },
+    "AR:Centro de Prevención del Suicidio (ROS)": {
+      "last": "2026-04-22T15:58:12+00:00",
+      "website": ""
+    },
+    "AR:Centro Asistencia al Enfermo": {
+      "last": "2026-04-22T15:58:13+00:00",
+      "website": ""
+    },
+    "AR:Línea de la Mujer": {
+      "last": "2026-04-22T15:58:13+00:00",
+      "website": ""
+    },
+    "AR:Dónde atienden niños/adolescentes": {
+      "last": "2026-04-22T15:58:13+00:00",
+      "website": ""
+    },
+    "AR:Gas Natural Emergencias": {
+      "last": "2026-04-22T15:58:14+00:00",
+      "website": ""
+    },
+    "AR:AySA Emergencias": {
+      "last": "2026-04-22T15:58:14+00:00",
+      "website": ""
+    },
+    "AR:Depresión y Ansiedad": {
+      "last": "2026-04-22T15:58:15+00:00",
+      "website": ""
+    },
+    "AR:Narcolepsia y Sueño": {
+      "last": "2026-04-22T15:58:15+00:00",
+      "website": ""
+    },
+    "AR:Atención a Adultos Mayores": {
+      "last": "2026-04-22T15:58:15+00:00",
+      "website": ""
+    },
+    "AR:Niñez en Riesgo": {
+      "last": "2026-04-22T15:58:16+00:00",
+      "website": ""
+    },
+    "AR:Discapacidad": {
+      "last": "2026-04-22T15:58:16+00:00",
+      "website": ""
+    },
+    "AR:Adicciones Teléfono Federal": {
+      "last": "2026-04-22T15:58:16+00:00",
+      "website": ""
+    },
+    "AR:Bullying Escolar": {
+      "last": "2026-04-22T15:58:17+00:00",
+      "website": ""
+    },
+    "AR:Tráfico de Personas": {
+      "last": "2026-04-22T15:58:17+00:00",
+      "website": ""
+    },
+    "AR:Atención a Migrantes": {
+      "last": "2026-04-22T15:58:17+00:00",
+      "website": ""
+    },
+    "AR:Violencia LGBT+": {
+      "last": "2026-04-22T15:58:18+00:00",
+      "website": ""
+    },
+    "AR:Violencia Institucional": {
+      "last": "2026-04-22T15:58:18+00:00",
+      "website": ""
+    },
+    "AR:Legales Gratuitos": {
+      "last": "2026-04-22T15:58:18+00:00",
+      "website": ""
+    },
+    "AR:Trabajo Infantil": {
+      "last": "2026-04-22T15:58:19+00:00",
+      "website": ""
+    },
+    "AR:Protección Animal": {
+      "last": "2026-04-22T15:58:20+00:00",
+      "website": ""
+    },
+    "AR:Voluntarios de Salud Mental": {
+      "last": "2026-04-22T15:58:21+00:00",
+      "website": ""
+    },
+    "AR:Violencia Rural": {
+      "last": "2026-04-22T15:58:22+00:00",
+      "website": ""
+    },
+    "AR:Get free crisis counseling support for your mental health from a hotline or helpline in Argentina": {
+      "last": "2026-04-22T15:58:23+00:00",
+      "website": ""
+    },
+    "AM:Emergency": {
+      "last": "2026-04-22T15:58:23+00:00",
       "website": ""
     },
     "AM:Trust Social Work and Sociological Research Centre": {
-      "last": "2026-04-22T19:14:07+00:00",
+      "last": "2026-04-22T15:58:24+00:00",
+      "website": ""
+    },
+    "AM:FAR Child Protection Hotline": {
+      "last": "2026-04-22T15:58:24+00:00",
+      "website": "https://www.farusa.org"
+    },
+    "AM:Trust Social Work and Sociological Research Centre (2) 538194)": {
+      "last": "2026-04-22T15:58:33+00:00",
+      "website": ""
+    },
+    "AM:Women's Support Center Hotline": {
+      "last": "2026-04-22T15:58:33+00:00",
+      "website": "https://www.womensupportcenter.org"
+    },
+    "AW:Emergency": {
+      "last": "2026-04-22T15:58:46+00:00",
+      "website": ""
+    },
+    "AW:Fundacion Respaldo Aruba": {
+      "last": "2026-04-22T15:58:47+00:00",
+      "website": ""
+    },
+    "AW:113 Zelfmoordpreventie (reachable from Aruba)": {
+      "last": "2026-04-22T15:58:47+00:00",
+      "website": "https://www.113.nl"
+    },
+    "AW:Free, immediate crisis counseling support in Aruba": {
+      "last": "2026-04-22T15:58:57+00:00",
+      "website": ""
+    },
+    "AU:Triple Zero (000)": {
+      "last": "2026-04-22T15:58:57+00:00",
+      "website": "https://www.triplezero.gov.au"
+    },
+    "AU:Lifeline Australia": {
+      "last": "2026-04-22T15:59:04+00:00",
+      "website": "https://www.lifeline.org.au"
+    },
+    "AU:Suicide Call Back Service": {
+      "last": "2026-04-22T15:59:16+00:00",
+      "website": "https://www.suicidecallbackservice.org.au"
+    },
+    "AU:13YARN": {
+      "last": "2026-04-22T15:59:38+00:00",
+      "website": "https://www.13yarn.org.au"
+    },
+    "AU:Beyond Blue Support Service": {
+      "last": "2026-04-22T15:59:44+00:00",
+      "website": "https://www.beyondblue.org.au"
+    },
+    "AU:Kids Helpline": {
+      "last": "2026-04-22T15:59:53+00:00",
+      "website": "https://kidshelpline.com.au"
+    },
+    "AU:MensLine Australia": {
+      "last": "2026-04-22T16:00:05+00:00",
+      "website": "https://mensline.org.au"
+    },
+    "AU:1800RESPECT": {
+      "last": "2026-04-22T16:00:35+00:00",
+      "website": "https://www.1800respect.org.au"
+    },
+    "AU:QLife": {
+      "last": "2026-04-22T16:00:48+00:00",
+      "website": "https://qlife.org.au"
+    },
+    "AU:Open Arms – Veterans & Families Counselling": {
+      "last": "2026-04-22T16:01:05+00:00",
+      "website": "https://www.openarms.gov.au"
+    },
+    "AU:Blue Knot Helpline": {
+      "last": "2026-04-22T16:02:11+00:00",
+      "website": "https://blueknot.org.au"
+    },
+    "AU:Headspace": {
+      "last": "2026-04-22T16:03:30+00:00",
+      "website": "https://headspace.org.au"
+    },
+    "AU:Alcohol and Drug Information Service (ADIS)": {
+      "last": "2026-04-22T16:04:35+00:00",
+      "website": "https://www.health.gov.au/contacts/national-alcohol-and-other-drug-hotline-contact"
+    },
+    "AU:Gambling Help Online": {
+      "last": "2026-04-22T16:05:41+00:00",
+      "website": "https://www.gamblinghelponline.org.au"
+    },
+    "AU:Butterfly Foundation Helpline": {
+      "last": "2026-04-22T16:05:46+00:00",
+      "website": "https://butterfly.org.au"
+    },
+    "AU:Emergency": {
+      "last": "2026-04-22T16:06:04+00:00",
+      "website": ""
+    },
+    "AU:Lifeline": {
+      "last": "2026-04-22T16:06:05+00:00",
+      "website": ""
+    },
+    "AU:Beyond Blue": {
+      "last": "2026-04-22T16:06:05+00:00",
       "website": ""
     },
     "AU:Support Act First Nations Dedicated Support Line": {
-      "last": "2026-04-22T19:14:08+00:00",
+      "last": "2026-04-22T16:06:06+00:00",
       "website": ""
     },
     "AU:SANE": {
-      "last": "2026-04-22T19:14:08+00:00",
+      "last": "2026-04-22T16:06:06+00:00",
+      "website": ""
+    },
+    "AU:eheadspace": {
+      "last": "2026-04-22T16:06:06+00:00",
       "website": ""
     },
     "AU:Listening Ear": {
-      "last": "2026-04-22T19:14:08+00:00",
+      "last": "2026-04-22T16:06:07+00:00",
       "website": ""
     },
     "AU:Wellways Helpline": {
-      "last": "2026-04-22T19:14:08+00:00",
+      "last": "2026-04-22T16:06:07+00:00",
       "website": ""
     },
     "AU:Thirrili National Indigenous Postvention Service": {
-      "last": "2026-04-22T19:14:08+00:00",
+      "last": "2026-04-22T16:06:07+00:00",
       "website": ""
     },
     "AU:National Alcohol & Other Drug Hotline": {
-      "last": "2026-04-22T19:14:08+00:00",
+      "last": "2026-04-22T16:06:08+00:00",
       "website": ""
     },
     "AU:National Dementia Helpline": {
-      "last": "2026-04-22T19:14:08+00:00",
+      "last": "2026-04-22T16:06:08+00:00",
       "website": ""
     },
     "AU:Rainbow Sexual, Domestic and Family Violence Helpline": {
-      "last": "2026-04-22T19:14:08+00:00",
+      "last": "2026-04-22T16:06:09+00:00",
       "website": ""
     },
     "AU:Butterfly Foundation": {
-      "last": "2026-04-22T19:14:08+00:00",
+      "last": "2026-04-22T16:06:09+00:00",
       "website": ""
     },
     "AU:Blue Knot Helpline and Redress Support Service": {
-      "last": "2026-04-22T19:14:08+00:00",
+      "last": "2026-04-22T16:06:09+00:00",
       "website": ""
     },
     "AU:Griefline": {
-      "last": "2026-04-22T19:14:08+00:00",
+      "last": "2026-04-22T16:06:10+00:00",
       "website": ""
     },
     "AU:StandBy Support After Suicide": {
-      "last": "2026-04-22T19:14:08+00:00",
+      "last": "2026-04-22T16:06:10+00:00",
       "website": ""
     },
     "AU:TIACS": {
-      "last": "2026-04-22T19:14:08+00:00",
+      "last": "2026-04-22T16:06:10+00:00",
       "website": ""
     },
     "AU:PANDA (Perinatal Anxiety and Depression Australia)": {
-      "last": "2026-04-22T19:14:08+00:00",
+      "last": "2026-04-22T16:06:11+00:00",
       "website": ""
     },
     "AU:Canteen": {
-      "last": "2026-04-22T19:14:08+00:00",
+      "last": "2026-04-22T16:06:11+00:00",
       "website": ""
     },
     "AU:Gambler's Help": {
-      "last": "2026-04-22T19:14:08+00:00",
+      "last": "2026-04-22T16:06:11+00:00",
       "website": ""
     },
     "AU:The Samaritans Inc": {
-      "last": "2026-04-22T19:14:08+00:00",
+      "last": "2026-04-22T16:06:11+00:00",
       "website": "https://www.befrienders.org"
     },
     "AU:Lifelink Samaritans Tasmania": {
-      "last": "2026-04-22T19:14:13+00:00",
+      "last": "2026-04-22T16:06:19+00:00",
       "website": "https://www.befrienders.org"
     },
     "AU:The Samaritans, Subiaco": {
-      "last": "2026-04-22T19:14:18+00:00",
+      "last": "2026-04-22T16:06:25+00:00",
       "website": "https://www.befrienders.org"
     },
     "AU:Lifelink Samaritans": {
-      "last": "2026-04-22T19:14:22+00:00",
+      "last": "2026-04-22T16:06:31+00:00",
       "website": "https://www.befrienders.org"
     },
     "AU:Samaritans of Albany, WA": {
-      "last": "2026-04-22T19:14:28+00:00",
+      "last": "2026-04-22T16:06:37+00:00",
       "website": "https://www.befrienders.org"
     },
+    "AU:Lifeline Australia (13 11 14)": {
+      "last": "2026-04-22T16:06:44+00:00",
+      "website": ""
+    },
+    "AU:SuicideLine Victoria": {
+      "last": "2026-04-22T16:06:44+00:00",
+      "website": ""
+    },
     "AU:SANE Helpline": {
-      "last": "2026-04-22T19:14:32+00:00",
+      "last": "2026-04-22T16:06:45+00:00",
+      "website": ""
+    },
+    "AU:Emergency Services": {
+      "last": "2026-04-22T16:06:45+00:00",
+      "website": ""
+    },
+    "AU:Transcultural Mental Health": {
+      "last": "2026-04-22T16:06:45+00:00",
+      "website": ""
+    },
+    "AU:Poison Information Centre": {
+      "last": "2026-04-22T16:06:46+00:00",
+      "website": ""
+    },
+    "AU:Kidney Health Australia": {
+      "last": "2026-04-22T16:06:46+00:00",
+      "website": ""
+    },
+    "AU:Rural Adversity Mental Health": {
+      "last": "2026-04-22T16:06:47+00:00",
+      "website": ""
+    },
+    "AU:Natl Eating Disorders": {
+      "last": "2026-04-22T16:06:47+00:00",
+      "website": ""
+    },
+    "AU:Black Dog Inst. (BlueCard)": {
+      "last": "2026-04-22T16:06:47+00:00",
+      "website": ""
+    },
+    "AU:Alcohol/Drug Info": {
+      "last": "2026-04-22T16:06:48+00:00",
+      "website": ""
+    },
+    "AU:Carers Australia": {
+      "last": "2026-04-22T16:06:48+00:00",
+      "website": ""
+    },
+    "AU:National Sexual Assault": {
+      "last": "2026-04-22T16:06:48+00:00",
+      "website": ""
+    },
+    "AU:National Apology Line": {
+      "last": "2026-04-22T16:06:49+00:00",
+      "website": ""
+    },
+    "AU:Financial Counselling": {
+      "last": "2026-04-22T16:06:49+00:00",
+      "website": ""
+    },
+    "AU:Safe Steps": {
+      "last": "2026-04-22T16:06:50+00:00",
+      "website": ""
+    },
+    "AU:Lifeline Crisis Chat": {
+      "last": "2026-04-22T16:06:50+00:00",
+      "website": "https://chat.lifeline.org.au"
+    },
+    "AU:My Aged Care": {
+      "last": "2026-04-22T16:07:55+00:00",
+      "website": ""
+    },
+    "AU:Immigration Hotline": {
+      "last": "2026-04-22T16:07:55+00:00",
+      "website": ""
+    },
+    "AU:Red Cross Flood": {
+      "last": "2026-04-22T16:07:55+00:00",
+      "website": "https://www.ifrc.org"
+    },
+    "AU:Australasian Seq Info": {
+      "last": "2026-04-22T16:08:01+00:00",
+      "website": ""
+    },
+    "AU:Child Protection Crisis": {
+      "last": "2026-04-22T16:08:02+00:00",
+      "website": ""
+    },
+    "AU:Free hotlines and helplines in Australia": {
+      "last": "2026-04-22T16:08:02+00:00",
+      "website": ""
+    },
+    "AT:Emergency": {
+      "last": "2026-04-22T16:08:02+00:00",
+      "website": "https://www.oesterreich.gv.at"
+    },
+    "AT:Fire Brigade": {
+      "last": "2026-04-22T16:08:10+00:00",
       "website": ""
     },
     "AT:Police": {
-      "last": "2026-04-22T19:14:32+00:00",
+      "last": "2026-04-22T16:08:10+00:00",
+      "website": ""
+    },
+    "AT:Ambulance": {
+      "last": "2026-04-22T16:08:11+00:00",
       "website": ""
     },
     "AT:Telefonseelsorge (Samaritan Telephone)": {
-      "last": "2026-04-22T19:14:32+00:00",
+      "last": "2026-04-22T16:08:11+00:00",
       "website": "https://www.befrienders.org"
     },
+    "AT:Rat auf Draht": {
+      "last": "2026-04-22T16:08:18+00:00",
+      "website": ""
+    },
     "AT:Pro Mente Vorarlberg - Sozialpsychiatrischer Dienst, Anlaufstelle Jugendliche Nenzing": {
-      "last": "2026-04-22T19:14:37+00:00",
+      "last": "2026-04-22T16:08:18+00:00",
       "website": ""
     },
     "AT:Pro Mente Vorarlberg - Sozialpsychiatrischer Dienst, Anlaufstelle Jugendliche Dornbirn": {
-      "last": "2026-04-22T19:14:37+00:00",
+      "last": "2026-04-22T16:08:19+00:00",
       "website": ""
     },
     "AT:SOS KINDERDORF": {
-      "last": "2026-04-22T19:14:37+00:00",
+      "last": "2026-04-22T16:08:19+00:00",
       "website": ""
     },
     "AT:NÖ Frauentelefon": {
-      "last": "2026-04-22T19:14:37+00:00",
+      "last": "2026-04-22T16:08:19+00:00",
       "website": ""
     },
     "AT:Pro Mente Vorarlberg - Sozialpsychiatrischer Dienst Feldkirch": {
-      "last": "2026-04-22T19:14:37+00:00",
+      "last": "2026-04-22T16:08:20+00:00",
       "website": ""
     },
     "AT:Pro Mente Vorarlberg - Sozialpsychiatrischer Dienst Bregenz": {
-      "last": "2026-04-22T19:14:37+00:00",
+      "last": "2026-04-22T16:08:20+00:00",
       "website": ""
     },
     "AT:Pro Mente Vorarlberg - Sozialpsychiatrischer Dienst Dornbirn": {
-      "last": "2026-04-22T19:14:37+00:00",
+      "last": "2026-04-22T16:08:21+00:00",
       "website": ""
     },
     "AT:Pro Mente Vorarlberg - Sozialpsychiatrischer Dienst Bludenz": {
-      "last": "2026-04-22T19:14:37+00:00",
+      "last": "2026-04-22T16:08:22+00:00",
       "website": ""
     },
     "AT:Opfer-Notruf": {
-      "last": "2026-04-22T19:14:37+00:00",
+      "last": "2026-04-22T16:08:23+00:00",
       "website": ""
     },
     "AT:Hotline für Essstörungen": {
-      "last": "2026-04-22T19:14:37+00:00",
+      "last": "2026-04-22T16:08:23+00:00",
       "website": ""
+    },
+    "AT:Männernotruf": {
+      "last": "2026-04-22T16:08:23+00:00",
+      "website": "https://www.maennerinfo.at"
     },
     "AT:Kindernotruf": {
-      "last": "2026-04-22T19:14:37+00:00",
+      "last": "2026-04-22T16:08:33+00:00",
       "website": ""
     },
+    "AT:Hilfe für Angehörige psychisch Erkrankter": {
+      "last": "2026-04-22T16:08:34+00:00",
+      "website": ""
+    },
+    "AT:Frauenhelpline gegen Gewalt": {
+      "last": "2026-04-22T16:08:34+00:00",
+      "website": "https://www.frauenhelpline.at"
+    },
     "AT:Telefon Seelsorge": {
-      "last": "2026-04-22T19:14:37+00:00",
+      "last": "2026-04-22T16:08:44+00:00",
       "website": ""
     },
     "AT:Other": {
-      "last": "2026-04-22T19:14:37+00:00",
+      "last": "2026-04-22T16:08:45+00:00",
+      "website": ""
+    },
+    "AT:Telefonseelsorge 142": {
+      "last": "2026-04-22T16:08:45+00:00",
+      "website": "https://www.telefonseelsorge.at"
+    },
+    "AT:Rat auf Draht 147": {
+      "last": "2026-04-22T16:08:55+00:00",
+      "website": "https://www.rataufdraht.at"
+    },
+    "AT:HOSI Wien HelpLine": {
+      "last": "2026-04-22T16:09:01+00:00",
+      "website": "https://www.hosiwien.at"
+    },
+    "AT:Suchthilfe Wien": {
+      "last": "2026-04-22T16:09:08+00:00",
+      "website": "https://www.suchthilfe.at"
+    },
+    "AZ:Emergency": {
+      "last": "2026-04-22T16:09:15+00:00",
       "website": ""
     },
     "AZ:Youth Crisis Hotline - Initiative for Development": {
-      "last": "2026-04-22T19:14:37+00:00",
+      "last": "2026-04-22T16:09:16+00:00",
+      "website": ""
+    },
+    "AZ:Azerbaijan Child Helpline Service": {
+      "last": "2026-04-22T16:09:17+00:00",
       "website": ""
     },
     "AZ:Azerbaijan Children Hotline": {
-      "last": "2026-04-22T19:14:37+00:00",
+      "last": "2026-04-22T16:09:18+00:00",
+      "website": ""
+    },
+    "AZ:Child Helpline 111": {
+      "last": "2026-04-22T16:09:18+00:00",
+      "website": "https://scfwca.gov.az"
+    },
+    "BS:Emergency": {
+      "last": "2026-04-22T16:09:25+00:00",
+      "website": ""
+    },
+    "BS:Bahamas Crisis Centre": {
+      "last": "2026-04-22T16:09:26+00:00",
+      "website": ""
+    },
+    "BS:National Suicide Hotline": {
+      "last": "2026-04-22T16:09:27+00:00",
+      "website": ""
+    },
+    "BS:The Crisis Centre": {
+      "last": "2026-04-22T16:09:27+00:00",
+      "website": ""
+    },
+    "BS:National Hotline": {
+      "last": "2026-04-22T16:09:28+00:00",
+      "website": ""
+    },
+    "BS:BAM Crisis Line (Bahamas)": {
+      "last": "2026-04-22T16:09:29+00:00",
+      "website": ""
+    },
+    "BS:Crisis Centre Bahamas (Women and Children)": {
+      "last": "2026-04-22T16:09:29+00:00",
+      "website": "https://www.bahamascrisiscentre.org"
+    },
+    "BH:Emergency": {
+      "last": "2026-04-22T16:11:35+00:00",
       "website": ""
     },
     "BH:Child Helpline 998": {
-      "last": "2026-04-22T19:14:37+00:00",
+      "last": "2026-04-22T16:11:36+00:00",
       "website": ""
     },
     "BH:Helpline: 0097 161 199 188": {
-      "last": "2026-04-22T19:14:38+00:00",
+      "last": "2026-04-22T16:11:37+00:00",
+      "website": ""
+    },
+    "BH:Emergency (999)": {
+      "last": "2026-04-22T16:11:38+00:00",
+      "website": ""
+    },
+    "BH:Bahrain Women's Union Hotline": {
+      "last": "2026-04-22T16:11:38+00:00",
+      "website": "https://www.bahrainwomen.org"
+    },
+    "BH:Batelco Care Center for Child Protection": {
+      "last": "2026-04-22T16:11:44+00:00",
+      "website": ""
+    },
+    "BD:Emergency": {
+      "last": "2026-04-22T16:11:45+00:00",
       "website": ""
     },
     "BD:Ambulance and Fire": {
-      "last": "2026-04-22T19:14:38+00:00",
+      "last": "2026-04-22T16:11:45+00:00",
+      "website": ""
+    },
+    "BD:Bangladesh Child Helpline 1098": {
+      "last": "2026-04-22T16:11:46+00:00",
       "website": ""
     },
     "BD:National Helpline 109": {
-      "last": "2026-04-22T19:14:38+00:00",
+      "last": "2026-04-22T16:11:47+00:00",
+      "website": ""
+    },
+    "BD:Kaan Pete Roi": {
+      "last": "2026-04-22T16:11:48+00:00",
       "website": ""
     },
     "BD:Vent by Mindspace": {
-      "last": "2026-04-22T19:14:38+00:00",
+      "last": "2026-04-22T16:11:49+00:00",
+      "website": ""
+    },
+    "BD:Kaan Pete Roi (9612 11 9911)": {
+      "last": "2026-04-22T16:11:49+00:00",
+      "website": "http://shuni.org"
+    },
+    "BD:National Emergency Service 999": {
+      "last": "2026-04-22T16:11:55+00:00",
+      "website": "https://999.gov.bd"
+    },
+    "BD:Child Helpline 1098": {
+      "last": "2026-04-22T16:12:17+00:00",
+      "website": "https://childhelpline1098.gov.bd"
+    },
+    "BD:National Helpline Centre for Violence Against Women and Children": {
+      "last": "2026-04-22T16:12:22+00:00",
+      "website": "http://mowca.gov.bd"
+    },
+    "BD:BRAC Legal Aid": {
+      "last": "2026-04-22T16:12:31+00:00",
+      "website": "https://www.brac.net"
+    },
+    "BB:Police": {
+      "last": "2026-04-22T16:12:41+00:00",
+      "website": ""
+    },
+    "BB:Ambulance": {
+      "last": "2026-04-22T16:12:42+00:00",
+      "website": ""
+    },
+    "BB:Fire Station": {
+      "last": "2026-04-22T16:12:43+00:00",
+      "website": ""
+    },
+    "BB:Samaritans of Barbados": {
+      "last": "2026-04-22T16:12:43+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "BB:Advocates Against Domestic Abuse Helpline": {
+      "last": "2026-04-22T16:12:51+00:00",
       "website": ""
     },
     "BB:W Barbados": {
-      "last": "2026-04-22T19:14:38+00:00",
+      "last": "2026-04-22T16:12:52+00:00",
+      "website": ""
+    },
+    "BB:Emergency": {
+      "last": "2026-04-22T16:12:52+00:00",
+      "website": ""
+    },
+    "BB:Samaritans Barbados": {
+      "last": "2026-04-22T16:12:52+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "BY:Emergency": {
+      "last": "2026-04-22T16:12:59+00:00",
       "website": ""
     },
     "BY:Victims of Violence": {
-      "last": "2026-04-22T19:14:38+00:00",
+      "last": "2026-04-22T16:13:00+00:00",
       "website": ""
     },
     "BY:Victims of Violence (Children)": {
-      "last": "2026-04-22T19:14:38+00:00",
+      "last": "2026-04-22T16:13:01+00:00",
+      "website": ""
+    },
+    "BY:Телефон доверия экстренной психологической помощи": {
+      "last": "2026-04-22T16:13:02+00:00",
+      "website": ""
+    },
+    "BY:Child Helpline Belarus": {
+      "last": "2026-04-22T16:13:02+00:00",
+      "website": "https://redcross.by"
+    },
+    "BY:Minsk City Psychiatric Dispensary Helpline": {
+      "last": "2026-04-22T16:13:10+00:00",
+      "website": ""
+    },
+    "BE:Emergency (112 / 101)": {
+      "last": "2026-04-22T16:13:10+00:00",
+      "website": "https://www.112.be"
+    },
+    "BE:Centre de Prévention du Suicide": {
+      "last": "2026-04-22T16:13:23+00:00",
+      "website": "https://www.preventionsuicide.be"
+    },
+    "BE:Zelfmoordlijn 1813": {
+      "last": "2026-04-22T16:13:31+00:00",
+      "website": "https://www.zelfmoord1813.be"
+    },
+    "BE:Télé-Accueil": {
+      "last": "2026-04-22T16:13:39+00:00",
+      "website": "https://www.tele-accueil.be"
+    },
+    "BE:Tele-Onthaal": {
+      "last": "2026-04-22T16:13:51+00:00",
+      "website": "https://www.tele-onthaal.be"
+    },
+    "BE:Awel": {
+      "last": "2026-04-22T16:13:57+00:00",
+      "website": "https://www.awel.be"
+    },
+    "BE:103 Écoute-Enfants": {
+      "last": "2026-04-22T16:14:05+00:00",
+      "website": "https://www.103ecoute.be"
+    },
+    "BE:1712 — Violence, Abuse and Child Maltreatment": {
+      "last": "2026-04-22T16:14:17+00:00",
+      "website": "https://www.1712.be"
+    },
+    "BE:Emergency": {
+      "last": "2026-04-22T16:14:24+00:00",
       "website": ""
     },
     "BE:Community Help Centre Helpline": {
-      "last": "2026-04-22T19:14:38+00:00",
+      "last": "2026-04-22T16:14:24+00:00",
+      "website": ""
+    },
+    "BE:Centre de Prévention des Violences Conjugales et Familiales": {
+      "last": "2026-04-22T16:14:24+00:00",
       "website": ""
     },
     "BE:Child Focus": {
-      "last": "2026-04-22T19:14:38+00:00",
+      "last": "2026-04-22T16:14:25+00:00",
       "website": ""
     },
     "BE:De Druglijn Helpline": {
-      "last": "2026-04-22T19:14:38+00:00",
+      "last": "2026-04-22T16:14:25+00:00",
+      "website": ""
+    },
+    "BE:Centre pour l'Égalité des chances et la lutte contre le racisme (UNIA)": {
+      "last": "2026-04-22T16:14:26+00:00",
+      "website": ""
+    },
+    "BE:Le Centre de Prévention du Suicide": {
+      "last": "2026-04-22T16:14:26+00:00",
+      "website": ""
+    },
+    "BE:Vlaams Expertisecentrum Suïcidepreventie": {
+      "last": "2026-04-22T16:14:26+00:00",
+      "website": ""
+    },
+    "BE:Emergency Services": {
+      "last": "2026-04-22T16:14:27+00:00",
+      "website": ""
+    },
+    "BE:Centre Prévention Suicide": {
+      "last": "2026-04-22T16:14:27+00:00",
+      "website": "https://preventionsuicide.be"
+    },
+    "BE:Community Help Service": {
+      "last": "2026-04-22T16:14:34+00:00",
+      "website": ""
+    },
+    "BE:Thuiszorge Thuiszorg": {
+      "last": "2026-04-22T16:14:35+00:00",
+      "website": ""
+    },
+    "BE:Centre d’Avertissement Soupçon": {
+      "last": "2026-04-22T16:14:35+00:00",
+      "website": ""
+    },
+    "BE:Child Crisis Helpline": {
+      "last": "2026-04-22T16:14:35+00:00",
+      "website": ""
+    },
+    "BE:Rode Kruis": {
+      "last": "2026-04-22T16:14:36+00:00",
+      "website": ""
+    },
+    "BE:Centre Seksueel Geweld": {
+      "last": "2026-04-22T16:14:36+00:00",
+      "website": ""
+    },
+    "BE:Diversiteit & Gelijkheid": {
+      "last": "2026-04-22T16:14:36+00:00",
+      "website": ""
+    },
+    "BE:ANBN – Albinism Network": {
+      "last": "2026-04-22T16:14:37+00:00",
+      "website": ""
+    },
+    "BE:Trisomie 21 Info": {
+      "last": "2026-04-22T16:14:37+00:00",
+      "website": ""
+    },
+    "BE:Autisme Vlaanderen": {
+      "last": "2026-04-22T16:14:37+00:00",
+      "website": ""
+    },
+    "BE:Federation Autisme": {
+      "last": "2026-04-22T16:14:38+00:00",
+      "website": ""
+    },
+    "BE:Brussels Info Santé": {
+      "last": "2026-04-22T16:14:38+00:00",
+      "website": ""
+    },
+    "BE:Centre de Prévention HIV": {
+      "last": "2026-04-22T16:14:39+00:00",
+      "website": ""
+    },
+    "BE:Anti‑Poison Centre": {
+      "last": "2026-04-22T16:14:39+00:00",
+      "website": ""
+    },
+    "BE:Auto‑Immune Info": {
+      "last": "2026-04-22T16:14:39+00:00",
+      "website": ""
+    },
+    "BE:Cancer Support Centre": {
+      "last": "2026-04-22T16:14:40+00:00",
+      "website": ""
+    },
+    "BE:Help For Wellness": {
+      "last": "2026-04-22T16:14:40+00:00",
+      "website": ""
+    },
+    "BE:Line for Men": {
+      "last": "2026-04-22T16:14:41+00:00",
+      "website": ""
+    },
+    "BE:Elder Abuse Helpline": {
+      "last": "2026-04-22T16:14:41+00:00",
+      "website": ""
+    },
+    "BE:Defenseur des Enfants": {
+      "last": "2026-04-22T16:14:41+00:00",
+      "website": ""
+    },
+    "BE:Refugee Rights": {
+      "last": "2026-04-22T16:14:42+00:00",
+      "website": ""
+    },
+    "BE:Free Legal Aid": {
+      "last": "2026-04-22T16:14:42+00:00",
+      "website": ""
+    },
+    "BE:Animal Welfare": {
+      "last": "2026-04-22T16:14:42+00:00",
+      "website": ""
+    },
+    "BE:Domestic Violence": {
+      "last": "2026-04-22T16:14:43+00:00",
+      "website": ""
+    },
+    "BZ:Emergency": {
+      "last": "2026-04-22T16:14:43+00:00",
+      "website": ""
+    },
+    "BJ:Emergency": {
+      "last": "2026-04-22T16:14:44+00:00",
+      "website": ""
+    },
+    "BJ:Centre d'Accompagnement Psycho-social et Juridique (CAPJ) Benin Helpline for Women & Girls facing Harassment & Violence": {
+      "last": "2026-04-22T16:14:44+00:00",
+      "website": ""
+    },
+    "BJ:Child Violence & Abuse Helpline Benin (UNICEF Benin)": {
+      "last": "2026-04-22T16:14:44+00:00",
+      "website": ""
+    },
+    "BJ:L'Association Beninoise pour le Marketing Social et la Communication pour la Sante (ABMS) - Benin Helpline for Family Healthcare": {
+      "last": "2026-04-22T16:14:45+00:00",
+      "website": ""
+    },
+    "BJ:Child Line 138": {
+      "last": "2026-04-22T16:14:45+00:00",
+      "website": ""
+    },
+    "BM:Emergency": {
+      "last": "2026-04-22T16:14:45+00:00",
+      "website": ""
+    },
+    "BM:Bermuda Mental Health Foundation Helpline": {
+      "last": "2026-04-22T16:14:46+00:00",
+      "website": "https://www.mentalhealth.bm"
+    },
+    "BM:Women's Resource Centre Bermuda": {
+      "last": "2026-04-22T16:14:51+00:00",
+      "website": "https://wrcbermuda.com"
+    },
+    "BM:Contact a hotline or helpline in Bermuda for free, confidential support": {
+      "last": "2026-04-22T16:15:00+00:00",
+      "website": ""
+    },
+    "BT:Health Help Center": {
+      "last": "2026-04-22T16:15:00+00:00",
+      "website": ""
+    },
+    "BT:Emergency": {
+      "last": "2026-04-22T16:15:01+00:00",
+      "website": ""
+    },
+    "BT:RENEW Helpline": {
+      "last": "2026-04-22T16:15:01+00:00",
+      "website": "https://renew.org.bt"
+    },
+    "BT:Pema Secretariat Mental Health Helpline": {
+      "last": "2026-04-22T16:15:13+00:00",
+      "website": ""
+    },
+    "BO:Emergency": {
+      "last": "2026-04-22T16:15:14+00:00",
+      "website": ""
+    },
+    "BO:Línea 156": {
+      "last": "2026-04-22T16:15:14+00:00",
+      "website": ""
+    },
+    "BO:Telefono de la Esperanza": {
+      "last": "2026-04-22T16:15:14+00:00",
+      "website": "https://telefonodelaesperanza.org"
+    },
+    "BO:Línea Gratuita Contra la Violencia 800 14 0348": {
+      "last": "2026-04-22T16:15:21+00:00",
+      "website": ""
+    },
+    "BO:Defensoría de la Niñez Línea 156": {
+      "last": "2026-04-22T16:15:21+00:00",
+      "website": ""
+    },
+    "BO:Free, immediate crisis counseling support in Bolivia": {
+      "last": "2026-04-22T16:15:21+00:00",
+      "website": ""
+    },
+    "BQ:Emergency": {
+      "last": "2026-04-22T16:15:22+00:00",
+      "website": ""
+    },
+    "BA:Emergency": {
+      "last": "2026-04-22T16:15:22+00:00",
+      "website": ""
+    },
+    "BA:Plavi Telefon - Blue Phone": {
+      "last": "2026-04-22T16:15:23+00:00",
+      "website": ""
+    },
+    "BA:Centar Srce": {
+      "last": "2026-04-22T16:15:24+00:00",
+      "website": ""
+    },
+    "BA:Plavi telefon": {
+      "last": "2026-04-22T16:15:25+00:00",
+      "website": ""
+    },
+    "BA:SOS telefon za žene i djecu žrtve nasilja": {
+      "last": "2026-04-22T16:15:25+00:00",
+      "website": ""
+    },
+    "BA:Sigurna kuća": {
+      "last": "2026-04-22T16:15:26+00:00",
+      "website": ""
+    },
+    "BW:Emergency": {
+      "last": "2026-04-22T16:15:27+00:00",
+      "website": ""
+    },
+    "BW:National Lifeline": {
+      "last": "2026-04-22T16:15:28+00:00",
+      "website": ""
+    },
+    "BW:Lifeline - FTMTB Botswana Helpline": {
+      "last": "2026-04-22T16:15:29+00:00",
+      "website": ""
+    },
+    "BW:Childline": {
+      "last": "2026-04-22T16:15:30+00:00",
+      "website": ""
+    },
+    "BW:Lifeline": {
+      "last": "2026-04-22T16:15:31+00:00",
+      "website": ""
+    },
+    "BW:Lifeline Botswana": {
+      "last": "2026-04-22T16:15:31+00:00",
+      "website": ""
+    },
+    "BW:Childline Botswana": {
+      "last": "2026-04-22T16:15:31+00:00",
+      "website": "https://www.childlinebotswana.org.bw"
+    },
+    "BR:Polícia Militar / SAMU / Bombeiros": {
+      "last": "2026-04-22T16:15:44+00:00",
+      "website": "https://www.gov.br"
+    },
+    "BR:188 — CVV (Centro de Valorização da Vida)": {
+      "last": "2026-04-22T16:15:54+00:00",
+      "website": "https://www.cvv.org.br"
+    },
+    "BR:Disque 100": {
+      "last": "2026-04-22T16:16:05+00:00",
+      "website": "https://www.gov.br/mdh/pt-br/ouvidoria"
+    },
+    "BR:Central de Atendimento à Mulher — 180": {
+      "last": "2026-04-22T16:16:18+00:00",
+      "website": "https://www.gov.br/mulheres"
+    },
+    "BR:Disque Denúncia — 181": {
+      "last": "2026-04-22T16:16:29+00:00",
+      "website": ""
+    },
+    "BR:Emergency": {
+      "last": "2026-04-22T16:16:30+00:00",
+      "website": ""
+    },
+    "BR:Centro de Valorização da Vida": {
+      "last": "2026-04-22T16:16:30+00:00",
+      "website": "https://www.cvv.org.br"
+    },
+    "BR:The CVV - Life Valuation Center": {
+      "last": "2026-04-22T16:16:41+00:00",
+      "website": "https://www.cvv.org.br"
+    },
+    "BR:JUNAAB Alcoólicos Anônimos do Brasil": {
+      "last": "2026-04-22T16:16:53+00:00",
+      "website": ""
+    },
+    "BR:Ligue 180": {
+      "last": "2026-04-22T16:16:54+00:00",
+      "website": ""
+    },
+    "BR:Linha de Ajuda Narcóticos Anônimos 132": {
+      "last": "2026-04-22T16:16:55+00:00",
+      "website": ""
+    },
+    "BR:CVV Sao Paulo - National Association": {
+      "last": "2026-04-22T16:16:55+00:00",
+      "website": "https://www.cvv.org.br"
+    },
+    "BR:AMA - Porto Alegre": {
+      "last": "2026-04-22T16:17:07+00:00",
+      "website": ""
+    },
+    "BR:CVV": {
+      "last": "2026-04-22T16:17:07+00:00",
+      "website": "https://www.cvv.org.br"
+    },
+    "BR:Emergency Services": {
+      "last": "2026-04-22T16:17:19+00:00",
+      "website": ""
+    },
+    "BR:CVV - Centro de Valorização da Vida": {
+      "last": "2026-04-22T16:17:19+00:00",
+      "website": "https://cvv.org.br"
+    },
+    "BR:Central de Atendimento à Mulher": {
+      "last": "2026-04-22T16:17:28+00:00",
+      "website": ""
+    },
+    "BR:Ligue 180 (Violência contra a mulher)": {
+      "last": "2026-04-22T16:17:28+00:00",
+      "website": "https://www.gov.br/mdh/pt-br/assuntos/violencia/ligue180"
+    },
+    "BR:Disque Direitos Humanos": {
+      "last": "2026-04-22T16:17:43+00:00",
+      "website": ""
+    },
+    "BR:Disque Estatuto da Criança e do Adolescente": {
+      "last": "2026-04-22T16:17:43+00:00",
+      "website": ""
+    },
+    "BR:Disque Idoso": {
+      "last": "2026-04-22T16:17:44+00:00",
+      "website": ""
+    },
+    "BR:Central de Orientação ao Alcoolista": {
+      "last": "2026-04-22T16:17:45+00:00",
+      "website": ""
+    },
+    "BR:Centro de Atendimento à Pessoa com Deficiência": {
+      "last": "2026-04-22T16:17:46+00:00",
+      "website": ""
+    },
+    "BR:CVV (chat online)": {
+      "last": "2026-04-22T16:17:46+00:00",
+      "website": "https://cvv.org.br"
+    },
+    "BR:Marechais da Saúde Mental": {
+      "last": "2026-04-22T16:17:55+00:00",
+      "website": ""
+    },
+    "BR:Disque Drogas": {
+      "last": "2026-04-22T16:17:56+00:00",
+      "website": ""
+    },
+    "BR:Ligue: Juventude e Prevenção ao Suicídio": {
+      "last": "2026-04-22T16:17:57+00:00",
+      "website": ""
+    },
+    "BR:Centro de Combate ao Tráfico de Pessoas": {
+      "last": "2026-04-22T16:17:58+00:00",
+      "website": ""
+    },
+    "BR:Centro de Atendimento à Vítima de Estupro": {
+      "last": "2026-04-22T16:17:58+00:00",
+      "website": ""
+    },
+    "BR:Disque Enem": {
+      "last": "2026-04-22T16:17:58+00:00",
+      "website": "https://inep.gov.br"
+    },
+    "BR:Disque 0800 Saúde": {
+      "last": "2026-04-22T16:18:05+00:00",
+      "website": ""
+    },
+    "BR:Centro de Informações sobre HIV/AIDS": {
+      "last": "2026-04-22T16:18:05+00:00",
+      "website": ""
+    },
+    "BR:Saúde da Mulher": {
+      "last": "2026-04-22T16:18:25+00:00",
+      "website": ""
+    },
+    "BR:Disque DST/Aids": {
+      "last": "2026-04-22T16:18:45+00:00",
+      "website": ""
+    },
+    "BR:Violência LGBT+": {
+      "last": "2026-04-22T16:19:05+00:00",
+      "website": ""
+    },
+    "BR:Centro de Atendimento à Família": {
+      "last": "2026-04-22T16:19:25+00:00",
+      "website": ""
+    },
+    "BR:Defensoria Pública - Atendimento Nacional": {
+      "last": "2026-04-22T16:19:45+00:00",
+      "website": ""
+    },
+    "BR:Centro de Atendimento ao Migrante": {
+      "last": "2026-04-22T16:20:05+00:00",
+      "website": ""
+    },
+    "BR:Hotline para Transtornos Alimentares": {
+      "last": "2026-04-22T16:20:26+00:00",
+      "website": ""
+    },
+    "BR:Centro de Acolhimento LGBTQIA+": {
+      "last": "2026-04-22T16:20:46+00:00",
+      "website": ""
+    },
+    "BR:Hotline de Prevenção ao Suicídio Infantojuvenil": {
+      "last": "2026-04-22T16:21:06+00:00",
+      "website": ""
+    },
+    "BR:Centro de Apoio a Pessoas com TEA": {
+      "last": "2026-04-22T16:21:26+00:00",
+      "website": ""
+    },
+    "BR:Apoio ao Encarcerado": {
+      "last": "2026-04-22T16:21:46+00:00",
+      "website": ""
+    },
+    "BR:Disque Proteção Animal": {
+      "last": "2026-04-22T16:22:06+00:00",
+      "website": ""
+    },
+    "BR:Free, immediate crisis counseling support in Brazil": {
+      "last": "2026-04-22T16:22:26+00:00",
+      "website": ""
+    },
+    "IO:Emergency": {
+      "last": "2026-04-22T16:22:46+00:00",
+      "website": ""
+    },
+    "BN:Ambulance": {
+      "last": "2026-04-22T16:23:06+00:00",
+      "website": ""
+    },
+    "BN:Police": {
+      "last": "2026-04-22T16:23:26+00:00",
+      "website": ""
+    },
+    "BN:Talian Harapan 145": {
+      "last": "2026-04-22T16:23:46+00:00",
+      "website": ""
+    },
+    "BN:Emergency": {
+      "last": "2026-04-22T16:24:06+00:00",
+      "website": ""
+    },
+    "BN:Talian Harapan (Hope Line)": {
+      "last": "2026-04-22T16:24:26+00:00",
+      "website": ""
+    },
+    "BG:Emergency": {
+      "last": "2026-04-22T16:24:46+00:00",
+      "website": ""
+    },
+    "BG:Национална телефонна линия за деца - National Telephone Line for Children": {
+      "last": "2026-04-22T16:25:06+00:00",
+      "website": ""
+    },
+    "BG:Национална телефонна линия за жертви на домашно насилие": {
+      "last": "2026-04-22T16:25:06+00:00",
+      "website": "https://www.bgrf.org"
+    },
+    "BG:Алианс за защита от насилие, основано на пола - Alliance for Protection against Gender-Based Violence": {
+      "last": "2026-04-22T16:25:33+00:00",
+      "website": ""
+    },
+    "BG:Sofia Hotline": {
+      "last": "2026-04-22T16:25:53+00:00",
+      "website": ""
+    },
+    "BG:Bulgarian Red Cross": {
+      "last": "2026-04-22T16:25:53+00:00",
+      "website": "https://www.ifrc.org"
+    },
+    "BG:Other": {
+      "last": "2026-04-22T16:26:18+00:00",
+      "website": ""
+    },
+    "BG:Emergency (112)": {
+      "last": "2026-04-22T16:26:38+00:00",
+      "website": ""
+    },
+    "BG:National Helpline for Children": {
+      "last": "2026-04-22T16:26:38+00:00",
+      "website": "https://www.116111.bg"
+    },
+    "BG:Animus Association Hotline": {
+      "last": "2026-04-22T16:26:46+00:00",
+      "website": "https://animusassociation.org"
+    },
+    "BG:Free, immediate crisis counseling support in Bulgaria": {
+      "last": "2026-04-22T16:27:15+00:00",
+      "website": ""
+    },
+    "BF:Emergency": {
+      "last": "2026-04-22T16:27:35+00:00",
+      "website": ""
+    },
+    "BF:MSI Burkina Faso ligne vert-Counseling Helpline for adolescents on sexual health and reproduction": {
+      "last": "2026-04-22T16:27:55+00:00",
+      "website": ""
+    },
+    "BF:Allô Enfants": {
+      "last": "2026-04-22T16:28:15+00:00",
+      "website": ""
+    },
+    "BI:Emergency": {
+      "last": "2026-04-22T16:28:36+00:00",
+      "website": ""
+    },
+    "BI:Human Health Aid Burundi": {
+      "last": "2026-04-22T16:28:56+00:00",
+      "website": ""
+    },
+    "BI:SOS FED - SOS Femmes en Detresse": {
+      "last": "2026-04-22T16:29:16+00:00",
+      "website": ""
+    },
+    "BI:Yaga Ndakumva Child Helpline": {
+      "last": "2026-04-22T16:29:36+00:00",
+      "website": ""
+    },
+    "BI:Get free crisis counseling support for your mental health from a hotline or helpline in Burundi": {
+      "last": "2026-04-22T16:29:56+00:00",
+      "website": ""
+    },
+    "CV:Emergency": {
+      "last": "2026-04-22T16:30:16+00:00",
+      "website": ""
+    },
+    "CV:Contact a hotline or helpline in Cabo Verde for free, confidential support": {
+      "last": "2026-04-22T16:30:36+00:00",
+      "website": ""
+    },
+    "KH:Emergency": {
+      "last": "2026-04-22T16:30:56+00:00",
+      "website": ""
+    },
+    "KH:Child Helpline Cambodia": {
+      "last": "2026-04-22T16:31:16+00:00",
+      "website": ""
+    },
+    "KH:TPO Cambodia Suicide Prevention Helpline": {
+      "last": "2026-04-22T16:31:36+00:00",
+      "website": ""
+    },
+    "KH:Child Helpline Cambodia 1280": {
+      "last": "2026-04-22T16:31:36+00:00",
+      "website": "https://childhelpline.com.kh"
+    },
+    "CM:Emergency": {
+      "last": "2026-04-22T16:32:01+00:00",
+      "website": ""
+    },
+    "CM:Cameroon Child Protection Helpline 116": {
+      "last": "2026-04-22T16:32:21+00:00",
+      "website": ""
+    },
+    "CA:911": {
+      "last": "2026-04-22T16:32:21+00:00",
+      "website": "https://www.canada.ca/en/public-safety-canada/services/emergency-preparedness-response/emergency-management/9-1-1-service.html"
+    },
+    "CA:9-8-8 Suicide Crisis Helpline": {
+      "last": "2026-04-22T16:32:36+00:00",
+      "website": "https://988.ca"
+    },
+    "CA:Kids Help Phone": {
+      "last": "2026-04-22T16:32:44+00:00",
+      "website": "https://kidshelpphone.ca"
+    },
+    "CA:Hope for Wellness Helpline": {
+      "last": "2026-04-22T16:32:52+00:00",
+      "website": "https://www.hopeforwellness.ca"
+    },
+    "CA:Trans Lifeline (Canada)": {
+      "last": "2026-04-22T16:33:04+00:00",
+      "website": "https://translifeline.org"
+    },
+    "CA:Assaulted Women's Helpline": {
+      "last": "2026-04-22T16:33:12+00:00",
+      "website": "https://www.awhl.org"
+    },
+    "CA:VictimLink BC": {
+      "last": "2026-04-22T16:33:19+00:00",
+      "website": "https://www2.gov.bc.ca/gov/content/justice/criminal-justice/victims-of-crime/victimlinkbc"
+    },
+    "CA:Canadian Centre for Child Protection / Cybertip.ca": {
+      "last": "2026-04-22T16:33:30+00:00",
+      "website": "https://protectchildren.ca"
+    },
+    "CA:Canadian Human Trafficking Hotline": {
+      "last": "2026-04-22T16:33:38+00:00",
+      "website": "https://www.canadianhumantraffickinghotline.ca"
+    },
+    "CA:Drug and Alcohol Helpline (Canada)": {
+      "last": "2026-04-22T16:33:54+00:00",
+      "website": "https://www.connexontario.ca"
+    },
+    "CA:Emergency": {
+      "last": "2026-04-22T16:34:27+00:00",
+      "website": ""
+    },
+    "CA:Suicide Crisis Hotline": {
+      "last": "2026-04-22T16:34:47+00:00",
+      "website": ""
+    },
+    "CA:Naseeha Mental Helpline": {
+      "last": "2026-04-22T16:35:07+00:00",
+      "website": ""
+    },
+    "CA:LGBT National Hotline": {
+      "last": "2026-04-22T16:35:27+00:00",
+      "website": ""
+    },
+    "CA:First Nations and Inuit Hope for Wellness Helpline": {
+      "last": "2026-04-22T16:35:47+00:00",
+      "website": ""
+    },
+    "CA:The Listening Ear - Canada": {
+      "last": "2026-04-22T16:36:07+00:00",
+      "website": ""
+    },
+    "CA:Salal 24-Hour Crisis & Information Line": {
+      "last": "2026-04-22T16:36:27+00:00",
+      "website": ""
+    },
+    "CA:Canadian Resource Centre for Victims of Crime": {
+      "last": "2026-04-22T16:36:47+00:00",
+      "website": ""
+    },
+    "CA:ANEB Québec (Anorexie et boulimie Québec)": {
+      "last": "2026-04-22T16:37:07+00:00",
+      "website": ""
+    },
+    "CA:National Eating Disorder Information Centre": {
+      "last": "2026-04-22T16:37:27+00:00",
+      "website": ""
+    },
+    "CA:National Abortion Hotline": {
+      "last": "2026-04-22T16:37:48+00:00",
+      "website": ""
+    },
+    "CA:24 Hour Residential School Crisis Line": {
+      "last": "2026-04-22T16:38:08+00:00",
+      "website": ""
+    },
+    "CA:Pregnancy and Infant loss Warmline": {
+      "last": "2026-04-22T16:38:28+00:00",
+      "website": ""
+    },
+    "CA:NISA Helpline": {
+      "last": "2026-04-22T16:38:48+00:00",
+      "website": ""
+    },
+    "CA:Talk Suicide Canada": {
+      "last": "2026-04-22T16:39:08+00:00",
+      "website": ""
+    },
+    "CA:Trans Lifeline": {
+      "last": "2026-04-22T16:39:28+00:00",
+      "website": ""
+    },
+    "CA:Distress Centres Ontario": {
+      "last": "2026-04-22T16:39:48+00:00",
+      "website": ""
+    },
+    "CA:Crisis Services Canada": {
+      "last": "2026-04-22T16:40:08+00:00",
+      "website": ""
+    },
+    "CA:Suicide Action Montreal": {
+      "last": "2026-04-22T16:40:28+00:00",
+      "website": ""
+    },
+    "CA:Kids Help Phone (1-800-668-6868)": {
+      "last": "2026-04-22T16:40:48+00:00",
+      "website": ""
+    },
+    "CA:Chimo Helpline Inc": {
+      "last": "2026-04-22T16:41:08+00:00",
+      "website": ""
+    },
+    "CA:Tel-Jeunes": {
+      "last": "2026-04-22T16:41:28+00:00",
+      "website": ""
+    },
+    "CA:Centre de prévention du suicide d'Abitibi-Ouest": {
+      "last": "2026-04-22T16:41:48+00:00",
+      "website": ""
+    },
+    "CA:Distress Line of Southwestern Alberta (Canada)": {
+      "last": "2026-04-22T16:42:08+00:00",
+      "website": ""
+    },
+    "CA:KUU-US Crisis Line Society": {
+      "last": "2026-04-22T16:42:28+00:00",
+      "website": ""
+    },
+    "CA:Trans Lifeline (877) 565-8860)": {
+      "last": "2026-04-22T16:42:48+00:00",
+      "website": ""
+    },
+    "CA:Greater Vancouver": {
+      "last": "2026-04-22T16:43:08+00:00",
+      "website": ""
+    },
+    "CA:Howe Sound & Sunshine Coast": {
+      "last": "2026-04-22T16:43:28+00:00",
+      "website": ""
+    },
+    "CA:TTY": {
+      "last": "2026-04-22T16:43:48+00:00",
+      "website": ""
+    },
+    "CA:The Seniors' Distress Line": {
+      "last": "2026-04-22T16:44:08+00:00",
+      "website": ""
+    },
+    "CA:Mental Health Support": {
+      "last": "2026-04-22T16:44:28+00:00",
+      "website": ""
+    },
+    "CA:1-800-SUICIDE": {
+      "last": "2026-04-22T16:44:48+00:00",
+      "website": ""
+    },
+    "CA:Emergency Services": {
+      "last": "2026-04-22T16:45:08+00:00",
+      "website": ""
+    },
+    "CA:Canada Suicide Prevention Service": {
+      "last": "2026-04-22T16:45:28+00:00",
+      "website": ""
+    },
+    "CA:VictimLink Canada": {
+      "last": "2026-04-22T16:45:49+00:00",
+      "website": ""
+    },
+    "CA:Shelter Safe": {
+      "last": "2026-04-22T16:45:49+00:00",
+      "website": "https://sheltersafe.ca"
+    },
+    "CA:Poison Control Centre": {
+      "last": "2026-04-22T16:46:21+00:00",
+      "website": ""
+    },
+    "CA:Elder Abuse Helpline (Alberta)": {
+      "last": "2026-04-22T16:46:41+00:00",
+      "website": ""
+    },
+    "CA:Assaulted Women’s Helpline (Ontario)": {
+      "last": "2026-04-22T16:47:01+00:00",
+      "website": ""
+    },
+    "CA:The Centre for Addiction and Mental Health": {
+      "last": "2026-04-22T16:47:21+00:00",
+      "website": ""
+    },
+    "CA:Al‑Anon/Alateen": {
+      "last": "2026-04-22T16:47:41+00:00",
+      "website": ""
+    },
+    "CA:LGBT Youthline (Ontario)": {
+      "last": "2026-04-22T16:48:01+00:00",
+      "website": ""
+    },
+    "CA:ConnexOntario": {
+      "last": "2026-04-22T16:48:21+00:00",
+      "website": ""
+    },
+    "CA:Health Link Alberta": {
+      "last": "2026-04-22T16:48:41+00:00",
+      "website": ""
+    },
+    "CA:811 Manitoba": {
+      "last": "2026-04-22T16:49:01+00:00",
+      "website": ""
+    },
+    "CA:Kids Help Phone – Text": {
+      "last": "2026-04-22T16:49:22+00:00",
+      "website": ""
+    },
+    "CA:Canada Revenue Agency Fraud": {
+      "last": "2026-04-22T16:49:42+00:00",
+      "website": ""
+    },
+    "CA:Canadian Mental Health Association": {
+      "last": "2026-04-22T16:50:02+00:00",
+      "website": ""
+    },
+    "CA:Poison & Drug Information Service (BC)": {
+      "last": "2026-04-22T16:50:22+00:00",
+      "website": ""
+    },
+    "CA:Ontario Network of Sexual Assault/Domestic Violence": {
+      "last": "2026-04-22T16:50:42+00:00",
+      "website": ""
+    },
+    "CA:Kootenay Boundary Regional Health": {
+      "last": "2026-04-22T16:51:02+00:00",
+      "website": ""
+    },
+    "CA:Abuse Hotline (Saskatchewan)": {
+      "last": "2026-04-22T16:51:22+00:00",
+      "website": ""
+    },
+    "CA:First Nations and Inuit Hope for Wellness": {
+      "last": "2026-04-22T16:51:42+00:00",
+      "website": ""
+    },
+    "CA:Samaritans of Halifax": {
+      "last": "2026-04-22T16:51:42+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "CA:Canada Red Cross – Emergency Management": {
+      "last": "2026-04-22T16:51:48+00:00",
+      "website": "https://www.ifrc.org"
+    },
+    "CA:Canadian Anti‑Fraud Centre": {
+      "last": "2026-04-22T16:52:14+00:00",
+      "website": ""
+    },
+    "CA:Aboriginal HIV/AIDS Prevention Line": {
+      "last": "2026-04-22T16:52:34+00:00",
+      "website": ""
+    },
+    "CA:Kids Help Phone – Web Chat": {
+      "last": "2026-04-22T16:52:34+00:00",
+      "website": "https://kidshelpphone.ca"
+    },
+    "CA:Poison Control – Quebec": {
+      "last": "2026-04-22T16:53:01+00:00",
+      "website": ""
+    },
+    "CA:Legal Aid Ontario": {
+      "last": "2026-04-22T16:53:21+00:00",
+      "website": ""
+    },
+    "CA:Get free crisis counseling support for your mental health from a hotline or helpline in Canada": {
+      "last": "2026-04-22T16:53:41+00:00",
+      "website": ""
+    },
+    "KY:Emergency": {
+      "last": "2026-04-22T16:54:01+00:00",
+      "website": ""
+    },
+    "KY:CayMind - Mental Health Helpline": {
+      "last": "2026-04-22T16:54:21+00:00",
+      "website": ""
+    },
+    "KY:Cayman Islands Crisis Centre": {
+      "last": "2026-04-22T16:54:21+00:00",
+      "website": "https://www.cicc.ky"
+    },
+    "CF:Emergency": {
+      "last": "2026-04-22T16:54:56+00:00",
+      "website": ""
+    },
+    "CL:Psicólogos X Chile": {
+      "last": "2026-04-22T17:03:13+00:00",
+      "website": ""
+    },
+    "CL:National Suicide Hotline": {
+      "last": "2026-04-22T17:03:33+00:00",
+      "website": ""
+    },
+    "CL:1455": {
+      "last": "2026-04-22T17:03:53+00:00",
+      "website": ""
+    },
+    "CL:Fono Familia 149": {
+      "last": "2026-04-22T17:04:13+00:00",
+      "website": ""
+    },
+    "CL:Fono Infancia Fundación Integra": {
+      "last": "2026-04-22T17:04:33+00:00",
+      "website": ""
+    },
+    "CL:Teléfono de la Esperanza": {
+      "last": "2026-04-22T17:04:33+00:00",
+      "website": "https://telefonodelaesperanza.org"
+    },
+    "CN:Lifeline": {
+      "last": "2026-04-22T17:04:59+00:00",
+      "website": ""
+    },
+    "CN:沈阳市心理援助24小时热线 Shenyang Psychological Assistance 24-Hour Hotline": {
+      "last": "2026-04-22T17:05:19+00:00",
+      "website": ""
+    },
+    "CN:昆明市24小时心理热线 Kunming 24-Hour Psychological Hotline": {
+      "last": "2026-04-22T17:05:39+00:00",
+      "website": ""
+    },
+    "CN:“新型冠状病毒感染的肺炎”疫情防控心理援助热线 \"Coronavirus\" Prevention and Control Psychological Assistance Hotline": {
+      "last": "2026-04-22T17:05:59+00:00",
+      "website": ""
+    },
+    "CN:焦作市24小时心理援助热线 Jiaozuo 24-hour psychological assistance hotline": {
+      "last": "2026-04-22T17:06:19+00:00",
+      "website": ""
+    },
+    "CN:许昌市“新冠肺炎”24小时心理援助热线 Xuchang \"Corona Virus\" 24-Hour Psychological Assistance Hotline": {
+      "last": "2026-04-22T17:06:39+00:00",
+      "website": ""
+    },
+    "CN:全国咨询热线 National Hotline": {
+      "last": "2026-04-22T17:07:00+00:00",
+      "website": ""
+    },
+    "CN:连心公益热线 Lianxin Charity Hotline": {
+      "last": "2026-04-22T17:07:20+00:00",
+      "website": ""
+    },
+    "CN:陕西省心理热线 Shaanxi Psychological Hotline": {
+      "last": "2026-04-22T17:07:40+00:00",
+      "website": ""
+    },
+    "CN:“新老师”心理咨询热线 \"New Teacher\" Psychological Counseling Hotline": {
+      "last": "2026-04-22T17:08:00+00:00",
+      "website": ""
+    },
+    "CN:汉中市24小时心理援助热线 Hanzhong City 24-Hour Psychological Assistance Hotline": {
+      "last": "2026-04-22T17:08:20+00:00",
+      "website": ""
+    },
+    "CN:希望24热线Hope Line": {
+      "last": "2026-04-22T17:08:40+00:00",
+      "website": ""
+    },
+    "CN:Beijing Suicide Research and Prevention Center": {
+      "last": "2026-04-22T17:09:00+00:00",
+      "website": ""
+    },
+    "CN:Shanghai Mental Health Center": {
+      "last": "2026-04-22T17:09:20+00:00",
+      "website": ""
+    },
+    "CL:Botón del Pánico (APP)": {
+      "last": "2026-04-22T17:12:28+00:00",
+      "website": "https://botondelpánico.gob.cl"
+    },
+    "CL:Alerta Aérea ONEMI": {
+      "last": "2026-04-22T17:12:33+00:00",
+      "website": "https://onemi.gov.cl"
+    },
+    "CN:Beijing Suicide Research and Prevention Centre": {
+      "last": "2026-04-22T17:12:38+00:00",
+      "website": "http://www.crisis.org.cn"
+    },
+    "CO:Telefono de la Esperanza - Baranquilla": {
+      "last": "2026-04-22T17:12:48+00:00",
+      "website": "https://telefonodelaesperanza.org"
+    },
+    "CO:Telefono de la Esperanza - Bogota": {
+      "last": "2026-04-22T17:12:54+00:00",
+      "website": "https://telefonodelaesperanza.org"
+    },
+    "CO:Telefono de la Esperanza": {
+      "last": "2026-04-22T17:13:00+00:00",
+      "website": "https://telefonodelaesperanza.org"
+    },
+    "CO:Línea 106 Bogotá": {
+      "last": "2026-04-22T17:13:06+00:00",
+      "website": "https://www.saludcapital.gov.co"
+    },
+    "CY:Cyprus Samaritans": {
+      "last": "2026-04-22T17:13:13+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "CY:Cyprus Samaritans (+357 77 77 72 67)": {
+      "last": "2026-04-22T17:13:24+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "DK:Alarm 112": {
+      "last": "2026-04-22T17:13:31+00:00",
+      "website": "https://www.brs.dk"
+    },
+    "DO:Línea Vida (Suicide Prevention)": {
+      "last": "2026-04-22T17:13:37+00:00",
+      "website": "https://ministeriodesalud.gob.do"
+    },
+    "EC:Telefono de la Esperanza": {
+      "last": "2026-04-22T17:13:45+00:00",
+      "website": "https://telefonodelaesperanza.org"
+    },
+    "EC:Telefono De La Esperanza": {
+      "last": "2026-04-22T17:13:51+00:00",
+      "website": "https://telefonodelaesperanza.org"
+    },
+    "EC:Línea 151 Violencia de Género": {
+      "last": "2026-04-22T17:13:56+00:00",
+      "website": "https://www.ministeriodegobierno.gob.ec"
+    },
+    "EC:Teléfono de la Esperanza Ecuador": {
+      "last": "2026-04-22T17:14:07+00:00",
+      "website": "https://telefonodelaesperanza.org"
+    },
+    "EG:Befrienders Cairo": {
+      "last": "2026-04-22T17:14:13+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "EG:Mental Health Secretariat Helpline 08008880700": {
+      "last": "2026-04-22T17:14:19+00:00",
+      "website": "http://www.mohp.gov.eg"
+    },
+    "EG:Child Helpline 16000": {
+      "last": "2026-04-22T17:16:31+00:00",
+      "website": "http://www.nccm.gov.eg"
+    },
+    "SV:126 ISNA Niñez": {
+      "last": "2026-04-22T17:17:36+00:00",
+      "website": "https://www.isna.gob.sv"
+    },
+    "SV:Ciudad Mujer / ISDEMU Línea 126": {
+      "last": "2026-04-22T17:17:41+00:00",
+      "website": "https://www.isdemu.gob.sv"
+    },
+    "EE:Emergency (112)": {
+      "last": "2026-04-22T17:18:07+00:00",
+      "website": "https://www.112.ee"
+    },
+    "SZ:Childline Eswatini": {
+      "last": "2026-04-22T17:18:13+00:00",
+      "website": "https://www.childlineswaziland.org.sz"
+    },
+    "ET:Mental Health Society Ethiopia": {
+      "last": "2026-04-22T17:18:18+00:00",
+      "website": "https://mhse-ethiopia.org"
+    },
+    "FK:Royal Falkland Islands Police": {
+      "last": "2026-04-22T17:18:23+00:00",
+      "website": "https://www.police.gov.fk"
+    },
+    "FJ:Lifeline Fiji": {
+      "last": "2026-04-22T17:18:31+00:00",
+      "website": "https://empowerpacific.com"
+    },
+    "FI:MIELI ry": {
+      "last": "2026-04-22T17:18:39+00:00",
+      "website": "https://mieli.fi/"
+    },
+    "GF:3114": {
+      "last": "2026-04-22T17:18:47+00:00",
+      "website": "https://3114.fr"
+    },
+    "DE:Emergency (Polizei / Rettungsdienst)": {
+      "last": "2026-04-22T17:18:54+00:00",
+      "website": "https://www.bmi.bund.de"
+    },
+    "DE:TelefonSeelsorge": {
+      "last": "2026-04-22T17:19:00+00:00",
+      "website": "https://www.telefonseelsorge.de"
+    },
+    "DE:Telefonseelsorge Deutschland": {
+      "last": "2026-04-22T17:19:07+00:00",
+      "website": "https://www.telefonseelsorge.de"
+    },
+    "DE:TelefonSeelsorge Chat": {
+      "last": "2026-04-22T17:19:15+00:00",
+      "website": "https://telefonseelsorge.de"
+    },
+    "GH:Samaritans.org": {
+      "last": "2026-04-22T17:19:24+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "GH:Childline Ghana": {
+      "last": "2026-04-22T17:19:31+00:00",
+      "website": "https://www.childlineghana.org"
+    },
+    "GI:Childline Gibraltar": {
+      "last": "2026-04-22T17:19:36+00:00",
+      "website": "https://childline.gi"
+    },
+    "GR:HIV Aids Hotline": {
+      "last": "2026-04-22T17:19:44+00:00",
+      "website": "https://eody.gov.gr"
+    },
+    "GR:Mental Health Chat": {
+      "last": "2026-04-22T17:19:50+00:00",
+      "website": "https://mhlink.gr/chat"
+    },
+    "GP:3114": {
+      "last": "2026-04-22T17:19:55+00:00",
+      "website": "https://3114.fr"
+    },
+    "GU:Sanctuary Incorporated of Guam": {
+      "last": "2026-04-22T17:20:02+00:00",
+      "website": "https://www.sanctuaryguam.org"
+    },
+    "GG:Samaritans Guernsey": {
+      "last": "2026-04-22T17:20:13+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "HN:Asociación Hondureña del Teléfono de la Esperanza": {
+      "last": "2026-04-22T17:20:19+00:00",
+      "website": "https://telefonodelaesperanza.org"
+    },
+    "HN:Telefono De La Esperanza": {
+      "last": "2026-04-22T17:20:25+00:00",
+      "website": "https://telefonodelaesperanza.org"
+    },
+    "HK:香港撒瑪利亞防止自殺會 24 小時情緒支援熱線（廣東話）The Samaritan Befrienders Hong Kong 24-Hour Emotional Support Hotline (Cantonese)": {
+      "last": "2026-04-22T17:20:31+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "HK:撒瑪利亞會 The Samaritans, 24 Hour Multi-Lingual Suicide Prevention Services": {
+      "last": "2026-04-22T17:20:38+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "HK:The Samaritans Hong Kong": {
+      "last": "2026-04-22T17:20:44+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "HU:Cancer Counselling Chat": {
+      "last": "2026-04-22T17:20:50+00:00",
+      "website": "https://onlinetamnok.hu"
+    },
+    "HU:Addiction SMS Chat": {
+      "last": "2026-04-22T17:20:55+00:00",
+      "website": "https://addict.hu/chat"
+    },
+    "HU:LGBTQ+ Chat": {
+      "last": "2026-04-22T17:21:00+00:00",
+      "website": "https://lesz.hu/chat"
+    },
+    "HU:Elder Crisis Chat": {
+      "last": "2026-04-22T17:21:06+00:00",
+      "website": "https://seniorline.hu"
+    },
+    "IN:KIRAN National Mental Health Helpline": {
+      "last": "2026-04-22T17:21:11+00:00",
+      "website": "https://ncpcr.gov.in"
+    },
+    "IN:Vandrevala Foundation crisis intervention helpline": {
+      "last": "2026-04-22T17:21:22+00:00",
+      "website": "https://www.vandrevalafoundation.com"
+    },
+    "IN:Samaritans Mumbai": {
+      "last": "2026-04-22T17:21:29+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "IN:Samaritans Mumbai (+91 84229 84528)": {
+      "last": "2026-04-22T17:21:36+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "IN:Vandrevala Foundation": {
+      "last": "2026-04-22T17:21:43+00:00",
+      "website": "https://www.vandrevalafoundation.com"
+    },
+    "IN:Women’s Safety App": {
+      "last": "2026-04-22T17:21:50+00:00",
+      "website": "https://women-safety.gov.in/app"
+    },
+    "IR:Social Emergency Line 123": {
+      "last": "2026-04-22T17:21:55+00:00",
+      "website": "https://behzisti.ir"
+    },
+    "IE:Samaritans UK & ROI": {
+      "last": "2026-04-22T17:22:04+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "IM:MIND Isle of Man": {
+      "last": "2026-04-22T17:22:10+00:00",
+      "website": "https://www.iommind.im"
+    },
+    "IL:Child Helpline 105 (Israeli Police)": {
+      "last": "2026-04-22T17:22:15+00:00",
+      "website": "https://www.gov.il/en/departments/israel_police"
+    },
+    "IT:Samaritans Onlus (06 77208977)": {
+      "last": "2026-04-22T17:22:20+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "JM:Mental Health & Suicide Prevention (Ministry of Health)": {
+      "last": "2026-04-22T17:22:27+00:00",
+      "website": "https://www.moh.gov.jm"
+    },
+    "JP:Police (110) / Fire & Ambulance (119)": {
+      "last": "2026-04-22T17:22:32+00:00",
+      "website": "https://www.fdma.go.jp"
+    },
+    "JP:Befrienders International, Tokyo": {
+      "last": "2026-04-22T17:22:39+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "JO:Family Protection Department Hotline": {
+      "last": "2026-04-22T17:22:46+00:00",
+      "website": "https://www.psd.gov.jo"
+    },
+    "KZ:National Child Helpline 150": {
+      "last": "2026-04-22T17:23:51+00:00",
+      "website": "https://www.unicef.org/kazakhstan"
+    },
+    "KE:Befriender's Kenya": {
+      "last": "2026-04-22T17:24:00+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "KE:Samaritans of Kenya": {
+      "last": "2026-04-22T17:24:07+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "KE:Mental Health Chat": {
+      "last": "2026-04-22T17:24:13+00:00",
+      "website": "https://samaritanskenya.org/chat"
+    },
+    "KW:Kuwait Counseling Team Helpline": {
+      "last": "2026-04-22T17:24:19+00:00",
+      "website": "https://www.kct.com.kw"
+    },
+    "LB:Suicide Prevention Chat": {
+      "last": "2026-04-22T17:24:24+00:00",
+      "website": "https://embrace.org.lb/chat"
+    },
+    "MW:Tithandizane Child Helpline 116": {
+      "last": "2026-04-22T17:24:29+00:00",
+      "website": "https://www.yoneco.org"
+    },
+    "MY:Befrienders Kuala Lumpur": {
+      "last": "2026-04-22T17:24:46+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "MY:Befrienders Malacca": {
+      "last": "2026-04-22T17:24:52+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "MY:Befrienders Penang": {
+      "last": "2026-04-22T17:24:59+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "MY:The Befrienders Kuala Lumpur": {
+      "last": "2026-04-22T17:25:05+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "MY:Befrienders Ipoh": {
+      "last": "2026-04-22T17:25:12+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "MY:Befrienders Seremban": {
+      "last": "2026-04-22T17:25:18+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "MQ:3114": {
+      "last": "2026-04-22T17:25:24+00:00",
+      "website": "https://3114.fr"
+    },
+    "MU:Befrienders Mauritius": {
+      "last": "2026-04-22T17:25:31+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "YT:3114": {
+      "last": "2026-04-22T17:25:37+00:00",
+      "website": "https://3114.fr"
+    },
+    "MN:Child Helpline 108": {
+      "last": "2026-04-22T17:25:44+00:00",
+      "website": "https://www.nac.gov.mn"
+    },
+    "MN:Gender Based Violence Hotline 107": {
+      "last": "2026-04-22T17:25:49+00:00",
+      "website": "https://www.safefuture.mn"
+    },
+    "MA:Sourire de Reda (Befrienders Casablanca)": {
+      "last": "2026-04-22T17:25:57+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "MA:Allo Enfance (Child Protection)": {
+      "last": "2026-04-22T17:26:03+00:00",
+      "website": "https://www.social.gov.ma"
+    },
+    "MA:Ministry's Women Helpline 8350": {
+      "last": "2026-04-22T17:26:08+00:00",
+      "website": "https://www.social.gov.ma"
+    },
+    "MA:Mental Health Chat": {
+      "last": "2026-04-22T17:26:14+00:00",
+      "website": "https://allsuicidepreventionmorocco.ma/chat"
+    },
+    "MA:Women’s Safety App": {
+      "last": "2026-04-22T17:26:18+00:00",
+      "website": "https://securitefemininemaroc.ma/app"
+    },
+    "NP:Child Helpline 1098": {
+      "last": "2026-04-22T17:26:23+00:00",
+      "website": "https://www.cwsn.org.np"
+    },
+    "NL:113 Zelfmoordpreventie (0800 0113)": {
+      "last": "2026-04-22T17:26:28+00:00",
+      "website": "https://www.113.nl"
+    },
+    "NL:113 Suicide Prevention (113 Zelfmoordpreventie) note: charges provider costs": {
+      "last": "2026-04-22T17:26:37+00:00",
+      "website": "https://www.113.nl"
+    },
+    "NL:De Luisterlijn (0900-0767)": {
+      "last": "2026-04-22T17:26:45+00:00",
+      "website": "https://www.deluisterlijn.nl/"
+    },
+    "NL:MIND Korrelatie (0900-1450)": {
+      "last": "2026-04-22T17:26:52+00:00",
+      "website": "https://mindkorrelatie.nl/"
+    },
+    "NL:Verslavingszorg Chat": {
+      "last": "2026-04-22T17:26:58+00:00",
+      "website": "https://verslavingszorg.nl/chat"
+    },
+    "NL:LGBTQ+ chat": {
+      "last": "2026-04-22T17:28:04+00:00",
+      "website": "https://chat.coc.nl"
+    },
+    "NZ:Samaritans Aotearoa": {
+      "last": "2026-04-22T17:28:09+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "NZ:New Zealand Samaritans": {
+      "last": "2026-04-22T17:28:16+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "NZ:Samaritans Hutt Valley (inc)": {
+      "last": "2026-04-22T17:28:22+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "NZ:Samaritans of Manawatu Inc": {
+      "last": "2026-04-22T17:28:28+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "NZ:Samaritans of Tauranga": {
+      "last": "2026-04-22T17:28:34+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "NZ:Samaritans of Wanganui": {
+      "last": "2026-04-22T17:28:41+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "NZ:Samaritans of Wellington": {
+      "last": "2026-04-22T17:28:47+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "NZ:Samaritans of Horowhenua": {
+      "last": "2026-04-22T17:28:53+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "NZ:DV FREE NZ": {
+      "last": "2026-04-22T17:28:59+00:00",
+      "website": "https://dvfree.org.nz"
+    },
+    "NG:Suicide Research and Prevention Initiative": {
+      "last": "2026-04-22T17:29:17+00:00",
+      "website": "https://luth.gov.ng"
+    },
+    "MP:CNMI Community Guidance Center": {
+      "last": "2026-04-22T17:29:24+00:00",
+      "website": "https://www.chcc.health"
+    },
+    "PA:Acercatel 125 (Mental Health)": {
+      "last": "2026-04-22T17:29:31+00:00",
+      "website": "https://www.minsa.gob.pa"
+    },
+    "PG:ChildFund PNG Helpline": {
+      "last": "2026-04-22T17:29:39+00:00",
+      "website": "https://www.childfund.org.au"
+    },
+    "PE:Telefono De La Esperanza": {
+      "last": "2026-04-22T17:29:57+00:00",
+      "website": "https://telefonodelaesperanza.org"
+    },
+    "PH:PNP Women and Children Protection Center": {
+      "last": "2026-04-22T17:30:03+00:00",
+      "website": "https://www.pnp.gov.ph"
+    },
+    "PL:Telefon Zaufania dla Dorosłych w Kryzysie Emocjonalnym": {
+      "last": "2026-04-22T17:30:09+00:00",
+      "website": "https://www.116123.edu.pl"
+    },
+    "PR:Línea Mujer (Puerto Rico)": {
+      "last": "2026-04-22T17:30:15+00:00",
+      "website": "https://mujer.pr.gov"
+    },
+    "CN:Shenzhen Mental Health Center": {
+      "last": "2026-04-22T17:39:27+00:00",
+      "website": ""
+    },
+    "CN:Guangzhou Crisis Research and Intervention Center": {
+      "last": "2026-04-22T17:39:47+00:00",
+      "website": ""
+    },
+    "CN:Mental Health Center of School of Medicine of Zhejiang University": {
+      "last": "2026-04-22T17:40:07+00:00",
+      "website": ""
+    },
+    "CN:Lifeline Yanji": {
+      "last": "2026-04-22T17:40:27+00:00",
+      "website": ""
+    },
+    "CC:Emergency": {
+      "last": "2026-04-22T17:40:47+00:00",
+      "website": ""
+    },
+    "CO:Crisis Hotline": {
+      "last": "2026-04-22T17:41:07+00:00",
+      "website": ""
+    },
+    "CO:Línea Salvavidas": {
+      "last": "2026-04-22T17:41:27+00:00",
+      "website": ""
+    },
+    "CO:141 Línea de Protección a Niños, Niñas y Adolescentes": {
+      "last": "2026-04-22T17:41:47+00:00",
+      "website": ""
+    },
+    "CO:ICBF - Instituto Colombiano de Bienestar Familiar": {
+      "last": "2026-04-22T17:42:07+00:00",
+      "website": ""
+    },
+    "CO:Línea 155 - SALVIA": {
+      "last": "2026-04-22T17:42:27+00:00",
+      "website": ""
+    },
+    "CR:Suicide Hotline": {
+      "last": "2026-04-22T17:42:47+00:00",
+      "website": ""
+    },
+    "CR:Línea Aquí Estoy del Colegio De Profesionales en Psicología": {
+      "last": "2026-04-22T17:43:07+00:00",
+      "website": ""
+    },
+    "HR:Psihološki centar Tesa (The Psychological Center Tesa) Helpline": {
+      "last": "2026-04-22T17:43:27+00:00",
+      "website": ""
+    },
+    "HR:B.a.B.e": {
+      "last": "2026-04-22T17:43:48+00:00",
+      "website": ""
+    },
+    "HR:Centar za nestalu i zlostavljanu djecu Linija za pomoć": {
+      "last": "2026-04-22T17:44:08+00:00",
+      "website": ""
+    },
+    "CY:Association for the Prevention and Handling of Violence in the Family (APHVF) Helpline 1440": {
+      "last": "2026-04-22T17:44:28+00:00",
+      "website": ""
+    },
+    "CY:116000": {
+      "last": "2026-04-22T17:44:48+00:00",
+      "website": ""
+    },
+    "CY:Hope for Children Helpline 1466": {
+      "last": "2026-04-22T17:45:08+00:00",
+      "website": ""
+    },
+    "CZ:Modrá linka": {
+      "last": "2026-04-22T17:45:28+00:00",
+      "website": ""
+    },
+    "CZ:Pražská linka důvěry": {
+      "last": "2026-04-22T17:45:48+00:00",
+      "website": ""
+    },
+    "CZ:Linka pro rodinu a školu / Family and School Emergency Line": {
+      "last": "2026-04-22T17:46:08+00:00",
+      "website": ""
+    },
+    "CZ:Most k naději": {
+      "last": "2026-04-22T17:46:28+00:00",
+      "website": ""
+    },
+    "CZ:Krizová linka": {
+      "last": "2026-04-22T17:46:48+00:00",
+      "website": ""
+    },
+    "CZ:Linka pomoci obětem kriminality a domácího násilí 116 006": {
+      "last": "2026-04-22T17:47:08+00:00",
+      "website": ""
+    },
+    "CZ:Linka Seniorů": {
+      "last": "2026-04-22T17:47:28+00:00",
+      "website": ""
+    },
+    "CZ:Linka důvěry Dětského krizového centra": {
+      "last": "2026-04-22T17:47:48+00:00",
+      "website": ""
+    },
+    "CZ:Modrá Linka": {
+      "last": "2026-04-22T17:48:08+00:00",
+      "website": ""
+    },
+    "CZ:Pražská linka důvěry (222 580 697)": {
+      "last": "2026-04-22T17:48:28+00:00",
+      "website": ""
+    },
+    "CZ:Linka důvěry Ostrava": {
+      "last": "2026-04-22T17:48:48+00:00",
+      "website": ""
+    },
+    "CZ:Linka duševní tísně Most": {
+      "last": "2026-04-22T17:49:08+00:00",
+      "website": ""
+    },
+    "CZ:Linka důvěry DKC": {
+      "last": "2026-04-22T17:49:28+00:00",
+      "website": ""
+    },
+    "CZ:Other": {
+      "last": "2026-04-22T17:49:48+00:00",
+      "website": ""
+    },
+    "DK:Psykiatrifonden, Mental Health Helpline": {
+      "last": "2026-04-22T17:50:08+00:00",
+      "website": ""
+    },
+    "DK:Girltalk Helpline": {
+      "last": "2026-04-22T17:50:28+00:00",
+      "website": ""
+    },
+    "DK:LGBT+ Denmark's Counselling Line": {
+      "last": "2026-04-22T17:50:48+00:00",
+      "website": ""
+    },
+    "DK:Alkolinjen Helpline": {
+      "last": "2026-04-22T17:51:08+00:00",
+      "website": ""
+    },
+    "DK:Sexlinien for unge": {
+      "last": "2026-04-22T17:51:28+00:00",
+      "website": ""
+    },
+    "DK:Landsforeningen mod spiseforstyrrelser og selvskade Hjælpelinje (LMS)": {
+      "last": "2026-04-22T17:51:49+00:00",
+      "website": ""
+    },
+    "DK:Sorglinjen - The Grief Line": {
+      "last": "2026-04-22T17:52:09+00:00",
+      "website": ""
+    },
+    "DK:Bryd Tavsgeden Hjælpelinje - Break the Silence Helpline": {
+      "last": "2026-04-22T17:52:29+00:00",
+      "website": ""
+    },
+    "DK:Hjælp Voldsofre Hjælpelinje": {
+      "last": "2026-04-22T17:52:49+00:00",
+      "website": ""
+    },
+    "DK:Anonyme Narkotika": {
+      "last": "2026-04-22T17:53:09+00:00",
+      "website": ""
+    },
+    "DK:Sct. Nicolai Tjenesten (+45 70 120 110)": {
+      "last": "2026-04-22T17:53:29+00:00",
+      "website": ""
+    },
+    "DJ:L'Union Nationale des Femmes Djiboutienne (service d'Écoute)": {
+      "last": "2026-04-22T17:53:49+00:00",
+      "website": ""
+    },
+    "DO:Linea Familiar": {
+      "last": "2026-04-22T17:54:09+00:00",
+      "website": ""
+    },
+    "EC:Anima EC": {
+      "last": "2026-04-22T17:54:29+00:00",
+      "website": ""
+    },
+    "EC:Linea de Apoyo a Mujeres, para enfrentar la violencia NO ESTAMOS SOLAS": {
+      "last": "2026-04-22T17:54:49+00:00",
+      "website": ""
+    },
+    "EE:Tartu Women's Shelter Helpline": {
+      "last": "2026-04-22T17:55:09+00:00",
+      "website": ""
+    },
+    "FK:Emergency": {
+      "last": "2026-04-22T17:55:29+00:00",
+      "website": ""
+    },
+    "FJ:Empower Pacific 24/7 Counselling Helpline": {
+      "last": "2026-04-22T17:55:49+00:00",
+      "website": ""
+    },
+    "FJ:National Crisis Toll-Free Line | Suicide Prevention": {
+      "last": "2026-04-22T17:56:09+00:00",
+      "website": ""
+    },
+    "FJ:Fiji National Domestic Violence Helpline": {
+      "last": "2026-04-22T17:56:29+00:00",
+      "website": ""
+    },
+    "FI:Sekasin": {
+      "last": "2026-04-22T17:56:49+00:00",
+      "website": ""
+    },
+    "FI:Crisis Center Monika Helpline": {
+      "last": "2026-04-22T17:57:09+00:00",
+      "website": ""
+    },
+    "FI:Mielenterveyden Keskusliitto, Mental Health Helpline": {
+      "last": "2026-04-22T17:57:29+00:00",
+      "website": ""
+    },
+    "FI:Crisis Helpline": {
+      "last": "2026-04-22T17:57:49+00:00",
+      "website": ""
+    },
+    "FI:Kristelefon": {
+      "last": "2026-04-22T17:58:09+00:00",
+      "website": ""
+    },
+    "FI:Горячая линия": {
+      "last": "2026-04-22T17:58:29+00:00",
+      "website": ""
+    },
+    "FI:Кризова гаряча лінія": {
+      "last": "2026-04-22T17:58:49+00:00",
+      "website": ""
+    },
+    "FI:Naisten Linja": {
+      "last": "2026-04-22T17:59:10+00:00",
+      "website": ""
+    },
+    "FI:Nimettömät Narkomaanit": {
+      "last": "2026-04-22T17:59:30+00:00",
+      "website": ""
+    },
+    "FI:Raiskauskriisikeskus Tukinainen / Rape Crisis Centre Helpline": {
+      "last": "2026-04-22T17:59:50+00:00",
+      "website": ""
+    },
+    "FI:Syömishäiriöliitto Tukipuhelin (SYLI)": {
+      "last": "2026-04-22T18:00:10+00:00",
+      "website": ""
+    },
+    "FI:Itsemurhien ehkäisykeskus, SOS - palvelu": {
+      "last": "2026-04-22T18:00:30+00:00",
+      "website": ""
+    },
+    "FR:Emergency": {
+      "last": "2026-04-22T18:00:50+00:00",
+      "website": ""
+    },
+    "FR:SOS Help - emotional support in English in France": {
+      "last": "2026-04-22T18:01:10+00:00",
+      "website": ""
+    },
+    "FR:Croix-Rouge française à votre écoute": {
+      "last": "2026-04-22T18:01:30+00:00",
+      "website": ""
+    },
+    "FR:Agri'écoute": {
+      "last": "2026-04-22T18:01:50+00:00",
+      "website": ""
+    },
+    "FR:La Fédération SOS Suicide Phénix France": {
+      "last": "2026-04-22T18:02:10+00:00",
+      "website": ""
+    },
+    "FR:Association France Dépression - Ecoute patients": {
+      "last": "2026-04-22T18:02:30+00:00",
+      "website": ""
+    },
+    "FR:Cellule de soutien psychologique pour les chefs d’entreprises": {
+      "last": "2026-04-22T18:02:50+00:00",
+      "website": ""
+    },
+    "FR:Ecoute-famille de Unafam-Union Nationale de Familles et Amis de personnes malades et/ ou handicapées psychiques": {
+      "last": "2026-04-22T18:03:10+00:00",
+      "website": ""
+    },
+    "FR:Phare Enfants-Parents": {
+      "last": "2026-04-22T18:03:30+00:00",
+      "website": ""
+    },
+    "FR:Fondation Le Refuge (Ligne pour les jeunes LGBT+)": {
+      "last": "2026-04-22T18:03:50+00:00",
+      "website": ""
+    },
+    "FR:La Fédération Nationale G.A.M.S. (Groupe pour l'Abolition des Mutilations Sexuelles Féminines -excision-, des Mariages Forcés et autres pratiques traditionnelles néfastes à la santé des femmes et des enfants)": {
+      "last": "2026-04-22T18:04:10+00:00",
+      "website": ""
+    },
+    "FR:Collectif Feministe Contre le Viol (CFCV)- Viols Femmes Informations": {
+      "last": "2026-04-22T18:04:30+00:00",
+      "website": ""
+    },
+    "FR:Sida Info Service": {
+      "last": "2026-04-22T18:04:50+00:00",
+      "website": ""
+    },
+    "FR:SOS Joueurs": {
+      "last": "2026-04-22T18:05:10+00:00",
+      "website": ""
+    },
+    "FR:Fédération Nationale des Associations et des Centres de prise en Charge d'Auteurs de Violences conjugales & Familiales (FNACAV)": {
+      "last": "2026-04-22T18:05:31+00:00",
+      "website": ""
+    },
+    "FR:France Victimes - numéro national d'aide aux victimes": {
+      "last": "2026-04-22T18:05:51+00:00",
+      "website": ""
+    },
+    "FR:Associations Femmes pour le Dire, Femmes pour Agir (FDFA)- Écoute Violences Femmes Handicapées (EVFH)": {
+      "last": "2026-04-22T18:06:11+00:00",
+      "website": ""
+    },
+    "FR:EMPREINTES - Accompagner le deuil (Ligne d'écoute téléphonique nationale)": {
+      "last": "2026-04-22T18:06:31+00:00",
+      "website": ""
+    },
+    "FR:Fédération Française Anorexie Boulimie (FFAB)": {
+      "last": "2026-04-22T18:06:51+00:00",
+      "website": ""
+    },
+    "FR:LÉIA EST LÀ Linha de apoio": {
+      "last": "2026-04-22T18:07:11+00:00",
+      "website": ""
+    },
+    "FR:Confederation Planning Familial - ligne vert": {
+      "last": "2026-04-22T18:07:31+00:00",
+      "website": ""
+    },
+    "FR:L'association Avec Nos Proches": {
+      "last": "2026-04-22T18:07:51+00:00",
+      "website": ""
+    },
+    "FR:Joueurs info service": {
+      "last": "2026-04-22T18:08:11+00:00",
+      "website": ""
+    },
+    "FR:Fédération 3977 contre les maltraitances": {
+      "last": "2026-04-22T18:08:31+00:00",
+      "website": ""
+    },
+    "FR:e-Enfance/3018": {
+      "last": "2026-04-22T18:08:51+00:00",
+      "website": ""
+    },
+    "FR:Allo Parents Bébé - Enfance et Partage National": {
+      "last": "2026-04-22T18:09:11+00:00",
+      "website": ""
+    },
+    "FR:Autisme Info Service": {
+      "last": "2026-04-22T18:09:31+00:00",
+      "website": ""
+    },
+    "FR:Stop Maltraitance - Stop Conflit (Enfance et Partage National)": {
+      "last": "2026-04-22T18:09:51+00:00",
+      "website": ""
+    },
+    "FR:SOS Help": {
+      "last": "2026-04-22T18:10:11+00:00",
+      "website": ""
+    },
+    "FR:Fédération S.O.S Amitié France": {
+      "last": "2026-04-22T18:10:31+00:00",
+      "website": ""
+    },
+    "GM:Child Helpline Gambia": {
+      "last": "2026-04-22T18:10:51+00:00",
+      "website": ""
+    },
+    "DE:krisenchat": {
+      "last": "2026-04-22T18:11:11+00:00",
+      "website": ""
+    },
+    "DE:International Helpline Berlin": {
+      "last": "2026-04-22T18:11:31+00:00",
+      "website": ""
+    },
+    "DE:krisenchat Ukrainian": {
+      "last": "2026-04-22T18:11:51+00:00",
+      "website": ""
+    },
+    "DE:Guttempler": {
+      "last": "2026-04-22T18:12:11+00:00",
+      "website": ""
+    },
+    "DE:Hilfe-Telefon berta": {
+      "last": "2026-04-22T18:12:31+00:00",
+      "website": ""
+    },
+    "DE:NACOA Online-Consultation": {
+      "last": "2026-04-22T18:12:52+00:00",
+      "website": ""
+    },
+    "DE:British Armed Forces Link (Germany)": {
+      "last": "2026-04-22T18:13:12+00:00",
+      "website": ""
+    },
+    "DE:International Helpline Berlin (030-44 01 06 07)": {
+      "last": "2026-04-22T18:13:32+00:00",
+      "website": ""
+    },
+    "GI:GibSams": {
+      "last": "2026-04-22T18:13:52+00:00",
+      "website": ""
+    },
+    "GI:Bruce's Farm": {
+      "last": "2026-04-22T18:14:12+00:00",
+      "website": ""
+    },
+    "GR:ELIZA Helpline - Support for Professionals Working With Children": {
+      "last": "2026-04-22T18:14:32+00:00",
+      "website": ""
+    },
+    "GR:Εθνική Τηλεφωνική Γραμμή για τα Παιδιά SOS 1056": {
+      "last": "2026-04-22T18:14:52+00:00",
+      "website": ""
+    },
+    "GR:Σύνδεσμος Μελών Γυναικείων Σωματείων Γραμμή Ελπίδας - Union of Women Association Hope Line": {
+      "last": "2026-04-22T18:15:12+00:00",
+      "website": ""
+    },
+    "GR:Cyber Crime Division": {
+      "last": "2026-04-22T18:15:32+00:00",
+      "website": ""
+    },
+    "GR:SOS Lifeline for the elderly": {
+      "last": "2026-04-22T18:15:52+00:00",
+      "website": ""
+    },
+    "GG:Childline Guernsey": {
+      "last": "2026-04-22T18:16:12+00:00",
+      "website": ""
+    },
+    "GG:THT Direct Helpline": {
+      "last": "2026-04-22T18:16:32+00:00",
+      "website": ""
+    },
+    "GG:Guernsey Bereavement Service": {
+      "last": "2026-04-22T18:16:52+00:00",
+      "website": ""
+    },
+    "GG:Guernsey's Women's Refuge Helpline": {
+      "last": "2026-04-22T18:17:12+00:00",
+      "website": ""
+    },
+    "GG:Safer Guernsey": {
+      "last": "2026-04-22T18:17:32+00:00",
+      "website": ""
+    },
+    "GY:914 Hotline": {
+      "last": "2026-04-22T18:17:52+00:00",
+      "website": ""
+    },
+    "GY:Inter-agency Suicide Prevention Help Line": {
+      "last": "2026-04-22T18:18:12+00:00",
+      "website": ""
+    },
+    "GY:Guyana Inter-agency Suicide Prevention Hotline": {
+      "last": "2026-04-22T18:18:32+00:00",
+      "website": ""
+    },
+    "HT:Asistans Sikolojik an IJANS": {
+      "last": "2026-04-22T18:19:04+00:00",
+      "website": ""
+    },
+    "VA:Emergency": {
+      "last": "2026-04-22T18:19:05+00:00",
+      "website": ""
+    },
+    "HK:Open Up Helpline": {
+      "last": "2026-04-22T18:19:05+00:00",
+      "website": ""
+    },
+    "HK:24小时预防自杀热线服务24-hour Suicide Prevention Hotline Service": {
+      "last": "2026-04-22T18:19:05+00:00",
+      "website": ""
+    },
+    "HK:向晴热线Caritas-Hong Kong Family Crisis Support Centre Crisis Hotline": {
+      "last": "2026-04-22T18:19:06+00:00",
+      "website": ""
+    },
+    "HK:财困压力辅导专线Financial Stress Counselling Hotline": {
+      "last": "2026-04-22T18:19:06+00:00",
+      "website": ""
+    },
+    "HK:English Emotional Support Hotline": {
+      "last": "2026-04-22T18:19:07+00:00",
+      "website": ""
+    },
+    "HK:青少年生命专线Youth Link": {
+      "last": "2026-04-22T18:19:07+00:00",
+      "website": ""
+    },
+    "HK:自杀者亲友支援计划Services for Survivors of Suicide Loss": {
+      "last": "2026-04-22T18:19:07+00:00",
+      "website": ""
+    },
+    "HK:和諧之家24小時婦女求助熱線 / Harmony House 24-hour Woman Hotline": {
+      "last": "2026-04-22T18:19:08+00:00",
+      "website": ""
+    },
+    "HK:婦女求助熱線 Women's Helpline": {
+      "last": "2026-04-22T18:19:08+00:00",
+      "website": ""
+    },
+    "HK:和諧之家 MAN(男士)熱線 / Harmony House MAN Hotline": {
+      "last": "2026-04-22T18:19:08+00:00",
+      "website": ""
+    },
+    "HK:亲友自杀危机咨询专线Suicide Crisis Consultation Helpline for Family Members and Friends": {
+      "last": "2026-04-22T18:19:09+00:00",
+      "website": ""
+    },
+    "HK:协青社24小时热线服务24 Hours Hotline of Youth Outreach": {
+      "last": "2026-04-22T18:19:09+00:00",
+      "website": ""
+    },
+    "HK:Caritas Infinity Teens": {
+      "last": "2026-04-22T18:19:10+00:00",
+      "website": ""
+    },
+    "HK:RainLily Sexual Violence Helpline 風雨蘭性暴力求助熱線": {
+      "last": "2026-04-22T18:19:10+00:00",
+      "website": ""
+    },
+    "HK:芷若园24小时危机热线24 Hours Crisis Hotline": {
+      "last": "2026-04-22T18:19:10+00:00",
+      "website": ""
+    },
+    "HK:妇女庇护中心24小时热线24 Hours Hotline": {
+      "last": "2026-04-22T18:19:11+00:00",
+      "website": ""
+    },
+    "HK:Against Child Abuse Hotline": {
+      "last": "2026-04-22T18:19:11+00:00",
+      "website": ""
+    },
+    "HK:珍爱生命长者热线Hotline for Elderly": {
+      "last": "2026-04-22T18:19:12+00:00",
+      "website": ""
+    },
+    "HK:预防长者自杀服务Suicide Prevention Services for the Elderly": {
+      "last": "2026-04-22T18:19:12+00:00",
+      "website": ""
+    },
+    "HK:和諧之家小白兒童熱線 / Harmony House Children Hotline": {
+      "last": "2026-04-22T18:19:12+00:00",
+      "website": ""
+    },
+    "HU:T.E.S. Miskolc": {
+      "last": "2026-04-22T18:19:13+00:00",
+      "website": ""
+    },
+    "HU:SOS Telefon Lelkisegely Alapitvany": {
+      "last": "2026-04-22T18:19:13+00:00",
+      "website": ""
+    },
+    "IS:Narcotics Anonymous - Iceland": {
+      "last": "2026-04-22T18:19:13+00:00",
+      "website": ""
+    },
+    "IS:Kvennaathvarf Hjálparsími - Helpline Women Shelter": {
+      "last": "2026-04-22T18:19:14+00:00",
+      "website": ""
+    },
+    "IS:Pieta Organization": {
+      "last": "2026-04-22T18:19:14+00:00",
+      "website": ""
+    },
+    "IN:1 Life, Crisis Support, Suicide Prevention": {
+      "last": "2026-04-22T18:19:15+00:00",
+      "website": ""
+    },
+    "IN:Jeevan Aastha Helpline, Suicide prevention and Mental Health Counseling Helpline": {
+      "last": "2026-04-22T18:19:15+00:00",
+      "website": ""
+    },
+    "IN:Kiran, 24/7 National Toll free Mental Health Rehabilitation Helpline": {
+      "last": "2026-04-22T18:19:15+00:00",
+      "website": ""
+    },
+    "IN:Tele MANAS": {
+      "last": "2026-04-22T18:19:16+00:00",
+      "website": ""
+    },
+    "IN:ND Prana Lifeline": {
+      "last": "2026-04-22T18:19:16+00:00",
+      "website": ""
+    },
+    "IN:Snehi Helpline, Crisis Intervention Tele Counselling Support": {
+      "last": "2026-04-22T18:19:16+00:00",
+      "website": ""
+    },
+    "IN:Lifeline Foundation": {
+      "last": "2026-04-22T18:19:17+00:00",
+      "website": ""
+    },
+    "IN:iCALL Psychosocial Helpline": {
+      "last": "2026-04-22T18:19:17+00:00",
+      "website": ""
+    },
+    "IN:Voice That Cares": {
+      "last": "2026-04-22T18:19:18+00:00",
+      "website": ""
+    },
+    "IN:Connecting Trust, Every Life Counts": {
+      "last": "2026-04-22T18:19:18+00:00",
+      "website": ""
+    },
+    "IN:Parivarthan Counselling Helpline": {
+      "last": "2026-04-22T18:19:18+00:00",
+      "website": ""
+    },
+    "IN:Muktaa Mental Health Helpline": {
+      "last": "2026-04-22T18:19:19+00:00",
+      "website": ""
+    },
+    "IN:Pukar Foundation": {
+      "last": "2026-04-22T18:19:19+00:00",
+      "website": ""
+    },
+    "IN:Kashmir Lifeline, Emotional and Mental Crisis support": {
+      "last": "2026-04-22T18:19:19+00:00",
+      "website": ""
+    },
+    "IN:NIMHANS Psychosocial Support Helpline": {
+      "last": "2026-04-22T18:19:20+00:00",
+      "website": ""
+    },
+    "IN:Mann Talks": {
+      "last": "2026-04-22T18:19:20+00:00",
+      "website": ""
+    },
+    "IN:MPower Mind Matters , 24/7 Mental Health Support Helpline": {
+      "last": "2026-04-22T18:19:21+00:00",
+      "website": ""
+    },
+    "IN:The Humsafar Helpline": {
+      "last": "2026-04-22T18:19:21+00:00",
+      "website": ""
+    },
+    "IN:Aks Foundation": {
+      "last": "2026-04-22T18:19:21+00:00",
+      "website": ""
+    },
+    "IN:NCW 24x7 Helpline | एनसीडब्ल्यू 24x7 हेल्पलाइन": {
+      "last": "2026-04-22T18:19:22+00:00",
+      "website": ""
+    },
+    "IN:Shakti Shalini": {
+      "last": "2026-04-22T18:19:22+00:00",
+      "website": ""
+    },
+    "IN:Mahila Bol Helpline": {
+      "last": "2026-04-22T18:19:23+00:00",
+      "website": ""
+    },
+    "IN:Manodarpan": {
+      "last": "2026-04-22T18:19:23+00:00",
+      "website": ""
+    },
+    "IN:ALZHEIMER'S & RELATED DISORDERS SOCIETY OF INDIA (ARDSI), Helpline": {
+      "last": "2026-04-22T18:19:23+00:00",
+      "website": ""
+    },
+    "IN:iCALL's CHAMPS Helpline": {
+      "last": "2026-04-22T18:19:24+00:00",
+      "website": ""
+    },
+    "IN:Lifeline Foundation (+91 33 2474 4704)": {
+      "last": "2026-04-22T18:19:24+00:00",
+      "website": ""
+    },
+    "IN:1Life": {
+      "last": "2026-04-22T18:19:25+00:00",
+      "website": ""
+    },
+    "IN:SA-MUDRA YUVA Helpline": {
+      "last": "2026-04-22T18:19:26+00:00",
+      "website": ""
+    },
+    "IN:SAHAI": {
+      "last": "2026-04-22T18:19:27+00:00",
+      "website": ""
+    },
+    "IN:Jeevan Aastha": {
+      "last": "2026-04-22T18:19:27+00:00",
+      "website": ""
+    },
+    "IN:Fortis Healthcare Helpline (open 24hrs a day)": {
+      "last": "2026-04-22T18:19:28+00:00",
+      "website": ""
+    },
+    "IN:Arpita Suicide Prevention Helpline": {
+      "last": "2026-04-22T18:19:29+00:00",
+      "website": ""
+    },
+    "IN:iCALL": {
+      "last": "2026-04-22T18:19:30+00:00",
+      "website": ""
+    },
+    "IN:COOJ": {
+      "last": "2026-04-22T18:19:31+00:00",
+      "website": ""
+    },
+    "IN:MAITREYI": {
+      "last": "2026-04-22T18:19:32+00:00",
+      "website": ""
+    },
+    "IN:Roshni": {
+      "last": "2026-04-22T18:19:33+00:00",
+      "website": ""
+    },
+    "IN:Parivarthan": {
+      "last": "2026-04-22T18:19:33+00:00",
+      "website": ""
+    },
+    "IN:Makro Foundation (MAFO)": {
+      "last": "2026-04-22T18:19:34+00:00",
+      "website": ""
+    },
+    "IN:Saath": {
+      "last": "2026-04-22T18:19:35+00:00",
+      "website": ""
+    },
+    "IN:MAITRA": {
+      "last": "2026-04-22T18:19:36+00:00",
+      "website": ""
+    },
+    "IN:Sumaitri": {
+      "last": "2026-04-22T18:19:37+00:00",
+      "website": ""
+    },
+    "IN:MAITHRI - Cochin": {
+      "last": "2026-04-22T18:19:38+00:00",
+      "website": ""
+    },
+    "ID:SEJIWA (Layanan Psikologi untuk Sehat Jiwa)": {
+      "last": "2026-04-22T18:19:38+00:00",
+      "website": ""
+    },
+    "ID:SAPA Service 129 - Ministry of Women Empowerment and Children Protection": {
+      "last": "2026-04-22T18:19:39+00:00",
+      "website": ""
+    },
+    "ID:Kementerian Kesehatan": {
+      "last": "2026-04-22T18:19:40+00:00",
+      "website": ""
+    },
+    "ID:Hotline: 500-454": {
+      "last": "2026-04-22T18:19:41+00:00",
+      "website": ""
+    },
+    "IR:صدای یارا - Yara's Voice": {
+      "last": "2026-04-22T18:19:42+00:00",
+      "website": ""
+    },
+    "IR:Iran Dementia and Alzheimer's Association": {
+      "last": "2026-04-22T18:19:43+00:00",
+      "website": ""
+    },
+    "IE:'Text About It' by spunout": {
+      "last": "2026-04-22T18:19:44+00:00",
+      "website": ""
+    },
+    "IE:Childline": {
+      "last": "2026-04-22T18:19:45+00:00",
+      "website": ""
+    },
+    "IE:SOSAD Ireland": {
+      "last": "2026-04-22T18:19:45+00:00",
+      "website": ""
+    },
+    "IE:Missing Childrens Hotline": {
+      "last": "2026-04-22T18:19:46+00:00",
+      "website": ""
+    },
+    "IE:Connect Counselling": {
+      "last": "2026-04-22T18:19:47+00:00",
+      "website": ""
+    },
+    "IE:National Freephone Careline": {
+      "last": "2026-04-22T18:19:48+00:00",
+      "website": ""
+    },
+    "IE:Teenline Ireland": {
+      "last": "2026-04-22T18:19:49+00:00",
+      "website": ""
+    },
+    "IE:Parkinsons Association of Ireland": {
+      "last": "2026-04-22T18:19:50+00:00",
+      "website": ""
+    },
+    "IE:Teach Tearmainn": {
+      "last": "2026-04-22T18:19:50+00:00",
+      "website": ""
+    },
+    "IE:Federation For Victim Assistance": {
+      "last": "2026-04-22T18:19:51+00:00",
+      "website": ""
+    },
+    "IE:Embrace FARM": {
+      "last": "2026-04-22T18:19:52+00:00",
+      "website": ""
+    },
+    "IE:Ruhama": {
+      "last": "2026-04-22T18:19:53+00:00",
+      "website": ""
+    },
+    "IE:LGBT Ireland - National LGBT+ Helpline": {
+      "last": "2026-04-22T18:19:54+00:00",
+      "website": ""
+    },
+    "IE:LGBT Ireland - Transgender Family Support Line": {
+      "last": "2026-04-22T18:19:55+00:00",
+      "website": ""
+    },
+    "IE:The Alzheimer Society of Ireland's National Helpline": {
+      "last": "2026-04-22T18:19:55+00:00",
+      "website": ""
+    },
+    "IE:National Male Advice Line": {
+      "last": "2026-04-22T18:19:56+00:00",
+      "website": ""
+    },
+    "IE:Bodywhys - The Eating Disorders Association of Ireland": {
+      "last": "2026-04-22T18:19:57+00:00",
+      "website": ""
+    },
+    "IE:The CARI Careline": {
+      "last": "2026-04-22T18:19:58+00:00",
+      "website": ""
+    },
+    "IE:MS Ireland Information Line": {
+      "last": "2026-04-22T18:19:59+00:00",
+      "website": ""
+    },
+    "IE:Bereavement Support Line": {
+      "last": "2026-04-22T18:20:00+00:00",
+      "website": ""
+    },
+    "IE:Dunlewey Problem Gambling Helpline": {
+      "last": "2026-04-22T18:20:01+00:00",
+      "website": ""
+    },
+    "IE:West Cork Women Against Violence Project": {
+      "last": "2026-04-22T18:20:01+00:00",
+      "website": ""
+    },
+    "IE:My Options": {
+      "last": "2026-04-22T18:20:02+00:00",
+      "website": ""
+    },
+    "IE:Donegal Women's Centre": {
+      "last": "2026-04-22T18:20:03+00:00",
+      "website": ""
+    },
+    "IE:ALONE": {
+      "last": "2026-04-22T18:20:04+00:00",
+      "website": ""
+    },
+    "IE:Parentline": {
+      "last": "2026-04-22T18:20:05+00:00",
+      "website": ""
+    },
+    "IE:Barnardos Parent Supportline": {
+      "last": "2026-04-22T18:20:06+00:00",
+      "website": ""
+    },
+    "IE:Askonefamily Helpline": {
+      "last": "2026-04-22T18:20:06+00:00",
+      "website": ""
+    },
+    "IE:Barnardos Childrens Bereavement Helpline": {
+      "last": "2026-04-22T18:20:07+00:00",
+      "website": ""
+    },
+    "IE:Towards Healing": {
+      "last": "2026-04-22T18:20:08+00:00",
+      "website": ""
+    },
+    "IE:-In Cork": {
+      "last": "2026-04-22T18:20:09+00:00",
+      "website": ""
+    },
+    "IE:-In Finglas": {
+      "last": "2026-04-22T18:20:10+00:00",
+      "website": ""
+    },
+    "IE:-In Kerry": {
+      "last": "2026-04-22T18:20:11+00:00",
+      "website": ""
+    },
+    "IE:-In Lucan": {
+      "last": "2026-04-22T18:20:12+00:00",
+      "website": ""
+    },
+    "IE:-In Midwest": {
+      "last": "2026-04-22T18:20:12+00:00",
+      "website": ""
+    },
+    "IE:-In Roscrea": {
+      "last": "2026-04-22T18:20:13+00:00",
+      "website": ""
+    },
+    "IE:-In Tallaght": {
+      "last": "2026-04-22T18:20:14+00:00",
+      "website": ""
+    },
+    "IE:-In West": {
+      "last": "2026-04-22T18:20:15+00:00",
+      "website": ""
+    },
+    "IM:Emergency": {
+      "last": "2026-04-22T18:20:16+00:00",
+      "website": ""
+    },
+    "IL:בית חם - מוקד 'קשובים' | Bayit Cham - Kashuvim Hotline": {
+      "last": "2026-04-22T18:20:17+00:00",
+      "website": ""
+    },
+    "IL:מוקד הלהט\"ב של אגודה \"תמיד יש עם מי לדבר\" | The Aguda LGBTQ Hotline \"There is always someone to talk to\"": {
+      "last": "2026-04-22T18:20:17+00:00",
+      "website": ""
+    },
+    "IL:ARCCI Men's Emergency Hotline": {
+      "last": "2026-04-22T18:20:18+00:00",
+      "website": ""
+    },
+    "IL:ARCCI Arab Women's Emergency Hotline": {
+      "last": "2026-04-22T18:20:19+00:00",
+      "website": ""
+    },
+    "IL:לא לקו הסיוע לאלימות נגד אישה - No to Violence Against Women Helpline": {
+      "last": "2026-04-22T18:20:20+00:00",
+      "website": ""
+    },
+    "IL:ARCCI Religious Men's Emergency Hotline": {
+      "last": "2026-04-22T18:20:21+00:00",
+      "website": ""
+    },
+    "IL:ARCCI Religious Women's Emergency Hotline": {
+      "last": "2026-04-22T18:20:22+00:00",
+      "website": ""
+    },
+    "IT:Telefono Amico Cevita": {
+      "last": "2026-04-22T18:20:23+00:00",
+      "website": ""
+    },
+    "IT:Telefono Rosa": {
+      "last": "2026-04-22T18:20:23+00:00",
+      "website": ""
+    },
+    "IT:Numero Anti Violenza E Stalking": {
+      "last": "2026-04-22T18:20:24+00:00",
+      "website": ""
+    },
+    "IT:De Leo Fund Assistenza telefonica": {
+      "last": "2026-04-22T18:20:25+00:00",
+      "website": ""
+    },
+    "IT:Telefono Amico Italia (199 284 284)": {
+      "last": "2026-04-22T18:20:26+00:00",
+      "website": ""
+    },
+    "JM:Mental Health and Suicide Prevention Helpline": {
+      "last": "2026-04-22T18:20:27+00:00",
+      "website": ""
+    },
+    "JM:U-Matter": {
+      "last": "2026-04-22T18:20:28+00:00",
+      "website": ""
+    },
+    "JP:TELL Lifeline (0800 300 8355)": {
+      "last": "2026-04-22T18:20:29+00:00",
+      "website": ""
+    },
+    "JP:Child SOS consultation Counter": {
+      "last": "2026-04-22T18:20:29+00:00",
+      "website": ""
+    },
+    "JP:＃いのちSOS": {
+      "last": "2026-04-22T18:20:30+00:00",
+      "website": ""
+    },
+    "JP:性犯罪・性暴力被害者のためのワンストップ支援センター": {
+      "last": "2026-04-22T18:20:31+00:00",
+      "website": ""
+    },
+    "JP:配偶者暴力相談支援センター": {
+      "last": "2026-04-22T18:20:32+00:00",
+      "website": ""
+    },
+    "JP:DV相談プラス / Domestic Violence Hotline Plus": {
+      "last": "2026-04-22T18:20:33+00:00",
+      "website": ""
+    },
+    "JP:女性の人権ホットライン - Women's Human Rights Hotline": {
+      "last": "2026-04-22T18:20:34+00:00",
+      "website": ""
+    },
+    "JP:女性ネットさやさや - Saya-Saya Helpline": {
+      "last": "2026-04-22T18:20:34+00:00",
+      "website": ""
+    },
+    "JP:BI Suicide Prevention Centre, Osaka": {
+      "last": "2026-04-22T18:20:35+00:00",
+      "website": ""
+    },
+    "JE:Emergency": {
+      "last": "2026-04-22T18:20:36+00:00",
+      "website": ""
+    },
+    "JO:JCPA Hotline": {
+      "last": "2026-04-22T18:20:37+00:00",
+      "website": ""
+    },
+    "KZ:балалар мен жасөспірімдерге арналған сенім телефоны No150": {
+      "last": "2026-04-22T18:20:38+00:00",
+      "website": ""
+    },
+    "KE:one2one 1190": {
+      "last": "2026-04-22T18:20:39+00:00",
+      "website": ""
+    },
+    "KE:NACADA Toll Free Helpline": {
+      "last": "2026-04-22T18:20:40+00:00",
+      "website": ""
+    },
+    "KE:Childline": {
+      "last": "2026-04-22T18:20:40+00:00",
+      "website": ""
+    },
+    "KG:Горячая линия Лиги защитников прав ребенка / Child's Rights Defenders League Hotline": {
+      "last": "2026-04-22T18:20:41+00:00",
+      "website": ""
+    },
+    "LV:24/7 krīzes tālrunis": {
+      "last": "2026-04-22T18:20:42+00:00",
+      "website": ""
+    },
+    "LV:Child Helpline 116111": {
+      "last": "2026-04-22T18:20:43+00:00",
+      "website": ""
+    },
+    "LB:مركز الدار الآمن للنساء والفتيات - Al Dar Women and Girls Safe Shelter Line": {
+      "last": "2026-04-22T18:20:44+00:00",
+      "website": ""
+    },
+    "LB:مركز الرجال - Men Centre Helpline": {
+      "last": "2026-04-22T18:20:45+00:00",
+      "website": ""
+    },
+    "LB:الخط الآمن للطوارئ (٧/٢٤) - Emergency Safe Line (24/7)": {
+      "last": "2026-04-22T18:20:46+00:00",
+      "website": ""
+    },
+    "LY:فريق الدعم النفس اجتماعي -ليبيا - Libyan Psychosocial Support Team": {
+      "last": "2026-04-22T18:20:47+00:00",
+      "website": ""
+    },
+    "LT:Pagalbos smurtą patyrusiems linija": {
+      "last": "2026-04-22T18:20:48+00:00",
+      "website": ""
+    },
+    "LT:Nelik vienas": {
+      "last": "2026-04-22T18:20:49+00:00",
+      "website": ""
+    },
+    "LT:Sidabrinė linija (the Silver Line)": {
+      "last": "2026-04-22T18:20:49+00:00",
+      "website": ""
+    },
+    "LU:BEE SECURE Helpline": {
+      "last": "2026-04-22T18:20:50+00:00",
+      "website": ""
+    },
+    "LU:Luxembourg Alzheimer Association (as ala)": {
+      "last": "2026-04-22T18:20:51+00:00",
+      "website": ""
+    },
+    "LU:InfoMann - ActTogether A.s.b.l.": {
+      "last": "2026-04-22T18:20:52+00:00",
+      "website": ""
+    },
+    "LU:Centre National de Prévention des Addictions (CNAPA) -service Fro No": {
+      "last": "2026-04-22T18:20:53+00:00",
+      "website": ""
+    },
+    "LU:Child Focus (enfants disparus - enfants en détresse)": {
+      "last": "2026-04-22T18:20:54+00:00",
+      "website": ""
+    },
+    "LU:Helpline Domestic Violence Luxembourg": {
+      "last": "2026-04-22T18:20:55+00:00",
+      "website": ""
+    },
+    "LU:KJT (Kanner-Jugendtelefon)": {
+      "last": "2026-04-22T18:20:55+00:00",
+      "website": ""
+    },
+    "LU:Elterentelefon - Ecoute parents (KJT)": {
+      "last": "2026-04-22T18:20:56+00:00",
+      "website": ""
+    },
+    "MO:Emergency": {
+      "last": "2026-04-22T18:20:57+00:00",
+      "website": ""
+    },
+    "MW:GBV Crisis Line 5600": {
+      "last": "2026-04-22T18:20:58+00:00",
+      "website": ""
+    },
+    "MW:Tithandizane National Child Helpline": {
+      "last": "2026-04-22T18:20:59+00:00",
+      "website": ""
+    },
+    "MW:Lifeline Malawi/ANPPCAN Malawi Chapter": {
+      "last": "2026-04-22T18:21:00+00:00",
+      "website": ""
+    },
+    "MW:Youth Helpline 393": {
+      "last": "2026-04-22T18:21:00+00:00",
+      "website": ""
+    },
+    "MY:MIASA Crisis Helpline": {
+      "last": "2026-04-22T18:21:01+00:00",
+      "website": ""
+    },
+    "MY:Pertubuhan Kebajikan Sneham Malaysia (Sneham Welfare Organisation Malaysia)": {
+      "last": "2026-04-22T18:21:02+00:00",
+      "website": ""
+    },
+    "MY:TALIAN HEAL (Help With Empathy And Love) 15555": {
+      "last": "2026-04-22T18:21:03+00:00",
+      "website": ""
+    },
+    "MY:Malaysian Mental Health Association (MMHA)": {
+      "last": "2026-04-22T18:21:04+00:00",
+      "website": ""
+    },
+    "MY:PT Foundation's Peer Listening Helpline": {
+      "last": "2026-04-22T18:21:05+00:00",
+      "website": ""
+    },
+    "MY:P.S. The Children Hotline": {
+      "last": "2026-04-22T18:21:05+00:00",
+      "website": ""
+    },
+    "MY:Talian Kasih 15999 Hotline": {
+      "last": "2026-04-22T18:21:06+00:00",
+      "website": ""
+    },
+    "MY:Buddy Bear Childline": {
+      "last": "2026-04-22T18:21:07+00:00",
+      "website": ""
+    },
+    "MY:Telenita Helpline": {
+      "last": "2026-04-22T18:21:08+00:00",
+      "website": ""
+    },
+    "MY:Narcotics Anonymous Malaysia": {
+      "last": "2026-04-22T18:21:09+00:00",
+      "website": ""
+    },
+    "MY:WAO (Women's Aid Organisation)": {
+      "last": "2026-04-22T18:21:10+00:00",
+      "website": ""
+    },
+    "MY:LEV8 Peer-to-peer Helpline": {
+      "last": "2026-04-22T18:21:11+00:00",
+      "website": ""
+    },
+    "MY:WCC Penang": {
+      "last": "2026-04-22T18:21:11+00:00",
+      "website": ""
+    },
+    "MY:Pusat Perkhidmatan Wanita (PPW)": {
+      "last": "2026-04-22T18:21:12+00:00",
+      "website": ""
+    },
+    "MY:Lifeline Association of Malaysia": {
+      "last": "2026-04-22T18:21:13+00:00",
+      "website": ""
+    },
+    "MT:Crisis Resolution Malta": {
+      "last": "2026-04-22T18:21:14+00:00",
+      "website": ""
+    },
+    "MU:SOS Femmes Mauritius (Helpline for Women)": {
+      "last": "2026-04-22T18:21:15+00:00",
+      "website": ""
+    },
+    "MU:Passerelle Women Centre Hotline (Women's Protection & Shelter Centre)": {
+      "last": "2026-04-22T18:21:16+00:00",
+      "website": ""
+    },
+    "MU:PILS (Prevention Information Lutte contre le SIDA)- 8999 Helpline for HIV/AIDS support": {
+      "last": "2026-04-22T18:21:16+00:00",
+      "website": ""
+    },
+    "MU:Alzheimer Association Mauritius Hotline": {
+      "last": "2026-04-22T18:21:17+00:00",
+      "website": ""
+    },
+    "MX:Consejo Ciudadano Para La Seguridad Y Justicia de Ciudad de México": {
+      "last": "2026-04-22T18:21:18+00:00",
+      "website": ""
+    },
+    "MX:Vita-Activa.Org": {
+      "last": "2026-04-22T18:21:19+00:00",
+      "website": ""
+    },
+    "MX:Comenzar de Nuevo": {
+      "last": "2026-04-22T18:21:20+00:00",
+      "website": ""
+    },
+    "MX:Atención Psicológica A Distancia UNAM": {
+      "last": "2026-04-22T18:21:21+00:00",
+      "website": ""
+    },
+    "MX:Oceánica Helpline": {
+      "last": "2026-04-22T18:21:21+00:00",
+      "website": ""
+    },
+    "MD:Telefon Copilului": {
+      "last": "2026-04-22T18:21:22+00:00",
+      "website": ""
+    },
+    "MN:Сэтгэцийн эрүүл мэндийн мэдээлэл өгөх утас 1800-2000": {
+      "last": "2026-04-22T18:21:23+00:00",
+      "website": ""
+    },
+    "MN:Child Helpline Mongolia": {
+      "last": "2026-04-22T18:21:24+00:00",
+      "website": ""
+    },
+    "MS:Emergency": {
+      "last": "2026-04-22T18:21:25+00:00",
+      "website": ""
+    },
+    "MA:Centre d'Etude et de Prévention du Suicide": {
+      "last": "2026-04-22T18:21:26+00:00",
+      "website": ""
+    },
+    "NA:ChildLine Namibia": {
+      "last": "2026-04-22T18:21:26+00:00",
+      "website": ""
+    },
+    "NP:Khabar Garaun 1145 Helpline": {
+      "last": "2026-04-22T18:21:27+00:00",
+      "website": ""
+    },
+    "NL:Alles oké? Supportlijn": {
+      "last": "2026-04-22T18:21:28+00:00",
+      "website": ""
+    },
+    "NL:Switchboard Helpline": {
+      "last": "2026-04-22T18:21:29+00:00",
+      "website": ""
+    },
+    "NL:Blijf Groep": {
+      "last": "2026-04-22T18:21:30+00:00",
+      "website": ""
+    },
+    "NL:Slachtofferhulp Nederland": {
+      "last": "2026-04-22T18:21:31+00:00",
+      "website": ""
+    },
+    "NL:De Oudertelefoon": {
+      "last": "2026-04-22T18:21:32+00:00",
+      "website": ""
+    },
+    "NL:Genderpraatjes Hulplijn - Gendertalks Helpline": {
+      "last": "2026-04-22T18:21:32+00:00",
+      "website": ""
+    },
+    "NL:De Kindertelefoon": {
+      "last": "2026-04-22T18:21:33+00:00",
+      "website": ""
+    },
+    "NZ:MusicHelps": {
+      "last": "2026-04-22T18:21:34+00:00",
+      "website": ""
+    },
+    "NZ:Rural Support Trusts": {
+      "last": "2026-04-22T18:21:35+00:00",
+      "website": ""
+    },
+    "NZ:Suicide Crisis Helpline- Tautoko": {
+      "last": "2026-04-22T18:21:36+00:00",
+      "website": ""
+    },
+    "NZ:Manaaki Tāngata | Victim Support": {
+      "last": "2026-04-22T18:21:37+00:00",
+      "website": ""
+    },
+    "NZ:0800 ANXIETY Helpline": {
+      "last": "2026-04-22T18:21:37+00:00",
+      "website": ""
+    },
+    "NZ:Asian Family Services": {
+      "last": "2026-04-22T18:21:38+00:00",
+      "website": ""
+    },
+    "NZ:Ola Lelei Pacific Helpline": {
+      "last": "2026-04-22T18:21:39+00:00",
+      "website": ""
+    },
+    "NZ:Prostate Cancer Foundation NZ": {
+      "last": "2026-04-22T18:21:40+00:00",
+      "website": ""
+    },
+    "NZ:Safe to talk - Sexual harm helpline": {
+      "last": "2026-04-22T18:21:41+00:00",
+      "website": ""
+    },
+    "NZ:Quitline": {
+      "last": "2026-04-22T18:21:42+00:00",
+      "website": ""
+    },
+    "NZ:Shine": {
+      "last": "2026-04-22T18:21:43+00:00",
+      "website": ""
+    },
+    "NZ:Women's Refuge": {
+      "last": "2026-04-22T18:21:43+00:00",
+      "website": ""
+    },
+    "NZ:Māori Gambling Helpline": {
+      "last": "2026-04-22T18:21:44+00:00",
+      "website": ""
+    },
+    "NZ:Vai Lelei Pasifika Gambling Helpline": {
+      "last": "2026-04-22T18:21:45+00:00",
+      "website": ""
+    },
+    "NZ:Family Violence Information Line (are you ok?)": {
+      "last": "2026-04-22T18:21:46+00:00",
+      "website": ""
+    },
+    "NZ:Te Puna Oranga 24 hour Phone Manaaki": {
+      "last": "2026-04-22T18:21:47+00:00",
+      "website": ""
+    },
+    "NZ:Shakti Crisisline": {
+      "last": "2026-04-22T18:21:48+00:00",
+      "website": ""
+    },
+    "NZ:Oranga Tamariki (Ministry for Children) Helpline": {
+      "last": "2026-04-22T18:21:49+00:00",
+      "website": ""
+    },
+    "NZ:OutLine": {
+      "last": "2026-04-22T18:21:50+00:00",
+      "website": ""
+    },
+    "NZ:Problem Gambling Foundation - PGF Services": {
+      "last": "2026-04-22T18:21:50+00:00",
+      "website": ""
+    },
+    "NZ:Vagus Centre": {
+      "last": "2026-04-22T18:21:51+00:00",
+      "website": ""
+    },
+    "NZ:Elder Abuse Response Service": {
+      "last": "2026-04-22T18:21:52+00:00",
+      "website": ""
+    },
+    "NZ:Lifeline Aotearoa (0800 LIFELINE)": {
+      "last": "2026-04-22T18:21:53+00:00",
+      "website": ""
+    },
+    "NZ:800 What's Up": {
+      "last": "2026-04-22T18:21:54+00:00",
+      "website": ""
+    },
+    "NZ:Lifeline Auckland": {
+      "last": "2026-04-22T18:21:55+00:00",
+      "website": ""
+    },
+    "NZ:Marlborough": {
+      "last": "2026-04-22T18:21:56+00:00",
+      "website": ""
+    },
+    "NZ:Wairarapa": {
+      "last": "2026-04-22T18:21:56+00:00",
+      "website": ""
+    },
+    "NZ:Lifeline National Office": {
+      "last": "2026-04-22T18:21:57+00:00",
+      "website": ""
+    },
+    "NZ:Lifeline Christchurch": {
+      "last": "2026-04-22T18:21:58+00:00",
+      "website": ""
+    },
+    "NZ:Otago": {
+      "last": "2026-04-22T18:21:59+00:00",
+      "website": ""
+    },
+    "NZ:Waikato": {
+      "last": "2026-04-22T18:22:00+00:00",
+      "website": ""
+    },
+    "NZ:Southland": {
+      "last": "2026-04-22T18:22:00+00:00",
+      "website": ""
+    },
+    "NZ:Nelson": {
+      "last": "2026-04-22T18:22:20+00:00",
+      "website": ""
+    },
+    "NZ:Taranaki": {
+      "last": "2026-04-22T18:22:40+00:00",
+      "website": ""
+    },
+    "NZ:Hawkes Bay": {
+      "last": "2026-04-22T18:23:00+00:00",
+      "website": ""
+    },
+    "NZ:South Canterbury": {
+      "last": "2026-04-22T18:23:20+00:00",
+      "website": ""
+    },
+    "NZ:Whangarei": {
+      "last": "2026-04-22T18:23:40+00:00",
+      "website": ""
+    },
+    "NZ:Rotorua Lifelink/Youthline": {
+      "last": "2026-04-22T18:24:00+00:00",
+      "website": ""
+    },
+    "NI:Línea 133": {
+      "last": "2026-04-22T18:24:20+00:00",
+      "website": ""
+    },
+    "NG:SURPIN Helpline Nigeria": {
+      "last": "2026-04-22T18:24:40+00:00",
+      "website": ""
+    },
+    "NG:Women Safe House 24 Hour Crisis Hotline": {
+      "last": "2026-04-22T18:25:01+00:00",
+      "website": ""
+    },
+    "NG:Human Development Initiative": {
+      "last": "2026-04-22T18:25:21+00:00",
+      "website": ""
+    },
+    "NG:Child Help-Line": {
+      "last": "2026-04-22T18:25:41+00:00",
+      "website": ""
+    },
+    "NG:Asido Foundation": {
+      "last": "2026-04-22T18:26:01+00:00",
+      "website": ""
+    },
+    "NG:HerStoryOurStoryNG": {
+      "last": "2026-04-22T18:26:21+00:00",
+      "website": ""
+    },
+    "NG:The Cece Yara 24 Hour Child Helpline": {
+      "last": "2026-04-22T18:26:41+00:00",
+      "website": ""
+    },
+    "NG:The Joy Hub": {
+      "last": "2026-04-22T18:27:01+00:00",
+      "website": ""
+    },
+    "NG:Lagos Suicide Hotlines": {
+      "last": "2026-04-22T18:27:21+00:00",
+      "website": ""
+    },
+    "NG:LUTH Suicide Research and Prevention Initiative (SURPIN)": {
+      "last": "2026-04-22T18:27:41+00:00",
+      "website": ""
+    },
+    "NU:Emergency": {
+      "last": "2026-04-22T18:28:01+00:00",
+      "website": ""
+    },
+    "NF:Emergency": {
+      "last": "2026-04-22T18:28:21+00:00",
+      "website": ""
+    },
+    "KP:Emergency": {
+      "last": "2026-04-22T18:28:41+00:00",
+      "website": ""
+    },
+    "MK:Kriz centar": {
+      "last": "2026-04-22T18:29:01+00:00",
+      "website": ""
+    },
+    "NO:Alltidhjelp.no": {
+      "last": "2026-04-22T18:29:21+00:00",
+      "website": ""
+    },
+    "NO:Hjelpetelefonen for seksuelt misbrukte": {
+      "last": "2026-04-22T18:29:41+00:00",
+      "website": ""
+    },
+    "NO:Skeiv Ungdom LGBTQ: Ungdomstelefonen Helpline": {
+      "last": "2026-04-22T18:30:01+00:00",
+      "website": ""
+    },
+    "NO:VO-linjen": {
+      "last": "2026-04-22T18:30:21+00:00",
+      "website": ""
+    },
+    "NO:Rusinfo Substance Abuse: Rustelefonen.no Helpline": {
+      "last": "2026-04-22T18:30:41+00:00",
+      "website": ""
+    },
+    "NO:Arbeidslivstelefonen": {
+      "last": "2026-04-22T18:31:01+00:00",
+      "website": ""
+    },
+    "NO:Rådgivning om spiseforstyrrelser (ROS) Hjelpelinje": {
+      "last": "2026-04-22T18:31:22+00:00",
+      "website": ""
+    },
+    "OM:Helpline for Family Counseling Oman (Ministry of Social Development)": {
+      "last": "2026-04-22T18:31:42+00:00",
+      "website": ""
+    },
+    "PK:Rozan Counseling Helpline": {
+      "last": "2026-04-22T18:32:02+00:00",
+      "website": ""
+    },
+    "PK:Umang": {
+      "last": "2026-04-22T18:32:22+00:00",
+      "website": ""
+    },
+    "PK:Bolo Helpline KPK": {
+      "last": "2026-04-22T18:32:42+00:00",
+      "website": ""
+    },
+    "PK:Punjab Women's Toll-Free Helpline 1043": {
+      "last": "2026-04-22T18:33:02+00:00",
+      "website": ""
+    },
+    "PK:Digital Rights Foundation Cyber Harassment Helpline for Women": {
+      "last": "2026-04-22T18:33:22+00:00",
+      "website": ""
+    },
+    "PK:Umang Pakistan": {
+      "last": "2026-04-22T18:33:42+00:00",
+      "website": ""
+    },
+    "PS:خط حماية الطفل الفلسطيني - Palestinian Child Protection Line": {
+      "last": "2026-04-22T18:34:02+00:00",
+      "website": ""
+    },
+    "PE:La Voz Amiga": {
+      "last": "2026-04-22T18:34:22+00:00",
+      "website": ""
+    },
+    "PE:Infosalud Perú": {
+      "last": "2026-04-22T18:34:42+00:00",
+      "website": ""
+    },
+    "PE:Línea 100": {
+      "last": "2026-04-22T18:35:02+00:00",
+      "website": ""
+    },
+    "PH:HOPELINE": {
+      "last": "2026-04-22T18:35:22+00:00",
+      "website": ""
+    },
+    "PH:In Touch: Crisis Line": {
+      "last": "2026-04-22T18:35:42+00:00",
+      "website": ""
+    },
+    "PH:NCMH Crisis Hotline": {
+      "last": "2026-04-22T18:36:02+00:00",
+      "website": ""
+    },
+    "PH:Tawag Paglaum - Centro Bisaya": {
+      "last": "2026-04-22T18:36:22+00:00",
+      "website": ""
+    },
+    "PH:Bantay Bata Helpline 163": {
+      "last": "2026-04-22T18:36:42+00:00",
+      "website": ""
+    },
+    "PH:Manila Lifeline Centre": {
+      "last": "2026-04-22T18:37:02+00:00",
+      "website": ""
+    },
+    "PH:Hopeline": {
+      "last": "2026-04-22T18:37:23+00:00",
+      "website": ""
+    },
+    "PN:Emergency": {
+      "last": "2026-04-22T18:37:43+00:00",
+      "website": ""
+    },
+    "PL:krisenchat Ukrainian": {
+      "last": "2026-04-22T18:38:03+00:00",
+      "website": ""
+    },
+    "PL:Telefon i czat zaufania dla dzieci i młodzieży Towarzystwa Przyjaciół Dzieci": {
+      "last": "2026-04-22T18:38:23+00:00",
+      "website": ""
+    },
+    "PL:Telefon zaufania dla mężczyzn / Helpline For Men": {
+      "last": "2026-04-22T18:38:43+00:00",
+      "website": ""
+    },
+    "PL:116sos.pl": {
+      "last": "2026-04-22T18:39:03+00:00",
+      "website": ""
+    },
+    "PL:Telefon Zaufania uzależnienia behawioralne": {
+      "last": "2026-04-22T18:39:23+00:00",
+      "website": ""
+    },
+    "PL:Olsztyńskie Stowarzyszenie Pomocy Telefoniczej (Olsztyn Telephone Emergency Help Association)": {
+      "last": "2026-04-22T18:39:43+00:00",
+      "website": ""
+    },
+    "PL:Anonimowy Przyjaciel (Anonymous friend)": {
+      "last": "2026-04-22T18:40:03+00:00",
+      "website": ""
+    },
+    "PL:Dziecięcy telefon zaufania Rzecznika Praw Dziecka": {
+      "last": "2026-04-22T18:40:23+00:00",
+      "website": ""
+    },
+    "PL:Antydepresyjny Telefon Zaufania": {
+      "last": "2026-04-22T18:40:43+00:00",
+      "website": ""
+    },
+    "PL:TelefonPogadania.pl": {
+      "last": "2026-04-22T18:41:03+00:00",
+      "website": ""
+    },
+    "PL:Women's Rights Center (Centrum Praw Kobiet)": {
+      "last": "2026-04-22T18:41:23+00:00",
+      "website": ""
+    },
+    "PL:Ogólnopolskie Pogotowie dla Ofiar Przemocy w Rodzinie „Niebieska Linia” (Polish National Hotline for Victims of Domestic Violence “Blue Line”)": {
+      "last": "2026-04-22T18:41:43+00:00",
+      "website": ""
+    },
+    "PL:Telefon Dla Kobiet Doświadczających Przemocy - Hotline for Women Experiencing Violence": {
+      "last": "2026-04-22T18:42:03+00:00",
+      "website": ""
+    },
+    "PL:Ogólnopolski Telefon Zaufania Uzależnienia / National Addiction Helpline": {
+      "last": "2026-04-22T18:42:23+00:00",
+      "website": ""
+    },
+    "PL:Telefon wsparcia dla osób w żałobie i po stracie": {
+      "last": "2026-04-22T18:42:43+00:00",
+      "website": ""
+    },
+    "PL:Телефон для жінок, які зазнають насильства - Hotline for abused women": {
+      "last": "2026-04-22T18:43:03+00:00",
+      "website": ""
+    },
+    "PL:Poradnia Telefoniczna \"Niebieskiej Linii\" / \"Blue Line\" Telephone Counselling Center": {
+      "last": "2026-04-22T18:43:23+00:00",
+      "website": ""
+    },
+    "PL:Infolinia dla osób starszych": {
+      "last": "2026-04-22T18:43:43+00:00",
+      "website": ""
+    },
+    "PL:Fundacja Zobacz...JESTEM": {
+      "last": "2026-04-22T18:44:03+00:00",
+      "website": ""
+    },
+    "PL:telefon dla rodziców i nauczycieli w sprawie bezpieczeństwa dzieci": {
+      "last": "2026-04-22T18:44:24+00:00",
+      "website": ""
+    },
+    "PL:Fundacja Słonie na Balkonie": {
+      "last": "2026-04-22T18:44:44+00:00",
+      "website": ""
+    },
+    "PL:Lambda Warszawa Telefon Zaufania LGBTQ+": {
+      "last": "2026-04-22T18:45:04+00:00",
+      "website": ""
+    },
+    "PL:Olsztynski Telefon Zaufania 'Anonimowy Przyjaciel": {
+      "last": "2026-04-22T18:45:24+00:00",
+      "website": ""
+    },
+    "PT:Vozes Amigas de Esperança": {
+      "last": "2026-04-22T18:45:44+00:00",
+      "website": ""
+    },
+    "PT:Voz de Apoio": {
+      "last": "2026-04-22T18:46:04+00:00",
+      "website": ""
+    },
+    "PT:SOS Estudante": {
+      "last": "2026-04-22T18:46:24+00:00",
+      "website": ""
+    },
+    "PT:Portuguese Association for Victim Support (APAV)": {
+      "last": "2026-04-22T18:46:44+00:00",
+      "website": ""
+    },
+    "PT:Telefone SOS Palavra Amiga": {
+      "last": "2026-04-22T18:47:04+00:00",
+      "website": ""
+    },
+    "PT:Telefone da Amizade Porto": {
+      "last": "2026-04-22T18:47:24+00:00",
+      "website": ""
+    },
+    "QA:Protection and Social Rehabilitation Centre (AMAN Centre)": {
+      "last": "2026-04-22T18:47:44+00:00",
+      "website": ""
+    },
+    "RO:DepreHUB": {
+      "last": "2026-04-22T18:48:04+00:00",
+      "website": ""
+    },
+    "RO:HELPLINE cu număr unic la nivel național destinat victimelor violenței domestice, discriminării pe criteriul de sex și traficului de persoane 0800.500.333": {
+      "last": "2026-04-22T18:48:24+00:00",
+      "website": ""
+    },
+    "RU:Детский телефон доверия / Children's Helpline": {
+      "last": "2026-04-22T18:48:44+00:00",
+      "website": ""
+    },
+    "RU:Телефон доверия Суицид Областная больница № 20": {
+      "last": "2026-04-22T18:49:04+00:00",
+      "website": ""
+    },
+    "RU:Горячая линия Центра сестер / Sisters Center Helpline": {
+      "last": "2026-04-22T18:49:24+00:00",
+      "website": ""
+    },
+    "SH:Emergency": {
+      "last": "2026-04-22T18:49:44+00:00",
+      "website": ""
+    },
+    "WS:SRCE Novi Sad": {
+      "last": "2026-04-22T18:50:05+00:00",
+      "website": ""
+    },
+    "WS:Linja Telefonike e Ndihmës (KOAPS)": {
+      "last": "2026-04-22T18:50:25+00:00",
+      "website": ""
+    },
+    "WS:SOS Telephone": {
+      "last": "2026-04-22T18:50:45+00:00",
+      "website": ""
+    },
+    "RS:Linja Telefonike e Ndihmës (KOAPS)": {
+      "last": "2026-04-22T18:51:05+00:00",
+      "website": ""
+    },
+    "RS:SOS Telephone": {
+      "last": "2026-04-22T18:51:25+00:00",
+      "website": ""
+    },
+    "SC:Quality of Life Division Helpline - Ministry of Family, Youth and Sport": {
+      "last": "2026-04-22T18:51:45+00:00",
+      "website": ""
+    },
+    "SC:Elderly and Disabled Helpline - Ministry of Family, Youth and Sport": {
+      "last": "2026-04-22T18:52:05+00:00",
+      "website": ""
+    },
+    "SG:Sexual Assault Care Centre (SACC)": {
+      "last": "2026-04-22T18:52:25+00:00",
+      "website": ""
+    },
+    "SG:National Council on Problem Gambling Helpline": {
+      "last": "2026-04-22T18:52:45+00:00",
+      "website": ""
+    },
+    "SG:Samaritans of Singapore (1800- 221 4444)": {
+      "last": "2026-04-22T18:52:45+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "SG:SAF Counselling Centre": {
+      "last": "2026-04-22T18:53:16+00:00",
+      "website": ""
+    },
+    "SG:Youthline": {
+      "last": "2026-04-22T18:53:36+00:00",
+      "website": ""
+    },
+    "SX:Emergency": {
+      "last": "2026-04-22T18:53:56+00:00",
+      "website": ""
+    },
+    "SK:Pomoc obetiam násilia": {
+      "last": "2026-04-22T18:54:17+00:00",
+      "website": ""
+    },
+    "SK:IPčko": {
+      "last": "2026-04-22T18:54:37+00:00",
+      "website": ""
+    },
+    "SK:Телефонна лінія довіри НЕЗАБУДКА": {
+      "last": "2026-04-22T18:54:57+00:00",
+      "website": ""
+    },
+    "SK:Linka detskej istoty Slovenského výboru UNICEF (bezplatná linka)": {
+      "last": "2026-04-22T18:55:17+00:00",
+      "website": ""
+    },
+    "SI:TOM - telefon za otroke in mladostnike - TOM - Telephone For Children And Adolescents": {
+      "last": "2026-04-22T18:55:37+00:00",
+      "website": ""
+    },
+    "SI:zenska svetovalnica Krizni Telefon - women's counseling Crisis Telephone": {
+      "last": "2026-04-22T18:55:57+00:00",
+      "website": ""
+    },
+    "ZA:Akeso Crisis Helpline": {
+      "last": "2026-04-22T18:56:17+00:00",
+      "website": ""
+    },
+    "ZA:South African Federation For Mental Health Helpline": {
+      "last": "2026-04-22T18:56:37+00:00",
+      "website": ""
+    },
+    "ZA:Triangle Project": {
+      "last": "2026-04-22T18:56:57+00:00",
+      "website": ""
+    },
+    "ZA:Tears Foundation Helpline": {
+      "last": "2026-04-22T18:57:17+00:00",
+      "website": ""
+    },
+    "ZA:Department of Social Development Substance Abuse Line 24hr helpline": {
+      "last": "2026-04-22T18:57:37+00:00",
+      "website": ""
+    },
+    "ZA:Childline": {
+      "last": "2026-04-22T18:57:57+00:00",
+      "website": ""
+    },
+    "ZA:National Aids Helpline": {
+      "last": "2026-04-22T18:58:17+00:00",
+      "website": ""
+    },
+    "ZA:AL-ANON": {
+      "last": "2026-04-22T18:58:37+00:00",
+      "website": ""
+    },
+    "ZA:Alcoholics Anonymous South Africa": {
+      "last": "2026-04-22T18:58:57+00:00",
+      "website": ""
+    },
+    "ZA:Rape Crisis Cape Town Trust Helpline": {
+      "last": "2026-04-22T18:59:17+00:00",
+      "website": ""
+    },
+    "ZA:Childline South Africa (08000 55 555)": {
+      "last": "2026-04-22T18:59:37+00:00",
+      "website": ""
+    },
+    "ZA:Befrienders South Africa": {
+      "last": "2026-04-22T18:59:37+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "ZA:Befrienders Botshabelo": {
+      "last": "2026-04-22T18:59:45+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "ZA:Befrienders Setshabelo": {
+      "last": "2026-04-22T18:59:51+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "ZA:Befrienders Kwa Nobuhle": {
+      "last": "2026-04-22T18:59:57+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "ZA:Befrienders Mitchell's Plain": {
+      "last": "2026-04-22T19:00:03+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "ZA:Befrienders Uitenhage": {
+      "last": "2026-04-22T19:00:10+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "ZA:Befrienders Umkomaas": {
+      "last": "2026-04-22T19:00:16+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "ZA:Befrienders Bloemfontein": {
+      "last": "2026-04-22T19:00:22+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "ZA:OUT (LGBT)": {
+      "last": "2026-04-22T19:00:48+00:00",
+      "website": ""
+    },
+    "KR:Emergency": {
+      "last": "2026-04-22T19:01:08+00:00",
+      "website": ""
+    },
+    "KR:자살예방상담전화 109": {
+      "last": "2026-04-22T19:01:28+00:00",
+      "website": ""
+    },
+    "KR:청소년상담1388 | Cyber1388": {
+      "last": "2026-04-22T19:01:48+00:00",
+      "website": ""
+    },
+    "KR:정신건강복지센터 정신건강위기상담전화 Mental Health Center Crisis Counseling": {
+      "last": "2026-04-22T19:02:08+00:00",
+      "website": ""
+    },
+    "KR:사랑의전화 상담실 - Love Call Center": {
+      "last": "2026-04-22T19:02:28+00:00",
+      "website": ""
+    },
+    "KR:친구사이 한국 헬프라인 - Chingusai South Korea Helpline": {
+      "last": "2026-04-22T19:02:48+00:00",
+      "website": ""
+    },
+    "KR:Danuri Helpline | Multicultural Family Support Line": {
+      "last": "2026-04-22T19:03:08+00:00",
+      "website": ""
+    },
+    "KR:여성긴급전화1366": {
+      "last": "2026-04-22T19:03:28+00:00",
+      "website": ""
+    },
+    "KR:한국성폭력상담소": {
+      "last": "2026-04-22T19:03:49+00:00",
+      "website": ""
+    },
+    "KR:Digital Sex Crime Victim Support Center": {
+      "last": "2026-04-22T19:04:09+00:00",
+      "website": ""
+    },
+    "KR:한국사이버성폭력대응센터": {
+      "last": "2026-04-22T19:04:29+00:00",
+      "website": ""
+    },
+    "KR:Love-Line (Sarang - Jonwha) Counselling Centre": {
+      "last": "2026-04-22T19:04:49+00:00",
+      "website": ""
+    },
+    "KR:Cheju": {
+      "last": "2026-04-22T19:05:09+00:00",
+      "website": ""
+    },
+    "KR:Choongju": {
+      "last": "2026-04-22T19:05:29+00:00",
+      "website": ""
+    },
+    "KR:Chunju": {
+      "last": "2026-04-22T19:05:49+00:00",
+      "website": ""
+    },
+    "KR:Inchon": {
+      "last": "2026-04-22T19:06:09+00:00",
+      "website": ""
+    },
+    "KR:Puchon": {
+      "last": "2026-04-22T19:06:29+00:00",
+      "website": ""
+    },
+    "KR:Pohang": {
+      "last": "2026-04-22T19:06:49+00:00",
+      "website": ""
+    },
+    "KR:Koyang": {
+      "last": "2026-04-22T19:07:09+00:00",
+      "website": ""
+    },
+    "KR:Kimhae": {
+      "last": "2026-04-22T19:07:29+00:00",
+      "website": ""
+    },
+    "KR:Ulsan": {
+      "last": "2026-04-22T19:07:49+00:00",
+      "website": ""
+    },
+    "KR:Pusan": {
+      "last": "2026-04-22T19:08:09+00:00",
+      "website": ""
+    },
+    "KR:Counsel24": {
+      "last": "2026-04-22T19:08:29+00:00",
+      "website": ""
+    },
+    "KR:Lifeline National Office": {
+      "last": "2026-04-22T19:08:49+00:00",
+      "website": ""
+    },
+    "KR:West Seoul Saengmyung Eui Chunhwa": {
+      "last": "2026-04-22T19:09:09+00:00",
+      "website": ""
+    },
+    "KR:Seoul": {
+      "last": "2026-04-22T19:09:29+00:00",
+      "website": ""
+    },
+    "KR:Taegu": {
+      "last": "2026-04-22T19:09:49+00:00",
+      "website": ""
+    },
+    "KR:Taejon": {
+      "last": "2026-04-22T19:10:09+00:00",
+      "website": ""
+    },
+    "ES:Samaritans in Spain": {
+      "last": "2026-04-22T19:10:09+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "ES:Psicólogos Sin Fronteras España": {
+      "last": "2026-04-22T19:10:36+00:00",
+      "website": ""
+    },
+    "ES:Psikevirtual": {
+      "last": "2026-04-22T19:10:56+00:00",
+      "website": ""
+    },
+    "ES:Línea 024": {
+      "last": "2026-04-22T19:11:16+00:00",
+      "website": ""
+    },
+    "ES:Teléfono Contra el Suicidio": {
+      "last": "2026-04-22T19:11:36+00:00",
+      "website": ""
+    },
+    "ES:Teléfono De La Mujer Galicia": {
+      "last": "2026-04-22T19:11:56+00:00",
+      "website": ""
+    },
+    "ES:FAD": {
+      "last": "2026-04-22T19:12:16+00:00",
+      "website": ""
+    },
+    "ES:Teléfono 016 - Servicio de atención a todas las formas de violencia contra las mujeres": {
+      "last": "2026-04-22T19:12:36+00:00",
+      "website": ""
+    },
+    "LK:1926 - National Mental Health Helpline": {
+      "last": "2026-04-22T19:12:56+00:00",
+      "website": ""
+    },
+    "LK:Lanka Life Line 1375": {
+      "last": "2026-04-22T19:13:16+00:00",
+      "website": ""
+    },
+    "LK:Sri Lanka Sumithrayo": {
+      "last": "2026-04-22T19:13:16+00:00",
+      "website": "https://srilankasumithrayo.lk"
+    },
+    "LK:Sri Lanka Sumithrayo - Colombo": {
+      "last": "2026-04-22T19:13:27+00:00",
+      "website": "https://srilankasumithrayo.lk"
+    },
+    "LK:Sri Lanka Sumithrayo - Panduwasnuwara": {
+      "last": "2026-04-22T19:13:36+00:00",
+      "website": "https://srilankasumithrayo.lk"
+    },
+    "LK:Sri Lanka Sumithrayo - Kandy": {
+      "last": "2026-04-22T19:13:44+00:00",
+      "website": "https://srilankasumithrayo.lk"
+    },
+    "LK:Sri Lanka Sumithrayo - Matale": {
+      "last": "2026-04-22T19:13:52+00:00",
+      "website": "https://srilankasumithrayo.lk"
+    },
+    "LK:Sri Lanka Sumithrayo - Panadura": {
+      "last": "2026-04-22T19:14:02+00:00",
+      "website": "https://srilankasumithrayo.lk"
+    },
+    "LK:Sri Lanka Sumithrayo - Colombo South": {
+      "last": "2026-04-22T19:14:10+00:00",
+      "website": "https://srilankasumithrayo.lk"
+    },
+    "LK:Sri Lanka Sumithrayo 'Mel Medura'": {
+      "last": "2026-04-22T19:14:19+00:00",
+      "website": "https://srilankasumithrayo.lk"
+    },
+    "SR:Kinder-en Jongerentelefoon": {
+      "last": "2026-04-22T19:14:47+00:00",
+      "website": ""
+    },
+    "SE:Jourhavande Medmanniska Hjalplinje": {
+      "last": "2026-04-22T19:15:07+00:00",
+      "website": ""
+    },
+    "SE:Spes - for survivors of suicide loss": {
+      "last": "2026-04-22T19:15:27+00:00",
+      "website": ""
+    },
+    "SE:Stödlinjen | Rise Sverige - The support line | Rise Sweden": {
+      "last": "2026-04-22T19:15:47+00:00",
+      "website": ""
+    },
+    "SE:The Rainbow Line": {
+      "last": "2026-04-22T19:16:07+00:00",
+      "website": ""
+    },
+    "SE:Mansjouren Hjalplinje": {
+      "last": "2026-04-22T19:16:27+00:00",
+      "website": ""
+    },
+    "SE:Freezonen Hjalplinje": {
+      "last": "2026-04-22T19:16:48+00:00",
+      "website": ""
+    },
+    "SE:Frisk & Fri Eating Disorder Line": {
+      "last": "2026-04-22T19:17:08+00:00",
+      "website": ""
+    },
+    "SE:Stödlinjen för spelare och anhöriga - The Swedish national gambling helpline": {
+      "last": "2026-04-22T19:17:28+00:00",
+      "website": ""
+    },
+    "SE:Frisk & Fri Eating Disorder Line - Relative Support": {
+      "last": "2026-04-22T19:17:48+00:00",
+      "website": ""
+    },
+    "SE:Brottsofferjouren": {
+      "last": "2026-04-22T19:18:08+00:00",
+      "website": ""
+    },
+    "SE:Anonyma Narkomaner": {
+      "last": "2026-04-22T19:18:28+00:00",
+      "website": ""
+    },
+    "SE:Alkohollinjen - The Alcohol Line": {
+      "last": "2026-04-22T19:18:48+00:00",
+      "website": ""
+    },
+    "SE:Äldrelinjen": {
+      "last": "2026-04-22T19:19:08+00:00",
+      "website": ""
+    },
+    "SE:Jourhavande präst": {
+      "last": "2026-04-22T19:19:28+00:00",
+      "website": ""
+    },
+    "SE:SOS-telefonen": {
+      "last": "2026-04-22T19:19:48+00:00",
+      "website": ""
+    },
+    "SE:Nagon att tala med Samaritans": {
+      "last": "2026-04-22T19:19:48+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "SE:Nationella Hjälplinjen": {
+      "last": "2026-04-22T19:20:15+00:00",
+      "website": ""
+    },
+    "CH:147.ch": {
+      "last": "2026-04-22T19:20:35+00:00",
+      "website": ""
+    },
+    "CH:Verband Tel 143 - Die Dargebotene Hand": {
+      "last": "2026-04-22T19:20:56+00:00",
+      "website": ""
+    },
+    "CH:Pars Pas Ligne d'assistance": {
+      "last": "2026-04-22T19:21:16+00:00",
+      "website": ""
+    },
+    "CH:LGBTIQ Helpline": {
+      "last": "2026-04-22T19:21:36+00:00",
+      "website": ""
+    },
+    "CH:La Main Tendue": {
+      "last": "2026-04-22T19:21:56+00:00",
+      "website": ""
+    },
+    "CH:PARSPAS": {
+      "last": "2026-04-22T19:22:16+00:00",
+      "website": ""
+    },
+    "TW:Emergency": {
+      "last": "2026-04-22T19:22:36+00:00",
+      "website": ""
+    },
+    "TW:1925安心專線（依舊愛我 / 1925 Peace of Mind Line (Still Love Me)": {
+      "last": "2026-04-22T19:22:56+00:00",
+      "website": ""
+    },
+    "TW:「張老師」服務 / \"Teacher Zhang\" Service Helpline": {
+      "last": "2026-04-22T19:23:16+00:00",
+      "website": ""
+    },
+    "TW:Taiwan Suicide Prevention Center": {
+      "last": "2026-04-22T19:23:36+00:00",
+      "website": ""
+    },
+    "TZ:National Child Helpline Tanzania - 116": {
+      "last": "2026-04-22T19:23:56+00:00",
+      "website": ""
+    },
+    "TH:1323 ปรึกษาปัญหาสุขภาพจิต": {
+      "last": "2026-04-22T19:24:16+00:00",
+      "website": ""
+    },
+    "TH:ศูนย์ช่วยเหลือสังคม สายด่วน 1300 (Social Help Center Hotline 1300)": {
+      "last": "2026-04-22T19:24:36+00:00",
+      "website": ""
+    },
+    "TH:Samaritans Thailand": {
+      "last": "2026-04-22T19:24:36+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "TH:Samaritans of Chiang Mai": {
+      "last": "2026-04-22T19:24:43+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "TG:La Croix Bleue du Togo": {
+      "last": "2026-04-22T19:25:09+00:00",
+      "website": ""
+    },
+    "TG:Cellule d'Ecoute d'Information et d'Orientation": {
+      "last": "2026-04-22T19:25:29+00:00",
+      "website": ""
+    },
+    "TK:Emergency": {
+      "last": "2026-04-22T19:25:49+00:00",
+      "website": ""
+    },
+    "TT:Families in Action": {
+      "last": "2026-04-22T19:26:09+00:00",
+      "website": ""
+    },
+    "TT:GROOTS Trinidad & Tobago": {
+      "last": "2026-04-22T19:26:29+00:00",
+      "website": ""
+    },
+    "TT:RN Vincent & Associates": {
+      "last": "2026-04-22T19:26:49+00:00",
+      "website": ""
+    },
+    "TT:Lifeline": {
+      "last": "2026-04-22T19:27:10+00:00",
+      "website": ""
+    },
+    "TR:LGBTİ+ Danışma Hattı - LGBTI+ HelpLine": {
+      "last": "2026-04-22T19:27:30+00:00",
+      "website": ""
+    },
+    "TR:Turkey Youth Support Line - Genclik Destek Hatti": {
+      "last": "2026-04-22T19:27:50+00:00",
+      "website": ""
+    },
+    "TR:Türkiye Ev İçi Şiddet Acil yardım hattı": {
+      "last": "2026-04-22T19:28:10+00:00",
+      "website": ""
+    },
+    "TC:Emergency": {
+      "last": "2026-04-22T19:28:30+00:00",
+      "website": ""
+    },
+    "UG:Mental Health Uganda": {
+      "last": "2026-04-22T19:28:50+00:00",
+      "website": ""
+    },
+    "UG:FIDA Uganda": {
+      "last": "2026-04-22T19:29:10+00:00",
+      "website": ""
+    },
+    "UG:Totya Platform Hotline": {
+      "last": "2026-04-22T19:29:30+00:00",
+      "website": ""
+    },
+    "UA:krisenchat Ukrainian": {
+      "last": "2026-04-22T19:29:50+00:00",
+      "website": ""
+    },
+    "UA:Національна гаряча лінія для дітей та молоді - National Toll-Free Hot Line for Children and Youth": {
+      "last": "2026-04-22T19:30:10+00:00",
+      "website": ""
+    },
+    "UA:Національна гаряча лінія з попередження домашнього насильства, торгівлі людьми та гендерної дискримінації": {
+      "last": "2026-04-22T19:30:30+00:00",
+      "website": ""
+    },
+    "UA:Telephone of confidence \"Stavropyghion-058\" Lviv": {
+      "last": "2026-04-22T19:30:50+00:00",
+      "website": ""
+    },
+    "UA:Odessa Confidence Telephone Service": {
+      "last": "2026-04-22T19:31:10+00:00",
+      "website": ""
+    },
+    "AE:Mental Support Line": {
+      "last": "2026-04-22T19:31:30+00:00",
+      "website": ""
+    },
+    "GB:Emergency": {
+      "last": "2026-04-22T19:31:50+00:00",
+      "website": ""
+    },
+    "GB:Shout (85258)": {
+      "last": "2026-04-22T19:32:10+00:00",
+      "website": ""
+    },
+    "GB:Runaway Helpline": {
+      "last": "2026-04-22T19:32:30+00:00",
+      "website": ""
+    },
+    "GB:National Suicide Prevention Helpline UK": {
+      "last": "2026-04-22T19:32:50+00:00",
+      "website": ""
+    },
+    "GB:SOS Silence of Suicide": {
+      "last": "2026-04-22T19:33:10+00:00",
+      "website": ""
+    },
+    "GB:No Panic Youth Helpline": {
+      "last": "2026-04-22T19:33:30+00:00",
+      "website": ""
+    },
+    "GB:Moodswings Helpline": {
+      "last": "2026-04-22T19:33:50+00:00",
+      "website": ""
+    },
+    "GB:LGBT Foundation Helpline": {
+      "last": "2026-04-22T19:34:10+00:00",
+      "website": ""
+    },
+    "GB:The National Bullying Helpline": {
+      "last": "2026-04-22T19:34:30+00:00",
+      "website": ""
+    },
+    "GB:OCD Action Helpline": {
+      "last": "2026-04-22T19:34:50+00:00",
+      "website": ""
+    },
+    "GB:Samaritans - Welsh Language Line": {
+      "last": "2026-04-22T19:34:50+00:00",
+      "website": "https://www.befrienders.org"
+    },
+    "GB:Nacoa (National Association for Children of Alcoholics)": {
+      "last": "2026-04-22T19:35:20+00:00",
+      "website": ""
+    },
+    "GB:MS Helpline": {
+      "last": "2026-04-22T19:35:40+00:00",
+      "website": ""
+    },
+    "GB:Alcoholics Anonymous Helpline": {
+      "last": "2026-04-22T19:36:00+00:00",
+      "website": ""
+    },
+    "GB:Modern Slavery & Exploitation Helpline (Unseen UK)": {
+      "last": "2026-04-22T19:36:20+00:00",
+      "website": ""
+    },
+    "GB:Self Injury Support": {
+      "last": "2026-04-22T19:36:40+00:00",
+      "website": ""
+    },
+    "GB:SurvivorsUK Helpline - Web Chat, Text and Email Service": {
+      "last": "2026-04-22T19:37:00+00:00",
+      "website": ""
+    },
+    "GB:Sarcoma UK Support Line": {
+      "last": "2026-04-22T19:37:20+00:00",
+      "website": ""
+    },
+    "GB:Winston's Wish Helpline": {
+      "last": "2026-04-22T19:37:40+00:00",
+      "website": ""
+    },
+    "GB:Switchboard LGBT Helpline": {
+      "last": "2026-04-22T19:38:01+00:00",
+      "website": ""
+    },
+    "GB:Grief Encounter Support line": {
+      "last": "2026-04-22T19:38:21+00:00",
+      "website": ""
+    },
+    "GB:Family Lives Helpline": {
+      "last": "2026-04-22T19:38:41+00:00",
+      "website": ""
+    },
+    "GB:Macmillan Support Line": {
+      "last": "2026-04-22T19:39:01+00:00",
+      "website": ""
+    },
+    "GB:Stop It Now Helpline": {
+      "last": "2026-04-22T19:39:21+00:00",
+      "website": ""
+    },
+    "GB:MS-UK Helpline": {
+      "last": "2026-04-22T19:39:41+00:00",
+      "website": ""
+    },
+    "GB:Respect Phoneline": {
+      "last": "2026-04-22T19:40:01+00:00",
+      "website": ""
+    },
+    "GB:Addiction Family Support Helpline": {
+      "last": "2026-04-22T19:40:21+00:00",
+      "website": ""
+    },
+    "GB:Child Bereavement UK Helpline": {
+      "last": "2026-04-22T19:40:41+00:00",
+      "website": ""
+    },
+    "GB:Marie Curie Support Line": {
+      "last": "2026-04-22T19:41:01+00:00",
+      "website": ""
+    },
+    "GB:Blue Cross Pet Loss Support": {
+      "last": "2026-04-22T19:41:21+00:00",
+      "website": ""
+    },
+    "GB:Jewish Women's Aid Domestic Abuse and Sexual Violence Helpline": {
+      "last": "2026-04-22T19:41:41+00:00",
+      "website": ""
+    },
+    "GB:Pregnancy Loss Helpline": {
+      "last": "2026-04-22T19:42:01+00:00",
+      "website": ""
+    },
+    "GB:Eating Disorders Support Helpline": {
+      "last": "2026-04-22T19:42:21+00:00",
+      "website": ""
+    },
+    "GB:National Sexual Health Helpline": {
+      "last": "2026-04-22T19:42:41+00:00",
+      "website": ""
+    },
+    "GB:NAPAC Support Service": {
+      "last": "2026-04-22T19:43:01+00:00",
+      "website": ""
+    },
+    "GB:The Men Standing Up Helpline": {
+      "last": "2026-04-22T19:43:21+00:00",
+      "website": ""
+    },
+    "GB:Narcotics Anonymous": {
+      "last": "2026-04-22T19:43:41+00:00",
+      "website": ""
+    },
+    "GB:The Compassionate Friends": {
+      "last": "2026-04-22T19:44:01+00:00",
+      "website": ""
+    },
+    "GB:The Survivors Trust Information, Advice and Support Line": {
+      "last": "2026-04-22T19:44:21+00:00",
+      "website": ""
+    },
+    "GB:Al-Anon Family Groups": {
+      "last": "2026-04-22T19:44:41+00:00",
+      "website": ""
+    },
+    "GB:Sands National Helpline": {
+      "last": "2026-04-22T19:45:01+00:00",
+      "website": ""
+    },
+    "GB:NCT Support Line": {
+      "last": "2026-04-22T19:45:22+00:00",
+      "website": ""
+    },
+    "GB:Revenge Porn Helpline": {
+      "last": "2026-04-22T19:45:42+00:00",
+      "website": ""
+    },
+    "GB:Abortion Recovery Care & Helpline": {
+      "last": "2026-04-22T19:46:02+00:00",
+      "website": ""
+    },
+    "GB:NSPCC FGM Helpline": {
+      "last": "2026-04-22T19:46:02+00:00",
+      "website": "https://www.nspcc.org.uk"
+    },
+    "GB:Forced Marriage Unit": {
+      "last": "2026-04-22T19:46:27+00:00",
+      "website": ""
+    },
+    "GB:Karma Nirvana Helpline": {
+      "last": "2026-04-22T19:46:47+00:00",
+      "website": ""
+    },
+    "GB:RoadPeace Helpline": {
+      "last": "2026-04-22T19:47:07+00:00",
+      "website": ""
+    },
+    "GB:Suicide&Co Helpline": {
+      "last": "2026-04-22T19:47:27+00:00",
+      "website": ""
+    },
+    "GB:Mankind Initiative Helpline": {
+      "last": "2026-04-22T19:47:47+00:00",
+      "website": ""
+    },
+    "GB:THT Direct Helpline": {
+      "last": "2026-04-22T19:48:07+00:00",
+      "website": ""
+    },
+    "GB:Survivors of Bereavement Support Line": {
+      "last": "2026-04-22T19:48:27+00:00",
+      "website": ""
+    },
+    "GB:RNIB Helpline": {
+      "last": "2026-04-22T19:48:47+00:00",
+      "website": ""
+    },
+    "GB:Brain and Spine Helpline": {
+      "last": "2026-04-22T19:49:07+00:00",
+      "website": ""
+    },
+    "GB:Carers UK Helpline": {
+      "last": "2026-04-22T19:49:27+00:00",
+      "website": ""
+    },
+    "GB:LGBT+ Domestic Abuse and Hate Crime Helpline": {
+      "last": "2026-04-22T19:49:47+00:00",
+      "website": ""
+    },
+    "GB:Lymphoma Action Helpline Services": {
+      "last": "2026-04-22T19:50:08+00:00",
+      "website": ""
+    },
+    "GB:OPOKA Helpline": {
+      "last": "2026-04-22T19:50:28+00:00",
+      "website": ""
+    },
+    "GB:Blood Cancer UK Support Line": {
+      "last": "2026-04-22T19:50:48+00:00",
+      "website": ""
+    },
+    "GB:Child Death Helpline": {
+      "last": "2026-04-22T19:51:08+00:00",
+      "website": ""
+    },
+    "GB:Combat Stress Helplne": {
+      "last": "2026-04-22T19:51:28+00:00",
+      "website": ""
+    },
+    "GB:The Silver Line Helpline": {
+      "last": "2026-04-22T19:51:48+00:00",
+      "website": ""
+    },
+    "GB:Hourglass (Safer Ageing) 24/7 Helpline": {
+      "last": "2026-04-22T19:52:08+00:00",
+      "website": ""
+    },
+    "GB:Dementia Connect Support Line": {
+      "last": "2026-04-22T19:52:28+00:00",
+      "website": ""
+    },
+    "GB:Mermaids": {
+      "last": "2026-04-22T19:52:48+00:00",
+      "website": ""
+    },
+    "GB:FamilyLine": {
+      "last": "2026-04-22T19:53:08+00:00",
+      "website": ""
+    },
+    "GB:The Gingerbread Single Parent Helpline": {
+      "last": "2026-04-22T19:53:28+00:00",
+      "website": ""
+    },
+    "GB:Steps Helpline": {
+      "last": "2026-04-22T19:53:48+00:00",
+      "website": ""
+    },
+    "GB:Families Need Fathers Helpline": {
+      "last": "2026-04-22T19:54:08+00:00",
+      "website": ""
+    },
+    "GB:Premier Lifeline": {
+      "last": "2026-04-22T19:54:28+00:00",
+      "website": ""
+    },
+    "GB:Towards Healing (United Kingdom)": {
+      "last": "2026-04-22T19:54:48+00:00",
+      "website": ""
+    },
+    "GB:The Dina Support Line": {
+      "last": "2026-04-22T19:55:08+00:00",
+      "website": ""
+    },
+    "GB:The Hope Project": {
+      "last": "2026-04-22T19:55:28+00:00",
+      "website": ""
+    },
+    "GB:Breathing Space (Scotland)": {
+      "last": "2026-04-22T19:55:48+00:00",
+      "website": ""
+    },
+    "GB:The Mix": {
+      "last": "2026-04-22T19:56:08+00:00",
+      "website": ""
+    },
+    "GB:Get Connected (for under 25 yrs)": {
+      "last": "2026-04-22T19:56:28+00:00",
+      "website": ""
+    },
+    "GB:Rehab 4 Addiction (Addiction Helpline - open 24/7)": {
+      "last": "2026-04-22T19:56:49+00:00",
+      "website": ""
+    },
+    "ZM:Lifeline 933": {
+      "last": "2026-04-22T19:57:09+00:00",
+      "website": ""
+    },
+    "ZM:Lifeline Childlline Zambia": {
+      "last": "2026-04-22T19:57:29+00:00",
       "website": ""
     }
   }
