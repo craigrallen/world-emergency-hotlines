@@ -27,7 +27,13 @@ const featuredCategories = [
 ---
 
 <Base title="World Emergency & Hotlines" description="An exhaustive, open directory of emergency and crisis support numbers for every country in the world.">
-  <section class="relative overflow-hidden pb-14 pt-10 sm:pt-16">
+  <section class="relative z-20 pb-14 pt-10 sm:pt-16">
+    {/* Decorative blur orb — clipped to its own wrapper so it does not force
+        overflow-hidden on the whole section (which was clipping the search
+        dropdown and making results unclickable). */}
+    <div aria-hidden="true" class="pointer-events-none absolute inset-0 overflow-hidden">
+      <div class="absolute left-1/2 top-[40%] h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-accent/10 blur-[120px]"></div>
+    </div>
     <div class="relative z-10 mx-auto max-w-3xl text-center">
       <p class="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-bg-elev/70 px-3 py-1 text-xs uppercase tracking-[0.2em] text-fg-muted" data-i18n-template="home.stats" data-i18n-args={JSON.stringify({ countries: totalCountries, hotlines: totalHotlines })}>
         <span class="inline-block h-1.5 w-1.5 rounded-full bg-success"></span>
