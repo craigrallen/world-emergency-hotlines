@@ -1,7 +1,8 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import tailwind from '@astrojs/tailwind';
-import cloudflare from '@astrojs/cloudflare';
+
+// Tailwind is wired via postcss.config.mjs (PostCSS plugin) — no @astrojs/tailwind
+// needed for Astro 6. @astrojs/cloudflare is kept in deps for the Phase 2 SSR switch.
 
 // We start in `static` output and can flip to `hybrid` once SSR routes
 // (api/*, country/*) start reading D1. Keeping `static` for Phase 1 means
@@ -10,10 +11,8 @@ export default defineConfig({
   site: 'https://hotlines.interconnected.au',
   output: 'static',
   trailingSlash: 'never',
-  integrations: [
-    tailwind({ applyBaseStyles: false }),
-  ],
   // When Phase 2 lands we switch to:
+  //   import cloudflare from '@astrojs/cloudflare';
   //   output: 'hybrid',
   //   adapter: cloudflare({ mode: 'directory' }),
   vite: {

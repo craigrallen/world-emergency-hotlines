@@ -2,6 +2,7 @@
 import type { Hotline } from '../lib/types';
 import { VERIFICATION_LABELS } from '../lib/types';
 import { getFreshnessInfo } from '../lib/data';
+import Icon from './Icon.astro';
 
 interface Props {
   hotline: Hotline;
@@ -10,34 +11,29 @@ interface Props {
 
 const { hotline, country } = Astro.props;
 
-// Badge colour per verification status
 const badgeTone: Record<string, string> = {
-  verified_web:       'bg-success/15 text-success border-success/40',
+  verified_web: 'bg-success/15 text-success border-success/40',
   verified_authority: 'bg-success/15 text-success border-success/40',
   verified_knowledge: 'bg-success/10 text-success border-success/30',
-  cross_referenced:   'bg-accent/15 text-accent border-accent/40',
-  legacy_unverified:  'bg-fg-muted/15 text-fg-muted border-fg-muted/30',
-  disputed:           'bg-danger/15 text-danger border-danger/40',
-  deprecated:         'bg-fg-muted/15 text-fg-muted border-fg-muted/30',
+  cross_referenced: 'bg-accent/15 text-accent border-accent/40',
+  legacy_unverified: 'bg-fg-muted/15 text-fg-muted border-fg-muted/30',
+  disputed: 'bg-danger/15 text-danger border-danger/40',
+  deprecated: 'bg-fg-muted/15 text-fg-muted border-fg-muted/30',
 };
 const tone = badgeTone[hotline.verification_status] ?? badgeTone.legacy_unverified;
 const statusLabel = VERIFICATION_LABELS[hotline.verification_status] ?? hotline.verification_status.replace(/_/g, ' ');
 
-// Tooltip explaining what each status means
 const statusTooltip: Record<string, string> = {
-  verified_web:       'Confirmed against the organisation\'s official website',
+  verified_web: 'Confirmed against the organisation\'s official website',
   verified_authority: 'Confirmed directly with the authoritative source',
   verified_knowledge: 'Confirmed against a trusted reference source',
-  cross_referenced:   'Found in multiple independent sources; not yet confirmed against the official site',
-  legacy_unverified:  'From a legacy dataset — please double-check before calling',
-  disputed:           'Conflicting information found — treat with caution',
-  deprecated:         'This service may no longer be active',
+  cross_referenced: 'Found in multiple independent sources; not yet confirmed against the official site',
+  legacy_unverified: 'From a legacy dataset — please double-check before calling',
+  disputed: 'Conflicting information found — treat with caution',
+  deprecated: 'This service may no longer be active',
 };
 const tooltip = statusTooltip[hotline.verification_status] ?? '';
 
-// Defensive sanitizer: protect the UI from any residual parse artefacts.
-// A well-formed number should not end with an unclosed " (..." nor start
-// with a bare "NN)" (country/area code that lost its leading paren).
 function cleanNumber(raw: string): string {
   let n = String(raw).trim();
   while (n.split('(').length - 1 > n.split(')').length - 1) {
@@ -45,35 +41,17 @@ function cleanNumber(raw: string): string {
     if (i <= 0) break;
     n = n.slice(0, i).trim();
   }
-  while (
-    n.split(')').length - 1 > n.split('(').length - 1 &&
-    n.endsWith(')')
-  ) {
-    n = n.slice(0, -1).trim();
-  }
+  while (n.split(')').length - 1 > n.split('(').length - 1 && n.endsWith(')')) n = n.slice(0, -1).trim();
   if (/^\d+\)/.test(n) && !n.includes('(')) n = '(' + n;
   return n;
 }
 
-// Numbers: voice first, then short codes
-const numbers = [...hotline.voice_numbers, ...hotline.short_codes]
-  .map(cleanNumber)
-  .filter((n) => n.length > 0);
-
-// Channel availability flags
-const hasSms   = hotline.sms_numbers.length > 0 || hotline.text_numbers.length > 0;
-const hasChat  = !!hotline.chat_url;
+const numbers = [...hotline.voice_numbers, ...hotline.short_codes].map(cleanNumber).filter((n) => n.length > 0);
+const hasSms = hotline.sms_numbers.length > 0 || hotline.text_numbers.length > 0;
+const hasChat = !!hotline.chat_url;
 const hasEmail = !!hotline.email;
-
-// Freshness info
 const freshness = getFreshnessInfo(hotline);
-const freshnessColour =
-  freshness.level === 'fresh' ? 'text-success' :
-  freshness.level === 'ok'    ? 'text-success/70' :
-  freshness.level === 'stale' ? 'text-accent' :
-  'text-fg-muted/60';
-
-// Source links (up to 2, shown as provenance)
+const freshnessColour = freshness.level === 'fresh' ? 'text-success' : freshness.level === 'ok' ? 'text-success/70' : freshness.level === 'stale' ? 'text-accent' : 'text-fg-muted/60';
 const sources = hotline.sources?.filter(Boolean).slice(0, 2) ?? [];
 ---
 
@@ -81,62 +59,34 @@ const sources = hotline.sources?.filter(Boolean).slice(0, 2) ?? [];
   <header class="mb-3 flex items-start justify-between gap-3">
     <div class="min-w-0">
       <h3 class="truncate text-base font-semibold text-fg">{hotline.name}</h3>
-      {
-        hotline.organization && hotline.organization !== hotline.name && (
-          <p class="truncate text-xs text-fg-muted">{hotline.organization}</p>
-        )
-      }
+      {hotline.organization && hotline.organization !== hotline.name && <p class="truncate text-xs text-fg-muted">{hotline.organization}</p>}
     </div>
-    <span
-      class={`chip shrink-0 border ${tone} cursor-help`}
-      title={tooltip}
-      aria-label={`Verification: ${statusLabel}. ${tooltip}`}
-    >
+    <span class={`chip shrink-0 border ${tone} cursor-help`} title={tooltip} aria-label={`Verification: ${statusLabel}. ${tooltip}`}>
       {statusLabel}
     </span>
   </header>
 
-  {/* Primary contact numbers */}
-  {
-    numbers.length > 0 && (
-      <ul class="mb-3 flex flex-wrap gap-2">
-        {numbers.map((n) => (
-          <li>
-            <a
-              href={`tel:${n.replace(/\s+/g, '')}`}
-              class="inline-flex items-center gap-1.5 rounded-lg bg-accent/10 px-3 py-1.5 font-mono text-sm text-accent hover:bg-accent/20"
-            >
-              <svg class="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.8 12.8 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.8 12.8 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-              {n}
-            </a>
-          </li>
-        ))}
-      </ul>
-    )
-  }
+  {numbers.length > 0 && (
+    <ul class="mb-3 flex flex-wrap gap-2">
+      {numbers.map((n) => (
+        <li>
+          <a href={`tel:${n.replace(/\s+/g, '')}`} class="inline-flex items-center gap-1.5 rounded-lg bg-accent/10 px-3 py-1.5 font-mono text-sm text-accent hover:bg-accent/20">
+            <Icon name="phone" class="h-3.5 w-3.5 shrink-0" />
+            {n}
+          </a>
+        </li>
+      ))}
+    </ul>
+  )}
 
-  {/* Channel availability chips */}
   {(hasSms || hasChat || hasEmail) && (
     <div class="mb-3 flex flex-wrap gap-1.5">
-      {hasSms && (
-        <span class="chip border-border/60 bg-bg/60 text-fg-muted text-[10px]" title={`SMS/Text: ${[...hotline.sms_numbers, ...hotline.text_numbers].join(', ')}`}>
-          SMS
-        </span>
-      )}
-      {hasChat && (
-        <a href={hotline.chat_url!} target="_blank" rel="noopener" class="chip border-accent/30 bg-accent/5 text-accent text-[10px] hover:bg-accent/15">
-          Online chat ↗
-        </a>
-      )}
-      {hasEmail && (
-        <a href={`mailto:${hotline.email}`} class="chip border-border/60 bg-bg/60 text-fg-muted text-[10px] hover:text-fg">
-          Email
-        </a>
-      )}
+      {hasSms && <span class="chip border-border/60 bg-bg/60 text-fg-muted text-[10px]"><Icon name="sms" class="h-3 w-3" /> SMS</span>}
+      {hasChat && <a href={hotline.chat_url!} target="_blank" rel="noopener" class="chip border-accent/30 bg-accent/5 text-accent text-[10px] hover:bg-accent/15"><Icon name="chat" class="h-3 w-3" /> Online chat</a>}
+      {hasEmail && <a href={`mailto:${hotline.email}`} class="chip border-border/60 bg-bg/60 text-fg-muted text-[10px] hover:text-fg"><Icon name="email" class="h-3 w-3" /> Email</a>}
     </div>
   )}
 
-  {/* Key metadata */}
   <dl class="grid grid-cols-1 gap-1 text-xs text-fg-muted sm:grid-cols-2">
     {hotline.hours && (<><dt class="text-fg-muted/70">Hours</dt><dd class="text-fg">{hotline.hours}</dd></>)}
     {hotline.cost && hotline.cost !== 'unknown' && (<><dt class="text-fg-muted/70">Cost</dt><dd class="text-fg capitalize">{hotline.cost.replace('_', ' ')}</dd></>)}
@@ -145,31 +95,23 @@ const sources = hotline.sources?.filter(Boolean).slice(0, 2) ?? [];
     {country && (<><dt class="text-fg-muted/70">Country</dt><dd class="text-fg">{country}</dd></>)}
   </dl>
 
-  {/* Freshness / verification date */}
   {freshness.label && (
-    <p class={`mt-2 text-[10px] ${freshnessColour}`} title="When this hotline was last confirmed against an authoritative source">
-      {freshness.level === 'stale' ? '⚠ ' : '✓ '}{freshness.label}
+    <p class={`mt-2 inline-flex items-center gap-1 text-[10px] ${freshnessColour}`} title="When this hotline was last confirmed against an authoritative source">
+      <Icon name={freshness.level === 'stale' ? 'alert' : 'shield'} class="h-3 w-3" />
+      {freshness.label}
     </p>
   )}
 
-  {/* Unverified cue — subtle, not alarmist */}
   {(hotline.verification_status === 'legacy_unverified' || hotline.verification_status === 'disputed') && (
-    <p class="mt-2 text-[10px] text-fg-muted/70 italic">
-      {hotline.verification_status === 'disputed'
-        ? 'Conflicting data found — verify before calling.'
-        : 'Unverified — please confirm via official website before relying on this number.'}
+    <p class="mt-2 text-[10px] italic text-fg-muted/70">
+      {hotline.verification_status === 'disputed' ? 'Conflicting data found — verify before calling.' : 'Unverified — please confirm via official website before relying on this number.'}
     </p>
   )}
 
-  {/* Website / source links */}
   {(hotline.website || sources.length > 0) && (
     <div class="mt-3 flex flex-wrap gap-2 border-t border-border/60 pt-3 text-xs">
-      {hotline.website && (
-        <a class="text-accent hover:underline" href={hotline.website} target="_blank" rel="noopener">Official site ↗</a>
-      )}
-      {!hotline.website && sources.map((src) => (
-        <a class="text-fg-muted hover:text-accent hover:underline truncate max-w-[18rem]" href={src} target="_blank" rel="noopener" title={src}>Source ↗</a>
-      ))}
+      {hotline.website && <a class="inline-flex items-center gap-1 text-accent hover:underline" href={hotline.website} target="_blank" rel="noopener">Official site <Icon name="external" class="h-3 w-3" /></a>}
+      {!hotline.website && sources.map((src) => <a class="inline-flex max-w-[18rem] items-center gap-1 truncate text-fg-muted hover:text-accent hover:underline" href={src} target="_blank" rel="noopener" title={src}>Source <Icon name="external" class="h-3 w-3" /></a>)}
     </div>
   )}
 

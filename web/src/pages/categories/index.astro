@@ -1,17 +1,11 @@
 ---
 import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
 import { getCategoriesStats } from '../../lib/data';
 import { CATEGORY_META } from '../../lib/types';
 
 const stats = await getCategoriesStats();
-
-// Sort: crisis/high-priority categories first, then by hotline count
-const PRIORITY_SLUGS = [
-  'suicide_crisis', 'emergency', 'mental_health', 'child_protection',
-  'domestic_violence', 'sexual_violence', 'lgbtqia', 'substance_use',
-  'veterans', 'human_trafficking', 'disaster', 'missing_persons',
-];
-
+const PRIORITY_SLUGS = ['suicide_crisis', 'emergency', 'mental_health', 'child_protection', 'domestic_violence', 'sexual_violence', 'lgbtqia', 'substance_use', 'veterans', 'human_trafficking', 'disaster', 'missing_persons'];
 const sorted = [...stats.categories].sort((a, b) => {
   const ai = PRIORITY_SLUGS.indexOf(a.slug);
   const bi = PRIORITY_SLUGS.indexOf(b.slug);
@@ -24,86 +18,70 @@ const sorted = [...stats.categories].sort((a, b) => {
 const total = sorted.reduce((s, c) => s + c.count, 0);
 const totalVerified = sorted.reduce((s, c) => s + c.verified_count, 0);
 const verifiedPct = total > 0 ? Math.round((totalVerified / total) * 100) : 0;
+const countriesCovered = sorted.reduce((s, c) => Math.max(s, c.countries), 0);
 ---
 
-<Base
-  title="All categories · Hotlines directory"
-  description={`Browse all ${sorted.length} categories of emergency and crisis helplines. ${total.toLocaleString()} hotlines worldwide, ${verifiedPct}% verified.`}
->
-  <!-- Breadcrumb -->
+<Base title="All categories · Hotlines directory" description={`Browse all ${sorted.length} categories of emergency and crisis helplines. ${total.toLocaleString()} hotlines worldwide, ${verifiedPct}% verified.`}>
   <nav class="mb-6 flex items-center gap-2 text-xs text-fg-muted" aria-label="Breadcrumb">
-    <a href="/" class="hover:text-fg">Home</a>
+    <a href="/" class="hover:text-fg" data-i18n="nav.home">Home</a>
     <span aria-hidden="true">›</span>
-    <span class="text-fg">All categories</span>
+    <span class="text-fg" data-i18n="categories.title">All categories</span>
   </nav>
 
-  <!-- Header -->
   <div class="mb-8">
-    <h1 class="font-display text-4xl text-fg sm:text-5xl">All categories</h1>
-    <p class="mt-2 text-base text-fg-muted">
-      Browse {sorted.length} categories of emergency and crisis support lines across {sorted.reduce((s, c) => Math.max(s, c.countries), 0)} countries.
+    <h1 class="text-4xl font-semibold text-fg sm:text-5xl" data-i18n="categories.title">All categories</h1>
+    <p class="mt-2 text-base text-fg-muted" data-i18n-template="categories.body" data-i18n-args={JSON.stringify({ count: sorted.length, countries: countriesCovered })}>
+      Browse {sorted.length} categories of emergency and crisis support lines across {countriesCovered} countries.
     </p>
 
-    <!-- Global summary stats -->
     <div class="mt-6 flex flex-wrap gap-4">
-      <div class="card flex flex-col p-4 text-center min-w-[80px]">
-        <span class="font-display text-3xl text-fg">{total.toLocaleString()}</span>
-        <span class="text-xs text-fg-muted">hotlines total</span>
+      <div class="card flex min-w-[100px] flex-col p-4 text-center">
+        <span class="text-3xl font-semibold text-fg">{total.toLocaleString()}</span>
+        <span class="text-xs text-fg-muted" data-i18n="categories.totalHotlines">hotlines total</span>
       </div>
-      <div class="card flex flex-col p-4 text-center min-w-[80px]">
-        <span class="font-display text-3xl text-success">{totalVerified.toLocaleString()}</span>
-        <span class="text-xs text-fg-muted">verified ({verifiedPct}%)</span>
+      <div class="card flex min-w-[100px] flex-col p-4 text-center">
+        <span class="text-3xl font-semibold text-success">{totalVerified.toLocaleString()}</span>
+        <span class="text-xs text-fg-muted" data-i18n-template="categories.totalVerified" data-i18n-args={JSON.stringify({ percent: verifiedPct })}>verified ({verifiedPct}%)</span>
       </div>
-      <div class="card flex flex-col p-4 text-center min-w-[80px]">
-        <span class="font-display text-3xl text-fg">{sorted.length}</span>
-        <span class="text-xs text-fg-muted">categories</span>
+      <div class="card flex min-w-[100px] flex-col p-4 text-center">
+        <span class="text-3xl font-semibold text-fg">{sorted.length}</span>
+        <span class="text-xs text-fg-muted" data-i18n="categories.totalCategories">categories</span>
       </div>
     </div>
   </div>
 
-  <!-- Category grid -->
   <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
     {sorted.map((cat) => {
       const meta = CATEGORY_META[cat.slug];
-      const icon = meta?.icon ?? '🌐';
       const label = meta?.label ?? cat.slug.replace(/_/g, ' ');
       const desc = meta?.description ?? '';
       const pct = cat.count > 0 ? Math.round((cat.verified_count / cat.count) * 100) : 0;
-      const isPriority = PRIORITY_SLUGS.includes(cat.slug);
       return (
-        <a
-          href={`/category/${cat.slug}`}
-          class={`card group flex flex-col gap-3 p-5 transition hover:-translate-y-0.5 hover:border-accent/60 ${isPriority ? 'border-border/80' : ''}`}
-        >
+        <a href={`/category/${cat.slug}`} class="card group flex flex-col gap-3 p-5 transition hover:-translate-y-0.5 hover:border-accent/60">
           <div class="flex items-start justify-between gap-3">
-            <span class="text-2xl leading-none" aria-hidden="true">{icon}</span>
+            <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-accent/12 text-accent"><Icon name={meta?.icon ?? 'globe'} class="h-5 w-5" /></span>
             <div class="flex flex-wrap gap-1.5 text-right">
               <span class="chip text-[10px] border-border/60">{cat.count} hotlines</span>
-              {cat.verified_count > 0 && (
-                <span class="chip text-[10px] border-success/30 bg-success/8 text-success">{pct}% verified</span>
-              )}
+              {cat.verified_count > 0 && <span class="chip border-success/30 bg-success/8 text-[10px] text-success">{pct}% verified</span>}
             </div>
           </div>
           <div>
-            <h2 class="text-sm font-semibold text-fg group-hover:text-accent transition-colors">{label}</h2>
-            {desc && <p class="mt-0.5 text-xs text-fg-muted line-clamp-2">{desc}</p>}
+            <h2 class="text-sm font-semibold text-fg transition-colors group-hover:text-accent">{label}</h2>
+            {desc && <p class="mt-0.5 line-clamp-2 text-xs text-fg-muted">{desc}</p>}
           </div>
-          <p class="text-[10px] text-fg-muted/70">
-            {cat.countries} {cat.countries === 1 ? 'country' : 'countries'}
-          </p>
+          <p class="text-[10px] text-fg-muted/70">{cat.countries} {cat.countries === 1 ? 'country' : 'countries'}</p>
         </a>
       );
     })}
   </div>
 
-  <!-- Data footer -->
   <div class="mt-12 border-t border-border pt-6 text-xs text-fg-muted">
     <div class="flex flex-wrap items-center justify-between gap-4">
       <p>
-        Category statistics are aggregated from the full dataset.
-        <a href="/data" class="text-accent hover:underline ml-1">Download raw data →</a>
+        <span data-i18n="categories.footer">Category statistics are aggregated from the full dataset.</span>
+        <a href="/data" class="ml-1 inline-flex items-center gap-1 text-accent hover:underline"><span data-i18n="categories.rawData">Download raw data</span><Icon name="chevron-right" class="h-3 w-3" /></a>
       </p>
-      <a href="/about" class="text-accent hover:underline">How verification works →</a>
+      <a href="/about" class="inline-flex items-center gap-1 text-accent hover:underline"><span data-i18n="categories.howVerificationWorks">How verification works</span><Icon name="chevron-right" class="h-3 w-3" /></a>
     </div>
   </div>
 </Base>

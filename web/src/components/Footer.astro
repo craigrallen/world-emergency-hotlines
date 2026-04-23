@@ -1,27 +1,38 @@
 ---
+import Icon from './Icon.astro';
+import { t, type Locale } from '../lib/i18n';
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = 'en' as Locale } = Astro.props;
 const year = new Date().getFullYear();
 ---
 
 <footer class="mt-10 border-t border-border/60 bg-bg/60">
-  <div
-    class="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-8 text-sm text-fg-muted sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8"
-  >
+  <div class="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-8 text-sm text-fg-muted sm:flex-row sm:items-center sm:justify-between sm:px-6 lg:px-8">
     <p>
-      © {year} · Open data, best-effort verification. Always double-check a number before relying on it.
+      © {year} · <span data-i18n="footer.notice">{t(locale, 'footer.notice')}</span>
     </p>
     <div class="flex flex-wrap items-center gap-4">
-      <a href="/categories" class="hover:text-fg">Categories</a>
-      <a href="/data" class="hover:text-fg">Data</a>
-      <a href="/about" class="hover:text-fg">About</a>
-      <a href="https://github.com/craigrallen/world-emergency-hotlines" class="hover:text-fg" rel="noopener" target="_blank">GitHub ↗</a>
+      <a href="/categories" class="hover:text-fg" data-i18n="nav.categories">{t(locale, 'nav.categories')}</a>
+      <a href="/data" class="hover:text-fg" data-i18n="nav.data">{t(locale, 'nav.data')}</a>
+      <a href="/about" class="hover:text-fg" data-i18n="nav.about">{t(locale, 'nav.about')}</a>
+      <a href="https://github.com/craigrallen/world-emergency-hotlines" class="inline-flex items-center gap-1 hover:text-fg" rel="noopener" target="_blank">
+        <span data-i18n="footer.github">{t(locale, 'footer.github')}</span>
+        <Icon name="external" class="h-3.5 w-3.5" />
+      </a>
       <a
         href="https://www.buymeacoffee.com/interconnected"
-        class="inline-flex items-center gap-1 rounded-md bg-amber-400 px-3 py-1 font-medium text-zinc-900 shadow-sm hover:bg-amber-300"
+        class="inline-flex items-center gap-1 rounded-md bg-amber-400 px-3 py-1 font-medium text-zinc-900 shadow-sm transition hover:bg-amber-300"
         rel="noopener"
         target="_blank"
-        aria-label="Support hotlines.world on Buy Me a Coffee"
+        aria-label={t(locale, 'footer.supportAria')}
+        data-i18n-aria-label="footer.supportAria"
       >
-        ☕ Buy me a coffee
+        <span aria-hidden="true">☕</span>
+        <span data-i18n="footer.support">{t(locale, 'footer.support')}</span>
       </a>
     </div>
   </div>

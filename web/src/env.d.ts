@@ -33,3 +33,11 @@ interface D1Database {
   prepare(query: string): D1PreparedStatement;
   batch(statements: D1PreparedStatement[]): Promise<unknown[]>;
 }
+
+interface Window {
+  __WEH__?: {
+    locale: string;
+    dictionaries: Record<string, Record<string, string>>;
+    t: (key: string, vars?: Record<string, string | number>) => string;
+  };
+}
