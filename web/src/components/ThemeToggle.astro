@@ -1,0 +1,43 @@
+---
+import Icon from './Icon.astro';
+---
+
+<div class="inline-flex items-center gap-1 rounded-full border border-border/70 bg-bg-elev/70 p-1">
+  <span class="px-2 text-[11px] font-semibold text-fg-muted" data-i18n="theme.label">Theme</span>
+  <button type="button" class="theme-btn rounded-full p-2 text-fg-muted transition hover:bg-bg hover:text-fg" data-theme-value="light" data-i18n-title="theme.light" title="Light">
+    <Icon name="sun" class="h-4 w-4" />
+  </button>
+  <button type="button" class="theme-btn rounded-full p-2 text-fg-muted transition hover:bg-bg hover:text-fg" data-theme-value="dark" data-i18n-title="theme.dark" title="Dark">
+    <Icon name="moon" class="h-4 w-4" />
+  </button>
+  <button type="button" class="theme-btn rounded-full p-2 text-fg-muted transition hover:bg-bg hover:text-fg" data-theme-value="system" data-i18n-title="theme.system" title="System">
+    <Icon name="system" class="h-4 w-4" />
+  </button>
+</div>
+
+<script>
+  const root = document.documentElement;
+  const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('.theme-btn'));
+
+  const sync = () => {
+    const theme = root.dataset.themePreference || 'system';
+    buttons.forEach((button) => {
+      const active = button.dataset.themeValue === theme;
+      button.classList.toggle('bg-accent/15', active);
+      button.classList.toggle('text-accent', active);
+      button.classList.toggle('text-fg-muted', !active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+  };
+
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const value = button.dataset.themeValue || 'system';
+      window.dispatchEvent(new CustomEvent('weh:set-theme', { detail: value }));
+      sync();
+    });
+  });
+
+  window.addEventListener('weh:theme-changed', sync);
+  sync();
+</script>

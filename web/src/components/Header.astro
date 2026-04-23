@@ -1,48 +1,62 @@
 ---
-const nav: Array<{ href: string; label: string }> = [
-  { href: '/', label: 'Home' },
-  { href: '/categories', label: 'Categories' },
-  { href: '/map', label: 'Map' },
-  { href: '/data', label: 'Data' },
-  { href: '/about', label: 'About' },
+import Icon from './Icon.astro';
+import ThemeToggle from './ThemeToggle.astro';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { t, type Locale } from '../lib/i18n';
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = 'en' as Locale } = Astro.props;
+
+const nav: Array<{ href: string; key: string; icon: Parameters<typeof Icon>[0]['name'] }> = [
+  { href: '/', key: 'nav.home', icon: 'brand' },
+  { href: '/categories', key: 'nav.categories', icon: 'shield' },
+  { href: '/map', key: 'nav.map', icon: 'map' },
+  { href: '/data', key: 'nav.data', icon: 'dataset' },
+  { href: '/about', key: 'nav.about', icon: 'heart' },
 ];
+
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 ---
 
-<header class="border-b border-border/60 bg-bg/80 backdrop-blur-md">
-  <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
-    <a href="/" class="group inline-flex items-center gap-2.5">
-      <span
-        class="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-accent text-accent-contrast shadow-glow transition group-hover:scale-105"
-      >
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" class="h-4 w-4">
-          <path
-            d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"
-            fill="currentColor"
-          />
-        </svg>
-      </span>
-      <span class="flex flex-col leading-none">
-        <span class="font-display text-xl tracking-tight text-fg">Hotlines</span>
-        <span class="text-[11px] uppercase tracking-[0.2em] text-fg-muted">world directory</span>
-      </span>
-    </a>
+<header class="sticky top-0 z-40 border-b border-border/60 bg-bg/84 backdrop-blur-xl">
+  <div class="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-4 sm:px-6 lg:px-8">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <a href="/" class="group inline-flex items-center gap-3">
+        <span class="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-accent text-accent-contrast shadow-glow transition group-hover:scale-105">
+          <Icon name="brand" class="h-5 w-5" />
+        </span>
+        <span class="flex flex-col leading-none">
+          <span class="text-xl font-semibold tracking-tight text-fg">Hotlines</span>
+          <span class="text-[11px] uppercase tracking-[0.2em] text-fg-muted" data-i18n="header.directory">{t(locale, 'header.directory')}</span>
+        </span>
+      </a>
 
-    <nav aria-label="Primary" class="flex items-center gap-1 sm:gap-3">
+      <div class="flex flex-wrap items-center gap-2">
+        <LanguageSwitcher />
+        <ThemeToggle />
+      </div>
+    </div>
+
+    <nav aria-label="Primary" class="flex flex-wrap items-center gap-2">
       {
         nav.map((item) => {
           const active = path === item.href || (item.href !== '/' && path.startsWith(item.href));
           return (
             <a
               href={item.href}
-              class={`rounded-full px-3 py-1.5 text-sm transition-colors ${
+              class={`inline-flex items-center gap-2 rounded-full px-3.5 py-2 text-sm transition-colors ${
                 active
-                  ? 'bg-bg-elev text-fg'
-                  : 'text-fg-muted hover:bg-bg-elev/60 hover:text-fg'
+                  ? 'bg-accent/12 text-accent'
+                  : 'border border-transparent text-fg-muted hover:border-border hover:bg-bg-elev/70 hover:text-fg'
               }`}
               aria-current={active ? 'page' : undefined}
+              data-i18n={item.key}
             >
-              {item.label}
+              <Icon name={item.icon} class="h-4 w-4" />
+              {t(locale, item.key)}
             </a>
           );
         })

@@ -11,6 +11,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "data:build": "node scripts/build-static-data.mjs",
+    "verify:search": "node scripts/verify-searchbox.mjs",
     "db:init": "wrangler d1 execute world-hotlines --file=./db/schema.sql",
     "db:seed": "node db/seed.mjs > db/seed.sql && wrangler d1 execute world-hotlines --file=./db/seed.sql",
     "typecheck": "astro check"
