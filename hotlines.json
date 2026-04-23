@@ -110,6 +110,31 @@
             "https://www.gov.uk/foreign-travel-advice/afghanistan"
           ],
           "name": "Emergency"
+        },
+        {
+          "name": "Fire brigade - Afghanistan",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "117"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "fire service",
+          "geography": "Afghanistan",
+          "notes": "Cross-referenced with Wikipedia emergency-numbers list.",
+          "verification_status": "cross_referenced",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+          ]
         }
       ]
     },
@@ -68735,6 +68760,32 @@
           "sources": [
             "atlacord/Naga Hotlines.json @ 61bec14"
           ]
+        },
+        {
+          "name": "Emergency (all services) - Norfolk Island",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "000",
+            "112"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "single emergency number (Australian system)",
+          "geography": "Norfolk Island",
+          "notes": "Cross-referenced with Wikipedia emergency-numbers list.",
+          "verification_status": "cross_referenced",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+          ]
         }
       ]
     },
@@ -83445,6 +83496,31 @@
             ],
             "sms": []
           }
+        },
+        {
+          "name": "Ambulance - Sudan",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "333"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "medical emergency (Khartoum area)",
+          "geography": "Sudan",
+          "notes": "Cross-referenced with Wikipedia emergency-numbers list.",
+          "verification_status": "cross_referenced",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+          ]
         }
       ]
     },
@@ -97527,6 +97603,31 @@
               "8000136"
             ]
           }
+        },
+        {
+          "name": "Police - Yemen",
+          "organization": "Government / national emergency services",
+          "category": "emergency",
+          "voice_numbers": [
+            "194"
+          ],
+          "sms_numbers": [],
+          "text_numbers": [],
+          "short_codes": [],
+          "chat_url": null,
+          "email": null,
+          "website": null,
+          "hours": "24/7",
+          "languages": [],
+          "cost": "free",
+          "target": "police emergency (coverage varies)",
+          "geography": "Yemen",
+          "notes": "Cross-referenced with Wikipedia emergency-numbers list.",
+          "verification_status": "cross_referenced",
+          "last_verified": "2026-04-23",
+          "sources": [
+            "https://en.wikipedia.org/wiki/List_of_emergency_telephone_numbers"
+          ]
         }
       ]
     },
