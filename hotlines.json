@@ -1004,42 +1004,6 @@
       "notes": "911 unified (Buenos Aires and most provinces), 101 police, 100 fire, 107 SAME ambulance.",
       "hotlines": [
         {
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "911",
-            "101",
-            "100",
-            "107"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Spanish"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Argentina",
-          "notes": "",
-          "verification_status": "verified_authority",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.gov.uk/foreign-travel-advice/argentina"
-          ],
-          "name": "Emergency",
-          "_legacy": {
-            "name": "Emergency",
-            "numbers": [
-              "911"
-            ]
-          }
-        },
-        {
           "name": "Centro de Asistencia al Suicida",
           "organization": "Centro de Asistencia al Suicida",
           "category": "suicide_crisis",
@@ -1550,15 +1514,18 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "Spanish"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Argentina",
           "notes": "For immediate life-threatening emergencies.",
-          "verification_status": "cross_referenced",
+          "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
             "https://helplines.world/",
+            "https://www.gov.uk/foreign-travel-advice/argentina",
             "xref:helplines.world"
           ],
           "_legacy": {
@@ -3415,41 +3382,6 @@
           ]
         },
         {
-          "name": "Emergency",
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "000",
-            "112",
-            "106"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "Australia",
-          "notes": "",
-          "verification_status": "verified_authority",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Emergency",
-            "numbers": [
-              "000",
-              "112",
-              "106"
-            ]
-          }
-        },
-        {
           "name": "Lifeline",
           "organization": "Lifeline",
           "category": "suicide_crisis",
@@ -4360,10 +4292,11 @@
           "target": "anyone in a life-threatening emergency",
           "geography": "Australia",
           "notes": "For immediate life-threatening emergencies.",
-          "verification_status": "cross_referenced",
+          "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
             "https://helplines.world/",
+            "information.json",
             "xref:helplines.world"
           ],
           "_legacy": {
@@ -6484,7 +6417,10 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "Arabic",
+            "English"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Bahrain",
@@ -6570,32 +6506,6 @@
             ],
             "sms": []
           }
-        },
-        {
-          "organization": "Emergency (999)",
-          "category": "emergency",
-          "voice_numbers": [
-            "999"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Arabic",
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Bahrain",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
-          "name": "Emergency (999)"
         },
         {
           "organization": "Bahrain Women's Union",
@@ -6705,7 +6615,10 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "Bengali",
+            "English"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Bangladesh",
@@ -6713,6 +6626,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://999.gov.bd",
             "https://www.gov.uk/foreign-travel-advice/bangladesh",
             "information.json"
           ],
@@ -6929,34 +6843,6 @@
           }
         },
         {
-          "organization": "Bangladesh Police",
-          "category": "emergency",
-          "voice_numbers": [
-            "999"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://999.gov.bd",
-          "hours": "24/7",
-          "languages": [
-            "Bengali",
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Bangladesh",
-          "notes": "",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://999.gov.bd"
-          ],
-          "name": "National Emergency Service 999"
-        },
-        {
           "organization": "Department of Social Services",
           "category": "child_protection",
           "voice_numbers": [
@@ -7124,7 +7010,9 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "English"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Barbados",
@@ -7306,33 +7194,6 @@
               "246 435 8222"
             ]
           }
-        },
-        {
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "211",
-            "311",
-            "511"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Barbados",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
-          "name": "Emergency"
         },
         {
           "organization": "Samaritans Barbados",
@@ -7623,9 +7484,9 @@
           "hours": "24/7",
           "languages": [
             "Dutch",
+            "English",
             "French",
-            "German",
-            "English"
+            "German"
           ],
           "cost": "free",
           "target": "life-threatening emergencies",
@@ -7634,8 +7495,11 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://helplines.world/",
             "https://www.112.be",
-            "https://www.gov.uk/foreign-travel-advice/belgium"
+            "https://www.gov.uk/foreign-travel-advice/belgium",
+            "information.json",
+            "xref:helplines.world"
           ]
         },
         {
@@ -7838,37 +7702,6 @@
             "https://www.1712.be",
             "xref:psc_app"
           ]
-        },
-        {
-          "name": "Emergency",
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "Belgium",
-          "notes": "",
-          "verification_status": "verified_authority",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Emergency",
-            "numbers": [
-              "112"
-            ]
-          }
         },
         {
           "name": "Community Help Centre Helpline",
@@ -8106,37 +7939,6 @@
               "1813"
             ],
             "sms": []
-          }
-        },
-        {
-          "name": "Emergency Services",
-          "organization": "Emergency Services",
-          "category": "emergency",
-          "voice_numbers": [
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "Belgium",
-          "notes": "For immediate emergencies (police/fire/ambulance). | 100 (fire | medical) | 101 (police))",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Emergency Services",
-            "phone": "112 (all), 100 (fire/medical), 101 (police)",
-            "source": "helplines.world"
           }
         },
         {
@@ -10431,37 +10233,6 @@
           "sources": []
         },
         {
-          "name": "Emergency",
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "190"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "Brazil",
-          "notes": "",
-          "verification_status": "verified_authority",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Emergency",
-            "numbers": [
-              "190"
-            ]
-          }
-        },
-        {
           "name": "Centro de Valorização da Vida",
           "organization": "Centro de Valorização da Vida",
           "category": "suicide_crisis",
@@ -10860,10 +10631,11 @@
           "target": "anyone in a life-threatening emergency",
           "geography": "Brazil",
           "notes": "For immediate life-threatening emergencies. | 192 (Ambulance) | 193 (Fire))",
-          "verification_status": "cross_referenced",
+          "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
             "https://helplines.world/",
+            "information.json",
             "xref:helplines.world"
           ],
           "_legacy": {
@@ -11964,7 +11736,10 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "English",
+            "Malay"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Brunei",
@@ -12013,36 +11788,6 @@
               "145"
             ]
           }
-        },
-        {
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "993",
-            "995",
-            "991"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Malay",
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Brunei",
-          "notes": "",
-          "verification_status": "verified_authority",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.gov.uk/foreign-travel-advice/brunei"
-          ],
-          "name": "Emergency"
         },
         {
           "organization": "Ministry of Culture, Youth and Sports",
@@ -12122,7 +11867,10 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "Bulgarian",
+            "English"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Bulgaria",
@@ -12343,32 +12091,6 @@
             ],
             "sms": []
           }
-        },
-        {
-          "organization": "Emergency (112)",
-          "category": "emergency",
-          "voice_numbers": [
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Bulgarian",
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Bulgaria",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
-          "name": "Emergency (112)"
         },
         {
           "organization": "SACP — State Agency for Child Protection",
@@ -13513,37 +13235,6 @@
           ]
         },
         {
-          "name": "Emergency",
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "911"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "Canada",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Emergency",
-            "numbers": [
-              "911"
-            ]
-          }
-        },
-        {
           "name": "Suicide Crisis Hotline",
           "organization": "Suicide Crisis Hotline",
           "category": "suicide_crisis",
@@ -14639,6 +14330,7 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://helplines.world/",
+            "information.json",
             "xref:helplines.world"
           ],
           "_legacy": {
@@ -18206,7 +17898,9 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "Spanish"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Colombia",
@@ -18214,8 +17908,10 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://helplines.world/",
             "https://www.gov.uk/foreign-travel-advice/colombia",
-            "information.json"
+            "information.json",
+            "xref:helplines.world"
           ],
           "_legacy": {
             "name": "Emergency",
@@ -18522,31 +18218,6 @@
           }
         },
         {
-          "organization": "Emergency (123)",
-          "category": "emergency",
-          "voice_numbers": [
-            "123"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Spanish"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Colombia",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
-          "name": "Emergency (123)"
-        },
-        {
           "organization": "Secretaría de Salud Bogotá",
           "category": "suicide_crisis",
           "voice_numbers": [
@@ -18654,37 +18325,6 @@
             "https://www.asfaddes.org"
           ],
           "name": "ASFADDES"
-        },
-        {
-          "name": "Emergency Services",
-          "organization": "Emergency Services",
-          "category": "emergency",
-          "voice_numbers": [
-            "123"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "Colombia",
-          "notes": "For immediate emergencies (police/fire/ambulance).",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Emergency Services",
-            "phone": "123",
-            "source": "helplines.world"
-          }
         },
         {
           "name": "Linea 106 (Suicidio)",
@@ -19969,7 +19609,10 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "English",
+            "Spanish"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Costa Rica",
@@ -20084,32 +19727,6 @@
               "1147"
             ]
           }
-        },
-        {
-          "organization": "Emergency (911)",
-          "category": "emergency",
-          "voice_numbers": [
-            "911"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Spanish",
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Costa Rica",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
-          "name": "Emergency (911)"
         },
         {
           "organization": "Caja Costarricense de Seguro Social",
@@ -22842,7 +22459,9 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "Spanish"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Dominican Republic",
@@ -22850,6 +22469,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://911.gob.do",
             "https://travel.gc.ca/destinations/dominican-republic",
             "https://www.gov.uk/foreign-travel-advice/dominican-republic",
             "information.json"
@@ -22892,33 +22512,6 @@
               "1 809 636 3507"
             ]
           }
-        },
-        {
-          "organization": "Emergency (911)",
-          "category": "emergency",
-          "voice_numbers": [
-            "911"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://911.gob.do",
-          "hours": "24/7",
-          "languages": [
-            "Spanish"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Dominican Republic",
-          "notes": "",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://911.gob.do"
-          ],
-          "name": "Emergency (911)"
         },
         {
           "organization": "Ministerio de Salud Pública",
@@ -23192,7 +22785,10 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "Kichwa",
+            "Spanish"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Ecuador",
@@ -23200,8 +22796,11 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://helplines.world/",
+            "https://www.ecu911.gob.ec",
             "https://www.gov.uk/foreign-travel-advice/ecuador",
-            "information.json"
+            "information.json",
+            "xref:helplines.world"
           ],
           "_legacy": {
             "name": "Emergency",
@@ -23344,34 +22943,6 @@
           }
         },
         {
-          "organization": "Emergency (ECU 911)",
-          "category": "emergency",
-          "voice_numbers": [
-            "911"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://www.ecu911.gob.ec",
-          "hours": "24/7",
-          "languages": [
-            "Spanish",
-            "Kichwa"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Ecuador",
-          "notes": "",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.ecu911.gob.ec"
-          ],
-          "name": "Emergency (ECU 911)"
-        },
-        {
           "organization": "Ministerio de Salud Pública",
           "category": "mental_health",
           "voice_numbers": [
@@ -23451,37 +23022,6 @@
           "last_verified": "2026-04-22",
           "sources": [],
           "name": "Línea 151 Violencia de Género"
-        },
-        {
-          "name": "Emergency Services",
-          "organization": "Emergency Services",
-          "category": "emergency",
-          "voice_numbers": [
-            "911"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "Ecuador",
-          "notes": "For life‑threatening emergencies.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Emergency Services",
-            "phone": "911",
-            "source": "helplines.world"
-          }
         },
         {
           "name": "Línea 171",
@@ -24483,44 +24023,6 @@
       "notes": "122 police, 123 ambulance, 180 fire. 112 works from mobile.",
       "hotlines": [
         {
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "122",
-            "123",
-            "180",
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Arabic",
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Egypt",
-          "notes": "",
-          "verification_status": "verified_authority",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.gov.uk/foreign-travel-advice/egypt"
-          ],
-          "name": "Emergency",
-          "_legacy": {
-            "name": "Emergency",
-            "numbers": [
-              "112",
-              "122"
-            ]
-          }
-        },
-        {
           "name": "Befrienders Cairo",
           "organization": "Befrienders Cairo",
           "category": "suicide_crisis",
@@ -24682,15 +24184,19 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "Arabic",
+            "English"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Egypt",
           "notes": "For police, ambulance, fire. | 123 (ambulance) | 180 (fire))",
-          "verification_status": "cross_referenced",
+          "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
             "https://helplines.world/",
+            "https://www.gov.uk/foreign-travel-advice/egypt",
             "xref:helplines.world"
           ],
           "_legacy": {
@@ -25781,7 +25287,9 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "Spanish"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "El Salvador",
@@ -25799,31 +25307,6 @@
               "911"
             ]
           }
-        },
-        {
-          "organization": "Emergency (911)",
-          "category": "emergency",
-          "voice_numbers": [
-            "911"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Spanish"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "El Salvador",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
-          "name": "Emergency (911)"
         },
         {
           "organization": "ISNA",
@@ -26147,7 +25630,11 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "English",
+            "Estonian",
+            "Russian"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Estonia",
@@ -26155,9 +25642,11 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://helplines.world/",
             "https://travel.gc.ca/destinations/estonia",
             "https://www.gov.uk/foreign-travel-advice/estonia",
-            "information.json"
+            "information.json",
+            "xref:helplines.world"
           ],
           "_legacy": {
             "name": "Emergency",
@@ -26403,33 +25892,6 @@
           }
         },
         {
-          "organization": "Emergency (112)",
-          "category": "emergency",
-          "voice_numbers": [
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://www.112.ee",
-          "hours": "24/7",
-          "languages": [
-            "Estonian",
-            "Russian",
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Estonia",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
-          "name": "Emergency (112)"
-        },
-        {
           "organization": "Peaasi.ee",
           "category": "mental_health",
           "voice_numbers": [],
@@ -26515,37 +25977,6 @@
             "xref:web_verified_crisis_directory"
           ],
           "name": "Lasteabi 116 111"
-        },
-        {
-          "name": "Emergency Services",
-          "organization": "Emergency Services",
-          "category": "emergency",
-          "voice_numbers": [
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "Estonia",
-          "notes": "Police, ambulance, fire.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Emergency Services",
-            "phone": "112",
-            "source": "helplines.world"
-          }
         },
         {
           "name": "Suiciditõrje",
@@ -28316,7 +27747,11 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "English",
+            "Finnish",
+            "Swedish"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Finland",
@@ -28324,8 +27759,11 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://112.fi",
+            "https://helplines.world/",
             "https://www.gov.uk/foreign-travel-advice/finland",
-            "information.json"
+            "information.json",
+            "xref:helplines.world"
           ],
           "_legacy": {
             "name": "Emergency",
@@ -28852,35 +28290,6 @@
           }
         },
         {
-          "organization": "Emergency (112)",
-          "category": "emergency",
-          "voice_numbers": [
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://112.fi",
-          "hours": "24/7",
-          "languages": [
-            "Finnish",
-            "Swedish",
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Finland",
-          "notes": "",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://112.fi"
-          ],
-          "name": "Emergency (112)"
-        },
-        {
           "organization": "MIELI Mental Health Finland",
           "category": "suicide_crisis",
           "voice_numbers": [
@@ -29108,37 +28517,6 @@
             "https://peluuri.fi"
           ],
           "name": "Peluuri"
-        },
-        {
-          "name": "Emergency Services",
-          "organization": "Emergency Services",
-          "category": "emergency",
-          "voice_numbers": [
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "Finland",
-          "notes": "For police, ambulance, fire.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Emergency Services",
-            "phone": "112",
-            "source": "helplines.world"
-          }
         },
         {
           "name": "Suicide Line",
@@ -30109,8 +29487,8 @@
           "website": "https://www.service-public.fr/particuliers/vosdroits/F1136",
           "hours": "24/7",
           "languages": [
-            "French",
-            "English widely supported"
+            "English widely supported",
+            "French"
           ],
           "cost": "free",
           "target": "anyone requiring police, fire or ambulance",
@@ -30121,7 +29499,8 @@
           "sources": [
             "https://travel.gc.ca/destinations/france",
             "https://www.gov.uk/foreign-travel-advice/france",
-            "https://www.service-public.fr/particuliers/vosdroits/F1136"
+            "https://www.service-public.fr/particuliers/vosdroits/F1136",
+            "information.json"
           ]
         },
         {
@@ -30384,39 +29763,6 @@
             "xref:helplines.world",
             "xref:psc_app"
           ]
-        },
-        {
-          "name": "Emergency",
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "112",
-            "17"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "France",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Emergency",
-            "numbers": [
-              "112",
-              "17"
-            ]
-          }
         },
         {
           "name": "SOS Help - emotional support in English in France",
@@ -32998,7 +32344,11 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "English",
+            "Georgian",
+            "Russian"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Georgia",
@@ -33006,6 +32356,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://112.gov.ge",
             "https://travel.gc.ca/destinations/georgia",
             "https://www.gov.uk/foreign-travel-advice/georgia",
             "information.json"
@@ -33016,35 +32367,6 @@
               "112"
             ]
           }
-        },
-        {
-          "organization": "Emergency (112)",
-          "category": "emergency",
-          "voice_numbers": [
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://112.gov.ge",
-          "hours": "24/7",
-          "languages": [
-            "Georgian",
-            "English",
-            "Russian"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Georgia",
-          "notes": "",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://112.gov.ge"
-          ],
-          "name": "Emergency (112)"
         },
         {
           "organization": "Ministry of Internally Displaced Persons, Labour, Health and Social Affairs",
@@ -35222,43 +34544,6 @@
       "notes": "112 universal, 100 police, 166 EKAB ambulance, 199 fire, 108 coast guard, 171 tourist police.",
       "hotlines": [
         {
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "112",
-            "100",
-            "166",
-            "199"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Greek",
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Greece",
-          "notes": "",
-          "verification_status": "verified_authority",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.gov.uk/foreign-travel-advice/greece"
-          ],
-          "name": "Emergency",
-          "_legacy": {
-            "name": "Emergency",
-            "numbers": [
-              "100"
-            ]
-          }
-        },
-        {
           "name": "1018 - 24ωρη Γραμμή Παρέμβασης για την Αυτοκτονία",
           "organization": "1018 - 24ωρη Γραμμή Παρέμβασης για την Αυτοκτονία",
           "category": "general_support",
@@ -35767,15 +35052,19 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "English",
+            "Greek"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Greece",
           "notes": "Police, fire, ambulance.",
-          "verification_status": "cross_referenced",
+          "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
             "https://helplines.world/",
+            "https://www.gov.uk/foreign-travel-advice/greece",
             "xref:helplines.world"
           ],
           "_legacy": {
@@ -38428,7 +37717,9 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "Spanish"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Honduras",
@@ -38515,31 +37806,6 @@
             ],
             "sms": []
           }
-        },
-        {
-          "organization": "Emergency (911)",
-          "category": "emergency",
-          "voice_numbers": [
-            "911"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Spanish"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Honduras",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
-          "name": "Emergency (911)"
         },
         {
           "organization": "Teléfono de la Esperanza",
@@ -38637,7 +37903,8 @@
           "sources": [
             "https://travel.gc.ca/destinations/hong-kong",
             "https://www.gov.uk/foreign-travel-advice/hong-kong",
-            "https://www.police.gov.hk"
+            "https://www.police.gov.hk",
+            "information.json"
           ]
         },
         {
@@ -38838,37 +38105,6 @@
           "sources": [
             "https://www.rainlily.org.hk"
           ]
-        },
-        {
-          "name": "Emergency",
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "999"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "Hong Kong",
-          "notes": "",
-          "verification_status": "verified_authority",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Emergency",
-            "numbers": [
-              "999"
-            ]
-          }
         },
         {
           "name": "Open Up Helpline",
@@ -39679,44 +38915,6 @@
       "notes": "112 universal, 107 police, 105 fire, 104 ambulance.",
       "hotlines": [
         {
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "112",
-            "107",
-            "105",
-            "104"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Hungarian",
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Hungary",
-          "notes": "",
-          "verification_status": "verified_authority",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.gov.uk/foreign-travel-advice/hungary"
-          ],
-          "name": "Emergency",
-          "_legacy": {
-            "name": "Emergency",
-            "numbers": [
-              "112",
-              "107"
-            ]
-          }
-        },
-        {
           "organization": "Kék Vonal",
           "category": "child_protection",
           "voice_numbers": [
@@ -40089,15 +39287,19 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "English",
+            "Hungarian"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Hungary",
           "notes": "Police, fire, ambulance.",
-          "verification_status": "cross_referenced",
+          "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
             "https://helplines.world/",
+            "https://www.gov.uk/foreign-travel-advice/hungary",
             "xref:helplines.world"
           ],
           "_legacy": {
@@ -41034,7 +40236,10 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "English",
+            "Icelandic"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Iceland",
@@ -41042,6 +40247,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://www.112.is",
             "https://www.gov.uk/foreign-travel-advice/iceland",
             "information.json"
           ],
@@ -41180,34 +40386,6 @@
               "552 2218"
             ]
           }
-        },
-        {
-          "organization": "Emergency (112)",
-          "category": "emergency",
-          "voice_numbers": [
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://www.112.is",
-          "hours": "24/7",
-          "languages": [
-            "Icelandic",
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Iceland",
-          "notes": "",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.112.is"
-          ],
-          "name": "Emergency (112)"
         },
         {
           "organization": "Píeta",
@@ -41385,8 +40563,8 @@
           "website": "https://112.gov.in",
           "hours": "24/7",
           "languages": [
-            "Hindi",
             "English",
+            "Hindi",
             "regional languages"
           ],
           "cost": "free",
@@ -41397,7 +40575,10 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://112.gov.in",
-            "https://www.gov.uk/foreign-travel-advice/india"
+            "https://helplines.world/",
+            "https://www.gov.uk/foreign-travel-advice/india",
+            "information.json",
+            "xref:helplines.world"
           ]
         },
         {
@@ -41712,37 +40893,6 @@
             "https://www.sumaitri.net",
             "xref:vibbrancy"
           ]
-        },
-        {
-          "name": "Emergency",
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "India",
-          "notes": "",
-          "verification_status": "verified_authority",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Emergency",
-            "numbers": [
-              "112"
-            ]
-          }
         },
         {
           "name": "Vandrevala Foundation crisis intervention helpline",
@@ -43370,37 +42520,6 @@
           }
         },
         {
-          "name": "Emergency Services",
-          "organization": "Emergency Services",
-          "category": "emergency",
-          "voice_numbers": [
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "India",
-          "notes": "Police, fire, ambulance.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Emergency Services",
-            "phone": "112",
-            "source": "helplines.world"
-          }
-        },
-        {
           "name": "One Stop Centre",
           "organization": "One Stop Centre",
           "category": "domestic_violence",
@@ -45023,7 +44142,8 @@
           "sources": [
             "https://travel.gc.ca/destinations/ireland",
             "https://www.112.ie",
-            "https://www.gov.uk/foreign-travel-advice/ireland"
+            "https://www.gov.uk/foreign-travel-advice/ireland",
+            "information.json"
           ]
         },
         {
@@ -45283,39 +44403,6 @@
             "https://www2.hse.ie/services/drugs-and-alcohol-helpline/",
             "xref:psc_app"
           ]
-        },
-        {
-          "name": "Emergency",
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "112",
-            "999"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "Ireland",
-          "notes": "",
-          "verification_status": "verified_authority",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Emergency",
-            "numbers": [
-              "112",
-              "999"
-            ]
-          }
         },
         {
           "name": "'Text About It' by spunout",
@@ -47504,8 +46591,8 @@
           "website": "https://www.nue112.it",
           "hours": "24/7",
           "languages": [
-            "Italian",
-            "English"
+            "English",
+            "Italian"
           ],
           "cost": "free",
           "target": "anyone in emergency",
@@ -47515,7 +46602,8 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/italy",
-            "https://www.nue112.it"
+            "https://www.nue112.it",
+            "information.json"
           ]
         },
         {
@@ -47693,37 +46781,6 @@
             "https://www.gayhelpline.it",
             "xref:psc_app"
           ]
-        },
-        {
-          "name": "Emergency",
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "Italy",
-          "notes": "",
-          "verification_status": "verified_authority",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Emergency",
-            "numbers": [
-              "112"
-            ]
-          }
         },
         {
           "name": "Telefono Amico Cevita",
@@ -48434,7 +47491,10 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
-            "https://www.gov.uk/foreign-travel-advice/japan"
+            "https://helplines.world/",
+            "https://www.gov.uk/foreign-travel-advice/japan",
+            "information.json",
+            "xref:helplines.world"
           ]
         },
         {
@@ -48682,37 +47742,6 @@
           "sources": [
             "https://yorisoi-chat.jp"
           ]
-        },
-        {
-          "name": "Emergency",
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "110"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "Japan",
-          "notes": "",
-          "verification_status": "verified_authority",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Emergency",
-            "numbers": [
-              "110"
-            ]
-          }
         },
         {
           "name": "TELL Lifeline (0800 300 8355)",
@@ -49132,37 +48161,6 @@
               "03 3498 0231"
             ],
             "sms": []
-          }
-        },
-        {
-          "name": "Emergency Services",
-          "organization": "Emergency Services",
-          "category": "emergency",
-          "voice_numbers": [
-            "110"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "Japan",
-          "notes": "Police, fire, ambulance. | 119 (fire | ambulance))",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Emergency Services",
-            "phone": "110 (police), 119 (fire/ambulance)",
-            "source": "helplines.world"
           }
         },
         {
@@ -50368,7 +49366,10 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "Arabic",
+            "English"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Jordan",
@@ -50449,32 +49450,6 @@
               "110"
             ]
           }
-        },
-        {
-          "organization": "Emergency (911)",
-          "category": "emergency",
-          "voice_numbers": [
-            "911"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Arabic",
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Jordan",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
-          "name": "Emergency (911)"
         },
         {
           "organization": "Public Security Directorate",
@@ -50765,6 +49740,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://helplines.world/",
             "https://travel.gc.ca/destinations/kenya",
             "https://www.gov.uk/foreign-travel-advice/kenya",
             "xref:helplines.world",
@@ -51035,38 +50011,6 @@
             "xref:helplines.world"
           ],
           "name": "GBV Helpline 1195"
-        },
-        {
-          "name": "Emergency Services",
-          "organization": "Emergency Services",
-          "category": "emergency",
-          "voice_numbers": [
-            "999",
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "Kenya",
-          "notes": "Police, ambulance, fire.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Emergency Services",
-            "phone": "999 or 112",
-            "source": "helplines.world"
-          }
         },
         {
           "name": "Samaritans of Kenya",
@@ -52358,7 +51302,10 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "Arabic",
+            "English"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Kuwait",
@@ -52408,32 +51355,6 @@
               "147"
             ]
           }
-        },
-        {
-          "organization": "Emergency (112)",
-          "category": "emergency",
-          "voice_numbers": [
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Arabic",
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Kuwait",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
-          "name": "Emergency (112)"
         },
         {
           "organization": "Kuwait Counseling Team",
@@ -53206,44 +52127,6 @@
       "notes": "112 police/ISF, 140 Red Cross ambulance, 175 fire.",
       "hotlines": [
         {
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "112",
-            "140",
-            "175"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Arabic",
-            "English",
-            "French"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Lebanon",
-          "notes": "",
-          "verification_status": "verified_authority",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.gov.uk/foreign-travel-advice/lebanon"
-          ],
-          "name": "Emergency",
-          "_legacy": {
-            "name": "Emergency",
-            "numbers": [
-              "999",
-              "112"
-            ]
-          }
-        },
-        {
           "name": "The Lifeline 1564",
           "organization": "The Lifeline 1564",
           "category": "suicide_crisis",
@@ -53470,15 +52353,20 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "Arabic",
+            "English",
+            "French"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Lebanon",
           "notes": "Police, ambulance, fire.",
-          "verification_status": "cross_referenced",
+          "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
             "https://helplines.world/",
+            "https://www.gov.uk/foreign-travel-advice/lebanon",
             "xref:helplines.world"
           ],
           "_legacy": {
@@ -54520,7 +53408,9 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "English"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Liberia",
@@ -54571,31 +53461,6 @@
             ],
             "sms": []
           }
-        },
-        {
-          "organization": "Emergency (911)",
-          "category": "emergency",
-          "voice_numbers": [
-            "911"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Liberia",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
-          "name": "Emergency (911)"
         },
         {
           "name": "Get free, confidential crisis counseling support in Liberia",
@@ -54896,7 +53761,11 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "English",
+            "Lithuanian",
+            "Russian"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Lithuania",
@@ -55315,33 +54184,6 @@
           }
         },
         {
-          "organization": "Emergency (112)",
-          "category": "emergency",
-          "voice_numbers": [
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Lithuanian",
-            "Russian",
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Lithuania",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
-          "name": "Emergency (112)"
-        },
-        {
           "organization": "Vaikų linija",
           "category": "child_protection",
           "voice_numbers": [
@@ -55454,7 +54296,12 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "English",
+            "French",
+            "German",
+            "Luxembourgish"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Luxembourg",
@@ -55858,37 +54705,6 @@
             ],
             "sms": []
           }
-        },
-        {
-          "organization": "Emergency (112 / 113)",
-          "category": "emergency",
-          "voice_numbers": [
-            "112",
-            "113"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Luxembourgish",
-            "French",
-            "German",
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Luxembourg",
-          "notes": "",
-          "verification_status": "verified_authority",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.gov.uk/foreign-travel-advice/luxembourg"
-          ],
-          "name": "Emergency (112 / 113)"
         },
         {
           "organization": "Kanner- Jugendtelefon asbl",
@@ -56586,7 +55402,12 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "English",
+            "Malay",
+            "Mandarin",
+            "Tamil"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Malaysia",
@@ -57319,35 +56140,6 @@
           }
         },
         {
-          "organization": "Emergency (999)",
-          "category": "emergency",
-          "voice_numbers": [
-            "999",
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Malay",
-            "English",
-            "Mandarin",
-            "Tamil"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Malaysia",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
-          "name": "Emergency (999)"
-        },
-        {
           "organization": "Befrienders KL",
           "category": "suicide_crisis",
           "voice_numbers": [
@@ -57849,7 +56641,10 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "English",
+            "Maltese"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Malta",
@@ -57966,32 +56761,6 @@
             ],
             "sms": []
           }
-        },
-        {
-          "organization": "Emergency (112)",
-          "category": "emergency",
-          "voice_numbers": [
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Maltese",
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Malta",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
-          "name": "Emergency (112)"
         },
         {
           "organization": "SOS Malta / Kellimni",
@@ -59551,7 +58320,10 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "Romanian",
+            "Russian"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Moldova",
@@ -59635,32 +58407,6 @@
               "116 111"
             ]
           }
-        },
-        {
-          "organization": "Emergency (112)",
-          "category": "emergency",
-          "voice_numbers": [
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Romanian",
-            "Russian"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Moldova",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
-          "name": "Emergency (112)"
         },
         {
           "organization": "Center for Children's Rights CIDDC",
@@ -62348,9 +61094,12 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://helplines.world/",
             "https://travel.gc.ca/destinations/netherlands",
             "https://www.gov.uk/foreign-travel-advice/netherlands",
-            "https://www.politie.nl"
+            "https://www.politie.nl",
+            "information.json",
+            "xref:helplines.world"
           ]
         },
         {
@@ -62560,37 +61309,6 @@
           "sources": [
             "https://switchboard.lgbt"
           ]
-        },
-        {
-          "name": "Emergency",
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "Netherlands",
-          "notes": "",
-          "verification_status": "verified_authority",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Emergency",
-            "numbers": [
-              "112"
-            ]
-          }
         },
         {
           "name": "113 Zelfmoordpreventie (0800 0113)",
@@ -63063,37 +61781,6 @@
               "06-13863803"
             ],
             "sms": []
-          }
-        },
-        {
-          "name": "Emergency Services",
-          "organization": "Emergency Services",
-          "category": "emergency",
-          "voice_numbers": [
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "Netherlands",
-          "notes": "Police, ambulance, fire.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Emergency Services",
-            "phone": "112",
-            "source": "helplines.world"
           }
         },
         {
@@ -63948,8 +62635,8 @@
           "hours": "24/7",
           "languages": [
             "English",
-            "te reo Māori",
-            "NZ Sign Language (video relay)"
+            "NZ Sign Language (video relay)",
+            "te reo Māori"
           ],
           "cost": "free",
           "target": "anyone facing a life-threatening emergency",
@@ -63958,8 +62645,11 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://helplines.world/",
             "https://www.gov.uk/foreign-travel-advice/new-zealand",
-            "https://www.police.govt.nz"
+            "https://www.police.govt.nz",
+            "information.json",
+            "xref:helplines.world"
           ]
         },
         {
@@ -64301,37 +62991,6 @@
             "xref:helplines.world",
             "xref:vibbrancy"
           ]
-        },
-        {
-          "name": "Emergency",
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "111"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "New Zealand",
-          "notes": "",
-          "verification_status": "verified_authority",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Emergency",
-            "numbers": [
-              "111"
-            ]
-          }
         },
         {
           "name": "Lifeline Aotearoa (0800 543 354)",
@@ -66077,37 +64736,6 @@
           }
         },
         {
-          "name": "Emergency Services",
-          "organization": "Emergency Services",
-          "category": "emergency",
-          "voice_numbers": [
-            "111"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "New Zealand",
-          "notes": "Police, fire, ambulance.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world"
-          ],
-          "_legacy": {
-            "name": "Emergency Services",
-            "phone": "111",
-            "source": "helplines.world"
-          }
-        },
-        {
           "name": "Lifeline NZ",
           "organization": "Lifeline NZ",
           "category": "mental_health",
@@ -67179,7 +65807,9 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "English"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Nigeria",
@@ -67631,32 +66261,6 @@
           }
         },
         {
-          "organization": "Emergency (112)",
-          "category": "emergency",
-          "voice_numbers": [
-            "112",
-            "767"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Nigeria",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
-          "name": "Emergency (112)"
-        },
-        {
           "organization": "SURPIN Nigeria / LUTH",
           "category": "suicide_crisis",
           "voice_numbers": [
@@ -67992,12 +66596,14 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "Korean"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "North Korea",
           "notes": "",
-          "verification_status": "legacy_unverified",
+          "verification_status": "verified_knowledge",
           "last_verified": null,
           "sources": [
             "information.json"
@@ -68008,31 +66614,6 @@
               "119"
             ]
           }
-        },
-        {
-          "organization": "Emergency (119)",
-          "category": "emergency",
-          "voice_numbers": [
-            "119"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Korean"
-          ],
-          "cost": "unknown",
-          "target": "anyone in emergency",
-          "geography": "North Korea",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
-          "name": "Emergency (119)"
         }
       ]
     },
@@ -69094,7 +67675,10 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "Arabic",
+            "English"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Oman",
@@ -69146,36 +67730,6 @@
               "77788 800"
             ]
           }
-        },
-        {
-          "organization": "Emergency (9999)",
-          "category": "emergency",
-          "voice_numbers": [
-            "9999"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Arabic",
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Oman",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "xref:wikipedia_emergency",
-            "xref:vibbrancy",
-            "xref:psc_app"
-          ],
-          "name": "Emergency (9999)"
         },
         {
           "name": "Get free, confidential crisis counseling support in Oman",
@@ -69716,7 +68270,10 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "English",
+            "Palauan"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Palau",
@@ -69734,32 +68291,6 @@
               "911"
             ]
           }
-        },
-        {
-          "organization": "Emergency (911)",
-          "category": "emergency",
-          "voice_numbers": [
-            "911"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Palauan",
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Palau",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
-          "name": "Emergency (911)"
         }
       ]
     },
@@ -70719,7 +69250,10 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "English",
+            "Filipino"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Philippines",
@@ -70727,6 +69261,7 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
+            "https://911.gov.ph",
             "https://www.gov.uk/foreign-travel-advice/philippines",
             "information.json"
           ],
@@ -70965,34 +69500,6 @@
             ],
             "sms": []
           }
-        },
-        {
-          "organization": "Emergency (911)",
-          "category": "emergency",
-          "voice_numbers": [
-            "911"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://911.gov.ph",
-          "hours": "24/7",
-          "languages": [
-            "Filipino",
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Philippines",
-          "notes": "",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://911.gov.ph"
-          ],
-          "name": "Emergency (911)"
         },
         {
           "organization": "NCMH",
@@ -72440,7 +70947,12 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "English",
+            "French",
+            "Portuguese",
+            "Spanish"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Portugal",
@@ -72818,34 +71330,6 @@
             ],
             "sms": []
           }
-        },
-        {
-          "organization": "Emergency (112)",
-          "category": "emergency",
-          "voice_numbers": [
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Portuguese",
-            "English",
-            "Spanish",
-            "French"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Portugal",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
-          "name": "Emergency (112)"
         },
         {
           "organization": "SOS Voz Amiga",
@@ -73313,7 +71797,10 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "Arabic",
+            "English"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Qatar",
@@ -73402,32 +71889,6 @@
           }
         },
         {
-          "organization": "Emergency (999)",
-          "category": "emergency",
-          "voice_numbers": [
-            "999"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Arabic",
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Qatar",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
-          "name": "Emergency (999)"
-        },
-        {
           "organization": "Qatar Foundation for Social Work",
           "category": "child_protection",
           "voice_numbers": [
@@ -73512,7 +71973,11 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "English",
+            "Hungarian",
+            "Romanian"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Romania",
@@ -73698,33 +72163,6 @@
             ],
             "sms": []
           }
-        },
-        {
-          "organization": "Emergency (112)",
-          "category": "emergency",
-          "voice_numbers": [
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://www.sts.ro",
-          "hours": "24/7",
-          "languages": [
-            "Romanian",
-            "English",
-            "Hungarian"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Romania",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
-          "name": "Emergency (112)"
         },
         {
           "organization": "ARPS DEPRES",
@@ -76603,8 +75041,8 @@
           "hours": "24/7",
           "languages": [
             "English",
-            "Mandarin",
             "Malay",
+            "Mandarin",
             "Tamil"
           ],
           "cost": "free",
@@ -76615,7 +75053,8 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/singapore",
-            "https://www.police.gov.sg"
+            "https://www.police.gov.sg",
+            "information.json"
           ]
         },
         {
@@ -76798,37 +75237,6 @@
           "sources": [
             "https://oogachaga.com"
           ]
-        },
-        {
-          "name": "Emergency",
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "999"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "Singapore",
-          "notes": "",
-          "verification_status": "verified_authority",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Emergency",
-            "numbers": [
-              "999"
-            ]
-          }
         },
         {
           "name": "Samaritans of Singapore",
@@ -77671,7 +76079,10 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "English",
+            "Slovenian"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Slovenia",
@@ -77680,6 +76091,7 @@
           "last_verified": "2026-04-22",
           "sources": [
             "https://travel.gc.ca/destinations/slovenia",
+            "https://www.gov.uk/foreign-travel-advice/slovenia",
             "information.json"
           ],
           "_legacy": {
@@ -77885,35 +76297,6 @@
             ],
             "sms": []
           }
-        },
-        {
-          "organization": "Emergency (112 / 113)",
-          "category": "emergency",
-          "voice_numbers": [
-            "112",
-            "113"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Slovenian",
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Slovenia",
-          "notes": "",
-          "verification_status": "verified_authority",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.gov.uk/foreign-travel-advice/slovenia"
-          ],
-          "name": "Emergency (112 / 113)"
         },
         {
           "organization": "ZPMS",
@@ -78262,11 +76645,11 @@
           "website": "https://www.saps.gov.za",
           "hours": "24/7",
           "languages": [
-            "English",
             "Afrikaans",
-            "Zulu",
-            "Xhosa",
+            "English",
             "Sotho",
+            "Xhosa",
+            "Zulu",
             "and other SA official languages"
           ],
           "cost": "free",
@@ -78278,6 +76661,7 @@
           "sources": [
             "https://www.gov.uk/foreign-travel-advice/south-africa",
             "https://www.saps.gov.za",
+            "information.json",
             "xref:wikipedia_emergency"
           ]
         },
@@ -78528,38 +76912,6 @@
           "sources": [
             "https://rapecrisis.org.za"
           ]
-        },
-        {
-          "name": "Emergency",
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "10 111"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "South Africa",
-          "notes": "",
-          "verification_status": "verified_authority",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "information.json",
-            "xref:wikipedia_emergency"
-          ],
-          "_legacy": {
-            "name": "Emergency",
-            "numbers": [
-              "10 111"
-            ]
-          }
         },
         {
           "name": "South African Depression And Anxiety Helpline",
@@ -79565,7 +77917,8 @@
           "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
-            "https://www.gov.uk/foreign-travel-advice/south-korea"
+            "https://www.gov.uk/foreign-travel-advice/south-korea",
+            "information.json"
           ]
         },
         {
@@ -79740,37 +78093,6 @@
           "sources": [
             "https://www.women1366.kr/sunflower"
           ]
-        },
-        {
-          "name": "Emergency",
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "South Korea",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Emergency",
-            "numbers": [
-              "112"
-            ]
-          }
         },
         {
           "name": "자살예방상담전화 109",
@@ -80830,11 +79152,12 @@
           "target": "anyone in a life-threatening emergency",
           "geography": "Spain",
           "notes": "Managed regionally; multilingual support varies by Autonomous Community.",
-          "verification_status": "verified_web",
+          "verification_status": "verified_authority",
           "last_verified": "2026-04-22",
           "sources": [
             "https://travel.gc.ca/destinations/spain",
-            "https://www.112.es"
+            "https://www.112.es",
+            "information.json"
           ]
         },
         {
@@ -81000,37 +79323,6 @@
           "sources": [
             "https://www.contraelcancer.es"
           ]
-        },
-        {
-          "name": "Emergency",
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "Spain",
-          "notes": "",
-          "verification_status": "verified_authority",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Emergency",
-            "numbers": [
-              "112"
-            ]
-          }
         },
         {
           "name": "Fundación ANAR de Ayuda A Niños/as y Adolescentes en Riesgo",
@@ -82225,7 +80517,10 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "Arabic",
+            "English"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Sudan",
@@ -82277,32 +80572,6 @@
             ],
             "sms": []
           }
-        },
-        {
-          "organization": "Emergency (999)",
-          "category": "emergency",
-          "voice_numbers": [
-            "999"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "varies",
-          "languages": [
-            "Arabic",
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Sudan",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
-          "name": "Emergency (999)"
         }
       ]
     },
@@ -83955,7 +82224,11 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "English",
+            "Mandarin",
+            "Taiwanese"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Taiwan",
@@ -84202,37 +82475,6 @@
             ],
             "sms": []
           }
-        },
-        {
-          "organization": "Emergency (110 / 119)",
-          "category": "emergency",
-          "voice_numbers": [
-            "110",
-            "119",
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Mandarin",
-            "English",
-            "Taiwanese"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Taiwan",
-          "notes": "",
-          "verification_status": "verified_authority",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.gov.uk/foreign-travel-advice/taiwan"
-          ],
-          "name": "Emergency (110 / 119)"
         },
         {
           "organization": "Taiwan Lifeline International",
@@ -84611,7 +82853,10 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "English",
+            "Swahili"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Tanzania",
@@ -84660,33 +82905,6 @@
               "116"
             ]
           }
-        },
-        {
-          "organization": "Emergency (112)",
-          "category": "emergency",
-          "voice_numbers": [
-            "112",
-            "115"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Swahili",
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Tanzania",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
-          "name": "Emergency (112)"
         },
         {
           "organization": "Ministry of Health, Community Development, Gender, Elderly and Children",
@@ -86189,7 +84407,10 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "English",
+            "Turkish"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Turkey",
@@ -86332,32 +84553,6 @@
               "0546 484 82 85"
             ]
           }
-        },
-        {
-          "organization": "Emergency (112)",
-          "category": "emergency",
-          "voice_numbers": [
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Turkish",
-            "English"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Turkey",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
-          "name": "Emergency (112)"
         },
         {
           "organization": "Ministry of Health",
@@ -87627,40 +85822,6 @@
       "notes": "112 works from mobiles across the EU and UK. Text 999 registration (emergencySMS) is available for deaf/HoH users. 18000 is the NGT (Next Generation Text) relay emergency number.",
       "hotlines": [
         {
-          "name": "Emergency Services (999 / 112)",
-          "organization": "BT Operator Services",
-          "category": "emergency",
-          "voice_numbers": [
-            "999",
-            "112"
-          ],
-          "sms_numbers": [
-            "999"
-          ],
-          "text_numbers": [],
-          "short_codes": [
-            "18000"
-          ],
-          "chat_url": null,
-          "email": null,
-          "website": "https://www.gov.uk/call-999",
-          "hours": "24/7",
-          "languages": [
-            "English",
-            "Welsh (Wales)",
-            "interpreters on request"
-          ],
-          "cost": "free",
-          "target": "anyone needing police, fire, ambulance or coastguard",
-          "geography": "United Kingdom",
-          "notes": "Text 999 requires pre-registration. 18000 is the relay service emergency number (text or video relay).",
-          "verification_status": "verified_web",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://www.gov.uk/call-999"
-          ]
-        },
-        {
           "name": "NHS 111",
           "organization": "National Health Service",
           "category": "emergency",
@@ -88357,39 +86518,6 @@
           "sources": [
             "https://www.suzylamplugh.org"
           ]
-        },
-        {
-          "name": "Emergency",
-          "organization": "Emergency",
-          "category": "emergency",
-          "voice_numbers": [
-            "999",
-            "112"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [],
-          "cost": "free",
-          "target": "anyone in a life-threatening emergency",
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Emergency",
-            "numbers": [
-              "999",
-              "112"
-            ]
-          }
         },
         {
           "name": "Shout (85258)",
@@ -91379,15 +89507,21 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "English",
+            "Welsh (Wales)",
+            "interpreters on request"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "United Kingdom",
           "notes": "For immediate life-threatening emergencies requiring police, fire, or ambulance services.",
-          "verification_status": "cross_referenced",
+          "verification_status": "verified_web",
           "last_verified": "2026-04-22",
           "sources": [
             "https://helplines.world/",
+            "https://www.gov.uk/call-999",
+            "information.json",
             "xref:helplines.world",
             "xref:psc_app"
           ],
@@ -94857,7 +92991,9 @@
           "email": null,
           "website": null,
           "hours": "24/7",
-          "languages": [],
+          "languages": [
+            "Spanish"
+          ],
           "cost": "free",
           "target": "anyone in a life-threatening emergency",
           "geography": "Uruguay",
@@ -94940,33 +93076,6 @@
               "0800 0767"
             ]
           }
-        },
-        {
-          "organization": "Emergency (911)",
-          "category": "emergency",
-          "voice_numbers": [
-            "911",
-            "104",
-            "105"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "Spanish"
-          ],
-          "cost": "free",
-          "target": "anyone in emergency",
-          "geography": "Uruguay",
-          "notes": "",
-          "verification_status": "verified_knowledge",
-          "last_verified": "2026-04-22",
-          "sources": [],
-          "name": "Emergency (911)"
         },
         {
           "organization": "ASSE",
