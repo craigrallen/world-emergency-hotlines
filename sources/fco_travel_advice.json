@@ -1,0 +1,3097 @@
+{
+  "source": "https://www.gov.uk/foreign-travel-advice",
+  "scraped_at": "2026-04-22T18:59:01+00:00",
+  "record_count": 199,
+  "missing_alpha2": [
+    [
+      "bonaire-st-eustatius-saba",
+      "Bonaire/St Eustatius/Saba"
+    ],
+    [
+      "cook-islands-tokelau-and-niue",
+      "Cook Islands, Tokelau and Niue"
+    ],
+    [
+      "cote-d-ivoire",
+      "Côte d&#39;Ivoire"
+    ],
+    [
+      "czechia",
+      "Czechia"
+    ],
+    [
+      "myanmar",
+      "Myanmar (Burma)"
+    ],
+    [
+      "st-maarten",
+      "St Maarten"
+    ],
+    [
+      "st-martin-and-st-barthelemy",
+      "St Martin and St Barthélemy"
+    ],
+    [
+      "timor-leste",
+      "Timor-Leste"
+    ],
+    [
+      "uruguay",
+      "Uruguay"
+    ],
+    [
+      "uzbekistan",
+      "Uzbekistan"
+    ],
+    [
+      "vanuatu",
+      "Vanuatu"
+    ],
+    [
+      "yemen",
+      "Yemen"
+    ]
+  ],
+  "records": [
+    {
+      "country_name": "Afghanistan",
+      "country": "AF",
+      "slug": "afghanistan",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/afghanistan",
+      "emergency_services": {
+        "single": [
+          "119"
+        ],
+        "single_label": "police"
+      }
+    },
+    {
+      "country_name": "Albania",
+      "country": "AL",
+      "slug": "albania",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/albania",
+      "emergency_services": {
+        "ambulance": [
+          "127"
+        ],
+        "fire": [
+          "128"
+        ],
+        "police": [
+          "112"
+        ]
+      }
+    },
+    {
+      "country_name": "Algeria",
+      "country": "DZ",
+      "slug": "algeria",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/algeria",
+      "emergency_services": {
+        "ambulance": [
+          "1021"
+        ],
+        "fire": [
+          "14"
+        ],
+        "police": [
+          "17"
+        ]
+      }
+    },
+    {
+      "country_name": "Andorra",
+      "country": "AD",
+      "slug": "andorra",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/andorra",
+      "emergency_services": {
+        "ambulance": [
+          "116"
+        ],
+        "fire": [
+          "118"
+        ],
+        "police": [
+          "110"
+        ],
+        "mountain_rescue": [
+          "112"
+        ]
+      }
+    },
+    {
+      "country_name": "Angola",
+      "country": "AO",
+      "slug": "angola",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/angola",
+      "emergency_services": {
+        "ambulance": [
+          "112"
+        ],
+        "fire": [
+          "118"
+        ],
+        "police": [
+          "110"
+        ]
+      }
+    },
+    {
+      "country_name": "Anguilla",
+      "country": "AI",
+      "slug": "anguilla",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/anguilla",
+      "emergency_services": {
+        "single": [
+          "911"
+        ],
+        "single_label": "ambulance, fire and rescue, police"
+      }
+    },
+    {
+      "country_name": "Antigua and Barbuda",
+      "country": "AG",
+      "slug": "antigua-and-barbuda",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/antigua-and-barbuda",
+      "emergency_services": {
+        "single": [
+          "999"
+        ]
+      }
+    },
+    {
+      "country_name": "Argentina",
+      "country": "AR",
+      "slug": "argentina",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/argentina",
+      "emergency_services": {
+        "ambulance": [
+          "107"
+        ],
+        "fire": [
+          "100"
+        ],
+        "police": [
+          "+54 911 5050 9260"
+        ]
+      }
+    },
+    {
+      "country_name": "Armenia",
+      "country": "AM",
+      "slug": "armenia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/armenia",
+      "emergency_services": {
+        "single": [
+          "911"
+        ]
+      }
+    },
+    {
+      "country_name": "Aruba",
+      "country": "AW",
+      "slug": "aruba",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/aruba",
+      "emergency_services": {
+        "ambulance": [
+          "911"
+        ],
+        "police": [
+          "100"
+        ],
+        "coastguard": [
+          "913"
+        ]
+      }
+    },
+    {
+      "country_name": "Azerbaijan",
+      "country": "AZ",
+      "slug": "azerbaijan",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/azerbaijan",
+      "emergency_services": {
+        "ambulance": [
+          "103"
+        ],
+        "fire": [
+          "101"
+        ],
+        "police": [
+          "102"
+        ]
+      }
+    },
+    {
+      "country_name": "Bahamas",
+      "country": "BS",
+      "slug": "bahamas",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/bahamas",
+      "emergency_services": {
+        "single": [
+          "911"
+        ]
+      }
+    },
+    {
+      "country_name": "Bahrain",
+      "country": "BH",
+      "slug": "bahrain",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/bahrain",
+      "emergency_services": {
+        "single": [
+          "999"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Bangladesh",
+      "country": "BD",
+      "slug": "bangladesh",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/bangladesh",
+      "emergency_services": {
+        "single": [
+          "999"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Barbados",
+      "country": "BB",
+      "slug": "barbados",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/barbados",
+      "emergency_services": {
+        "ambulance": [
+          "511"
+        ],
+        "fire": [
+          "311"
+        ],
+        "police": [
+          "211"
+        ]
+      }
+    },
+    {
+      "country_name": "Belarus",
+      "country": "BY",
+      "slug": "belarus",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/belarus",
+      "emergency_services": {
+        "ambulance": [
+          "103"
+        ],
+        "fire": [
+          "101"
+        ],
+        "police": [
+          "102"
+        ]
+      }
+    },
+    {
+      "country_name": "Belgium",
+      "country": "BE",
+      "slug": "belgium",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/belgium",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Belize",
+      "country": "BZ",
+      "slug": "belize",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/belize",
+      "emergency_services": {
+        "single": [
+          "911"
+        ]
+      }
+    },
+    {
+      "country_name": "Benin",
+      "country": "BJ",
+      "slug": "benin",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/benin",
+      "emergency_services": {
+        "ambulance": [
+          "118"
+        ],
+        "police": [
+          "117"
+        ]
+      }
+    },
+    {
+      "country_name": "Bermuda",
+      "country": "BM",
+      "slug": "bermuda",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/bermuda",
+      "emergency_services": {
+        "single": [
+          "911"
+        ],
+        "single_label": "ambulance, fire, police, maritime rescue"
+      }
+    },
+    {
+      "country_name": "Bhutan",
+      "country": "BT",
+      "slug": "bhutan",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/bhutan",
+      "emergency_services": {
+        "ambulance": [
+          "112"
+        ],
+        "fire": [
+          "110"
+        ],
+        "police": [
+          "113"
+        ]
+      }
+    },
+    {
+      "country_name": "Bolivia",
+      "country": "BO",
+      "slug": "bolivia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/bolivia",
+      "emergency_services": {
+        "ambulance": [
+          "118"
+        ],
+        "police": [
+          "110"
+        ],
+        "fire": [
+          "119"
+        ]
+      }
+    },
+    {
+      "country_name": "Bosnia and Herzegovina",
+      "country": "BA",
+      "slug": "bosnia-and-herzegovina",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/bosnia-and-herzegovina",
+      "emergency_services": {
+        "ambulance": [
+          "124"
+        ],
+        "fire": [
+          "123"
+        ],
+        "police": [
+          "122"
+        ]
+      }
+    },
+    {
+      "country_name": "Botswana",
+      "country": "BW",
+      "slug": "botswana",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/botswana",
+      "emergency_services": {
+        "ambulance": [
+          "997"
+        ],
+        "fire": [
+          "998"
+        ],
+        "police": [
+          "999"
+        ]
+      }
+    },
+    {
+      "country_name": "Brazil",
+      "country": "BR",
+      "slug": "brazil",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/brazil",
+      "emergency_services": {
+        "ambulance": [
+          "192"
+        ],
+        "fire": [
+          "193"
+        ],
+        "police": [
+          "190"
+        ]
+      }
+    },
+    {
+      "country_name": "British Virgin Islands",
+      "country": "VG",
+      "slug": "british-virgin-islands",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/british-virgin-islands",
+      "emergency_services": {
+        "single": [
+          "911"
+        ],
+        "single_label": "ambulance, fire and police"
+      }
+    },
+    {
+      "country_name": "Brunei",
+      "country": "BN",
+      "slug": "brunei",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/brunei",
+      "emergency_services": {
+        "ambulance": [
+          "991"
+        ],
+        "fire": [
+          "995"
+        ],
+        "police": [
+          "993"
+        ],
+        "rescue": [
+          "998"
+        ]
+      }
+    },
+    {
+      "country_name": "Bulgaria",
+      "country": "BG",
+      "slug": "bulgaria",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/bulgaria",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Burkina Faso",
+      "country": "BF",
+      "slug": "burkina-faso",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/burkina-faso",
+      "emergency_services": {
+        "ambulance": [
+          "18"
+        ],
+        "fire": [
+          "18"
+        ],
+        "police": [
+          "17"
+        ]
+      }
+    },
+    {
+      "country_name": "Burundi",
+      "country": "BI",
+      "slug": "burundi",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/burundi",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Cameroon",
+      "country": "CM",
+      "slug": "cameroon",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/cameroon",
+      "emergency_services": {
+        "ambulance": [
+          "112"
+        ],
+        "fire": [
+          "119"
+        ],
+        "police": [
+          "117"
+        ]
+      }
+    },
+    {
+      "country_name": "Canada",
+      "country": "CA",
+      "slug": "canada",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/canada",
+      "emergency_services": {
+        "coastguard": [
+          "1 800 463 4393"
+        ],
+        "single": [
+          "911"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Cape Verde",
+      "country": "CV",
+      "slug": "cape-verde",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/cape-verde",
+      "emergency_services": {
+        "ambulance": [
+          "130"
+        ],
+        "fire": [
+          "131"
+        ],
+        "police": [
+          "132"
+        ]
+      }
+    },
+    {
+      "country_name": "Cayman Islands",
+      "country": "KY",
+      "slug": "cayman-islands",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/cayman-islands",
+      "emergency_services": {
+        "coastguard": [
+          "(345) 649 6722"
+        ],
+        "single": [
+          "911"
+        ],
+        "single_label": "ambulance, fire, police, police marine unit"
+      }
+    },
+    {
+      "country_name": "Central African Republic",
+      "country": "CF",
+      "slug": "central-african-republic",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/central-african-republic",
+      "emergency_services": {
+        "ambulance": [
+          "610600"
+        ],
+        "fire": [
+          "118"
+        ],
+        "single": [
+          "117"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Chad",
+      "country": "TD",
+      "slug": "chad",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/chad",
+      "emergency_services": {
+        "ambulance": [
+          "1212"
+        ],
+        "police": [
+          "2020"
+        ]
+      }
+    },
+    {
+      "country_name": "Chile",
+      "country": "CL",
+      "slug": "chile",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/chile",
+      "emergency_services": {
+        "ambulance": [
+          "131"
+        ],
+        "fire": [
+          "132"
+        ],
+        "police": [
+          "133"
+        ]
+      }
+    },
+    {
+      "country_name": "China",
+      "country": "CN",
+      "slug": "china",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/china",
+      "emergency_services": {
+        "ambulance": [
+          "120"
+        ],
+        "fire": [
+          "119"
+        ],
+        "police": [
+          "122"
+        ],
+        "rescue": [
+          "12395"
+        ]
+      }
+    },
+    {
+      "country_name": "Colombia",
+      "country": "CO",
+      "slug": "colombia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/colombia",
+      "emergency_services": {
+        "ambulance": [
+          "123"
+        ],
+        "fire": [
+          "119"
+        ],
+        "police": [
+          "123"
+        ]
+      }
+    },
+    {
+      "country_name": "Comoros",
+      "country": "KM",
+      "slug": "comoros",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/comoros",
+      "emergency_services": {
+        "fire": [
+          "113"
+        ],
+        "police": [
+          "117"
+        ]
+      }
+    },
+    {
+      "country_name": "Costa Rica",
+      "country": "CR",
+      "slug": "costa-rica",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/costa-rica",
+      "emergency_services": {
+        "single": [
+          "911"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Croatia",
+      "country": "HR",
+      "slug": "croatia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/croatia",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Cuba",
+      "country": "CU",
+      "slug": "cuba",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/cuba",
+      "emergency_services": {
+        "ambulance": [
+          "104"
+        ],
+        "fire": [
+          "105"
+        ],
+        "police": [
+          "106"
+        ]
+      }
+    },
+    {
+      "country_name": "Curaçao",
+      "country": "CW",
+      "slug": "curacao",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/curacao",
+      "emergency_services": {
+        "ambulance": [
+          "912"
+        ],
+        "fire": [
+          "911"
+        ],
+        "police": [
+          "911"
+        ],
+        "coastguard": [
+          "913"
+        ]
+      }
+    },
+    {
+      "country_name": "Cyprus",
+      "country": "CY",
+      "slug": "cyprus",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/cyprus",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Denmark",
+      "country": "DK",
+      "slug": "denmark",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/denmark",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Djibouti",
+      "country": "DJ",
+      "slug": "djibouti",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/djibouti",
+      "emergency_services": {
+        "ambulance": [
+          "21 35 09 62"
+        ],
+        "fire": [
+          "18"
+        ],
+        "police": [
+          "17"
+        ]
+      }
+    },
+    {
+      "country_name": "Dominica",
+      "country": "DM",
+      "slug": "dominica",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/dominica",
+      "emergency_services": {
+        "single": [
+          "999"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Dominican Republic",
+      "country": "DO",
+      "slug": "dominican-republic",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/dominican-republic",
+      "emergency_services": {
+        "single": [
+          "911"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Ecuador",
+      "country": "EC",
+      "slug": "ecuador",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/ecuador",
+      "emergency_services": {
+        "single": [
+          "911"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Egypt",
+      "country": "EG",
+      "slug": "egypt",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/egypt",
+      "emergency_services": {
+        "ambulance": [
+          "123"
+        ],
+        "fire": [
+          "180"
+        ],
+        "police": [
+          "126"
+        ]
+      }
+    },
+    {
+      "country_name": "El Salvador",
+      "country": "SV",
+      "slug": "el-salvador",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/el-salvador",
+      "emergency_services": {
+        "police": [
+          "+503 2224 2705"
+        ],
+        "single": [
+          "911"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Equatorial Guinea",
+      "country": "GQ",
+      "slug": "equatorial-guinea",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/equatorial-guinea",
+      "emergency_services": {
+        "ambulance": [
+          "3101"
+        ],
+        "police": [
+          "666 404040"
+        ]
+      }
+    },
+    {
+      "country_name": "Eritrea",
+      "country": "ER",
+      "slug": "eritrea",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/eritrea",
+      "emergency_services": {
+        "ambulance": [
+          "122244"
+        ],
+        "fire": [
+          "116"
+        ],
+        "police": [
+          "113"
+        ]
+      }
+    },
+    {
+      "country_name": "Estonia",
+      "country": "EE",
+      "slug": "estonia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/estonia",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Eswatini",
+      "country": "SZ",
+      "slug": "eswatini",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/eswatini",
+      "emergency_services": {
+        "ambulance": [
+          "977"
+        ],
+        "fire": [
+          "933"
+        ],
+        "police": [
+          "999"
+        ]
+      }
+    },
+    {
+      "country_name": "Ethiopia",
+      "country": "ET",
+      "slug": "ethiopia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/ethiopia",
+      "emergency_services": {
+        "police": [
+          "911"
+        ]
+      }
+    },
+    {
+      "country_name": "Falkland Islands",
+      "country": "FK",
+      "slug": "falkland-islands",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/falkland-islands",
+      "emergency_services": {
+        "single": [
+          "999"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Federated States of Micronesia",
+      "country": "FM",
+      "slug": "federated-states-of-micronesia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/federated-states-of-micronesia",
+      "emergency_services": {
+        "single": [
+          "911"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Fiji",
+      "country": "FJ",
+      "slug": "fiji",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/fiji",
+      "emergency_services": {
+        "fire": [
+          "910"
+        ],
+        "single": [
+          "911"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Finland",
+      "country": "FI",
+      "slug": "finland",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/finland",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "France",
+      "country": "FR",
+      "slug": "france",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/france",
+      "emergency_services": {
+        "ambulance": [
+          "15"
+        ],
+        "fire": [
+          "18"
+        ],
+        "police": [
+          "17"
+        ],
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "French Guiana",
+      "country": "GF",
+      "slug": "french-guiana",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/french-guiana",
+      "emergency_services": {
+        "ambulance": [
+          "15"
+        ],
+        "fire": [
+          "18"
+        ],
+        "police": [
+          "17"
+        ],
+        "single": [
+          "112"
+        ],
+        "single_label": "emergency switchboard"
+      }
+    },
+    {
+      "country_name": "French Polynesia",
+      "country": "PF",
+      "slug": "french-polynesia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/french-polynesia",
+      "emergency_services": {
+        "ambulance": [
+          "15 ("
+        ],
+        "fire": [
+          "18"
+        ],
+        "police": [
+          "17"
+        ]
+      }
+    },
+    {
+      "country_name": "Gabon",
+      "country": "GA",
+      "slug": "gabon",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/gabon",
+      "emergency_services": {
+        "ambulance": [
+          "117"
+        ],
+        "fire": [
+          "177"
+        ],
+        "police": [
+          "177"
+        ]
+      }
+    },
+    {
+      "country_name": "Georgia",
+      "country": "GE",
+      "slug": "georgia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/georgia",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Germany",
+      "country": "DE",
+      "slug": "germany",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/germany",
+      "emergency_services": {
+        "ambulance": [
+          "112"
+        ],
+        "fire": [
+          "112"
+        ],
+        "police": [
+          "110"
+        ]
+      }
+    },
+    {
+      "country_name": "Ghana",
+      "country": "GH",
+      "slug": "ghana",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/ghana",
+      "emergency_services": {
+        "single": [
+          "999"
+        ]
+      }
+    },
+    {
+      "country_name": "Gibraltar",
+      "country": "GI",
+      "slug": "gibraltar",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/gibraltar",
+      "emergency_services": {
+        "single": [
+          "999"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Greece",
+      "country": "GR",
+      "slug": "greece",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/greece",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Grenada",
+      "country": "GD",
+      "slug": "grenada",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/grenada",
+      "emergency_services": {
+        "ambulance": [
+          "434"
+        ],
+        "fire": [
+          "911"
+        ],
+        "police": [
+          "911"
+        ]
+      }
+    },
+    {
+      "country_name": "Guadeloupe",
+      "country": "GP",
+      "slug": "guadeloupe",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/guadeloupe",
+      "emergency_services": {
+        "ambulance": [
+          "15"
+        ],
+        "fire": [
+          "18"
+        ],
+        "police": [
+          "17"
+        ],
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Guatemala",
+      "country": "GT",
+      "slug": "guatemala",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/guatemala",
+      "emergency_services": {
+        "ambulance": [
+          "122"
+        ],
+        "police": [
+          "110"
+        ],
+        "single": [
+          "+502 2290 281"
+        ]
+      }
+    },
+    {
+      "country_name": "Guinea",
+      "country": "GN",
+      "slug": "guinea",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/guinea",
+      "british_embassy": [
+        {
+          "name": "British Embassy in Conakry can only provide limited emergency consular assistanc",
+          "phones": [],
+          "emails": [
+            "BritishEmbassy.Conakry@fcdo.gov.uk"
+          ]
+        }
+      ]
+    },
+    {
+      "country_name": "Guinea-Bissau",
+      "country": "GW",
+      "slug": "guinea-bissau",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/guinea-bissau",
+      "emergency_services": {
+        "ambulance": [
+          "1313"
+        ],
+        "fire": [
+          "1313"
+        ],
+        "police": [
+          "117"
+        ]
+      }
+    },
+    {
+      "country_name": "Guyana",
+      "country": "GY",
+      "slug": "guyana",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/guyana",
+      "emergency_services": {
+        "ambulance": [
+          "913"
+        ],
+        "fire": [
+          "912"
+        ],
+        "police": [
+          "911"
+        ]
+      }
+    },
+    {
+      "country_name": "Haiti",
+      "country": "HT",
+      "slug": "haiti",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/haiti",
+      "emergency_services": {
+        "ambulance": [
+          "116"
+        ],
+        "fire": [
+          "115"
+        ],
+        "police": [
+          "122"
+        ]
+      }
+    },
+    {
+      "country_name": "Honduras",
+      "country": "HN",
+      "slug": "honduras",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/honduras",
+      "emergency_services": {
+        "single": [
+          "911"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Hong Kong",
+      "country": "HK",
+      "slug": "hong-kong",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/hong-kong",
+      "emergency_services": {
+        "single": [
+          "999"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Hungary",
+      "country": "HU",
+      "slug": "hungary",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/hungary",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Iceland",
+      "country": "IS",
+      "slug": "iceland",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/iceland",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "India",
+      "country": "IN",
+      "slug": "india",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/india",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Indonesia",
+      "country": "ID",
+      "slug": "indonesia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/indonesia",
+      "emergency_services": {
+        "ambulance": [
+          "118"
+        ],
+        "fire": [
+          "112"
+        ],
+        "police": [
+          "110"
+        ]
+      }
+    },
+    {
+      "country_name": "Iran",
+      "country": "IR",
+      "slug": "iran",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/iran",
+      "emergency_services": {
+        "ambulance": [
+          "115"
+        ],
+        "fire": [
+          "125"
+        ],
+        "police": [
+          "110"
+        ]
+      }
+    },
+    {
+      "country_name": "Iraq",
+      "country": "IQ",
+      "slug": "iraq",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/iraq",
+      "emergency_services": {
+        "ambulance": [
+          "122"
+        ],
+        "fire": [
+          "115"
+        ],
+        "police": [
+          "104"
+        ]
+      }
+    },
+    {
+      "country_name": "Ireland",
+      "country": "IE",
+      "slug": "ireland",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/ireland",
+      "emergency_services": {
+        "single": [
+          "112"
+        ]
+      }
+    },
+    {
+      "country_name": "Israel",
+      "country": "IL",
+      "slug": "israel",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/israel",
+      "emergency_services": {
+        "ambulance": [
+          "101"
+        ],
+        "fire": [
+          "102"
+        ],
+        "police": [
+          "100"
+        ]
+      }
+    },
+    {
+      "country_name": "Italy",
+      "country": "IT",
+      "slug": "italy",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/italy",
+      "emergency_services": {
+        "ambulance": [
+          "118"
+        ],
+        "fire": [
+          "115"
+        ],
+        "police": [
+          "112"
+        ]
+      }
+    },
+    {
+      "country_name": "Jamaica",
+      "country": "JM",
+      "slug": "jamaica",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/jamaica",
+      "emergency_services": {
+        "ambulance": [
+          "110"
+        ],
+        "fire": [
+          "110"
+        ],
+        "police": [
+          "119"
+        ]
+      }
+    },
+    {
+      "country_name": "Japan",
+      "country": "JP",
+      "slug": "japan",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/japan",
+      "emergency_services": {
+        "ambulance": [
+          "119"
+        ],
+        "fire": [
+          "119"
+        ],
+        "police": [
+          "110"
+        ]
+      }
+    },
+    {
+      "country_name": "Jordan",
+      "country": "JO",
+      "slug": "jordan",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/jordan",
+      "emergency_services": {
+        "single": [
+          "911"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Kazakhstan",
+      "country": "KZ",
+      "slug": "kazakhstan",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/kazakhstan",
+      "emergency_services": {
+        "ambulance": [
+          "103"
+        ],
+        "fire": [
+          "101"
+        ],
+        "police": [
+          "102"
+        ],
+        "rescue": [
+          "112"
+        ]
+      }
+    },
+    {
+      "country_name": "Kenya",
+      "country": "KE",
+      "slug": "kenya",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/kenya",
+      "emergency_services": {
+        "single": [
+          "999"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Kiribati",
+      "country": "KI",
+      "slug": "kiribati",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/kiribati",
+      "emergency_services": {
+        "ambulance": [
+          "994"
+        ],
+        "fire": [
+          "993"
+        ],
+        "police": [
+          "992"
+        ],
+        "single": [
+          "999"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Kosovo",
+      "country": "XK",
+      "slug": "kosovo",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/kosovo",
+      "emergency_services": {
+        "police": [
+          "192"
+        ],
+        "fire": [
+          "193"
+        ],
+        "ambulance": [
+          "194"
+        ]
+      }
+    },
+    {
+      "country_name": "Kuwait",
+      "country": "KW",
+      "slug": "kuwait",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/kuwait",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Kyrgyzstan",
+      "country": "KG",
+      "slug": "kyrgyzstan",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/kyrgyzstan",
+      "emergency_services": {
+        "ambulance": [
+          "103"
+        ],
+        "fire": [
+          "101"
+        ],
+        "police": [
+          "102"
+        ],
+        "rescue": [
+          "112"
+        ]
+      }
+    },
+    {
+      "country_name": "Laos",
+      "country": "LA",
+      "slug": "laos",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/laos",
+      "emergency_services": {
+        "fire": [
+          "1190"
+        ],
+        "police": [
+          "021 251 128"
+        ],
+        "ambulance": [
+          "1195"
+        ]
+      }
+    },
+    {
+      "country_name": "Latvia",
+      "country": "LV",
+      "slug": "latvia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/latvia",
+      "emergency_services": {
+        "ambulance": [
+          "113"
+        ],
+        "fire": [
+          "112"
+        ],
+        "police": [
+          "+371 6718 1818"
+        ]
+      }
+    },
+    {
+      "country_name": "Lebanon",
+      "country": "LB",
+      "slug": "lebanon",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/lebanon",
+      "emergency_services": {
+        "ambulance": [
+          "140"
+        ],
+        "fire": [
+          "175"
+        ],
+        "police": [
+          "112"
+        ]
+      }
+    },
+    {
+      "country_name": "Lesotho",
+      "country": "LS",
+      "slug": "lesotho",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/lesotho",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Liberia",
+      "country": "LR",
+      "slug": "liberia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/liberia",
+      "emergency_services": {
+        "police": [
+          "+231 770 800 911"
+        ]
+      }
+    },
+    {
+      "country_name": "Libya",
+      "country": "LY",
+      "slug": "libya",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/libya",
+      "emergency_services": {
+        "single": [
+          "1415"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Liechtenstein",
+      "country": "LI",
+      "slug": "liechtenstein",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/liechtenstein",
+      "emergency_services": {
+        "fire": [
+          "118"
+        ],
+        "police": [
+          "117"
+        ],
+        "ambulance": [
+          "144"
+        ]
+      }
+    },
+    {
+      "country_name": "Lithuania",
+      "country": "LT",
+      "slug": "lithuania",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/lithuania",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Luxembourg",
+      "country": "LU",
+      "slug": "luxembourg",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/luxembourg",
+      "emergency_services": {
+        "ambulance": [
+          "112"
+        ],
+        "fire": [
+          "112"
+        ],
+        "police": [
+          "113"
+        ]
+      }
+    },
+    {
+      "country_name": "Macao",
+      "country": "MO",
+      "slug": "macao",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/macao",
+      "emergency_services": {
+        "single": [
+          "999"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Madagascar",
+      "country": "MG",
+      "slug": "madagascar",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/madagascar",
+      "emergency_services": {
+        "ambulance": [
+          "17"
+        ],
+        "fire": [
+          "18"
+        ],
+        "single": [
+          "17"
+        ]
+      }
+    },
+    {
+      "country_name": "Malawi",
+      "country": "MW",
+      "slug": "malawi",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/malawi",
+      "emergency_services": {
+        "ambulance": [
+          "998"
+        ],
+        "fire": [
+          "999"
+        ],
+        "police": [
+          "990"
+        ]
+      }
+    },
+    {
+      "country_name": "Malaysia",
+      "country": "MY",
+      "slug": "malaysia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/malaysia",
+      "emergency_services": {
+        "ambulance": [
+          "999"
+        ],
+        "fire": [
+          "994"
+        ]
+      }
+    },
+    {
+      "country_name": "Maldives",
+      "country": "MV",
+      "slug": "maldives",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/maldives",
+      "emergency_services": {
+        "ambulance": [
+          "102"
+        ],
+        "fire": [
+          "118"
+        ],
+        "police": [
+          "119"
+        ]
+      }
+    },
+    {
+      "country_name": "Mali",
+      "country": "ML",
+      "slug": "mali",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/mali",
+      "emergency_services": {
+        "police": [
+          "17"
+        ],
+        "ambulance": [
+          "15"
+        ],
+        "fire": [
+          "18"
+        ]
+      }
+    },
+    {
+      "country_name": "Malta",
+      "country": "MT",
+      "slug": "malta",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/malta",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Marshall Islands",
+      "country": "MH",
+      "slug": "marshall-islands",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/marshall-islands",
+      "emergency_services": {
+        "ambulance": [
+          "625 4142"
+        ],
+        "police": [
+          "625 8666"
+        ]
+      }
+    },
+    {
+      "country_name": "Martinique",
+      "country": "MQ",
+      "slug": "martinique",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/martinique",
+      "emergency_services": {
+        "ambulance": [
+          "15"
+        ],
+        "fire": [
+          "18"
+        ],
+        "police": [
+          "17"
+        ],
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Mauritania",
+      "country": "MR",
+      "slug": "mauritania",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/mauritania",
+      "emergency_services": {
+        "ambulance": [
+          "101"
+        ],
+        "fire": [
+          "118"
+        ],
+        "police": [
+          "117"
+        ]
+      }
+    },
+    {
+      "country_name": "Mauritius",
+      "country": "MU",
+      "slug": "mauritius",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/mauritius",
+      "emergency_services": {
+        "ambulance": [
+          "999"
+        ],
+        "fire": [
+          "999"
+        ],
+        "police": [
+          "999"
+        ],
+        "single": [
+          "999"
+        ]
+      }
+    },
+    {
+      "country_name": "Mayotte",
+      "country": "YT",
+      "slug": "mayotte",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/mayotte",
+      "emergency_services": {
+        "ambulance": [
+          "15"
+        ],
+        "fire": [
+          "18"
+        ],
+        "police": [
+          "17"
+        ],
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Mexico",
+      "country": "MX",
+      "slug": "mexico",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/mexico",
+      "emergency_services": {
+        "police": [
+          "(0052) 55 5207 4155"
+        ],
+        "single": [
+          "911"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Moldova",
+      "country": "MD",
+      "slug": "moldova",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/moldova",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Monaco",
+      "country": "MC",
+      "slug": "monaco",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/monaco",
+      "emergency_services": {
+        "single": [
+          "112"
+        ]
+      }
+    },
+    {
+      "country_name": "Mongolia",
+      "country": "MN",
+      "slug": "mongolia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/mongolia",
+      "emergency_services": {
+        "ambulance": [
+          "103"
+        ],
+        "fire": [
+          "101"
+        ],
+        "police": [
+          "102 ("
+        ]
+      }
+    },
+    {
+      "country_name": "Montenegro",
+      "country": "ME",
+      "slug": "montenegro",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/montenegro",
+      "emergency_services": {
+        "single": [
+          "112"
+        ]
+      }
+    },
+    {
+      "country_name": "Montserrat",
+      "country": "MS",
+      "slug": "montserrat",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/montserrat",
+      "emergency_services": {
+        "single": [
+          "911"
+        ]
+      },
+      "british_embassy": [
+        {
+          "name": "British Embassy and the Montserrat authorities will support you if you need help",
+          "phones": [
+            "+1 (664) 491-2555"
+          ],
+          "emails": [
+            "police@gov.ms"
+          ]
+        }
+      ]
+    },
+    {
+      "country_name": "Morocco",
+      "country": "MA",
+      "slug": "morocco",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/morocco",
+      "emergency_services": {
+        "ambulance": [
+          "150"
+        ],
+        "fire": [
+          "150"
+        ],
+        "police": [
+          "190"
+        ]
+      }
+    },
+    {
+      "country_name": "Mozambique",
+      "country": "MZ",
+      "slug": "mozambique",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/mozambique",
+      "emergency_services": {
+        "ambulance": [
+          "848888"
+        ],
+        "fire": [
+          "198"
+        ],
+        "police": [
+          "112"
+        ]
+      }
+    },
+    {
+      "country_name": "Namibia",
+      "country": "NA",
+      "slug": "namibia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/namibia",
+      "emergency_services": {
+        "single": [
+          "10111"
+        ]
+      }
+    },
+    {
+      "country_name": "Nauru",
+      "country": "NR",
+      "slug": "nauru",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/nauru",
+      "emergency_services": {
+        "ambulance": [
+          "111"
+        ],
+        "fire": [
+          "112"
+        ],
+        "police": [
+          "110"
+        ]
+      }
+    },
+    {
+      "country_name": "Nepal",
+      "country": "NP",
+      "slug": "nepal",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/nepal",
+      "emergency_services": {
+        "police": [
+          "01 5347041"
+        ],
+        "fire": [
+          "101"
+        ],
+        "ambulance": [
+          "102"
+        ]
+      }
+    },
+    {
+      "country_name": "Netherlands",
+      "country": "NL",
+      "slug": "netherlands",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/netherlands",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "New Caledonia",
+      "country": "NC",
+      "slug": "new-caledonia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/new-caledonia",
+      "emergency_services": {
+        "ambulance": [
+          "15"
+        ],
+        "fire": [
+          "18"
+        ],
+        "police": [
+          "17"
+        ]
+      }
+    },
+    {
+      "country_name": "New Zealand",
+      "country": "NZ",
+      "slug": "new-zealand",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/new-zealand",
+      "emergency_services": {
+        "single": [
+          "111"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Nicaragua",
+      "country": "NI",
+      "slug": "nicaragua",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/nicaragua",
+      "emergency_services": {
+        "single": [
+          "911"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Niger",
+      "country": "NE",
+      "slug": "niger",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/niger",
+      "emergency_services": {
+        "ambulance": [
+          "15"
+        ],
+        "fire": [
+          "18"
+        ],
+        "police": [
+          "17"
+        ]
+      }
+    },
+    {
+      "country_name": "Nigeria",
+      "country": "NG",
+      "slug": "nigeria",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/nigeria",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "North Macedonia",
+      "country": "MK",
+      "slug": "north-macedonia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/north-macedonia",
+      "emergency_services": {
+        "ambulance": [
+          "194"
+        ],
+        "police": [
+          "192"
+        ]
+      }
+    },
+    {
+      "country_name": "Norway",
+      "country": "NO",
+      "slug": "norway",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/norway",
+      "emergency_services": {
+        "fire": [
+          "110"
+        ],
+        "police": [
+          "112"
+        ],
+        "ambulance": [
+          "113"
+        ]
+      }
+    },
+    {
+      "country_name": "Oman",
+      "country": "OM",
+      "slug": "oman",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/oman",
+      "emergency_services": {
+        "single": [
+          "9999"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Pakistan",
+      "country": "PK",
+      "slug": "pakistan",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/pakistan",
+      "emergency_services": {
+        "police": [
+          "15"
+        ],
+        "single": [
+          "1122"
+        ],
+        "single_label": "ambulance, fire"
+      }
+    },
+    {
+      "country_name": "Palau",
+      "country": "PW",
+      "slug": "palau",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/palau",
+      "emergency_services": {
+        "single": [
+          "911"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Palestine",
+      "country": "PS",
+      "slug": "palestine",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/palestine",
+      "emergency_services": {
+        "ambulance": [
+          "101"
+        ],
+        "fire": [
+          "102"
+        ],
+        "police": [
+          "100"
+        ]
+      }
+    },
+    {
+      "country_name": "Panama",
+      "country": "PA",
+      "slug": "panama",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/panama",
+      "emergency_services": {
+        "ambulance": [
+          "103"
+        ],
+        "fire": [
+          "103"
+        ],
+        "police": [
+          "104"
+        ],
+        "single": [
+          "911"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Papua New Guinea",
+      "country": "PG",
+      "slug": "papua-new-guinea",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/papua-new-guinea",
+      "emergency_services": {
+        "ambulance": [
+          "111"
+        ],
+        "fire": [
+          "110"
+        ],
+        "police": [
+          "112"
+        ]
+      }
+    },
+    {
+      "country_name": "Paraguay",
+      "country": "PY",
+      "slug": "paraguay",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/paraguay",
+      "emergency_services": {
+        "ambulance": [
+          "141"
+        ],
+        "fire": [
+          "132"
+        ],
+        "police": [
+          "911"
+        ]
+      }
+    },
+    {
+      "country_name": "Peru",
+      "country": "PE",
+      "slug": "peru",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/peru",
+      "emergency_services": {
+        "ambulance": [
+          "106"
+        ],
+        "fire": [
+          "116"
+        ],
+        "police": [
+          "105"
+        ]
+      }
+    },
+    {
+      "country_name": "Philippines",
+      "country": "PH",
+      "slug": "philippines",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/philippines",
+      "emergency_services": {
+        "single": [
+          "911"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Poland",
+      "country": "PL",
+      "slug": "poland",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/poland",
+      "emergency_services": {
+        "ambulance": [
+          "999"
+        ],
+        "fire": [
+          "998"
+        ],
+        "police": [
+          "997"
+        ]
+      }
+    },
+    {
+      "country_name": "Portugal",
+      "country": "PT",
+      "slug": "portugal",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/portugal",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Qatar",
+      "country": "QA",
+      "slug": "qatar",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/qatar",
+      "emergency_services": {
+        "single": [
+          "999"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Réunion",
+      "country": "RE",
+      "slug": "reunion",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/reunion",
+      "emergency_services": {
+        "ambulance": [
+          "15"
+        ],
+        "fire": [
+          "18"
+        ],
+        "police": [
+          "17"
+        ],
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Romania",
+      "country": "RO",
+      "slug": "romania",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/romania",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Russia",
+      "country": "RU",
+      "slug": "russia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/russia",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Rwanda",
+      "country": "RW",
+      "slug": "rwanda",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/rwanda",
+      "emergency_services": {
+        "ambulance": [
+          "112"
+        ],
+        "police": [
+          "112"
+        ],
+        "fire": [
+          "111"
+        ]
+      }
+    },
+    {
+      "country_name": "Samoa",
+      "country": "WS",
+      "slug": "samoa",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/samoa",
+      "emergency_services": {
+        "single": [
+          "911"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "San Marino",
+      "country": "SM",
+      "slug": "san-marino",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/san-marino",
+      "emergency_services": {
+        "ambulance": [
+          "118"
+        ],
+        "fire": [
+          "115"
+        ],
+        "police": [
+          "112"
+        ]
+      }
+    },
+    {
+      "country_name": "São Tomé and Principe",
+      "country": "ST",
+      "slug": "sao-tome-and-principe",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/sao-tome-and-principe",
+      "emergency_services": {
+        "ambulance": [
+          "222 22 22"
+        ],
+        "fire": [
+          "112"
+        ],
+        "police": [
+          "113"
+        ]
+      }
+    },
+    {
+      "country_name": "Saudi Arabia",
+      "country": "SA",
+      "slug": "saudi-arabia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/saudi-arabia",
+      "emergency_services": {
+        "single": [
+          "911"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Senegal",
+      "country": "SN",
+      "slug": "senegal",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/senegal",
+      "emergency_services": {
+        "ambulance": [
+          "15"
+        ],
+        "fire": [
+          "18"
+        ],
+        "police": [
+          "17"
+        ]
+      }
+    },
+    {
+      "country_name": "Serbia",
+      "country": "RS",
+      "slug": "serbia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/serbia",
+      "emergency_services": {
+        "ambulance": [
+          "194"
+        ],
+        "fire": [
+          "193"
+        ],
+        "police": [
+          "192"
+        ]
+      }
+    },
+    {
+      "country_name": "Seychelles",
+      "country": "SC",
+      "slug": "seychelles",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/seychelles",
+      "emergency_services": {
+        "single": [
+          "999"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Sierra Leone",
+      "country": "SL",
+      "slug": "sierra-leone",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/sierra-leone",
+      "emergency_services": {
+        "single": [
+          "117"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Singapore",
+      "country": "SG",
+      "slug": "singapore",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/singapore",
+      "emergency_services": {
+        "ambulance": [
+          "995"
+        ],
+        "police": [
+          "999"
+        ]
+      }
+    },
+    {
+      "country_name": "Slovakia",
+      "country": "SK",
+      "slug": "slovakia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/slovakia",
+      "emergency_services": {
+        "ambulance": [
+          "155"
+        ],
+        "fire": [
+          "150"
+        ],
+        "police": [
+          "158"
+        ]
+      }
+    },
+    {
+      "country_name": "Slovenia",
+      "country": "SI",
+      "slug": "slovenia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/slovenia",
+      "emergency_services": {
+        "police": [
+          "113"
+        ]
+      }
+    },
+    {
+      "country_name": "Solomon Islands",
+      "country": "SB",
+      "slug": "solomon-islands",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/solomon-islands",
+      "emergency_services": {
+        "ambulance": [
+          "111"
+        ],
+        "fire": [
+          "988"
+        ],
+        "police": [
+          "999"
+        ]
+      }
+    },
+    {
+      "country_name": "Somalia",
+      "country": "SO",
+      "slug": "somalia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/somalia",
+      "emergency_services": {
+        "ambulance": [
+          "999"
+        ],
+        "fire": [
+          "555"
+        ],
+        "police": [
+          "888"
+        ]
+      }
+    },
+    {
+      "country_name": "South Africa",
+      "country": "ZA",
+      "slug": "south-africa",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/south-africa",
+      "emergency_services": {
+        "ambulance": [
+          "10177"
+        ],
+        "police": [
+          "10111"
+        ],
+        "rescue": [
+          "+27 21 937 0300"
+        ]
+      }
+    },
+    {
+      "country_name": "South Korea",
+      "country": "KR",
+      "slug": "south-korea",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/south-korea",
+      "emergency_services": {
+        "ambulance": [
+          "119"
+        ],
+        "fire": [
+          "119"
+        ],
+        "police": [
+          "112"
+        ]
+      }
+    },
+    {
+      "country_name": "Sri Lanka",
+      "country": "LK",
+      "slug": "sri-lanka",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/sri-lanka",
+      "emergency_services": {
+        "ambulance": [
+          "011 2691111"
+        ],
+        "fire": [
+          "111"
+        ],
+        "police": [
+          "011 2421052"
+        ]
+      }
+    },
+    {
+      "country_name": "St Kitts and Nevis",
+      "country": "KN",
+      "slug": "st-kitts-and-nevis",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/st-kitts-and-nevis",
+      "emergency_services": {
+        "ambulance": [
+          "911"
+        ],
+        "fire": [
+          "333"
+        ],
+        "police": [
+          "911"
+        ],
+        "coastguard": [
+          "465 8484"
+        ]
+      }
+    },
+    {
+      "country_name": "St Lucia",
+      "country": "LC",
+      "slug": "st-lucia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/st-lucia",
+      "emergency_services": {
+        "single": [
+          "911"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "St Pierre &amp; Miquelon",
+      "country": "PM",
+      "slug": "st-pierre-and-miquelon",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/st-pierre-and-miquelon",
+      "emergency_services": {
+        "ambulance": [
+          "15"
+        ],
+        "fire": [
+          "18"
+        ],
+        "police": [
+          "17"
+        ],
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "St Vincent and the Grenadines",
+      "country": "VC",
+      "slug": "st-vincent-and-the-grenadines",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/st-vincent-and-the-grenadines",
+      "emergency_services": {
+        "ambulance": [
+          "911"
+        ],
+        "police": [
+          "999"
+        ],
+        "single": [
+          "911"
+        ]
+      }
+    },
+    {
+      "country_name": "Sudan",
+      "country": "SD",
+      "slug": "sudan",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/sudan",
+      "emergency_services": {
+        "single": [
+          "999"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Suriname",
+      "country": "SR",
+      "slug": "suriname",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/suriname",
+      "emergency_services": {
+        "ambulance": [
+          "113"
+        ],
+        "fire": [
+          "110"
+        ],
+        "single": [
+          "115"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Sweden",
+      "country": "SE",
+      "slug": "sweden",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/sweden",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Switzerland",
+      "country": "CH",
+      "slug": "switzerland",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/switzerland",
+      "emergency_services": {
+        "ambulance": [
+          "144"
+        ],
+        "fire": [
+          "118"
+        ],
+        "police": [
+          "117"
+        ],
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Taiwan",
+      "country": "TW",
+      "slug": "taiwan",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/taiwan",
+      "emergency_services": {
+        "ambulance": [
+          "119"
+        ],
+        "police": [
+          "110"
+        ],
+        "coastguard": [
+          "118"
+        ]
+      }
+    },
+    {
+      "country_name": "Tajikistan",
+      "country": "TJ",
+      "slug": "tajikistan",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/tajikistan",
+      "emergency_services": {
+        "ambulance": [
+          "03 (103"
+        ],
+        "fire": [
+          "01 (101"
+        ],
+        "police": [
+          "02 (102"
+        ]
+      }
+    },
+    {
+      "country_name": "Tanzania",
+      "country": "TZ",
+      "slug": "tanzania",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/tanzania",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Thailand",
+      "country": "TH",
+      "slug": "thailand",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/thailand",
+      "emergency_services": {
+        "ambulance": [
+          "1669"
+        ],
+        "fire": [
+          "199"
+        ],
+        "police": [
+          "1155"
+        ],
+        "single": [
+          "191"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Togo",
+      "country": "TG",
+      "slug": "togo",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/togo",
+      "emergency_services": {
+        "ambulance": [
+          "8200"
+        ],
+        "fire": [
+          "118"
+        ],
+        "police": [
+          "117"
+        ]
+      }
+    },
+    {
+      "country_name": "Tonga",
+      "country": "TO",
+      "slug": "tonga",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/tonga",
+      "emergency_services": {
+        "fire": [
+          "999"
+        ],
+        "police": [
+          "922"
+        ],
+        "ambulance": [
+          "933"
+        ],
+        "single": [
+          "911"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Trinidad and Tobago",
+      "country": "TT",
+      "slug": "trinidad-and-tobago",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/trinidad-and-tobago",
+      "emergency_services": {
+        "ambulance": [
+          "811"
+        ],
+        "fire": [
+          "990"
+        ],
+        "police": [
+          "999"
+        ]
+      }
+    },
+    {
+      "country_name": "Tunisia",
+      "country": "TN",
+      "slug": "tunisia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/tunisia",
+      "emergency_services": {
+        "ambulance": [
+          "190"
+        ],
+        "fire": [
+          "198"
+        ]
+      }
+    },
+    {
+      "country_name": "Turkey",
+      "country": "TR",
+      "slug": "turkey",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/turkey",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Turkmenistan",
+      "country": "TM",
+      "slug": "turkmenistan",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/turkmenistan",
+      "emergency_services": {
+        "ambulance": [
+          "03"
+        ],
+        "fire": [
+          "01"
+        ],
+        "police": [
+          "02"
+        ]
+      }
+    },
+    {
+      "country_name": "Turks and Caicos Islands",
+      "country": "TC",
+      "slug": "turks-and-caicos-islands",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/turks-and-caicos-islands",
+      "emergency_services": {
+        "single": [
+          "911"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Tuvalu",
+      "country": "TV",
+      "slug": "tuvalu",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/tuvalu",
+      "emergency_services": {
+        "ambulance": [
+          "999"
+        ],
+        "fire": [
+          "000"
+        ],
+        "police": [
+          "911"
+        ]
+      }
+    },
+    {
+      "country_name": "USA",
+      "country": "US",
+      "slug": "usa",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/usa",
+      "emergency_services": {
+        "single": [
+          "911"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Uganda",
+      "country": "UG",
+      "slug": "uganda",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/uganda",
+      "emergency_services": {
+        "single": [
+          "999"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Ukraine",
+      "country": "UA",
+      "slug": "ukraine",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/ukraine",
+      "emergency_services": {
+        "ambulance": [
+          "103"
+        ],
+        "fire": [
+          "101"
+        ],
+        "police": [
+          "102"
+        ]
+      }
+    },
+    {
+      "country_name": "United Arab Emirates",
+      "country": "AE",
+      "slug": "united-arab-emirates",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/united-arab-emirates",
+      "emergency_services": {
+        "ambulance": [
+          "998"
+        ],
+        "fire": [
+          "997"
+        ],
+        "police": [
+          "999"
+        ]
+      }
+    },
+    {
+      "country_name": "Venezuela",
+      "country": "VE",
+      "slug": "venezuela",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/venezuela",
+      "emergency_services": {
+        "single": [
+          "911"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Vietnam",
+      "country": "VN",
+      "slug": "vietnam",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/vietnam",
+      "emergency_services": {
+        "ambulance": [
+          "115"
+        ],
+        "fire": [
+          "114"
+        ],
+        "police": [
+          "113"
+        ],
+        "rescue": [
+          "112"
+        ]
+      }
+    },
+    {
+      "country_name": "Wallis and Futuna",
+      "country": "WF",
+      "slug": "wallis-and-futuna",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/wallis-and-futuna",
+      "emergency_services": {
+        "ambulance": [
+          "15"
+        ],
+        "fire": [
+          "18"
+        ],
+        "police": [
+          "17"
+        ],
+        "single": [
+          "112"
+        ]
+      }
+    },
+    {
+      "country_name": "Western Sahara",
+      "country": "EH",
+      "slug": "western-sahara",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/western-sahara",
+      "emergency_services": {
+        "single": [
+          "150"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    },
+    {
+      "country_name": "Zambia",
+      "country": "ZM",
+      "slug": "zambia",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/zambia",
+      "emergency_services": {
+        "police": [
+          "991"
+        ],
+        "ambulance": [
+          "992"
+        ],
+        "fire": [
+          "993"
+        ]
+      }
+    },
+    {
+      "country_name": "Zimbabwe",
+      "country": "ZW",
+      "slug": "zimbabwe",
+      "source_url": "https://www.gov.uk/foreign-travel-advice/zimbabwe",
+      "emergency_services": {
+        "single": [
+          "112"
+        ],
+        "single_label": "ambulance, fire, police"
+      }
+    }
+  ]
+}
