@@ -5,6 +5,8 @@
 //
 // Both paths return the same shape (from types.ts) so pages never care.
 
+import { pathToFileURL } from 'node:url';
+import { resolve } from 'node:path';
 import type {
   Country,
   Manifest,
@@ -15,7 +17,10 @@ import type {
   VerificationStatus,
 } from './types';
 
-const DATA_DIR = new URL('../../public/data/', import.meta.url);
+// Astro 6 compiles server modules into a temp directory, so import.meta.url is
+// not a reliable base for resolving project-relative paths. process.cwd() is
+// always the project root (web/) when astro build/dev runs.
+const DATA_DIR = pathToFileURL(resolve(process.cwd(), 'public/data') + '/');
 
 async function readJson<T>(path: URL): Promise<T> {
   const fs = await import('node:fs/promises');
