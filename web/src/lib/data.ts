@@ -33,7 +33,7 @@ export async function getManifest(): Promise<Manifest> {
 }
 
 export async function getCountry(code: string): Promise<Country | null> {
-  const alpha2 = code.toUpperCase();
+  const alpha2 = code.toLowerCase();
   try {
     return await readJson<Country>(new URL(`countries/${alpha2}.json`, DATA_DIR));
   } catch {

@@ -11,6 +11,7 @@ it does not own them.
 cd web
 npm install
 npm run data:build      # generates public/data/ shards from the canonical JSON
+npm run verify:data     # checks generated manifest/shard/search/category integrity
 npm run dev             # http://localhost:4321
 ```
 
@@ -45,6 +46,7 @@ web/
       geo.ts        country centroids
   scripts/
     build-static-data.mjs    regenerates public/data/ from hotlines.json
+    verify-static-data.mjs   validates generated public/data/ integrity
   db/
     schema.sql      D1 DDL
     seed.mjs        emits INSERT statements to stdout
