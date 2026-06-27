@@ -281,8 +281,8 @@ const description = `Emergency numbers, crisis lines, and support hotlines for $
       <div>
         <p>
           Data for {country.country} · <a href="/about" class="text-accent hover:underline">Methodology</a> ·
-          <a href={`/data/countries/${country.alpha2}.json`} class="text-accent hover:underline" target="_blank">
-            Download {country.alpha2}.json ↗
+          <a href={`/data/countries/${country.alpha2.toLowerCase()}.json`} class="text-accent hover:underline" target="_blank">
+            Download {country.alpha2.toLowerCase()}.json ↗
           </a>
         </p>
         <p class="mt-1">

@@ -3,7 +3,7 @@
 //
 // Output:
 //   public/data/manifest.json            — country list + per-country metadata
-//   public/data/countries/{alpha2}.json  — full country shard
+//   public/data/countries/{alpha2 lowercase}.json  — full country shard
 //   public/data/search-index.json        — lightweight search docs (client-side search)
 //   public/data/categories-stats.json    — global per-category aggregates
 
@@ -185,7 +185,7 @@ for (const raw of canonical.countries) {
   const c = countryShape(raw);
   const verified = c.hotlines.filter((h) => VERIFIED_STATUSES.has(h.verification_status)).length;
 
-  writeFileSync(resolve(OUT_DIR, 'countries', `${c.alpha2}.json`), JSON.stringify(c, null, 2));
+  writeFileSync(resolve(OUT_DIR, 'countries', `${c.alpha2.toLowerCase()}.json`), JSON.stringify(c, null, 2));
 
   manifestEntries.push({
     alpha2: c.alpha2,
