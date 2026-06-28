@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -82,6 +82,23 @@ if (!Number.isInteger(manifest?.total_countries)) {
 
 if (!Number.isInteger(manifest?.total_hotlines) || manifest.total_hotlines < 0) {
   fail('manifest.total_hotlines must be a non-negative integer');
+}
+
+const expectedShardNames = new Set(
+  countries
+    .map((country) => country?.alpha2)
+    .filter((alpha2) => /^[A-Z]{2}$/.test(alpha2 ?? ''))
+    .map((alpha2) => `${alpha2.toLowerCase()}.json`),
+);
+
+try {
+  for (const shardName of readdirSync(COUNTRIES_DIR)) {
+    if (shardName.endsWith('.json') && !expectedShardNames.has(shardName)) {
+      fail(`unexpected country shard: public/data/countries/${shardName}`);
+    }
+  }
+} catch (err) {
+  fail(`countries directory: ${err.message}`);
 }
 
 const manifestByAlpha2 = new Map();
@@ -168,6 +185,7 @@ for (const [index, entry] of searchDocs.entries()) {
 }
 
 const categoryStats = asArray(categoriesStats?.categories, 'categories-stats.categories');
+const categoryStatsSlugs = new Set();
 let categoryStatsTotal = 0;
 for (const stat of categoryStats) {
   const slug = stat?.slug;
@@ -175,6 +193,10 @@ for (const stat of categoryStats) {
     fail('categories-stats entry has invalid slug');
     continue;
   }
+  if (categoryStatsSlugs.has(slug)) {
+    fail(`duplicate categories-stats slug: ${slug}`);
+  }
+  categoryStatsSlugs.add(slug);
   if (!Number.isInteger(stat.count) || stat.count < 0) {
     fail(`categories-stats ${slug}.count must be a non-negative integer`);
     continue;
