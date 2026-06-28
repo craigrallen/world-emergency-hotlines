@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 
-const SITE_URL = 'https://hotlines.interconnected.au';
+import { SITE_URL } from '../lib/site';
 
 export const GET: APIRoute = () => {
   const sitemapUrl = new URL('/sitemap.xml', SITE_URL).toString();

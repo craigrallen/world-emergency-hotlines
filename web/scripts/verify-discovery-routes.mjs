@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const SITE_URL = 'https://hotlines.interconnected.au';
+import { SITE_URL } from '../src/lib/site.js';
 
 const WEB_ROOT = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const DATA_DIR = resolve(WEB_ROOT, 'public', 'data');

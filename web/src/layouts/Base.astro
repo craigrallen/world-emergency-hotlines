@@ -4,6 +4,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import EmergencyBanner from '../components/EmergencyBanner.astro';
 import { DEFAULT_LOCALE, DICTIONARIES, isRTL, t, type Locale } from '../lib/i18n';
+import { SITE_URL } from '../lib/site';
 
 interface Props {
   title?: string;
@@ -21,7 +22,7 @@ const {
   locale = DEFAULT_LOCALE,
 } = Astro.props;
 
-const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://hotlines.interconnected.au').toString();
+const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE_URL).toString();
 const dir = isRTL(locale) ? 'rtl' : 'ltr';
 const bootPayload = JSON.stringify({ defaultLocale: locale, dictionaries: DICTIONARIES });
 ---
