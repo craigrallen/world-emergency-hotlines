@@ -1,7 +1,8 @@
 import type { APIRoute } from 'astro';
 
 import { getCategoriesStats, getManifest } from '../lib/data';
-const SITE_URL = 'https://hotlines.interconnected.au';
+import { SITE_URL } from '../lib/site';
+
 const STATIC_PATHS = ['', '/about', '/map', '/data', '/categories'];
 
 function escapeXml(value: string): string {

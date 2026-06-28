@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import { SITE_URL } from './src/lib/site.js';
 
 // Tailwind is wired via postcss.config.mjs (PostCSS plugin) — no @astrojs/tailwind
 // needed for Astro 6. @astrojs/cloudflare is kept in deps for the Phase 2 SSR switch.
@@ -8,7 +9,7 @@ import { defineConfig } from 'astro/config';
 // (api/*, country/*) start reading D1. Keeping `static` for Phase 1 means
 // the site runs on any host without a Cloudflare account.
 export default defineConfig({
-  site: 'https://hotlines.interconnected.au',
+  site: SITE_URL,
   output: 'static',
   trailingSlash: 'never',
   // When Phase 2 lands we switch to:
