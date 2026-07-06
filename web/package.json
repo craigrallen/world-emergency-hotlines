@@ -15,6 +15,7 @@
     "verify:links": "node scripts/verify-contact-links.mjs",
     "verify:search": "node scripts/verify-searchbox.mjs",
     "verify:discovery": "node scripts/verify-discovery-routes.mjs",
+    "verify:all": "npm run verify:data && npm run verify:search && npm run verify:discovery",
     "db:init": "wrangler d1 execute world-hotlines --file=./db/schema.sql",
     "db:seed": "node db/seed.mjs > db/seed.sql && wrangler d1 execute world-hotlines --file=./db/seed.sql",
     "typecheck": "astro check"
