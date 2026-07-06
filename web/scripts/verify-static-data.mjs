@@ -5,6 +5,7 @@ import { fileURLToPath } from 'node:url';
 const WEB_ROOT = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const DATA_DIR = resolve(WEB_ROOT, 'public', 'data');
 const COUNTRIES_DIR = resolve(DATA_DIR, 'countries');
+const DATA_DOWNLOADS_PAGE = resolve(WEB_ROOT, 'src', 'pages', 'data.astro');
 
 const errors = [];
 
@@ -72,6 +73,18 @@ function hasSearchableSurface(entry) {
 const manifest = readJson('manifest.json');
 const searchIndex = readJson('search-index.json');
 const categoriesStats = readJson('categories-stats.json');
+
+try {
+  const dataDownloadsPage = readFileSync(DATA_DOWNLOADS_PAGE, 'utf-8');
+  if (/countries\/\{ALPHA2\}\.json/.test(dataDownloadsPage)) {
+    fail('src/pages/data.astro advertises uppercase countries/{ALPHA2}.json; use lowercase countries/{alpha2}.json');
+  }
+  if (/\/data\/countries\/[A-Z]{2}\.json/.test(dataDownloadsPage)) {
+    fail('src/pages/data.astro advertises uppercase country shard examples; use lowercase /data/countries/{alpha2}.json URLs');
+  }
+} catch (err) {
+  fail(`src/pages/data.astro: ${err.message}`);
+}
 
 const countries = asArray(manifest?.countries, 'manifest.countries');
 if (!Number.isInteger(manifest?.total_countries)) {
