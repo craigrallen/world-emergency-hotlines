@@ -10,14 +10,17 @@ it does not own them.
 ```bash
 cd web
 npm install
-npm run data:build      # generates public/data/ shards from the canonical JSON
-npm run verify:data     # checks generated manifest/shard/search/category integrity
-npm run dev             # http://localhost:4321
+npm run data:build       # generates public/data/ shards from the canonical JSON
+npm run verify:all       # runs data/contact-link, search, and discovery checks
+npm run dev              # http://localhost:4321
 ```
 
 `npm run build` runs `data:build` first, then `astro build`, producing a static
-site in `dist/`. Deploy anywhere that serves static files — Cloudflare Pages,
-Railway (reuse the existing `Dockerfile` with a tweak), Vercel, Netlify.
+site in `dist/`. Use `verify:data` for generated data and contact-link checks,
+`verify:search` for SearchBox behavior, `verify:discovery` for discovery routes,
+or `verify:all` to run all verification scripts in order. Deploy anywhere that
+serves static files — Cloudflare Pages, Railway (reuse the existing `Dockerfile`
+with a tweak), Vercel, Netlify.
 
 ## D1 (Phase 2)
 
@@ -45,8 +48,11 @@ web/
       types.ts      TS types matching schema v2.0
       geo.ts        country centroids
   scripts/
-    build-static-data.mjs    regenerates public/data/ from hotlines.json
-    verify-static-data.mjs   validates generated public/data/ integrity
+    build-static-data.mjs         regenerates public/data/ from hotlines.json
+    verify-static-data.mjs        validates generated public/data/ integrity
+    verify-contact-links.mjs      validates hotline contact-link references
+    verify-searchbox.mjs          checks SearchBox behavior against static data
+    verify-discovery-routes.mjs   checks discovery route coverage
   db/
     schema.sql      D1 DDL
     seed.mjs        emits INSERT statements to stdout
