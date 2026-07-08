@@ -92,6 +92,10 @@ const emergencyIntentChecks = [
   { query: 'ambulance france', expectedCountry: 'France' },
   { query: 'fire canada', expectedCountry: 'Canada' },
   { query: 'emergency number uk', expectedCountry: 'United Kingdom' },
+  { query: '112 sweden', expectedCountry: 'Sweden' },
+  { query: '911 usa', expectedCountry: 'United States' },
+  { query: '999 uk', expectedCountry: 'United Kingdom' },
+  { query: '000 australia', expectedCountry: 'Australia' },
 ];
 
 for (const check of emergencyIntentChecks) {
@@ -110,6 +114,10 @@ for (const check of emergencyIntentChecks) {
     parsed.filters.includes('category:emergency'),
     `Expected emergency category filter for ${check.query}. Got: ${parsed.filters.join(', ')}`,
   );
+  assert.ok(
+    parsed.filters.includes(`country:${check.expectedCountry.toLowerCase()}`),
+    `Expected ${check.expectedCountry} country filter for ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
 
   const resultDocs = searchDocs(check.query, 10);
   const resultNames = resultDocs.map((doc) => `${doc.country_name}:${doc.name}`);
@@ -123,6 +131,12 @@ for (const check of emergencyIntentChecks) {
     `Expected only emergency category results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
   );
 }
+
+const ukEmergencyNumberResults = searchDocs('999 uk', 10);
+assert.ok(
+  ukEmergencyNumberResults.every((doc) => doc.country_name === 'United Kingdom' && doc.category === 'emergency'),
+  `Expected 999 uk not to rank non-emergency UK entries. Got: ${ukEmergencyNumberResults.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+);
 
 const channelChecks = [
   {
