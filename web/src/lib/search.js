@@ -12,6 +12,8 @@ const QUERY_STOPWORDS = new Set([
   'line',
   'me',
   'need',
+  'number',
+  'numbers',
   'please',
   'service',
   'services',
@@ -21,6 +23,7 @@ const QUERY_STOPWORDS = new Set([
 ]);
 
 const CATEGORY_ALIASES = {
+  emergency: ['emergency', 'emergency number', 'emergency services', 'police', 'ambulance', 'fire'],
   child_protection: ['child protection', 'childline', 'youth'],
   domestic_violence: ['domestic violence', 'domestic abuse', 'dv'],
   suicide_crisis: ['suicide crisis', 'suicide', 'suicidal'],
@@ -29,6 +32,7 @@ const CATEGORY_ALIASES = {
 };
 
 const CATEGORY_LABELS = {
+  emergency: 'Emergency',
   child_protection: 'Child protection',
   domestic_violence: 'Domestic violence',
   suicide_crisis: 'Suicide crisis',
