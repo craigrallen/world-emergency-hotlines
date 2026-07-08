@@ -87,6 +87,62 @@ for (const check of aliasChecks) {
   }
 }
 
+function firstCountryForCategory(category) {
+  const match = docs.find((doc) => doc.category === category);
+  assert.ok(match, `Expected search-index.json to contain category ${category}`);
+  return match.country_name;
+}
+
+const specialistCategoryAliasChecks = [
+  { category: 'sexual_violence', aliases: ['sexual violence', 'sexual assault', 'rape crisis', 'rape support'] },
+  { category: 'human_trafficking', aliases: ['human trafficking', 'trafficking'] },
+  { category: 'stalking', aliases: ['stalking', 'stalker'] },
+  { category: 'male_victims', aliases: ['male victims', "men's helpline", 'mens helpline', 'men abuse', 'male abuse'] },
+  { category: 'elder_abuse', aliases: ['elder abuse', 'older people abuse', 'senior abuse'] },
+  { category: 'substance_use', aliases: ['substance use', 'addiction', 'drug help', 'alcohol help'] },
+  { category: 'eating_disorders', aliases: ['eating disorder', 'eating disorders'] },
+  { category: 'refugee_migrant', aliases: ['refugee', 'migrant', 'asylum'] },
+  { category: 'lgbtqia', aliases: ['lgbt', 'lgbtq', 'lgbtqia'] },
+  { category: 'veterans', aliases: ['veteran', 'veterans'] },
+];
+
+for (const check of specialistCategoryAliasChecks) {
+  const country = firstCountryForCategory(check.category);
+  for (const alias of check.aliases) {
+    const query = `${alias} ${country}`;
+    const parsed = parseSearchQuery(query, docs);
+    assert.equal(
+      parsed.intent.category?.value,
+      check.category,
+      `Expected ${check.category} category intent for ${query}. Got: ${JSON.stringify(parsed.intent.category)}`,
+    );
+    assert.equal(
+      parsed.intent.country?.label,
+      country,
+      `Expected ${country} country intent for ${query}. Got: ${JSON.stringify(parsed.intent.country)}`,
+    );
+    assert.ok(
+      parsed.filters.includes(`category:${check.category}`),
+      `Expected ${check.category} category filter for ${query}. Got: ${parsed.filters.join(', ')}`,
+    );
+    assert.ok(
+      parsed.filters.includes(`country:${parsed.intent.country.value}`),
+      `Expected ${country} country filter for ${query}. Got: ${parsed.filters.join(', ')}`,
+    );
+
+    const resultDocs = searchDocs(query, 10);
+    assert.ok(resultDocs.length > 0, `Expected country-scoped ${check.category} results for ${query}`);
+    assert.ok(
+      resultDocs.every((doc) => doc.country_name === country),
+      `Expected only ${country} results for ${query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.category}`).join(', ')}`,
+    );
+    assert.ok(
+      resultDocs.every((doc) => doc.category === check.category),
+      `Expected only ${check.category} results for ${query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.category}`).join(', ')}`,
+    );
+  }
+}
+
 const emergencyIntentChecks = [
   { query: 'police sweden', expectedCountry: 'Sweden' },
   { query: 'ambulance france', expectedCountry: 'France' },
