@@ -13,7 +13,7 @@ import {
   scoreDoc,
 } from '../src/lib/search.js';
 
-function search(query, limit = 5) {
+function searchDocs(query, limit = 5) {
   const parsed = parseSearchQuery(query, docs);
   if (parsed.tokens.length === 0 && parsed.filters.length === 0) return [];
 
@@ -23,7 +23,11 @@ function search(query, limit = 5) {
     .filter((entry) => entry.score > 0 || (parsed.filters.length > 0 && parsed.tokens.length === 0))
     .sort((a, b) => b.score - a.score)
     .slice(0, limit)
-    .map(({ doc }) => `${doc.country_name}:${doc.name}`);
+    .map(({ doc }) => doc);
+}
+
+function search(query, limit = 5) {
+  return searchDocs(query, limit).map((doc) => `${doc.country_name}:${doc.name}`);
 }
 
 const swedenQueries = ['help sweden', 'sweden help', 'need help in sweden'];
@@ -81,6 +85,43 @@ for (const check of aliasChecks) {
       `Expected prefix ${check.expectedPrefix} for query: ${check.query}. Got: ${results.join(', ')}`,
     );
   }
+}
+
+const emergencyIntentChecks = [
+  { query: 'police sweden', expectedCountry: 'Sweden' },
+  { query: 'ambulance france', expectedCountry: 'France' },
+  { query: 'fire canada', expectedCountry: 'Canada' },
+  { query: 'emergency number uk', expectedCountry: 'United Kingdom' },
+];
+
+for (const check of emergencyIntentChecks) {
+  const parsed = parseSearchQuery(check.query, docs);
+  assert.equal(
+    parsed.intent.category?.value,
+    'emergency',
+    `Expected emergency category intent for ${check.query}. Got: ${JSON.stringify(parsed.intent.category)}`,
+  );
+  assert.equal(
+    parsed.intent.country?.label,
+    check.expectedCountry,
+    `Expected ${check.expectedCountry} country intent for ${check.query}. Got: ${JSON.stringify(parsed.intent.country)}`,
+  );
+  assert.ok(
+    parsed.filters.includes('category:emergency'),
+    `Expected emergency category filter for ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+
+  const resultDocs = searchDocs(check.query, 10);
+  const resultNames = resultDocs.map((doc) => `${doc.country_name}:${doc.name}`);
+  assert.ok(resultDocs.length > 0, `Expected emergency-service results for ${check.query}`);
+  assert.ok(
+    resultDocs.every((doc) => doc.country_name === check.expectedCountry),
+    `Expected country-scoped emergency results for ${check.query}. Got: ${resultNames.join(', ')}`,
+  );
+  assert.ok(
+    resultDocs.every((doc) => doc.category === 'emergency'),
+    `Expected only emergency category results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
 }
 
 const channelChecks = [
