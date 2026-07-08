@@ -29,6 +29,16 @@ const CATEGORY_ALIASES = {
   suicide_crisis: ['suicide crisis', 'suicide', 'suicidal'],
   mental_health: ['mental health'],
   gambling: ['gambling', 'gambling help'],
+  sexual_violence: ['sexual violence', 'sexual assault', 'rape crisis', 'rape support'],
+  human_trafficking: ['human trafficking', 'trafficking'],
+  stalking: ['stalking', 'stalker'],
+  male_victims: ['male victims', "men's helpline", 'mens helpline', 'men abuse', 'male abuse'],
+  elder_abuse: ['elder abuse', 'older people abuse', 'senior abuse'],
+  substance_use: ['substance use', 'addiction', 'drug help', 'alcohol help'],
+  eating_disorders: ['eating disorder', 'eating disorders'],
+  refugee_migrant: ['refugee', 'migrant', 'asylum'],
+  lgbtqia: ['lgbt', 'lgbtq', 'lgbtqia'],
+  veterans: ['veteran', 'veterans'],
 };
 
 const CATEGORY_LABELS = {
@@ -38,6 +48,16 @@ const CATEGORY_LABELS = {
   suicide_crisis: 'Suicide crisis',
   mental_health: 'Mental health',
   gambling: 'Gambling',
+  sexual_violence: 'Sexual violence',
+  human_trafficking: 'Human trafficking',
+  stalking: 'Stalking',
+  male_victims: 'Male victims',
+  elder_abuse: 'Elder abuse',
+  substance_use: 'Substance use',
+  eating_disorders: 'Eating disorders',
+  refugee_migrant: 'Refugee and migrant',
+  lgbtqia: 'LGBTQIA+',
+  veterans: 'Veterans',
 };
 
 const COUNTRY_ALIASES = {
