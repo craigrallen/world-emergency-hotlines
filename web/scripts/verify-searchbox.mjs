@@ -194,6 +194,62 @@ assert.ok(
   `Expected 999 uk not to rank non-emergency UK entries. Got: ${ukEmergencyNumberResults.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
 );
 
+const alpha2CountryIntentChecks = [
+  { query: 'emergency se', expectedCountry: 'Sweden', expectedMatched: 'se', expectedCategory: 'emergency' },
+  { query: '112 se', expectedCountry: 'Sweden', expectedMatched: 'se', expectedCategory: 'emergency' },
+  { query: 'suicide gb', expectedCountry: 'United Kingdom', expectedMatched: 'gb', expectedCategory: 'suicide_crisis' },
+  { query: '988 us', expectedCountry: 'United States', expectedMatched: 'us' },
+];
+
+for (const check of alpha2CountryIntentChecks) {
+  const parsed = parseSearchQuery(check.query, docs);
+  assert.equal(
+    parsed.intent.country?.label,
+    check.expectedCountry,
+    `Expected ${check.expectedCountry} country intent for alpha-2 query ${check.query}. Got: ${JSON.stringify(parsed.intent.country)}`,
+  );
+  assert.equal(
+    parsed.intent.country?.matched,
+    check.expectedMatched,
+    `Expected alpha-2 match ${check.expectedMatched} for ${check.query}. Got: ${JSON.stringify(parsed.intent.country)}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`country:${check.expectedCountry.toLowerCase()}`),
+    `Expected ${check.expectedCountry} country filter for ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+
+  if (check.expectedCategory) {
+    assert.equal(
+      parsed.intent.category?.value,
+      check.expectedCategory,
+      `Expected ${check.expectedCategory} category intent for ${check.query}. Got: ${JSON.stringify(parsed.intent.category)}`,
+    );
+    assert.ok(
+      parsed.filters.includes(`category:${check.expectedCategory}`),
+      `Expected ${check.expectedCategory} category filter for ${check.query}. Got: ${parsed.filters.join(', ')}`,
+    );
+  }
+
+  const resultDocs = searchDocs(check.query, 10);
+  assert.ok(resultDocs.length > 0, `Expected results for alpha-2 query ${check.query}`);
+  assert.ok(
+    resultDocs.every((doc) => doc.country_name === check.expectedCountry),
+    `Expected only ${check.expectedCountry} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+  if (check.expectedCategory) {
+    assert.ok(
+      resultDocs.every((doc) => doc.category === check.expectedCategory),
+      `Expected only ${check.expectedCategory} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+    );
+  }
+}
+
+const us988Results = searchDocs('988 us', 10);
+assert.ok(
+  us988Results.some((doc) => doc.country_name === 'United States' && /988/.test(`${doc.name} ${doc.numbers?.join(' ')}`)),
+  `Expected 988 us to find a United States 988 result. Got: ${us988Results.map((doc) => `${doc.country_name}:${doc.name}`).join(', ')}`,
+);
+
 const channelChecks = [
   {
     query: 'chat support sweden',
@@ -230,6 +286,10 @@ const parsedCountryAliases = [
   ['usa mental health', 'usa'],
   ['us suicide help', 'country:united states'],
   ['uae mental health', 'uae'],
+  ['emergency se', 'country:sweden'],
+  ['112 se', 'country:sweden'],
+  ['suicide gb', 'country:united kingdom'],
+  ['988 us', 'country:united states'],
 ];
 
 for (const [query, expectedTokenOrFilter] of parsedCountryAliases) {
@@ -284,6 +344,13 @@ assert.equal(inferredAliasIntent.category?.value, 'mental_health');
 
 const fillerOnlyResults = search('please help me', 5);
 assert.equal(fillerOnlyResults.length, 0, `Expected filler-only query to stay quiet. Got: ${fillerOnlyResults.join(', ')}`);
+
+const ambiguousIsoCodeParsed = parseSearchQuery('please help me', docs);
+assert.equal(
+  ambiguousIsoCodeParsed.intent.country,
+  null,
+  `Expected filler pronoun "me" not to become Montenegro country intent. Got: ${JSON.stringify(ambiguousIsoCodeParsed.intent.country)}`,
+);
 
 const summaryParsed = parseSearchQuery('mental health uae', docs);
 const summaryResults = docs.filter((doc) => docMatchesQueryFilters(doc, summaryParsed));

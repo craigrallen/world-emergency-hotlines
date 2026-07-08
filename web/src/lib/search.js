@@ -66,6 +66,31 @@ const COUNTRY_ALIASES = {
   'united arab emirates': ['uae'],
 };
 
+const AMBIGUOUS_COUNTRY_CODE_ALIASES = new Set([
+  ...QUERY_STOPWORDS,
+  'am',
+  'as',
+  'at',
+  'be',
+  'by',
+  'do',
+  'it',
+  'my',
+  'no',
+  'so',
+  'to',
+]);
+
+function getCountryAliasTerms(doc) {
+  const country = normalizeText(doc.country_name);
+  const alpha2 = normalizeText(doc.country_code);
+  return uniqueNormalizedValues([
+    country,
+    ...(COUNTRY_ALIASES[country] ?? []),
+    /^[a-z]{2}$/.test(alpha2) && !AMBIGUOUS_COUNTRY_CODE_ALIASES.has(alpha2) ? alpha2 : '',
+  ]);
+}
+
 function normalizeText(value) {
   return String(value ?? '')
     .normalize('NFKD')
@@ -100,7 +125,7 @@ function buildCountryMatchers(docs = []) {
     const country = normalizeText(doc.country_name);
     if (!country) continue;
 
-    const aliases = uniqueNormalizedValues([country, ...(COUNTRY_ALIASES[country] ?? [])]);
+    const aliases = getCountryAliasTerms(doc);
     for (const term of aliases) {
       const key = `${country}:${term}`;
       if (seen.has(key)) continue;
@@ -224,7 +249,7 @@ export function tokenizeQuery(query) {
 function buildAliasTerms(doc) {
   return uniqueNormalizedValues([
     ...(CATEGORY_ALIASES[doc.category] ?? []),
-    ...(COUNTRY_ALIASES[normalizeText(doc.country_name)] ?? []),
+    ...getCountryAliasTerms(doc).filter((term) => term !== normalizeText(doc.country_name)),
     doc.has_chat ? 'chat online chat' : '',
     doc.has_sms ? 'sms text text message' : '',
   ]);
