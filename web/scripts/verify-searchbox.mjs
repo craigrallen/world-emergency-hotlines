@@ -273,6 +273,48 @@ for (const check of frenchAliasIntentChecks) {
   );
 }
 
+const portugueseAliasIntentChecks = [
+  { query: 'saude mental brasil', expectedCountry: 'Brazil', expectedCategory: 'mental_health' },
+  { query: 'violencia domestica brasil', expectedCountry: 'Brazil', expectedCategory: 'domestic_violence' },
+  { query: 'suicidio brasil', expectedCountry: 'Brazil', expectedCategory: 'suicide_crisis' },
+  { query: 'protecao infantil brasil', expectedCountry: 'Brazil', expectedCategory: 'child_protection' },
+  { query: 'bombeiros brasil', expectedCountry: 'Brazil', expectedCategory: 'emergency' },
+  { query: 'emergencia alemanha', expectedCountry: 'Germany', expectedCategory: 'emergency' },
+];
+
+for (const check of portugueseAliasIntentChecks) {
+  const parsed = parseSearchQuery(check.query, docs);
+  assert.equal(
+    parsed.intent.country?.label,
+    check.expectedCountry,
+    `Expected ${check.expectedCountry} country intent for Portuguese query ${check.query}. Got: ${JSON.stringify(parsed.intent.country)}`,
+  );
+  assert.equal(
+    parsed.intent.category?.value,
+    check.expectedCategory,
+    `Expected ${check.expectedCategory} category intent for Portuguese query ${check.query}. Got: ${JSON.stringify(parsed.intent.category)}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`country:${check.expectedCountry.toLowerCase()}`),
+    `Expected ${check.expectedCountry} country filter for Portuguese query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`category:${check.expectedCategory}`),
+    `Expected ${check.expectedCategory} category filter for Portuguese query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+
+  const resultDocs = searchDocs(check.query, 10);
+  assert.ok(resultDocs.length > 0, `Expected results for Portuguese query ${check.query}`);
+  assert.ok(
+    resultDocs.every((doc) => doc.country_name === check.expectedCountry),
+    `Expected only ${check.expectedCountry} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+  assert.ok(
+    resultDocs.every((doc) => doc.category === check.expectedCategory),
+    `Expected only ${check.expectedCategory} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+}
+
 const ukEmergencyNumberResults = searchDocs('999 uk', 10);
 assert.ok(
   ukEmergencyNumberResults.every((doc) => doc.country_name === 'United Kingdom' && doc.category === 'emergency'),

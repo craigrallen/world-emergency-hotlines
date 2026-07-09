@@ -23,11 +23,11 @@ const QUERY_STOPWORDS = new Set([
 ]);
 
 const CATEGORY_ALIASES = {
-  emergency: ['emergency', 'emergency number', 'emergency services', 'police', 'policia', 'ambulance', 'fire', 'bomberos', 'pompiers', 'urgence', 'numero urgence', '112', '911', '999', '000'],
-  child_protection: ['child protection', 'childline', 'youth', 'protection enfance', 'enfance danger'],
+  emergency: ['emergency', 'emergency number', 'emergency services', 'police', 'policia', 'ambulance', 'fire', 'bomberos', 'pompiers', 'urgence', 'numero urgence', '112', '911', '999', '000', 'emergencia', 'numero emergencia', 'bombeiros'],
+  child_protection: ['child protection', 'childline', 'youth', 'protection enfance', 'enfance danger', 'protecao infantil', 'protecao crianca'],
   domestic_violence: ['domestic violence', 'domestic abuse', 'violencia domestica', 'violence domestique', 'violences conjugales', 'dv'],
-  suicide_crisis: ['suicide crisis', 'suicide', 'suicidal', 'suicidaire'],
-  mental_health: ['mental health', 'salud mental', 'sante mentale'],
+  suicide_crisis: ['suicide crisis', 'suicide', 'suicidal', 'suicidaire', 'suicidio', 'suicida'],
+  mental_health: ['mental health', 'salud mental', 'sante mentale', 'saude mental'],
   gambling: ['gambling', 'gambling help'],
   sexual_violence: ['sexual violence', 'sexual assault', 'rape crisis', 'rape support'],
   human_trafficking: ['human trafficking', 'trafficking'],
@@ -61,11 +61,12 @@ const CATEGORY_LABELS = {
 };
 
 const COUNTRY_ALIASES = {
-  france: ['francia'],
-  spain: ['espana', 'espagne'],
-  germany: ['allemagne'],
-  'united kingdom': ['uk', 'royaume uni'],
-  'united states': ['usa', 'united states', 'us', 'etats unis'],
+  brazil: ['brasil'],
+  france: ['francia', 'franca'],
+  spain: ['espana', 'espagne', 'espanha'],
+  germany: ['allemagne', 'alemanha'],
+  'united kingdom': ['uk', 'royaume uni', 'reino unido'],
+  'united states': ['usa', 'united states', 'us', 'etats unis', 'estados unidos'],
   'united arab emirates': ['uae'],
 };
 
