@@ -23,11 +23,11 @@ const QUERY_STOPWORDS = new Set([
 ]);
 
 const CATEGORY_ALIASES = {
-  emergency: ['emergency', 'emergency number', 'emergency services', 'police', 'policia', 'polizia', 'ambulance', 'fire', 'vigili del fuoco', 'bomberos', 'pompiers', 'urgence', 'numero urgence', '112', '911', '999', '000', 'emergencia', 'numero emergencia', 'emergenza', 'numero emergenza', 'bombeiros', 'polizei', 'feuerwehr', 'notruf'],
-  child_protection: ['child protection', 'childline', 'youth', 'protection enfance', 'enfance danger', 'protecao infantil', 'protecao crianca', 'kinderschutz', 'protezione minori', 'protezione bambini'],
-  domestic_violence: ['domestic violence', 'domestic abuse', 'violencia domestica', 'violence domestique', 'violences conjugales', 'dv', 'haeusliche gewalt', 'häusliche gewalt', 'violenza domestica'],
-  suicide_crisis: ['suicide crisis', 'suicide', 'suicidal', 'suicidaire', 'suicidio', 'suicida', 'suizid', 'suizidal'],
-  mental_health: ['mental health', 'salud mental', 'sante mentale', 'saude mental', 'psychische gesundheit', 'salute mentale'],
+  emergency: ['emergency', 'emergency number', 'emergency services', 'police', 'policia', 'polizia', 'ambulance', 'fire', 'vigili del fuoco', 'bomberos', 'pompiers', 'urgence', 'numero urgence', '112', '911', '999', '000', 'emergencia', 'numero emergencia', 'emergenza', 'numero emergenza', 'bombeiros', 'polizei', 'feuerwehr', 'notruf', 'politie', 'brandweer', 'noodnummer', 'noodgeval'],
+  child_protection: ['child protection', 'childline', 'youth', 'protection enfance', 'enfance danger', 'protecao infantil', 'protecao crianca', 'kinderschutz', 'protezione minori', 'protezione bambini', 'kinderbescherming'],
+  domestic_violence: ['domestic violence', 'domestic abuse', 'violencia domestica', 'violence domestique', 'violences conjugales', 'dv', 'haeusliche gewalt', 'häusliche gewalt', 'violenza domestica', 'huiselijk geweld'],
+  suicide_crisis: ['suicide crisis', 'suicide', 'suicidal', 'suicidaire', 'suicidio', 'suicida', 'suizid', 'suizidal', 'zelfmoord', 'suicidaal'],
+  mental_health: ['mental health', 'salud mental', 'sante mentale', 'saude mental', 'psychische gesundheit', 'salute mentale', 'mentale gezondheid', 'geestelijke gezondheid'],
   gambling: ['gambling', 'gambling help'],
   sexual_violence: ['sexual violence', 'sexual assault', 'rape crisis', 'rape support'],
   human_trafficking: ['human trafficking', 'trafficking'],
@@ -62,12 +62,14 @@ const CATEGORY_LABELS = {
 
 const COUNTRY_ALIASES = {
   brazil: ['brasil'],
-  france: ['francia', 'franca', 'frankreich'],
-  spain: ['espana', 'espagne', 'espanha', 'spanien', 'spagna'],
-  germany: ['allemagne', 'alemanha', 'deutschland', 'germania'],
-  italy: ['italia'],
-  'united kingdom': ['uk', 'royaume uni', 'reino unido', 'vereinigtes koenigreich', 'vereinigtes königreich', 'regno unito'],
-  'united states': ['usa', 'united states', 'us', 'etats unis', 'estados unidos', 'vereinigte staaten', 'stati uniti'],
+  belgium: ['belgie', 'belgië'],
+  netherlands: ['nederland'],
+  france: ['francia', 'franca', 'frankreich', 'frankrijk'],
+  spain: ['espana', 'espagne', 'espanha', 'spanien', 'spagna', 'spanje'],
+  germany: ['allemagne', 'alemanha', 'deutschland', 'germania', 'duitsland'],
+  italy: ['italia', 'italie', 'italië'],
+  'united kingdom': ['uk', 'royaume uni', 'reino unido', 'vereinigtes koenigreich', 'vereinigtes königreich', 'regno unito', 'verenigd koninkrijk'],
+  'united states': ['usa', 'united states', 'us', 'etats unis', 'estados unidos', 'vereinigte staaten', 'stati uniti', 'verenigde staten'],
   'united arab emirates': ['uae'],
 };
 
