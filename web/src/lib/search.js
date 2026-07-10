@@ -23,11 +23,11 @@ const QUERY_STOPWORDS = new Set([
 ]);
 
 const CATEGORY_ALIASES = {
-  emergency: ['emergency', 'emergency number', 'emergency services', 'police', 'policia', 'ambulance', 'fire', 'bomberos', 'pompiers', 'urgence', 'numero urgence', '112', '911', '999', '000', 'emergencia', 'numero emergencia', 'bombeiros', 'polizei', 'feuerwehr', 'notruf'],
-  child_protection: ['child protection', 'childline', 'youth', 'protection enfance', 'enfance danger', 'protecao infantil', 'protecao crianca', 'kinderschutz'],
-  domestic_violence: ['domestic violence', 'domestic abuse', 'violencia domestica', 'violence domestique', 'violences conjugales', 'dv', 'haeusliche gewalt', 'häusliche gewalt'],
+  emergency: ['emergency', 'emergency number', 'emergency services', 'police', 'policia', 'polizia', 'ambulance', 'fire', 'vigili del fuoco', 'bomberos', 'pompiers', 'urgence', 'numero urgence', '112', '911', '999', '000', 'emergencia', 'numero emergencia', 'emergenza', 'numero emergenza', 'bombeiros', 'polizei', 'feuerwehr', 'notruf'],
+  child_protection: ['child protection', 'childline', 'youth', 'protection enfance', 'enfance danger', 'protecao infantil', 'protecao crianca', 'kinderschutz', 'protezione minori', 'protezione bambini'],
+  domestic_violence: ['domestic violence', 'domestic abuse', 'violencia domestica', 'violence domestique', 'violences conjugales', 'dv', 'haeusliche gewalt', 'häusliche gewalt', 'violenza domestica'],
   suicide_crisis: ['suicide crisis', 'suicide', 'suicidal', 'suicidaire', 'suicidio', 'suicida', 'suizid', 'suizidal'],
-  mental_health: ['mental health', 'salud mental', 'sante mentale', 'saude mental', 'psychische gesundheit'],
+  mental_health: ['mental health', 'salud mental', 'sante mentale', 'saude mental', 'psychische gesundheit', 'salute mentale'],
   gambling: ['gambling', 'gambling help'],
   sexual_violence: ['sexual violence', 'sexual assault', 'rape crisis', 'rape support'],
   human_trafficking: ['human trafficking', 'trafficking'],
@@ -63,10 +63,11 @@ const CATEGORY_LABELS = {
 const COUNTRY_ALIASES = {
   brazil: ['brasil'],
   france: ['francia', 'franca', 'frankreich'],
-  spain: ['espana', 'espagne', 'espanha', 'spanien'],
-  germany: ['allemagne', 'alemanha', 'deutschland'],
-  'united kingdom': ['uk', 'royaume uni', 'reino unido', 'vereinigtes koenigreich', 'vereinigtes königreich'],
-  'united states': ['usa', 'united states', 'us', 'etats unis', 'estados unidos', 'vereinigte staaten'],
+  spain: ['espana', 'espagne', 'espanha', 'spanien', 'spagna'],
+  germany: ['allemagne', 'alemanha', 'deutschland', 'germania'],
+  italy: ['italia'],
+  'united kingdom': ['uk', 'royaume uni', 'reino unido', 'vereinigtes koenigreich', 'vereinigtes königreich', 'regno unito'],
+  'united states': ['usa', 'united states', 'us', 'etats unis', 'estados unidos', 'vereinigte staaten', 'stati uniti'],
   'united arab emirates': ['uae'],
 };
 
