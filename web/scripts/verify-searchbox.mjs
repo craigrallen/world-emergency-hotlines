@@ -577,6 +577,51 @@ for (const check of norwegianAliasIntentChecks) {
   );
 }
 
+const finnishAliasIntentChecks = [
+  { query: 'mielenterveys norja', expectedCountry: 'Norway', expectedCategory: 'mental_health' },
+  { query: 'perheväkivalta ruotsi', expectedCountry: 'Sweden', expectedCategory: 'domestic_violence' },
+  { query: 'perhevakivalta tanska', expectedCountry: 'Denmark', expectedCategory: 'domestic_violence' },
+  { query: 'poliisi saksa', expectedCountry: 'Germany', expectedCategory: 'emergency' },
+  { query: 'palokunta ranska', expectedCountry: 'France', expectedCategory: 'emergency' },
+  { query: 'hätänumero espanja', expectedCountry: 'Spain', expectedCategory: 'emergency' },
+  { query: 'hatanumero yhdistynyt kuningaskunta', expectedCountry: 'United Kingdom', expectedCategory: 'emergency' },
+  { query: 'itsemurha yhdysvallat', expectedCountry: 'United States', expectedCategory: 'suicide_crisis' },
+  { query: 'lastensuojelu suomi', expectedCountry: 'Finland', expectedCategory: 'child_protection' },
+];
+
+for (const check of finnishAliasIntentChecks) {
+  const parsed = parseSearchQuery(check.query, docs);
+  assert.equal(
+    parsed.intent.country?.label,
+    check.expectedCountry,
+    `Expected ${check.expectedCountry} country intent for Finnish query ${check.query}. Got: ${JSON.stringify(parsed.intent.country)}`,
+  );
+  assert.equal(
+    parsed.intent.category?.value,
+    check.expectedCategory,
+    `Expected ${check.expectedCategory} category intent for Finnish query ${check.query}. Got: ${JSON.stringify(parsed.intent.category)}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`country:${check.expectedCountry.toLowerCase()}`),
+    `Expected ${check.expectedCountry} country filter for Finnish query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`category:${check.expectedCategory}`),
+    `Expected ${check.expectedCategory} category filter for Finnish query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+
+  const resultDocs = searchDocs(check.query, 10);
+  assert.ok(resultDocs.length > 0, `Expected results for Finnish query ${check.query}`);
+  assert.ok(
+    resultDocs.every((doc) => doc.country_name === check.expectedCountry),
+    `Expected only ${check.expectedCountry} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+  assert.ok(
+    resultDocs.every((doc) => doc.category === check.expectedCategory),
+    `Expected only ${check.expectedCategory} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+}
+
 const alarmtelefonenNorwayParsed = parseSearchQuery('alarmtelefonen norge', docs);
 assert.equal(
   alarmtelefonenNorwayParsed.intent.category?.value,
