@@ -23,11 +23,11 @@ const QUERY_STOPWORDS = new Set([
 ]);
 
 const CATEGORY_ALIASES = {
-  emergency: ['emergency', 'emergency number', 'emergency services', 'police', 'policia', 'polizia', 'ambulance', 'fire', 'vigili del fuoco', 'bomberos', 'pompiers', 'urgence', 'numero urgence', '112', '911', '999', '000', 'emergencia', 'numero emergencia', 'emergenza', 'numero emergenza', 'bombeiros', 'polizei', 'feuerwehr', 'notruf', 'politie', 'brandweer', 'noodnummer', 'noodgeval', 'polis', 'ambulans', 'brandkår', 'nödnummer'],
-  child_protection: ['child protection', 'childline', 'youth', 'protection enfance', 'enfance danger', 'protecao infantil', 'protecao crianca', 'kinderschutz', 'protezione minori', 'protezione bambini', 'kinderbescherming', 'barnskydd'],
-  domestic_violence: ['domestic violence', 'domestic abuse', 'violencia domestica', 'violence domestique', 'violences conjugales', 'dv', 'haeusliche gewalt', 'häusliche gewalt', 'violenza domestica', 'huiselijk geweld', 'våld i hemmet'],
-  suicide_crisis: ['suicide crisis', 'suicide', 'suicidal', 'suicidaire', 'suicidio', 'suicida', 'suizid', 'suizidal', 'zelfmoord', 'suicidaal', 'självmord'],
-  mental_health: ['mental health', 'salud mental', 'sante mentale', 'saude mental', 'psychische gesundheit', 'salute mentale', 'mentale gezondheid', 'geestelijke gezondheid', 'psykisk hälsa'],
+  emergency: ['emergency', 'emergency number', 'emergency services', 'police', 'policia', 'polizia', 'ambulance', 'fire', 'vigili del fuoco', 'bomberos', 'pompiers', 'urgence', 'numero urgence', '112', '911', '999', '000', 'emergencia', 'numero emergencia', 'emergenza', 'numero emergenza', 'bombeiros', 'polizei', 'feuerwehr', 'notruf', 'politie', 'brandweer', 'noodnummer', 'noodgeval', 'polis', 'ambulans', 'brandkår', 'nödnummer', 'politi', 'brandvaesen', 'brandvæsen', 'brannvesen', 'alarm 112', 'nodnummer', 'nødnummer'],
+  child_protection: ['child protection', 'childline', 'youth', 'protection enfance', 'enfance danger', 'protecao infantil', 'protecao crianca', 'kinderschutz', 'protezione minori', 'protezione bambini', 'kinderbescherming', 'barnskydd', 'bornebeskyttelse', 'børnebeskyttelse', 'barnevern', 'alarmtelefonen'],
+  domestic_violence: ['domestic violence', 'domestic abuse', 'violencia domestica', 'violence domestique', 'violences conjugales', 'dv', 'haeusliche gewalt', 'häusliche gewalt', 'violenza domestica', 'huiselijk geweld', 'våld i hemmet', 'vold i hjemmet'],
+  suicide_crisis: ['suicide crisis', 'suicide', 'suicidal', 'suicidaire', 'suicidio', 'suicida', 'suizid', 'suizidal', 'zelfmoord', 'suicidaal', 'självmord', 'selvmord'],
+  mental_health: ['mental health', 'salud mental', 'sante mentale', 'saude mental', 'psychische gesundheit', 'salute mentale', 'mentale gezondheid', 'geestelijke gezondheid', 'psykisk hälsa', 'psykisk sundhed', 'psykisk helse'],
   gambling: ['gambling', 'gambling help'],
   sexual_violence: ['sexual violence', 'sexual assault', 'rape crisis', 'rape support'],
   human_trafficking: ['human trafficking', 'trafficking'],
@@ -68,8 +68,8 @@ const COUNTRY_ALIASES = {
   spain: ['espana', 'espagne', 'espanha', 'spanien', 'spagna', 'spanje'],
   germany: ['allemagne', 'alemanha', 'deutschland', 'germania', 'duitsland', 'tyskland'],
   italy: ['italia', 'italie', 'italië'],
-  'united kingdom': ['uk', 'royaume uni', 'reino unido', 'vereinigtes koenigreich', 'vereinigtes königreich', 'regno unito', 'verenigd koninkrijk', 'storbritannien'],
-  'united states': ['usa', 'united states', 'us', 'etats unis', 'estados unidos', 'vereinigte staaten', 'stati uniti', 'verenigde staten', 'förenta staterna'],
+  'united kingdom': ['uk', 'royaume uni', 'reino unido', 'vereinigtes koenigreich', 'vereinigtes königreich', 'regno unito', 'verenigd koninkrijk', 'storbritannien', 'storbritannia'],
+  'united states': ['usa', 'united states', 'us', 'etats unis', 'estados unidos', 'vereinigte staaten', 'stati uniti', 'verenigde staten', 'förenta staterna', 'forenede stater', 'forente stater'],
   'united arab emirates': ['uae'],
   sweden: ['sverige'],
   denmark: ['danmark'],

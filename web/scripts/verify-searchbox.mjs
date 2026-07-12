@@ -490,6 +490,136 @@ for (const check of swedishAliasIntentChecks) {
   );
 }
 
+const danishAliasIntentChecks = [
+  { query: 'psykisk sundhed danmark', expectedCountry: 'Denmark', expectedCategory: 'mental_health' },
+  { query: 'vold i hjemmet danmark', expectedCountry: 'Denmark', expectedCategory: 'domestic_violence' },
+  { query: 'politi danmark', expectedCountry: 'Denmark', expectedCategory: 'emergency' },
+  { query: 'brandvæsen danmark', expectedCountry: 'Denmark', expectedCategory: 'emergency' },
+  { query: 'alarm 112 danmark', expectedCountry: 'Denmark', expectedCategory: 'emergency' },
+  { query: 'nødnummer danmark', expectedCountry: 'Denmark', expectedCategory: 'emergency' },
+  { query: 'selvmord forenede stater', expectedCountry: 'United States', expectedCategory: 'suicide_crisis' },
+  { query: 'børnebeskyttelse danmark', expectedCountry: 'Denmark', expectedCategory: 'child_protection' },
+];
+
+for (const check of danishAliasIntentChecks) {
+  const parsed = parseSearchQuery(check.query, docs);
+  assert.equal(
+    parsed.intent.country?.label,
+    check.expectedCountry,
+    `Expected ${check.expectedCountry} country intent for Danish query ${check.query}. Got: ${JSON.stringify(parsed.intent.country)}`,
+  );
+  assert.equal(
+    parsed.intent.category?.value,
+    check.expectedCategory,
+    `Expected ${check.expectedCategory} category intent for Danish query ${check.query}. Got: ${JSON.stringify(parsed.intent.category)}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`country:${check.expectedCountry.toLowerCase()}`),
+    `Expected ${check.expectedCountry} country filter for Danish query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`category:${check.expectedCategory}`),
+    `Expected ${check.expectedCategory} category filter for Danish query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+
+  const resultDocs = searchDocs(check.query, 10);
+  assert.ok(resultDocs.length > 0, `Expected results for Danish query ${check.query}`);
+  assert.ok(
+    resultDocs.every((doc) => doc.country_name === check.expectedCountry),
+    `Expected only ${check.expectedCountry} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+  assert.ok(
+    resultDocs.every((doc) => doc.category === check.expectedCategory),
+    `Expected only ${check.expectedCategory} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+}
+
+const norwegianAliasIntentChecks = [
+  { query: 'psykisk helse norge', expectedCountry: 'Norway', expectedCategory: 'mental_health' },
+  { query: 'vold i hjemmet norge', expectedCountry: 'Norway', expectedCategory: 'domestic_violence' },
+  { query: 'politi norge', expectedCountry: 'Norway', expectedCategory: 'emergency' },
+  { query: 'brannvesen norge', expectedCountry: 'Norway', expectedCategory: 'emergency' },
+  { query: 'nødnummer norge', expectedCountry: 'Norway', expectedCategory: 'emergency' },
+  { query: 'selvmord storbritannia', expectedCountry: 'United Kingdom', expectedCategory: 'suicide_crisis' },
+  { query: 'barnevern norge', expectedCountry: 'Norway', expectedCategory: 'child_protection' },
+];
+
+for (const check of norwegianAliasIntentChecks) {
+  const parsed = parseSearchQuery(check.query, docs);
+  assert.equal(
+    parsed.intent.country?.label,
+    check.expectedCountry,
+    `Expected ${check.expectedCountry} country intent for Norwegian query ${check.query}. Got: ${JSON.stringify(parsed.intent.country)}`,
+  );
+  assert.equal(
+    parsed.intent.category?.value,
+    check.expectedCategory,
+    `Expected ${check.expectedCategory} category intent for Norwegian query ${check.query}. Got: ${JSON.stringify(parsed.intent.category)}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`country:${check.expectedCountry.toLowerCase()}`),
+    `Expected ${check.expectedCountry} country filter for Norwegian query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`category:${check.expectedCategory}`),
+    `Expected ${check.expectedCategory} category filter for Norwegian query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+
+  const resultDocs = searchDocs(check.query, 10);
+  assert.ok(resultDocs.length > 0, `Expected results for Norwegian query ${check.query}`);
+  assert.ok(
+    resultDocs.every((doc) => doc.country_name === check.expectedCountry),
+    `Expected only ${check.expectedCountry} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+  assert.ok(
+    resultDocs.every((doc) => doc.category === check.expectedCategory),
+    `Expected only ${check.expectedCategory} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+}
+
+const alarmtelefonenNorwayParsed = parseSearchQuery('alarmtelefonen norge', docs);
+assert.equal(
+  alarmtelefonenNorwayParsed.intent.category?.value,
+  'child_protection',
+  `Expected "alarmtelefonen norge" to infer child_protection category. Got: ${JSON.stringify(alarmtelefonenNorwayParsed.intent.category)}`,
+);
+assert.equal(
+  alarmtelefonenNorwayParsed.intent.country?.label,
+  'Norway',
+  `Expected Norway country intent for "alarmtelefonen norge". Got: ${JSON.stringify(alarmtelefonenNorwayParsed.intent.country)}`,
+);
+
+const alarmtelefonenNorwayResults = searchDocs('alarmtelefonen norge', 10);
+assert.ok(
+  alarmtelefonenNorwayResults.some((doc) => doc.country_name === 'Norway' && doc.name === 'Alarmtelefonen for barn og unge'),
+  `Expected "alarmtelefonen norge" to surface Norway's Alarmtelefonen for barn og unge. Got: ${alarmtelefonenNorwayResults.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+);
+
+const alarmNoCategoryInferenceChecks = [
+  { query: 'alarm danmark', expectedCountry: 'Denmark', expectedDocName: 'Alarm 112' },
+  { query: 'alarm sverige', expectedCountry: 'Sweden', expectedDocName: 'SOS Alarm (112)' },
+];
+
+for (const check of alarmNoCategoryInferenceChecks) {
+  const parsed = parseSearchQuery(check.query, docs);
+  assert.notEqual(
+    parsed.intent.category?.value,
+    'child_protection',
+    `Expected "${check.query}" not to infer child_protection category. Got: ${JSON.stringify(parsed.intent.category)}`,
+  );
+  assert.equal(
+    parsed.intent.country?.label,
+    check.expectedCountry,
+    `Expected ${check.expectedCountry} country intent for "${check.query}". Got: ${JSON.stringify(parsed.intent.country)}`,
+  );
+
+  const resultDocs = searchDocs(check.query, 10);
+  assert.ok(
+    resultDocs.some((doc) => doc.country_name === check.expectedCountry && doc.name === check.expectedDocName),
+    `Expected "${check.query}" to surface ${check.expectedCountry}'s ${check.expectedDocName}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+}
+
 const ukEmergencyNumberResults = searchDocs('999 uk', 10);
 assert.ok(
   ukEmergencyNumberResults.every((doc) => doc.country_name === 'United Kingdom' && doc.category === 'emergency'),
