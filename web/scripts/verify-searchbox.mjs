@@ -712,6 +712,54 @@ for (const check of turkishAliasIntentChecks) {
   );
 }
 
+const arabicAliasIntentChecks = [
+  { query: 'الصحة النفسية الإمارات', expectedCountry: 'United Arab Emirates', expectedCategory: 'mental_health' },
+  { query: 'العنف المنزلي مصر', expectedCountry: 'Egypt', expectedCategory: 'domestic_violence' },
+  { query: 'شرطة السعودية', expectedCountry: 'Saudi Arabia', expectedCategory: 'emergency' },
+  { query: 'رقم الطوارئ المغرب', expectedCountry: 'Morocco', expectedCategory: 'emergency' },
+  // Jordan's directory has no suicide_crisis entries yet, so only intent/filter parsing is asserted here.
+  { query: 'انتحار الأردن', expectedCountry: 'Jordan', expectedCategory: 'suicide_crisis', intentOnly: true },
+  { query: 'حماية الطفل لبنان', expectedCountry: 'Lebanon', expectedCategory: 'child_protection' },
+  { query: 'اسعاف فرنسا', expectedCountry: 'France', expectedCategory: 'emergency' },
+  // Sweden's directory has no mental_health entries yet, so only intent/filter parsing is asserted here.
+  { query: 'الصحة النفسية السويد', expectedCountry: 'Sweden', expectedCategory: 'mental_health', intentOnly: true },
+];
+
+for (const check of arabicAliasIntentChecks) {
+  const parsed = parseSearchQuery(check.query, docs);
+  assert.equal(
+    parsed.intent.country?.label,
+    check.expectedCountry,
+    `Expected ${check.expectedCountry} country intent for Arabic query ${check.query}. Got: ${JSON.stringify(parsed.intent.country)}`,
+  );
+  assert.equal(
+    parsed.intent.category?.value,
+    check.expectedCategory,
+    `Expected ${check.expectedCategory} category intent for Arabic query ${check.query}. Got: ${JSON.stringify(parsed.intent.category)}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`country:${check.expectedCountry.toLowerCase()}`),
+    `Expected ${check.expectedCountry} country filter for Arabic query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`category:${check.expectedCategory}`),
+    `Expected ${check.expectedCategory} category filter for Arabic query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+
+  if (check.intentOnly) continue;
+
+  const resultDocs = searchDocs(check.query, 10);
+  assert.ok(resultDocs.length > 0, `Expected results for Arabic query ${check.query}`);
+  assert.ok(
+    resultDocs.every((doc) => doc.country_name === check.expectedCountry),
+    `Expected only ${check.expectedCountry} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+  assert.ok(
+    resultDocs.every((doc) => doc.category === check.expectedCategory),
+    `Expected only ${check.expectedCategory} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+}
+
 const alarmtelefonenNorwayParsed = parseSearchQuery('alarmtelefonen norge', docs);
 assert.equal(
   alarmtelefonenNorwayParsed.intent.category?.value,
