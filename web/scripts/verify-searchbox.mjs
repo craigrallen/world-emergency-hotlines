@@ -807,6 +807,58 @@ for (const check of hindiAliasIntentChecks) {
   );
 }
 
+const chineseAliasIntentChecks = [
+  { query: '心理健康 法国', expectedCountry: 'France', expectedCategory: 'mental_health' },
+  { query: '家庭暴力 德国', expectedCountry: 'Germany', expectedCategory: 'domestic_violence' },
+  { query: '紧急 西班牙', expectedCountry: 'Spain', expectedCategory: 'emergency' },
+  { query: '自杀 英国', expectedCountry: 'United Kingdom', expectedCategory: 'suicide_crisis' },
+  { query: '儿童保护 美国', expectedCountry: 'United States', expectedCategory: 'child_protection' },
+  { query: '警察 加拿大', expectedCountry: 'Canada', expectedCategory: 'emergency' },
+  { query: '心理健康 印度', expectedCountry: 'India', expectedCategory: 'mental_health' },
+  { query: '家暴 澳大利亚', expectedCountry: 'Australia', expectedCategory: 'domestic_violence' },
+  // Sweden's directory has no mental_health entries yet, so only intent/filter parsing is asserted here.
+  { query: '心理健康 瑞典', expectedCountry: 'Sweden', expectedCategory: 'mental_health', intentOnly: true },
+  // The UAE's directory has no suicide_crisis entries yet, so only intent/filter parsing is asserted here.
+  { query: '自杀 阿联酋', expectedCountry: 'United Arab Emirates', expectedCategory: 'suicide_crisis', intentOnly: true },
+  // China's directory has no child_protection entries yet, so only intent/filter parsing is asserted here.
+  { query: '儿童保护 中国', expectedCountry: 'China', expectedCategory: 'child_protection', intentOnly: true },
+];
+
+for (const check of chineseAliasIntentChecks) {
+  const parsed = parseSearchQuery(check.query, docs);
+  assert.equal(
+    parsed.intent.country?.label,
+    check.expectedCountry,
+    `Expected ${check.expectedCountry} country intent for Chinese query ${check.query}. Got: ${JSON.stringify(parsed.intent.country)}`,
+  );
+  assert.equal(
+    parsed.intent.category?.value,
+    check.expectedCategory,
+    `Expected ${check.expectedCategory} category intent for Chinese query ${check.query}. Got: ${JSON.stringify(parsed.intent.category)}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`country:${check.expectedCountry.toLowerCase()}`),
+    `Expected ${check.expectedCountry} country filter for Chinese query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`category:${check.expectedCategory}`),
+    `Expected ${check.expectedCategory} category filter for Chinese query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+
+  if (check.intentOnly) continue;
+
+  const resultDocs = searchDocs(check.query, 10);
+  assert.ok(resultDocs.length > 0, `Expected results for Chinese query ${check.query}`);
+  assert.ok(
+    resultDocs.every((doc) => doc.country_name === check.expectedCountry),
+    `Expected only ${check.expectedCountry} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+  assert.ok(
+    resultDocs.every((doc) => doc.category === check.expectedCategory),
+    `Expected only ${check.expectedCategory} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+}
+
 const alarmtelefonenNorwayParsed = parseSearchQuery('alarmtelefonen norge', docs);
 assert.equal(
   alarmtelefonenNorwayParsed.intent.category?.value,
