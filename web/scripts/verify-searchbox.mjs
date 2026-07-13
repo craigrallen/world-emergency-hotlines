@@ -760,6 +760,53 @@ for (const check of arabicAliasIntentChecks) {
   );
 }
 
+const hindiAliasIntentChecks = [
+  { query: 'मानसिक स्वास्थ्य भारत', expectedCountry: 'India', expectedCategory: 'mental_health' },
+  { query: 'घरेलू हिंसा भारत', expectedCountry: 'India', expectedCategory: 'domestic_violence' },
+  { query: 'आपातकाल भारत', expectedCountry: 'India', expectedCategory: 'emergency' },
+  { query: 'आत्महत्या भारत', expectedCountry: 'India', expectedCategory: 'suicide_crisis' },
+  { query: 'बाल संरक्षण भारत', expectedCountry: 'India', expectedCategory: 'child_protection' },
+  { query: 'पुलिस फ्रांस', expectedCountry: 'France', expectedCategory: 'emergency' },
+  { query: 'मानसिक स्वास्थ्य जर्मनी', expectedCountry: 'Germany', expectedCategory: 'mental_health' },
+  { query: 'घरेलू हिंसा स्वीडन', expectedCountry: 'Sweden', expectedCategory: 'domestic_violence' },
+  { query: 'आत्महत्या अमेरिका', expectedCountry: 'United States', expectedCategory: 'suicide_crisis' },
+];
+
+for (const check of hindiAliasIntentChecks) {
+  const parsed = parseSearchQuery(check.query, docs);
+  assert.equal(
+    parsed.intent.country?.label,
+    check.expectedCountry,
+    `Expected ${check.expectedCountry} country intent for Hindi query ${check.query}. Got: ${JSON.stringify(parsed.intent.country)}`,
+  );
+  assert.equal(
+    parsed.intent.category?.value,
+    check.expectedCategory,
+    `Expected ${check.expectedCategory} category intent for Hindi query ${check.query}. Got: ${JSON.stringify(parsed.intent.category)}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`country:${check.expectedCountry.toLowerCase()}`),
+    `Expected ${check.expectedCountry} country filter for Hindi query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`category:${check.expectedCategory}`),
+    `Expected ${check.expectedCategory} category filter for Hindi query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+
+  if (check.intentOnly) continue;
+
+  const resultDocs = searchDocs(check.query, 10);
+  assert.ok(resultDocs.length > 0, `Expected results for Hindi query ${check.query}`);
+  assert.ok(
+    resultDocs.every((doc) => doc.country_name === check.expectedCountry),
+    `Expected only ${check.expectedCountry} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+  assert.ok(
+    resultDocs.every((doc) => doc.category === check.expectedCategory),
+    `Expected only ${check.expectedCategory} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+}
+
 const alarmtelefonenNorwayParsed = parseSearchQuery('alarmtelefonen norge', docs);
 assert.equal(
   alarmtelefonenNorwayParsed.intent.category?.value,
