@@ -23,11 +23,11 @@ const QUERY_STOPWORDS = new Set([
 ]);
 
 const CATEGORY_ALIASES = {
-  emergency: ['emergency', 'emergency number', 'emergency services', 'police', 'policia', 'polizia', 'ambulance', 'fire', 'vigili del fuoco', 'bomberos', 'pompiers', 'urgence', 'numero urgence', '112', '911', '999', '000', 'emergencia', 'numero emergencia', 'emergenza', 'numero emergenza', 'bombeiros', 'polizei', 'feuerwehr', 'notruf', 'politie', 'brandweer', 'noodnummer', 'noodgeval', 'polis', 'ambulans', 'brandkår', 'nödnummer', 'politi', 'brandvaesen', 'brandvæsen', 'brannvesen', 'alarm 112', 'nodnummer', 'nødnummer', 'poliisi', 'palokunta', 'hätänumero', 'hatanumero', 'policja', 'straz pozarna', 'straż pożarna', 'numer alarmowy', 'pogotowie', 'acil', 'acil durum', 'acil numara', 'itfaiye'],
-  child_protection: ['child protection', 'childline', 'youth', 'protection enfance', 'enfance danger', 'protecao infantil', 'protecao crianca', 'kinderschutz', 'protezione minori', 'protezione bambini', 'kinderbescherming', 'barnskydd', 'bornebeskyttelse', 'børnebeskyttelse', 'barnevern', 'alarmtelefonen', 'lastensuojelu', 'ochrona dzieci', 'pomoc dzieciom', 'cocuk koruma', 'çocuk koruma'],
-  domestic_violence: ['domestic violence', 'domestic abuse', 'violencia domestica', 'violence domestique', 'violences conjugales', 'dv', 'haeusliche gewalt', 'häusliche gewalt', 'violenza domestica', 'huiselijk geweld', 'våld i hemmet', 'vold i hjemmet', 'perheväkivalta', 'perhevakivalta', 'przemoc domowa', 'ev ici siddet', 'ev içi şiddet', 'aile ici siddet', 'aile içi şiddet'],
-  suicide_crisis: ['suicide crisis', 'suicide', 'suicidal', 'suicidaire', 'suicidio', 'suicida', 'suizid', 'suizidal', 'zelfmoord', 'suicidaal', 'självmord', 'selvmord', 'itsemurha', 'samobojstwo', 'samobójstwo', 'intihar'],
-  mental_health: ['mental health', 'salud mental', 'sante mentale', 'saude mental', 'psychische gesundheit', 'salute mentale', 'mentale gezondheid', 'geestelijke gezondheid', 'psykisk hälsa', 'psykisk sundhed', 'psykisk helse', 'mielenterveys', 'zdrowie psychiczne', 'ruh sagligi', 'ruh sağlığı'],
+  emergency: ['emergency', 'emergency number', 'emergency services', 'police', 'policia', 'polizia', 'ambulance', 'fire', 'vigili del fuoco', 'bomberos', 'pompiers', 'urgence', 'numero urgence', '112', '911', '999', '000', 'emergencia', 'numero emergencia', 'emergenza', 'numero emergenza', 'bombeiros', 'polizei', 'feuerwehr', 'notruf', 'politie', 'brandweer', 'noodnummer', 'noodgeval', 'polis', 'ambulans', 'brandkår', 'nödnummer', 'politi', 'brandvaesen', 'brandvæsen', 'brannvesen', 'alarm 112', 'nodnummer', 'nødnummer', 'poliisi', 'palokunta', 'hätänumero', 'hatanumero', 'policja', 'straz pozarna', 'straż pożarna', 'numer alarmowy', 'pogotowie', 'acil', 'acil durum', 'acil numara', 'itfaiye', 'طوارئ', 'رقم الطوارئ', 'شرطة', 'إسعاف', 'اسعاف', 'إطفاء', 'اطفاء'],
+  child_protection: ['child protection', 'childline', 'youth', 'protection enfance', 'enfance danger', 'protecao infantil', 'protecao crianca', 'kinderschutz', 'protezione minori', 'protezione bambini', 'kinderbescherming', 'barnskydd', 'bornebeskyttelse', 'børnebeskyttelse', 'barnevern', 'alarmtelefonen', 'lastensuojelu', 'ochrona dzieci', 'pomoc dzieciom', 'cocuk koruma', 'çocuk koruma', 'حماية الطفل', 'حماية الأطفال', 'حماية الاطفال'],
+  domestic_violence: ['domestic violence', 'domestic abuse', 'violencia domestica', 'violence domestique', 'violences conjugales', 'dv', 'haeusliche gewalt', 'häusliche gewalt', 'violenza domestica', 'huiselijk geweld', 'våld i hemmet', 'vold i hjemmet', 'perheväkivalta', 'perhevakivalta', 'przemoc domowa', 'ev ici siddet', 'ev içi şiddet', 'aile ici siddet', 'aile içi şiddet', 'العنف المنزلي', 'عنف منزلي', 'العنف الأسري', 'عنف أسري'],
+  suicide_crisis: ['suicide crisis', 'suicide', 'suicidal', 'suicidaire', 'suicidio', 'suicida', 'suizid', 'suizidal', 'zelfmoord', 'suicidaal', 'självmord', 'selvmord', 'itsemurha', 'samobojstwo', 'samobójstwo', 'intihar', 'انتحار', 'أفكار انتحارية', 'افكار انتحارية'],
+  mental_health: ['mental health', 'salud mental', 'sante mentale', 'saude mental', 'psychische gesundheit', 'salute mentale', 'mentale gezondheid', 'geestelijke gezondheid', 'psykisk hälsa', 'psykisk sundhed', 'psykisk helse', 'mielenterveys', 'zdrowie psychiczne', 'ruh sagligi', 'ruh sağlığı', 'الصحة النفسية', 'صحة نفسية'],
   gambling: ['gambling', 'gambling help'],
   sexual_violence: ['sexual violence', 'sexual assault', 'rape crisis', 'rape support'],
   human_trafficking: ['human trafficking', 'trafficking'],
@@ -65,18 +65,23 @@ const COUNTRY_ALIASES = {
   belgium: ['belgie', 'belgië'],
   netherlands: ['nederland'],
   finland: ['suomi', 'finlandia'],
-  france: ['francia', 'franca', 'frankreich', 'frankrijk', 'frankrike', 'ranska', 'francja', 'fransa'],
-  spain: ['espana', 'espagne', 'espanha', 'spanien', 'spagna', 'spanje', 'espanja', 'hiszpania', 'ispanya', 'İspanya'],
-  germany: ['allemagne', 'alemanha', 'deutschland', 'germania', 'duitsland', 'tyskland', 'saksa', 'niemcy', 'almanya'],
+  france: ['francia', 'franca', 'frankreich', 'frankrijk', 'frankrike', 'ranska', 'francja', 'fransa', 'فرنسا'],
+  spain: ['espana', 'espagne', 'espanha', 'spanien', 'spagna', 'spanje', 'espanja', 'hiszpania', 'ispanya', 'İspanya', 'إسبانيا', 'اسبانيا'],
+  germany: ['allemagne', 'alemanha', 'deutschland', 'germania', 'duitsland', 'tyskland', 'saksa', 'niemcy', 'almanya', 'ألمانيا', 'المانيا'],
   italy: ['italia', 'italie', 'italië', 'italya'],
-  'united kingdom': ['uk', 'royaume uni', 'reino unido', 'vereinigtes koenigreich', 'vereinigtes königreich', 'regno unito', 'verenigd koninkrijk', 'storbritannien', 'storbritannia', 'yhdistynyt kuningaskunta', 'wielka brytania', 'birlesik krallik', 'birleşik krallık'],
-  'united states': ['usa', 'united states', 'us', 'etats unis', 'estados unidos', 'vereinigte staaten', 'stati uniti', 'verenigde staten', 'förenta staterna', 'forenede stater', 'forente stater', 'yhdysvallat', 'stany zjednoczone', 'amerika birlesik devletleri', 'amerika birleşik devletleri'],
-  'united arab emirates': ['uae'],
-  sweden: ['sverige', 'ruotsi', 'szwecja', 'isvec', 'isveç'],
+  'united kingdom': ['uk', 'royaume uni', 'reino unido', 'vereinigtes koenigreich', 'vereinigtes königreich', 'regno unito', 'verenigd koninkrijk', 'storbritannien', 'storbritannia', 'yhdistynyt kuningaskunta', 'wielka brytania', 'birlesik krallik', 'birleşik krallık', 'المملكة المتحدة', 'بريطانيا'],
+  'united states': ['usa', 'united states', 'us', 'etats unis', 'estados unidos', 'vereinigte staaten', 'stati uniti', 'verenigde staten', 'förenta staterna', 'forenede stater', 'forente stater', 'yhdysvallat', 'stany zjednoczone', 'amerika birlesik devletleri', 'amerika birleşik devletleri', 'الولايات المتحدة', 'أمريكا', 'امريكا'],
+  'united arab emirates': ['uae', 'الإمارات', 'الامارات'],
+  sweden: ['sverige', 'ruotsi', 'szwecja', 'isvec', 'isveç', 'السويد'],
   denmark: ['danmark', 'tanska', 'dania', 'danimarka'],
   norway: ['norge', 'norja', 'norwegia', 'norvec', 'norveç'],
   poland: ['polska'],
   turkey: ['turkiye', 'türkiye'],
+  egypt: ['مصر'],
+  'saudi arabia': ['السعودية', 'المملكة العربية السعودية'],
+  morocco: ['المغرب'],
+  jordan: ['الأردن', 'الاردن'],
+  lebanon: ['لبنان'],
 };
 
 const AMBIGUOUS_COUNTRY_CODE_ALIASES = new Set([
@@ -107,10 +112,10 @@ function getCountryAliasTerms(doc) {
 function normalizeText(value) {
   return String(value ?? '')
     .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\p{M}/gu, '')
     .toLowerCase()
     .replace(/&/g, ' and ')
-    .replace(/[^a-z0-9]+/g, ' ')
+    .replace(/[^\p{L}\p{N}]+/gu, ' ')
     .trim();
 }
 
