@@ -1059,12 +1059,31 @@ assert.equal(inferredAliasIntent.category?.value, 'mental_health');
 const fillerOnlyResults = search('please help me', 5);
 assert.equal(fillerOnlyResults.length, 0, `Expected filler-only query to stay quiet. Got: ${fillerOnlyResults.join(', ')}`);
 
-const ambiguousIsoCodeParsed = parseSearchQuery('please help me', docs);
-assert.equal(
-  ambiguousIsoCodeParsed.intent.country,
-  null,
-  `Expected filler pronoun "me" not to become Montenegro country intent. Got: ${JSON.stringify(ambiguousIsoCodeParsed.intent.country)}`,
-);
+const ambiguousIsoCodeChecks = [
+  { word: 'am', country: 'Armenia', query: 'i am feeling unsafe' },
+  { word: 'as', country: 'American Samoa', query: 'as soon as possible' },
+  { word: 'at', country: 'Austria', query: 'help at home' },
+  { word: 'be', country: 'Belgium', query: 'please be kind' },
+  { word: 'by', country: 'Belarus', query: 'support by phone' },
+  { word: 'do', country: 'Dominican Republic', query: 'what do i do' },
+  { word: 'im', country: 'Isle of Man', query: 'im feeling unsafe' },
+  { word: 'in', country: 'India', query: 'help in an emergency' },
+  { word: 'it', country: 'Italy', query: 'it feels urgent' },
+  { word: 'me', country: 'Montenegro', query: 'please help me' },
+  { word: 'my', country: 'Malaysia', query: 'help my family' },
+  { word: 'no', country: 'Norway', query: 'no emergency here' },
+  { word: 'so', country: 'Somalia', query: 'so worried right now' },
+  { word: 'to', country: 'Tonga', query: 'need to talk' },
+];
+
+for (const check of ambiguousIsoCodeChecks) {
+  const parsed = parseSearchQuery(check.query, docs);
+  assert.equal(
+    parsed.intent.country,
+    null,
+    `Expected ordinary word "${check.word}" not to become ${check.country} country intent for "${check.query}". Got: ${JSON.stringify(parsed.intent.country)}`,
+  );
+}
 
 const summaryParsed = parseSearchQuery('mental health uae', docs);
 const summaryResults = docs.filter((doc) => docMatchesQueryFilters(doc, summaryParsed));
