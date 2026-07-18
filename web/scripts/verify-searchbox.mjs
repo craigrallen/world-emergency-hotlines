@@ -859,6 +859,61 @@ for (const check of chineseAliasIntentChecks) {
   );
 }
 
+const japaneseAliasIntentChecks = [
+  { query: 'メンタルヘルス フランス', expectedCountry: 'France', expectedCategory: 'mental_health' },
+  { query: 'ドメスティックバイオレンス ドイツ', expectedCountry: 'Germany', expectedCategory: 'domestic_violence' },
+  { query: '緊急 スペイン', expectedCountry: 'Spain', expectedCategory: 'emergency' },
+  { query: '自殺 イギリス', expectedCountry: 'United Kingdom', expectedCategory: 'suicide_crisis' },
+  { query: '児童虐待 アメリカ', expectedCountry: 'United States', expectedCategory: 'child_protection' },
+  { query: '警察 カナダ', expectedCountry: 'Canada', expectedCategory: 'emergency' },
+  { query: 'メンタルヘルス インド', expectedCountry: 'India', expectedCategory: 'mental_health' },
+  { query: '家庭内暴力 オーストラリア', expectedCountry: 'Australia', expectedCategory: 'domestic_violence' },
+  { query: '緊急 日本', expectedCountry: 'Japan', expectedCategory: 'emergency' },
+  { query: 'メンタルヘルス 日本', expectedCountry: 'Japan', expectedCategory: 'mental_health' },
+  { query: 'ドメスティックバイオレンス 日本', expectedCountry: 'Japan', expectedCategory: 'domestic_violence' },
+  { query: '自殺 日本', expectedCountry: 'Japan', expectedCategory: 'suicide_crisis' },
+  { query: '児童虐待 日本', expectedCountry: 'Japan', expectedCategory: 'child_protection' },
+  // Sweden's directory has no mental_health entries yet, so only intent/filter parsing is asserted here.
+  { query: 'メンタルヘルス スウェーデン', expectedCountry: 'Sweden', expectedCategory: 'mental_health', intentOnly: true },
+  // China's directory has no child_protection entries yet, so only intent/filter parsing is asserted here.
+  { query: '児童虐待 中国', expectedCountry: 'China', expectedCategory: 'child_protection', intentOnly: true },
+];
+
+for (const check of japaneseAliasIntentChecks) {
+  const parsed = parseSearchQuery(check.query, docs);
+  assert.equal(
+    parsed.intent.country?.label,
+    check.expectedCountry,
+    `Expected ${check.expectedCountry} country intent for Japanese query ${check.query}. Got: ${JSON.stringify(parsed.intent.country)}`,
+  );
+  assert.equal(
+    parsed.intent.category?.value,
+    check.expectedCategory,
+    `Expected ${check.expectedCategory} category intent for Japanese query ${check.query}. Got: ${JSON.stringify(parsed.intent.category)}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`country:${check.expectedCountry.toLowerCase()}`),
+    `Expected ${check.expectedCountry} country filter for Japanese query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`category:${check.expectedCategory}`),
+    `Expected ${check.expectedCategory} category filter for Japanese query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+
+  if (check.intentOnly) continue;
+
+  const resultDocs = searchDocs(check.query, 10);
+  assert.ok(resultDocs.length > 0, `Expected results for Japanese query ${check.query}`);
+  assert.ok(
+    resultDocs.every((doc) => doc.country_name === check.expectedCountry),
+    `Expected only ${check.expectedCountry} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+  assert.ok(
+    resultDocs.every((doc) => doc.category === check.expectedCategory),
+    `Expected only ${check.expectedCategory} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+}
+
 const alarmtelefonenNorwayParsed = parseSearchQuery('alarmtelefonen norge', docs);
 assert.equal(
   alarmtelefonenNorwayParsed.intent.category?.value,
