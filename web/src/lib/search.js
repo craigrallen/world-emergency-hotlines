@@ -114,13 +114,42 @@ function getCountryAliasTerms(doc) {
   ]);
 }
 
-function normalizeText(value) {
-  return String(value ?? '')
-    .normalize('NFKD')
-    .replace(/\p{M}/gu, '')
+// NFKD decomposes accented Latin letters into base + combining mark, which is what
+// makes accent-insensitive Latin matching possible by stripping \p{M}. But the same
+// decomposition also splits Japanese dakuten/handakuten (voicing marks) and Devanagari
+// matras/anusvara off their base characters, and those marks are not decorative accents —
+// they distinguish otherwise-unrelated words (は/ば/ぱ, क/का/कि). Only strip a run of
+// combining marks when it does *not* follow one of those mark-preserving scripts, so
+// Latin (and Arabic diacritics) stay accent-insensitive while Japanese and Devanagari
+// keep their meaningful marks.
+//
+// This is a forward scan rather than a negative-lookbehind regex: lookbehind assertions
+// fail to parse on Safari/iOS Safari before 16.4, which would break this entire module
+// (a syntax error in one regex literal throws at parse time, not at call time).
+const MARK_PATTERN = /\p{M}/u;
+const MARK_PRESERVING_BASE_PATTERN = /[\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Devanagari}]/u;
+
+function stripUnattachedMarks(value) {
+  let result = '';
+  let previousBasePreservesMarks = false;
+
+  for (const char of value) {
+    if (MARK_PATTERN.test(char)) {
+      if (previousBasePreservesMarks) result += char;
+      continue;
+    }
+    result += char;
+    previousBasePreservesMarks = MARK_PRESERVING_BASE_PATTERN.test(char);
+  }
+
+  return result;
+}
+
+export function normalizeText(value) {
+  return stripUnattachedMarks(String(value ?? '').normalize('NFKD'))
     .toLowerCase()
     .replace(/&/g, ' and ')
-    .replace(/[^\p{L}\p{N}]+/gu, ' ')
+    .replace(/[^\p{L}\p{N}\p{M}]+/gu, ' ')
     .trim();
 }
 
