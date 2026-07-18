@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 
 import docs from '../public/data/search-index.json' with { type: 'json' };
 import { 
@@ -8,6 +10,7 @@ import {
   buildResultSummary,
   docMatchesQueryFilters,
   inferSearchIntent,
+  normalizeText,
   parseSearchQuery,
   resolveSearchNavigation,
   scoreDoc,
@@ -913,6 +916,140 @@ for (const check of japaneseAliasIntentChecks) {
     `Expected only ${check.expectedCategory} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
   );
 }
+
+// Regression matrix for issue #46: normalizeText() must strip combining marks left over
+// from NFKD decomposition for scripts where they are decorative (Latin accents, Arabic
+// tashkeel), but must preserve them for scripts where they are load-bearing (Japanese
+// dakuten/handakuten, Devanagari matras/anusvara) — otherwise unrelated words collapse.
+
+// Japanese voiced/unvoiced minimal pairs must stay distinct after normalization.
+const japaneseMinimalPairChecks = [
+  ['は', 'ば'],
+  ['は', 'ぱ'],
+  ['ば', 'ぱ'],
+  ['か', 'が'],
+  ['さ', 'ざ'],
+  ['た', 'だ'],
+  ['ホ', 'ボ'],
+  ['ホ', 'ポ'],
+];
+
+for (const [unvoiced, voiced] of japaneseMinimalPairChecks) {
+  assert.notEqual(
+    normalizeText(unvoiced),
+    normalizeText(voiced),
+    `Expected "${unvoiced}" and "${voiced}" to remain distinct after normalization`,
+  );
+}
+
+// The exact alias strings called out in issue #46 must normalize to themselves, not to an
+// unvoiced/handakuten-stripped form.
+const japaneseAliasNormalizationChecks = [
+  ['ドイツ', 'トイツ'],
+  ['スペイン', 'スヘイン'],
+  ['イギリス', 'イキリス'],
+  ['カナダ', 'カナタ'],
+  ['スウェーデン', 'スウェーテン'],
+];
+
+for (const [original, wronglyStripped] of japaneseAliasNormalizationChecks) {
+  // normalizeText() leaves preserved marks in NFKD (decomposed) form, so compare the
+  // canonical (NFC) forms rather than raw code points — both render as the same voiced kana.
+  assert.equal(
+    normalizeText(original).normalize('NFC'),
+    original.normalize('NFC'),
+    `Expected "${original}" to normalize to itself (voicing marks preserved). Got: ${normalizeText(original)}`,
+  );
+  assert.notEqual(
+    normalizeText(original),
+    normalizeText(wronglyStripped),
+    `Expected "${original}" not to collapse onto the unvoiced form "${wronglyStripped}"`,
+  );
+}
+
+// Latin diacritics must still be accent-insensitive.
+const latinAccentInsensitiveChecks = [
+  ['café', 'cafe'],
+  ['résumé', 'resume'],
+  ['naïve', 'naive'],
+  ['Ratgeber für Notfälle', 'ratgeber fur notfalle'],
+];
+
+for (const [accented, plain] of latinAccentInsensitiveChecks) {
+  assert.equal(
+    normalizeText(accented),
+    normalizeText(plain),
+    `Expected "${accented}" to normalize the same as "${plain}" (accent-insensitive). Got: ${normalizeText(accented)} vs ${normalizeText(plain)}`,
+  );
+}
+
+// Arabic tashkeel (harakat) are decorative pronunciation marks, not distinct letters —
+// diacritized and undiacritized forms of the same word must still match each other.
+const arabicDiacriticInsensitiveChecks = [
+  ['مُحَمَّد', 'محمد'],
+  ['السُّعُودِيَّة', 'السعودية'],
+];
+
+for (const [diacritized, plain] of arabicDiacriticInsensitiveChecks) {
+  assert.equal(
+    normalizeText(diacritized),
+    normalizeText(plain),
+    `Expected "${diacritized}" to normalize the same as "${plain}" (diacritic-insensitive). Got: ${normalizeText(diacritized)} vs ${normalizeText(plain)}`,
+  );
+}
+
+// Existing Arabic aliases used in the search index must still normalize to themselves
+// (no unexpected mark stripping of base letters). Aliases are picked without hamza-carrying
+// alef forms (إ/أ/آ), since those legitimately fold to bare alef — both before and after
+// this fix — matching common lenient Arabic search practice.
+for (const alias of ['الصحة النفسية', 'شرطة', 'العنف المنزلي', 'انتحار', 'حماية الطفل']) {
+  assert.equal(
+    normalizeText(alias),
+    alias,
+    `Expected Arabic alias "${alias}" to normalize to itself. Got: ${normalizeText(alias)}`,
+  );
+}
+
+// Devanagari (Indic) matras/anusvara are load-bearing vowel signs, not decorative marks —
+// words differing only by a matra must remain distinct after normalization.
+const devanagariMinimalPairChecks = [
+  ['क', 'का'],
+  ['क', 'कि'],
+  ['का', 'कि'],
+  ['दमकल', 'दमकला'],
+];
+
+for (const [first, second] of devanagariMinimalPairChecks) {
+  assert.notEqual(
+    normalizeText(first),
+    normalizeText(second),
+    `Expected "${first}" and "${second}" to remain distinct after normalization`,
+  );
+}
+
+// Existing Devanagari aliases used in the search index must still normalize to themselves.
+for (const alias of ['भारत', 'आपातकाल', 'पुलिस', 'एम्बुलेंस']) {
+  assert.equal(
+    normalizeText(alias),
+    alias,
+    `Expected Devanagari alias "${alias}" to normalize to itself. Got: ${normalizeText(alias)}`,
+  );
+}
+
+// A mark-preserving script character following one that isn't (e.g. Latin then Japanese, or a
+// mark run right at the start of the string with no preceding base) is a boundary condition the
+// forward-scan replacement for the old lookbehind regex must still get right.
+assert.equal(normalizeText('café は'), normalizeText('cafe は'), 'Expected a mixed Latin/Japanese string to stay accent-insensitive on the Latin side only');
+assert.equal(normalizeText(''), '', 'Expected an empty string to normalize to an empty string');
+assert.equal(normalizeText('́'), '', 'Expected a leading combining mark with no base character to be stripped');
+
+// search.js must not use regex lookbehind assertions ((?<=...) / (?<!...)) — they fail to parse
+// on Safari/iOS Safari before 16.4, which throws at module load and breaks search entirely.
+const searchSource = readFileSync(fileURLToPath(new URL('../src/lib/search.js', import.meta.url)), 'utf8');
+assert.ok(
+  !/\(\?<[=!]/.test(searchSource),
+  'Expected src/lib/search.js to contain no regex lookbehind assertions (Safari < 16.4 compatibility)',
+);
 
 const alarmtelefonenNorwayParsed = parseSearchQuery('alarmtelefonen norge', docs);
 assert.equal(
