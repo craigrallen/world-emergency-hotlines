@@ -966,6 +966,54 @@ for (const check of russianAliasIntentChecks) {
   );
 }
 
+const koreanAliasIntentChecks = [
+  { query: '정신건강 미국', expectedCountry: 'United States', expectedCategory: 'mental_health' },
+  { query: '가정폭력 영국', expectedCountry: 'United Kingdom', expectedCategory: 'domestic_violence' },
+  { query: '응급 일본', expectedCountry: 'Japan', expectedCategory: 'emergency' },
+  { query: '자살 중국', expectedCountry: 'China', expectedCategory: 'suicide_crisis' },
+  { query: '아동보호 캐나다', expectedCountry: 'Canada', expectedCategory: 'child_protection' },
+  { query: '경찰 호주', expectedCountry: 'Australia', expectedCategory: 'emergency' },
+  { query: '정신건강 일본', expectedCountry: 'Japan', expectedCategory: 'mental_health' },
+  { query: '가정폭력 호주', expectedCountry: 'Australia', expectedCategory: 'domestic_violence' },
+  { query: '응급 한국', expectedCountry: 'South Korea', expectedCategory: 'emergency' },
+  { query: '정신건강 한국', expectedCountry: 'South Korea', expectedCategory: 'mental_health' },
+  { query: '가정폭력 대한민국', expectedCountry: 'South Korea', expectedCategory: 'domestic_violence' },
+  { query: '자살 한국', expectedCountry: 'South Korea', expectedCategory: 'suicide_crisis' },
+];
+
+for (const check of koreanAliasIntentChecks) {
+  const parsed = parseSearchQuery(check.query, docs);
+  assert.equal(
+    parsed.intent.country?.label,
+    check.expectedCountry,
+    `Expected ${check.expectedCountry} country intent for Korean query ${check.query}. Got: ${JSON.stringify(parsed.intent.country)}`,
+  );
+  assert.equal(
+    parsed.intent.category?.value,
+    check.expectedCategory,
+    `Expected ${check.expectedCategory} category intent for Korean query ${check.query}. Got: ${JSON.stringify(parsed.intent.category)}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`country:${check.expectedCountry.toLowerCase()}`),
+    `Expected ${check.expectedCountry} country filter for Korean query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`category:${check.expectedCategory}`),
+    `Expected ${check.expectedCategory} category filter for Korean query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+
+  const resultDocs = searchDocs(check.query, 10);
+  assert.ok(resultDocs.length > 0, `Expected results for Korean query ${check.query}`);
+  assert.ok(
+    resultDocs.every((doc) => doc.country_name === check.expectedCountry),
+    `Expected only ${check.expectedCountry} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+  assert.ok(
+    resultDocs.every((doc) => doc.category === check.expectedCategory),
+    `Expected only ${check.expectedCategory} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+}
+
 // Regression matrix for issue #46: normalizeText() must strip combining marks left over
 // from NFKD decomposition for scripts where they are decorative (Latin accents, Arabic
 // tashkeel), but must preserve them for scripts where they are load-bearing (Japanese
