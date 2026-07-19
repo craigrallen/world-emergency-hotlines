@@ -917,6 +917,55 @@ for (const check of japaneseAliasIntentChecks) {
   );
 }
 
+const russianAliasIntentChecks = [
+  { query: 'полиция россия', expectedCountry: 'Russia', expectedCategory: 'emergency' },
+  { query: 'скорая помощь германия', expectedCountry: 'Germany', expectedCategory: 'emergency' },
+  { query: 'домашнее насилие франция', expectedCountry: 'France', expectedCategory: 'domestic_violence' },
+  { query: 'насилие в семье великобритания', expectedCountry: 'United Kingdom', expectedCategory: 'domestic_violence' },
+  { query: 'суицид сша', expectedCountry: 'United States', expectedCategory: 'suicide_crisis' },
+  { query: 'самоубийство испания', expectedCountry: 'Spain', expectedCategory: 'suicide_crisis' },
+  { query: 'защита детей индия', expectedCountry: 'India', expectedCategory: 'child_protection' },
+  { query: 'детский телефон доверия австралия', expectedCountry: 'Australia', expectedCategory: 'child_protection' },
+  { query: 'психологическая помощь россия', expectedCountry: 'Russia', expectedCategory: 'mental_health' },
+  // Sweden's directory has no mental_health entries yet, so only intent/filter parsing is asserted here.
+  { query: 'психическое здоровье швеция', expectedCountry: 'Sweden', expectedCategory: 'mental_health', intentOnly: true },
+];
+
+for (const check of russianAliasIntentChecks) {
+  const parsed = parseSearchQuery(check.query, docs);
+  assert.equal(
+    parsed.intent.country?.label,
+    check.expectedCountry,
+    `Expected ${check.expectedCountry} country intent for Russian query ${check.query}. Got: ${JSON.stringify(parsed.intent.country)}`,
+  );
+  assert.equal(
+    parsed.intent.category?.value,
+    check.expectedCategory,
+    `Expected ${check.expectedCategory} category intent for Russian query ${check.query}. Got: ${JSON.stringify(parsed.intent.category)}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`country:${check.expectedCountry.toLowerCase()}`),
+    `Expected ${check.expectedCountry} country filter for Russian query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`category:${check.expectedCategory}`),
+    `Expected ${check.expectedCategory} category filter for Russian query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+
+  if (check.intentOnly) continue;
+
+  const resultDocs = searchDocs(check.query, 10);
+  assert.ok(resultDocs.length > 0, `Expected results for Russian query ${check.query}`);
+  assert.ok(
+    resultDocs.every((doc) => doc.country_name === check.expectedCountry),
+    `Expected only ${check.expectedCountry} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+  assert.ok(
+    resultDocs.every((doc) => doc.category === check.expectedCategory),
+    `Expected only ${check.expectedCategory} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+}
+
 // Regression matrix for issue #46: normalizeText() must strip combining marks left over
 // from NFKD decomposition for scripts where they are decorative (Latin accents, Arabic
 // tashkeel), but must preserve them for scripts where they are load-bearing (Japanese
