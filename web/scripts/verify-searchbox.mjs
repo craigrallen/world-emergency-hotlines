@@ -1014,6 +1014,55 @@ for (const check of koreanAliasIntentChecks) {
   );
 }
 
+const vietnameseAliasIntentChecks = [
+  { query: 'sức khỏe tâm thần hoa kỳ', expectedCountry: 'United States', expectedCategory: 'mental_health' },
+  { query: 'bạo lực gia đình vương quốc anh', expectedCountry: 'United Kingdom', expectedCategory: 'domestic_violence' },
+  { query: 'khẩn cấp nhật bản', expectedCountry: 'Japan', expectedCategory: 'emergency' },
+  { query: 'tự tử trung quốc', expectedCountry: 'China', expectedCategory: 'suicide_crisis' },
+  { query: 'bảo vệ trẻ em việt nam', expectedCountry: 'Vietnam', expectedCategory: 'child_protection' },
+  { query: 'cảnh sát úc', expectedCountry: 'Australia', expectedCategory: 'emergency' },
+  { query: 'sức khỏe tâm thần nhật bản', expectedCountry: 'Japan', expectedCategory: 'mental_health' },
+  { query: 'bạo lực gia đình úc', expectedCountry: 'Australia', expectedCategory: 'domestic_violence' },
+  { query: 'tự tử hàn quốc', expectedCountry: 'South Korea', expectedCategory: 'suicide_crisis' },
+  { query: 'bạo lực gia đình hàn quốc', expectedCountry: 'South Korea', expectedCategory: 'domestic_violence' },
+  // Unaccented query (common when typing Vietnamese without a diacritic-aware keyboard) —
+  // normalizeText() must strip both sides down to the same ASCII form for this to match.
+  { query: 'khan cap viet nam', expectedCountry: 'Vietnam', expectedCategory: 'emergency' },
+];
+
+for (const check of vietnameseAliasIntentChecks) {
+  const parsed = parseSearchQuery(check.query, docs);
+  assert.equal(
+    parsed.intent.country?.label,
+    check.expectedCountry,
+    `Expected ${check.expectedCountry} country intent for Vietnamese query ${check.query}. Got: ${JSON.stringify(parsed.intent.country)}`,
+  );
+  assert.equal(
+    parsed.intent.category?.value,
+    check.expectedCategory,
+    `Expected ${check.expectedCategory} category intent for Vietnamese query ${check.query}. Got: ${JSON.stringify(parsed.intent.category)}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`country:${check.expectedCountry.toLowerCase()}`),
+    `Expected ${check.expectedCountry} country filter for Vietnamese query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`category:${check.expectedCategory}`),
+    `Expected ${check.expectedCategory} category filter for Vietnamese query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+
+  const resultDocs = searchDocs(check.query, 10);
+  assert.ok(resultDocs.length > 0, `Expected results for Vietnamese query ${check.query}`);
+  assert.ok(
+    resultDocs.every((doc) => doc.country_name === check.expectedCountry),
+    `Expected only ${check.expectedCountry} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+  assert.ok(
+    resultDocs.every((doc) => doc.category === check.expectedCategory),
+    `Expected only ${check.expectedCategory} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+}
+
 // Regression matrix for issue #46: normalizeText() must strip combining marks left over
 // from NFKD decomposition for scripts where they are decorative (Latin accents, Arabic
 // tashkeel), but must preserve them for scripts where they are load-bearing (Japanese
