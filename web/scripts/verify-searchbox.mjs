@@ -1063,6 +1063,59 @@ for (const check of vietnameseAliasIntentChecks) {
   );
 }
 
+const indonesianAliasIntentChecks = [
+  { query: 'darurat indonesia', expectedCountry: 'Indonesia', expectedCategory: 'emergency' },
+  { query: 'bunuh diri indonesia', expectedCountry: 'Indonesia', expectedCategory: 'suicide_crisis' },
+  { query: 'kekerasan dalam rumah tangga indonesia', expectedCountry: 'Indonesia', expectedCategory: 'domestic_violence' },
+  { query: 'kdrt indonesia', expectedCountry: 'Indonesia', expectedCategory: 'domestic_violence' },
+  { query: 'perlindungan anak indonesia', expectedCountry: 'Indonesia', expectedCategory: 'child_protection' },
+  // Indonesia's directory has no mental_health entries yet, so only intent/filter parsing is asserted here.
+  { query: 'kesehatan mental indonesia', expectedCountry: 'Indonesia', expectedCategory: 'mental_health', intentOnly: true },
+  { query: 'kesehatan mental jerman', expectedCountry: 'Germany', expectedCategory: 'mental_health' },
+  { query: 'kekerasan dalam rumah tangga prancis', expectedCountry: 'France', expectedCategory: 'domestic_violence' },
+  { query: 'polisi spanyol', expectedCountry: 'Spain', expectedCategory: 'emergency' },
+  { query: 'pemadam kebakaran inggris', expectedCountry: 'United Kingdom', expectedCategory: 'emergency' },
+  { query: 'bunuh diri amerika serikat', expectedCountry: 'United States', expectedCategory: 'suicide_crisis' },
+  { query: 'perlindungan anak jerman', expectedCountry: 'Germany', expectedCategory: 'child_protection' },
+  { query: 'darurat jepang', expectedCountry: 'Japan', expectedCategory: 'emergency' },
+  { query: 'bunuh diri korea selatan', expectedCountry: 'South Korea', expectedCategory: 'suicide_crisis' },
+];
+
+for (const check of indonesianAliasIntentChecks) {
+  const parsed = parseSearchQuery(check.query, docs);
+  assert.equal(
+    parsed.intent.country?.label,
+    check.expectedCountry,
+    `Expected ${check.expectedCountry} country intent for Indonesian query ${check.query}. Got: ${JSON.stringify(parsed.intent.country)}`,
+  );
+  assert.equal(
+    parsed.intent.category?.value,
+    check.expectedCategory,
+    `Expected ${check.expectedCategory} category intent for Indonesian query ${check.query}. Got: ${JSON.stringify(parsed.intent.category)}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`country:${check.expectedCountry.toLowerCase()}`),
+    `Expected ${check.expectedCountry} country filter for Indonesian query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`category:${check.expectedCategory}`),
+    `Expected ${check.expectedCategory} category filter for Indonesian query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+
+  if (check.intentOnly) continue;
+
+  const resultDocs = searchDocs(check.query, 10);
+  assert.ok(resultDocs.length > 0, `Expected results for Indonesian query ${check.query}`);
+  assert.ok(
+    resultDocs.every((doc) => doc.country_name === check.expectedCountry),
+    `Expected only ${check.expectedCountry} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+  assert.ok(
+    resultDocs.every((doc) => doc.category === check.expectedCategory),
+    `Expected only ${check.expectedCategory} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+}
+
 // Regression matrix for issue #46: normalizeText() must strip combining marks left over
 // from NFKD decomposition for scripts where they are decorative (Latin accents, Arabic
 // tashkeel), but must preserve them for scripts where they are load-bearing (Japanese
@@ -1404,6 +1457,7 @@ const ambiguousIsoCodeChecks = [
   { word: 'be', country: 'Belgium', query: 'please be kind' },
   { word: 'by', country: 'Belarus', query: 'support by phone' },
   { word: 'do', country: 'Dominican Republic', query: 'what do i do' },
+  { word: 'id', country: 'Indonesia', query: 'lost my id card' },
   { word: 'im', country: 'Isle of Man', query: 'im feeling unsafe' },
   { word: 'in', country: 'India', query: 'help in an emergency' },
   { word: 'it', country: 'Italy', query: 'it feels urgent' },
