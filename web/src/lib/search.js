@@ -23,11 +23,11 @@ const QUERY_STOPWORDS = new Set([
 ]);
 
 const CATEGORY_ALIASES = {
-  emergency: ['emergency', 'emergency number', 'emergency services', 'police', 'policia', 'polizia', 'ambulance', 'fire', 'vigili del fuoco', 'bomberos', 'pompiers', 'urgence', 'numero urgence', '112', '911', '999', '000', 'emergencia', 'numero emergencia', 'emergenza', 'numero emergenza', 'bombeiros', 'polizei', 'feuerwehr', 'notruf', 'politie', 'brandweer', 'noodnummer', 'noodgeval', 'polis', 'ambulans', 'brandkår', 'nödnummer', 'politi', 'brandvaesen', 'brandvæsen', 'brannvesen', 'alarm 112', 'nodnummer', 'nødnummer', 'poliisi', 'palokunta', 'hätänumero', 'hatanumero', 'policja', 'straz pozarna', 'straż pożarna', 'numer alarmowy', 'pogotowie', 'acil', 'acil durum', 'acil numara', 'itfaiye', 'طوارئ', 'رقم الطوارئ', 'شرطة', 'إسعاف', 'اسعاف', 'إطفاء', 'اطفاء', 'आपातकाल', 'आपातकालीन नंबर', 'पुलिस', 'एम्बुलेंस', 'दमकल', '紧急', '紧急电话', '警察', '急救', '消防', '緊急', '救急', '110番', '119番', 'экстренная помощь', 'экстренный номер', 'полиция', 'скорая помощь', 'пожарная служба', '응급', '응급 전화', '경찰', '구급차', '소방서', 'khẩn cấp', 'số khẩn cấp', 'cấp cứu', 'cảnh sát', 'cứu hỏa', 'darurat', 'nomor darurat', 'polisi', 'pemadam kebakaran', 'damkar'],
-  child_protection: ['child protection', 'childline', 'youth', 'protection enfance', 'enfance danger', 'protecao infantil', 'protecao crianca', 'kinderschutz', 'protezione minori', 'protezione bambini', 'kinderbescherming', 'barnskydd', 'bornebeskyttelse', 'børnebeskyttelse', 'barnevern', 'alarmtelefonen', 'lastensuojelu', 'ochrona dzieci', 'pomoc dzieciom', 'cocuk koruma', 'çocuk koruma', 'حماية الطفل', 'حماية الأطفال', 'حماية الاطفال', 'बाल संरक्षण', 'बच्चों की सुरक्षा', '儿童保护', '儿童热线', '児童虐待', '児童相談', 'защита детей', 'детский телефон доверия', '아동보호', '아동학대', 'bảo vệ trẻ em', 'perlindungan anak'],
-  domestic_violence: ['domestic violence', 'domestic abuse', 'violencia domestica', 'violence domestique', 'violences conjugales', 'dv', 'haeusliche gewalt', 'häusliche gewalt', 'violenza domestica', 'huiselijk geweld', 'våld i hemmet', 'vold i hjemmet', 'perheväkivalta', 'perhevakivalta', 'przemoc domowa', 'ev ici siddet', 'ev içi şiddet', 'aile ici siddet', 'aile içi şiddet', 'العنف المنزلي', 'عنف منزلي', 'العنف الأسري', 'عنف أسري', 'घरेलू हिंसा', '家庭暴力', '家暴', 'ドメスティックバイオレンス', '家庭内暴力', 'домашнее насилие', 'насилие в семье', '가정폭력', 'bạo lực gia đình', 'kekerasan dalam rumah tangga', 'kdrt'],
-  suicide_crisis: ['suicide crisis', 'suicide', 'suicidal', 'suicidaire', 'suicidio', 'suicida', 'suizid', 'suizidal', 'zelfmoord', 'suicidaal', 'självmord', 'selvmord', 'itsemurha', 'samobojstwo', 'samobójstwo', 'intihar', 'انتحار', 'أفكار انتحارية', 'افكار انتحارية', 'आत्महत्या', '自杀', '自杀危机', '自殺', '自殺予防', 'суицид', 'самоубийство', '자살', '자살예방', 'tự tử', 'tự sát', 'bunuh diri'],
-  mental_health: ['mental health', 'salud mental', 'sante mentale', 'saude mental', 'psychische gesundheit', 'salute mentale', 'mentale gezondheid', 'geestelijke gezondheid', 'psykisk hälsa', 'psykisk sundhed', 'psykisk helse', 'mielenterveys', 'zdrowie psychiczne', 'ruh sagligi', 'ruh sağlığı', 'الصحة النفسية', 'صحة نفسية', 'मानसिक स्वास्थ्य', '心理健康', '精神健康', 'メンタルヘルス', '精神保健', 'психическое здоровье', 'психологическая помощь', '정신건강', '심리건강', 'sức khỏe tâm thần', 'sức khỏe tinh thần', 'kesehatan mental', 'kesehatan jiwa'],
+  emergency: ['emergency', 'emergency number', 'emergency services', 'police', 'policia', 'polizia', 'ambulance', 'fire', 'vigili del fuoco', 'bomberos', 'pompiers', 'urgence', 'numero urgence', '112', '911', '999', '000', 'emergencia', 'numero emergencia', 'emergenza', 'numero emergenza', 'bombeiros', 'polizei', 'feuerwehr', 'notruf', 'politie', 'brandweer', 'noodnummer', 'noodgeval', 'polis', 'ambulans', 'brandkår', 'nödnummer', 'politi', 'brandvaesen', 'brandvæsen', 'brannvesen', 'alarm 112', 'nodnummer', 'nødnummer', 'poliisi', 'palokunta', 'hätänumero', 'hatanumero', 'policja', 'straz pozarna', 'straż pożarna', 'numer alarmowy', 'pogotowie', 'acil', 'acil durum', 'acil numara', 'itfaiye', 'طوارئ', 'رقم الطوارئ', 'شرطة', 'إسعاف', 'اسعاف', 'إطفاء', 'اطفاء', 'आपातकाल', 'आपातकालीन नंबर', 'पुलिस', 'एम्बुलेंस', 'दमकल', '紧急', '紧急电话', '警察', '急救', '消防', '緊急', '救急', '110番', '119番', 'экстренная помощь', 'экстренный номер', 'полиция', 'скорая помощь', 'пожарная служба', '응급', '응급 전화', '경찰', '구급차', '소방서', 'khẩn cấp', 'số khẩn cấp', 'cấp cứu', 'cảnh sát', 'cứu hỏa', 'darurat', 'nomor darurat', 'polisi', 'pemadam kebakaran', 'damkar', 'ฉุกเฉิน', 'เหตุฉุกเฉิน', 'หมายเลขฉุกเฉิน', 'ตำรวจ', 'รถพยาบาล', 'ดับเพลิง'],
+  child_protection: ['child protection', 'childline', 'youth', 'protection enfance', 'enfance danger', 'protecao infantil', 'protecao crianca', 'kinderschutz', 'protezione minori', 'protezione bambini', 'kinderbescherming', 'barnskydd', 'bornebeskyttelse', 'børnebeskyttelse', 'barnevern', 'alarmtelefonen', 'lastensuojelu', 'ochrona dzieci', 'pomoc dzieciom', 'cocuk koruma', 'çocuk koruma', 'حماية الطفل', 'حماية الأطفال', 'حماية الاطفال', 'बाल संरक्षण', 'बच्चों की सुरक्षा', '儿童保护', '儿童热线', '児童虐待', '児童相談', 'защита детей', 'детский телефон доверия', '아동보호', '아동학대', 'bảo vệ trẻ em', 'perlindungan anak', 'การคุ้มครองเด็ก', 'คุ้มครองเด็ก'],
+  domestic_violence: ['domestic violence', 'domestic abuse', 'violencia domestica', 'violence domestique', 'violences conjugales', 'dv', 'haeusliche gewalt', 'häusliche gewalt', 'violenza domestica', 'huiselijk geweld', 'våld i hemmet', 'vold i hjemmet', 'perheväkivalta', 'perhevakivalta', 'przemoc domowa', 'ev ici siddet', 'ev içi şiddet', 'aile ici siddet', 'aile içi şiddet', 'العنف المنزلي', 'عنف منزلي', 'العنف الأسري', 'عنف أسري', 'घरेलू हिंसा', '家庭暴力', '家暴', 'ドメスティックバイオレンス', '家庭内暴力', 'домашнее насилие', 'насилие в семье', '가정폭력', 'bạo lực gia đình', 'kekerasan dalam rumah tangga', 'kdrt', 'ความรุนแรงในครอบครัว'],
+  suicide_crisis: ['suicide crisis', 'suicide', 'suicidal', 'suicidaire', 'suicidio', 'suicida', 'suizid', 'suizidal', 'zelfmoord', 'suicidaal', 'självmord', 'selvmord', 'itsemurha', 'samobojstwo', 'samobójstwo', 'intihar', 'انتحار', 'أفكار انتحارية', 'افكار انتحارية', 'आत्महत्या', '自杀', '自杀危机', '自殺', '自殺予防', 'суицид', 'самоубийство', '자살', '자살예방', 'tự tử', 'tự sát', 'bunuh diri', 'ฆ่าตัวตาย', 'การฆ่าตัวตาย'],
+  mental_health: ['mental health', 'salud mental', 'sante mentale', 'saude mental', 'psychische gesundheit', 'salute mentale', 'mentale gezondheid', 'geestelijke gezondheid', 'psykisk hälsa', 'psykisk sundhed', 'psykisk helse', 'mielenterveys', 'zdrowie psychiczne', 'ruh sagligi', 'ruh sağlığı', 'الصحة النفسية', 'صحة نفسية', 'मानसिक स्वास्थ्य', '心理健康', '精神健康', 'メンタルヘルス', '精神保健', 'психическое здоровье', 'психологическая помощь', '정신건강', '심리건강', 'sức khỏe tâm thần', 'sức khỏe tinh thần', 'kesehatan mental', 'kesehatan jiwa', 'สุขภาพจิต'],
   gambling: ['gambling', 'gambling help'],
   sexual_violence: ['sexual violence', 'sexual assault', 'rape crisis', 'rape support'],
   human_trafficking: ['human trafficking', 'trafficking'],
@@ -65,14 +65,14 @@ const COUNTRY_ALIASES = {
   belgium: ['belgie', 'belgië'],
   netherlands: ['nederland'],
   finland: ['suomi', 'finlandia'],
-  france: ['francia', 'franca', 'frankreich', 'frankrijk', 'frankrike', 'ranska', 'francja', 'fransa', 'فرنسا', 'फ्रांस', '法国', 'フランス', 'франция', 'prancis', 'perancis'],
-  spain: ['espana', 'espagne', 'espanha', 'spanien', 'spagna', 'spanje', 'espanja', 'hiszpania', 'ispanya', 'İspanya', 'إسبانيا', 'اسبانيا', 'स्पेन', '西班牙', 'スペイン', 'испания', 'spanyol'],
-  germany: ['allemagne', 'alemanha', 'deutschland', 'germania', 'duitsland', 'tyskland', 'saksa', 'niemcy', 'almanya', 'ألمانيا', 'المانيا', 'जर्मनी', '德国', 'ドイツ', 'германия', 'jerman'],
+  france: ['francia', 'franca', 'frankreich', 'frankrijk', 'frankrike', 'ranska', 'francja', 'fransa', 'فرنسا', 'फ्रांस', '法国', 'フランス', 'франция', 'prancis', 'perancis', 'ฝรั่งเศส'],
+  spain: ['espana', 'espagne', 'espanha', 'spanien', 'spagna', 'spanje', 'espanja', 'hiszpania', 'ispanya', 'İspanya', 'إسبانيا', 'اسبانيا', 'स्पेन', '西班牙', 'スペイン', 'испания', 'spanyol', 'สเปน'],
+  germany: ['allemagne', 'alemanha', 'deutschland', 'germania', 'duitsland', 'tyskland', 'saksa', 'niemcy', 'almanya', 'ألمانيا', 'المانيا', 'जर्मनी', '德国', 'ドイツ', 'германия', 'jerman', 'เยอรมนี'],
   italy: ['italia', 'italie', 'italië', 'italya'],
-  'united kingdom': ['uk', 'royaume uni', 'reino unido', 'vereinigtes koenigreich', 'vereinigtes königreich', 'regno unito', 'verenigd koninkrijk', 'storbritannien', 'storbritannia', 'yhdistynyt kuningaskunta', 'wielka brytania', 'birlesik krallik', 'birleşik krallık', 'المملكة المتحدة', 'بريطانيا', 'यूनाइटेड किंगडम', '英国', 'イギリス', 'великобритания', 'соединенное королевство', '영국', 'vương quốc anh', 'inggris', 'britania raya'],
-  'united states': ['usa', 'united states', 'us', 'etats unis', 'estados unidos', 'vereinigte staaten', 'stati uniti', 'verenigde staten', 'förenta staterna', 'forenede stater', 'forente stater', 'yhdysvallat', 'stany zjednoczone', 'amerika birlesik devletleri', 'amerika birleşik devletleri', 'الولايات المتحدة', 'أمريكا', 'امريكا', 'अमेरिका', 'संयुक्त राज्य अमेरिका', '美国', 'アメリカ', '米国', 'сша', 'соединенные штаты', 'соединенные штаты америки', '미국', 'hoa kỳ', 'amerika serikat'],
+  'united kingdom': ['uk', 'royaume uni', 'reino unido', 'vereinigtes koenigreich', 'vereinigtes königreich', 'regno unito', 'verenigd koninkrijk', 'storbritannien', 'storbritannia', 'yhdistynyt kuningaskunta', 'wielka brytania', 'birlesik krallik', 'birleşik krallık', 'المملكة المتحدة', 'بريطانيا', 'यूनाइटेड किंगडम', '英国', 'イギリス', 'великобритания', 'соединенное королевство', '영국', 'vương quốc anh', 'inggris', 'britania raya', 'สหราชอาณาจักร', 'อังกฤษ'],
+  'united states': ['usa', 'united states', 'us', 'etats unis', 'estados unidos', 'vereinigte staaten', 'stati uniti', 'verenigde staten', 'förenta staterna', 'forenede stater', 'forente stater', 'yhdysvallat', 'stany zjednoczone', 'amerika birlesik devletleri', 'amerika birleşik devletleri', 'الولايات المتحدة', 'أمريكا', 'امريكا', 'अमेरिका', 'संयुक्त राज्य अमेरिका', '美国', 'アメリカ', '米国', 'сша', 'соединенные штаты', 'соединенные штаты америки', '미국', 'hoa kỳ', 'amerika serikat', 'สหรัฐอเมริกา', 'อเมริกา'],
   'united arab emirates': ['uae', 'الإمارات', 'الامارات', '阿联酋'],
-  sweden: ['sverige', 'ruotsi', 'szwecja', 'isvec', 'isveç', 'السويد', 'स्वीडन', '瑞典', 'スウェーデン', 'швеция'],
+  sweden: ['sverige', 'ruotsi', 'szwecja', 'isvec', 'isveç', 'السويد', 'स्वीडन', '瑞典', 'スウェーデン', 'швеция', 'สวีเดน'],
   denmark: ['danmark', 'tanska', 'dania', 'danimarka'],
   norway: ['norge', 'norja', 'norwegia', 'norvec', 'norveç'],
   poland: ['polska'],
@@ -82,14 +82,15 @@ const COUNTRY_ALIASES = {
   morocco: ['المغرب'],
   jordan: ['الأردن', 'الاردن'],
   lebanon: ['لبنان'],
-  india: ['भारत', '印度', 'インド', 'индия'],
-  canada: ['कनाडा', '加拿大', 'カナダ', '캐나다', 'kanada'],
-  australia: ['ऑस्ट्रेलिया', '澳大利亚', '澳洲', 'オーストラリア', 'австралия', '호주', 'úc'],
-  china: ['中国', '중국', 'trung quốc', 'tiongkok'],
-  japan: ['日本', '일본', 'nhật bản', 'jepang'],
+  india: ['भारत', '印度', 'インド', 'индия', 'อินเดีย'],
+  canada: ['कनाडा', '加拿大', 'カナダ', '캐나다', 'kanada', 'แคนาดา'],
+  australia: ['ऑस्ट्रेलिया', '澳大利亚', '澳洲', 'オーストラリア', 'австралия', '호주', 'úc', 'ออสเตรเลีย'],
+  china: ['中国', '중국', 'trung quốc', 'tiongkok', 'จีน'],
+  japan: ['日本', '일본', 'nhật bản', 'jepang', 'ญี่ปุ่น'],
   russia: ['россия', 'российская федерация'],
-  'south korea': ['대한민국', '한국', 'hàn quốc', 'korea selatan'],
+  'south korea': ['대한민국', '한국', 'hàn quốc', 'korea selatan', 'เกาหลีใต้'],
   vietnam: ['viet nam'],
+  thailand: ['ประเทศไทย', 'ไทย'],
 };
 
 const AMBIGUOUS_COUNTRY_CODE_ALIASES = new Set([
@@ -120,18 +121,18 @@ function getCountryAliasTerms(doc) {
 
 // NFKD decomposes accented Latin letters into base + combining mark, which is what
 // makes accent-insensitive Latin matching possible by stripping \p{M}. But the same
-// decomposition also splits Japanese dakuten/handakuten (voicing marks) and Devanagari
-// matras/anusvara off their base characters, and those marks are not decorative accents —
-// they distinguish otherwise-unrelated words (は/ば/ぱ, क/का/कि). Only strip a run of
-// combining marks when it does *not* follow one of those mark-preserving scripts, so
-// Latin (and Arabic diacritics) stay accent-insensitive while Japanese and Devanagari
-// keep their meaningful marks.
+// decomposition also splits Japanese dakuten/handakuten (voicing marks), Devanagari
+// matras/anusvara, and Thai tone marks/vowel signs off their base characters, and those
+// marks are not decorative accents — they distinguish otherwise-unrelated words
+// (は/ば/ぱ, क/का/कि, มา/ม้า). Only strip a run of combining marks when it does *not*
+// follow one of those mark-preserving scripts, so Latin (and Arabic diacritics) stay
+// accent-insensitive while Japanese, Devanagari, and Thai keep their meaningful marks.
 //
 // This is a forward scan rather than a negative-lookbehind regex: lookbehind assertions
 // fail to parse on Safari/iOS Safari before 16.4, which would break this entire module
 // (a syntax error in one regex literal throws at parse time, not at call time).
 const MARK_PATTERN = /\p{M}/u;
-const MARK_PRESERVING_BASE_PATTERN = /[\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Devanagari}]/u;
+const MARK_PRESERVING_BASE_PATTERN = /[\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Devanagari}\p{Script=Thai}]/u;
 
 function stripUnattachedMarks(value) {
   let result = '';
