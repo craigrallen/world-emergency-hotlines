@@ -1116,6 +1116,63 @@ for (const check of indonesianAliasIntentChecks) {
   );
 }
 
+const thaiAliasIntentChecks = [
+  { query: 'ฉุกเฉิน ไทย', expectedCountry: 'Thailand', expectedCategory: 'emergency' },
+  { query: 'ฆ่าตัวตาย ไทย', expectedCountry: 'Thailand', expectedCategory: 'suicide_crisis' },
+  { query: 'สุขภาพจิต ไทย', expectedCountry: 'Thailand', expectedCategory: 'mental_health' },
+  { query: 'การคุ้มครองเด็ก ไทย', expectedCountry: 'Thailand', expectedCategory: 'child_protection' },
+  // Thailand's directory has no domestic_violence entries yet, so only intent/filter parsing is asserted here.
+  { query: 'ความรุนแรงในครอบครัว ไทย', expectedCountry: 'Thailand', expectedCategory: 'domestic_violence', intentOnly: true },
+  { query: 'ตำรวจ ฝรั่งเศส', expectedCountry: 'France', expectedCategory: 'emergency' },
+  { query: 'สุขภาพจิต เยอรมนี', expectedCountry: 'Germany', expectedCategory: 'mental_health' },
+  { query: 'ตำรวจ สเปน', expectedCountry: 'Spain', expectedCategory: 'emergency' },
+  { query: 'ความรุนแรงในครอบครัว สวีเดน', expectedCountry: 'Sweden', expectedCategory: 'domestic_violence' },
+  { query: 'สุขภาพจิต อินเดีย', expectedCountry: 'India', expectedCategory: 'mental_health' },
+  { query: 'ฉุกเฉิน แคนาดา', expectedCountry: 'Canada', expectedCategory: 'emergency' },
+  { query: 'ฉุกเฉิน ออสเตรเลีย', expectedCountry: 'Australia', expectedCategory: 'emergency' },
+  { query: 'สุขภาพจิต ญี่ปุ่น', expectedCountry: 'Japan', expectedCategory: 'mental_health' },
+  { query: 'ฆ่าตัวตาย เกาหลีใต้', expectedCountry: 'South Korea', expectedCategory: 'suicide_crisis' },
+  { query: 'การคุ้มครองเด็ก สหราชอาณาจักร', expectedCountry: 'United Kingdom', expectedCategory: 'child_protection' },
+  { query: 'ฆ่าตัวตาย สหรัฐอเมริกา', expectedCountry: 'United States', expectedCategory: 'suicide_crisis' },
+  // China's directory has no child_protection entries yet, so only intent/filter parsing is asserted here.
+  { query: 'การคุ้มครองเด็ก จีน', expectedCountry: 'China', expectedCategory: 'child_protection', intentOnly: true },
+];
+
+for (const check of thaiAliasIntentChecks) {
+  const parsed = parseSearchQuery(check.query, docs);
+  assert.equal(
+    parsed.intent.country?.label,
+    check.expectedCountry,
+    `Expected ${check.expectedCountry} country intent for Thai query ${check.query}. Got: ${JSON.stringify(parsed.intent.country)}`,
+  );
+  assert.equal(
+    parsed.intent.category?.value,
+    check.expectedCategory,
+    `Expected ${check.expectedCategory} category intent for Thai query ${check.query}. Got: ${JSON.stringify(parsed.intent.category)}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`country:${check.expectedCountry.toLowerCase()}`),
+    `Expected ${check.expectedCountry} country filter for Thai query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`category:${check.expectedCategory}`),
+    `Expected ${check.expectedCategory} category filter for Thai query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+
+  if (check.intentOnly) continue;
+
+  const resultDocs = searchDocs(check.query, 10);
+  assert.ok(resultDocs.length > 0, `Expected results for Thai query ${check.query}`);
+  assert.ok(
+    resultDocs.every((doc) => doc.country_name === check.expectedCountry),
+    `Expected only ${check.expectedCountry} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+  assert.ok(
+    resultDocs.every((doc) => doc.category === check.expectedCategory),
+    `Expected only ${check.expectedCategory} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+}
+
 // Regression matrix for issue #46: normalizeText() must strip combining marks left over
 // from NFKD decomposition for scripts where they are decorative (Latin accents, Arabic
 // tashkeel), but must preserve them for scripts where they are load-bearing (Japanese
@@ -1232,6 +1289,38 @@ for (const alias of ['भारत', 'आपातकाल', 'पुलिस',
     normalizeText(alias),
     alias,
     `Expected Devanagari alias "${alias}" to normalize to itself. Got: ${normalizeText(alias)}`,
+  );
+}
+
+// Thai tone marks and vowel signs are load-bearing, not decorative — words differing only
+// by a tone mark or vowel sign must remain distinct after normalization. น้ำ ("water") is
+// the case called out in issue #46: NFKD decomposes its SARA AM vowel (ำ) into a combining
+// NIKHAHIT plus a base SARA AA, so this is also a decomposing-form regression check, not
+// just a plain minimal pair.
+const thaiMinimalPairChecks = [
+  ['นา', 'น้ำ'],
+  ['มา', 'ม้า'],
+  ['คา', 'ค้า'],
+];
+
+for (const [first, second] of thaiMinimalPairChecks) {
+  assert.notEqual(
+    normalizeText(first),
+    normalizeText(second),
+    `Expected "${first}" and "${second}" to remain distinct after normalization`,
+  );
+}
+
+// Existing Thai aliases used in the search index must still normalize to themselves. This
+// deliberately excludes words containing SARA AM (ำ, e.g. ตำรวจ) since that vowel's NFKD
+// decomposition is a one-way compatibility mapping that NFC cannot recompose — matching
+// still works for those words (both the alias and the query normalize the same way), but
+// a literal self-equality check would fail for reasons unrelated to mark preservation.
+for (const alias of ['ประเทศไทย', 'ฉุกเฉิน', 'การคุ้มครองเด็ก', 'ความรุนแรงในครอบครัว', 'ฆ่าตัวตาย', 'สุขภาพจิต']) {
+  assert.equal(
+    normalizeText(alias),
+    alias,
+    `Expected Thai alias "${alias}" to normalize to itself. Got: ${normalizeText(alias)}`,
   );
 }
 
