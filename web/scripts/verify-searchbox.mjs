@@ -1173,6 +1173,66 @@ for (const check of thaiAliasIntentChecks) {
   );
 }
 
+const greekAliasIntentChecks = [
+  { query: 'έκτακτη ανάγκη Ελλάδα', expectedCountry: 'Greece', expectedCategory: 'emergency' },
+  { query: 'αυτοκτονία Ελλάδα', expectedCountry: 'Greece', expectedCategory: 'suicide_crisis' },
+  { query: 'ψυχική υγεία Ελλάδα', expectedCountry: 'Greece', expectedCategory: 'mental_health' },
+  { query: 'παιδική προστασία Ελλάδα', expectedCountry: 'Greece', expectedCategory: 'child_protection' },
+  { query: 'ενδοοικογενειακή βία Ελλάδα', expectedCountry: 'Greece', expectedCategory: 'domestic_violence' },
+  { query: 'αστυνομία Γαλλία', expectedCountry: 'France', expectedCategory: 'emergency' },
+  { query: 'ψυχική υγεία Γερμανία', expectedCountry: 'Germany', expectedCategory: 'mental_health' },
+  { query: 'αστυνομία Ισπανία', expectedCountry: 'Spain', expectedCategory: 'emergency' },
+  { query: 'ενδοοικογενειακή βία Σουηδία', expectedCountry: 'Sweden', expectedCategory: 'domestic_violence' },
+  { query: 'έκτακτη ανάγκη Καναδάς', expectedCountry: 'Canada', expectedCategory: 'emergency' },
+  { query: 'έκτακτη ανάγκη Αυστραλία', expectedCountry: 'Australia', expectedCategory: 'emergency' },
+  { query: 'παιδική προστασία Ηνωμένο Βασίλειο', expectedCountry: 'United Kingdom', expectedCategory: 'child_protection' },
+  { query: 'αυτοκτονία Ηνωμένες Πολιτείες', expectedCountry: 'United States', expectedCategory: 'suicide_crisis' },
+  { query: 'ψυχική υγεία Κύπρος', expectedCountry: 'Cyprus', expectedCategory: 'mental_health' },
+  // Italy's directory has no mental_health entries yet, so only intent/filter parsing is asserted here.
+  { query: 'ψυχική υγεία Ιταλία', expectedCountry: 'Italy', expectedCategory: 'mental_health', intentOnly: true },
+  // Secondary aliases, paired up two-per-query to exercise them without bloating the suite.
+  { query: 'αριθμός έκτακτης ανάγκης Ελλάς', expectedCountry: 'Greece', expectedCategory: 'emergency' },
+  { query: 'ασθενοφόρο Κύπρος', expectedCountry: 'Cyprus', expectedCategory: 'emergency' },
+  { query: 'πυροσβεστική Ελλάδα', expectedCountry: 'Greece', expectedCategory: 'emergency' },
+  { query: 'προστασία παιδιού Κύπρος', expectedCountry: 'Cyprus', expectedCategory: 'child_protection' },
+  { query: 'κρίση αυτοκτονίας Αμερική', expectedCountry: 'United States', expectedCategory: 'suicide_crisis' },
+];
+
+for (const check of greekAliasIntentChecks) {
+  const parsed = parseSearchQuery(check.query, docs);
+  assert.equal(
+    parsed.intent.country?.label,
+    check.expectedCountry,
+    `Expected ${check.expectedCountry} country intent for Greek query ${check.query}. Got: ${JSON.stringify(parsed.intent.country)}`,
+  );
+  assert.equal(
+    parsed.intent.category?.value,
+    check.expectedCategory,
+    `Expected ${check.expectedCategory} category intent for Greek query ${check.query}. Got: ${JSON.stringify(parsed.intent.category)}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`country:${check.expectedCountry.toLowerCase()}`),
+    `Expected ${check.expectedCountry} country filter for Greek query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+  assert.ok(
+    parsed.filters.includes(`category:${check.expectedCategory}`),
+    `Expected ${check.expectedCategory} category filter for Greek query ${check.query}. Got: ${parsed.filters.join(', ')}`,
+  );
+
+  if (check.intentOnly) continue;
+
+  const resultDocs = searchDocs(check.query, 10);
+  assert.ok(resultDocs.length > 0, `Expected results for Greek query ${check.query}`);
+  assert.ok(
+    resultDocs.every((doc) => doc.country_name === check.expectedCountry),
+    `Expected only ${check.expectedCountry} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+  assert.ok(
+    resultDocs.every((doc) => doc.category === check.expectedCategory),
+    `Expected only ${check.expectedCategory} results for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.country_name}:${doc.name}:${doc.category}`).join(', ')}`,
+  );
+}
+
 // Regression matrix for issue #46: normalizeText() must strip combining marks left over
 // from NFKD decomposition for scripts where they are decorative (Latin accents, Arabic
 // tashkeel), but must preserve them for scripts where they are load-bearing (Japanese
@@ -1232,6 +1292,22 @@ const latinAccentInsensitiveChecks = [
 ];
 
 for (const [accented, plain] of latinAccentInsensitiveChecks) {
+  assert.equal(
+    normalizeText(accented),
+    normalizeText(plain),
+    `Expected "${accented}" to normalize the same as "${plain}" (accent-insensitive). Got: ${normalizeText(accented)} vs ${normalizeText(plain)}`,
+  );
+}
+
+// Greek tonos marks are decorative stress accents, not distinct letters, the same as Latin
+// diacritics — accented and unaccented forms of the same alias must still match each other.
+const greekAccentInsensitiveChecks = [
+  ['Ελλάδα', 'ελλαδα'],
+  ['ψυχική υγεία', 'ψυχικη υγεια'],
+  ['αστυνομία', 'αστυνομια'],
+];
+
+for (const [accented, plain] of greekAccentInsensitiveChecks) {
   assert.equal(
     normalizeText(accented),
     normalizeText(plain),
