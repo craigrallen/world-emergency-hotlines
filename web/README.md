@@ -1,9 +1,11 @@
 # `web/` — Astro site
 
-Stylish Astro rewrite of the World Emergency & Hotlines directory. Runs on
-Cloudflare Pages with D1 + Workers AI (Phase 2+). The canonical data lives at
-the repo root — this package **consumes** `hotlines.json` / `information.json`,
-it does not own them.
+Stylish Astro rewrite of the World Emergency & Hotlines directory. Builds and
+deploys today as a static site (no adapter, no server runtime); D1 + Workers
+AI + Cloudflare Pages below is deferred, historical scaffolding for a
+possible future SSR phase that was never wired up. The canonical data lives
+at the repo root — this package **consumes** `hotlines.json` /
+`information.json`, it does not own them.
 
 ## Quickstart
 
@@ -22,18 +24,23 @@ or `verify:all` to run all verification scripts in order. Deploy anywhere that
 serves static files — Cloudflare Pages, Railway (reuse the existing `Dockerfile`
 with a tweak), Vercel, Netlify.
 
-## D1 (Phase 2)
+## D1 (deferred — not part of the current build)
+
+The `db/` scripts and `wrangler.toml` below are unused historical scaffolding
+for a Cloudflare D1/SSR phase that was never implemented. Neither `wrangler`
+nor `@astrojs/cloudflare` is currently a dependency of this package; both
+would need to be added before any of this could run:
 
 ```bash
-wrangler d1 create world-hotlines
+npx wrangler d1 create world-hotlines
 # paste the returned database_id into wrangler.toml
-wrangler d1 execute world-hotlines --file=./db/schema.sql
+npx wrangler d1 execute world-hotlines --file=./db/schema.sql
 node db/seed.mjs > db/seed.sql
-wrangler d1 execute world-hotlines --file=./db/seed.sql
+npx wrangler d1 execute world-hotlines --file=./db/seed.sql
 ```
 
 Then flip `output: 'static'` → `'hybrid'` in `astro.config.mjs` and add the
-`@astrojs/cloudflare` adapter (already installed).
+`@astrojs/cloudflare` adapter (not currently installed).
 
 ## Layout
 
