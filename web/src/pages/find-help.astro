@@ -1,0 +1,200 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { getManifest } from '../lib/data';
+import { CATEGORY_META } from '../lib/types';
+
+const manifest = await getManifest();
+const countries = [...manifest.countries].sort((a, b) => a.name.localeCompare(b.name));
+const categoryOrder = [
+  'suicide_crisis', 'mental_health', 'domestic_violence', 'sexual_violence',
+  'child_protection', 'substance_use', 'lgbtqia', 'human_trafficking',
+  'elder_abuse', 'gambling', 'eating_disorders', 'veterans', 'general_support',
+];
+const categories = categoryOrder
+  .filter((slug) => CATEGORY_META[slug])
+  .map((slug) => ({ slug, label: CATEGORY_META[slug].label }));
+---
+
+<Base
+  title="Find crisis help"
+  description="A private, guided finder for crisis and support services, with explicit local and national fallback reasons."
+>
+  <nav class="mb-6 flex items-center gap-2 text-xs text-fg-muted" aria-label="Breadcrumb">
+    <a href="/" class="hover:text-fg">Home</a>
+    <span aria-hidden="true">›</span>
+    <span class="text-fg">Find help</span>
+  </nav>
+
+  <div class="mx-auto max-w-4xl">
+    <header class="max-w-2xl">
+      <p class="text-xs uppercase tracking-[0.2em] text-accent">Private, guided routing</p>
+      <h1 class="mt-3 text-4xl font-semibold text-fg sm:text-5xl">Find the most relevant recorded help</h1>
+      <p class="mt-4 text-base text-fg-muted">
+        Choose a country, the kind of help, and how you want to connect. You may type a city or county to check
+        recorded local coverage. Everything runs in this browser; your selections and locality are not sent to us.
+      </p>
+    </header>
+
+    <div class="mt-8 rounded-2xl border border-danger/40 bg-danger/10 p-5">
+      <div class="flex gap-3">
+        <Icon name="alert" class="mt-0.5 h-5 w-5 shrink-0 text-danger" />
+        <div>
+          <h2 class="font-semibold text-danger">Immediate danger</h2>
+          <p class="mt-1 text-sm text-fg-muted">
+            Use the emergency numbers shown after choosing a country. The directory does not monitor requests and
+            does not confirm that a service is currently available.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <form id="guided-finder" class="mt-8 grid gap-5 rounded-3xl border border-border bg-bg-elev/40 p-6 sm:grid-cols-2" aria-describedby="finder-privacy">
+      <label class="block text-sm text-fg">
+        <span class="mb-2 block font-semibold">1. Country</span>
+        <select id="finder-country" required class="w-full rounded-xl border border-border bg-bg px-3 py-3 text-fg">
+          <option value="">Choose a country</option>
+          {countries.map((country) => <option value={country.alpha2.toLowerCase()}>{country.name}</option>)}
+        </select>
+      </label>
+
+      <label class="block text-sm text-fg">
+        <span class="mb-2 block font-semibold">2. City or county <span class="font-normal text-fg-muted">(optional)</span></span>
+        <input id="finder-locality" type="text" maxlength="100" autocomplete="address-level2" placeholder="For example: Tacoma or Wake County" class="w-full rounded-xl border border-border bg-bg px-3 py-3 text-fg placeholder:text-fg-muted" />
+      </label>
+
+      <label class="block text-sm text-fg">
+        <span class="mb-2 block font-semibold">3. Kind of help</span>
+        <select id="finder-category" required class="w-full rounded-xl border border-border bg-bg px-3 py-3 text-fg">
+          <option value="">Choose a need</option>
+          {categories.map((category) => <option value={category.slug}>{category.label}</option>)}
+        </select>
+      </label>
+
+      <fieldset class="text-sm text-fg">
+        <legend class="mb-2 font-semibold">4. Preferred channel</legend>
+        <div class="flex flex-wrap gap-2">
+          {[
+            ['any', 'Any'], ['phone', 'Phone'], ['text', 'Text / SMS'], ['chat', 'Online chat'],
+          ].map(([value, label], index) => (
+            <label class="chip cursor-pointer border-border bg-bg px-3 py-2 has-[:checked]:border-accent has-[:checked]:bg-accent/10 has-[:checked]:text-accent">
+              <input class="sr-only" type="radio" name="finder-channel" value={value} checked={index === 0} />
+              {label}
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <div class="sm:col-span-2">
+        <button type="submit" class="btn-primary w-full justify-center sm:w-auto">
+          <Icon name="search" class="h-4 w-4" /> Find recorded help
+        </button>
+        <p id="finder-privacy" class="mt-3 text-xs text-fg-muted">No account, precise location, analytics event, or server-side query is required.</p>
+      </div>
+    </form>
+
+    <section id="finder-output" class="mt-8 hidden" aria-live="polite" aria-atomic="false">
+      <div id="finder-emergency"></div>
+      <div id="finder-explanation" class="mt-5 rounded-2xl border border-accent/40 bg-accent/5 p-5"></div>
+      <div id="finder-results" class="mt-5 grid gap-4 sm:grid-cols-2"></div>
+      <p class="mt-5 text-xs text-fg-muted">
+        Coverage descriptions come from source-backed records and can be incomplete. A local, county, state, national,
+        or country-level fallback label describes only what the record says; it is not a guarantee of eligibility or
+        current availability. Confirm details on the cited official source where possible.
+      </p>
+    </section>
+  </div>
+</Base>
+
+<script>
+  import { getHotlineChannels, resolveGuidedHelp } from '../lib/finder.js';
+
+  type Hotline = Record<string, any>;
+  type Country = { country: string; alpha2: string; general_emergency?: string[]; hotlines: Hotline[] };
+
+  const form = document.getElementById('guided-finder') as HTMLFormElement;
+  const countrySelect = document.getElementById('finder-country') as HTMLSelectElement;
+  const categorySelect = document.getElementById('finder-category') as HTMLSelectElement;
+  const localityInput = document.getElementById('finder-locality') as HTMLInputElement;
+  const output = document.getElementById('finder-output') as HTMLElement;
+  const emergency = document.getElementById('finder-emergency') as HTMLElement;
+  const explanation = document.getElementById('finder-explanation') as HTMLElement;
+  const results = document.getElementById('finder-results') as HTMLElement;
+
+  function escapeHtml(value: unknown): string {
+    return String(value ?? '').replace(/[&<>"']/g, (char) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+    })[char] || char);
+  }
+
+  function safeUrl(value: unknown): string | null {
+    try {
+      const url = new URL(String(value));
+      return ['https:', 'http:'].includes(url.protocol) ? url.toString() : null;
+    } catch { return null; }
+  }
+
+  function cleanTel(value: unknown): string {
+    return String(value ?? '').replace(/[^+\d*#]/g, '');
+  }
+
+  function renderHotline(hotline: Hotline, countryName: string): string {
+    const channels = getHotlineChannels(hotline);
+    const phones = [...(hotline.voice_numbers || []), ...(hotline.short_codes || [])];
+    const texts = [...(hotline.sms_numbers || []), ...(hotline.text_numbers || [])];
+    const source = safeUrl(hotline.website) || safeUrl(hotline.sources?.[0]);
+    return `<article class="card p-5">
+      <h3 class="font-semibold text-fg">${escapeHtml(hotline.name)}</h3>
+      ${hotline.organization && hotline.organization !== hotline.name ? `<p class="text-xs text-fg-muted">${escapeHtml(hotline.organization)}</p>` : ''}
+      <p class="mt-2 text-xs text-fg-muted">Recorded scope: <span class="text-fg">${escapeHtml(hotline.geography || countryName)}</span></p>
+      <div class="mt-3 flex flex-wrap gap-2">
+        ${phones.slice(0, 2).map((phone) => `<a class="rounded-lg bg-accent/10 px-3 py-2 font-mono text-sm text-accent" href="tel:${escapeHtml(cleanTel(phone))}">${escapeHtml(phone)}</a>`).join('')}
+        ${texts.slice(0, 2).map((text) => `<a class="rounded-lg bg-accent/10 px-3 py-2 text-sm text-accent" href="sms:${escapeHtml(cleanTel(text))}">Text ${escapeHtml(text)}</a>`).join('')}
+        ${channels.chat && safeUrl(hotline.chat_url) ? `<a class="rounded-lg bg-accent/10 px-3 py-2 text-sm text-accent" href="${escapeHtml(safeUrl(hotline.chat_url))}" target="_blank" rel="noopener">Online chat</a>` : ''}
+      </div>
+      <div class="mt-3 flex flex-wrap gap-3 border-t border-border/60 pt-3 text-xs text-fg-muted">
+        <span>${escapeHtml(String(hotline.verification_status || '').replace(/_/g, ' '))}</span>
+        ${hotline.last_verified ? `<span>Source checked ${escapeHtml(hotline.last_verified)}</span>` : ''}
+        ${source ? `<a class="text-accent hover:underline" href="${escapeHtml(source)}" target="_blank" rel="noopener">Source</a>` : ''}
+      </div>
+    </article>`;
+  }
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!form.reportValidity()) return;
+    output.classList.remove('hidden');
+    emergency.innerHTML = '';
+    explanation.innerHTML = '<p class="text-sm text-fg-muted">Loading the static country record…</p>';
+    results.innerHTML = '';
+
+    try {
+      const response = await fetch(`/data/countries/${encodeURIComponent(countrySelect.value)}.json`);
+      if (!response.ok) throw new Error(`Country data returned ${response.status}`);
+      const country = await response.json() as Country;
+      const channel = (form.querySelector('input[name="finder-channel"]:checked') as HTMLInputElement)?.value || 'any';
+      const resolved = resolveGuidedHelp({
+        country,
+        category: categorySelect.value,
+        channel,
+        locality: localityInput.value.trim(),
+      });
+
+      const emergencyNumbers = country.general_emergency || [];
+      emergency.innerHTML = emergencyNumbers.length ? `<div class="rounded-2xl border border-danger/50 bg-danger/10 p-5">
+        <h2 class="font-semibold text-danger">Emergency numbers recorded for ${escapeHtml(country.country)}</h2>
+        <div class="mt-3 flex flex-wrap gap-2">${emergencyNumbers.map((number) => `<a class="rounded-lg bg-danger/20 px-4 py-2 font-mono text-xl font-bold text-danger" href="tel:${escapeHtml(cleanTel(number))}">${escapeHtml(number)}</a>`).join('')}</div>
+      </div>` : '';
+
+      explanation.innerHTML = `<p class="text-xs uppercase tracking-wider text-accent">${resolved.fallback ? 'Fallback used' : 'Recorded match'} · ${escapeHtml(resolved.scope)} scope</p>
+        <h2 class="mt-1 font-semibold text-fg">Why these results are shown</h2>
+        <p class="mt-2 text-sm text-fg-muted">${escapeHtml(resolved.reason)}</p>`;
+      results.innerHTML = resolved.results.length
+        ? resolved.results.slice(0, 12).map((hotline: Hotline) => renderHotline(hotline, country.country)).join('')
+        : `<div class="sm:col-span-2 rounded-2xl border border-border p-5 text-sm text-fg-muted">No recorded service could be resolved. <a class="text-accent hover:underline" href="/country/${escapeHtml(country.alpha2.toLowerCase())}">Browse every listing for ${escapeHtml(country.country)}</a>.</div>`;
+      output.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } catch (error) {
+      explanation.innerHTML = `<h2 class="font-semibold text-danger">Country data could not be loaded</h2><p class="mt-2 text-sm text-fg-muted">${escapeHtml(error instanceof Error ? error.message : 'Unknown error')}</p>`;
+    }
+  });
+</script>
