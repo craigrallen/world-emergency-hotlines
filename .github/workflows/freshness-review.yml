@@ -1,0 +1,62 @@
+name: Freshness Review
+
+on:
+  workflow_dispatch:
+    inputs:
+      as_of:
+        description: "Deterministic report date (YYYY-MM-DD); defaults to UTC run date"
+        required: false
+        type: string
+  schedule:
+    - cron: "17 6 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  freshness:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Choose report date
+        id: report-date
+        env:
+          REQUESTED_AS_OF: ${{ inputs.as_of }}
+        run: |
+          if [ -n "$REQUESTED_AS_OF" ]; then
+            echo "as_of=$REQUESTED_AS_OF" >> "$GITHUB_OUTPUT"
+          else
+            echo "as_of=$(date -u +%F)" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build read-only freshness reports
+        run: |
+          mkdir -p freshness-output
+          before=$(sha256sum hotlines.json | cut -d' ' -f1)
+          python scripts/freshness_report.py \
+            --as-of "${{ steps.report-date.outputs.as_of }}" \
+            --stale-days 90 \
+            --review-limit 250 \
+            --report freshness-output/freshness-review.md \
+            --json-report freshness-output/freshness-review.json
+          after=$(sha256sum hotlines.json | cut -d' ' -f1)
+          test "$before" = "$after"
+
+      - name: Publish summary
+        run: cat freshness-output/freshness-review.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload review reports
+        uses: actions/upload-artifact@v6
+        with:
+          name: freshness-review-${{ steps.report-date.outputs.as_of }}
+          path: freshness-output/
+          if-no-files-found: error
+          retention-days: 30
