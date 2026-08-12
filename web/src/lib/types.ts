@@ -63,6 +63,13 @@ export interface ChannelsSummary {
   has_email: boolean;
 }
 
+export interface ServiceScope {
+  geography?: { level: 'country' | 'state_region' | 'county' | 'city' | 'local' | 'multi_area' | 'remote'; areas: string[] };
+  eligibility?: { description?: string; minimum_age?: number; maximum_age?: number; populations?: string[] };
+  availability?: { always_open: boolean; timezone?: string; schedule?: Array<{ days: string[]; opens: string; closes: string }> };
+  languages?: Array<{ code?: string; name: string; channels: Array<'phone' | 'text' | 'chat' | 'email'> }>;
+}
+
 export interface Hotline {
   id: string;
   name: string;
@@ -85,6 +92,7 @@ export interface Hotline {
   last_verified?: string | null;
   sources: string[];
   replaced_by?: string;
+  service_scope?: ServiceScope;
   provenance?: Record<string, unknown> | null;
 }
 

@@ -12,6 +12,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { classifyScope, getHotlineChannels } from '../src/lib/finder.js';
+import { buildMetadataCoverage, coverageAsOf } from './metadata-coverage.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const WEB_ROOT = resolve(__dirname, '..');
@@ -121,6 +122,7 @@ function camelize(h) {
     last_verified: h.last_verified ?? null,
     sources: h.sources ?? [],
     ...(h.replaced_by ? { replaced_by: h.replaced_by } : {}),
+    ...(h.service_scope ? { service_scope: h.service_scope } : {}),
     // Carry provenance through if present (populated by trawler/verify passes)
     ...(h.provenance ? { provenance: h.provenance } : {}),
   };
@@ -289,7 +291,7 @@ for (const raw of canonical.countries) {
   }
 }
 
-manifestEntries.sort((a, b) => a.name.localeCompare(b.name));
+manifestEntries.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0);
 
 const manifest = {
   generated_at: new Date().toISOString(),
@@ -321,6 +323,13 @@ const categoriesStats = {
     .sort((a, b) => b.count - a.count),
 };
 writeFileSync(resolve(OUT_DIR, 'categories-stats.json'), JSON.stringify(categoriesStats, null, 2));
+const metadataCoverage = buildMetadataCoverage(
+  { $schema_version: canonical.schema_version, countries: canonical.countries },
+  coverageAsOf(canonical.source_last_updated),
+  365,
+  `sha256:${canonical.dataset_sha256}`,
+);
+writeFileSync(resolve(OUT_DIR, 'metadata-coverage.json'), JSON.stringify(metadataCoverage, null, 2));
 
 const apiManifest = {
   api_version: API_VERSION,
@@ -346,7 +355,7 @@ const apiManifest = {
     'No hosted query endpoint is provided; consumers fetch static artifacts and resolve locally.',
     'Scope reflects recorded geography and does not guarantee eligibility or current availability.',
   ],
-  countries: apiCountries.sort((a, b) => a.name.localeCompare(b.name)),
+  countries: apiCountries.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0),
 };
 writeFileSync(resolve(API_DIR, 'manifest.json'), JSON.stringify(apiManifest, null, 2));
 writeFileSync(resolve(API_DIR, 'records.json'), JSON.stringify({
@@ -356,7 +365,7 @@ writeFileSync(resolve(API_DIR, 'records.json'), JSON.stringify({
 }));
 writeFileSync(resolve(API_DIR, 'resolver.js'), readFileSync(resolve(WEB_ROOT, 'src', 'lib', 'finder.js'), 'utf-8'));
 
-console.log(`  wrote ${manifestEntries.length} country shards + manifest + search-index + categories-stats`);
+console.log(`  wrote ${manifestEntries.length} country shards + manifest + search-index + categories-stats + metadata-coverage`);
 console.log(`  wrote API v${API_VERSION}: manifest + records index + ${apiCountries.length} countries + resolver`);
 console.log(`  total hotlines: ${totalHotlines}`);
 console.log('  done.');

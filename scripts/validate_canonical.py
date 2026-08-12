@@ -32,10 +32,16 @@ an unreadable/unparsable input file.
 from __future__ import annotations
 
 import argparse
+import datetime as dt
+import ipaddress
 import json
+import math
 import pathlib
 import re
 import sys
+import unicodedata
+from urllib.parse import urlsplit
+from zoneinfo import available_timezones
 from collections import Counter, defaultdict
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -72,6 +78,27 @@ CONTACT_SCALAR_FIELDS = ("chat_url", "email", "website")
 
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 CATEGORY_SLUG_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+)*$")
+LANGUAGE_CODE_RE = re.compile(r"^[a-z]{2,3}(?:-[A-Z]{2})?$")
+TIME_RE = re.compile(r"^(?:[01]\d|2[0-3]):[0-5]\d$")
+
+SCOPE_LEVELS = frozenset({"country", "state_region", "county", "city", "local", "multi_area", "remote"})
+SCOPE_SECTIONS = frozenset({"geography", "eligibility", "availability", "languages"})
+CHANNELS = frozenset({"phone", "text", "chat", "email"})
+DAYS = frozenset({"monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"})
+STRUCTURED_SOURCE_TYPES = frozenset({"first_party", "government", "authority"})
+STRUCTURED_CONFIDENCE = frozenset({"medium", "high"})
+SCOPE_KEYS = {
+    "geography": frozenset({"level", "areas"}),
+    "eligibility": frozenset({"description", "minimum_age", "maximum_age", "populations"}),
+    "availability": frozenset({"always_open", "timezone", "schedule"}),
+}
+PERIOD_KEYS = frozenset({"days", "opens", "closes"})
+LANGUAGE_KEYS = frozenset({"code", "name", "channels"})
+# Other provenance evidence remains backward compatible. Only entries matched
+# to service_scope claims are subject to this strict claim contract.
+STRUCTURED_EVIDENCE_KEYS = frozenset(
+    {"field", "value", "note", "source_url", "source_type", "checked_at", "confidence"}
+)
 
 MAX_DUPLICATE_SAMPLE = 5
 
@@ -166,6 +193,222 @@ def _geo_value(hotline: dict):
     return geography.strip() if isinstance(geography, str) else geography
 
 
+def _nonempty_string(value) -> bool:
+    return isinstance(value, str) and bool(value.strip())
+
+
+def _real_iso_date(value) -> bool:
+    if not isinstance(value, str) or not DATE_RE.fullmatch(value):
+        return False
+    try:
+        return dt.date.fromisoformat(value).isoformat() == value
+    except ValueError:
+        return False
+
+
+def _http_url_with_hostname(value) -> bool:
+    if not isinstance(value, str) or not value or any(
+        char.isspace() or unicodedata.category(char) in {"Cc", "Cf"} for char in value
+    ):
+        return False
+    try:
+        parsed = urlsplit(value)
+        hostname = parsed.hostname
+        if parsed.scheme not in {"http", "https"} or not hostname or hostname.startswith(".") or hostname.endswith("."):
+            return False
+        # Accessing port validates its syntax and range.
+        parsed.port
+        if ":" in hostname or re.fullmatch(r"[0-9.]+", hostname):
+            ipaddress.ip_address(hostname)
+            return True
+        if hostname == "localhost":
+            return True
+        ascii_labels = []
+        for label in hostname.split("."):
+            if not label:
+                return False
+            if label.startswith("xn--"):
+                unicode_label = label.encode("ascii").decode("idna")
+                ascii_label = unicode_label.encode("idna").decode("ascii")
+                if ascii_label != label:
+                    return False
+            else:
+                ascii_label = label.encode("idna").decode("ascii")
+                unicode_label = ascii_label.encode("ascii").decode("idna")
+                normalized_original = unicodedata.normalize("NFC", label).casefold()
+                normalized_roundtrip = unicodedata.normalize("NFC", unicode_label).casefold()
+                if normalized_roundtrip != normalized_original:
+                    return False
+            if (
+                len(ascii_label) > 63
+                or ascii_label.startswith("-")
+                or ascii_label.endswith("-")
+                or not re.fullmatch(r"[A-Za-z0-9-]+", ascii_label)
+            ):
+                return False
+            ascii_labels.append(ascii_label)
+        ascii_host = ".".join(ascii_labels)
+        return len(ascii_host) <= 253
+    except (UnicodeError, ValueError):
+        return False
+
+
+def _claim_content(value) -> bool:
+    """Accept a non-blank note or a non-empty JSON value (false and zero are claims)."""
+    if isinstance(value, str):
+        return bool(value.strip())
+    if value is None:
+        return False
+    if isinstance(value, (list, dict)):
+        return bool(value)
+    return isinstance(value, (bool, int)) or (isinstance(value, float) and math.isfinite(value))
+
+
+def _reject_unknown_keys(value: dict, allowed: frozenset[str], path: str, label: str, report: Report) -> None:
+    unknown = set(value) - allowed
+    if unknown:
+        report.error(f"{label}: '{path}' has unknown key(s): {', '.join(sorted(unknown))}")
+
+
+def _evidence_fields(hotline: dict) -> set[str]:
+    provenance = hotline.get("provenance")
+    if not isinstance(provenance, dict):
+        return set()
+    evidence = provenance.get("evidence")
+    if not isinstance(evidence, list):
+        return set()
+    fields: set[str] = set()
+    for item in evidence:
+        if isinstance(item, dict):
+            field = item.get("field")
+            if isinstance(field, str) and field.strip():
+                fields.add(field)
+    return fields
+
+
+def _structured_evidence(hotline: dict, field: str) -> list[dict]:
+    provenance = hotline.get("provenance")
+    evidence = provenance.get("evidence") if isinstance(provenance, dict) else None
+    return [item for item in (evidence or []) if isinstance(item, dict) and item.get("field") == field]
+
+
+def validate_service_scope(scope, hotline: dict, label: str, report: Report) -> None:
+    """Validate optional, source-backed structured scope without requiring it on legacy records."""
+    if not isinstance(scope, dict) or not scope:
+        report.error(f"{label}: 'service_scope' must be a non-empty object when present")
+        return
+    unknown = set(scope) - SCOPE_SECTIONS
+    if unknown:
+        report.error(f"{label}: 'service_scope' has unknown section(s): {', '.join(sorted(unknown))}")
+
+    for section in SCOPE_SECTIONS:
+        if section not in scope:
+            continue
+        field = f"service_scope.{section}"
+        evidence = _structured_evidence(hotline, field)
+        if not evidence:
+            report.error(f"{label}: populated '{field}' requires matching provenance evidence")
+            continue
+        for i, item in enumerate(evidence):
+            _reject_unknown_keys(item, STRUCTURED_EVIDENCE_KEYS, f"{field} evidence[{i}]", label, report)
+            source_url = item.get("source_url")
+            if not _http_url_with_hostname(source_url):
+                report.error(f"{label}: {field} evidence[{i}] requires a parseable HTTP(S) source_url with a hostname")
+            if item.get("source_type") not in STRUCTURED_SOURCE_TYPES:
+                report.error(f"{label}: {field} evidence[{i}] requires first_party/government/authority source_type")
+            if not _real_iso_date(item.get("checked_at")):
+                report.error(f"{label}: {field} evidence[{i}] requires a real ISO checked_at date")
+            if item.get("confidence") not in STRUCTURED_CONFIDENCE:
+                report.error(f"{label}: {field} evidence[{i}] confidence must be medium or high")
+            if not (_claim_content(item.get("value")) or _nonempty_string(item.get("note"))):
+                report.error(f"{label}: {field} evidence[{i}] requires non-empty claim-binding value or note")
+
+    geography = scope.get("geography")
+    if geography is not None:
+        if not isinstance(geography, dict):
+            report.error(f"{label}: 'service_scope.geography' must be an object")
+        else:
+            _reject_unknown_keys(geography, SCOPE_KEYS["geography"], "service_scope.geography", label, report)
+            if geography.get("level") not in SCOPE_LEVELS:
+                report.error(f"{label}: invalid service_scope.geography.level {geography.get('level')!r}")
+            areas = geography.get("areas")
+            if not isinstance(areas, list) or not areas or not all(_nonempty_string(v) for v in areas):
+                report.error(f"{label}: 'service_scope.geography.areas' must be a non-empty string list")
+
+    eligibility = scope.get("eligibility")
+    if eligibility is not None:
+        if not isinstance(eligibility, dict):
+            report.error(f"{label}: 'service_scope.eligibility' must be an object")
+        else:
+            _reject_unknown_keys(eligibility, SCOPE_KEYS["eligibility"], "service_scope.eligibility", label, report)
+            description = eligibility.get("description")
+            populations = eligibility.get("populations", [])
+            if description is not None and not _nonempty_string(description):
+                report.error(f"{label}: service_scope.eligibility.description must be a non-empty string")
+            if not isinstance(populations, list) or not all(_nonempty_string(v) for v in populations):
+                report.error(f"{label}: service_scope.eligibility.populations must be a string list")
+            ages = [eligibility.get("minimum_age"), eligibility.get("maximum_age")]
+            if any(v is not None and (not isinstance(v, int) or isinstance(v, bool) or v < 0 or v > 130) for v in ages):
+                report.error(f"{label}: eligibility ages must be integer years from 0 to 130")
+            minimum_age = eligibility.get("minimum_age")
+            maximum_age = eligibility.get("maximum_age")
+            if isinstance(minimum_age, int) and isinstance(maximum_age, int) and minimum_age > maximum_age:
+                report.error(f"{label}: eligibility minimum_age must not exceed maximum_age")
+            if description is None and not populations and all(v is None for v in ages):
+                report.error(f"{label}: 'service_scope.eligibility' must contain a claim")
+
+    availability = scope.get("availability")
+    if availability is not None:
+        if not isinstance(availability, dict):
+            report.error(f"{label}: 'service_scope.availability' must be an object")
+        else:
+            _reject_unknown_keys(availability, SCOPE_KEYS["availability"], "service_scope.availability", label, report)
+            always_open = availability.get("always_open")
+            if not isinstance(always_open, bool):
+                report.error(f"{label}: service_scope.availability.always_open must be boolean")
+            timezone = availability.get("timezone")
+            if timezone is not None and (
+                not _nonempty_string(timezone)
+                or (timezone not in {"UTC", "GMT"} and timezone not in available_timezones())
+            ):
+                report.error(f"{label}: service_scope.availability.timezone {timezone!r} must be an available IANA zone (UTC/GMT explicitly allowed)")
+            schedule = availability.get("schedule", [])
+            if not isinstance(schedule, list):
+                report.error(f"{label}: service_scope.availability.schedule must be a list")
+            else:
+                for i, period in enumerate(schedule):
+                    if not isinstance(period, dict):
+                        report.error(f"{label}: availability.schedule[{i}] must be an object")
+                        continue
+                    _reject_unknown_keys(period, PERIOD_KEYS, f"service_scope.availability.schedule[{i}]", label, report)
+                    days = period.get("days")
+                    if not isinstance(days, list) or not days or any(day not in DAYS for day in days):
+                        report.error(f"{label}: availability.schedule[{i}].days contains invalid weekdays")
+                    if not TIME_RE.fullmatch(str(period.get("opens", ""))) or not TIME_RE.fullmatch(str(period.get("closes", ""))):
+                        report.error(f"{label}: availability.schedule[{i}] opens/closes must use HH:MM")
+            if always_open is True and schedule:
+                report.error(f"{label}: always-open availability must not also define a schedule")
+            if always_open is False and not schedule:
+                report.error(f"{label}: non-24/7 availability requires a schedule")
+
+    languages = scope.get("languages")
+    if languages is not None:
+        if not isinstance(languages, list) or not languages:
+            report.error(f"{label}: 'service_scope.languages' must be a non-empty list")
+        else:
+            for i, language in enumerate(languages):
+                if not isinstance(language, dict) or not _nonempty_string(language.get("name")):
+                    report.error(f"{label}: service_scope.languages[{i}] requires a name")
+                    continue
+                _reject_unknown_keys(language, LANGUAGE_KEYS, f"service_scope.languages[{i}]", label, report)
+                code = language.get("code")
+                if code is not None and (not isinstance(code, str) or not LANGUAGE_CODE_RE.fullmatch(code)):
+                    report.error(f"{label}: service_scope.languages[{i}].code is invalid")
+                channels = language.get("channels")
+                if not isinstance(channels, list) or not channels or any(v not in CHANNELS for v in channels):
+                    report.error(f"{label}: service_scope.languages[{i}].channels contains invalid channels")
+
+
 def validate_hotline(hotline, country_name: str, index: int, report: Report) -> None:
     where = f"{country_name!r} hotline[{index}]"
     if not isinstance(hotline, dict):
@@ -221,10 +464,11 @@ def validate_hotline(hotline, country_name: str, index: int, report: Report) -> 
             )
 
     last_verified = hotline.get("last_verified")
-    if last_verified is not None and not (
-        isinstance(last_verified, str) and DATE_RE.match(last_verified)
-    ):
+    if last_verified is not None and not _real_iso_date(last_verified):
         report.error(f"{label}: 'last_verified' {last_verified!r} is not an ISO date (YYYY-MM-DD) or null")
+
+    if "service_scope" in hotline:
+        validate_service_scope(hotline["service_scope"], hotline, label, report)
 
     if not has_contact(hotline):
         report.error(f"{label}: no contact channel (voice/sms/text/short_code/chat_url/email/website)")
