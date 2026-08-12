@@ -2,6 +2,7 @@
 import type { Hotline } from '../lib/types';
 import { VERIFICATION_LABELS } from '../lib/types';
 import { getFreshnessInfo } from '../lib/data';
+import { buildHotlineIssueUrl } from '../lib/issues.js';
 import Icon from './Icon.astro';
 
 interface Props {
@@ -25,10 +26,10 @@ const tone = badgeTone[hotline.verification_status] ?? badgeTone.legacy_unverifi
 const statusLabel = VERIFICATION_LABELS[hotline.verification_status] ?? hotline.verification_status.replace(/_/g, ' ');
 
 const statusTooltip: Record<string, string> = {
-  verified_web: 'Confirmed against the organisation\'s official website',
-  verified_authority: 'Confirmed directly with the authoritative source',
-  verified_knowledge: 'Confirmed against a trusted reference source',
-  cross_referenced: 'Found in multiple independent sources; not yet confirmed against the official site',
+  verified_web: 'Details appeared on the organisation\'s official website when checked; this is not a live availability check',
+  verified_authority: 'Details appeared in an authoritative source when checked; this is not a live availability check',
+  verified_knowledge: 'Checked against a trusted reference source, not necessarily the provider\'s own page',
+  cross_referenced: 'Found in multiple independent sources; not yet confirmed against the provider or responsible authority',
   legacy_unverified: 'From a legacy dataset — please double-check before calling',
   disputed: 'Conflicting information found — treat with caution',
   deprecated: 'This service may no longer be active',
@@ -57,6 +58,7 @@ const sources = hotline.sources?.filter(Boolean).slice(0, 2) ?? [];
 const serviceArea = hotline.geography && country && hotline.geography.trim().toLowerCase() !== country.trim().toLowerCase()
   ? hotline.geography
   : null;
+const reportIssueUrl = buildHotlineIssueUrl(hotline, country);
 ---
 
 <article class="card p-5 hover:border-accent/50">
@@ -113,10 +115,11 @@ const serviceArea = hotline.geography && country && hotline.geography.trim().toL
     </p>
   )}
 
-  {(hotline.website || sources.length > 0) && (
+  {(hotline.website || sources.length > 0 || reportIssueUrl) && (
     <div class="mt-3 flex flex-wrap gap-2 border-t border-border/60 pt-3 text-xs">
       {hotline.website && <a class="inline-flex items-center gap-1 text-accent hover:underline" href={hotline.website} target="_blank" rel="noopener">Official site <Icon name="external" class="h-3 w-3" /></a>}
       {!hotline.website && sources.map((src) => <a class="inline-flex max-w-[18rem] items-center gap-1 truncate text-fg-muted hover:text-accent hover:underline" href={src} target="_blank" rel="noopener" title={src}>Source <Icon name="external" class="h-3 w-3" /></a>)}
+      <a class="inline-flex items-center gap-1 text-fg-muted hover:text-accent hover:underline" href={reportIssueUrl} target="_blank" rel="noopener" title="Report a wrong number, changed hours, closure, or service-area problem. Do not include personal crisis details.">Report a problem <Icon name="external" class="h-3 w-3" /></a>
     </div>
   )}
 

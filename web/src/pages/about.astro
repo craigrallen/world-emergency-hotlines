@@ -6,8 +6,8 @@ import Base from '../layouts/Base.astro';
   <article class="prose prose-invert mx-auto max-w-2xl text-fg">
     <h1 class="text-4xl font-semibold text-fg" data-i18n="about.title">About this project</h1>
     <p class="text-fg-muted">
-      World Emergency & Hotlines is an open directory of every crisis, emergency, and support line we can
-      verify, for every country on Earth. We think nobody should have to search in a panic.
+      World Emergency & Hotlines is an open, source-backed directory of crisis, emergency, and support services
+      across countries and territories. Coverage and verification depth vary. We think nobody should have to search in a panic.
     </p>
 
     <h2 class="mt-8 text-2xl font-semibold text-fg" data-i18n="about.crisisTitle">If you're in crisis right now</h2>
@@ -44,15 +44,15 @@ import Base from '../layouts/Base.astro';
 
     <h2 class="mt-8 text-2xl font-semibold text-fg" data-i18n="about.verificationTitle">How verification works</h2>
     <p class="text-fg-muted">
-      Every hotline record carries a verification status. We never hide a record — we label its confidence level
-      so you can make an informed decision.
+      Every hotline record carries a verification status. It describes the evidence checked for this directory,
+      not whether a line was test-called, answered, or available in real time.
     </p>
     <dl class="space-y-3 not-prose mt-4">
       {[
-        ['verified_web',       'bg-success/15 text-success border-success/40',  'Confirmed against the organisation\'s own official website. Highest confidence.'],
-        ['verified_authority', 'bg-success/15 text-success border-success/40',  'Confirmed directly with an authoritative source such as a government body.'],
-        ['verified_knowledge', 'bg-success/10 text-success border-success/30',  'Confirmed against a trusted reference. High confidence.'],
-        ['cross_referenced',   'bg-accent/15 text-accent border-accent/40',     'Found in multiple independent sources. Reliable but not yet checked against the official site. Treat as trustworthy; worth a quick verify for critical use.'],
+        ['verified_web',       'bg-success/15 text-success border-success/40',  'The listed details appeared on the organisation\'s official website when checked. This is not a live availability check.'],
+        ['verified_authority', 'bg-success/15 text-success border-success/40',  'The listed details appeared in an authoritative source such as a government body when checked.'],
+        ['verified_knowledge', 'bg-success/10 text-success border-success/30',  'Checked against a trusted reference source, but not necessarily the provider\'s own page.'],
+        ['cross_referenced',   'bg-accent/15 text-accent border-accent/40',     'Found in multiple independent sources but not yet confirmed against the provider or responsible authority.'],
         ['legacy_unverified',  'bg-fg-muted/15 text-fg-muted border-fg-muted/30', 'From an earlier dataset. Has not been independently confirmed. Please check the organisation\'s official website before relying on this number.'],
         ['disputed',           'bg-danger/15 text-danger border-danger/40',     'Conflicting information found. Treat with caution — the number may be wrong.'],
         ['deprecated',         'bg-fg-muted/15 text-fg-muted border-fg-muted/30', 'Believed to be no longer active. Included for reference.'],
@@ -63,6 +63,18 @@ import Base from '../layouts/Base.astro';
         </div>
       ))}
     </dl>
+
+    <h2 class="mt-8 text-2xl font-semibold text-fg">Coverage and checked dates</h2>
+    <p class="text-fg-muted">
+      A country can have national coverage while still lacking a verified local or specialist option. City, county,
+      state/province, national, and global service areas are shown separately where the source supports them. A
+      “source checked” date records when the cited page supported the listed details; it does not promise current
+      opening hours, wait time, eligibility, or that the service answered a test contact.
+    </p>
+    <p class="text-fg-muted mt-2">
+      If a local option is unavailable, the directory may show a broader regional or national fallback. Report
+      disconnected numbers, changed hours, scope errors, closures, or other concerns from the relevant service card.
+    </p>
 
     <h2 class="mt-8 text-2xl font-semibold text-fg" data-i18n="about.routingTitle">Best-available routing</h2>
     <p class="text-fg-muted">
