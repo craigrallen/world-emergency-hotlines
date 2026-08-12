@@ -18,7 +18,8 @@
     "verify:trust": "node scripts/verify-trust-foundation.mjs",
     "verify:finder": "node scripts/verify-guided-finder.mjs",
     "verify:api": "node scripts/verify-static-api.mjs",
-    "verify:all": "npm run verify:data && npm run verify:search && npm run verify:discovery && npm run verify:trust && npm run verify:finder && npm run verify:api",
+    "verify:widget": "node scripts/verify-widget.mjs",
+    "verify:all": "npm run verify:data && npm run verify:search && npm run verify:discovery && npm run verify:trust && npm run verify:finder && npm run verify:api && npm run verify:widget",
     "typecheck": "astro check"
   },
   "dependencies": {

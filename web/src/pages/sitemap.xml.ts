@@ -3,7 +3,7 @@ import type { APIRoute } from 'astro';
 import { getCategoriesStats, getManifest } from '../lib/data';
 import { SITE_URL } from '../lib/site';
 
-const STATIC_PATHS = ['', '/about', '/find-help', '/map', '/data', '/categories'];
+const STATIC_PATHS = ['', '/about', '/find-help', '/widget', '/map', '/data', '/categories'];
 
 function escapeXml(value: string): string {
   return value
