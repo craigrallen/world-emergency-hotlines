@@ -33,6 +33,12 @@ const files = [
     description: 'Global per-category aggregates: hotline count, country count, verified count.',
   },
   {
+    name: 'metadata-coverage.json',
+    href: '/data/metadata-coverage.json',
+    size: '~5 KB',
+    description: 'Separate metadata-presence, geography-specificity, field-evidence, verification-freshness, and structured-scope adoption metrics. This is not a service-quality or availability score.',
+  },
+  {
     name: 'search-index.json',
     href: '/data/search-index.json',
     size: '~910 KB',
@@ -96,6 +102,16 @@ const files = [
         <a class="text-accent hover:underline" href="/widget">Widget demo</a>
         <a class="text-accent hover:underline" href="https://github.com/craigrallen/world-emergency-hotlines/blob/main/docs/API.md" target="_blank" rel="noopener">Developer guide</a>
       </div>
+    </section>
+
+    <section class="mt-8 rounded-xl border border-border bg-bg-elev p-5">
+      <h2 class="text-lg font-semibold text-fg">Metadata coverage, without a quality score</h2>
+      <p class="mt-2 text-sm text-fg-muted">
+        The deterministic coverage report keeps field presence, geography specificity, field-level evidence,
+        verification dates, and structured-scope adoption separate. A populated legacy field is not proof that a
+        claim is current or source-backed, and missing metadata does not mean a service is unavailable or unsuitable.
+      </p>
+      <a class="mt-3 inline-block text-sm text-accent hover:underline" href="/data/metadata-coverage.json">View metadata coverage JSON</a>
     </section>
 
     <!-- Download files -->

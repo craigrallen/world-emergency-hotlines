@@ -67,6 +67,27 @@ Every field except `name`, `category`, and `geography` is optional. Missing data
   ],
   "replaced_by": null,                        // Optional successor ID; deprecated records only
 
+  "service_scope": {                          // Optional; reviewed, field-evidenced structured claims only
+    "geography": {
+      "level": "country",                     // country | state_region | county | city | local | multi_area | remote
+      "areas": ["United Kingdom"]
+    },
+    "eligibility": {
+      "description": "People aged 18 and over",
+      "minimum_age": 18,
+      "maximum_age": null,
+      "populations": ["adults"]
+    },
+    "availability": {
+      "always_open": true,
+      "timezone": "Europe/London",             // IANA timezone when schedules require local interpretation
+      "schedule": []                           // Otherwise weekday + HH:MM periods
+    },
+    "languages": [
+      { "code": "en", "name": "English", "channels": ["phone", "chat"] }
+    ]
+  },
+
   "provenance": {                            // Optional supplemental provenance; see below
     "record_status": "verified_web",
     "source_class": "first_party",
@@ -97,6 +118,31 @@ Every field except `name`, `category`, and `geography` is optional. Missing data
 - Records are not silently deleted. Any exceptional ID migration or removal requires an explicit reviewed migration rather than a routine edit.
 
 Generated web artifacts expose `dataset_version` as `sha256:<digest>`, calculated from the exact canonical `hotlines.json` bytes used by the build. `generated_at` is build metadata, not a dataset identity. Consumers can use `dataset_version` for caching, audit evidence, and future change cursors.
+
+## Optional structured `service_scope`
+
+`service_scope` adds machine-readable routing details without replacing the existing free-form `geography`, `target`, `hours`, and `languages` compatibility fields. It is optional: legacy records without it remain valid, and absence means “not yet represented as a reviewed structured claim,” not that a service lacks coverage, eligibility rules, opening hours, or language support.
+
+Each populated section requires a matching `provenance.evidence[].field` value:
+
+- `service_scope.geography`
+- `service_scope.eligibility`
+- `service_scope.availability`
+- `service_scope.languages`
+
+This evidence requirement is section-level. Every matching evidence item must carry a parseable HTTP(S) reviewed source URL whose host is a valid DNS name, canonically round-tripping IDN, IPv4/IPv6 address, or deliberately permitted `localhost`. IDN labels must survive a normalized case-insensitive Unicode-to-IDNA-to-Unicode roundtrip; existing `xn--` labels must decode and re-encode to exactly the same canonical A-label. Whitespace, control/format characters (including invisible joiners), empty/dot-only labels, edge dots, malformed labels, and invalid ports are rejected. It must also carry a `first_party`, `government`, or `authority` source type, a real `YYYY-MM-DD` calendar date, `medium` or `high` confidence, and claim-binding content. Claim-binding content means either a non-blank string `note`, or a `value` that is a non-blank string, non-empty array/object, boolean, or finite JSON number; `null`, blank strings, and empty arrays/objects do not qualify.
+
+Contract details:
+
+- `geography.level`: `country`, `state_region`, `county`, `city`, `local`, `multi_area`, or `remote`; `areas` is a non-empty list of provider-published service areas.
+- `eligibility`: at least one of a non-empty `description`, `populations`, `minimum_age`, or `maximum_age`; ages are integer years from 0–130 and minimum must not exceed maximum.
+- `availability.always_open`: required boolean. Always-open services use an empty schedule. Other services require schedule periods with lowercase English weekday names and 24-hour `HH:MM` times. `timezone`, when used, must resolve through Python stdlib `zoneinfo` to an installed IANA zone such as `Europe/London`; `UTC` and `GMT` are accepted when the runtime provides them. Generated JavaScript artifacts only carry these validator-approved canonical strings and do not independently reinterpret them.
+- `languages`: non-empty objects with a display `name`, optional BCP-47-like language code (`en`, `swe`, `es-MX`), and one or more supported channels from `phone`, `text`, `chat`, or `email`.
+- Objects are closed schemas: unknown keys are rejected in `service_scope`, `geography`, `eligibility`, `availability`, each schedule period, each language entry, and evidence entries whose `field` matches a `service_scope` section. Such matching evidence accepts only `field`, `value`, `source_url`, `source_type`, `checked_at`, `confidence`, and `note`; evidence for legacy, non-structured fields may retain older provenance keys.
+
+Do not mechanically convert free-form legacy values into `service_scope`. Values such as `local`, `office hours`, inferred country languages, category-derived target audiences, or country-equal geography are not sufficient evidence for structured precision. Add sections only through reviewed canonical changes supported by first-party provider or official authority evidence. A structured section is not a claim of live availability or guaranteed eligibility.
+
+The generated `/data/metadata-coverage.json` report publishes field presence, geography specificity, field-level evidence, source-backed status, dated/current verification, and structured adoption as separate metrics. Its Python and JavaScript producers expose the same fields, including the canonical-byte `dataset_version`, use real calendar-date parsing, exact decimal half-up percentage rounding to one place from integer counts, NFKC plus locale-independent lowercasing with explicit `ß` → `ss` and final-sigma `ς` → `σ` substitutions, and code-point ordering. This modest comparison normalization is not full Unicode casefolding and follows the Unicode data supplied by each runtime. Automated parity coverage compares every report field and includes compatibility-character probes such as `ŉ`. When legacy `information.json` is used and supplies no canonical update date, coverage uses the stable `1970-01-01` fallback rather than wall-clock time; this represents unknown legacy freshness. The report deliberately provides no composite quality score: those dimensions are not interchangeable and do not measure whether a service is safe, available, suitable, or eligible for a particular person.
 
 ## `category` enum
 

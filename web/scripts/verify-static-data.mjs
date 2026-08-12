@@ -2,6 +2,8 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
+import { buildMetadataCoverage, coverageAsOf } from './metadata-coverage.mjs';
 
 const WEB_ROOT = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const DATA_DIR = resolve(WEB_ROOT, 'public', 'data');
@@ -76,12 +78,38 @@ function hasSearchableSurface(entry) {
 const manifest = readJson('manifest.json');
 const searchIndex = readJson('search-index.json');
 const categoriesStats = readJson('categories-stats.json');
-const expectedDatasetVersion = `sha256:${createHash('sha256').update(readFileSync(CANONICAL_PATH)).digest('hex')}`;
+const metadataCoverage = readJson('metadata-coverage.json');
+const canonicalRaw = readFileSync(CANONICAL_PATH);
+const canonical = JSON.parse(canonicalRaw);
+const expectedDatasetVersion = `sha256:${createHash('sha256').update(canonicalRaw).digest('hex')}`;
 if (manifest?.dataset_version !== expectedDatasetVersion) {
   fail(`manifest.dataset_version does not match canonical hotlines.json (${manifest?.dataset_version})`);
 }
 if (categoriesStats?.dataset_version !== expectedDatasetVersion) {
   fail('categories-stats.dataset_version does not match manifest/canonical dataset version');
+}
+if (metadataCoverage?.dataset_version !== expectedDatasetVersion) fail('metadata-coverage.dataset_version does not match canonical data');
+const expectedCoverageAsOf = coverageAsOf(manifest?.source_last_updated);
+if (metadataCoverage?.as_of !== expectedCoverageAsOf) fail('metadata-coverage.as_of must use deterministic source date or legacy fallback');
+if (metadataCoverage?.total_records !== manifest?.total_hotlines) fail('metadata-coverage total does not match manifest');
+if (metadataCoverage?.interpretation?.no_composite_score !== true) fail('metadata-coverage must explicitly prohibit a composite score');
+for (const text of ['not prove', 'not service availability']) {
+  if (!JSON.stringify(metadataCoverage?.interpretation).includes(text)) fail(`metadata-coverage interpretation missing ${text}`);
+}
+const recomputedCoverage = buildMetadataCoverage(canonical, expectedCoverageAsOf, 365, expectedDatasetVersion);
+if (JSON.stringify(metadataCoverage) !== JSON.stringify(recomputedCoverage)) {
+  fail('metadata-coverage does not match independent recomputation from canonical data');
+}
+try {
+  const pythonReport = JSON.parse(execFileSync('python3', [
+    resolve(WEB_ROOT, '..', 'scripts', 'metadata_coverage_report.py'),
+    '--input', CANONICAL_PATH, '--as-of', expectedCoverageAsOf, '--current-days', '365',
+  ], { encoding: 'utf-8' }));
+  if (JSON.stringify(recomputedCoverage) !== JSON.stringify(pythonReport)) {
+    fail('Python and JavaScript metadata-coverage contracts differ');
+  }
+} catch (err) {
+  fail(`Python metadata-coverage parity check failed: ${err.message}`);
 }
 
 try {
