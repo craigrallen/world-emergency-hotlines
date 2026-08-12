@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Exhaustive duplicate check + auto-merger.
+Read-only duplicate detector for the canonical hotlines dataset.
 
-Scans every country in hotlines.json and flags likely duplicates within the
-same country based on:
+Scans every country in a hotlines dataset and flags likely duplicates within
+the same country based on:
 
   - Identical normalised name (ascii-fold + alphanum)
   - Identical phone-number set (last 7 digits of any number matches another)
@@ -11,38 +11,29 @@ same country based on:
   - Very high name similarity (SequenceMatcher ratio >= 0.92) AND shared
     category / shared phone / shared host
 
-When a duplicate group is found, the 'keeper' is the one with the richest
-verification status (verified_web > verified_authority > verified_knowledge
-> cross_referenced > legacy_unverified). The keeper absorbs any unique
-data (numbers, websites, emails, sources, notes) from the losers; the
-losers are removed.
-
-Report goes to REPORTS/dedupe_<timestamp>.md.
+This script never merges, mutates, or writes the input dataset. It only
+detects candidate duplicate groups and reports them: by default a summary is
+printed to stdout; with --report, a markdown findings report is additionally
+written to disk (still read-only with respect to the input). Automatic
+merging of these groups is not implemented here, since the same detection
+heuristics that find duplicates within one category also match a large
+fraction of unrelated records across different categories (e.g. a national
+government hotline shared by several distinct services) — merging on this
+signal alone would destroy legitimate distinct records. Any future merge
+tooling needs a separate, more conservative review process.
 """
 from __future__ import annotations
 
+import argparse
 import json
 import pathlib
 import re
 import unicodedata
 from collections import defaultdict
-from datetime import datetime
 from difflib import SequenceMatcher
 
-ROOT = pathlib.Path(__file__).parent.parent
+ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA = ROOT / "hotlines.json"
-REPORT_DIR = ROOT / "REPORTS"
-
-STATUS_RANK = {
-    "verified_web": 5,
-    "verified_authority": 4,
-    "verified_knowledge": 3,
-    "cross_referenced": 2,
-    "legacy_unverified": 1,
-    "deprecated": 0,
-    "disputed": 1,
-    None: 0,
-}
 
 
 def norm_name(s: str) -> str:
@@ -63,50 +54,8 @@ def host(url: str) -> str:
     return (m.group(1).lower() if m else "").strip()
 
 
-def rank(h: dict) -> int:
-    return STATUS_RANK.get(h.get("verification_status"), 0)
-
-
-def merge(keep: dict, other: dict) -> None:
-    """Absorb unique fields from `other` into `keep`."""
-    # Union the number lists
-    for field in ("voice_numbers", "sms_numbers", "text_numbers", "short_codes"):
-        merged = list(keep.get(field) or [])
-        seen = {phone_key(n) for n in merged}
-        for n in (other.get(field) or []):
-            if phone_key(n) not in seen and n:
-                merged.append(n)
-                seen.add(phone_key(n))
-        keep[field] = merged
-
-    # Fill missing scalar fields
-    for field in ("chat_url", "email", "website", "hours", "target", "geography", "organization"):
-        if not keep.get(field) and other.get(field):
-            keep[field] = other[field]
-
-    # Union languages
-    langs = list(keep.get("languages") or [])
-    for L in (other.get("languages") or []):
-        if L and L not in langs:
-            langs.append(L)
-    keep["languages"] = langs
-
-    # Union sources
-    srcs = set(keep.get("sources") or [])
-    for s in (other.get("sources") or []):
-        if s:
-            srcs.add(s)
-    keep["sources"] = sorted(srcs)
-
-    # Notes: append other.notes if not already there
-    keep_notes = keep.get("notes") or ""
-    other_notes = other.get("notes") or ""
-    if other_notes and other_notes not in keep_notes:
-        keep["notes"] = (keep_notes + ("\n\n" if keep_notes else "") + other_notes).strip()
-
-
 def detect_duplicates_for_country(country: dict) -> list[list[int]]:
-    """Return list of index-groups within the country that are duplicates."""
+    """Return list of index-groups within the country that are candidate duplicates."""
     hs = country["hotlines"]
     n = len(hs)
     if n < 2:
@@ -133,7 +82,7 @@ def detect_duplicates_for_country(country: dict) -> list[list[int]]:
             k = phone_key(num)
             # Only group on LONG number keys (>= 7 digits); 3/4-digit short
             # codes are shared by many different services and must not drive
-            # deduplication on their own.
+            # duplicate detection on their own.
             if k and len(k) >= 7:
                 phone_idx[k].append(i)
         hh = host(h.get("website") or "")
@@ -186,15 +135,14 @@ def detect_duplicates_for_country(country: dict) -> list[list[int]]:
     return [g for g in groups.values() if len(g) > 1]
 
 
-def main():
-    data = json.loads(DATA.read_text(encoding="utf-8"))
-    REPORT_DIR.mkdir(exist_ok=True)
-    report_path = REPORT_DIR / f"dedupe_{datetime.utcnow().strftime('%Y%m%dT%H%M%SZ')}.md"
-    rep = [f"# Deduplication report — {datetime.utcnow().isoformat(timespec='seconds')}Z", ""]
+def find_duplicates(data: dict) -> tuple[list[str], int, int]:
+    """Detect candidate duplicate groups in `data` without modifying it.
 
+    Returns (report_body_lines, total_records, total_groups).
+    """
+    rep: list[str] = []
     total_groups = 0
-    total_merged = 0
-    before = sum(len(c["hotlines"]) for c in data["countries"])
+    total_records = sum(len(c["hotlines"]) for c in data["countries"])
 
     for country in data["countries"]:
         groups = detect_duplicates_for_country(country)
@@ -203,45 +151,116 @@ def main():
         rep.append(f"## {country['country']}")
         rep.append("")
         hs = country["hotlines"]
-        # Mark all indices to remove after merging
-        to_remove: set[int] = set()
         for group in sorted(groups, key=lambda g: -len(g)):
             total_groups += 1
-            keeper_idx = max(
-                group,
-                key=lambda i: (
-                    rank(hs[i]),
-                    len(hs[i].get("voice_numbers") or []),
-                    len((hs[i].get("notes") or "")),
-                ),
-            )
-            rep.append(f"- group of {len(group)} (keeper: '{hs[keeper_idx].get('name','?')}' [{hs[keeper_idx].get('verification_status')}]):")
+            categories = sorted({hs[i].get("category") for i in group})
+            cross_category = " (crosses categories: " + ", ".join(categories) + ")" if len(categories) > 1 else ""
+            rep.append(f"- candidate group of {len(group)}{cross_category}:")
             for i in group:
-                if i == keeper_idx:
-                    continue
-                rep.append(f"    • absorbed: '{hs[i].get('name','?')}' [{hs[i].get('verification_status')}] -> {(hs[i].get('voice_numbers') or [None])[0]}")
-                merge(hs[keeper_idx], hs[i])
-                to_remove.add(i)
-        # Drop absorbed records
-        country["hotlines"] = [h for idx, h in enumerate(hs) if idx not in to_remove]
-        total_merged += len(to_remove)
+                rep.append(
+                    f"    • '{hs[i].get('name', '?')}' "
+                    f"[{hs[i].get('category')}, {hs[i].get('verification_status')}] "
+                    f"-> {(hs[i].get('voice_numbers') or [None])[0]}"
+                )
         rep.append("")
 
-    after = sum(len(c["hotlines"]) for c in data["countries"])
-    rep.insert(0, "")
-    rep.insert(0, f"- Duplicate groups found: {total_groups}")
-    rep.insert(0, f"- Records merged away: {total_merged}")
-    rep.insert(0, f"- Records after: {after}")
-    rep.insert(0, f"- Records before: {before}")
-    rep.insert(0, "## Summary")
-    rep.insert(0, "")
+    return rep, total_records, total_groups
 
-    data["last_updated"] = datetime.utcnow().date().isoformat()
-    DATA.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
-    report_path.write_text("\n".join(rep), encoding="utf-8")
-    print(f"Before: {before}, After: {after}, Groups: {total_groups}, Merged: {total_merged}")
+
+def guard_report_path(report_path: pathlib.Path, input_path: pathlib.Path) -> None:
+    """Refuse any --report target that could clobber a dataset.
+
+    Must run before any parent-directory creation or writing. Rejects, in
+    order:
+    - a report path resolving to the same file as --input
+    - a report path resolving to the canonical hotlines.json, even when a
+      different --input was given
+    - a non-.md extension (blocks selecting a .json dataset as the target)
+
+    Path-identity checks run before the extension check so that a
+    same-file-as-input or canonical-dataset target is reported as such even
+    when it also happens to lack a .md extension.
+    """
+    resolved_report = report_path.resolve()
+    resolved_input = input_path.resolve()
+    resolved_canonical = DATA.resolve()
+
+    if resolved_report == resolved_input:
+        raise SystemExit(f"--report must not be the same file as --input: {resolved_report}")
+
+    if resolved_report == resolved_canonical:
+        raise SystemExit(f"--report must not target the canonical dataset: {resolved_canonical}")
+
+    if report_path.suffix.lower() != ".md":
+        raise SystemExit(f"--report must be a .md file, got: {report_path}")
+
+
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description=(
+            "Detect candidate duplicate hotlines within each country. Read-only: "
+            "this command never writes to or modifies the input dataset. By "
+            "default it prints a summary; pass --report to additionally write a "
+            "markdown findings report to disk."
+        )
+    )
+    parser.add_argument(
+        "--input",
+        type=pathlib.Path,
+        default=DATA,
+        help=f"Path to the hotlines dataset to scan (default: {DATA}).",
+    )
+    parser.add_argument(
+        "--report",
+        type=pathlib.Path,
+        default=None,
+        metavar="PATH",
+        help=(
+            "Write a markdown findings report to PATH (must end in .md). If "
+            "omitted, no report is written. PATH must not resolve to --input "
+            "or to the canonical hotlines.json; never modifies --input."
+        ),
+    )
+    return parser.parse_args(argv)
+
+
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
+
+    if args.report is not None:
+        guard_report_path(args.report, args.input)
+
+    data = json.loads(args.input.read_text(encoding="utf-8"))
+
+    body, total_records, total_groups = find_duplicates(data)
+
+    print(f"Records scanned: {total_records}, candidate duplicate groups: {total_groups}")
+    print(
+        "\nThis is detection only: no records were merged or modified, and none "
+        "will be. Review candidate groups manually before taking any action."
+    )
+
+    if args.report is None:
+        return 0
+
+    report_path = args.report
+    report_lines = ["# Duplicate detection findings", ""]
+    report_lines += [
+        "## Summary",
+        "",
+        f"- Records scanned: {total_records}",
+        f"- Candidate duplicate groups found: {total_groups}",
+        "",
+        "These are candidates only. No merging was performed; review each group "
+        "manually before making any changes to the dataset.",
+        "",
+    ]
+    report_lines += body
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.write_text("\n".join(report_lines), encoding="utf-8")
     print(f"Report: {report_path}")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
