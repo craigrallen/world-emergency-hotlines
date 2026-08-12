@@ -33,6 +33,25 @@
     @data path /data/*
     header @data Cache-Control "public, max-age=300, stale-while-revalidate=86400"
 
+    # Static API — isolate it from the friendly HTML fallback so unknown
+    # artifacts keep a real 404 status.
+    handle /api/v1/* {
+        route {
+            header {
+                Access-Control-Allow-Origin "*"
+                Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                Cache-Control "public, max-age=300, stale-while-revalidate=86400"
+            }
+            @apiResolver path /api/v1/resolver.js
+            header @apiResolver Content-Type "text/javascript; charset=utf-8"
+            file_server {
+                pass_thru
+            }
+            respond "Not found" 404
+        }
+    }
+
     # Static media
     @media path *.css *.js *.svg *.png *.ico *.webp *.woff2
     header @media Cache-Control "public, max-age=3600, stale-while-revalidate=86400"
@@ -42,7 +61,7 @@
     header @html Cache-Control "public, max-age=120, stale-while-revalidate=86400"
 
     # Friendly routing: /country/au → /country/au/index.html (Astro default layout)
-    try_files {path} {path}.html {path}/index.html /404.html
+    try_files {path} {path}.html {path}/index.html =404
 
     handle_errors {
         @404 expression {err.status_code} == 404

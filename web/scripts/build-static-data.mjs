@@ -11,11 +11,14 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, unlink
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
+import { classifyScope, getHotlineChannels } from '../src/lib/finder.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const WEB_ROOT = resolve(__dirname, '..');
 const REPO_ROOT = resolve(WEB_ROOT, '..');
 const OUT_DIR = resolve(WEB_ROOT, 'public', 'data');
+const API_DIR = resolve(WEB_ROOT, 'public', 'api', 'v1');
+const API_VERSION = '1.0';
 
 const CENTROIDS = JSON.parse(readFileSync(resolve(__dirname, 'centroids.json'), 'utf-8'));
 
@@ -175,6 +178,7 @@ console.log(`  source: ${canonical.format}, schema ${canonical.schema_version}`)
 console.log(`  countries: ${canonical.countries.length}`);
 
 mkdirSync(resolve(OUT_DIR, 'countries'), { recursive: true });
+mkdirSync(resolve(API_DIR, 'countries'), { recursive: true });
 try {
   for (const f of readdirSync(resolve(OUT_DIR, 'countries'))) {
     if (f.endsWith('.json')) unlinkSync(resolve(OUT_DIR, 'countries', f));
@@ -182,9 +186,18 @@ try {
 } catch (err) {
   console.warn(`  ! couldn't clean old shards: ${err.message}`);
 }
+try {
+  for (const f of readdirSync(resolve(API_DIR, 'countries'))) {
+    if (f.endsWith('.json')) unlinkSync(resolve(API_DIR, 'countries', f));
+  }
+} catch (err) {
+  console.warn(`  ! couldn't clean old API country artifacts: ${err.message}`);
+}
 
 const manifestEntries = [];
 const searchDocs = [];
+const apiCountries = [];
+const recordsById = {};
 let totalHotlines = 0;
 
 // Global category stats accumulator
@@ -196,6 +209,28 @@ for (const raw of canonical.countries) {
   const verified = c.hotlines.filter((h) => VERIFIED_STATUSES.has(h.verification_status)).length;
 
   writeFileSync(resolve(OUT_DIR, 'countries', `${c.alpha2.toLowerCase()}.json`), JSON.stringify(c, null, 2));
+
+  const apiHotlines = c.hotlines.map((hotline) => ({
+    ...hotline,
+    scope: classifyScope(hotline, c.country),
+    channels: getHotlineChannels(hotline),
+  }));
+  const apiCountry = {
+    api_version: API_VERSION,
+    dataset_version: c.dataset_version,
+    country: c.country,
+    alpha2: c.alpha2,
+    alpha3: c.alpha3,
+    general_emergency: c.general_emergency,
+    hotlines: apiHotlines,
+  };
+  writeFileSync(resolve(API_DIR, 'countries', `${c.alpha2.toLowerCase()}.json`), JSON.stringify(apiCountry, null, 2));
+  apiCountries.push({
+    alpha2: c.alpha2,
+    name: c.country,
+    path: `countries/${c.alpha2.toLowerCase()}.json`,
+    hotline_count: apiHotlines.length,
+  });
 
   manifestEntries.push({
     alpha2: c.alpha2,
@@ -214,6 +249,15 @@ for (const raw of canonical.countries) {
   });
 
   for (const h of c.hotlines) {
+    recordsById[h.id] = {
+      api_version: API_VERSION,
+      dataset_version: c.dataset_version,
+      country_code: c.alpha2,
+      country_name: c.country,
+      ...h,
+      scope: classifyScope(h, c.country),
+      channels: getHotlineChannels(h),
+    };
     searchDocs.push({
       id: h.id,
       country_code: c.alpha2,
@@ -278,6 +322,41 @@ const categoriesStats = {
 };
 writeFileSync(resolve(OUT_DIR, 'categories-stats.json'), JSON.stringify(categoriesStats, null, 2));
 
+const apiManifest = {
+  api_version: API_VERSION,
+  dataset_version: manifest.dataset_version,
+  generated_at: manifest.generated_at,
+  contract: 'static-read-only',
+  total_countries: manifest.total_countries,
+  total_records: manifest.total_hotlines,
+  endpoints: {
+    manifest: 'manifest.json',
+    records: 'records.json',
+    country: 'countries/{alpha2}.json',
+    resolver_module: 'resolver.js',
+  },
+  resolver_input: {
+    country: 'country artifact object',
+    category: 'canonical category slug',
+    channel: ['any', 'phone', 'text', 'chat'],
+    locality: 'optional complete recorded geography component',
+  },
+  resolver_output: ['scope', 'reason', 'fallback', 'results'],
+  limitations: [
+    'No hosted query endpoint is provided; consumers fetch static artifacts and resolve locally.',
+    'Scope reflects recorded geography and does not guarantee eligibility or current availability.',
+  ],
+  countries: apiCountries.sort((a, b) => a.name.localeCompare(b.name)),
+};
+writeFileSync(resolve(API_DIR, 'manifest.json'), JSON.stringify(apiManifest, null, 2));
+writeFileSync(resolve(API_DIR, 'records.json'), JSON.stringify({
+  api_version: API_VERSION,
+  dataset_version: manifest.dataset_version,
+  records: recordsById,
+}));
+writeFileSync(resolve(API_DIR, 'resolver.js'), readFileSync(resolve(WEB_ROOT, 'src', 'lib', 'finder.js'), 'utf-8'));
+
 console.log(`  wrote ${manifestEntries.length} country shards + manifest + search-index + categories-stats`);
+console.log(`  wrote API v${API_VERSION}: manifest + records index + ${apiCountries.length} countries + resolver`);
 console.log(`  total hotlines: ${totalHotlines}`);
 console.log('  done.');
