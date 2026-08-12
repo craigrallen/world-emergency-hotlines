@@ -1,0 +1,675 @@
+{
+  "$schema_version": "2.0",
+  "generated_at": "2026-08-12T19:20:12Z",
+  "canonical_dataset": "hotlines.json",
+  "preview_datasets": [
+    "sources/us_top_100_cities/us_top_100_cities_v2_preview.json"
+  ],
+  "summary": {
+    "candidate_count": 14,
+    "candidate_types": {
+      "append_new_hotline": 14
+    }
+  },
+  "candidates": [
+    {
+      "candidate_id": "unitedstates-emergencehealthnetwork24hourcrisishotline-appendnewhotline-ustop100citiesv2previewjson-1",
+      "country": "United States",
+      "alpha-2": "US",
+      "candidate_type": "append_new_hotline",
+      "canonical_match": {
+        "country": "United States",
+        "hotline_name": null,
+        "match_confidence": 0.0
+      },
+      "proposed_hotline": {
+        "name": "Emergence Health Network 24-Hour Crisis Hotline",
+        "organization": "Emergence Health Network",
+        "category": "mental_health",
+        "voice_numbers": [
+          "915-779-1800",
+          "1-877-562-6467"
+        ],
+        "hours": "24/7",
+        "target": "People in El Paso County experiencing a mental health crisis or difficulty coping with life challenges",
+        "geography": "El Paso County, Texas",
+        "notes": "Distinct local crisis hotline; the first-party page also offers national 988, which is not repeated as a contact here.",
+        "verification_status": "verified_web",
+        "website": "https://emergencehealthnetwork.org/",
+        "sources": [
+          "https://emergencehealthnetwork.org/"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "languages": [],
+        "cost": "unknown",
+        "last_verified": "2026-08-12"
+      },
+      "source_artifact": "sources/us_top_100_cities/us_top_100_cities_v2_preview.json",
+      "field_actions": {
+        "hotlines": "append_unique"
+      },
+      "safety_flags": [
+        "canonical_country_has_protected_hotlines",
+        "protected_status:verified_authority",
+        "protected_status:verified_knowledge",
+        "protected_status:verified_web"
+      ],
+      "requires_human_review": true
+    },
+    {
+      "candidate_id": "unitedstates-albuquerquerapecrisishotline-appendnewhotline-ustop100citiesv2previewjson-2",
+      "country": "United States",
+      "alpha-2": "US",
+      "candidate_type": "append_new_hotline",
+      "canonical_match": {
+        "country": "United States",
+        "hotline_name": null,
+        "match_confidence": 0.0
+      },
+      "proposed_hotline": {
+        "name": "Albuquerque Rape Crisis Hotline",
+        "organization": "Albuquerque Rape Crisis Center",
+        "category": "sexual_violence",
+        "voice_numbers": [
+          "505-266-7711"
+        ],
+        "hours": "24/7",
+        "target": "People in the Albuquerque area seeking sexual assault crisis support",
+        "geography": "Albuquerque, New Mexico",
+        "notes": "Published by the City of Albuquerque on its 24-hour crisis-lines page.",
+        "verification_status": "verified_authority",
+        "website": "https://www.cabq.gov/albuquerque-family-advocacy-center/victims-rights-and-assistance/24-hour-crisis-lines",
+        "sources": [
+          "https://www.cabq.gov/albuquerque-family-advocacy-center/victims-rights-and-assistance/24-hour-crisis-lines"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "languages": [],
+        "cost": "unknown",
+        "last_verified": "2026-08-12"
+      },
+      "source_artifact": "sources/us_top_100_cities/us_top_100_cities_v2_preview.json",
+      "field_actions": {
+        "hotlines": "append_unique"
+      },
+      "safety_flags": [
+        "canonical_country_has_protected_hotlines",
+        "protected_status:verified_authority",
+        "protected_status:verified_knowledge",
+        "protected_status:verified_web"
+      ],
+      "requires_human_review": true
+    },
+    {
+      "candidate_id": "unitedstates-alliancehealthbehavioralhealthcrisisline-appendnewhotline-ustop100citiesv2previewjson-3",
+      "country": "United States",
+      "alpha-2": "US",
+      "candidate_type": "append_new_hotline",
+      "canonical_match": {
+        "country": "United States",
+        "hotline_name": null,
+        "match_confidence": 0.0
+      },
+      "proposed_hotline": {
+        "name": "Alliance Health Behavioral Health Crisis Line",
+        "organization": "Alliance Health",
+        "category": "mental_health",
+        "voice_numbers": [
+          "877-223-4617"
+        ],
+        "hours": "24/7",
+        "target": "Wake County residents in behavioral health crisis who need immediate assistance",
+        "geography": "Wake County, North Carolina",
+        "notes": "Wake County lists this as its local behavioral health crisis line; national 988 is listed separately and is not repeated here.",
+        "verification_status": "verified_authority",
+        "website": "https://www.wake.gov/departments-government/behavioral-health/having-crisis",
+        "sources": [
+          "https://www.wake.gov/departments-government/behavioral-health/having-crisis"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "languages": [],
+        "cost": "unknown",
+        "last_verified": "2026-08-12"
+      },
+      "source_artifact": "sources/us_top_100_cities/us_top_100_cities_v2_preview.json",
+      "field_actions": {
+        "hotlines": "append_unique"
+      },
+      "safety_flags": [
+        "canonical_country_has_protected_hotlines",
+        "protected_status:verified_authority",
+        "protected_status:verified_knowledge",
+        "protected_status:verified_web"
+      ],
+      "requires_human_review": true
+    },
+    {
+      "candidate_id": "unitedstates-virginiabeachemergencyservicescrisisline-appendnewhotline-ustop100citiesv2previewjson-4",
+      "country": "United States",
+      "alpha-2": "US",
+      "candidate_type": "append_new_hotline",
+      "canonical_match": {
+        "country": "United States",
+        "hotline_name": null,
+        "match_confidence": 0.0
+      },
+      "proposed_hotline": {
+        "name": "Virginia Beach Emergency Services Crisis Line",
+        "organization": "City of Virginia Beach Department of Human Services",
+        "category": "mental_health",
+        "voice_numbers": [
+          "757-385-0888"
+        ],
+        "hours": "24/7",
+        "target": "People in Virginia Beach experiencing a behavioral health emergency",
+        "geography": "Virginia Beach, Virginia",
+        "notes": "Provides rapid telephone and in-person crisis assessment, intervention and consultation.",
+        "verification_status": "verified_authority",
+        "website": "https://hs.virginiabeach.gov/behavioral-health/crisis-response",
+        "sources": [
+          "https://hs.virginiabeach.gov/behavioral-health/crisis-response"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "languages": [],
+        "cost": "unknown",
+        "last_verified": "2026-08-12"
+      },
+      "source_artifact": "sources/us_top_100_cities/us_top_100_cities_v2_preview.json",
+      "field_actions": {
+        "hotlines": "append_unique"
+      },
+      "safety_flags": [
+        "canonical_country_has_protected_hotlines",
+        "protected_status:verified_authority",
+        "protected_status:verified_knowledge",
+        "protected_status:verified_web"
+      ],
+      "requires_human_review": true
+    },
+    {
+      "candidate_id": "unitedstates-copescrisishotline-appendnewhotline-ustop100citiesv2previewjson-5",
+      "country": "United States",
+      "alpha-2": "US",
+      "candidate_type": "append_new_hotline",
+      "canonical_match": {
+        "country": "United States",
+        "hotline_name": null,
+        "match_confidence": 0.0
+      },
+      "proposed_hotline": {
+        "name": "COPES Crisis Hotline",
+        "organization": "Family & Children's Services",
+        "category": "mental_health",
+        "voice_numbers": [
+          "918-744-4800"
+        ],
+        "hours": "24/7",
+        "target": "Adults and children in Tulsa County experiencing a mental health crisis",
+        "geography": "Tulsa County, Oklahoma",
+        "notes": "Local telephone crisis support and mobile response; the provider also routes Tulsa 988 mobile response.",
+        "verification_status": "verified_web",
+        "website": "https://www.fcsok.org/services/crisis-services/",
+        "sources": [
+          "https://www.fcsok.org/services/crisis-services/"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "languages": [],
+        "cost": "unknown",
+        "last_verified": "2026-08-12"
+      },
+      "source_artifact": "sources/us_top_100_cities/us_top_100_cities_v2_preview.json",
+      "field_actions": {
+        "hotlines": "append_unique"
+      },
+      "safety_flags": [
+        "canonical_country_has_protected_hotlines",
+        "protected_status:verified_authority",
+        "protected_status:verified_knowledge",
+        "protected_status:verified_web"
+      ],
+      "requires_human_review": true
+    },
+    {
+      "candidate_id": "unitedstates-metropolitanhumanservicesdistrictcrisisline-appendnewhotline-ustop100citiesv2previewjson-6",
+      "country": "United States",
+      "alpha-2": "US",
+      "candidate_type": "append_new_hotline",
+      "canonical_match": {
+        "country": "United States",
+        "hotline_name": null,
+        "match_confidence": 0.0
+      },
+      "proposed_hotline": {
+        "name": "Metropolitan Human Services District Crisis Line",
+        "organization": "Metropolitan Human Services District",
+        "category": "mental_health",
+        "voice_numbers": [
+          "504-826-2675"
+        ],
+        "hours": "24/7",
+        "target": "Uninsured or Medicaid-eligible people in the New Orleans service area experiencing mental illness or addiction crisis",
+        "geography": "New Orleans, Louisiana",
+        "notes": "The City of New Orleans behavioral-health page identifies this as MHSD's 24-hour crisis line.",
+        "verification_status": "verified_authority",
+        "website": "https://nola.gov/next/behavioral-health/home/",
+        "sources": [
+          "https://nola.gov/next/behavioral-health/home/"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "languages": [],
+        "cost": "unknown",
+        "last_verified": "2026-08-12"
+      },
+      "source_artifact": "sources/us_top_100_cities/us_top_100_cities_v2_preview.json",
+      "field_actions": {
+        "hotlines": "append_unique"
+      },
+      "safety_flags": [
+        "canonical_country_has_protected_hotlines",
+        "protected_status:verified_authority",
+        "protected_status:verified_knowledge",
+        "protected_status:verified_web"
+      ],
+      "requires_human_review": true
+    },
+    {
+      "candidate_id": "unitedstates-sanjoaquincountycrisishotline-appendnewhotline-ustop100citiesv2previewjson-7",
+      "country": "United States",
+      "alpha-2": "US",
+      "candidate_type": "append_new_hotline",
+      "canonical_match": {
+        "country": "United States",
+        "hotline_name": null,
+        "match_confidence": 0.0
+      },
+      "proposed_hotline": {
+        "name": "San Joaquin County Crisis Hotline",
+        "organization": "San Joaquin County Behavioral Health Services",
+        "category": "mental_health",
+        "voice_numbers": [
+          "209-468-8686"
+        ],
+        "hours": "24/7",
+        "target": "San Joaquin County residents seeking mental health crisis intervention",
+        "geography": "San Joaquin County, California",
+        "notes": "The county Crisis Intervention Services page labels this a 24-hour response line.",
+        "verification_status": "verified_authority",
+        "website": "https://www.sjcbhs.org/Crisis_Intervention.aspx",
+        "sources": [
+          "https://www.sjcbhs.org/Crisis_Intervention.aspx"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "languages": [],
+        "cost": "unknown",
+        "last_verified": "2026-08-12"
+      },
+      "source_artifact": "sources/us_top_100_cities/us_top_100_cities_v2_preview.json",
+      "field_actions": {
+        "hotlines": "append_unique"
+      },
+      "safety_flags": [
+        "canonical_country_has_protected_hotlines",
+        "protected_status:verified_authority",
+        "protected_status:verified_knowledge",
+        "protected_status:verified_web"
+      ],
+      "requires_human_review": true
+    },
+    {
+      "candidate_id": "unitedstates-ramseycountychildrensmentalhealthcrisisline-appendnewhotline-ustop100citiesv2previewjson-8",
+      "country": "United States",
+      "alpha-2": "US",
+      "candidate_type": "append_new_hotline",
+      "canonical_match": {
+        "country": "United States",
+        "hotline_name": null,
+        "match_confidence": 0.0
+      },
+      "proposed_hotline": {
+        "name": "Ramsey County Children's Mental Health Crisis Line",
+        "organization": "Ramsey County",
+        "category": "mental_health",
+        "voice_numbers": [
+          "651-266-7878"
+        ],
+        "hours": "24/7",
+        "target": "Children and young people under 18 in Ramsey County experiencing a mental health crisis",
+        "geography": "Ramsey County, Minnesota",
+        "notes": "Age-specific county crisis line for callers under 18.",
+        "verification_status": "verified_authority",
+        "website": "https://www.ramseycountymn.gov/residents/health-medical/clinics-services/mental-health-crisis-services",
+        "sources": [
+          "https://www.ramseycountymn.gov/residents/health-medical/clinics-services/mental-health-crisis-services"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "languages": [],
+        "cost": "unknown",
+        "last_verified": "2026-08-12"
+      },
+      "source_artifact": "sources/us_top_100_cities/us_top_100_cities_v2_preview.json",
+      "field_actions": {
+        "hotlines": "append_unique"
+      },
+      "safety_flags": [
+        "canonical_country_has_protected_hotlines",
+        "protected_status:verified_authority",
+        "protected_status:verified_knowledge",
+        "protected_status:verified_web"
+      ],
+      "requires_human_review": true
+    },
+    {
+      "candidate_id": "unitedstates-ramseycountyadultmentalhealthcrisisline-appendnewhotline-ustop100citiesv2previewjson-9",
+      "country": "United States",
+      "alpha-2": "US",
+      "candidate_type": "append_new_hotline",
+      "canonical_match": {
+        "country": "United States",
+        "hotline_name": null,
+        "match_confidence": 0.0
+      },
+      "proposed_hotline": {
+        "name": "Ramsey County Adult Mental Health Crisis Line",
+        "organization": "Ramsey County",
+        "category": "mental_health",
+        "voice_numbers": [
+          "651-266-7900"
+        ],
+        "hours": "24/7",
+        "target": "Adults 18 and over in Ramsey County experiencing a mental health crisis",
+        "geography": "Ramsey County, Minnesota",
+        "notes": "Age-specific county crisis line for callers 18 and over.",
+        "verification_status": "verified_authority",
+        "website": "https://www.ramseycountymn.gov/residents/health-medical/clinics-services/mental-health-crisis-services",
+        "sources": [
+          "https://www.ramseycountymn.gov/residents/health-medical/clinics-services/mental-health-crisis-services"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "languages": [],
+        "cost": "unknown",
+        "last_verified": "2026-08-12"
+      },
+      "source_artifact": "sources/us_top_100_cities/us_top_100_cities_v2_preview.json",
+      "field_actions": {
+        "hotlines": "append_unique"
+      },
+      "safety_flags": [
+        "canonical_country_has_protected_hotlines",
+        "protected_status:verified_authority",
+        "protected_status:verified_knowledge",
+        "protected_status:verified_web"
+      ],
+      "requires_human_review": true
+    },
+    {
+      "candidate_id": "unitedstates-lancastercounty24hourmentalhealthcrisisline-appendnewhotline-ustop100citiesv2previewjson-10",
+      "country": "United States",
+      "alpha-2": "US",
+      "candidate_type": "append_new_hotline",
+      "canonical_match": {
+        "country": "United States",
+        "hotline_name": null,
+        "match_confidence": 0.0
+      },
+      "proposed_hotline": {
+        "name": "Lancaster County 24-Hour Mental Health Crisis Line",
+        "organization": "Lancaster County Mental Health Crisis Center",
+        "category": "mental_health",
+        "voice_numbers": [
+          "402-475-6695"
+        ],
+        "hours": "24/7",
+        "target": "People in Lancaster County experiencing a mental health crisis",
+        "geography": "Lancaster County, Nebraska",
+        "notes": "County-published 24-hour crisis line associated with the Mental Health Crisis Center in Lincoln.",
+        "verification_status": "verified_authority",
+        "website": "https://www.lancaster.ne.gov/368/Mental-Health-Crisis-Center",
+        "sources": [
+          "https://www.lancaster.ne.gov/368/Mental-Health-Crisis-Center"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "languages": [],
+        "cost": "unknown",
+        "last_verified": "2026-08-12"
+      },
+      "source_artifact": "sources/us_top_100_cities/us_top_100_cities_v2_preview.json",
+      "field_actions": {
+        "hotlines": "append_unique"
+      },
+      "safety_flags": [
+        "canonical_country_has_protected_hotlines",
+        "protected_status:verified_authority",
+        "protected_status:verified_knowledge",
+        "protected_status:verified_web"
+      ],
+      "requires_human_review": true
+    },
+    {
+      "candidate_id": "unitedstates-crisisservices24hourcrisishotline-appendnewhotline-ustop100citiesv2previewjson-11",
+      "country": "United States",
+      "alpha-2": "US",
+      "candidate_type": "append_new_hotline",
+      "canonical_match": {
+        "country": "United States",
+        "hotline_name": null,
+        "match_confidence": 0.0
+      },
+      "proposed_hotline": {
+        "name": "Crisis Services 24-Hour Crisis Hotline",
+        "organization": "Crisis Services",
+        "category": "mental_health",
+        "voice_numbers": [
+          "716-834-3131"
+        ],
+        "hours": "24/7",
+        "target": "Anyone in Buffalo and Erie County experiencing or affected by a mental health crisis",
+        "geography": "Erie County, New York",
+        "notes": "Erie County identifies this local line as its 24-hour crisis hotline.",
+        "verification_status": "verified_authority",
+        "website": "https://www3.erie.gov/mentalhealth/i-need-help-now",
+        "sources": [
+          "https://www3.erie.gov/mentalhealth/i-need-help-now"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "languages": [],
+        "cost": "unknown",
+        "last_verified": "2026-08-12"
+      },
+      "source_artifact": "sources/us_top_100_cities/us_top_100_cities_v2_preview.json",
+      "field_actions": {
+        "hotlines": "append_unique"
+      },
+      "safety_flags": [
+        "canonical_country_has_protected_hotlines",
+        "protected_status:verified_authority",
+        "protected_status:verified_knowledge",
+        "protected_status:verified_web"
+      ],
+      "requires_human_review": true
+    },
+    {
+      "candidate_id": "unitedstates-chesapeakeintegratedbehavioralhealthcarecrisisline-appendnewhotline-ustop100citiesv2previewjson-12",
+      "country": "United States",
+      "alpha-2": "US",
+      "candidate_type": "append_new_hotline",
+      "canonical_match": {
+        "country": "United States",
+        "hotline_name": null,
+        "match_confidence": 0.0
+      },
+      "proposed_hotline": {
+        "name": "Chesapeake Integrated Behavioral Healthcare Crisis Line",
+        "organization": "Chesapeake Integrated Behavioral Healthcare",
+        "category": "mental_health",
+        "voice_numbers": [
+          "757-548-7000"
+        ],
+        "hours": "24/7",
+        "target": "People in Chesapeake experiencing a behavioral health crisis",
+        "geography": "Chesapeake, Virginia",
+        "notes": "City crisis-services page states emergency and crisis services are available 24 hours per day.",
+        "verification_status": "verified_authority",
+        "website": "https://www.cityofchesapeake.net/3422/Crisis-Services",
+        "sources": [
+          "https://www.cityofchesapeake.net/3422/Crisis-Services"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "languages": [],
+        "cost": "unknown",
+        "last_verified": "2026-08-12"
+      },
+      "source_artifact": "sources/us_top_100_cities/us_top_100_cities_v2_preview.json",
+      "field_actions": {
+        "hotlines": "append_unique"
+      },
+      "safety_flags": [
+        "canonical_country_has_protected_hotlines",
+        "protected_status:verified_authority",
+        "protected_status:verified_knowledge",
+        "protected_status:verified_web"
+      ],
+      "requires_human_review": true
+    },
+    {
+      "candidate_id": "unitedstates-spokaneregionalbehavioralhealthcrisishotline-appendnewhotline-ustop100citiesv2previewjson-13",
+      "country": "United States",
+      "alpha-2": "US",
+      "candidate_type": "append_new_hotline",
+      "canonical_match": {
+        "country": "United States",
+        "hotline_name": null,
+        "match_confidence": 0.0
+      },
+      "proposed_hotline": {
+        "name": "Spokane Regional Behavioral Health Crisis Hotline",
+        "organization": "Spokane Regional Service Area",
+        "category": "mental_health",
+        "voice_numbers": [
+          "1-877-266-1818"
+        ],
+        "hours": "24/7",
+        "target": "People in Spokane County and the Spokane Regional Service Area experiencing a behavioral health crisis",
+        "geography": "Spokane County, Washington",
+        "notes": "Spokane County publishes this regional crisis hotline and describes telephone support, referrals and mobile-team dispatch.",
+        "verification_status": "verified_authority",
+        "website": "https://www.spokanecounty.gov/4232/Spokane-RSA-Crisis-Services",
+        "sources": [
+          "https://www.spokanecounty.gov/4232/Spokane-RSA-Crisis-Services"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "languages": [],
+        "cost": "unknown",
+        "last_verified": "2026-08-12"
+      },
+      "source_artifact": "sources/us_top_100_cities/us_top_100_cities_v2_preview.json",
+      "field_actions": {
+        "hotlines": "append_unique"
+      },
+      "safety_flags": [
+        "canonical_country_has_protected_hotlines",
+        "protected_status:verified_authority",
+        "protected_status:verified_knowledge",
+        "protected_status:verified_web"
+      ],
+      "requires_human_review": true
+    },
+    {
+      "candidate_id": "unitedstates-piercecountybehavioralhealthcrisisline-appendnewhotline-ustop100citiesv2previewjson-14",
+      "country": "United States",
+      "alpha-2": "US",
+      "candidate_type": "append_new_hotline",
+      "canonical_match": {
+        "country": "United States",
+        "hotline_name": null,
+        "match_confidence": 0.0
+      },
+      "proposed_hotline": {
+        "name": "Pierce County Behavioral Health Crisis Line",
+        "organization": "Pierce Behavioral Health Administrative Services Organization",
+        "category": "mental_health",
+        "voice_numbers": [
+          "1-800-576-7764"
+        ],
+        "hours": "24/7",
+        "target": "People in Pierce County experiencing a behavioral health crisis",
+        "geography": "Pierce County, Washington",
+        "notes": "Washington State Health Care Authority lists this as the Pierce County crisis line, available 24 hours a day, seven days a week, 365 days a year.",
+        "verification_status": "verified_authority",
+        "website": "https://www.hca.wa.gov/free-or-low-cost-health-care/i-need-behavioral-health-support/mental-health-crisis-lines",
+        "sources": [
+          "https://www.hca.wa.gov/free-or-low-cost-health-care/i-need-behavioral-health-support/mental-health-crisis-lines"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "languages": [],
+        "cost": "unknown",
+        "last_verified": "2026-08-12"
+      },
+      "source_artifact": "sources/us_top_100_cities/us_top_100_cities_v2_preview.json",
+      "field_actions": {
+        "hotlines": "append_unique"
+      },
+      "safety_flags": [
+        "canonical_country_has_protected_hotlines",
+        "protected_status:verified_authority",
+        "protected_status:verified_knowledge",
+        "protected_status:verified_web"
+      ],
+      "requires_human_review": true
+    }
+  ]
+}

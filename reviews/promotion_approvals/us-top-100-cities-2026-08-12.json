@@ -1,0 +1,21 @@
+{
+  "review_date": "2026-08-12",
+  "reviewer": "Codex/manual source verification",
+  "scope": "Append-only local hotline batch from U.S. top-100 city audit",
+  "decisions": [
+    {"candidate_id":"unitedstates-emergencehealthnetwork24hourcrisishotline-appendnewhotline-ustop100citiesv2previewjson-1","state":"approved","rationale":"Live first-party source confirmed contact and local service scope on 2026-08-12."},
+    {"candidate_id":"unitedstates-albuquerquerapecrisishotline-appendnewhotline-ustop100citiesv2previewjson-2","state":"approved","rationale":"Live city-government source confirmed contact and local service scope on 2026-08-12."},
+    {"candidate_id":"unitedstates-alliancehealthbehavioralhealthcrisisline-appendnewhotline-ustop100citiesv2previewjson-3","state":"approved","rationale":"Live county-government source confirmed contact and local service scope on 2026-08-12."},
+    {"candidate_id":"unitedstates-virginiabeachemergencyservicescrisisline-appendnewhotline-ustop100citiesv2previewjson-4","state":"approved","rationale":"Live city-government source confirmed contact and local service scope on 2026-08-12."},
+    {"candidate_id":"unitedstates-copescrisishotline-appendnewhotline-ustop100citiesv2previewjson-5","state":"approved","rationale":"Live first-party source confirmed contact and Tulsa County service scope on 2026-08-12."},
+    {"candidate_id":"unitedstates-metropolitanhumanservicesdistrictcrisisline-appendnewhotline-ustop100citiesv2previewjson-6","state":"approved","rationale":"Live city-government source confirmed contact and local service scope on 2026-08-12."},
+    {"candidate_id":"unitedstates-sanjoaquincountycrisishotline-appendnewhotline-ustop100citiesv2previewjson-7","state":"approved","rationale":"Live county-provider source confirmed contact and 24-hour response on 2026-08-12."},
+    {"candidate_id":"unitedstates-ramseycountychildrensmentalhealthcrisisline-appendnewhotline-ustop100citiesv2previewjson-8","state":"approved","rationale":"Live county-government source confirmed age-specific contact and 24/7 scope on 2026-08-12."},
+    {"candidate_id":"unitedstates-ramseycountyadultmentalhealthcrisisline-appendnewhotline-ustop100citiesv2previewjson-9","state":"approved","rationale":"Live county-government source confirmed age-specific contact and 24/7 scope on 2026-08-12."},
+    {"candidate_id":"unitedstates-lancastercounty24hourmentalhealthcrisisline-appendnewhotline-ustop100citiesv2previewjson-10","state":"approved","rationale":"Live county-government source confirmed contact and 24-hour scope on 2026-08-12."},
+    {"candidate_id":"unitedstates-crisisservices24hourcrisishotline-appendnewhotline-ustop100citiesv2previewjson-11","state":"approved","rationale":"Live county-government source confirmed contact and 24-hour scope on 2026-08-12."},
+    {"candidate_id":"unitedstates-chesapeakeintegratedbehavioralhealthcarecrisisline-appendnewhotline-ustop100citiesv2previewjson-12","state":"approved","rationale":"Live city-government source confirmed contact and 24/7 scope on 2026-08-12."},
+    {"candidate_id":"unitedstates-spokaneregionalbehavioralhealthcrisishotline-appendnewhotline-ustop100citiesv2previewjson-13","state":"approved","rationale":"Live county-government source confirmed contact and regional service scope on 2026-08-12."},
+    {"candidate_id":"unitedstates-piercecountybehavioralhealthcrisisline-appendnewhotline-ustop100citiesv2previewjson-14","state":"approved","rationale":"Live state-government county directory confirmed contact and 24/7 scope on 2026-08-12."}
+  ]
+}
