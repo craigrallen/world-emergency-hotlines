@@ -91,18 +91,18 @@ The counts below describe the dataset as it stood at the end of the 2026-04-22 s
 The dataset has grown substantially since the 2026-04-22 session through additional merge/integration passes (Find A Helpline, Wikipedia crisis lines, Child Helpline International, government travel-advisory emergency numbers, and others — see `scripts/` and `sources/`). As of today, `hotlines.json` (schema v2.0) contains:
 
 - **250 countries / territories**, of which **4** genuinely have zero hotline records (uninhabited territories — see [COVERAGE.md](COVERAGE.md)).
-- **3,250 hotline records** across **30 categories**.
+- **3,241 hotline records** across **30 categories**.
 - Verification status breakdown:
-  - `cross_referenced` — 957
-  - `legacy_unverified` — 866
+  - `cross_referenced` — 951
+  - `legacy_unverified` — 863
   - `verified_authority` — 660
   - `verified_web` — 584
   - `verified_knowledge` — 183
   - `disputed` / `deprecated` — 0
-- **All 3,250 records** carry core metadata (name, category, organization, geography) and at least one contact method (phone, SMS, chat, email, or website).
-- Field coverage: `hours` 2,151 · `languages` 1,587 · `website` 1,145 · `chat_url` 201 · `email` 136.
-- **723 records** are categorised as `general_support` (the largest single category) rather than a more specific tier.
-- **2,384** records carry a `last_verified` date; **866** do not — 865 `legacy_unverified` plus one `verified_knowledge` record. (Separately, exactly one `legacy_unverified` record — the NEDA orphan noted above — does carry a `last_verified` date.)
+- **All 3,241 records** carry core metadata (name, category, organization, geography) and at least one contact method (phone, SMS, chat, email, or website).
+- Field coverage: `hours` 2,146 · `languages` 1,582 · `website` 1,141 · `chat_url` 201 · `email` 136.
+- **722 records** are categorised as `general_support` (the largest single category) rather than a more specific tier.
+- **2,378** records carry a `last_verified` date; **863** do not — 862 `legacy_unverified` plus one `verified_knowledge` record. (Separately, exactly one `legacy_unverified` record — the NEDA orphan noted above — does carry a `last_verified` date.)
 
 See [COVERAGE.md](COVERAGE.md) for the full per-status breakdown and current gaps.
 
@@ -110,9 +110,9 @@ See [COVERAGE.md](COVERAGE.md) for the full per-status breakdown and current gap
 
 These are the gaps visible in the dataset today, not a committed schedule:
 
-1. **866 `legacy_unverified` records** carry only minimal metadata and haven't been independently checked — candidates for enrichment via Befrienders Worldwide, IASP, or Find A Helpline.
-2. **957 `cross_referenced` records** come from third-party directories but haven't been checked against the provider's own site — candidates for a `scripts/web_verify.py` pass to promote to `verified_web`.
-3. **723 records sit in `general_support`** rather than a more specific category; some are genuinely generic listening lines. `scripts/recategorize.py` only touches the `legacy_unverified` subset of these (454 of the 723) — it deliberately never reclassifies `general_support` records from other verification tiers, so a wider keyword table there would not reach the remaining 269.
+1. **863 `legacy_unverified` records** carry only minimal metadata and haven't been independently checked — candidates for enrichment via Befrienders Worldwide, IASP, or Find A Helpline.
+2. **951 `cross_referenced` records** come from third-party directories but haven't been checked against the provider's own site — candidates for a `scripts/web_verify.py` pass to promote to `verified_web`.
+3. **722 records sit in `general_support`** rather than a more specific category; some are genuinely generic listening lines. Any recategorization requires source review rather than a blind keyword rewrite.
 4. **4 territories have no hotline records** (Bouvet Island, French Southern Territories, Heard Island and McDonald Islands, US Minor Outlying Islands) — all are uninhabited or research-station-only, so this is expected, not a gap to fill.
 5. **Safe supplemental promotion** — `docs/plans/2026-04-22-v2-data-expansion-roadmap.md` plus the non-canonical preview/report artifacts under `sources/` and `REPORTS/` remain the process for reviewing and promoting web-derived rows without downgrading existing rich canonical records.
 
