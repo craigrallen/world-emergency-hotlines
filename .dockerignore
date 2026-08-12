@@ -18,6 +18,7 @@ web/dist
 web/.astro
 web/.wrangler
 web/public/data
+web/public/api
 
 # Legacy Python site output
 site/public
