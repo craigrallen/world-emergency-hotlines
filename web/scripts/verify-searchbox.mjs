@@ -90,6 +90,77 @@ for (const check of aliasChecks) {
   }
 }
 
+// Locality queries: sub-national (state/county/city) hotlines are only discoverable
+// because their `geography` field is included in the search haystack — none of these
+// examples spell out the locality in their name or organization fields.
+const localityChecks = [
+  {
+    query: 'new york city mental health',
+    expectedName: 'NYC Well',
+    expectedGeography: 'New York City, New York',
+  },
+  {
+    query: 'harris county mental health',
+    expectedName: 'The Harris Center Crisis Line',
+    expectedGeography: 'Harris County, Texas',
+  },
+  {
+    query: 'oregon sexual assault',
+    expectedName: 'Call to Safety (Sexual Assault)',
+    expectedGeography: 'Oregon',
+  },
+];
+
+for (const check of localityChecks) {
+  const resultDocs = searchDocs(check.query, 10);
+  assert.ok(resultDocs.length > 0, `Expected results for locality query: ${check.query}`);
+  assert.ok(
+    resultDocs.some((doc) => doc.name === check.expectedName && doc.geography === check.expectedGeography),
+    `Expected ${check.expectedName} (${check.expectedGeography}) among matches for ${check.query}. Got: ${resultDocs.map((doc) => `${doc.name}|${doc.geography}`).join(', ')}`,
+  );
+}
+
+// Collision regression: "Georgia" is both a country and a US state, so a US state hotline
+// whose `geography` is "Georgia" can be wrongly excluded if a country-name match forces a
+// hard country filter. A locality-flavoured Georgia query must still surface the US hotline,
+// while a query that clearly means the country must still resolve to the country and must
+// not leak the US state hotline in.
+const georgiaCollisionQuery = 'georgia child abuse hotline';
+const georgiaCollisionResults = searchDocs(georgiaCollisionQuery, 10);
+assert.ok(
+  georgiaCollisionResults.length > 0,
+  `Expected results for Georgia collision query: ${georgiaCollisionQuery}`,
+);
+assert.equal(
+  georgiaCollisionResults[0]?.name,
+  'Georgia DFCS Child Abuse Reporting Hotline',
+  `Expected the Georgia (US state) DFCS hotline to rank first for "${georgiaCollisionQuery}". Got: ${georgiaCollisionResults.map((doc) => `${doc.country_name}:${doc.name}`).join(', ')}`,
+);
+assert.equal(
+  georgiaCollisionResults[0]?.country_name,
+  'United States',
+  `Expected the top match for "${georgiaCollisionQuery}" to belong to the United States, not the country Georgia.`,
+);
+
+// Other legitimate country-name matches (e.g. South Georgia and the South Sandwich
+// Islands) are fine to appear here — the safety requirement is narrower: the US-state
+// Georgia hotline must not leak into a query that clearly means the country.
+const georgiaCountryQuery = 'emergency number georgia';
+const georgiaCountryResults = searchDocs(georgiaCountryQuery, 10);
+assert.ok(
+  georgiaCountryResults.length > 0,
+  `Expected results for the clear country-Georgia query: ${georgiaCountryQuery}`,
+);
+assert.equal(
+  georgiaCountryResults[0]?.country_name,
+  'Georgia',
+  `Expected "${georgiaCountryQuery}" to resolve to the country Georgia. Got: ${georgiaCountryResults.map((doc) => `${doc.country_name}:${doc.name}`).join(', ')}`,
+);
+assert.ok(
+  georgiaCountryResults.every((doc) => !(doc.country_name === 'United States' && doc.geography === 'Georgia')),
+  `Expected "${georgiaCountryQuery}" to not leak the Georgia (US state) hotline. Got: ${georgiaCountryResults.map((doc) => `${doc.country_name}:${doc.name}`).join(', ')}`,
+);
+
 function firstCountryForCategory(category) {
   const match = docs.find((doc) => doc.category === category);
   assert.ok(match, `Expected search-index.json to contain category ${category}`);

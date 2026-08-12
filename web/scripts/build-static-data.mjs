@@ -212,6 +212,7 @@ for (const raw of canonical.countries) {
       name: h.name,
       organization: h.organization,
       category: h.category,
+      geography: h.geography,
       numbers: [...h.voice_numbers, ...h.short_codes, ...h.sms_numbers],
       languages: h.languages,
       verified: VERIFIED_STATUSES.has(h.verification_status),

@@ -7,9 +7,10 @@ import Icon from './Icon.astro';
 interface Props {
   hotline: Hotline;
   country?: string;
+  showCountry?: boolean;
 }
 
-const { hotline, country } = Astro.props;
+const { hotline, country, showCountry = true } = Astro.props;
 
 const badgeTone: Record<string, string> = {
   verified_web: 'bg-success/15 text-success border-success/40',
@@ -53,6 +54,9 @@ const hasEmail = !!hotline.email;
 const freshness = getFreshnessInfo(hotline);
 const freshnessColour = freshness.level === 'fresh' ? 'text-success' : freshness.level === 'ok' ? 'text-success/70' : freshness.level === 'stale' ? 'text-accent' : 'text-fg-muted/60';
 const sources = hotline.sources?.filter(Boolean).slice(0, 2) ?? [];
+const serviceArea = hotline.geography && country && hotline.geography.trim().toLowerCase() !== country.trim().toLowerCase()
+  ? hotline.geography
+  : null;
 ---
 
 <article class="card p-5 hover:border-accent/50">
@@ -92,7 +96,8 @@ const sources = hotline.sources?.filter(Boolean).slice(0, 2) ?? [];
     {hotline.cost && hotline.cost !== 'unknown' && (<><dt class="text-fg-muted/70">Cost</dt><dd class="text-fg capitalize">{hotline.cost.replace('_', ' ')}</dd></>)}
     {hotline.languages.length > 0 && (<><dt class="text-fg-muted/70">Languages</dt><dd class="text-fg">{hotline.languages.join(', ')}</dd></>)}
     {hotline.target && (<><dt class="text-fg-muted/70">For</dt><dd class="text-fg">{hotline.target}</dd></>)}
-    {country && (<><dt class="text-fg-muted/70">Country</dt><dd class="text-fg">{country}</dd></>)}
+    {serviceArea && (<><dt class="text-fg-muted/70">Service area</dt><dd class="text-fg">{serviceArea}</dd></>)}
+    {showCountry && country && (<><dt class="text-fg-muted/70">Country</dt><dd class="text-fg">{country}</dd></>)}
   </dl>
 
   {freshness.label && (
