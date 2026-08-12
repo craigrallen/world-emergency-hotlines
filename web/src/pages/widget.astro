@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Embeddable crisis-support widget" description="Privacy-first guided crisis-support widget integration demo.">
+  <main class="mx-auto max-w-5xl px-4 py-12 sm:px-6">
+    <h1 class="text-4xl font-semibold text-fg">Embeddable help widget</h1>
+    <p class="mt-3 max-w-3xl text-fg-muted">Add the guided finder to an owned website. Country data and resolution run in the visitor’s browser; the widget does not collect or submit their locality, need, or channel selections.</p>
+    <section class="mt-8" aria-labelledby="demo-title">
+      <h2 id="demo-title" class="mb-4 text-2xl font-semibold text-fg">Live demo</h2>
+      <world-emergency-hotlines country="us" category="mental_health" max-results="4"></world-emergency-hotlines>
+    </section>
+    <section class="mt-10 rounded-xl border border-border bg-bg-elev p-5">
+      <h2 class="text-xl font-semibold text-fg">Embed it</h2>
+      <pre class="mt-4 overflow-x-auto rounded-lg bg-bg p-4 text-xs text-fg-muted"><code>&lt;script src="https://world-emergency-hotlines-production.up.railway.app/widget/v1/hotlines-widget.js" defer&gt;&lt;/script&gt;
+&lt;world-emergency-hotlines country="us" category="mental_health"&gt;&lt;/world-emergency-hotlines&gt;</code></pre>
+      <p class="mt-4 text-sm text-fg-muted">See the <a class="text-accent hover:underline" href="https://github.com/craigrallen/world-emergency-hotlines/blob/main/docs/WIDGET.md">integration guide</a> for attributes, CSP, styling, privacy, and limitations.</p>
+    </section>
+  </main>
+  <script is:inline src="/widget/v1/hotlines-widget.js" defer></script>
+</Base>
