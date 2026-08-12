@@ -1,6 +1,6 @@
 # World Emergency & Crisis Hotlines
 
-A project to build a definitive, exhaustive reference of every country's emergency number and crisis support helpline: general emergency (police/fire/ambulance), suicide and mental-health crisis lines, child-protection lines (Childline-equivalents), domestic and sexual violence lines, LGBTQIA+ support, substance use, bereavement, and more.
+A project to build a source-backed global reference of emergency numbers and crisis support helplines: general emergency (police/fire/ambulance), suicide and mental-health crisis lines, child-protection lines (Childline-equivalents), domestic and sexual violence lines, LGBTQIA+ support, substance use, bereavement, and more. Coverage and verification depth vary by place and category; the dataset does not claim completeness or real-time service availability.
 
 ## Files in this project
 

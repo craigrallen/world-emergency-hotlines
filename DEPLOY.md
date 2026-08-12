@@ -14,6 +14,8 @@ The deployed app is the Astro site under `web/` (a static site — see `web/ARCH
 
 That's it — the site is live. Railway's health check hits `/` (configured in `railway.toml`); the deploy is marked healthy once Caddy responds there.
 
+Set Railway's `PUBLIC_SITE_URL` variable to the public HTTPS origin that should appear in canonical links, `robots.txt`, and `sitemap.xml`. When it is unset or invalid, builds use `https://world-emergency-hotlines-production.up.railway.app` rather than emitting links to an unverified custom domain. Only set a custom origin after its DNS and TLS work publicly.
+
 ## 2. Attach your own domain (optional, 5 minutes)
 
 If you want `hotlines.world` (or any domain you own) pointing at the deployment:
