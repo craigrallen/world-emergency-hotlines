@@ -72,3 +72,17 @@ All genuinely uninhabited or research-only:
 5. **4 territories have 0 hotline records** — all genuinely uninhabited or research-station-only (listed above); this is expected, not a gap to fill.
 6. **`categories_reference` (top-level metadata block in `hotlines.json`) omits `consular`**, even though 175 records currently use that category. Consumers reading category labels from `categories_reference` rather than from the records themselves will miss it.
 7. **`scripts/dedupe_check.py` currently flags 256 candidate duplicate groups, covering 611 records** (matches on normalised name, phone-number tail, or website host within a country). These are broader heuristic candidates than the canonical validator's 117 exact-contact groups. They are read-only findings, not confirmed duplicates — the same signals also match legitimately distinct services that share a contact point (e.g. one government line serving several categories), so resolving a group requires manual review against the provider's own scope/service contract. Nothing in this pipeline merges records automatically, and none should be merged without that review.
+
+## Freshness review
+
+`scripts/freshness_report.py` creates deterministic Markdown and JSON review
+queues without modifying `hotlines.json`. Callers must supply `--as-of
+YYYY-MM-DD`; records with no `last_verified` date or whose date is at least
+the configured threshold are queued, with `emergency` and `suicide_crisis`
+records first. A freshness flag is a review prompt, not evidence that a
+service is invalid, and the script never changes verification metadata.
+
+The read-only `.github/workflows/freshness-review.yml` workflow runs each
+Monday at 06:17 UTC and can also be dispatched manually. It uploads the
+Markdown/JSON reports for 30 days and verifies that the canonical dataset's
+SHA-256 is unchanged.
