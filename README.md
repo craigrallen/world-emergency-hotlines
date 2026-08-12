@@ -41,9 +41,10 @@ Every hotline record carries a `verification_status` so consumers can see how mu
 - **`verified_web`** — Number was opened on the provider's official website and matched on `last_verified`.
 - **`verified_authority`** — Matched against a government body, national health ministry, WHO, IFRC, or similar.
 - **`verified_knowledge`** — Stated from authoritative training knowledge (Claude's knowledge cutoff is end of May 2025). Stable for long-running institutions (Samaritans, 911, 112, Lifeline) but should be re-confirmed on the web before a final publication.
-- **`legacy_unverified`** — Carried over from the source dataset without independent check. Treat as a lead, not a fact.
-- **`disputed`** — Sources disagree; see the record's `notes` field.
-- **`deprecated`** — Service has closed or the number is no longer in use.
+- **`cross_referenced`** — Found in one or more third-party directories (e.g. helplines.world, Find A Helpline, Child Helpline International) but not yet checked against the provider's own site. Currently the largest single tier — see [Current state](#current-state-2026-08-12).
+- **`legacy_unverified`** — Carried over from an earlier source dataset without independent check. Treat as a lead, not a fact.
+- **`disputed`** — Sources disagree; see the record's `notes` field. No records currently carry this status.
+- **`deprecated`** — Service has closed or the number is no longer in use. No records currently carry this status.
 
 ## Session progress (2026-04-22)
 
@@ -63,7 +64,10 @@ Every hotline record carries a `verification_status` so consumers can see how mu
 - Added an idempotent applicator (`scripts/apply_enrichment.py`) that merges enrichment files into `hotlines.json` without overwriting existing rich entries.
 - Ran a spot-check audit: 20 legacy records sampled at random all looked valid; one orphan (NEDA, intentional — service closed 2023). See `REPORTS/spot_check_20260422.md`.
 
-### Current state
+### State at the end of this session (2026-04-22, historical)
+
+The counts below describe the dataset as it stood at the end of the 2026-04-22 session, immediately after this pass. They are kept for provenance; the dataset has grown substantially since then — see [Current state (2026-08-12)](#current-state-2026-08-12) below for today's numbers.
+
 - **250 countries / territories** in `hotlines.json`.
 - **1,952 hotline records**:
   - 743 fully enriched (`verified_knowledge`) with category, hours, languages, cost, target, notes, website, sources — pending web confirmation.
@@ -82,13 +86,35 @@ Every hotline record carries a `verification_status` so consumers can see how mu
   - Imported child-helpline records remain deliberately `legacy_unverified` with `provenance.source_class=ngo_directory` and `review_state=staged` until maintainers explicitly review/promo them.
   - Countries whose canonical records already have richer non-legacy hotlines may still appear in this preview only as append-only / merge-missing review input for the existing promotion-candidate pipeline, and unmatched geopolitical entities remain documented in `unmatched_countries.json` instead of being guessed into the canonical list.
 
-## Planned next sessions
+## Current state (2026-08-12)
 
-1. **Web-verification pass** — promote the 743 `verified_knowledge` records to `verified_web` by fetching each provider's official site and re-confirming hours/URLs/numbers. Estimate: 2–3 focused sessions.
-2. **Legacy enrichment** — lift the remaining 1,209 `legacy_unverified` records into rich form by cross-referencing Befrienders Worldwide, IASP, Find A Helpline. Estimate: 4–6 sessions.
-3. **Categorisation cleanup** — ~30% of legacy records landed in `general_support` because the auto-categoriser's keyword table missed them. Widening the table in `scripts/merge_all.py` and re-running `merge_all.py` would move most of these to their correct category in seconds.
-4. **Small-territory deepening** — 106 territories still have <3 hotlines. Most are small island states with limited infrastructure; add what's publishable for the rest.
-5. **Safe supplemental promotion** — use `docs/plans/2026-04-22-v2-data-expansion-roadmap.md` plus the non-canonical preview/report artifacts to selectively review and promote web-derived rows without downgrading any existing rich-format canonical records.
+The dataset has grown substantially since the 2026-04-22 session through additional merge/integration passes (Find A Helpline, Wikipedia crisis lines, Child Helpline International, government travel-advisory emergency numbers, and others — see `scripts/` and `sources/`). As of today, `hotlines.json` (schema v2.0) contains:
+
+- **250 countries / territories**, of which **4** genuinely have zero hotline records (uninhabited territories — see [COVERAGE.md](COVERAGE.md)).
+- **3,250 hotline records** across **30 categories**.
+- Verification status breakdown:
+  - `cross_referenced` — 957
+  - `legacy_unverified` — 866
+  - `verified_authority` — 660
+  - `verified_web` — 584
+  - `verified_knowledge` — 183
+  - `disputed` / `deprecated` — 0
+- **All 3,250 records** carry core metadata (name, category, organization, geography) and at least one contact method (phone, SMS, chat, email, or website).
+- Field coverage: `hours` 2,151 · `languages` 1,587 · `website` 1,145 · `chat_url` 201 · `email` 136.
+- **723 records** are categorised as `general_support` (the largest single category) rather than a more specific tier.
+- **2,384** records carry a `last_verified` date; **866** do not — 865 `legacy_unverified` plus one `verified_knowledge` record. (Separately, exactly one `legacy_unverified` record — the NEDA orphan noted above — does carry a `last_verified` date.)
+
+See [COVERAGE.md](COVERAGE.md) for the full per-status breakdown and current gaps.
+
+## Current gaps / next work
+
+These are the gaps visible in the dataset today, not a committed schedule:
+
+1. **866 `legacy_unverified` records** carry only minimal metadata and haven't been independently checked — candidates for enrichment via Befrienders Worldwide, IASP, or Find A Helpline.
+2. **957 `cross_referenced` records** come from third-party directories but haven't been checked against the provider's own site — candidates for a `scripts/web_verify.py` pass to promote to `verified_web`.
+3. **723 records sit in `general_support`** rather than a more specific category; some are genuinely generic listening lines. `scripts/recategorize.py` only touches the `legacy_unverified` subset of these (454 of the 723) — it deliberately never reclassifies `general_support` records from other verification tiers, so a wider keyword table there would not reach the remaining 269.
+4. **4 territories have no hotline records** (Bouvet Island, French Southern Territories, Heard Island and McDonald Islands, US Minor Outlying Islands) — all are uninhabited or research-station-only, so this is expected, not a gap to fill.
+5. **Safe supplemental promotion** — `docs/plans/2026-04-22-v2-data-expansion-roadmap.md` plus the non-canonical preview/report artifacts under `sources/` and `REPORTS/` remain the process for reviewing and promoting web-derived rows without downgrading existing rich canonical records.
 
 ## Safety contract docs
 

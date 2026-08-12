@@ -1,266 +1,169 @@
 # World Emergency & Hotlines — Web Architecture
 
-_Last updated: 2026-04-22_
+_Last updated: 2026-08-12. This document describes the site as actually implemented and deployed today. An earlier version of this document (2026-04-22) described a planned Cloudflare D1 / Workers AI / SSR architecture with client-side ML features; none of that was built. It is summarized in §11 below as inactive historical scaffolding — do not treat it as a current design or a committed roadmap._
 
-This document describes the Astro rewrite of the site. The existing Python pipeline
-(`scripts/`, `site/build.py`, `information.json`, `hotlines.json`) **remains the
-canonical data authority**. The Astro app under `web/` consumes that data, it does
-not replace it.
+The Python pipeline at the repo root (`scripts/`, `hotlines.json`, `information.json`) **remains the canonical data authority**. The Astro app under `web/` consumes that data at build time; it does not replace or write back to it.
 
-## 1. Goals
+## 1. What this is
 
-1. A stylish, mobile-first interactive site that treats crisis users as the priority.
-2. A zoomable, pinch-friendly world map that invites exploration and makes the dataset feel alive.
-3. Four ML features layered on top (natural-language hotline finder, auto-translate, crisis-risk triage signal, geo/context auto-detect), chosen so that privacy-sensitive inference runs in the browser wherever possible.
-4. A real database backend (Cloudflare D1) so the directory can grow beyond what a static JSON blob supports — with authenticated intake, revisions, and queryable reporting.
-5. Keep the existing Python canonicalization workflow as the promotion gate. Nothing written at the edge overrides canonical data.
+A static, mobile-first site for the `hotlines.json` directory: a searchable landing page, a category browser, one page per country, a world map, and a raw-data download page — plus a persistent "if you're in immediate danger" banner. Every route is pre-rendered at build time; there is no server runtime, database, or API in production.
 
-## 2. Stack
+## 2. Stack (as installed and used)
 
-| Concern            | Choice                                     | Why                                                                                                                |
-| ------------------ | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
-| Framework          | **Astro 4** (hybrid SSR)                   | Islands architecture — ships ~0 JS for pure content pages, hydrates interactive widgets only where needed.         |
-| Styling            | **Tailwind CSS** + CSS variables for theme | Small utility set, easy dark mode, matches Astro DX.                                                               |
-| Map                | **MapLibre GL JS** + free vector tiles     | GPU-accelerated pinch-zoom on mobile, clean vector look, country polygons from Natural Earth / countries.geo.json. |
-| Host               | **Cloudflare Pages**                       | Edge rendering for Astro, free tier generous, global POPs mean low latency for emergencies.                        |
-| Database           | **Cloudflare D1** (SQLite at the edge)     | Strongly consistent enough for our mostly-read workload; co-located with the edge function that reads it.          |
-| Server-side ML     | **Cloudflare Workers AI**                  | Used for translation fallback and the crisis-triage classifier when a client can't run transformers.js.            |
-| Client-side ML     | **@xenova/transformers** (transformers.js) | ONNX models in-browser via WebGPU/WASM — user text never leaves the device.                                        |
-| Build adapter      | `@astrojs/cloudflare`                      | Deploys SSR routes as a Cloudflare Pages function.                                                                 |
-| Existing Python    | **Unchanged**                              | `hotlines.json` stays the source of truth; `scripts/build-static-data.mjs` shards it for the web.                  |
+| Concern | What's actually running | Notes |
+| --- | --- | --- |
+| Framework | **Astro 7.2.1**, `output: 'static'` | Every route in `src/pages/` is SSG. No adapter is installed. |
+| Styling | **Tailwind CSS 3.4** via PostCSS (no `@astrojs/tailwind`) | Wired through `postcss.config.mjs`; theme variables in `src/styles/global.css`. |
+| Map | **Leaflet 1.9.4**, loaded from `unpkg.com` via a plain `<script>`/`<link>` tag in `map.astro` | Raster tiles from CARTO/OSM (`basemaps.cartocdn.com`), themed light/dark. `maplibre-gl` is listed in `package.json` and has a few leftover `.maplibregl-*` CSS overrides in `global.css`, but no source file imports it and nothing instantiates it — it is an installed-but-unused dependency, not the live map. |
+| i18n | Custom, in `src/lib/i18n.ts` | 10 locales (`en`, `es`, `fr`, `de`, `pt-BR`, `ar`, `hi`, `zh-CN`, `ja`, `ru`), including RTL handling for Arabic. Client-driven via `data-i18n*` attributes + `navigator.language`, with a `LanguageSwitcher` component. |
+| Search | Custom, in `src/lib/search.js` | No ML/embeddings. Token/phrase matching with multilingual category and country alias tables, intent detection (country/category/chat/SMS), a Levenshtein-based "did you mean" fallback, and no-results guidance — all pure JS, no network calls beyond the initial data fetch. |
+| Image processing | `sharp` (dependency) | Used by Astro's build tooling; no custom image pipeline in `src/`. |
+| Build | Node 22 | `npm run build` = `node scripts/build-static-data.mjs && astro build`. |
+| Host | **Railway**, via the repo-root `Dockerfile` | Multi-stage: `node:22-alpine` builds the site, `caddy:2.8-alpine` serves `dist/`. See `DEPLOY.md`. |
 
-Railway/Caddy remains supported as a fallback via the existing Dockerfile — the
-Astro app can also be statically exported (`output: 'static'`) if Cloudflare goes
-away. This is a migration, not a lock-in.
-
-## 3. Folder layout
+## 3. Folder layout (current)
 
 ```
 web/
-  ARCHITECTURE.md            ← this file
-  README.md                  ← dev quickstart
-  package.json
-  astro.config.mjs
+  ARCHITECTURE.md          ← this file
+  README.md                ← dev quickstart
+  package.json / package-lock.json
+  astro.config.mjs          ← output: 'static'; commented-out notes on the never-built SSR path
   tsconfig.json
-  tailwind.config.mjs
-  wrangler.toml              ← Cloudflare D1 binding, Workers AI binding
-  .gitignore
+  tailwind.config.mjs / postcss.config.mjs
+  wrangler.toml              ← inactive, see §11
+  db/                        ← inactive, see §11
   public/
     favicon.svg
-    data/                    ← generated by scripts/build-static-data.mjs
-      manifest.json          ← { countries: [{code, name, hotline_count, …}] }
-      countries/AF.json      ← one file per country
-      search-index.json      ← flattened, lightweight shape for fuzzy search
+    data/                    ← generated by scripts/build-static-data.mjs, gitignored
+      manifest.json          ← { countries: [{alpha2, name, hotline_count, verified_count, categories, centroid, ...}] }
+      categories-stats.json  ← global per-category aggregates
+      search-index.json      ← flattened lightweight docs consumed by client-side search
+      countries/{alpha2}.json ← one shard per country (lowercase code)
   src/
     env.d.ts
     layouts/
-      Base.astro             ← header, footer, emergency banner slot
+      Base.astro             ← header, footer, emergency banner slot, i18n bootstrap
     components/
-      EmergencyBanner.astro  ← ALWAYS-visible "if you're in immediate danger" strip
-      Header.astro
-      Footer.astro
+      EmergencyBanner.astro  ← always-visible "if you're in immediate danger" strip
+      Header.astro / Footer.astro
       HotlineCard.astro
-      CategoryChip.astro
-      SearchBox.astro        ← client island, stubs transformers.js
-      WorldMap.astro         ← client:only="react"? no — vanilla JS island
-      CountryPanel.astro     ← slide-in drawer used by the map
+      SearchBox.astro        ← client island: fetches /data/search-index.json, ranks in-browser
+      LanguageSwitcher.astro / ThemeToggle.astro / Icon.astro
     pages/
-      index.astro            ← landing
-      map.astro              ← full zoomable map
-      country/[code].astro   ← dynamic country page, SSG for now
-      category/[slug].astro  ← global view by hotline category
-      api/
-        hotlines/[code].json.ts  ← D1-backed endpoint (SSR)
-        search.json.ts           ← server-side search fallback
+      index.astro             ← landing
+      about.astro
+      map.astro                ← world map (Leaflet)
+      data.astro                ← dataset/download page, schema + verification-status reference
+      categories/index.astro    ← category index
+      category/[slug].astro     ← one page per category, statically generated from categories-stats.json
+      country/[code].astro      ← one page per country, statically generated from manifest.json
+      404.astro
+      robots.txt.ts / sitemap.xml.ts
     lib/
-      data.ts                ← adapter: reads D1 in prod, static JSON in dev
-      types.ts               ← TS types matching schema v2.0
-      geo.ts                 ← country centroids for map markers + ISO lookups
-      ml/
-        nl-finder.ts         ← transformers.js intent/embedding
-        translate.ts         ← @xenova/transformers NLLB-200-distilled or Workers AI fallback
-        triage.ts            ← crisis-risk classifier (see §6.3)
+      data.ts                 ← adapter: reads public/data/*.json at build time (Node fs)
+      types.ts                ← TS types matching schema v2.0, CATEGORY_META
+      geo.ts                  ← country centroids for map markers
+      search.js               ← client-side search/ranking logic (see §6)
+      i18n.ts                 ← locale dictionary + helpers
+      site.js                 ← SITE_URL constant used by sitemap/robots/canonical links
     styles/
       global.css
-  db/
-    schema.sql               ← D1 DDL
-    seed.mjs                 ← reads hotlines.json → INSERT statements
   scripts/
-    build-static-data.mjs    ← hotlines.json → public/data/*.json
+    build-static-data.mjs        ← hotlines.json + information.json → public/data/*.json
+    centroids.json                ← source data for geo.ts
+    verify-static-data.mjs        ← validates generated public/data/ integrity
+    verify-contact-links.mjs      ← validates hotline contact-link (tel:/mailto:/https:) references
+    verify-searchbox.mjs          ← checks SearchBox/search.js behavior against generated data
+    verify-discovery-routes.mjs   ← checks every country/category route is reachable and non-empty
 ```
 
-## 4. Data model (D1 schema v2.0 shape preserved)
+## 4. Data flow
 
-```sql
-CREATE TABLE countries (
-  alpha2        TEXT PRIMARY KEY,         -- "AU"
-  alpha3        TEXT NOT NULL,            -- "AUS"
-  name          TEXT NOT NULL,
-  region        TEXT,
-  subregion     TEXT,
-  general_emergency TEXT,                 -- JSON array: ["000","112"]
-  notes         TEXT,
-  centroid_lat  REAL,
-  centroid_lng  REAL,
-  last_reviewed DATE
-);
-
-CREATE TABLE hotlines (
-  id            INTEGER PRIMARY KEY AUTOINCREMENT,
-  country_code  TEXT NOT NULL REFERENCES countries(alpha2) ON DELETE CASCADE,
-  name          TEXT NOT NULL,
-  organization  TEXT,
-  category      TEXT NOT NULL,            -- enum from schema v2.0
-  voice_numbers TEXT,                     -- JSON array
-  sms_numbers   TEXT,
-  text_numbers  TEXT,
-  short_codes   TEXT,
-  chat_url      TEXT,
-  email         TEXT,
-  website       TEXT,
-  hours         TEXT,
-  languages     TEXT,                     -- JSON array
-  cost          TEXT,                     -- enum: free|local_rate|premium|unknown
-  target        TEXT,
-  geography     TEXT,
-  notes         TEXT,
-  verification_status TEXT NOT NULL,
-  last_verified DATE,
-  sources       TEXT,                     -- JSON array of URLs/citations
-  created_at    DATETIME DEFAULT CURRENT_TIMESTAMP,
-  updated_at    DATETIME DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE INDEX idx_hotlines_country  ON hotlines(country_code);
-CREATE INDEX idx_hotlines_category ON hotlines(category);
-CREATE INDEX idx_hotlines_verified ON hotlines(verification_status);
-
--- Optional (for the `intake_leads` promotion workflow from the v2 roadmap):
-CREATE TABLE intake_leads (
-  id            INTEGER PRIMARY KEY AUTOINCREMENT,
-  country_code  TEXT,
-  payload       TEXT NOT NULL,            -- full hotline JSON as supplied
-  source        TEXT NOT NULL,
-  submitted_at  DATETIME DEFAULT CURRENT_TIMESTAMP,
-  status        TEXT NOT NULL DEFAULT 'pending'   -- pending|accepted|rejected|duplicate
-);
+```
+hotlines.json (canonical, repo root)
+        │  scripts/build-static-data.mjs
+        ▼
+web/public/data/
+  manifest.json            (per-country summary + centroid + category list)
+  categories-stats.json    (per-category global aggregates)
+  search-index.json        (flattened per-hotline search docs)
+  countries/{alpha2}.json  (full per-country shard)
+        │  src/lib/data.ts (reads these via Node fs at build time)
+        ▼
+astro build → web/dist/  (286 static HTML pages for the current dataset:
+                           1 landing + 1 map + 1 data + 1 categories index
+                           + 1 per category + 1 per country + 404, etc.)
 ```
 
-`voice_numbers` etc. are stored as JSON arrays (TEXT) because D1 is SQLite; we
-parse them at read-time. The data adapter always returns camelCase JS objects
-matching `src/lib/types.ts`.
+`information.json` is also copied into the Docker build context and used by `build-static-data.mjs` as a legacy-format fallback for any country not fully represented in `hotlines.json`'s schema-v2 shape. There is no read/write path back to the canonical dataset from the web app — `web/` is a pure consumer.
 
-## 5. Rendering strategy
+## 5. Routes (all static, no SSR)
 
-| Route                   | Mode              | Notes                                                           |
-| ----------------------- | ----------------- | --------------------------------------------------------------- |
-| `/`                     | SSG               | Pre-rendered at build. Search + map teaser hydrate client-side. |
-| `/map`                  | SSG               | Map JS loads on-demand (dynamic import).                        |
-| `/country/[code]`       | SSG (prerendered) | One page per country, rebuild on data push.                     |
-| `/category/[slug]`      | SSG               | One page per category.                                          |
-| `/api/hotlines/[code]`  | SSR (edge fn)     | For live queries / future intake forms.                         |
-| `/api/search.json`      | SSR               | Server fallback when client has no WebGPU/WASM.                 |
+| Route | Source | Notes |
+| --- | --- | --- |
+| `/` | `src/pages/index.astro` | Landing page: emergency banner, search box, category/country highlights. |
+| `/about` | `src/pages/about.astro` | Static content. |
+| `/categories` | `src/pages/categories/index.astro` | Index of all 30 categories from `categories-stats.json`. |
+| `/category/[slug]` | `src/pages/category/[slug].astro` | One prerendered page per category (`getStaticPaths` from `categories-stats.json`), countries sorted verified-first. |
+| `/country/[code]` | `src/pages/country/[code].astro` | One prerendered page per country (`getStaticPaths` from `manifest.json`), grouped by category, best-available-help surfaced first. |
+| `/map` | `src/pages/map.astro` | World map (see §7). |
+| `/data` | `src/pages/data.astro` | Dataset download page: links to the JSON files above, field/status documentation, link back to the GitHub repo. |
+| `/404` | `src/pages/404.astro` | Custom not-found page; also Caddy's `handle_errors` target in production. |
+| `/robots.txt`, `/sitemap.xml` | `src/pages/robots.txt.ts`, `sitemap.xml.ts` | Generated from `manifest.json` / `categories-stats.json` at build time. |
 
-SSG routes fetch from `public/data/` at build time. SSR routes read D1.
+There are no `/api/*` routes and no database-backed endpoints in the current build.
 
-## 6. ML features — design notes
+## 6. Client-side search
 
-### 6.1 Natural-language hotline finder (client-side)
+`SearchBox.astro` lazily fetches `/data/search-index.json` on first interaction and keeps it in memory. All ranking happens in the browser via `src/lib/search.js`:
 
-- Model: `Xenova/all-MiniLM-L6-v2` (80MB, ONNX, runs in WASM/WebGPU).
-- Embed every hotline name + notes + category description at build time; ship the
-  embedding matrix as `public/data/embeddings.f32.bin` (~250 countries × ~5
-  hotlines × 384 dims × 4 bytes ≈ **2 MB**).
-- On query, embed user input in-browser, cosine-rank against matrix, show top 20.
-- All inference happens after the user presses "search" (no keystroke exfil).
+- Text is normalized (NFKD, script-aware mark stripping so Latin accents are stripped but Japanese/Devanagari/Thai marks are preserved) and tokenized, dropping stopwords.
+- Multilingual alias tables (`CATEGORY_ALIASES`, `COUNTRY_ALIASES`) let a query like "urgence" or "急救" resolve to `emergency`, and "Brasil" resolve to Brazil, across dozens of languages.
+- `scoreDoc` ranks matches by field (country name > hotline name > category > organization), boosts detected country/category intent, and boosts verified records slightly.
+- A geography-collision guard (`isAmbiguousCountryMatch`) prevents a country-name query from hard-filtering out a same-named sub-national `geography` value in a different country (e.g. "Georgia" the country vs. "Georgia" the US state).
+- On zero results, `buildNoResultsGuidance` offers a Levenshtein-distance "did you mean" suggestion, or relaxes chat/SMS/verified-only filters and reports how many alternatives that unlocks.
+- Filter chips (`verified`, `chat`, `sms`, and four category shortcuts) combine with free text; submitting with a single resolvable intent navigates straight to `/country/[code]` or `/category/[slug]`.
 
-### 6.2 Auto-translate hotline info
+`scripts/verify-searchbox.mjs` exercises this logic against the generated data as part of `npm run verify:all` / CI.
 
-- Primary: transformers.js with `Xenova/opus-mt-en-<lang>` or NLLB-200 distilled
-  (lazy-loaded, small).
-- Fallback: Workers AI (`@cf/meta/m2m100-1.2b`) when the browser can't run ONNX
-  locally.
-- Cache translated strings in `localStorage` keyed by `(hotline_id, lang)` so
-  we don't re-infer.
+## 7. Map
 
-### 6.3 Crisis-risk triage signal — **safety-first design**
+`map.astro` renders a Leaflet map (loaded from `unpkg.com`, themed via CARTO light/dark raster tiles) sized to fill the viewport below the header. On load it fetches `/data/manifest.json` and drops one circle marker per country at its centroid (`src/lib/geo.ts` / `scripts/centroids.json`), sized by hotline count and colored by coverage: accent color for countries with verified hotlines, muted purple for legacy-only, dark slate for none. Clicking a marker fetches `/data/countries/{alpha2}.json` and renders it into a slide-in right-hand panel (tel: links, hours, website) without a page navigation. Theme changes re-apply the basemap tile URL live.
 
-**Design rule (non-negotiable):** this classifier can only *add* a prominent
-emergency banner. It must never suppress, reorder, or gate legitimate hotline
-results.
+## 8. Internationalization
 
-- Model: a small text classifier (`cardiffnlp/twitter-roberta-base-emotion` or a
-  purpose-built fine-tune) that flags acute distress signals in free-text input.
-- If the signal fires, the UI pins an "If you're in immediate danger, call X now"
-  banner to the top with the user's geo-detected emergency number and
-  appropriate crisis line — *in addition to* normal search results, never
-  instead of them.
-- The full hotline directory is always reachable regardless of classifier output.
-- We deliberately avoid "you seem fine, here's general info" paths. False
-  negatives are the failure mode we optimize for.
-- Never store or log the user's input.
+`src/lib/i18n.ts` defines 10 locales and a translation dictionary; `data-i18n`, `data-i18n-placeholder`, `data-i18n-aria-label`, and `data-i18n-template` attributes across components are rewritten client-side based on the detected/selected locale, with `LanguageSwitcher.astro` letting users override it. `EmergencyBanner.astro` additionally maps `navigator.language` to a best-guess local emergency number (a small static lookup table, e.g. `en-US` → 911, `en-GB` → 999) independent of the i18n locale, defaulting to "112 / 911" when there's no match.
 
-### 6.4 Geo + context auto-detect
+## 9. Security and caching
 
-- Use `navigator.language` for default UI + hotline language.
-- Use Cloudflare's `request.cf.country` header (set automatically at the edge) to
-  pre-select the user's country without asking.
-- Show a dismissible "not in X? change country" chip.
-- No ML strictly required, but the detected context feeds §6.1 (we bias the
-  ranker toward the user's country unless they type a location).
+Headers are set by the `Caddyfile` at the repo root (loaded by the production container, not by `web/`):
 
-## 7. Map design
+- `Strict-Transport-Security`, `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy` (geolocation/microphone/camera/payment all denied).
+- `Content-Security-Policy` scoped to `'self'` plus the specific third parties the app actually loads: `unpkg.com` for the Leaflet script/CSS, `*.basemaps.cartocdn.com` and `*.tile.openstreetmap.org` for map tiles, `fonts.googleapis.com`/`fonts.gstatic.com` for web fonts. `script-src` includes `'unsafe-eval'`/`'wasm-unsafe-eval'` (headroom for Astro's client hydration, not required by any ML runtime — there isn't one).
+- Cache-Control is asset-type-specific: immutable long-cache for hashed `_astro/*` bundles, `max-age=300` with `stale-while-revalidate` for `/data/*` shards (so a redeploy's fresher data shows up quickly), short-lived + SWR for HTML.
+- Astro's own build makes every page static HTML, so there's no server-side attack surface beyond what Caddy serves.
 
-- MapLibre GL JS with a minimalist style (`basemaps.cartocdn.com` free vector
-  tiles, we can swap to our own tiles later).
-- Country polygons from Natural Earth 110m via [world-atlas](https://github.com/topojson/world-atlas),
-  loaded once, colored by data coverage:
-  - Deep indigo: verified hotlines present
-  - Lighter indigo: legacy-unverified data only
-  - Slate: no data yet (tap → "help us add this country" CTA)
-- Tap/click opens a slide-in right drawer with the country's hotlines.
-- Pinch-zoom, momentum pan, double-tap zoom — all provided by MapLibre.
-- Keyboard: `+`/`-` zoom, arrows pan, `tab` cycles through countries with data
-  (accessibility).
+## 10. Deployment
 
-## 8. Theming
-
-- Single CSS file of variables: `--bg`, `--bg-elev`, `--fg`, `--fg-muted`,
-  `--accent`, `--accent-contrast`, `--danger`, `--success`.
-- Palette: deep-night bg (`#0b1020`), warm accent (`#f0b86e`), danger red for the
-  emergency banner. High contrast; large tap targets on mobile.
-- Respects `prefers-color-scheme` and `prefers-reduced-motion`.
-
-## 9. Deployment
+`data-ci.yml` (validates `hotlines.json`, runs the Python test suite) and `web-ci.yml` (`npm ci`, `npm run build`, `npm run verify:data`/`verify:search`/`verify:discovery`, `npm run typecheck`) are both required GitHub status checks on `main`, so a change can only merge once they pass. Once a commit lands on `main`, Railway (already watching the GitHub repo) is triggered independently by that push and builds the root `Dockerfile` — Node 22 Alpine build stage running `npm run build` inside `web/`, then a `caddy:2.8-alpine` stage serving the resulting `web/dist/` — and deploys it. There's no repo-config link that makes Railway's build wait on Actions; they just both react to the same `main` update. `railway.toml` pins the Dockerfile builder and a `/` health check. See `DEPLOY.md` for the operational walkthrough.
 
 ```bash
-# From web/
+# Local build, matching CI and the Docker image:
+cd web
 npm install
-npm run build          # static export + Pages functions bundle
-wrangler d1 create world-hotlines
-wrangler d1 execute world-hotlines --file=./db/schema.sql
-node db/seed.mjs | wrangler d1 execute world-hotlines --file=-  # pipe seed
-wrangler pages deploy dist/
+npm run build        # data:build (shards) + astro build
+npm run verify:all
+npm run typecheck
 ```
 
-A GitHub Action can run `build` + `wrangler pages deploy` on pushes to `main`.
+## 11. Inactive historical scaffolding (not part of the current build)
 
-## 10. Phased roadmap
+The following exist in the repo but are **not wired into the running site**. They were written as part of an earlier Cloudflare D1/Workers AI/SSR design that was never implemented; keep them in mind only as historical context, not as a current architecture or a committed roadmap:
 
-| Phase | Scope                                                                                        | Status     |
-| ----- | -------------------------------------------------------------------------------------------- | ---------- |
-| 0     | Architecture doc (this file)                                                                 | ✅ 2026-04-22 |
-| 1     | Scaffold `web/`, landing + map vertical slice reading static JSON (no D1 yet)                | 🟡 in progress |
-| 2     | D1 schema + seed from `hotlines.json`; swap static adapter for D1 on SSR routes              | planned    |
-| 3     | NL hotline finder (client-side embeddings)                                                   | planned    |
-| 4     | Translation pipeline + language picker                                                       | planned    |
-| 5     | Crisis-triage classifier (§6.3) behind a feature flag until safety review done               | planned    |
-| 6     | Intake form → `intake_leads` table with the Python pipeline as the promotion gate            | planned    |
-| 7     | PWA / offline cache of the directory (emergency lookups work offline)                        | stretch    |
+- **`web/wrangler.toml`, `web/db/schema.sql`, `web/db/seed.mjs`** — a D1 (SQLite-at-the-edge) schema and seed script mirroring the schema-v2 shape. Neither `wrangler` nor `@astrojs/cloudflare` is a dependency of `web/`; nothing in `src/` reads from D1. `src/lib/data.ts` reads only the static JSON shards in `public/data/`.
+- **`astro.config.mjs`'s commented-out `hybrid`/`cloudflare` adapter notes** — `output` is `'static'` today; the comment records what an SSR phase *would* have needed, not something in progress.
+- **Client/server ML features** (natural-language search via `transformers.js`, auto-translate, a crisis-risk triage classifier) described in the original design doc — none of this code exists in `src/`. The live search (§6) and i18n (§8) are both plain deterministic JS with no model inference.
+- **MapLibre GL JS** — installed as a dependency and referenced by a few dead CSS rules, but the live map (§7) is Leaflet loaded from a CDN.
 
-## 11. Open questions to resolve before Phase 2
-
-1. Is `world-hotlines` the right D1 DB name, or should it match an existing account convention?
-2. Do we want a public GitHub repo mirror for the Astro site, or keep it with the data repo? Deploy credentials and branching strategy depend on this.
-3. Translation coverage — do we ship translations for the top N UI languages only, or lazy-load any requested?
-4. Crisis-triage model choice — small general-purpose classifier first, or wait until we can fine-tune on a vetted dataset?
+If any of this is revived, treat it as new work to scope and build, not as a resume-in-progress feature.
