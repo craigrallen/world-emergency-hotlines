@@ -33,7 +33,7 @@ The goal is to capture not just *which number to call* but everything a person i
 
 ## Hotline record
 
-Every field except `name` and `category` is optional. Missing data is represented by an empty array or `null`, never omitted — this keeps the schema predictable for consumers.
+Every field except `name`, `category`, and `geography` is optional. Missing data is represented by an empty array or `null`, never omitted — this keeps the schema predictable for consumers. `geography` is required because, together with `country` and `category`, it describes a service's *scope* — not a unique identity key. Multiple distinct services may legitimately share the same country/geography/category; see [docs/service-record-contract.md](docs/service-record-contract.md) for full geography and record-identity semantics.
 
 ```jsonc
 {
@@ -54,7 +54,9 @@ Every field except `name` and `category` is optional. Missing data is represente
   "languages": ["English", "Welsh"],         // Languages supported on the line
   "cost": "free",                            // One of: free | free_from_mobile | local_rate | standard_rate | paid
   "target": "anyone in emotional distress",  // Who the service is for
-  "geography": "UK and Ireland",             // If not country-wide
+  "geography": "UK and Ireland",             // Always required; the published service area.
+                                              // Equal to the country name means country-wide.
+                                              // See docs/service-record-contract.md.
   "notes": "Non-religious, confidential...", // Anything else worth knowing
 
   "verification_status": "verified_web",     // See below

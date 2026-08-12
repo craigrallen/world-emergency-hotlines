@@ -73,6 +73,23 @@ def duplicate_dataset():
     }
 
 
+def cross_category_duplicate_dataset():
+    dataset = duplicate_dataset()
+    dataset["countries"][0]["hotlines"][1]["category"] = "suicide_crisis"
+    dataset["categories_reference"]["suicide_crisis"] = "Suicide prevention"
+    return dataset
+
+
+def mixed_category_duplicate_dataset():
+    dataset = cross_category_duplicate_dataset()
+    third = dict(dataset["countries"][0]["hotlines"][0])
+    third["name"] = "Test Line A Second Mental Health Record"
+    third["organization"] = third["name"]
+    third["sources"] = ["https://example.test/third"]
+    dataset["countries"][0]["hotlines"].append(third)
+    return dataset
+
+
 class DedupeCheckTests(unittest.TestCase):
     def write_json(self, path: Path, payload: dict) -> None:
         path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
@@ -213,6 +230,98 @@ class DedupeCheckTests(unittest.TestCase):
             self.assertIn(".md", result.stderr)
             self.assertFalse(report_path.exists())
             self.assertEqual(before, input_path.read_text(encoding="utf-8"))
+
+    def test_same_category_group_is_labeled_a_duplicate_candidate(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            input_path = Path(tmpdir) / "hotlines.json"
+            self.write_json(input_path, duplicate_dataset())
+            before = input_path.read_text(encoding="utf-8")
+
+            result = self.run_command("--input", str(input_path))
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("1 same-category duplicate candidate(s)", result.stdout)
+            self.assertIn("0 cross-category shared-contact candidate(s)", result.stdout)
+            self.assertIn("0 mixed scope-and-duplicate candidate(s)", result.stdout)
+            self.assertEqual(before, input_path.read_text(encoding="utf-8"))
+
+    def test_cross_category_group_is_labeled_shared_contact_not_duplicate(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            input_path = Path(tmpdir) / "hotlines.json"
+            self.write_json(input_path, cross_category_duplicate_dataset())
+            before = input_path.read_text(encoding="utf-8")
+
+            result = self.run_command("--input", str(input_path))
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("0 same-category duplicate candidate(s)", result.stdout)
+            self.assertIn("1 cross-category shared-contact candidate(s)", result.stdout)
+            self.assertIn("0 mixed scope-and-duplicate candidate(s)", result.stdout)
+            self.assertEqual(before, input_path.read_text(encoding="utf-8"))
+
+    def test_mixed_group_repeated_category_not_hidden_by_cross_category_row(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            input_path = Path(tmpdir) / "hotlines.json"
+            self.write_json(input_path, mixed_category_duplicate_dataset())
+            before = input_path.read_text(encoding="utf-8")
+
+            result = self.run_command("--input", str(input_path))
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("0 same-category duplicate candidate(s)", result.stdout)
+            self.assertIn("0 cross-category shared-contact candidate(s)", result.stdout)
+            self.assertIn("1 mixed scope-and-duplicate candidate(s)", result.stdout)
+            self.assertEqual(before, input_path.read_text(encoding="utf-8"))
+
+    def test_cross_geography_group_is_flagged_orthogonally(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            input_path = Path(tmpdir) / "hotlines.json"
+            dataset = duplicate_dataset()
+            dataset["countries"][0]["hotlines"][1]["geography"] = "Testland North"
+            self.write_json(input_path, dataset)
+            before = input_path.read_text(encoding="utf-8")
+
+            result = self.run_command("--input", str(input_path))
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("1 same-category duplicate candidate(s)", result.stdout)
+            self.assertIn("1 cross-geography candidate(s)", result.stdout)
+            self.assertIn("orthogonal count, not a distinctness signal", result.stdout)
+            self.assertEqual(before, input_path.read_text(encoding="utf-8"))
+
+    def test_report_body_labels_same_category_group_as_duplicate_candidate(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            input_path = tmp / "hotlines.json"
+            report_path = tmp / "report.md"
+            self.write_json(input_path, duplicate_dataset())
+
+            result = self.run_command(
+                "--input", str(input_path),
+                "--report", str(report_path),
+            )
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            report_text = report_path.read_text(encoding="utf-8")
+            self.assertIn("same-category duplicate candidate", report_text)
+            self.assertNotIn("shared-contact, distinct service scopes", report_text)
+
+    def test_report_body_labels_cross_category_group_as_shared_contact_candidate(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            input_path = tmp / "hotlines.json"
+            report_path = tmp / "report.md"
+            self.write_json(input_path, cross_category_duplicate_dataset())
+
+            result = self.run_command(
+                "--input", str(input_path),
+                "--report", str(report_path),
+            )
+
+            self.assertEqual(result.returncode, 0, result.stderr)
+            report_text = report_path.read_text(encoding="utf-8")
+            self.assertIn("cross-category shared-contact candidate — requires review", report_text)
+            self.assertNotIn("same-category duplicate candidate", report_text)
 
     def test_report_valid_separate_md_path_still_works_and_input_byte_identical(self):
         with tempfile.TemporaryDirectory() as tmpdir:
