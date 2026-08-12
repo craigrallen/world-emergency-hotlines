@@ -1,0 +1,4050 @@
+[
+  {
+    "country": "United States",
+    "alpha-2": "US",
+    "alpha-3": "USA",
+    "region": "Americas",
+    "subregion": "Northern America",
+    "hotlines": [
+      {
+        "name": "Alabama Adult Abuse Hotline",
+        "organization": "Alabama Department of Human Resources, Adult Protective Services",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-800-458-7214"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": "aps@dhr.alabama.gov",
+        "website": "https://dhr.alabama.gov/adult-protective-services/",
+        "hours": "24/7 (per state elder abuse toolkit); staffed primarily during business hours",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of an adult in Alabama",
+        "geography": "Alabama",
+        "notes": "Reports may be made anonymously.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dhr.alabama.gov/adult-protective-services/"
+        ]
+      },
+      {
+        "name": "ACADV Domestic Violence Crisis Hotline",
+        "organization": "Alabama Coalition Against Domestic Violence (ACADV)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-800-650-6522"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://acadv.org/get-help/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "survivors of domestic violence in Alabama",
+        "geography": "Alabama",
+        "notes": "",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://acadv.org/get-help/"
+        ]
+      },
+      {
+        "name": "Alaska Report Child Abuse Hotline",
+        "organization": "Alaska Office of Children's Services",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-800-478-4444"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": "reportchildabuse@alaska.gov",
+        "website": "https://reportchildabuse.alaska.gov/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Alaska",
+        "geography": "Alaska",
+        "notes": "Direct .gov page (dfcs.alaska.gov) blocked automated fetch; number corroborated by Alaska Children's Trust and 2017 Anchorage Daily News coverage of the hotline's launch.",
+        "verification_status": "cross_referenced",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.alaskachildrenstrust.org/report-child-abuse",
+          "https://www.adn.com/alaska-news/2017/08/23/with-child-abuse-reports-rising-in-alaska-office-of-childrens-services-launches-new-statewide-hotline/"
+        ]
+      },
+      {
+        "name": "Alaska Adult Protective Services Report of Harm",
+        "organization": "State of Alaska Department of Health, Adult Protective Services",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-800-478-9996"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": "doh.aps@alaska.gov",
+        "website": "https://health.alaska.gov/en/services/aps-report-harm/",
+        "hours": "Monday-Friday 8am-5pm (toll-free in-state); local line 907-269-3666",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected harm to a vulnerable adult in Alaska",
+        "geography": "Alaska",
+        "notes": "Official .gov page returned 403 on automated fetch; number corroborated by secondary directories.",
+        "verification_status": "cross_referenced",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://health.alaska.gov/en/services/aps-report-harm/",
+          "https://nursinghomecomplaint.org/adult-protective-services/how-to-contact-adult-protective-services-in-alaska/"
+        ]
+      },
+      {
+        "name": "Arizona DCS Child Abuse Hotline",
+        "organization": "Arizona Department of Child Safety",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-888-767-2445"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://dcs.az.gov/report-child-abuse",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Arizona",
+        "geography": "Arizona",
+        "notes": "Also known as 1-888-SOS-CHILD. TDD: 602-530-1831.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dcs.az.gov/report-child-abuse"
+        ]
+      },
+      {
+        "name": "Arizona Adult Protective Services Hotline",
+        "organization": "Arizona Department of Economic Security (DES)",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-877-767-2385"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://des.az.gov/services/basic-needs/adult-protective-services/report-adult-abuse",
+        "hours": "Mon-Fri 7am-7pm; weekends/holidays 10am-6pm; online reporting available 24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of a vulnerable adult in Arizona",
+        "geography": "Arizona",
+        "notes": "Also known as 1-877-SOS-ADULT. TTY/TDD: 877-815-8390.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://des.az.gov/services/basic-needs/adult-protective-services/report-adult-abuse"
+        ]
+      },
+      {
+        "name": "Arkansas Child Abuse Hotline",
+        "organization": "Arkansas State Police Crimes Against Children Division / DHS Division of Children and Family Services",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-800-482-5964"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://humanservices.arkansas.gov/divisions-shared-services/children-family-services/how-to-report-child-abuse-neglect/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Arkansas",
+        "geography": "Arkansas",
+        "notes": "TDD: 1-800-843-6349. Also promoted as (844) SAVE-A-CHILD.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://humanservices.arkansas.gov/hotlines/"
+        ]
+      },
+      {
+        "name": "Arkansas Adult Maltreatment Hotline",
+        "organization": "Arkansas Department of Human Services, Adult Protective Services",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-800-482-8049"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://humanservices.arkansas.gov/divisions-shared-services/aging-adult-behavioral-health-services/adult-protective-services/adult-maltreatment/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of an adult in Arkansas",
+        "geography": "Arkansas",
+        "notes": "",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://humanservices.arkansas.gov/hotlines/"
+        ]
+      },
+      {
+        "name": "California Adult Protective Services Statewide Line",
+        "organization": "California Department of Social Services (CDSS)",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-833-401-0832"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.cdss.ca.gov/adult-protective-services",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of an elder (60+) or dependent adult (18-59 with disabilities) in California",
+        "geography": "California",
+        "notes": "Caller enters a 5-digit zip code and is routed to the Adult Protective Services agency for that county.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.cdss.ca.gov/adult-protective-services"
+        ]
+      },
+      {
+        "name": "Colorado Child Abuse and Neglect Hotline (CO4Kids)",
+        "organization": "Colorado Department of Human Services",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-844-264-5437"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://co4kids.org/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Colorado",
+        "geography": "Colorado",
+        "notes": "Also known as 1-844-CO-4-KIDS. Routes calls to the appropriate county or tribal child welfare agency.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://co4kids.org/"
+        ]
+      },
+      {
+        "name": "Colorado Adult Protective Services Statewide Hotline",
+        "organization": "Colorado Department of Human Services",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-844-264-5437"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://cdhs.colorado.gov/aps",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "anyone reporting mistreatment or self-neglect of an at-risk adult in Colorado",
+        "geography": "Colorado",
+        "notes": "Colorado appears to use the same centralized statewide intake line (1-844-264-5437) for both child and at-risk-adult reports, per multiple county government pages; direct fetch of cdhs.colorado.gov was blocked (403).",
+        "verification_status": "cross_referenced",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.broomfield.org/2976/Adult-Protection",
+          "https://www.co.grand.co.us/270/Adult-Protection"
+        ]
+      },
+      {
+        "name": "Connecticut Child Abuse and Neglect Careline",
+        "organization": "Connecticut Department of Children and Families (DCF)",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-800-842-2288"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://portal.ct.gov/dcf/home/1-dcf/reporting-child-abuse-and-neglect",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Connecticut",
+        "geography": "Connecticut",
+        "notes": "TDD: 1-800-624-5518.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://portal.ct.gov/dcf/home/1-dcf/reporting-child-abuse-and-neglect"
+        ]
+      },
+      {
+        "name": "Connecticut Protective Services for the Elderly Intake Line",
+        "organization": "Connecticut Department of Social Services",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-888-385-4225",
+          "1-800-203-1234"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://portal.ct.gov/dss/social-work-services/social-work-services/protective-services-for-the-elderly",
+        "hours": "Mon-Fri 8:00am-4:30pm; after hours/weekends/holidays route through 2-1-1 Infoline",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, exploitation, or abandonment of an elderly person in Connecticut",
+        "geography": "Connecticut",
+        "notes": "1-888-385-4225 is the in-state toll-free line; 1-800-203-1234 is the out-of-state toll-free line. Not staffed 24/7 directly, but after-hours reports route through 211.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://portal.ct.gov/dss/social-work-services/social-work-services/protective-services-for-the-elderly"
+        ]
+      },
+      {
+        "name": "CT Safe Connect",
+        "organization": "Connecticut Coalition Against Domestic Violence (CCADV)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-888-774-2900"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [
+          "1-888-774-2900"
+        ],
+        "short_codes": [],
+        "chat_url": "https://www.ctsafeconnect.org/",
+        "email": null,
+        "website": "https://www.ctsafeconnect.org/",
+        "hours": "24/7/365",
+        "languages": [
+          "English",
+          "Spanish",
+          "multiple languages via advocates"
+        ],
+        "cost": "free",
+        "target": "survivors of domestic violence and their supporters in Connecticut",
+        "geography": "Connecticut",
+        "notes": "Available by phone, text, chat, and email.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.ctsafeconnect.org/"
+        ]
+      },
+      {
+        "name": "Connecticut Alliance to End Sexual Violence Statewide Hotline",
+        "organization": "Connecticut Alliance to End Sexual Violence",
+        "category": "sexual_violence",
+        "voice_numbers": [
+          "1-888-999-5545",
+          "1-888-568-8332"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://endsexualviolencect.org/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "survivors of sexual violence, sexual assault, sexual abuse, or sexual harassment in Connecticut",
+        "geography": "Connecticut",
+        "notes": "1-888-999-5545 is the English line; 1-888-568-8332 is the Spanish (Español) line.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://endsexualviolencect.org/"
+        ]
+      },
+      {
+        "name": "Delaware Child Abuse and Neglect Report Line",
+        "organization": "Delaware Division of Family Services (DSCYF)",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-800-292-9582"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://kids.delaware.gov/family-services/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Delaware",
+        "geography": "Delaware",
+        "notes": "Online reporting also available at iseethesigns.delaware.gov.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://kids.delaware.gov/family-services/"
+        ]
+      },
+      {
+        "name": "Delaware Adult Protective Services Hotline",
+        "organization": "Delaware Division of Services for Aging and Adults with Physical Disabilities (DSAAPD)",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-888-277-4302"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://dhss.delaware.gov/dsaapd/aps/",
+        "hours": null,
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of an older adult or adult with a disability in Delaware",
+        "geography": "Delaware",
+        "notes": "Also known as 1-888-APS-4302. Launched November 2022. Online reporting form also available.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://news.delaware.gov/tag/adult-protective-services"
+        ]
+      },
+      {
+        "name": "DC Child Abuse and Neglect Hotline",
+        "organization": "DC Child and Family Services Agency (CFSA)",
+        "category": "child_protection",
+        "voice_numbers": [
+          "202-671-7233"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://cfsa.dc.gov/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "unknown",
+        "target": "anyone reporting suspected child abuse or neglect in the District of Columbia",
+        "geography": "District of Columbia",
+        "notes": "Also known as 202-671-SAFE. Not toll-free (local DC number).",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://cfsa.dc.gov/"
+        ]
+      },
+      {
+        "name": "DC Adult Protective Services Hotline",
+        "organization": "DC Department of Aging and Community Living (DACL)",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "202-541-3950"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://dacl.dc.gov/",
+        "hours": null,
+        "languages": [
+          "English"
+        ],
+        "cost": "unknown",
+        "target": "anyone reporting suspected mistreatment, exploitation, or abuse of a vulnerable adult in the District of Columbia",
+        "geography": "District of Columbia",
+        "notes": "Not toll-free (local DC number).",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dacl.dc.gov/"
+        ]
+      },
+      {
+        "name": "Florida Abuse Hotline",
+        "organization": "Florida Department of Children and Families (DCF)",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-800-962-2873"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": "https://reportabuse.myflfamilies.com",
+        "email": null,
+        "website": "https://www.myflfamilies.com/services/abuse/abuse-hotline",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse, neglect, or abandonment in Florida",
+        "geography": "Florida",
+        "notes": "Also known as 1-800-96-ABUSE. TTY: 1-800-955-8771. Fax: 1-800-914-0004.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.myflfamilies.com/services/abuse/abuse-hotline",
+          "https://www.myflfamilies.com/services/abuse-hotline/about"
+        ]
+      },
+      {
+        "name": "Florida Abuse Hotline (Adult Protective Services line)",
+        "organization": "Florida Department of Children and Families (DCF)",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-800-962-2873"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": "https://reportabuse.myflfamilies.com",
+        "email": null,
+        "website": "https://www.myflfamilies.com/services/abuse/adult-protective-services/how-report-adult-abuse",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of a vulnerable adult in Florida",
+        "geography": "Florida",
+        "notes": "Same central number as the child abuse hotline; press 2 to report vulnerable adult abuse. TTY: 1-800-955-8771.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.myflfamilies.com/services/abuse/adult-protective-services/how-report-adult-abuse"
+        ]
+      },
+      {
+        "name": "Florida Domestic Violence Hotline",
+        "organization": "Florida Coalition Against Domestic Violence (FCADV)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-800-500-1119"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.fcadv.org/resources",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "domestic violence victims/survivors in Florida",
+        "geography": "Florida",
+        "notes": "TDD/TTY: 1-800-621-4202.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.fcadv.org/resources"
+        ]
+      },
+      {
+        "name": "Florida Council Against Sexual Violence Statewide Helpline",
+        "organization": "Florida Council Against Sexual Violence (FCASV)",
+        "category": "sexual_violence",
+        "voice_numbers": [
+          "1-888-956-7273"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.fcasv.org/find-your-local-center",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "sexual assault victims/survivors in Florida seeking connection to local rape crisis centers",
+        "geography": "Florida",
+        "notes": "Connects callers to certified rape crisis centers statewide.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.floridahealth.gov/individual-family-health/injury-prevention-wellness/sexual-violence-prevention/"
+        ]
+      },
+      {
+        "name": "Georgia DFCS Child Abuse Reporting Hotline",
+        "organization": "Georgia Department of Human Services, Division of Family & Children Services (DFCS)",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-855-422-4453"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": "https://cps.dhs.ga.gov/Main/Default.aspx",
+        "email": null,
+        "website": "https://dfcs.georgia.gov/how-report-child-abuse",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Georgia",
+        "geography": "Georgia",
+        "notes": "Also known as 1-855-GACHILD.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dfcs.georgia.gov/how-report-child-abuse"
+        ]
+      },
+      {
+        "name": "Georgia Adult Protective Services Reporting Line",
+        "organization": "Georgia Department of Human Services, Division of Aging Services",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-866-552-4464"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": "https://hssgaprod.wellsky.com/assessments/?WebIntake=97267103-7A5E-4B72-B44F-DD4264B727D8",
+        "email": null,
+        "website": "https://georgia.gov/report-elder-abuse",
+        "hours": "Monday-Friday, 8am-5pm; select option 3 to report abuse, neglect, or exploitation",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of a senior or adult with disabilities in Georgia",
+        "geography": "Georgia",
+        "notes": "Georgia's Aging and Disability Network line; not staffed 24/7. Call 911 for emergencies.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://georgia.gov/report-elder-abuse",
+          "https://aging.georgia.gov/report-elder-abuse-neglect-or-exploitation/adult-protective-services-aps"
+        ]
+      },
+      {
+        "name": "Georgia 24-Hour Statewide Domestic Violence Hotline",
+        "organization": "Georgia Coalition Against Domestic Violence (GCADV)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-800-334-2836"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://gcadv.org/get-help/call-24-hour-statewide-hotline/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish",
+          "200+ languages via interpretation"
+        ],
+        "cost": "free",
+        "target": "domestic violence victims/survivors in Georgia",
+        "geography": "Georgia",
+        "notes": "Also known as 1-800-33-HAVEN. Routes callers to the nearest certified DV shelter/program. V/TTY capable.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://gcadv.org/get-help/call-24-hour-statewide-hotline/",
+          "https://gcadv.org/projects-and-initiatives/statewide-domestic-violence-hotline/"
+        ]
+      },
+      {
+        "name": "Hawaii Child Welfare Services Abuse/Neglect Reporting Line",
+        "organization": "Hawaii Department of Human Services, Child Welfare Services",
+        "category": "child_protection",
+        "voice_numbers": [
+          "808-832-5300",
+          "1-888-380-3088"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.courts.state.hi.us/services/hawaii_childrens_justice_centers/where_to_get_help",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "interpreter services available via 1-888-764-7586"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Hawaii",
+        "geography": "Hawaii",
+        "notes": "808-832-5300 serves Oahu; 1-888-380-3088 (toll-free) serves Hawaii Island, Maui, Molokai, Lanai, and Kauai. Both operate 24/7.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.courts.state.hi.us/services/hawaii_childrens_justice_centers/where_to_get_help",
+          "https://humanservices.hawaii.gov/important-phone-numbers/"
+        ]
+      },
+      {
+        "name": "Idaho Child Abuse/Neglect Reporting Hotline",
+        "organization": "Idaho Department of Health and Welfare",
+        "category": "child_protection",
+        "voice_numbers": [
+          "855-552-5437"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://healthandwelfare.idaho.gov/services-programs/children-families-older-adults/child-and-family-services-and-foster-care-3",
+        "hours": null,
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse, neglect, or abandonment in Idaho",
+        "geography": "Idaho",
+        "notes": "Also known as 855-552-KIDS. Treasure Valley local line: 208-334-KIDS (5437). Hours not explicitly stated as 24/7 on source page.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://healthandwelfare.idaho.gov/services-programs/children-families-older-adults/child-and-family-services-and-foster-care-3"
+        ]
+      },
+      {
+        "name": "Idaho Adult Protective Services Reporting Line",
+        "organization": "Idaho Commission on Aging",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "208-334-3833",
+          "877-471-2777"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": "icoa@aging.idaho.gov",
+        "website": "https://aging.idaho.gov/stay-safe/online-reporting-tools/",
+        "hours": null,
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of a vulnerable adult in Idaho",
+        "geography": "Idaho",
+        "notes": "877-471-2777 is the toll-free statewide line; 208-334-3833 is the Boise-area line. Hours not stated on source page; call 911 for emergencies.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://aging.idaho.gov/stay-safe/online-reporting-tools/"
+        ]
+      },
+      {
+        "name": "Illinois DCFS Child Abuse Hotline",
+        "organization": "Illinois Department of Children and Family Services (DCFS)",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-800-252-2873"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": "https://dcfsonlinereporting.dcfs.illinois.gov/",
+        "email": null,
+        "website": "https://dcfs.illinois.gov/safe-kids/reporting.html",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Illinois",
+        "geography": "Illinois",
+        "notes": "Also known as 1-800-25-ABUSE. TTY: 1-800-358-5117. Callers outside Illinois should call 1-800-422-4453.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dcfs.illinois.gov/safe-kids/reporting.html"
+        ]
+      },
+      {
+        "name": "Illinois Adult Protective Services Hotline",
+        "organization": "Illinois Department on Aging",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-866-800-1409"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://ilaging.illinois.gov/protectionadvocacy/abuse-reporting.html",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, financial exploitation, or self-neglect of an adult 60+ or a person with disabilities age 18-59 in Illinois",
+        "geography": "Illinois",
+        "notes": "TTY: 1-888-206-1327. Separate hotlines exist for nursing home (1-800-252-4343) and supportive living facility (1-844-528-8444) complaints.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://ilaging.illinois.gov/protectionadvocacy/abuse-reporting.html"
+        ]
+      },
+      {
+        "name": "Illinois Domestic Violence Hotline",
+        "organization": "Illinois Coalition Against Domestic Violence (ICADV)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-877-863-6338"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": "https://www.ilcadv.org/get-help/",
+        "email": null,
+        "website": "https://www.ilcadv.org/get-help/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish",
+          "multiple languages via interpretation"
+        ],
+        "cost": "free",
+        "target": "domestic violence victims/survivors in Illinois",
+        "geography": "Illinois",
+        "notes": "Also known as 877-TO-END-DV. Toll-free and confidential; provides referrals to shelters and local services.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.ilcadv.org/get-help/"
+        ]
+      },
+      {
+        "name": "Indiana Child Abuse and Neglect Hotline",
+        "organization": "Indiana Department of Child Services (DCS)",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-800-800-5556",
+          "1-833-800-5556"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.in.gov/dcs/hotline/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish",
+          "Burmese",
+          "Haitian Creole"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Indiana",
+        "geography": "Indiana",
+        "notes": "1-833-800-5556 is a backup line if the primary number is busy. Reports may be made anonymously.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.in.gov/dcs/hotline/"
+        ]
+      },
+      {
+        "name": "Indiana Adult Protective Services Statewide Hotline",
+        "organization": "Indiana Family and Social Services Administration (FSSA), Division of Disability and Rehabilitative Services",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-800-992-6978"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.in.gov/fssa/ddars/bba/adult-protective-services/",
+        "hours": null,
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of a vulnerable/endangered adult in Indiana",
+        "geography": "Indiana",
+        "notes": "APS is not an emergency responder; call 911 for immediate danger. Out-of-state callers may use 1-800-545-7763 ext. 20135.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.in.gov/fssa/ddars/bba/adult-protective-services/"
+        ]
+      },
+      {
+        "name": "Indiana Coalition Against Domestic Violence Hotline",
+        "organization": "Indiana Coalition Against Domestic Violence (ICADV)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-800-332-7385"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://secure.in.gov/indiana-national-guard/health-and-wellness/domestic-violence-response-program/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "domestic violence victims/survivors in Indiana",
+        "geography": "Indiana",
+        "notes": "Listed as ICADV's hotline on an Indiana state government resource page; ICADV's own current site directs to local programs/911 rather than prominently listing this number, so treat as cross-referenced.",
+        "verification_status": "cross_referenced",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://secure.in.gov/indiana-national-guard/health-and-wellness/domestic-violence-response-program/"
+        ]
+      },
+      {
+        "name": "Iowa Child and Dependent Adult Abuse Hotline",
+        "organization": "Iowa Health and Human Services (HHS)",
+        "category": "child_protection",
+        "voice_numbers": [
+          "800-362-2178"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://hhs.iowa.gov/contacts/child-or-dependent-adult-abuse-reporting",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Iowa",
+        "geography": "Iowa",
+        "notes": "This single hotline handles both child abuse and dependent adult abuse reports.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://hhs.iowa.gov/contacts/child-or-dependent-adult-abuse-reporting"
+        ]
+      },
+      {
+        "name": "Iowa Dependent Adult Abuse Hotline",
+        "organization": "Iowa Health and Human Services (HHS)",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "800-362-2178"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://hhs.iowa.gov/contacts/child-or-dependent-adult-abuse-reporting",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of a dependent/vulnerable adult in Iowa",
+        "geography": "Iowa",
+        "notes": "Same statewide number used for both child and dependent adult abuse reporting.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://hhs.iowa.gov/contacts/child-or-dependent-adult-abuse-reporting"
+        ]
+      },
+      {
+        "name": "Iowa Victim Service Call Center / Domestic Violence Hotline",
+        "organization": "Iowa Victim Service Call Center (in partnership with Iowa Coalition Against Domestic Violence)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-800-770-1650"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [
+          "20121"
+        ],
+        "short_codes": [
+          "20121"
+        ],
+        "chat_url": null,
+        "email": null,
+        "website": "http://www.survivorshelpline.org/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "domestic violence and sexual violence victims/survivors in Iowa",
+        "geography": "Iowa",
+        "notes": "Text 'IOWAHELP' to 20121. Also handles sexual violence, elder abuse, human trafficking, and other violent crime survivor calls.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "http://www.survivorshelpline.org/",
+          "https://www.icadv.org/"
+        ]
+      },
+      {
+        "name": "Iowa Victim Service Call Center / Sexual Assault Hotline",
+        "organization": "Iowa Victim Service Call Center (in partnership with Iowa Coalition Against Sexual Assault)",
+        "category": "sexual_violence",
+        "voice_numbers": [
+          "1-800-770-1650"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [
+          "20121"
+        ],
+        "short_codes": [
+          "20121"
+        ],
+        "chat_url": null,
+        "email": null,
+        "website": "http://www.survivorshelpline.org/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "sexual violence and domestic violence victims/survivors in Iowa",
+        "geography": "Iowa",
+        "notes": "Same statewide number as Iowa's domestic violence hotline; text 'IOWAHELP' to 20121.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "http://www.survivorshelpline.org/",
+          "https://www.iowacasa.org/get-help"
+        ]
+      },
+      {
+        "name": "Kansas Protection Report Center",
+        "organization": "Kansas Department for Children and Families (DCF)",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-800-922-5330"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": "https://www.dcf.ks.gov/services/PPS/pages/kips/kipswebintake.aspx",
+        "email": null,
+        "website": "https://www.dcf.ks.gov/pages/report-abuse-or-neglect.aspx",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Kansas",
+        "geography": "Kansas",
+        "notes": "This central intake line also handles adult abuse/neglect/exploitation reports.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.dcf.ks.gov/pages/report-abuse-or-neglect.aspx"
+        ]
+      },
+      {
+        "name": "Kansas Adult Protective Services Reporting Line",
+        "organization": "Kansas Department for Children and Families (DCF)",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-800-922-5330"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.dcf.ks.gov/services/PPS/Pages/APS/AdultProtectiveServices.aspx",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, exploitation, or self-neglect of an elder or adult with disabilities in Kansas",
+        "geography": "Kansas",
+        "notes": "Same statewide central intake number used for both child abuse and adult abuse reporting.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.dcf.ks.gov/services/PPS/Pages/APS/AdultProtectiveServices.aspx"
+        ]
+      },
+      {
+        "name": "SafeLine Kansas",
+        "organization": "Kansas Coalition Against Sexual and Domestic Violence (KCSDV)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-888-363-2287"
+        ],
+        "sms_numbers": [
+          "847411"
+        ],
+        "text_numbers": [
+          "847411"
+        ],
+        "short_codes": [
+          "847411"
+        ],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.kcsdv.org/find-help",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "domestic violence, dating violence, and stalking victims/survivors in Kansas",
+        "geography": "Kansas",
+        "notes": "Also known as 1-888-END-ABUSE. Text 'SAFE' to 847411. Connects callers to local crisis programs statewide.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.kcsdv.org/find-help"
+        ]
+      },
+      {
+        "name": "SafeLine Kansas (Sexual Assault)",
+        "organization": "Kansas Coalition Against Sexual and Domestic Violence (KCSDV)",
+        "category": "sexual_violence",
+        "voice_numbers": [
+          "1-888-363-2287"
+        ],
+        "sms_numbers": [
+          "847411"
+        ],
+        "text_numbers": [
+          "847411"
+        ],
+        "short_codes": [
+          "847411"
+        ],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.kcsdv.org/find-help",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "sexual assault victims/survivors in Kansas",
+        "geography": "Kansas",
+        "notes": "Also known as 1-888-END-ABUSE. Text 'SAFE' to 847411. Same statewide line used for both sexual and domestic violence.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.kcsdv.org/find-help"
+        ]
+      },
+      {
+        "name": "Kentucky Child Abuse/Neglect Reporting Hotline",
+        "organization": "Kentucky Cabinet for Health and Family Services (CHFS), Department for Community Based Services",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-877-597-2331"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": "https://prd.webapps.chfs.ky.gov/reportabuse/home.aspx",
+        "email": null,
+        "website": "https://prd.webapps.chfs.ky.gov/reportabuse/home.aspx",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Kentucky",
+        "geography": "Kentucky",
+        "notes": "Also known as 1-877-KYSAFE1. Online reporting form is only reviewed during business hours (M-F 8am-4:30pm); call the hotline directly for after-hours or urgent reports.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://prd.webapps.chfs.ky.gov/reportabuse/home.aspx"
+        ]
+      },
+      {
+        "name": "Kentucky Adult Protective Services Reporting Hotline",
+        "organization": "Kentucky Cabinet for Health and Family Services (CHFS), Department for Community Based Services",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-877-597-2331"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": "https://prd.webapps.chfs.ky.gov/reportabuse/home.aspx",
+        "email": null,
+        "website": "https://prd.webapps.chfs.ky.gov/reportabuse/home.aspx",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of a vulnerable adult in Kentucky",
+        "geography": "Kentucky",
+        "notes": "Same central statewide number handles both child and adult protective services reports; used for after-hours, weekend, and holiday reports.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://prd.webapps.chfs.ky.gov/reportabuse/home.aspx"
+        ]
+      },
+      {
+        "name": "Louisiana Child Abuse and Neglect Hotline",
+        "organization": "Louisiana Department of Children and Family Services",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-855-452-5437"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://dcfs.louisiana.gov/page/reporting-child-abuse-neglect",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Louisiana",
+        "geography": "Louisiana",
+        "notes": "Also known as 855-4LA-KIDS.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dcfs.louisiana.gov/page/reporting-child-abuse-neglect"
+        ]
+      },
+      {
+        "name": "Louisiana Elderly Protective Services",
+        "organization": "Governor's Office of Elderly Affairs (GOEA)",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-833-577-6532"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://goea.louisiana.gov/agency-departments/elderly-protective-services/",
+        "hours": "Mon-Fri 8:00 AM-4:30 PM; after-hours reports can be made at 1-844-945-2377",
+        "languages": [
+          "English",
+          "Spanish (1-800-737-1813)"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of a Louisiana resident age 60+",
+        "geography": "Louisiana",
+        "notes": "For adults ages 18-59, Adult Protective Services can be reached at 1-800-898-4910. TTY via Louisiana Relay 1-800-846-5277 or 711.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://goea.louisiana.gov/agency-departments/elderly-protective-services/"
+        ]
+      },
+      {
+        "name": "Louisiana Statewide Domestic Violence Hotline",
+        "organization": "Louisiana Coalition Against Domestic Violence (LCADV)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-888-411-1333"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://lcadv.org/contact/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "domestic violence victims and survivors in Louisiana",
+        "geography": "Louisiana",
+        "notes": "",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://lcadv.org/contact/"
+        ]
+      },
+      {
+        "name": "LaFASA Crisis Line",
+        "organization": "Louisiana Foundation Against Sexual Assault (LaFASA)",
+        "category": "sexual_violence",
+        "voice_numbers": [
+          "1-888-995-7273"
+        ],
+        "sms_numbers": [
+          "225-351-7233"
+        ],
+        "text_numbers": [
+          "225-351-7233"
+        ],
+        "short_codes": [],
+        "chat_url": "https://www.lafasa.org/contact",
+        "email": null,
+        "website": "https://www.lafasa.org/contact",
+        "hours": "24/7 (phone); text/chat Mon-Fri 12pm-8pm, Sat-Sun 4pm-12am",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "survivors of sexual assault and their loved ones in Louisiana",
+        "geography": "Louisiana",
+        "notes": "",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.lafasa.org/contact"
+        ]
+      },
+      {
+        "name": "Maine Child Abuse and Neglect Hotline",
+        "organization": "Maine Department of Health and Human Services (DHHS), Office of Child and Family Services",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-800-452-1999"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.maine.gov/dhhs/ocfs/provider-resources/reporting-suspected-child-abuse-and-neglect",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Maine",
+        "geography": "Maine",
+        "notes": "TTY/hearing or speech impaired: dial 711 (Maine Relay).",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.maine.gov/dhhs/ocfs/provider-resources/reporting-suspected-child-abuse-and-neglect"
+        ]
+      },
+      {
+        "name": "Maine Adult Protective Services Hotline",
+        "organization": "Maine Department of Health and Human Services (DHHS), Office of Aging and Disability Services",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-800-624-8404"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.maine.gov/dhhs/oads/get-support/aps/report-abuse-neglect-exploitation",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of an adult in Maine",
+        "geography": "Maine",
+        "notes": "In-state alternate line 207-287-1234; Maine Relay 711 during regular hours.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.maine.gov/dhhs/oads/get-support/aps/report-abuse-neglect-exploitation"
+        ]
+      },
+      {
+        "name": "Maine Statewide Domestic Violence Helpline",
+        "organization": "Maine Coalition to End Domestic Violence (MCEDV)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-866-834-4357"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.mcedv.org/contact-us/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish",
+          "200+ languages via language line"
+        ],
+        "cost": "free",
+        "target": "domestic violence and stalking victims and survivors in Maine",
+        "geography": "Maine",
+        "notes": "Deaf/hard of hearing: 1-800-437-1220.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.mcedv.org/contact-us/"
+        ]
+      },
+      {
+        "name": "Maine Sexual Assault Helpline",
+        "organization": "Maine Coalition Against Sexual Assault (MECASA)",
+        "category": "sexual_violence",
+        "voice_numbers": [
+          "1-800-871-7741"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.mecasa.org/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "survivors of sexual assault in Maine",
+        "geography": "Maine",
+        "notes": "Connects to Maine's ten sexual assault support centers.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.mecasa.org/"
+        ]
+      },
+      {
+        "name": "Maryland Child & Adult Protective Services Hotline",
+        "organization": "Maryland Department of Human Services (DHS)",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-800-917-7383"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://dhs.maryland.gov/documents/Hotline%20Outreach/Hotline%20Flyer_General_2.pdf",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Maryland",
+        "geography": "Maryland",
+        "notes": "Also known as 1-800-91-PREVENT; this combined hotline handles both child and adult protective services reports.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dhs.maryland.gov/documents/Hotline%20Outreach/Hotline%20Flyer_General_2.pdf"
+        ]
+      },
+      {
+        "name": "Maryland Child & Adult Protective Services Hotline (Adult)",
+        "organization": "Maryland Department of Human Services (DHS)",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-800-917-7383"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://dhs.maryland.gov/documents/Hotline%20Outreach/Hotline%20Flyer_General_2.pdf",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of an adult or senior in Maryland",
+        "geography": "Maryland",
+        "notes": "Also known as 1-800-91-PREVENT; this combined hotline handles both child and adult protective services reports.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dhs.maryland.gov/documents/Hotline%20Outreach/Hotline%20Flyer_General_2.pdf"
+        ]
+      },
+      {
+        "name": "DCF Child-at-Risk Hotline",
+        "organization": "Massachusetts Department of Children and Families (DCF)",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-800-792-5200"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.mass.gov/child-abuse-and-neglect",
+        "hours": "24/7 (nights, weekends, holidays; local DCF area office during business hours)",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Massachusetts",
+        "geography": "Massachusetts",
+        "notes": "During business hours (8:45am-5pm M-F) reports normally go to the local DCF area office; this hotline covers nights/weekends/holidays and is commonly cited as the statewide reporting line.",
+        "verification_status": "cross_referenced",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.mass.gov/child-abuse-and-neglect"
+        ]
+      },
+      {
+        "name": "Massachusetts Elder Abuse Hotline",
+        "organization": "Massachusetts Executive Office of Elder Affairs",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-800-922-2275"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.mass.gov/report-elder-abuse",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "100+ languages via interpreter services"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of a Massachusetts resident age 60+",
+        "geography": "Massachusetts",
+        "notes": "Calls route to one of 22 designated regional Protective Services agencies.",
+        "verification_status": "cross_referenced",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.mass.gov/report-elder-abuse"
+        ]
+      },
+      {
+        "name": "SafeLink",
+        "organization": "Jane Doe Inc. / Casa Myrna Vazquez (Massachusetts statewide domestic violence hotline)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-877-785-2020"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://casamyrna.org/get-support/safelink/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish",
+          "130+ languages via interpretation"
+        ],
+        "cost": "free",
+        "target": "domestic and dating violence victims and survivors in Massachusetts",
+        "geography": "Massachusetts",
+        "notes": "TTY: 1-877-521-2601. Deaf/hard of hearing can also use Mass Relay.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://casamyrna.org/get-support/safelink/",
+          "https://www.janedoe.org/find_help/"
+        ]
+      },
+      {
+        "name": "SafeLink (Sexual Assault)",
+        "organization": "Jane Doe Inc. / Casa Myrna Vazquez (Massachusetts statewide domestic violence and sexual assault hotline)",
+        "category": "sexual_violence",
+        "voice_numbers": [
+          "1-877-785-2020"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.janedoe.org/find_help/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish",
+          "130+ languages via interpretation"
+        ],
+        "cost": "free",
+        "target": "sexual assault survivors in Massachusetts (routed to local sexual assault or domestic violence program)",
+        "geography": "Massachusetts",
+        "notes": "Same hotline as Massachusetts' statewide domestic violence line; callers can be connected with a local sexual assault program.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.janedoe.org/find_help/",
+          "https://casamyrna.org/get-support/safelink/"
+        ]
+      },
+      {
+        "name": "Michigan Centralized Intake for Abuse and Neglect",
+        "organization": "Michigan Department of Health and Human Services (MDHHS)",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-855-444-3911"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.michigan.gov/mdhhs/adult-child-serv/abuse-neglect",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse or neglect of a child in Michigan",
+        "geography": "Michigan",
+        "notes": "This single hotline handles reports of both child and adult (vulnerable adult) abuse/neglect.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.michigan.gov/mdhhs/adult-child-serv/abuse-neglect"
+        ]
+      },
+      {
+        "name": "Michigan Centralized Intake for Abuse and Neglect (Adult)",
+        "organization": "Michigan Department of Health and Human Services (MDHHS)",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-855-444-3911"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.michigan.gov/mdhhs/adult-child-serv/abuse-neglect/adult-ps",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of a vulnerable adult in Michigan",
+        "geography": "Michigan",
+        "notes": "This single hotline handles reports of both child and adult (vulnerable adult) abuse/neglect.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.michigan.gov/mdhhs/adult-child-serv/abuse-neglect/adult-ps"
+        ]
+      },
+      {
+        "name": "VOICEDV Domestic Violence Hotline",
+        "organization": "Michigan Coalition to End Domestic and Sexual Violence (MCEDSV)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-866-864-2338"
+        ],
+        "sms_numbers": [
+          "877-861-0222"
+        ],
+        "text_numbers": [
+          "877-861-0222"
+        ],
+        "short_codes": [],
+        "chat_url": "https://mcedsv.org/chat",
+        "email": null,
+        "website": "https://mcedsv.org/hotline/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "domestic violence victims and survivors in Michigan",
+        "geography": "Michigan",
+        "notes": "Also known as 1-866-VOICEDV. TTY: 517-898-5533.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://mcedsv.org/hotline/"
+        ]
+      },
+      {
+        "name": "VOICES4 Hotline",
+        "organization": "Michigan Coalition to End Domestic and Sexual Violence (MCEDSV)",
+        "category": "sexual_violence",
+        "voice_numbers": [
+          "1-855-864-2374"
+        ],
+        "sms_numbers": [
+          "855-864-2374"
+        ],
+        "text_numbers": [
+          "855-864-2374"
+        ],
+        "short_codes": [],
+        "chat_url": "https://mcedsv.org/chat",
+        "email": null,
+        "website": "https://mcedsv.org/hotline/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "survivors of sexual assault and human trafficking in Michigan",
+        "geography": "Michigan",
+        "notes": "Also known as 1-855-VOICES4. TTY: 517-381-8470. Also covers human trafficking.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://mcedsv.org/hotline/"
+        ]
+      },
+      {
+        "name": "Minnesota Adult Abuse Reporting Center (MAARC)",
+        "organization": "Minnesota Department of Human Services",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-844-880-1574"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://elderjusticemn.org/reporting-elder-abuse/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected maltreatment of a vulnerable adult in Minnesota",
+        "geography": "Minnesota",
+        "notes": "Common Entry Point (CEP); routes reports to the appropriate county, law enforcement, or state investigative agency.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://elderjusticemn.org/reporting-elder-abuse/",
+          "https://mn.gov/dhs/report-abuse/"
+        ]
+      },
+      {
+        "name": "Day One Crisis Line",
+        "organization": "Minnesota Day One (Cornerstone) / Violence Free Minnesota",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-866-223-1111"
+        ],
+        "sms_numbers": [
+          "612-399-9995"
+        ],
+        "text_numbers": [
+          "612-399-9995"
+        ],
+        "short_codes": [],
+        "chat_url": "https://dayoneservices.org/",
+        "email": null,
+        "website": "https://dayoneservices.org/domestic-violence/help-now/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "interpreters available"
+        ],
+        "cost": "free",
+        "target": "domestic violence victims and survivors anywhere in Minnesota",
+        "geography": "Minnesota",
+        "notes": "Statewide network routes callers to the nearest local domestic violence program.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dayoneservices.org/domestic-violence/help-now/"
+        ]
+      },
+      {
+        "name": "Day One Crisis Line (Sexual Assault)",
+        "organization": "Minnesota Day One (Cornerstone) / Minnesota Coalition Against Sexual Assault",
+        "category": "sexual_violence",
+        "voice_numbers": [
+          "1-866-223-1111"
+        ],
+        "sms_numbers": [
+          "612-399-9995"
+        ],
+        "text_numbers": [
+          "612-399-9995"
+        ],
+        "short_codes": [],
+        "chat_url": "https://dayoneservices.org/",
+        "email": null,
+        "website": "https://dayoneservices.org/domestic-violence/help-now/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "interpreters available"
+        ],
+        "cost": "free",
+        "target": "sexual assault survivors anywhere in Minnesota",
+        "geography": "Minnesota",
+        "notes": "Same statewide line as domestic violence; routes callers to nearest local sexual assault program.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dayoneservices.org/domestic-violence/help-now/",
+          "https://mncasa.org/find-help/"
+        ]
+      },
+      {
+        "name": "Mississippi Child Abuse Hotline",
+        "organization": "Mississippi Department of Child Protection Services (MDCPS)",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-800-222-8000"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.mdcps.ms.gov/programs/reporting-child-abuse-and-neglect",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Mississippi",
+        "geography": "Mississippi",
+        "notes": "",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.mdcps.ms.gov/programs/reporting-child-abuse-and-neglect",
+          "https://www.mdcps.ms.gov/"
+        ]
+      },
+      {
+        "name": "Mississippi Vulnerable Person Abuse Hotline",
+        "organization": "Mississippi Department of Human Services (MDHS)",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-844-437-6282"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.mdhs.ms.gov/aging/adult-protective-services/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of a vulnerable adult in Mississippi",
+        "geography": "Mississippi",
+        "notes": "24/7 status confirmed via secondary source (nursinghomecomplaint.org); not explicitly stated on the primary MDHS page.",
+        "verification_status": "cross_referenced",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.mdhs.ms.gov/aging/adult-protective-services/"
+        ]
+      },
+      {
+        "name": "Missouri Child Abuse/Neglect Hotline",
+        "organization": "Missouri Department of Social Services, Children's Division",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-800-392-3738"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://dss.mo.gov/cd/keeping-kids-safe/can.htm",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Missouri",
+        "geography": "Missouri",
+        "notes": "Relay Missouri voice 1-800-735-2466, text 1-800-735-2966.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dss.mo.gov/cd/keeping-kids-safe/can.htm"
+        ]
+      },
+      {
+        "name": "Missouri Adult Abuse and Neglect Hotline",
+        "organization": "Missouri Department of Health and Senior Services (DHSS)",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-800-392-0210"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://health.mo.gov/safety/abuse/",
+        "hours": "7 days a week, 7:00 AM-8:00 PM",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or financial exploitation of an adult in Missouri",
+        "geography": "Missouri",
+        "notes": "Not staffed overnight; Relay Missouri 1-800-735-2966 during same hours.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://health.mo.gov/safety/abuse/"
+        ]
+      },
+      {
+        "name": "Montana Statewide Child Abuse Hotline",
+        "organization": "Montana Department of Public Health and Human Services (DPHHS), Child and Family Services Division",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-866-820-5437"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "http://dphhs.mt.gov/cfsd/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Montana",
+        "geography": "Montana",
+        "notes": "TTY: dial 711 then 1-866-820-5437.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "http://dphhs.mt.gov/cfsd/"
+        ]
+      },
+      {
+        "name": "Montana Adult Protective Services Hotline",
+        "organization": "Montana Department of Public Health and Human Services (DPHHS)",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-844-277-9300"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://dphhs.mt.gov/SLTC/APS/",
+        "hours": "Mon-Fri 8:00 AM-5:00 PM (except holidays); call 911 for after-hours emergencies",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of an older person or adult with a disability in Montana",
+        "geography": "Montana",
+        "notes": "",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dphhs.mt.gov/SLTC/APS/"
+        ]
+      },
+      {
+        "name": "Nebraska Child Abuse and Neglect Hotline",
+        "organization": "Nebraska Department of Health and Human Services (DHHS), Division of Children and Family Services",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-800-652-1999"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": "https://neabusehotline-dhhs.ne.gov/",
+        "email": null,
+        "website": "https://dhhs.ne.gov/Pages/Child-Abuse.aspx",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Nebraska",
+        "geography": "Nebraska",
+        "notes": "This same hotline number also handles adult/vulnerable-adult abuse reports; DHHS also offers a 24/7 online reporting portal at neabusehotline-dhhs.ne.gov.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://ago.nebraska.gov/news/safety-all-nebraskans-report-abuse",
+          "https://dhhs.ne.gov/Pages/Child-Abuse.aspx"
+        ]
+      },
+      {
+        "name": "Nebraska Adult and Child Abuse and Neglect Hotline (Adult Protective Services)",
+        "organization": "Nebraska Department of Health and Human Services (DHHS), Adult Protective Services",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-800-652-1999"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": "https://neabusehotline-dhhs.ne.gov/",
+        "email": null,
+        "website": "https://dhhs.ne.gov/Pages/Adult-Protective-Services.aspx",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of an elderly or vulnerable adult (18+) in Nebraska",
+        "geography": "Nebraska",
+        "notes": "Nebraska uses one combined statewide hotline for both child and adult/elder abuse reporting.",
+        "verification_status": "cross_referenced",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dhhs.ne.gov/Pages/Adult-Protective-Services.aspx",
+          "https://search.ne211.org/search/7889a8cb-e3f7-5c66-8de4-f06e9698e1f5"
+        ]
+      },
+      {
+        "name": "Nevada Child Abuse and Neglect Hotline (Statewide/Rural Counties)",
+        "organization": "Nevada Division of Child and Family Services (DCFS)",
+        "category": "child_protection",
+        "voice_numbers": [
+          "833-571-1041"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://dcfs.nv.gov/contact-us/report-suspected-child-abuse-neglect/",
+        "hours": "Business hours; after-hours/weekends route to local law enforcement (per DCFS site)",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Nevada counties other than Clark and Washoe",
+        "geography": "Nevada",
+        "notes": "Nevada's child-abuse reporting is regionalized: Clark County uses 702-399-0081 and Washoe County uses 833-900-7233 (833-900-SAFE); this entry is DCFS's number for all other counties.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dcfs.nv.gov/contact-us/report-suspected-child-abuse-neglect/"
+        ]
+      },
+      {
+        "name": "Nevada Adult Protective Services Hotline",
+        "organization": "Nevada Aging and Disability Services Division (ADSD), Elder Protective Services",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "888-729-0571"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://adsd.nv.gov/programs/seniors/eps/eps_prog/",
+        "hours": "Business hours, Monday-Friday; after-hours emergencies go to local police/EMS",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, exploitation, isolation or abandonment of a vulnerable adult (18-59) or older adult (60+) in Nevada, outside Clark County",
+        "geography": "Nevada",
+        "notes": "Clark County/Las Vegas has a separate local APS number (702-486-6930); this is the statewide number for all other areas.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://adsd.nv.gov/programs/seniors/eps/eps_prog/"
+        ]
+      },
+      {
+        "name": "New Hampshire DCYF Child Abuse and Neglect Reporting Line",
+        "organization": "New Hampshire Department of Health and Human Services, Division for Children, Youth and Families (DCYF)",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-800-894-5533",
+          "603-271-6562"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.dhhs.nh.gov/report-concern/report-child-abuse",
+        "hours": "24/7 (Intake unit staffed 24 hours a day, including weekends and holidays)",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in New Hampshire",
+        "geography": "New Hampshire",
+        "notes": "1-800-894-5533 is toll-free for in-state callers only; 603-271-6562 works in-state or out-of-state.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.dhhs.nh.gov/report-concern/report-child-abuse"
+        ]
+      },
+      {
+        "name": "New Hampshire Bureau of Elderly and Adult Services (Adult Protective Services)",
+        "organization": "New Hampshire Department of Health and Human Services, Bureau of Elderly and Adult Services (BEAS)",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-800-949-0470",
+          "603-271-7014"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.dhhs.nh.gov/report-concern/adult-abuse",
+        "hours": "Monday-Friday, 8:00am-4:30pm; after hours/weekends/holidays call 911 or local police",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, self-neglect, or exploitation of a vulnerable/elderly adult in New Hampshire",
+        "geography": "New Hampshire",
+        "notes": "",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.dhhs.nh.gov/report-concern/adult-abuse"
+        ]
+      },
+      {
+        "name": "New Hampshire Coalition Against Domestic and Sexual Violence Statewide Helpline",
+        "organization": "New Hampshire Coalition Against Domestic and Sexual Violence (NHCADSV)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-866-644-3574"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": "https://www.nhcadsv.org/",
+        "email": null,
+        "website": "https://www.nhcadsv.org/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "domestic violence victims/survivors in New Hampshire seeking crisis support, safety planning, or advocacy",
+        "geography": "New Hampshire",
+        "notes": "This single statewide helpline, staffed by NH's 12 crisis centers, covers domestic violence, sexual assault, stalking, and human trafficking.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.nhcadsv.org/"
+        ]
+      },
+      {
+        "name": "New Hampshire Coalition Against Domestic and Sexual Violence Statewide Helpline (Sexual Assault)",
+        "organization": "New Hampshire Coalition Against Domestic and Sexual Violence (NHCADSV)",
+        "category": "sexual_violence",
+        "voice_numbers": [
+          "1-866-644-3574"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": "https://www.nhcadsv.org/",
+        "email": null,
+        "website": "https://www.nhcadsv.org/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "sexual assault victims/survivors in New Hampshire seeking crisis support or advocacy",
+        "geography": "New Hampshire",
+        "notes": "Same statewide helpline as the domestic violence entry; NHCADSV's network covers both DV and sexual assault.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.nhcadsv.org/"
+        ]
+      },
+      {
+        "name": "New Jersey Child Abuse Hotline (1-877-NJ ABUSE)",
+        "organization": "New Jersey Department of Children and Families, Division of Child Protection and Permanency (DCP&P)",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-877-652-2873",
+          "1-800-835-5510"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.njoag.gov/resources/victim-witness-services/hotlines/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in New Jersey",
+        "geography": "New Jersey",
+        "notes": "1-800-835-5510 is the TTY/TDD line. New Jersey law requires everyone to report suspected abuse.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.njoag.gov/resources/victim-witness-services/hotlines/",
+          "https://www.nj.gov/dcf/news/Hotlines%26Helplines-COVID.pdf"
+        ]
+      },
+      {
+        "name": "New Jersey Domestic Violence Hotline",
+        "organization": "State of New Jersey (Department of Children and Families)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-800-572-7233"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.njoag.gov/resources/victim-witness-services/hotlines/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "domestic violence victims/survivors in New Jersey",
+        "geography": "New Jersey",
+        "notes": "Listed as \"1-800-572-SAFE\" on the NJ Attorney General's official hotline page. Accessible to deaf/hard-of-hearing callers.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.njoag.gov/resources/victim-witness-services/hotlines/"
+        ]
+      },
+      {
+        "name": "New Jersey Coalition Against Sexual Assault (NJCASA) Statewide Hotline",
+        "organization": "New Jersey Coalition Against Sexual Assault (NJCASA)",
+        "category": "sexual_violence",
+        "voice_numbers": [
+          "1-800-601-7200"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": "https://njcasa.org/find-help/",
+        "email": null,
+        "website": "https://njcasa.org/find-help/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone affected by sexual violence in New Jersey seeking support or referral to their closest rape care center",
+        "geography": "New Jersey",
+        "notes": "Also listed as the \"Statewide Sexual Violence Hotline\" on the NJ Attorney General's official hotline page.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://njcasa.org/find-help/",
+          "https://www.njoag.gov/resources/victim-witness-services/hotlines/"
+        ]
+      },
+      {
+        "name": "New Mexico Statewide Central Intake Child Abuse Hotline",
+        "organization": "New Mexico Children, Youth and Families Department (CYFD), Protective Services Division",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-855-333-7233"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [
+          "#SAFE"
+        ],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.cyfd.nm.gov/report-abuse-and-neglect/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse, neglect, or exploitation in New Mexico",
+        "geography": "New Mexico",
+        "notes": "Also reachable by dialing #SAFE from a cell phone; number is styled 1-855-333-SAFE.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.cyfd.nm.gov/report-abuse-and-neglect/"
+        ]
+      },
+      {
+        "name": "New Mexico Adult Protective Services Statewide Intake",
+        "organization": "New Mexico Aging and Long-Term Services Department (ALTSD), Adult Protective Services",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-866-654-3219"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.aging.nm.gov/adult-protective-services/",
+        "hours": "24/7 for emergent reports of adult abuse, neglect, and exploitation",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of a vulnerable or elderly adult in New Mexico",
+        "geography": "New Mexico",
+        "notes": "",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.aging.nm.gov/adult-protective-services/"
+        ]
+      },
+      {
+        "name": "New Mexico Coalition Against Domestic Violence Statewide Hotline",
+        "organization": "New Mexico Coalition Against Domestic Violence (NMCADV)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-800-773-3645"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.nmcadv.org/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "domestic violence victims/survivors in New Mexico seeking crisis or shelter assistance",
+        "geography": "New Mexico",
+        "notes": "Confirmed as a 24-hour crisis/shelter line via secondary directories; NMCADV's own site could not be directly retrieved to confirm on-page.",
+        "verification_status": "cross_referenced",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://sharenm.org/new-mexico-coalition-against-domestic-violence/new-mexico-domestic-violence-hotline",
+          "https://www.nmcadv.org/"
+        ]
+      },
+      {
+        "name": "New Mexico Sexual Assault Helpline",
+        "organization": "New Mexico Coalition of Sexual Assault Programs (NMCSAP)",
+        "category": "sexual_violence",
+        "voice_numbers": [
+          "1-844-667-2457"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [
+          "1-844-667-2457"
+        ],
+        "short_codes": [],
+        "chat_url": "https://nmsahelp.org/",
+        "email": null,
+        "website": "https://nmsahelp.org/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "anyone affected by sexual violence in New Mexico",
+        "geography": "New Mexico",
+        "notes": "Also known as 1-844-NMSAHLP; also supports text and online chat.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://nmsahelp.org/"
+        ]
+      },
+      {
+        "name": "New York Statewide Central Register Child Abuse Hotline",
+        "organization": "New York State Office of Children and Family Services (OCFS)",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-800-342-3720"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://ocfs.ny.gov/programs/cps/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or maltreatment in New York",
+        "geography": "New York",
+        "notes": "TDD/TTY: 1-800-638-5163.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://ocfs.ny.gov/programs/cps/",
+          "https://ocfs.ny.gov/main/contact/"
+        ]
+      },
+      {
+        "name": "New York State Elder Abuse Helpline",
+        "organization": "New York State Office for the Aging (NYSOFA)",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-844-697-3505"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://aging.ny.gov/programs/elder-abuse-1",
+        "hours": "8:30am-8:00pm daily",
+        "languages": [
+          "English",
+          "multiple languages via interpreter"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected elder abuse or seeking help/information in New York",
+        "geography": "New York",
+        "notes": "For emergencies call 911; local county Adult Protective Services can also take reports.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://aging.ny.gov/programs/elder-abuse-1"
+        ]
+      },
+      {
+        "name": "NYS Domestic and Sexual Violence Hotline",
+        "organization": "New York State Office for the Prevention of Domestic Violence (OPDV)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-800-942-6906"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [
+          "844-997-2121"
+        ],
+        "short_codes": [],
+        "chat_url": "https://opdv.ny.gov/survivors-victims",
+        "email": null,
+        "website": "https://opdv.ny.gov/survivors-victims",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish",
+          "170+ languages via interpreter"
+        ],
+        "cost": "free",
+        "target": "domestic violence and sexual violence victims/survivors in New York",
+        "geography": "New York",
+        "notes": "State-run combined hotline covering both domestic violence and sexual violence.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://opdv.ny.gov/survivors-victims"
+        ]
+      },
+      {
+        "name": "NYS Domestic and Sexual Violence Hotline (Sexual Assault)",
+        "organization": "New York State Office for the Prevention of Domestic Violence (OPDV)",
+        "category": "sexual_violence",
+        "voice_numbers": [
+          "1-800-942-6906"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [
+          "844-997-2121"
+        ],
+        "short_codes": [],
+        "chat_url": "https://opdv.ny.gov/survivors-victims",
+        "email": null,
+        "website": "https://opdv.ny.gov/survivors-victims",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish",
+          "170+ languages via interpreter"
+        ],
+        "cost": "free",
+        "target": "sexual violence victims/survivors in New York",
+        "geography": "New York",
+        "notes": "NYSCASA (the state sexual assault coalition) does not itself run a crisis line and directs callers to this state-operated combined hotline.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://opdv.ny.gov/survivors-victims",
+          "https://nyscasa.org/get-help/find-your-local-rape-crisis-program/"
+        ]
+      },
+      {
+        "name": "NC DHHS Customer Service Center (CARE-LINE)",
+        "organization": "North Carolina Department of Health and Human Services",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-800-662-7030"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.ncdhhs.gov/contact",
+        "hours": null,
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "North Carolina residents seeking help connecting to county Adult Protective Services resources for suspected abuse, neglect, or exploitation of an older or disabled adult",
+        "geography": "North Carolina",
+        "notes": "North Carolina has no dedicated statewide Adult Protective Services reporting hotline; reports must go to the county Department of Social Services where the person lives, or 911 in an emergency. This DHHS Customer Service Center line is cited by the NC Department of Justice as the statewide line for help connecting to those resources.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://ncdoj.gov/public-protection/protecting-seniors/",
+          "https://www.ncdhhs.gov/contact",
+          "https://www.ncdhhs.gov/divisions/social-services/adult-services/adult-protective-services"
+        ]
+      },
+      {
+        "name": "North Dakota Child Abuse and Neglect Reporting Line",
+        "organization": "North Dakota Health and Human Services (HHS), Child Protection Program",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-833-958-3500"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.hhs.nd.gov/cfs/cps",
+        "hours": "Monitored roughly 8am-5pm CT / 7am-4pm MT on weekdays per secondary sources; call 911 for emergencies",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in North Dakota",
+        "geography": "North Dakota",
+        "notes": "Reporters may remain anonymous.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.hhs.nd.gov/contact",
+          "https://www.hhs.nd.gov/cfs/cps"
+        ]
+      },
+      {
+        "name": "North Dakota Adult & Aging Services Abuse Reporting Line",
+        "organization": "North Dakota Health and Human Services (HHS), Adult & Aging Services",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-855-462-5465"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.hhs.nd.gov/contact",
+        "hours": null,
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse or neglect of a vulnerable adult in North Dakota",
+        "geography": "North Dakota",
+        "notes": "TTY users can reach services via Relay North Dakota at 711 or 1-800-366-6888.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.hhs.nd.gov/contact"
+        ]
+      },
+      {
+        "name": "CAWS North Dakota Statewide Hotline",
+        "organization": "North Dakota Council on Abused Women's Services (CAWS North Dakota)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-888-255-6240"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://cawsnorthdakota.org/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "domestic violence and sexual violence victims/survivors in North Dakota",
+        "geography": "North Dakota",
+        "notes": "CAWS's coalition network covers both domestic and sexual violence; number confirmed via secondary directories (National Link Coalition, NO MORE Global Directory) as CAWS's site could not be directly retrieved to confirm on-page.",
+        "verification_status": "cross_referenced",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://cawsnorthdakota.org/"
+        ]
+      },
+      {
+        "name": "CAWS North Dakota Statewide Hotline (Sexual Assault)",
+        "organization": "North Dakota Council on Abused Women's Services (CAWS North Dakota)",
+        "category": "sexual_violence",
+        "voice_numbers": [
+          "1-888-255-6240"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://cawsnorthdakota.org/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "sexual violence victims/survivors in North Dakota",
+        "geography": "North Dakota",
+        "notes": "Same statewide hotline as the domestic violence entry; CAWS's network covers both.",
+        "verification_status": "cross_referenced",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://cawsnorthdakota.org/"
+        ]
+      },
+      {
+        "name": "Ohio Child Abuse/Neglect Reporting Line (855-OH-CHILD)",
+        "organization": "Ohio Department of Job and Family Services (ODJFS)",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-855-642-4453"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://jfs.ohio.gov/adult-protective-services/children-services-professionals/public-children-services-agencies-county-jfs/child-protective-services/central-registry",
+        "hours": "Automated statewide directory routing callers to the local (county) child welfare or law enforcement agency; anonymous reporting allowed",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Ohio",
+        "geography": "Ohio",
+        "notes": "Functions as a statewide routing line to county Public Children Services Agencies rather than a single centralized 24/7 call center.",
+        "verification_status": "cross_referenced",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.browncountyohio.gov/index.php/component/content/article/47-job-family-services/243-bcjfs-help",
+          "https://www.meigsdjfs.net/protective-services.html"
+        ]
+      },
+      {
+        "name": "Ohio Adult Protective Services Hotline (855-OHIO-APS)",
+        "organization": "Ohio Department of Job and Family Services (ODJFS) / Ohio Department of Aging",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-855-644-6277"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://aps.jfs.ohio.gov/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "adults 60+ (and vulnerable adults) at risk of abuse, neglect, or exploitation in Ohio",
+        "geography": "Ohio",
+        "notes": "Anonymous reporting accepted; online reporting also available at aps.jfs.ohio.gov.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://aps.jfs.ohio.gov/",
+          "https://aging.ohio.gov/care-and-living/get-help/elder-justice/report-elder-abuse-1"
+        ]
+      },
+      {
+        "name": "Ohio Sexual Violence Helpline (844-OHIO-HELP)",
+        "organization": "Ohio Alliance to End Sexual Violence (OAESV) network",
+        "category": "sexual_violence",
+        "voice_numbers": [
+          "1-844-644-6435"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://oaesv.org/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "survivors of sexual violence and their supporters in Ohio",
+        "geography": "Ohio",
+        "notes": "OAESV itself is a coalition/policy organization; this helpline number is the statewide crisis line it directs survivors to. Could not directly load oaesv.org (server error) to confirm on primary site; corroborated by Ohio AG office and other secondary documents.",
+        "verification_status": "cross_referenced",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.cscc.edu/services/title-ix/pdf/Sexual%20Violence%20Facts%20Resources%20Action%20Steps.pdf"
+        ]
+      },
+      {
+        "name": "Oklahoma Statewide Abuse and Neglect Hotline - Child Abuse",
+        "organization": "Oklahoma Department of Human Services (OKDHS)",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-800-522-3511"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://oklahoma.gov/okdhs/contact-us/dhshotlines.html",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Oklahoma",
+        "geography": "Oklahoma",
+        "notes": "Same number is used by OKDHS for both child abuse and adult (elder/vulnerable adult) abuse reporting.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://oklahoma.gov/okdhs/contact-us/dhshotlines.html",
+          "https://oklahoma.gov/okdhs/services/reportabuse.html"
+        ]
+      },
+      {
+        "name": "Oklahoma Statewide Abuse and Neglect Hotline - Adult Protective Services",
+        "organization": "Oklahoma Department of Human Services (OKDHS)",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-800-522-3511"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://oklahoma.gov/okdhs/services/cap/aps.html",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "vulnerable/elder adults at risk of abuse, neglect, or exploitation in Oklahoma",
+        "geography": "Oklahoma",
+        "notes": "Same number is shared with the state's child abuse hotline; online reporting also available at OKHotline.org.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://oklahoma.gov/okdhs/contact-us/dhshotlines.html",
+          "https://oklahoma.gov/okdhs/services/cap/aps.html"
+        ]
+      },
+      {
+        "name": "Oklahoma SafeLine",
+        "organization": "Oklahoma Coalition Against Domestic Violence and Sexual Assault (OCADVSA)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-800-522-7233"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.ocadvsa.org/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "150 languages via translation service"
+        ],
+        "cost": "free",
+        "target": "victims of domestic violence, stalking, and sexual assault in Oklahoma",
+        "geography": "Oklahoma",
+        "notes": "Also covers stalking and sexual assault; confirmed via Oklahoma Attorney General's office document and Oklahoma State Senate document.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://oklahoma.gov/content/dam/ok/en/health/health2/aem-documents/prevention-and-preparedness/injury-prevention/violence/safeline-posters/full-size/safeline_poster_full_english.pdf",
+          "https://oksenate.gov/sites/default/files/2020-09/Oklahoma%20Safeline.pdf"
+        ]
+      },
+      {
+        "name": "Oklahoma SafeLine (Sexual Assault)",
+        "organization": "Oklahoma Coalition Against Domestic Violence and Sexual Assault (OCADVSA)",
+        "category": "sexual_violence",
+        "voice_numbers": [
+          "1-800-522-7233"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.ocadvsa.org/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "150 languages via translation service"
+        ],
+        "cost": "free",
+        "target": "survivors of sexual assault, stalking, and domestic violence in Oklahoma",
+        "geography": "Oklahoma",
+        "notes": "Same statewide line as the domestic violence entry; OCADVSA is Oklahoma's combined DV/SA coalition.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://oklahoma.gov/content/dam/ok/en/health/health2/aem-documents/prevention-and-preparedness/injury-prevention/violence/safeline-posters/full-size/safeline_poster_full_english.pdf",
+          "https://oksenate.gov/sites/default/files/2020-09/Oklahoma%20Safeline.pdf"
+        ]
+      },
+      {
+        "name": "Oregon Child Abuse Hotline",
+        "organization": "Oregon Department of Human Services (ODHS)",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-855-503-7233"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.oregon.gov/odhs/report-abuse/pages/default.aspx",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Oregon",
+        "geography": "Oregon",
+        "notes": "Same hotline number is shared with adult/elder abuse reporting.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.oregon.gov/odhs/report-abuse/pages/default.aspx"
+        ]
+      },
+      {
+        "name": "Oregon Abuse Reporting Hotline - Adult Protective Services",
+        "organization": "Oregon Department of Human Services (ODHS)",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-855-503-7233"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.oregon.gov/odhs/report-abuse/pages/default.aspx",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "older adults (65+) and adults with disabilities at risk of abuse, neglect, or financial exploitation in Oregon",
+        "geography": "Oregon",
+        "notes": "Same hotline number is shared with the child abuse hotline.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.oregon.gov/odhs/report-abuse/pages/default.aspx"
+        ]
+      },
+      {
+        "name": "Call to Safety",
+        "organization": "Call to Safety (statewide crisis line endorsed by Oregon Coalition Against Domestic and Sexual Violence / ODHS)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-888-235-5333"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [
+          "1-888-235-5333"
+        ],
+        "short_codes": [],
+        "chat_url": "https://www.calltosafety.org/",
+        "email": null,
+        "website": "https://www.calltosafety.org/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "domestic violence survivors in Oregon",
+        "geography": "Oregon",
+        "notes": "Referenced as the statewide crisis line on Oregon DHS's Domestic Violence Services page; offers call/text/chat.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.oregon.gov/odhs/dv/pages/default.aspx",
+          "https://www.calltosafety.org/"
+        ]
+      },
+      {
+        "name": "Call to Safety (Sexual Assault)",
+        "organization": "Call to Safety",
+        "category": "sexual_violence",
+        "voice_numbers": [
+          "1-888-235-5333"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [
+          "1-888-235-5333"
+        ],
+        "short_codes": [],
+        "chat_url": "https://www.calltosafety.org/",
+        "email": null,
+        "website": "https://www.calltosafety.org/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "sexual assault survivors in Oregon",
+        "geography": "Oregon",
+        "notes": "Call to Safety's own site confirms it serves both domestic and sexual violence survivors statewide.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.calltosafety.org/"
+        ]
+      },
+      {
+        "name": "ChildLine",
+        "organization": "Pennsylvania Department of Human Services",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-800-932-0313"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.pa.gov/agencies/dhs/resources/keep-kids-safe/report-child-abuse",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Pennsylvania",
+        "geography": "Pennsylvania",
+        "notes": "TDD line also available at 1-866-872-1677.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.pa.gov/agencies/dhs/resources/keep-kids-safe/report-child-abuse"
+        ]
+      },
+      {
+        "name": "Pennsylvania Elder Abuse Hotline",
+        "organization": "Pennsylvania Department of Aging",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-800-490-8505"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.pa.gov/agencies/aging/report-elder-abuse",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "older adults at risk of abuse or neglect in Pennsylvania, in any living situation",
+        "geography": "Pennsylvania",
+        "notes": "Anonymous reports accepted.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.pa.gov/agencies/aging/report-elder-abuse"
+        ]
+      },
+      {
+        "name": "PCAR Sexual Assault Hotline",
+        "organization": "Pennsylvania Coalition to Advance Respect (PCAR, formerly PA Coalition Against Rape)",
+        "category": "sexual_violence",
+        "voice_numbers": [
+          "1-888-772-7227"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://pcar.org/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "survivors of sexual assault in Pennsylvania",
+        "geography": "Pennsylvania",
+        "notes": "Connects callers to crisis counseling and PCAR's network of local rape crisis centers.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.pa.gov/services/dhs/get-support-after-a-rape-or-sexual-assault-",
+          "https://pcar.org/contact-us"
+        ]
+      },
+      {
+        "name": "RI Child Abuse Hotline (1-800-RI-CHILD)",
+        "organization": "Rhode Island Department of Children, Youth & Families (DCYF)",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-800-742-4453"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://dcyf.ri.gov/contact-us/report-child-abuse-or-neglect",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Rhode Island",
+        "geography": "Rhode Island",
+        "notes": "Anonymous reporting accepted.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dcyf.ri.gov/contact-us/report-child-abuse-or-neglect"
+        ]
+      },
+      {
+        "name": "RI Office of Healthy Aging - Elder Abuse Reporting Line",
+        "organization": "Rhode Island Office of Healthy Aging (OHA)",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-401-462-0555"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://oha.ri.gov/report-elder-abuse",
+        "hours": "Available anytime for reports; general ADRC info line 401-462-4444 is 24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "unknown",
+        "target": "older adults at risk of physical or financial abuse in Rhode Island",
+        "geography": "Rhode Island",
+        "notes": "Not a toll-free number; anonymous reports accepted.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://oha.ri.gov/report-elder-abuse"
+        ]
+      },
+      {
+        "name": "RI Victims of Crime Helpline",
+        "organization": "Rhode Island Coalition Against Domestic Violence (RICADV), Day One, and Blackstone Valley Advocacy Center",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-800-494-8100"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": "https://ricadv.org/",
+        "email": null,
+        "website": "https://ricadv.org/contact/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "victims of domestic and dating violence in Rhode Island",
+        "geography": "Rhode Island",
+        "notes": "Joint statewide helpline operated collaboratively by RICADV, Day One, and Blackstone Valley Advocacy Center; also handles sexual assault and hate crime calls.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://ricadv.org/contact/"
+        ]
+      },
+      {
+        "name": "RI Victims of Crime Helpline (Sexual Assault)",
+        "organization": "Day One (RI's Sexual Assault & Trauma Resource Center), RICADV, and Blackstone Valley Advocacy Center",
+        "category": "sexual_violence",
+        "voice_numbers": [
+          "1-800-494-8100"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://dayoneri.org/support-services/immediate-help/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "survivors of sexual assault and exploitation in Rhode Island",
+        "geography": "Rhode Island",
+        "notes": "Same joint statewide helpline as the domestic violence entry; Day One is Rhode Island's sexual assault and trauma resource center.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dayoneri.org/support-services/immediate-help/"
+        ]
+      },
+      {
+        "name": "SC Abuse & Neglect Reporting Hotline - Child Abuse (1-888-CARE4US)",
+        "organization": "South Carolina Department of Social Services (SCDSS)",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-888-227-3487"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://dss.sc.gov/child-well-being/report-child-abuse-and-neglect",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in South Carolina",
+        "geography": "South Carolina",
+        "notes": "Same number is shared with SC's vulnerable-adult abuse hotline. Could not directly load dss.sc.gov to confirm firsthand (network error); corroborated across multiple county and secondary sources referencing the DSS number.",
+        "verification_status": "cross_referenced",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.findhelp.org/south-carolina-department-of-social-services--spartanburg-sc-report-child-abuse-and-neglect-hotline/6007970559295488",
+          "https://scchildren.org/get-informed/reporting-child-abuse-and-neglect/"
+        ]
+      },
+      {
+        "name": "SC Abuse & Neglect Reporting Hotline - Vulnerable Adults (1-888-CARE4US)",
+        "organization": "South Carolina Department of Social Services (SCDSS)",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-888-227-3487"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://dss.sc.gov/adult-protection/adult-protective-services/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "vulnerable adults (18+) at risk of abuse, neglect, or exploitation in South Carolina",
+        "geography": "South Carolina",
+        "notes": "Same number is shared with SC's child abuse hotline. Could not directly load dss.sc.gov to confirm firsthand (network error); corroborated across multiple secondary sources referencing the DSS number.",
+        "verification_status": "cross_referenced",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.findhelp.org/south-carolina-department-of-social-services--columbia-sc-report-adult-abuse-and-neglect-hotline/5104431622848512"
+        ]
+      },
+      {
+        "name": "South Dakota Child Abuse/Neglect Reporting Line",
+        "organization": "South Dakota Department of Social Services (DSS), Division of Child Protection Services",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-877-244-0864"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://dss.sd.gov/childprotection/default.aspx",
+        "hours": "8 a.m.-5 p.m. Monday-Friday (not 24/7; contact local law enforcement after hours)",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in South Dakota",
+        "geography": "South Dakota",
+        "notes": "Unlike most states in this batch, this line is business-hours only, not 24/7.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dss.sd.gov/childprotection/default.aspx"
+        ]
+      },
+      {
+        "name": "Dakota at Home - Adult Protective Services Reporting Line",
+        "organization": "South Dakota Department of Human Services, Division of Long Term Services and Supports",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-833-663-9673"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://dakotaathome.sd.gov/",
+        "hours": null,
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "vulnerable adults and elders at risk of abuse, neglect, or exploitation in South Dakota",
+        "geography": "South Dakota",
+        "notes": "Hours of operation not published on the state directory page found; call 911 for emergencies.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dakotaathome.sd.gov/search?query=PH-6500.0500-180&query_label=Adult+Protective+Services+%2F+Abuse+Reporting&query_type=taxonomy"
+        ]
+      },
+      {
+        "name": "The Network - South Dakota Statewide Helpline",
+        "organization": "South Dakota Network Against Family Violence and Sexual Assault",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-800-670-3989"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.sdnafvsa.com/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "domestic violence survivors in South Dakota",
+        "geography": "South Dakota",
+        "notes": "Could not directly load sdnafvsa.com to confirm firsthand (blocked/403); found via secondary aggregation of the coalition's published number.",
+        "verification_status": "cross_referenced",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.southdakotacoalition.org/history.html"
+        ]
+      },
+      {
+        "name": "The Network - South Dakota Statewide Helpline (Sexual Assault)",
+        "organization": "South Dakota Network Against Family Violence and Sexual Assault",
+        "category": "sexual_violence",
+        "voice_numbers": [
+          "1-800-670-3989"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.sdnafvsa.com/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "sexual assault survivors in South Dakota",
+        "geography": "South Dakota",
+        "notes": "Same statewide line as the domestic violence entry; the coalition covers both family/domestic violence and sexual assault. Could not directly load sdnafvsa.com to confirm firsthand (blocked/403).",
+        "verification_status": "cross_referenced",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.southdakotacoalition.org/history.html"
+        ]
+      },
+      {
+        "name": "Tennessee Child Abuse Hotline",
+        "organization": "Tennessee Department of Children's Services (DCS)",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-877-237-0004"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.tn.gov/dcs/program-areas/child-safety/report-child-abuse.html",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Tennessee",
+        "geography": "Tennessee",
+        "notes": "Online reporting also available; call 911 for emergencies.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.tn.gov/dcs/program-areas/child-safety/report-child-abuse.html"
+        ]
+      },
+      {
+        "name": "Tennessee Adult Protective Services Hotline (1-888-APS-TENN)",
+        "organization": "Tennessee Department of Human Services (DHS), Adult Protective Services",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-888-277-8366"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://reportadultabuse.dhs.tn.gov/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "elderly and vulnerable adults at risk of abuse, neglect, or exploitation in Tennessee",
+        "geography": "Tennessee",
+        "notes": "Anonymous reporting accepted; online reporting also available.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://reportadultabuse.dhs.tn.gov/"
+        ]
+      },
+      {
+        "name": "Tennessee Statewide Domestic Violence Hotline",
+        "organization": "Tennessee Coalition to End Domestic and Sexual Violence (TCEDSV)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-800-356-6767"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.tncoalition.org/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "domestic violence survivors in Tennessee",
+        "geography": "Tennessee",
+        "notes": "TCEDSV's site did not list a separate dedicated statewide sexual-assault-specific crisis line distinct from this DV hotline, so no sexual_violence entry was created for Tennessee.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.tncoalition.org/"
+        ]
+      },
+      {
+        "name": "Texas Abuse Hotline",
+        "organization": "Texas Department of Family and Protective Services",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-800-252-5400"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.txabusehotline.org",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Texas",
+        "geography": "Texas",
+        "notes": "Same central intake line also handles adult/elderly abuse reports; TTY/relay via 711.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.dfps.texas.gov/contact_us/report_abuse.asp",
+          "https://www.txabusehotline.org/"
+        ]
+      },
+      {
+        "name": "Texas Abuse Hotline (Adult Protective Services)",
+        "organization": "Texas Department of Family and Protective Services",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-800-252-5400"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.dfps.texas.gov/adult_protection/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, self-neglect, or exploitation of an elderly or disabled adult in Texas",
+        "geography": "Texas",
+        "notes": "Same unified DFPS intake line as the child abuse hotline; TTY/relay via 711.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.dfps.texas.gov/contact_us/report_abuse.asp"
+        ]
+      },
+      {
+        "name": "Utah DCFS Child Abuse/Neglect Hotline",
+        "organization": "Utah Division of Child and Family Services",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-855-323-3237"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://dcfs.utah.gov/contact-us",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Utah",
+        "geography": "Utah",
+        "notes": "Also listed as 1-855-323-DCFS.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dcfs.utah.gov/contact-us"
+        ]
+      },
+      {
+        "name": "Utah Adult Protective Services",
+        "organization": "Utah Division of Aging and Adult Services (DHHS)",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-800-371-7897"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://daas.utah.gov/adult-protective-services",
+        "hours": "Monday-Friday 8:00am-5:00pm by phone; online reporting available 24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of a vulnerable adult in Utah",
+        "geography": "Utah",
+        "notes": "Phone line is business-hours only; use online form or 911 (emergency) outside those hours.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://daas.utah.gov/adult-protective-services"
+        ]
+      },
+      {
+        "name": "UDVC LINKLine",
+        "organization": "Utah Domestic Violence Coalition",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-800-897-5465"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": "https://udvc.org/",
+        "email": null,
+        "website": "https://udvc.org/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "victims/survivors of domestic and intimate partner violence statewide in Utah",
+        "geography": "Utah",
+        "notes": "Listed as 1-800-897-LINK; supports phone, chat, and text. High call volume may forward to National DV Hotline.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://udvc.org/"
+        ]
+      },
+      {
+        "name": "UCASA 24/7 Crisis Line",
+        "organization": "Utah Coalition Against Sexual Assault",
+        "category": "sexual_violence",
+        "voice_numbers": [
+          "801-736-4356",
+          "801-924-0860"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.ucasa.org/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "unknown",
+        "target": "survivors of sexual assault statewide in Utah (English line 801-736-4356, Spanish line 801-924-0860)",
+        "geography": "Utah",
+        "notes": "Not a toll-free number; local Salt Lake City area code.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.ucasa.org/"
+        ]
+      },
+      {
+        "name": "Vermont DCF Child Abuse Reporting Line",
+        "organization": "Vermont Department for Children and Families",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-800-649-5285"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://dcf.vermont.gov/contacts/helplines",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Vermont",
+        "geography": "Vermont",
+        "notes": "Primary .gov page returned HTTP 403 on direct fetch; number confirmed via indexed page content.",
+        "verification_status": "cross_referenced",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dcf.vermont.gov/contacts/helplines"
+        ]
+      },
+      {
+        "name": "Vermont Adult Protective Services",
+        "organization": "Vermont Division of Licensing and Protection",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-800-564-1612"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://dlp.vermont.gov/aps",
+        "hours": "Business hours main line; after-hours reports via 1-800-649-5285",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of an elderly or vulnerable adult in Vermont",
+        "geography": "Vermont",
+        "notes": "Primary .gov page returned HTTP 403 on direct fetch; numbers confirmed via secondary directories citing dlp.vermont.gov.",
+        "verification_status": "cross_referenced",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dlp.vermont.gov/aps",
+          "https://dlp.vermont.gov/aps/make-aps-report"
+        ]
+      },
+      {
+        "name": "Vermont Network Domestic Violence Hotline",
+        "organization": "Vermont Network Against Domestic and Sexual Violence",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-800-228-7395"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://vtnetwork.org/get-help/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "victims/survivors of domestic violence statewide in Vermont",
+        "geography": "Vermont",
+        "notes": "",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://vtnetwork.org/get-help/"
+        ]
+      },
+      {
+        "name": "Vermont Network Sexual Violence Hotline",
+        "organization": "Vermont Network Against Domestic and Sexual Violence",
+        "category": "sexual_violence",
+        "voice_numbers": [
+          "1-800-489-7273"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://vtnetwork.org/get-help/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "survivors of sexual violence statewide in Vermont",
+        "geography": "Vermont",
+        "notes": "",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://vtnetwork.org/get-help/"
+        ]
+      },
+      {
+        "name": "Virginia Child Abuse and Neglect Hotline",
+        "organization": "Virginia Department of Social Services",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-800-552-7096"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.dss.virginia.gov/supporting-families/child-protective-services/report-abuse/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Virginia",
+        "geography": "Virginia",
+        "notes": "",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.dss.virginia.gov/supporting-families/child-protective-services/report-abuse/"
+        ]
+      },
+      {
+        "name": "Virginia Adult Protective Services Hotline",
+        "organization": "Virginia Department for Aging and Rehabilitative Services (DARS)",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-888-832-3858"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.dars.virginia.gov/aps/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of an adult age 60+ or an incapacitated adult in Virginia",
+        "geography": "Virginia",
+        "notes": "Primary dars.virginia.gov pages returned HTTP 403 on direct fetch; number cross-referenced from search index of that site plus secondary directories.",
+        "verification_status": "cross_referenced",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.dars.virginia.gov/aps/APSreport.htm"
+        ]
+      },
+      {
+        "name": "Virginia Family Violence and Sexual Assault Hotline",
+        "organization": "Virginia Sexual and Domestic Violence Action Alliance",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-800-838-8238"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [
+          "804-793-9999"
+        ],
+        "short_codes": [],
+        "chat_url": "https://vsdvalliance.org/",
+        "email": null,
+        "website": "https://vsdvalliance.org/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "survivors of domestic violence, sexual assault, stalking, and intimate partner violence statewide in Virginia",
+        "geography": "Virginia",
+        "notes": "Single hotline covers both domestic violence and sexual assault; also offers text and online chat via VAdata.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://vsdvalliance.org/"
+        ]
+      },
+      {
+        "name": "Virginia Family Violence and Sexual Assault Hotline (Sexual Assault)",
+        "organization": "Virginia Sexual and Domestic Violence Action Alliance",
+        "category": "sexual_violence",
+        "voice_numbers": [
+          "1-800-838-8238"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [
+          "804-793-9999"
+        ],
+        "short_codes": [],
+        "chat_url": "https://vsdvalliance.org/",
+        "email": null,
+        "website": "https://vsdvalliance.org/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "survivors of sexual assault, domestic violence, stalking, and intimate partner violence statewide in Virginia",
+        "geography": "Virginia",
+        "notes": "Same combined hotline as the domestic violence entry; also offers text and online chat via VAdata.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://vsdvalliance.org/"
+        ]
+      },
+      {
+        "name": "Washington Child Abuse Hotline",
+        "organization": "Washington State Department of Children, Youth, and Families",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-866-363-4276"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://dcyf.wa.gov/safety/report-abuse",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in Washington state, especially outside business hours",
+        "geography": "Washington",
+        "notes": "Also listed as 1-866-END-HARM. Regional office lines also exist during business hours.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dcyf.wa.gov/safety/report-abuse"
+        ]
+      },
+      {
+        "name": "Washington Adult Protective Services Intake Line",
+        "organization": "Washington State Department of Social and Health Services (DSHS)",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-877-734-6277"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.dshs.wa.gov/altsa/report-concerns-involving-vulnerable-adults-phone",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of a vulnerable adult in Washington state",
+        "geography": "Washington",
+        "notes": "TTY 1-833-866-5595.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.dshs.wa.gov/altsa/report-concerns-involving-vulnerable-adults-phone",
+          "https://www.dshs.wa.gov/report-abuse-and-neglect"
+        ]
+      },
+      {
+        "name": "Washington State Domestic Violence Hotline",
+        "organization": "Washington State (statewide DV hotline; local program network)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-800-562-6025"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.atg.wa.gov/links-and-phone-numbers",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "victims/survivors of domestic violence statewide in Washington",
+        "geography": "Washington",
+        "notes": "Listed on the WA Attorney General's official links/phone numbers page; not directly operated by WSCADV, which provides referrals only.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.atg.wa.gov/links-and-phone-numbers"
+        ]
+      },
+      {
+        "name": "WV Centralized Intake for Abuse and Neglect (Child)",
+        "organization": "West Virginia Department of Health and Human Resources",
+        "category": "child_protection",
+        "voice_numbers": [
+          "1-800-352-6513"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://bss.wv.gov/centralized-intake-abuse-and-neglect",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected child abuse or neglect in West Virginia",
+        "geography": "West Virginia",
+        "notes": "Single centralized intake line also used for vulnerable/adult abuse reports; select the appropriate option when calling.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://bss.wv.gov/centralized-intake-abuse-and-neglect"
+        ]
+      },
+      {
+        "name": "WV Centralized Intake for Abuse and Neglect (Adult)",
+        "organization": "West Virginia Department of Health and Human Resources",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-800-352-6513"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://bss.wv.gov/centralized-intake-abuse-and-neglect",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of an elderly or vulnerable adult in West Virginia",
+        "geography": "West Virginia",
+        "notes": "Same centralized intake line as the child abuse hotline.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://bss.wv.gov/centralized-intake-abuse-and-neglect"
+        ]
+      },
+      {
+        "name": "Wisconsin Elder Abuse Hotline",
+        "organization": "Greater Wisconsin Agency on Aging Resources (GWAAR), in partnership with WI Dept. of Health Services / Dept. of Justice",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-833-586-0107"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://gwaar.org/elder-abuse-hotline",
+        "hours": null,
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected elder abuse (age 60+) in Wisconsin",
+        "geography": "Wisconsin",
+        "notes": "Reports are routed to the county of responsibility; hours of live-call coverage not explicitly confirmed as 24/7. Also see ReportElderAbuseWI.org for online reporting.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://gwaar.org/elder-abuse-hotline"
+        ]
+      },
+      {
+        "name": "Wyoming DFS Adult Protective Services Toll-Free Line",
+        "organization": "Wyoming Department of Family Services",
+        "category": "elder_abuse",
+        "voice_numbers": [
+          "1-800-457-3659"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://dfs.wyo.gov/services/elderly-and-disabled/adult-protection-services/",
+        "hours": "On-call caseworker available 24/7; reports otherwise routed to local DFS field office",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "anyone reporting suspected abuse, neglect, or exploitation of an elderly or vulnerable adult in Wyoming",
+        "geography": "Wyoming",
+        "notes": "DFS's own page lists this as its general statewide toll-free number rather than a dedicated APS-only line; secondary elder-abuse directories specifically attribute it to elder abuse reporting.",
+        "verification_status": "cross_referenced",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dfs.wyo.gov/services/elderly-and-disabled/adult-protection-services/",
+          "https://dfs.wyo.gov/i-need-to-report/abuse-neglect-exploitation/"
+        ]
+      }
+    ]
+  }
+]

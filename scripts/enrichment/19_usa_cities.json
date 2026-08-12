@@ -1,0 +1,1996 @@
+[
+  {
+    "country": "United States",
+    "alpha-2": "US",
+    "alpha-3": "USA",
+    "region": "Americas",
+    "subregion": "Northern America",
+    "hotlines": [
+      {
+        "name": "NYC Well",
+        "organization": "NYC Department of Health and Mental Hygiene / Mayor's Office of Community Mental Health",
+        "category": "mental_health",
+        "voice_numbers": [
+          "1-888-692-9355"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [
+          "65173"
+        ],
+        "short_codes": [],
+        "chat_url": "https://nyc988.cityofnewyork.us/en/get-help-now/",
+        "email": null,
+        "website": "https://mentalhealth.cityofnewyork.us/program/nyc-well",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish",
+          "Chinese",
+          "200+ languages via interpretation"
+        ],
+        "cost": "free",
+        "target": "NYC residents in emotional distress or mental health/substance use crisis",
+        "geography": "New York City, New York",
+        "notes": "Distinct from national 988; also branded as NYC988. Text WELL to 65173.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://mentalhealth.cityofnewyork.us/program/nyc-well",
+          "https://nyc988.cityofnewyork.us/en/get-help-now/"
+        ]
+      },
+      {
+        "name": "NYC HOPE Hotline",
+        "organization": "NYC Mayor's Office to End Domestic and Gender-Based Violence",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-800-621-4673"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.nyc.gov/content/endgbv/pages/hotlines",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish",
+          "Interpretation available"
+        ],
+        "cost": "free",
+        "target": "NYC residents experiencing domestic or intimate partner violence",
+        "geography": "New York City, New York",
+        "notes": "Also known as 1-800-621-HOPE; TTY 1-866-604-5350. Run by the city, distinct from the NY State DV/SA coalition hotline.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.nyc.gov/content/endgbv/pages/hotlines"
+        ]
+      },
+      {
+        "name": "LA County Department of Mental Health Help Line",
+        "organization": "Los Angeles County Department of Mental Health",
+        "category": "mental_health",
+        "voice_numbers": [
+          "1-800-854-7771"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://dmh.lacounty.gov/get-help-now/",
+        "hours": "24/7",
+        "languages": [
+          "Multiple languages via interpretation",
+          "711 relay for hearing/speech disabilities"
+        ],
+        "cost": "free",
+        "target": "LA County residents needing mental health or substance use crisis support",
+        "geography": "Los Angeles County, California",
+        "notes": "Press 1 for crisis/mental health, press 2 for substance use, press 3 for veteran/military family support.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dmh.lacounty.gov/get-help-now/"
+        ]
+      },
+      {
+        "name": "211 LA County",
+        "organization": "211 LA County",
+        "category": "general_support",
+        "voice_numbers": [
+          "211",
+          "1-800-339-6993"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": "https://211la.org/",
+        "email": null,
+        "website": "https://211la.org/",
+        "hours": "24/7",
+        "languages": [
+          "Multiple languages",
+          "TTY 1-800-660-4026"
+        ],
+        "cost": "free",
+        "target": "LA County residents seeking health and human services referrals",
+        "geography": "Los Angeles County, California",
+        "notes": "California has no single unified statewide 211 number; 211 LA County operates its own distinct toll-free line (1-800-339-6993) for callers outside the county.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://211la.org/",
+          "http://www.laalmanac.com/social/so01z.php"
+        ]
+      },
+      {
+        "name": "LA County Domestic Violence Hotline",
+        "organization": "Los Angeles County Department of Public Health",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-800-978-3600"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://dpss.lacounty.gov/en/jobs/gain/sss/domestic-violence.html",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish",
+          "Korean",
+          "Vietnamese",
+          "Mandarin",
+          "Cantonese",
+          "Tagalog",
+          "Khmer",
+          "Japanese",
+          "Thai",
+          "Armenian",
+          "Arabic",
+          "Farsi"
+        ],
+        "cost": "free",
+        "target": "LA County residents experiencing domestic violence",
+        "geography": "Los Angeles County, California",
+        "notes": "County-run hotline, distinct from the California statewide DV coalition hotline.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dpss.lacounty.gov/en/jobs/gain/sss/domestic-violence.html",
+          "https://file.lacounty.gov/SDSInter/lasd/145215_domvspan-LACODA_Eng_Span.pdf"
+        ]
+      },
+      {
+        "name": "NAMI Chicago Helpline",
+        "organization": "NAMI Chicago (in partnership with Cook County Health)",
+        "category": "mental_health",
+        "voice_numbers": [
+          "833-626-4244"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [
+          "833-626-4244"
+        ],
+        "short_codes": [],
+        "chat_url": "https://namichicago.org/helpline/",
+        "email": null,
+        "website": "https://namichicago.org/helpline/",
+        "hours": "Mon-Fri 9am-8pm, Sat-Sun 9am-5pm",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "Chicago and suburban Cook County residents seeking mental health support/referrals",
+        "geography": "Cook County, Illinois",
+        "notes": "Also known as 833-NAMI-CHI. Sustained via multi-year investment from Cook County Health's Office of Behavioral Health; not 24/7.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://namichicago.org/helpline/",
+          "https://cookcountyhealth.org/press-release/cook-county-health-and-nami-chicago-announce-enhanced-helpline-and-mental-health-support-for-residents-across-the-county/"
+        ]
+      },
+      {
+        "name": "211 Metro Chicago",
+        "organization": "United Way of Metro Chicago (in partnership with the City of Chicago and Cook County)",
+        "category": "general_support",
+        "voice_numbers": [
+          "211",
+          "773-362-4401"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [
+          "898-211"
+        ],
+        "short_codes": [],
+        "chat_url": "https://211metrochicago.org/",
+        "email": null,
+        "website": "https://211metrochicago.org/",
+        "hours": "24/7",
+        "languages": [
+          "Multiple languages"
+        ],
+        "cost": "free",
+        "target": "Cook County residents seeking human/social services referrals",
+        "geography": "Cook County, Illinois",
+        "notes": "Localized service for Cook County, distinct from the statewide 211 Illinois network operated by the Illinois Department of Human Services.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://211metrochicago.org/",
+          "https://www.cookcountyil.gov/service/211-metro-chicago"
+        ]
+      },
+      {
+        "name": "Chicago Domestic Violence Help Line",
+        "organization": "City of Chicago Department of Family and Support Services / Chicago Metropolitan Battered Women's Network",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-877-863-6338"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.chicago.gov/city/en/depts/fss/provdrs/dom_violence/svcs/domestic_violencehelpline.html",
+        "hours": "24/7",
+        "languages": [
+          "Multiple languages"
+        ],
+        "cost": "free",
+        "target": "Chicago residents experiencing domestic violence",
+        "geography": "Chicago, Illinois",
+        "notes": "City-run since 1998, distinct from the statewide Illinois Domestic Violence Hotline operated by The Network.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.chicago.gov/city/en/depts/fss/provdrs/dom_violence/svcs/domestic_violencehelpline.html"
+        ]
+      },
+      {
+        "name": "The Harris Center Crisis Line",
+        "organization": "The Harris Center for Mental Health and IDD",
+        "category": "mental_health",
+        "voice_numbers": [
+          "713-970-7000"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.theharriscenter.org/services/crisis-services",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish",
+          "Interpretation available"
+        ],
+        "cost": "free",
+        "target": "Harris County residents in a mental health or IDD crisis",
+        "geography": "Harris County, Texas",
+        "notes": "The Harris Center is Harris County's designated Local Mental Health Authority; select option 1 for crisis line. Distinct from 988 and Texas statewide numbers.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.theharriscenter.org/services/crisis-services",
+          "https://www.theharriscenter.org/contact"
+        ]
+      },
+      {
+        "name": "HAWC Domestic Violence Hotline",
+        "organization": "Houston Area Women's Center (HAWC)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "713-528-2121",
+          "1-800-256-0551"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": "https://hawc.org/livechat/",
+        "email": null,
+        "website": "https://hawc.org/24-hour-hotlines/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish",
+          "Language line for other languages",
+          "TTY 346-295-8994"
+        ],
+        "cost": "free",
+        "target": "Harris County/Houston-area residents experiencing domestic violence",
+        "geography": "Harris County, Texas",
+        "notes": "HAWC is designated as Harris County's primary domestic violence service provider, listed on the county's official Domestic Violence Resources page; distinct from the National DV Hotline.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://hawc.org/24-hour-hotlines/",
+          "https://dro.harriscountytx.gov/Domestic-Violence-Resources"
+        ]
+      },
+      {
+        "name": "Maricopa County (Central Arizona) Crisis Line",
+        "organization": "Solari Crisis & Human Services",
+        "category": "mental_health",
+        "voice_numbers": [
+          "602-222-9444",
+          "1-800-631-1314"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": "https://crisis.solari-inc.org/get-help/crisis-line/",
+        "email": null,
+        "website": "https://crisis.solari-inc.org/",
+        "hours": "24/7",
+        "languages": [
+          "Multiple languages"
+        ],
+        "cost": "free",
+        "target": "Maricopa County (Central Arizona region) residents in a behavioral health crisis",
+        "geography": "Maricopa County, Arizona",
+        "notes": "Arizona is divided into regional crisis lines (Northern/Central/Southern); this is the Central Arizona line covering Maricopa County specifically, operated by Solari under contract with the region's behavioral health system, distinct from a single unified statewide number.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://crisis.solari-inc.org/get-help/crisis-line/",
+          "https://www.phoenix.gov/administration/departments/health/substance-use-help/crisis-hotlines-treatment-centers.html"
+        ]
+      },
+      {
+        "name": "Maricopa County Domestic Violence Hotline (A New Leaf)",
+        "organization": "A New Leaf",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "480-890-3039",
+          "1-844-723-3387"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://turnanewleaf.org/services/sexual-and-domestic-violence-services/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "Maricopa County residents experiencing domestic violence",
+        "geography": "Maricopa County, Arizona",
+        "notes": "Also listed as 1-844-SAFEDVS. Distinct from the Arizona Coalition to End Sexual and Domestic Violence (ACESDV) statewide helpline (1-800-782-6400).",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://turnanewleaf.org/services/sexual-and-domestic-violence-services/",
+          "https://turnanewleaf.org/domestic-violence-awareness-month-2024/"
+        ]
+      },
+      {
+        "name": "Philadelphia Crisis Line (DBHIDS)",
+        "organization": "City of Philadelphia Department of Behavioral Health and Intellectual disAbility Services (DBHIDS)",
+        "category": "mental_health",
+        "voice_numbers": [
+          "215-685-6440"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.phila.gov/2021-10-25-improving-behavioral-health-resources-and-police-response/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Interpretation available"
+        ],
+        "cost": "free",
+        "target": "Philadelphia residents experiencing a behavioral health emergency",
+        "geography": "Philadelphia, Pennsylvania",
+        "notes": "Dispatches Mobile Crisis Teams; distinct from 988 and run directly by the city.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.phila.gov/2021-10-25-improving-behavioral-health-resources-and-police-response/"
+        ]
+      },
+      {
+        "name": "Philadelphia Domestic Violence Hotline",
+        "organization": "Women Against Abuse (with Congreso de Latinos Unidos, Lutheran Settlement House, Women In Transition), supported by the City of Philadelphia Office of Domestic Violence Strategies",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-866-723-3014"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.phila.gov/services/crime-law-justice/report-a-crime-or-concern/abuse-and-harassment/get-help-with-domestic-violence/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Interpretation available"
+        ],
+        "cost": "free",
+        "target": "Philadelphia residents experiencing intimate partner/domestic violence",
+        "geography": "Philadelphia, Pennsylvania",
+        "notes": "City-wide point of access since 2005, run by a consortium of local providers with city support; distinct from the Pennsylvania statewide DV coalition hotline.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.phila.gov/services/crime-law-justice/report-a-crime-or-concern/abuse-and-harassment/get-help-with-domestic-violence/",
+          "https://www.phila.gov/2024-05-02-five-things-you-should-know-about-the-philadelphia-domestic-violence-hotline/"
+        ]
+      },
+      {
+        "name": "CHCS 24-Hour Crisis Line",
+        "organization": "Center for Health Care Services (CHCS) - Bexar County's Local Mental Health Authority",
+        "category": "mental_health",
+        "voice_numbers": [
+          "210-223-7233",
+          "800-316-9241"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://chcsbc.org/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "Bexar County residents experiencing a mental health, substance use, or emotional crisis",
+        "geography": "San Antonio / Bexar County, Texas",
+        "notes": "Operated by CHCS, the county-designated Local Mental Health Authority; listed as a county crisis resource on the official Bexar County Behavioral Health page.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.bexar.org/3380/Behavioral-Health",
+          "https://chcsbc.org/"
+        ]
+      },
+      {
+        "name": "Family Violence Prevention Services 24-Hour Hotline",
+        "organization": "Family Violence Prevention Services, Inc. (The Battered Women & Children's Shelter)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "210-733-8810"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://fvps.org/",
+        "hours": "24/7, 365 days a year",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "domestic violence victims/survivors in San Antonio and Bexar County",
+        "geography": "San Antonio / Bexar County, Texas",
+        "notes": "Locally operated 45+ year shelter and crisis line serving Bexar County; distinct from the statewide/national domestic violence hotline.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://fvps.org/fvps-services/24-hour-emergency-shelter-services/"
+        ]
+      },
+      {
+        "name": "San Diego Access and Crisis Line (ACL)",
+        "organization": "County of San Diego Health and Human Services Agency (Behavioral Health Services), operated via Optum",
+        "category": "mental_health",
+        "voice_numbers": [
+          "1-888-724-7240"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": "https://www.optumsandiego.com/content/sandiego/en/access---crisis-line.html",
+        "email": null,
+        "website": "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/bhs/ACL.html",
+        "hours": "24/7 phone; live chat Monday-Friday 4pm-10pm",
+        "languages": [
+          "English",
+          "Spanish",
+          "200+ languages via interpreter services"
+        ],
+        "cost": "free",
+        "target": "San Diego County residents in mental health or substance use crisis",
+        "geography": "San Diego County, California",
+        "notes": "County-run crisis line distinct from 988; also used to dispatch the county's Mobile Crisis Response Teams (MCRT).",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/bhs/ACL.html",
+          "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/bhs/crisis_services.html"
+        ]
+      },
+      {
+        "name": "Center for Community Solutions 24/7 Crisis Hotline",
+        "organization": "Center for Community Solutions",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-888-385-4657"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.ccssd.org/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "victims of relationship violence and sexual assault in San Diego County",
+        "geography": "San Diego County, California",
+        "notes": "Locally operated San Diego County crisis hotline for domestic violence and sexual assault, also listed on the County's official One Safe Place Family Justice Center resource page; distinct from the national/state DV hotline.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.ccssd.org/",
+          "https://ospsandiegocounty.gov/after-hours-hotlines/"
+        ]
+      },
+      {
+        "name": "NTBHA Mental Health Crisis Hotline",
+        "organization": "North Texas Behavioral Health Authority (NTBHA)",
+        "category": "mental_health",
+        "voice_numbers": [
+          "866-260-8000",
+          "844-672-5700"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://ntbha.org/crisis-services/",
+        "hours": "24/7/365",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "residents of Dallas County (and Ellis, Hunt, Kaufman, Navarro, Rockwall counties) in a mental health or substance use crisis",
+        "geography": "Dallas, Texas",
+        "notes": "NTBHA is Dallas County's designated Local Mental Health Authority; line dispatches the Mobile Crisis Outreach Team (MCOT) and also feeds the RIGHT Care police co-response program. Distinct from 988.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://ntbha.org/crisis-services/"
+        ]
+      },
+      {
+        "name": "Genesis 24-Hour Helpline",
+        "organization": "Genesis Women's Shelter & Support",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "214-946-4357"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [
+          "214-946-4357"
+        ],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.genesisshelter.org/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "women and children experiencing domestic violence in the Dallas area",
+        "geography": "Dallas, Texas",
+        "notes": "Locally operated Dallas domestic violence shelter and helpline (call or text), distinct from the state/national domestic violence hotline.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.genesisshelter.org/"
+        ]
+      },
+      {
+        "name": "Integral Care 24/7 Crisis Line",
+        "organization": "Integral Care (Austin-Travis County's Local Mental Health Authority)",
+        "category": "mental_health",
+        "voice_numbers": [
+          "512-472-4357"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://integralcare.org/en/mental-health-resources/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish",
+          "interpreter services available"
+        ],
+        "cost": "free",
+        "target": "Travis County residents in a mental health, substance use, or IDD crisis",
+        "geography": "Austin / Travis County, Texas",
+        "notes": "Integral Care is the official mental health authority for Austin-Travis County and also hosts the local 988 call center; this local crisis line is distinct and provides phone, text, and chat crisis intervention plus Mobile Crisis Outreach Team dispatch.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://integralcare.org/en/mental-health-resources/",
+          "https://services.austintexas.gov/edims/document.cfm?id=191181"
+        ]
+      },
+      {
+        "name": "SAFEline",
+        "organization": "The SAFE Alliance",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "512-267-7233",
+          "1-877-384-9891"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [
+          "737-888-7233"
+        ],
+        "short_codes": [],
+        "chat_url": "https://www.safeaustin.org/chat",
+        "email": null,
+        "website": "https://www.safeaustin.org/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "survivors of domestic violence, sexual assault, child abuse, and human trafficking in Travis County",
+        "geography": "Austin / Travis County, Texas",
+        "notes": "SAFE Alliance (merger of Austin Children's Shelter and SafePlace) runs Austin/Travis County's local DV/SA hotline, chatline, and textline; distinct from the statewide/national hotline.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.safeaustin.org/",
+          "https://www.austintexas.gov/health/safety-help"
+        ]
+      },
+      {
+        "name": "Behavioral Health Services Call Center",
+        "organization": "County of Santa Clara Behavioral Health Services Department",
+        "category": "mental_health",
+        "voice_numbers": [
+          "1-800-704-0900"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://bhsd.santaclaracounty.gov/get-help-now/talk-someone-now",
+        "hours": "24/7, including holidays",
+        "languages": [
+          "English",
+          "Spanish",
+          "200+ languages via interpreter services"
+        ],
+        "cost": "free",
+        "target": "Santa Clara County residents in a mental health or substance use crisis",
+        "geography": "San Jose / Santa Clara County, California",
+        "notes": "County-run call center; residents with 408, 650, or 669 area codes are also routed here via 988, but this toll-free number is the county's direct line and works from any area code.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://bhsd.santaclaracounty.gov/get-help-now/talk-someone-now"
+        ]
+      },
+      {
+        "name": "TRUST Direct Crisis Line",
+        "organization": "Santa Clara County Behavioral Health Services / Trusted Response Urgent Support Team (TRUST)",
+        "category": "mental_health",
+        "voice_numbers": [
+          "408-596-7290"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://bhsd.santaclaracounty.gov/home",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "residents of San Jose/Santa Clara County wanting a non-police mental health crisis response",
+        "geography": "San Jose / Santa Clara County, California",
+        "notes": "Direct line to Santa Clara County's TRUST program, a non-law-enforcement mobile crisis response team; created by the County Board of Supervisors as an alternative routing to 988 so callers can specifically request a non-police response.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://files.santaclaracounty.gov/exjcpb1431/2025-05/trust_faqs.pdf",
+          "https://news.santaclaracounty.gov/call-text-or-chat-crisis-and-suicide-prevention-lifeline-here-everyone"
+        ]
+      },
+      {
+        "name": "Next Door Solutions 24-Hour Crisis Line",
+        "organization": "Next Door Solutions to Domestic Violence",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "408-279-2962"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.nextdoorsolutions.org/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "domestic violence victims/survivors in San Jose and Santa Clara County",
+        "geography": "San Jose / Santa Clara County, California",
+        "notes": "Locally operated Santa Clara County domestic violence agency crisis line, distinct from the statewide/national DV hotline.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.nextdoorsolutions.org/"
+        ]
+      },
+      {
+        "name": "MHMR of Tarrant County I-CARE Crisis Line",
+        "organization": "My Health My Resources (MHMR) of Tarrant County",
+        "category": "mental_health",
+        "voice_numbers": [
+          "817-335-3022",
+          "1-800-866-2465"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [
+          "1-800-866-2465"
+        ],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://mhmrtarrant.org/crisis-services/",
+        "hours": "24/7/365",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "Tarrant County residents in a mental health or substance use crisis",
+        "geography": "Fort Worth / Tarrant County, Texas",
+        "notes": "MHMR is Tarrant County's designated Local Mental Health Authority; operates the I-CARE Call Center and dispatches the Mobile Crisis Outreach Team. TTY/TDD available at 817-569-4488. Distinct from 988.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://mhmrtarrant.org/crisis-services/"
+        ]
+      },
+      {
+        "name": "The Archway 24-Hour Hotline (formerly SafeHaven of Tarrant County)",
+        "organization": "The Archway",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-877-701-7233"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://thearchwaytx.org/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "domestic violence victims/survivors in Fort Worth and Tarrant County",
+        "geography": "Fort Worth / Tarrant County, Texas",
+        "notes": "The organization rebranded from SafeHaven of Tarrant County to The Archway in 2025 but kept the same hotline number; it is described as the only dedicated domestic violence hotline for Tarrant County, distinct from the statewide/national hotline.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://thearchwaytx.org/"
+        ]
+      },
+      {
+        "name": "211 Northeast Florida (First Call for Help)",
+        "organization": "United Way of Northeast Florida",
+        "category": "general_support",
+        "voice_numbers": [
+          "904-632-0600"
+        ],
+        "sms_numbers": [
+          "211904"
+        ],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://unitedwaynefl.org/get-help/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "Jacksonville/Duval County residents needing crisis and community resource referrals",
+        "geography": "Jacksonville / Duval County, Florida",
+        "notes": "Local 10-digit number for 211 Northeast Florida, distinct from a generic statewide 211 dial-in; also handles crisis calls and text 'Hello' to 211904.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://unitedwaynefl.org/get-help/"
+        ]
+      },
+      {
+        "name": "Hubbard House Domestic Violence Hotline",
+        "organization": "Hubbard House, Inc.",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "904-354-3114",
+          "800-500-1119"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [
+          "904-210-3698"
+        ],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.hubbardhouse.org/domestic-violence-hotline/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "domestic violence victims/survivors in Jacksonville/Duval County",
+        "geography": "Jacksonville / Duval County, Florida",
+        "notes": "Locally operated Duval County domestic violence shelter/hotline provider, distinct from the statewide Florida Domestic Violence Hotline.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.hubbardhouse.org/domestic-violence-hotline/"
+        ]
+      },
+      {
+        "name": "Netcare Access Crisis Hotline",
+        "organization": "Netcare Access / ADAMH Board of Franklin County",
+        "category": "mental_health",
+        "voice_numbers": [
+          "614-276-2273",
+          "888-276-2273"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://adamhfranklin.org/provider/netcare/",
+        "hours": "24/7, 365 days a year",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "Franklin County residents in mental health or substance use crisis",
+        "geography": "Columbus / Franklin County, Ohio",
+        "notes": "Also written as 614-276-CARE / 888-276-CARE. Netcare Access provides crisis intervention, stabilization and assessment for all Franklin County residents, funded/overseen by the ADAMH Board of Franklin County (Ohio's county behavioral health authority).",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://adamhfranklin.org/provider/netcare/"
+        ]
+      },
+      {
+        "name": "211 Central Ohio",
+        "organization": "LSS 211 Central Ohio (Lutheran Social Services)",
+        "category": "general_support",
+        "voice_numbers": [
+          "614-221-2255"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://lssnetworkofhope.org/211centralohio/services/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "Franklin County residents needing referrals to local programs",
+        "geography": "Columbus / Franklin County, Ohio",
+        "notes": "Distinct local 10-digit number for 211 Central Ohio serving Franklin County, not just generic 211 dialing.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://lssnetworkofhope.org/211centralohio/services/",
+          "https://adamhfranklin.org/provider/lss-211/"
+        ]
+      },
+      {
+        "name": "Franklin County Domestic Violence Hotline",
+        "organization": "The Center for Family Safety and Healing (Nationwide Children's Hospital)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "614-224-4663"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://familysafetyandhealing.org/resources/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "domestic violence victims/survivors in Franklin County",
+        "geography": "Columbus / Franklin County, Ohio",
+        "notes": "Also written as 614-224-HOME. Long-running county-specific domestic violence hotline (formerly run by LSS CHOICES); operations transitioned to The Center for Family Safety and Healing in March 2026, same number retained. Distinct from Ohio's statewide domestic violence network.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.nationwidechildrens.org/newsroom/news-releases/2026/03/choices_tcfsh-announcement",
+          "https://familysafetyandhealing.org/resources/"
+        ]
+      },
+      {
+        "name": "Mecklenburg County Mobile Crisis Team",
+        "organization": "The Affiliated Santé Group",
+        "category": "mental_health",
+        "voice_numbers": [
+          "704-566-3410"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://thesantegroup.org/where-we-work/mecklenburg-county-nc/",
+        "hours": "24/7/365",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "Mecklenburg County residents in behavioral/mental health crisis",
+        "geography": "Charlotte / Mecklenburg County, North Carolina",
+        "notes": "Select option 1 for the Mobile Crisis Team. Free crisis intervention service for Mecklenburg County residents; also listed as an emergency contact on Mecklenburg County's Crisis Intervention Team (CIT) government site (cit.mecknc.gov/emergency-contacts).",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://thesantegroup.org/where-we-work/mecklenburg-county-nc/",
+          "https://cit.mecknc.gov/emergency-contacts"
+        ]
+      },
+      {
+        "name": "Greater Charlotte Hope Line",
+        "organization": "Safe Alliance",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "980-771-4673"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.safealliance.org/programs/greater-charlotte-hope-line/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "domestic violence and sexual assault victims/survivors in Mecklenburg County",
+        "geography": "Charlotte / Mecklenburg County, North Carolina",
+        "notes": "Locally run by Safe Alliance for Mecklenburg County residents, distinct from the North Carolina statewide domestic violence hotline. Live chat available weekdays 7am-11pm.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.safealliance.org/programs/greater-charlotte-hope-line/"
+        ]
+      },
+      {
+        "name": "Sandra Eskenazi Mental Health Center Crisis Line",
+        "organization": "Eskenazi Health (Health & Hospital Corporation of Marion County)",
+        "category": "mental_health",
+        "voice_numbers": [
+          "317-880-8485"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.eskenazihealth.edu/mental-health/sandra-eskenazi-mental-health-center/crisis-services",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "unknown",
+        "target": "Marion County residents in mental health crisis",
+        "geography": "Indianapolis / Marion County, Indiana",
+        "notes": "Crisis Intervention Unit and Mobile Crisis Recovery Team operated by Eskenazi Health, which is part of the Health & Hospital Corporation of Marion County, a county governmental entity.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.eskenazihealth.edu/mental-health/sandra-eskenazi-mental-health-center/crisis-services"
+        ]
+      },
+      {
+        "name": "The Julian Center 24-Hour Crisis Line",
+        "organization": "The Julian Center",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "317-920-9320"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.juliancenter.org/get-help/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "domestic violence and sexual assault victims/survivors in Marion County",
+        "geography": "Indianapolis / Marion County, Indiana",
+        "notes": "Marion County's largest domestic violence service provider; hotline is locally operated and distinct from any statewide Indiana domestic violence coalition line.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.juliancenter.org/get-help/"
+        ]
+      },
+      {
+        "name": "SF Behavioral Health Access Line",
+        "organization": "San Francisco Department of Public Health",
+        "category": "mental_health",
+        "voice_numbers": [
+          "888-246-3333",
+          "415-255-3737"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.sf.gov/information--get-help-mental-health-or-substance-use",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish",
+          "Chinese",
+          "other languages via interpretation"
+        ],
+        "cost": "free",
+        "target": "San Francisco residents seeking mental health or substance use crisis support and services",
+        "geography": "San Francisco, California",
+        "notes": "TTY: 711. City/county-run access and crisis line distinct from 988, connecting callers to same-day/48-hour behavioral health services and the Behavioral Health Access Center.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.sf.gov/information--get-help-mental-health-or-substance-use"
+        ]
+      },
+      {
+        "name": "La Casa de las Madres 24-Hour Crisis Line",
+        "organization": "La Casa de las Madres",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "877-503-1850"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [
+          "415-200-3575"
+        ],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.lacasa.org/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "domestic violence victims/survivors in San Francisco",
+        "geography": "San Francisco, California",
+        "notes": "San Francisco-based domestic violence crisis line and shelter provider, works closely with SFPD; separate teen line at 877-923-0700. Distinct from the California statewide domestic violence hotline.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.lacasa.org/"
+        ]
+      },
+      {
+        "name": "King County Regional Crisis Line",
+        "organization": "Crisis Connections (contracted by King County)",
+        "category": "mental_health",
+        "voice_numbers": [
+          "206-461-3222",
+          "866-427-4747"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://kingcounty.gov/en/dept/dchs/human-social-services/behavioral-health-recovery/crisis-services",
+        "hours": "24/7/365",
+        "languages": [
+          "English",
+          "interpretation available"
+        ],
+        "cost": "free",
+        "target": "King County residents in emotional/behavioral health crisis, can dispatch mobile crisis teams",
+        "geography": "Seattle / King County, Washington",
+        "notes": "King County recommends residents still use this Regional Crisis Line (in addition to 988) for local mobile crisis team dispatch; listed on official King County government crisis services page.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://kingcounty.gov/en/dept/dchs/human-social-services/behavioral-health-recovery/crisis-services"
+        ]
+      },
+      {
+        "name": "DV Hopeline",
+        "organization": "New Beginnings",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "206-737-0242"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://newbegin.org/about-us/contact/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "domestic violence victims/survivors in Seattle/King County",
+        "geography": "Seattle, Washington",
+        "notes": "Seattle's largest and oldest domestic violence service provider; hotline is locally run and distinct from the Washington State domestic violence hotline.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://newbegin.org/about-us/contact/"
+        ]
+      },
+      {
+        "name": "STAR (Support Team Assisted Response) Program",
+        "organization": "City and County of Denver - Department of Public Health & Environment (Community Behavioral Health), staffed with WellPower clinicians and Denver Health paramedics",
+        "category": "mental_health",
+        "voice_numbers": [
+          "720-913-7827"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Public-Health-Environment/Community-Behavioral-Health/Behavioral-Health-Strategies/Support-Team-Assisted-Response-STAR-Program",
+        "hours": "7 days a week, 6:00 a.m.-10:00 p.m. (911 dispatches STAR outside those hours to other response options)",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "Denver residents experiencing a mental health or substance use crisis that is not life-threatening",
+        "geography": "Denver, Colorado",
+        "notes": "City-run mobile co-responder alternative to police for behavioral health crises; a two-person van team (behavioral health clinician + paramedic/EMT) can be requested directly at this number or via the non-emergency line 720-913-2000, distinct from 988 and Colorado Crisis Services (844-493-8255).",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Public-Health-Environment/Community-Behavioral-Health/Behavioral-Health-Strategies/Support-Team-Assisted-Response-STAR-Program"
+        ]
+      },
+      {
+        "name": "SafeHouse Denver 24-Hour Crisis Line",
+        "organization": "SafeHouse Denver",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "303-318-9989"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://safehouse-denver.org/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "domestic violence survivors and their children in the Denver area",
+        "geography": "Denver, Colorado",
+        "notes": "Locally-run Denver domestic violence crisis line and shelter provider, distinct from Colorado's statewide DV coalition hotline.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://safehouse-denver.org/"
+        ]
+      },
+      {
+        "name": "BEST (Boston Emergency Services Team)",
+        "organization": "Boston Medical Center / Boston Emergency Services Team (Boston's designated Emergency Services Program)",
+        "category": "mental_health",
+        "voice_numbers": [
+          "800-981-4357"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.bmc.org/cbhc",
+        "hours": "24/7/365",
+        "languages": [
+          "English",
+          "Spanish",
+          "interpreter services available"
+        ],
+        "cost": "free",
+        "target": "individuals in the city of Boston experiencing a psychiatric or behavioral health crisis",
+        "geography": "Boston, Massachusetts",
+        "notes": "Boston's contracted Emergency Services Program call center providing triage, mobile crisis response, and referrals; distinct from 988 and other regional Massachusetts ESPs.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.bmc.org/cbhc"
+        ]
+      },
+      {
+        "name": "Mental Health Cooperative Mobile Crisis Line",
+        "organization": "Mental Health Cooperative (Metro Nashville/Davidson County's designated crisis services provider)",
+        "category": "mental_health",
+        "voice_numbers": [
+          "615-726-0125"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.nashville.gov/departments/health/clinical-health-services/behavioral-health-services",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "residents of Nashville/Davidson County experiencing a mental health crisis",
+        "geography": "Nashville-Davidson County, Tennessee",
+        "notes": "Listed by the Metro Public Health Department as the local mobile crisis contact, distinct from 988 and the statewide Tennessee crisis lines.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.nashville.gov/departments/health/clinical-health-services/behavioral-health-services"
+        ]
+      },
+      {
+        "name": "Family Safety Center (Office of Family Safety)",
+        "organization": "Metropolitan Government of Nashville & Davidson County, Office of Family Safety",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "615-880-1100"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://ofs.nashville.gov/family-safety-center/",
+        "hours": "24/7 for emergency order-of-protection assistance; walk-in advocate services Monday-Friday, 9 a.m.-6 p.m.",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "victims of domestic violence, sexual assault, and other interpersonal violence in Davidson County",
+        "geography": "Nashville-Davidson County, Tennessee",
+        "notes": "Metro government-run family justice center and crisis-intervention line, distinct from the Tennessee statewide domestic violence hotline (1-800-356-6767).",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://ofs.nashville.gov/family-safety-center/",
+          "https://ofs.nashville.gov/get-to-know-us/contact/"
+        ]
+      },
+      {
+        "name": "DWIHN Crisis Line",
+        "organization": "Detroit Wayne Integrated Health Network (DWIHN), Wayne County's Community Mental Health Authority",
+        "category": "mental_health",
+        "voice_numbers": [
+          "800-241-4949",
+          "844-462-7474"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://dwihn.org/customer-service/contact-us",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "Wayne County residents experiencing a mental health or substance use crisis",
+        "geography": "Wayne County, Michigan",
+        "notes": "County community mental health authority's crisis/access line; also operates the walk-in DWIHN 707 Crisis Care Center (313-833-3232). Distinct from 988 and Michigan's statewide lines.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://dwihn.org/customer-service/contact-us"
+        ]
+      },
+      {
+        "name": "First Step 24-Hour Helpline",
+        "organization": "First Step (Wayne County's Domestic Violence and Sexual Assault Comprehensive Agency)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "734-722-6800"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.firststep-mi.org/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "survivors of domestic and sexual violence in Wayne County",
+        "geography": "Wayne County, Michigan",
+        "notes": "Designated comprehensive domestic and sexual violence agency serving Wayne County specifically, distinct from Michigan's statewide domestic violence hotline.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.firststep-mi.org/"
+        ]
+      },
+      {
+        "name": "Multnomah County Mental Health Crisis Line",
+        "organization": "Multnomah County Behavioral Health Division",
+        "category": "mental_health",
+        "voice_numbers": [
+          "503-988-4888",
+          "800-716-9769"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://multco.us/services/behavioral-health-crisis-services",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish",
+          "interpretation available in multiple languages"
+        ],
+        "cost": "free",
+        "target": "residents of Multnomah County experiencing a mental health crisis",
+        "geography": "Multnomah County, Oregon",
+        "notes": "County-run crisis line distinct from 988, staffed 24/7 with interpretation services.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://multco.us/services/behavioral-health-crisis-services",
+          "https://multco.us/programs/behavioral-health"
+        ]
+      },
+      {
+        "name": "Portland Street Response",
+        "organization": "City of Portland (Portland Fire & Rescue / Public Safety Service Area)",
+        "category": "mental_health",
+        "voice_numbers": [
+          "503-823-7773"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.portland.gov/streetresponse",
+        "hours": "6:00 a.m.-midnight, daily",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "people in Portland experiencing a mental health, behavioral health, or unsheltered crisis in public spaces",
+        "geography": "Portland, Oregon",
+        "notes": "City-run non-police mobile crisis/outreach team; can be requested directly at this number or via 911. Distinct from the Multnomah County phone crisis line.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.portland.gov/streetresponse"
+        ]
+      },
+      {
+        "name": "Mobile Crisis Response Team (Southern Nevada)",
+        "organization": "Nevada Division of Public and Behavioral Health, Southern Nevada/Clark County region",
+        "category": "mental_health",
+        "voice_numbers": [
+          "702-486-7865"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://nvbh.org/most/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "youth under 18 and their families in Clark County experiencing a behavioral or mental health crisis",
+        "geography": "Clark County, Nevada",
+        "notes": "Regionally-dedicated Southern Nevada/Clark County number (separate from other Nevada regions' Mobile Crisis Response Team lines) providing in-person crisis response for families; distinct from 988 and the statewide Nevada suicide/crisis lines.",
+        "verification_status": "cross_referenced",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.leg.state.nv.us/Division/Research/LegInfo/Orientation/2016-17/Handouts/MCRT_Brochure.pdf",
+          "https://nvbh.org/wp-content/uploads/2022/05/MCRT-Flyer-2021-4.pdf"
+        ]
+      },
+      {
+        "name": "SafeNest 24/7 Domestic Violence Hotline",
+        "organization": "SafeNest (Temporary Assistance for Domestic Crisis, Inc.)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "702-646-4981"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://safenest.org/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "domestic violence survivors in Clark County",
+        "geography": "Clark County, Nevada",
+        "notes": "Clark County's primary domestic violence crisis hotline; SafeNest operates a separate rural-Nevada hotline (800-486-7282), and this number is distinct from the Nevada Coalition to End Domestic and Sexual Violence's statewide line.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://safenest.org/"
+        ]
+      },
+      {
+        "name": "Resiliency & Justice Center (formerly Vegas Strong Resiliency Center)",
+        "organization": "Legal Aid Center of Southern Nevada, in partnership with Clark County and the City of Las Vegas",
+        "category": "general_support",
+        "voice_numbers": [
+          "702-455-2433",
+          "833-299-2433"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://resiliencyandjustice.org/",
+        "hours": "Monday-Friday, 8:30 a.m.-5:00 p.m.",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "victims of violent crime and mass-casualty events in the Las Vegas/Clark County area seeking trauma support, peer support, and free legal services",
+        "geography": "Clark County, Nevada",
+        "notes": "Originally launched as the Vegas Strong Resiliency Center after the October 1, 2017 mass shooting to serve Clark County/Las Vegas victims specifically; now the Resiliency & Justice Center, still locally operated and distinct from national or statewide crisis lines.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://resiliencyandjustice.org/",
+          "https://www.clarkcountynv.gov/news/news-detail-t28-r986"
+        ]
+      },
+      {
+        "name": "Alliance Healthcare Services Adult Crisis Line",
+        "organization": "Alliance Healthcare Services",
+        "category": "mental_health",
+        "voice_numbers": [
+          "901-577-9400"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.alliance-hs.org/program/adult-crisis-services",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "Adults in Shelby County experiencing a behavioral health crisis",
+        "geography": "Memphis/Shelby County, Tennessee",
+        "notes": "Operated by Alliance Healthcare Services, the primary contracted behavioral health crisis provider for Shelby County; offers crisis assessment, mobile intervention and stabilization, distinct from 988. No one is turned away for inability to pay.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.alliance-hs.org/program/adult-crisis-services",
+          "https://www.shelbycountytn.gov/3839/Behavioral-Health-Services"
+        ]
+      },
+      {
+        "name": "Memphis Crisis Center",
+        "organization": "Memphis Crisis Center",
+        "category": "mental_health",
+        "voice_numbers": [
+          "901-274-7477"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.memphiscrisiscenter.org/about",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "Residents of Memphis and the Mid-South experiencing emotional or suicidal crisis",
+        "geography": "Memphis/Shelby County, Tennessee",
+        "notes": "Locally operated nonprofit crisis line running continuously since 1970; serves as Shelby County's designated local call center within the 988 network but retains its own long-standing local number and volunteer-staffed service.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.memphiscrisiscenter.org/about"
+        ]
+      },
+      {
+        "name": "LINC 211 Memphis",
+        "organization": "Memphis Public Libraries (City of Memphis)",
+        "category": "general_support",
+        "voice_numbers": [
+          "901-415-2790",
+          "855-354-4211"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.memphislibrary.org/linc-2-1-1/",
+        "hours": "Mon-Thu 9am-8pm, Fri 9am-6pm, Sat 10am-6pm, Sun 1pm-5pm (not 24/7)",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "Memphis/Shelby County residents seeking social-service referrals",
+        "geography": "Memphis/Shelby County, Tennessee",
+        "notes": "City-run community-information line operated by Memphis Public Libraries with United Way of the Mid-South, with its own direct-dial numbers distinct from the generic statewide 211 short code. Limited hours, not a 24/7 crisis line.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.memphislibrary.org/linc-2-1-1/",
+          "https://www.fox13memphis.com/news/citys-linc-211-phone-call-connects-residents-to-wide-range-of-social-services/article_8ac97394-5216-11ee-86cb-93f1c50ca17e.html"
+        ]
+      },
+      {
+        "name": "Family Safety Center 24-Hour Crisis Line",
+        "organization": "Family Safety Center of Memphis and Shelby County",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "901-249-7611"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://familysafetycenter.org/domestic-violence/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "Domestic violence victims/survivors in Memphis and Shelby County",
+        "geography": "Memphis/Shelby County, Tennessee",
+        "notes": "Locally operated family justice center serving Memphis and Shelby County; distinct from the Tennessee statewide domestic violence hotline.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://familysafetycenter.org/domestic-violence/",
+          "https://www.domesticshelters.org/help/tn/memphis/38104/family-safety-center-of-memphis-and-shelby-county-inc"
+        ]
+      },
+      {
+        "name": "Seven Counties Services Adult Crisis Line",
+        "organization": "Seven Counties Services",
+        "category": "mental_health",
+        "voice_numbers": [
+          "502-589-4313",
+          "800-221-0446"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://sevencounties.org/crisis/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "Jefferson County/Louisville Metro residents experiencing a behavioral health crisis",
+        "geography": "Louisville/Jefferson County, Kentucky",
+        "notes": "Seven Counties Services is the designated community mental health center for Jefferson County; this line is also used to trigger mobile crisis response and Louisville Metro's Crisis Call Diversion (Deflection) program.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://sevencounties.org/crisis/"
+        ]
+      },
+      {
+        "name": "Center for Women and Families 24-Hour Crisis Line",
+        "organization": "The Center for Women and Families",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "1-844-237-2331"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.thecenteronline.org/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "Survivors of domestic and sexual violence in Jefferson County and the surrounding region",
+        "geography": "Louisville/Jefferson County, Kentucky",
+        "notes": "Locally operated crisis line based in Louisville, distinct from Kentucky's statewide domestic violence coalition hotline; also covers Bullitt, Henry, Oldham, Shelby, Spencer and Trimble counties in KY plus Clark and Floyd counties in IN.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.thecenteronline.org/"
+        ]
+      },
+      {
+        "name": "Louisville Metro Crisis Call Diversion (Deflection)",
+        "organization": "Louisville Metro Government / LMPD, with Seven Counties Services",
+        "category": "mental_health",
+        "voice_numbers": [
+          "502-574-7111"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://louisvilleky.gov/government/health-wellness/crisis-call-diversion-programdeflection",
+        "hours": "24/7, citywide",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "Louisville residents in a mental/behavioral health crisis who want a non-police response",
+        "geography": "Louisville/Jefferson County, Kentucky",
+        "notes": "Accessed via 911 (request 'deflection response') or the LMPD non-emergency line 502-574-7111, option 5. Routes non-emergency mental-health-related 911 calls to trained Crisis Triage Workers instead of a police officer; expanded to all 8 LMPD divisions 24/7.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://louisvilleky.gov/government/health-wellness/crisis-call-diversion-programdeflection",
+          "https://www.lpm.org/news/2023-06-30/louisville-metro-government-to-expand-hours-of-crisis-call-diversion-program"
+        ]
+      },
+      {
+        "name": "Milwaukee County Crisis Line",
+        "organization": "Milwaukee County Behavioral Health Services / Mental Health Emergency Center",
+        "category": "mental_health",
+        "voice_numbers": [
+          "414-257-7222"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://county.milwaukee.gov/EN/DHHS/BHD/Milwaukee-Mobile-Crisis",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "Milwaukee County residents of any age experiencing a mental health emergency",
+        "geography": "Milwaukee, Wisconsin",
+        "notes": "County-run crisis line staffed by counselors, therapists, psychologists and nurses that dispatches a non-police Mobile Crisis team; distinct from 988. Mental Health Emergency Center is a joint venture of Milwaukee County and the area's health systems.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://county.milwaukee.gov/EN/DHHS/BHD/Milwaukee-Mobile-Crisis",
+          "https://mentalhealthmke.org/"
+        ]
+      },
+      {
+        "name": "Sojourner Family Peace Center 24-Hour Domestic Violence Hotline",
+        "organization": "Sojourner Family Peace Center",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "414-933-2722"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [
+          "414-877-8100"
+        ],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://familypeacecenter.org/contact/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "Domestic violence survivors in Milwaukee and outlying communities",
+        "geography": "Milwaukee, Wisconsin",
+        "notes": "Sojourner has been designated the 24-hour domestic violence hotline for the City of Milwaukee since 1986; distinct from the Wisconsin statewide domestic violence hotline.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://familypeacecenter.org/contact/",
+          "https://familypeacecenter.org/"
+        ]
+      },
+      {
+        "name": "IMPACT 211 Milwaukee",
+        "organization": "IMPACT, Inc.",
+        "category": "general_support",
+        "voice_numbers": [
+          "414-773-0211",
+          "866-211-3380"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [
+          "898211"
+        ],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.impactinc.org/impact-211/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "Milwaukee-area residents seeking social-service referrals or crisis support",
+        "geography": "Milwaukee, Wisconsin",
+        "notes": "City of Milwaukee's designated 211 provider (operated by IMPACT, Inc.), confirmed via the city's own 211 page, with direct local/toll-free numbers distinct from the generic 211 dial code.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://city.milwaukee.gov/211",
+          "https://www.impactinc.org/impact-211/"
+        ]
+      },
+      {
+        "name": "Fulton County Behavioral Health Crisis Center",
+        "organization": "Fulton County Department of Behavioral Health and Developmental Disabilities",
+        "category": "mental_health",
+        "voice_numbers": [
+          "404-616-4784"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.fultoncountyga.gov/inside-fulton-county/fulton-county-departments/behavioral-health-and-developmental-disabilities/behavioral-health-crisis-center",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "Fulton County residents experiencing a mental health crisis",
+        "geography": "Atlanta/Fulton County, Georgia",
+        "notes": "County-run walk-in and call-in crisis center (opened 2024) operated with Grady Health System, offering peer support, observation chairs and crisis beds; distinct from the statewide Georgia Crisis & Access Line.",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.fultoncountyga.gov/inside-fulton-county/fulton-county-departments/behavioral-health-and-developmental-disabilities/behavioral-health-crisis-center"
+        ]
+      },
+      {
+        "name": "Partnership Against Domestic Violence (PADV) Crisis Line",
+        "organization": "Partnership Against Domestic Violence",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "404-873-1766"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://padv.org/",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "Domestic violence survivors in Fulton and Gwinnett counties",
+        "geography": "Atlanta/Fulton County, Georgia",
+        "notes": "PADV operates the only state-certified domestic violence safe houses in Fulton County and is listed as a primary crisis resource by the Fulton County Solicitor-General's office; distinct from Georgia's statewide domestic violence hotline.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://padv.org/",
+          "https://fultonrestorativejustice.org/domestic-violence/"
+        ]
+      },
+      {
+        "name": "United Way of Greater Atlanta 211",
+        "organization": "United Way of Greater Atlanta",
+        "category": "general_support",
+        "voice_numbers": [
+          "404-614-1000"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [
+          "898211"
+        ],
+        "chat_url": null,
+        "email": null,
+        "website": "https://unitedwayatlanta.org/about-211/",
+        "hours": "24/7 (live agents 8am-7pm Mon-Fri)",
+        "languages": [
+          "English",
+          "Spanish"
+        ],
+        "cost": "free",
+        "target": "Metro Atlanta residents, including Fulton County, seeking human-services referrals",
+        "geography": "Atlanta/Fulton County, Georgia",
+        "notes": "Regional 211 contact center serving the 13-county Atlanta metro area including Fulton County, with a direct local number distinct from the generic 211 short code.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://unitedwayatlanta.org/about-211/"
+        ]
+      },
+      {
+        "name": "Miami-Dade Mobile Response Team Crisis Line",
+        "organization": "WestCare/The Village South, contracted via Thriving Mind South Florida",
+        "category": "mental_health",
+        "voice_numbers": [
+          "800-435-7968"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://thrivingmind.org/network-services/mobile-response",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "Miami-Dade County residents experiencing a behavioral health crisis who may need a mobile response",
+        "geography": "Miami/Miami-Dade County, Florida",
+        "notes": "Mobile crisis response contracted specifically for Miami-Dade County by Thriving Mind South Florida, the state-designated managing entity for Miami-Dade and Monroe counties; distinct from the 988 Lifeline.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://thrivingmind.org/network-services/mobile-response"
+        ]
+      },
+      {
+        "name": "Miami-Dade County Coordinated Victims Assistance Center",
+        "organization": "Miami-Dade County Community Action and Human Services Department (CAHSD)",
+        "category": "domestic_violence",
+        "voice_numbers": [
+          "305-285-5900"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [
+          "305-679-0303"
+        ],
+        "short_codes": [],
+        "chat_url": null,
+        "email": null,
+        "website": "https://www.miamidade.gov/global/initiatives/domesticviolence/home.page",
+        "hours": "24/7",
+        "languages": [
+          "English"
+        ],
+        "cost": "free",
+        "target": "Domestic violence victims and their dependents in Miami-Dade County",
+        "geography": "Miami/Miami-Dade County, Florida",
+        "notes": "County-run victim assistance hotline with a 24/7 text option added in 2020; distinct from Florida's statewide domestic violence hotline (1-800-500-1119).",
+        "verification_status": "verified_authority",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://www.miamidade.gov/global/initiatives/domesticviolence/home.page"
+        ]
+      },
+      {
+        "name": "211 Miami",
+        "organization": "211 Miami (Switchboard of Miami), funded by The Children's Trust",
+        "category": "general_support",
+        "voice_numbers": [
+          "305-631-4211",
+          "305-358-4357"
+        ],
+        "sms_numbers": [],
+        "text_numbers": [],
+        "short_codes": [
+          "898211"
+        ],
+        "chat_url": null,
+        "email": null,
+        "website": "https://211miami.org/",
+        "hours": "24/7",
+        "languages": [
+          "English",
+          "Spanish",
+          "Haitian Creole"
+        ],
+        "cost": "free",
+        "target": "Miami-Dade County residents seeking crisis counseling and social-service referrals",
+        "geography": "Miami/Miami-Dade County, Florida",
+        "notes": "Miami-Dade-specific crisis and information helpline funded by The Children's Trust, a dedicated Miami-Dade County revenue source created by voter referendum; direct-dial numbers distinct from the generic 211 short code.",
+        "verification_status": "verified_web",
+        "last_verified": "2026-08-12",
+        "sources": [
+          "https://211miami.org/services/suicide-prevention/",
+          "https://211miami.org/"
+        ]
+      }
+    ]
+  }
+]
