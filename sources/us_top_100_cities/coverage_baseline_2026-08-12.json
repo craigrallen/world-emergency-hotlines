@@ -14,8 +14,8 @@
   },
   "summary": {
     "cities": 100,
-    "cities_with_direct_canonical_locality_match": 22,
-    "cities_without_direct_canonical_locality_match": 78,
+    "cities_with_direct_canonical_locality_match": 20,
+    "cities_without_direct_canonical_locality_match": 80,
     "cities_with_city_or_county_canonical_match": 38,
     "cities_without_city_or_county_canonical_match": 62
   },
@@ -111,37 +111,7 @@
           "share_of_place_geometry": 1.0
         }
       ],
-      "existing_local_records": [
-        {
-          "name": "LA County Department of Mental Health Help Line",
-          "category": "mental_health",
-          "geography": "Los Angeles County, California",
-          "verification_status": "verified_authority",
-          "sources": [
-            "https://dmh.lacounty.gov/get-help-now/"
-          ]
-        },
-        {
-          "name": "211 LA County",
-          "category": "general_support",
-          "geography": "Los Angeles County, California",
-          "verification_status": "verified_web",
-          "sources": [
-            "https://211la.org/",
-            "http://www.laalmanac.com/social/so01z.php"
-          ]
-        },
-        {
-          "name": "LA County Domestic Violence Hotline",
-          "category": "domestic_violence",
-          "geography": "Los Angeles County, California",
-          "verification_status": "verified_authority",
-          "sources": [
-            "https://dpss.lacounty.gov/en/jobs/gain/sss/domestic-violence.html",
-            "https://file.lacounty.gov/SDSInter/lasd/145215_domvspan-LACODA_Eng_Span.pdf"
-          ]
-        }
-      ],
+      "existing_local_records": [],
       "existing_city_or_county_records": [
         {
           "name": "LA County Department of Mental Health Help Line",
@@ -465,28 +435,7 @@
           "share_of_place_geometry": 1.0
         }
       ],
-      "existing_local_records": [
-        {
-          "name": "San Diego Access and Crisis Line (ACL)",
-          "category": "mental_health",
-          "geography": "San Diego County, California",
-          "verification_status": "verified_authority",
-          "sources": [
-            "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/bhs/ACL.html",
-            "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/bhs/crisis_services.html"
-          ]
-        },
-        {
-          "name": "Center for Community Solutions 24/7 Crisis Hotline",
-          "category": "domestic_violence",
-          "geography": "San Diego County, California",
-          "verification_status": "verified_web",
-          "sources": [
-            "https://www.ccssd.org/",
-            "https://ospsandiegocounty.gov/after-hours-hotlines/"
-          ]
-        }
-      ],
+      "existing_local_records": [],
       "existing_city_or_county_records": [
         {
           "name": "San Diego Access and Crisis Line (ACL)",

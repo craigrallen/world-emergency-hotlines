@@ -13,6 +13,12 @@ class AuditUsTopCitiesTests(unittest.TestCase):
         self.assertFalse(city_match("New York", "New York", "New York"))
         self.assertFalse(city_match("York County, Pennsylvania", "New York", "New York"))
 
+    def test_city_match_rejects_same_named_county_geography(self):
+        self.assertFalse(city_match("Los Angeles County, California", "Los Angeles", "California"))
+        self.assertFalse(city_match("San Diego County, California", "San Diego", "California"))
+        self.assertFalse(city_match("Anchorage Municipality, Alaska", "Anchorage", "Alaska"))
+        self.assertTrue(city_match("Los Angeles, California", "Los Angeles", "California"))
+
     def test_county_match_requires_county_type_suffix(self):
         self.assertTrue(county_match("Oklahoma County, Oklahoma", "Oklahoma", "Oklahoma"))
         self.assertFalse(county_match("Tulsa County, Oklahoma", "Oklahoma", "Oklahoma"))

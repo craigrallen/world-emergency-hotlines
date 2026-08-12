@@ -31,7 +31,15 @@ def hotline_summary(hotline: dict) -> dict:
 def city_match(geography: str, city: str, state: str) -> bool:
     if not geography or geography.strip().casefold() == state.casefold():
         return False
-    pattern = re.compile(r"(?<![A-Za-z])" + re.escape(city) + r"(?![A-Za-z])", re.I)
+    # A same-named county is county coverage, not a direct city match. Keep
+    # city labels such as "New York City" valid while rejecting labels such
+    # as "Los Angeles County" and "Anchorage Municipality" here; those are
+    # evaluated separately by county_match().
+    pattern = re.compile(
+        r"(?<![A-Za-z])" + re.escape(city) +
+        r"(?![A-Za-z]|\s+(?:County|Parish|Borough|Census Area|Municipality)(?![A-Za-z]))",
+        re.I,
+    )
     return bool(pattern.search(geography) and state.casefold() in geography.casefold())
 
 

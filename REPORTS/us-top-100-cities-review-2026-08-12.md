@@ -127,10 +127,15 @@ Exact source URLs, HTTP confirmations, contact claims, and source classification
 ## Reproduction
 
 ```sh
+git show a2ccd36bccb1c519c19994830a920dab8266d678:hotlines.json > /tmp/hotlines-pre-city.json
 python3 scripts/audit_us_top_cities.py \
   --census-csv sub-est2025.csv \
   --place-counties sources/us_top_100_cities/place_counties_2025.json \
-  --canonical hotlines.json \
+  --canonical /tmp/hotlines-pre-city.json \
   --out sources/us_top_100_cities/coverage_baseline_2026-08-12.json \
   --as-of 2026-08-12
 ```
+
+The pinned commit is the canonical pre-application snapshot used for this
+baseline. The PR's `hotlines.json` already includes the promoted records and
+therefore intentionally produces the post-application coverage result instead.
