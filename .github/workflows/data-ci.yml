@@ -1,0 +1,32 @@
+name: Data CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+
+      - name: Parse hotlines.json
+        run: python -c "import json; json.load(open('hotlines.json', encoding='utf-8'))"
+
+      - name: Validate canonical dataset
+        run: python scripts/validate_canonical.py
+
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -v
