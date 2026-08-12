@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "batch_id": "crisis-critical-batch-1",
+  "canonical_sha256": "b1ac8989c4a1cea6a29ef454775bbb35777b5abc6af23f85f944cbec03252258",
+  "review_date": "2026-08-12",
+  "policy": "Remove only records that are clearly superseded by a richer first-party survivor in the same country. Preserve distinct categories, service scopes, and contacts.",
+  "resolutions": [
+    {
+      "resolution_id": "au-lifeline-131114",
+      "country": "Australia",
+      "survivor": {"name": "Lifeline Australia", "category": "suicide_crisis", "voice_numbers": ["13 11 14"]},
+      "evidence_url": "https://www.lifeline.org.au/get-help/i-m-feeling-suicidal/",
+      "evidence_note": "First-party page displayed call 13 11 14, text 0477 13 11 14, chat, and 24/7 support on 2026-08-12.",
+      "remove": [
+        {"name": "Lifeline", "category": "suicide_crisis", "voice_numbers": ["13 11 14"]},
+        {"name": "Lifeline Australia (13 11 14)", "category": "suicide_crisis", "voice_numbers": ["13 11 14"]}
+      ]
+    },
+    {
+      "resolution_id": "us-988",
+      "country": "United States",
+      "survivor": {"name": "988 Suicide & Crisis Lifeline", "category": "suicide_crisis", "voice_numbers": ["988", "1-800-273-8255"]},
+      "evidence_url": "https://988lifeline.org/",
+      "evidence_note": "First-party 988 Lifeline source retained; the removed legacy row contains only the same 988 contact and no richer metadata.",
+      "remove": [
+        {"name": "988 Suicide & Crisis Lifeline (988)", "category": "suicide_crisis", "voice_numbers": ["988"]}
+      ]
+    },
+    {
+      "resolution_id": "ca-988",
+      "country": "Canada",
+      "survivor": {"name": "9-8-8 Suicide Crisis Helpline", "category": "suicide_crisis", "voice_numbers": ["988"]},
+      "evidence_url": "https://988.ca/",
+      "evidence_note": "First-party page displayed call or text 9-8-8 and 24/7/365 crisis support on 2026-08-12.",
+      "remove": [
+        {"name": "Suicide Crisis Hotline", "category": "suicide_crisis", "voice_numbers": ["988"]}
+      ]
+    },
+    {
+      "resolution_id": "nz-1737",
+      "country": "New Zealand",
+      "survivor": {"name": "1737, Need to Talk?", "category": "mental_health", "voice_numbers": ["1737"]},
+      "evidence_url": "https://1737.org.nz/",
+      "evidence_note": "First-party page displayed free confidential 24/7 support and text/chat via 1737 on 2026-08-12.",
+      "remove": [
+        {"name": "1737.org", "category": "general_support", "voice_numbers": ["1737"]}
+      ]
+    },
+    {
+      "resolution_id": "gb-samaritans-116123",
+      "country": "United Kingdom",
+      "survivor": {"name": "Samaritans", "category": "suicide_crisis", "voice_numbers": ["116 123"]},
+      "evidence_url": "https://www.samaritans.org/how-we-can-help/contact-samaritan/talk-us-phone/",
+      "evidence_note": "First-party page displayed free calls to 116 123 any time, day or night, on 2026-08-12.",
+      "remove": [
+        {"name": "Samaritans Helpline", "category": "suicide_crisis", "voice_numbers": ["116 123"]},
+        {"name": "The Samaritans", "category": "suicide_crisis", "voice_numbers": ["116 123"]},
+        {"name": "Samaritans UK & ROI", "category": "suicide_crisis", "voice_numbers": ["116123 (", "+44 (0) 8457 90 90 90 (UK", "+44 (0) 8457 90 91 92 (UK", "1850 60 90 90 (ROI", "1850 60 90 91 (ROI"]}
+      ]
+    },
+    {
+      "resolution_id": "gb-samaritans-welsh",
+      "country": "United Kingdom",
+      "survivor": {"name": "Samaritans (Welsh language)", "category": "suicide_crisis", "voice_numbers": ["0808 164 0123"]},
+      "evidence_url": "https://www.samaritans.org/how-we-can-help/contact-samaritan/welsh-language-line/",
+      "evidence_note": "The retained first-party record is the dedicated Welsh-language service; the removed record duplicated its contact with generic language and inaccurate 24/7 metadata.",
+      "remove": [
+        {"name": "Samaritans - Welsh Language Line", "category": "suicide_crisis", "voice_numbers": ["0808 164 0123"]}
+      ]
+    }
+  ]
+}

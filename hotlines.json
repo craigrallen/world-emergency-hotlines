@@ -3598,44 +3598,6 @@
           ]
         },
         {
-          "name": "Lifeline",
-          "organization": "Lifeline",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "13 11 14"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": "24/7",
-          "languages": [
-            "English"
-          ],
-          "cost": "unknown",
-          "target": "people in emotional crisis or at risk of suicide",
-          "geography": "Australia",
-          "notes": "24/7 crisis support & suicide prevention.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "information.json",
-            "xref:vibbrancy",
-            "xref:psc_app",
-            "xref:helplines.world",
-            "xref:wikipedia_emergency"
-          ],
-          "_legacy": {
-            "name": "Lifeline",
-            "numbers": [
-              "13 11 14"
-            ]
-          }
-        },
-        {
           "name": "Beyond Blue",
           "organization": "Beyond Blue",
           "category": "general_support",
@@ -4382,42 +4344,6 @@
             "name": "Samaritans of Albany, WA",
             "voice": [
               "08 98 422776"
-            ],
-            "sms": []
-          }
-        },
-        {
-          "name": "Lifeline Australia (13 11 14)",
-          "organization": "Lifeline Australia",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "13 11 14"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": "people in emotional crisis or at risk of suicide",
-          "geography": "Australia",
-          "notes": "",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "atlacord/Naga Hotlines.json @ 61bec14",
-            "xref:helplines.world",
-            "xref:wikipedia_emergency",
-            "xref:vibbrancy",
-            "xref:psc_app"
-          ],
-          "_legacy": {
-            "name": "Lifeline Australia",
-            "voice": [
-              "13 11 14"
             ],
             "sms": []
           }
@@ -13828,37 +13754,6 @@
             "xref:helplines.world",
             "xref:psc_app"
           ]
-        },
-        {
-          "name": "Suicide Crisis Hotline",
-          "organization": "Suicide Crisis Hotline",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "988"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "Canada",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Suicide Crisis Hotline",
-            "numbers": [
-              "988"
-            ]
-          }
         },
         {
           "name": "Naseeha Mental Helpline",
@@ -65952,41 +65847,6 @@
           }
         },
         {
-          "name": "1737.org",
-          "organization": "1737.org",
-          "category": "general_support",
-          "voice_numbers": [
-            "1737"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": null,
-          "geography": "New Zealand",
-          "notes": "",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "atlacord/Naga Hotlines.json @ 61bec14",
-            "xref:helplines.world",
-            "xref:vibbrancy",
-            "xref:psc_app"
-          ],
-          "_legacy": {
-            "name": "1737.org",
-            "voice": [
-              "1737"
-            ],
-            "sms": []
-          }
-        },
-        {
           "name": "National Depression Initiative",
           "organization": "National Depression Initiative",
           "category": "mental_health",
@@ -89719,42 +89579,6 @@
           }
         },
         {
-          "name": "Samaritans Helpline",
-          "organization": "Samaritans Helpline",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "116 123"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://www.befrienders.org",
-          "hours": "24/7",
-          "languages": [
-            "local"
-          ],
-          "cost": "free",
-          "target": "anyone in emotional distress or at risk of suicide",
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "information.json",
-            "xref:helplines.world",
-            "xref:vibbrancy",
-            "xref:psc_app"
-          ],
-          "_legacy": {
-            "name": "Samaritans Helpline",
-            "numbers": [
-              "116 123"
-            ]
-          }
-        },
-        {
           "name": "Runaway Helpline",
           "organization": "Runaway Helpline",
           "category": "missing_persons",
@@ -90069,39 +89893,6 @@
             "name": "CALM Helpline",
             "numbers": [
               "0800 58 58 58"
-            ]
-          }
-        },
-        {
-          "name": "Samaritans - Welsh Language Line",
-          "organization": "Samaritans - Welsh Language Line",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "0808 164 0123"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://www.befrienders.org",
-          "hours": "24/7",
-          "languages": [
-            "local"
-          ],
-          "cost": "free",
-          "target": "anyone in emotional distress or at risk of suicide",
-          "geography": "United Kingdom",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "Samaritans - Welsh Language Line",
-            "numbers": [
-              "0808 164 0123"
             ]
           }
         },
@@ -92103,51 +91894,6 @@
           }
         },
         {
-          "name": "Samaritans UK & ROI",
-          "organization": "Samaritans UK & ROI",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "116123 (",
-            "+44 (0) 8457 90 90 90 (UK",
-            "+44 (0) 8457 90 91 92 (UK",
-            "1850 60 90 90 (ROI",
-            "1850 60 90 91 (ROI"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://www.befrienders.org",
-          "hours": "24/7",
-          "languages": [
-            "local"
-          ],
-          "cost": "free",
-          "target": "anyone in emotional distress or at risk of suicide",
-          "geography": "United Kingdom",
-          "notes": "hotline: free call from mobile and landline | hotline: 0 | UK - local rate | hotline: 0 | UK minicom | hotline: ROI - local rate | hotline: ROI minicom",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "atlacord/Naga Hotlines.json @ 61bec14",
-            "xref:helplines.world",
-            "xref:vibbrancy",
-            "xref:psc_app"
-          ],
-          "_legacy": {
-            "name": "Samaritans UK & ROI",
-            "voice": [
-              "116123 (",
-              "+44 (0) 8457 90 90 90 (UK",
-              "+44 (0) 8457 90 91 92 (UK",
-              "1850 60 90 90 (ROI",
-              "1850 60 90 91 (ROI"
-            ],
-            "sms": []
-          }
-        },
-        {
           "name": "The Hope Project",
           "organization": "The Hope Project",
           "category": "general_support",
@@ -92430,42 +92176,6 @@
               "+44 345 222 3508"
             ],
             "sms": []
-          }
-        },
-        {
-          "name": "The Samaritans",
-          "organization": "The Samaritans",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "116 123"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": "https://samaritans.org",
-          "hours": "24/7",
-          "languages": [
-            "English",
-            "Welsh"
-          ],
-          "cost": "free",
-          "target": "anyone in emotional distress or at risk of suicide",
-          "geography": "United Kingdom",
-          "notes": "24/7 emotional support for anyone in emotional distress, struggling to cope, or at risk of suicide.",
-          "verification_status": "cross_referenced",
-          "last_verified": "2026-04-22",
-          "sources": [
-            "https://helplines.world/",
-            "xref:helplines.world",
-            "xref:vibbrancy",
-            "xref:psc_app"
-          ],
-          "_legacy": {
-            "name": "The Samaritans",
-            "phone": "116 123",
-            "source": "helplines.world"
           }
         },
         {
@@ -93994,37 +93704,6 @@
             "name": "Emergency",
             "numbers": [
               "911"
-            ]
-          }
-        },
-        {
-          "name": "988 Suicide & Crisis Lifeline (988)",
-          "organization": "988 Suicide & Crisis Lifeline",
-          "category": "suicide_crisis",
-          "voice_numbers": [
-            "988"
-          ],
-          "sms_numbers": [],
-          "text_numbers": [],
-          "short_codes": [],
-          "chat_url": null,
-          "email": null,
-          "website": null,
-          "hours": null,
-          "languages": [],
-          "cost": "unknown",
-          "target": "people in emotional crisis or at risk of suicide",
-          "geography": "United States",
-          "notes": "",
-          "verification_status": "legacy_unverified",
-          "last_verified": null,
-          "sources": [
-            "information.json"
-          ],
-          "_legacy": {
-            "name": "988 Suicide & Crisis Lifeline",
-            "numbers": [
-              "988"
             ]
           }
         },
