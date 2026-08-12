@@ -21,6 +21,26 @@ fraction of unrelated records across different categories (e.g. a national
 government hotline shared by several distinct services) — merging on this
 signal alone would destroy legitimate distinct records. Any future merge
 tooling needs a separate, more conservative review process.
+
+Unlike validate_canonical.py's exact-contact classification (an identical,
+complete normalized set of every contact field), this detector groups
+heuristically and transitively (union-find over normalized-name, phone-key,
+and website-host matches, plus a name-similarity fallback). A single
+reported group can therefore chain records together through *different*
+pairwise signals and does not guarantee every member shares contact, or any
+other single attribute, with every other member.
+
+Per docs/service-record-contract.md, each reported group is classified into
+one of three mutually exclusive labels by category composition:
+same_category_duplicate_candidate (exactly one represented category — the
+strongest candidate signal), cross_category_shared_contact_candidate (more
+than one represented category, each occurring exactly once), or
+mixed_scope_and_duplicate_candidate (more than one represented category,
+with at least one occurring more than once — a same-category duplicate
+candidate can be hiding inside an otherwise mixed group, and must be
+surfaced rather than folded into the cross-category label). None of these
+labels changes detection behavior or asserts a confirmed duplicate or
+confirmed distinctness; they are candidate labels for manual review only.
 """
 from __future__ import annotations
 
@@ -29,11 +49,54 @@ import json
 import pathlib
 import re
 import unicodedata
-from collections import defaultdict
+from collections import Counter, defaultdict
 from difflib import SequenceMatcher
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 DATA = ROOT / "hotlines.json"
+
+# Three mutually exclusive group-level classifications for a candidate
+# group, keyed by category composition (see classify_group()). Order here
+# also fixes the order of the reported breakdown.
+GROUP_CLASSIFICATION_LABELS = {
+    "same_category_duplicate_candidate": "same-category duplicate candidate(s)",
+    "cross_category_shared_contact_candidate": "cross-category shared-contact candidate(s)",
+    "mixed_scope_and_duplicate_candidate": "mixed scope-and-duplicate candidate(s)",
+}
+
+# Per-group inline note used in the findings report body.
+GROUP_CLASSIFICATION_NOTES = {
+    "same_category_duplicate_candidate": "same-category duplicate candidate",
+    "cross_category_shared_contact_candidate": "cross-category shared-contact candidate — requires review",
+    "mixed_scope_and_duplicate_candidate": "mixed scope-and-duplicate candidate — requires review",
+}
+
+
+def classify_group(category_counts) -> str:
+    """Classify a candidate group by its category composition.
+
+    Three mutually exclusive classifications (see
+    docs/service-record-contract.md §3):
+
+    - same_category_duplicate_candidate: exactly one category is
+      represented in the group.
+    - cross_category_shared_contact_candidate: more than one category is
+      represented, and every one of them occurs exactly once.
+    - mixed_scope_and_duplicate_candidate: more than one category is
+      represented, and at least one occurs more than once — a
+      same-category duplicate candidate may be hiding inside an otherwise
+      mixed group, so this must never be folded into the cross-category
+      label above.
+
+    A category match is still only a candidate for human review; no
+    classification here asserts a confirmed duplicate or confirmed
+    distinctness.
+    """
+    if len(category_counts) <= 1:
+        return "same_category_duplicate_candidate"
+    if all(count == 1 for count in category_counts.values()):
+        return "cross_category_shared_contact_candidate"
+    return "mixed_scope_and_duplicate_candidate"
 
 
 def norm_name(s: str) -> str:
@@ -135,13 +198,19 @@ def detect_duplicates_for_country(country: dict) -> list[list[int]]:
     return [g for g in groups.values() if len(g) > 1]
 
 
-def find_duplicates(data: dict) -> tuple[list[str], int, int]:
+def find_duplicates(data: dict) -> tuple[list[str], int, int, Counter, int]:
     """Detect candidate duplicate groups in `data` without modifying it.
 
-    Returns (report_body_lines, total_records, total_groups).
+    Returns (report_body_lines, total_records, total_groups,
+    classification_counts, cross_geography_groups). `classification_counts`
+    is a Counter keyed by the three mutually exclusive labels in
+    GROUP_CLASSIFICATION_LABELS (see classify_group()). This is classification
+    for report text only; it never merges or mutates records.
     """
     rep: list[str] = []
     total_groups = 0
+    classification_counts: Counter = Counter()
+    cross_geography_groups = 0
     total_records = sum(len(c["hotlines"]) for c in data["countries"])
 
     for country in data["countries"]:
@@ -153,9 +222,21 @@ def find_duplicates(data: dict) -> tuple[list[str], int, int]:
         hs = country["hotlines"]
         for group in sorted(groups, key=lambda g: -len(g)):
             total_groups += 1
-            categories = sorted({hs[i].get("category") for i in group})
-            cross_category = " (crosses categories: " + ", ".join(categories) + ")" if len(categories) > 1 else ""
-            rep.append(f"- candidate group of {len(group)}{cross_category}:")
+            category_counts = Counter(hs[i].get("category") for i in group)
+            classification = classify_group(category_counts)
+            classification_counts[classification] += 1
+            note = GROUP_CLASSIFICATION_NOTES[classification]
+            geographies = {
+                (hs[i].get("geography") or "").strip()
+                for i in group
+                if isinstance(hs[i].get("geography"), str)
+            }
+            if len(geographies) > 1:
+                cross_geography_groups += 1
+                note += " + cross-geography candidate (orthogonal review flag)"
+            if len(category_counts) > 1:
+                note += f" (categories: {', '.join(sorted(category_counts))})"
+            rep.append(f"- candidate group of {len(group)} — {note}:")
             for i in group:
                 rep.append(
                     f"    • '{hs[i].get('name', '?')}' "
@@ -164,7 +245,7 @@ def find_duplicates(data: dict) -> tuple[list[str], int, int]:
                 )
         rep.append("")
 
-    return rep, total_records, total_groups
+    return rep, total_records, total_groups, classification_counts, cross_geography_groups
 
 
 def guard_report_path(report_path: pathlib.Path, input_path: pathlib.Path) -> None:
@@ -232,12 +313,29 @@ def main(argv: list[str] | None = None) -> int:
 
     data = json.loads(args.input.read_text(encoding="utf-8"))
 
-    body, total_records, total_groups = find_duplicates(data)
+    (
+        body,
+        total_records,
+        total_groups,
+        classification_counts,
+        cross_geography_groups,
+    ) = find_duplicates(data)
 
-    print(f"Records scanned: {total_records}, candidate duplicate groups: {total_groups}")
+    breakdown = ", ".join(
+        f"{classification_counts.get(key, 0)} {label}"
+        for key, label in GROUP_CLASSIFICATION_LABELS.items()
+    )
+    print(
+        f"Records scanned: {total_records}, candidate duplicate groups: {total_groups} "
+        f"({breakdown}); {cross_geography_groups} cross-geography candidate(s) "
+        "(orthogonal count, not a distinctness signal)"
+    )
     print(
         "\nThis is detection only: no records were merged or modified, and none "
-        "will be. Review candidate groups manually before taking any action."
+        "will be. Shared contact channels alone do not imply a duplicate, and their "
+        "absence does not imply distinctness either — see "
+        "docs/service-record-contract.md. Review candidate groups manually before "
+        "taking any action."
     )
 
     if args.report is None:
@@ -250,6 +348,11 @@ def main(argv: list[str] | None = None) -> int:
         "",
         f"- Records scanned: {total_records}",
         f"- Candidate duplicate groups found: {total_groups}",
+    ] + [
+        f"  - {label.capitalize()}: {classification_counts.get(key, 0)}"
+        for key, label in GROUP_CLASSIFICATION_LABELS.items()
+    ] + [
+        f"- Cross-geography candidates (orthogonal review flag): {cross_geography_groups}",
         "",
         "These are candidates only. No merging was performed; review each group "
         "manually before making any changes to the dataset.",

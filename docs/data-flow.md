@@ -92,6 +92,28 @@ python3 scripts/apply_enrichment.py --apply
 # writes hotlines.json
 ```
 
+## Service-record identity and geography contract
+
+Beyond *where* data may be written, canonical records have a content
+contract: every hotline must carry a non-empty, human-readable `geography`
+(a published service area, not a geocode). `country` + `geography` +
+`category` describes a record's *scope* — it is not an identity key, and no
+field subset (including the contact channel) is an automatic merge key;
+multiple distinct services may legitimately share the same scope. Shared
+phone numbers/emails/websites across categories or areas are expected and
+do not by themselves mean a duplicate — nor does the *absence* of a shared
+contact mean two records are distinct. `scripts/validate_canonical.py` and
+`scripts/dedupe_check.py` only ever *surface* candidate duplicate groups
+(classified `same_category_duplicate_candidate`,
+`cross_category_shared_contact_candidate`, or
+`mixed_scope_and_duplicate_candidate`) for manual review; neither may merge
+or delete canonical records. See
+[docs/service-record-contract.md](service-record-contract.md) for the full
+geography and record-identity rules, the candidate classifications, and the
+manual review outcomes (`retain_distinct_service_scopes`,
+`merge_confirmed_same_service`, `blocked_conflicting_evidence`) reviewers
+use when triaging candidates.
+
 ## Contributor checklist
 
 Before running any data command, ask:

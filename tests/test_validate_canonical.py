@@ -236,6 +236,142 @@ class ValidateCanonicalTests(unittest.TestCase):
         result = self.run_validator()
         self.assertEqual(result.returncode, 0, result.stdout)
 
+    def test_missing_geography_is_an_error(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "hotlines.json"
+            hotline = base_hotline()
+            del hotline["geography"]
+            self.write_json(path, base_dataset([hotline]))
+            result = self.run_validator("--input", str(path))
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("required field 'geography'", result.stdout)
+
+    def test_blank_geography_is_an_error(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "hotlines.json"
+            self.write_json(path, base_dataset([base_hotline(geography="   ")]))
+            result = self.run_validator("--input", str(path))
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("required field 'geography'", result.stdout)
+
+    def test_non_string_geography_is_an_error(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "hotlines.json"
+            self.write_json(path, base_dataset([base_hotline(geography=["Testland"])]))
+            result = self.run_validator("--input", str(path))
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("required field 'geography'", result.stdout)
+
+    def test_country_wide_geography_matching_country_name_is_valid(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "hotlines.json"
+            self.write_json(path, base_dataset([base_hotline(geography="Testland")]))
+            result = self.run_validator("--input", str(path))
+            self.assertEqual(result.returncode, 0, result.stdout)
+            self.assertIn("0 error(s)", result.stdout)
+
+    def test_subnational_geography_label_is_valid(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "hotlines.json"
+            self.write_json(
+                path, base_dataset([base_hotline(geography="Rural Testland Province")])
+            )
+            result = self.run_validator("--input", str(path))
+            self.assertEqual(result.returncode, 0, result.stdout)
+            self.assertIn("0 error(s)", result.stdout)
+
+    def test_cross_category_exact_contact_group_is_a_shared_contact_candidate(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "hotlines.json"
+            dataset = base_dataset(
+                [
+                    base_hotline(name="Suicide Line", category="mental_health"),
+                    base_hotline(name="Crisis Line", category="suicide_crisis"),
+                ]
+            )
+            dataset["categories_reference"]["suicide_crisis"] = "Suicide prevention"
+            before = json.dumps(dataset, ensure_ascii=False, indent=2)
+            self.write_json(path, dataset)
+            result = self.run_validator("--input", str(path))
+            # Shared contact across distinct categories is a review candidate,
+            # not a validation failure.
+            self.assertEqual(result.returncode, 0, result.stdout)
+            self.assertIn("1 cross-category shared-contact candidate(s)", result.stdout)
+            self.assertIn("0 same-category duplicate candidate(s)", result.stdout)
+            self.assertEqual(before, path.read_text(encoding="utf-8"))
+
+    def test_same_category_exact_contact_group_is_a_duplicate_candidate(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "hotlines.json"
+            dataset = base_dataset(
+                [
+                    base_hotline(name="Line One"),
+                    base_hotline(name="Line Two"),
+                ]
+            )
+            before = json.dumps(dataset, ensure_ascii=False, indent=2)
+            self.write_json(path, dataset)
+            result = self.run_validator("--input", str(path))
+            self.assertEqual(result.returncode, 0, result.stdout)
+            self.assertIn("0 cross-category shared-contact candidate(s)", result.stdout)
+            self.assertIn("1 same-category duplicate candidate(s)", result.stdout)
+            self.assertEqual(before, path.read_text(encoding="utf-8"))
+
+    def test_mixed_group_repeated_category_not_hidden_by_cross_category_row(self):
+        # Three records share one exact contact: two are "mental_health"
+        # (a same-category duplicate candidate pair) and a third is
+        # "suicide_crisis". A whole-group binary cross-category/same-category
+        # classification would misreport this 3-member group as purely
+        # cross-category, hiding the repeated same-category pair inside it.
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "hotlines.json"
+            dataset = base_dataset(
+                [
+                    base_hotline(name="Line One"),
+                    base_hotline(name="Line Two"),
+                    base_hotline(name="Line Three", category="suicide_crisis"),
+                ]
+            )
+            dataset["categories_reference"]["suicide_crisis"] = "Suicide prevention"
+            before = json.dumps(dataset, ensure_ascii=False, indent=2)
+            self.write_json(path, dataset)
+            result = self.run_validator("--input", str(path))
+            self.assertEqual(result.returncode, 0, result.stdout)
+            self.assertIn("1 mixed scope-and-duplicate candidate(s)", result.stdout)
+            self.assertIn("0 same-category duplicate candidate(s)", result.stdout)
+            self.assertIn("0 cross-category shared-contact candidate(s)", result.stdout)
+            self.assertEqual(before, path.read_text(encoding="utf-8"))
+
+    def test_cross_geography_exact_contact_group_is_flagged_separately(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "hotlines.json"
+            dataset = base_dataset(
+                [
+                    base_hotline(name="Line One", geography="Testland"),
+                    base_hotline(name="Line Two", geography="Rural Testland Province"),
+                ]
+            )
+            self.write_json(path, dataset)
+            result = self.run_validator("--input", str(path))
+            self.assertEqual(result.returncode, 0, result.stdout)
+            self.assertIn("1 cross-geography candidate(s)", result.stdout)
+
+    def test_classification_never_writes_to_input_file(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "hotlines.json"
+            self.write_json(
+                path,
+                base_dataset(
+                    [
+                        base_hotline(name="Line One"),
+                        base_hotline(name="Line Two"),
+                    ]
+                ),
+            )
+            before = path.read_text(encoding="utf-8")
+            self.run_validator("--input", str(path))
+            self.assertEqual(before, path.read_text(encoding="utf-8"))
+
 
 if __name__ == "__main__":
     unittest.main()

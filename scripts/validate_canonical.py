@@ -4,11 +4,26 @@ Stdlib-only, read-only validator for the canonical hotlines dataset.
 
 Checks schema/country/hotline structural invariants (required fields,
 verification_status enum, last_verified date format, list-typed fields,
-category slug shape, and that every hotline exposes at least one contact
-channel). Categories missing from categories_reference and exact-contact
-duplicate groups within a country are reported as summarized warnings (not
-one line per record/group), and never affect the exit code, since candidate
-duplicates are surfaced separately (for manual review) by dedupe_check.py.
+category slug shape, geography non-empty, and that every hotline exposes at
+least one contact channel). Categories missing from categories_reference and
+exact-contact duplicate groups within a country are reported as summarized
+warnings (not one line per record/group), and never affect the exit code,
+since candidate duplicates are surfaced separately (for manual review) by
+dedupe_check.py.
+
+"Exact contact" means an identical, complete normalized set of every
+contact field (voice/sms/text/short_codes + chat_url/email/website) — see
+contact_key() below. Per docs/service-record-contract.md, country +
+geography + category is a service-*scope* descriptor, not an identity key,
+so even an exact-contact match is only ever a manual-review candidate, never
+a confirmed duplicate or a distinctness determination. Each exact-contact
+group is classified by its category composition into exactly one of three
+mutually exclusive labels — same_category_duplicate_candidate,
+cross_category_shared_contact_candidate, or
+mixed_scope_and_duplicate_candidate (see classify_group() below) — plus an
+orthogonal cross-geography count. This classification is read-only
+reporting: it never merges, deletes, or otherwise mutates records, and never
+asserts that a group is confirmed distinct or a confirmed duplicate.
 
 This script never writes to disk. Exit code is 0 when there are no errors
 (warnings do not affect the exit code), 1 when errors are found, and 2 on
@@ -54,6 +69,15 @@ DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 CATEGORY_SLUG_RE = re.compile(r"^[a-z0-9]+(_[a-z0-9]+)*$")
 
 MAX_DUPLICATE_SAMPLE = 5
+
+# Three mutually exclusive group-level classifications for an exact-contact
+# group, keyed by category composition (see classify_group()). Order here
+# also fixes the order of the reported breakdown.
+GROUP_CLASSIFICATION_LABELS = {
+    "same_category_duplicate_candidate": "same-category duplicate candidate(s)",
+    "cross_category_shared_contact_candidate": "cross-category shared-contact candidate(s)",
+    "mixed_scope_and_duplicate_candidate": "mixed scope-and-duplicate candidate(s)",
+}
 
 
 class Report:
@@ -105,6 +129,38 @@ def is_empty_contact_key(key) -> bool:
     return all(not part for part in key)
 
 
+def classify_group(category_counts) -> str:
+    """Classify an exact-contact group by its category composition.
+
+    Three mutually exclusive classifications (see
+    docs/service-record-contract.md §3):
+
+    - same_category_duplicate_candidate: exactly one category is
+      represented in the group.
+    - cross_category_shared_contact_candidate: more than one category is
+      represented, and every one of them occurs exactly once.
+    - mixed_scope_and_duplicate_candidate: more than one category is
+      represented, and at least one occurs more than once — a
+      same-category duplicate candidate may be hiding inside an otherwise
+      mixed group, so this must never be folded into the cross-category
+      label above.
+
+    A category subset match is still only a candidate for human review; no
+    classification here asserts a confirmed duplicate or confirmed
+    distinctness.
+    """
+    if len(category_counts) <= 1:
+        return "same_category_duplicate_candidate"
+    if all(count == 1 for count in category_counts.values()):
+        return "cross_category_shared_contact_candidate"
+    return "mixed_scope_and_duplicate_candidate"
+
+
+def _geo_value(hotline: dict):
+    geography = hotline.get("geography")
+    return geography.strip() if isinstance(geography, str) else geography
+
+
 def validate_hotline(hotline, country_name: str, index: int, report: Report) -> None:
     where = f"{country_name!r} hotline[{index}]"
     if not isinstance(hotline, dict):
@@ -125,6 +181,14 @@ def validate_hotline(hotline, country_name: str, index: int, report: Report) -> 
         report.error(
             f"{label}: 'category' {category!r} must be a non-empty lowercase "
             "slug (letters, digits, underscores; e.g. 'mental_health')"
+        )
+
+    geography = hotline.get("geography")
+    if not isinstance(geography, str) or not geography.strip():
+        report.error(
+            f"{label}: missing/empty required field 'geography' — every hotline must "
+            "declare a non-empty published service area "
+            "(see docs/service-record-contract.md)"
         )
 
     status = hotline.get("verification_status")
@@ -200,7 +264,16 @@ def validate_country(
     for indices in groups.values():
         if len(indices) > 1:
             names = [hotlines[i].get("name", f"[{i}]") for i in indices]
-            duplicate_groups.append((name, names))
+            category_counts = Counter(hotlines[i].get("category") for i in indices)
+            geographies = {_geo_value(hotlines[i]) for i in indices}
+            duplicate_groups.append(
+                {
+                    "country": name,
+                    "names": names,
+                    "category_counts": category_counts,
+                    "geographies": geographies,
+                }
+            )
 
 
 def validate_dataset(data, report: Report) -> None:
@@ -242,14 +315,48 @@ def validate_dataset(data, report: Report) -> None:
         )
 
     if duplicate_groups:
-        total_records = sum(len(names) for _, names in duplicate_groups)
+        total_records = sum(len(g["names"]) for g in duplicate_groups)
         sample = duplicate_groups[:MAX_DUPLICATE_SAMPLE]
-        sample_desc = "; ".join(f"{country!r}: {', '.join(names)}" for country, names in sample)
+        sample_desc = "; ".join(
+            f"{g['country']!r}: {', '.join(g['names'])}" for g in sample
+        )
         omitted = len(duplicate_groups) - len(sample)
         suffix = f"; {omitted} more group(s) not shown" if omitted else ""
         report.warn(
             f"exact-contact duplicate groups found: {len(duplicate_groups)} group(s) "
             f"covering {total_records} record(s) — sample: {sample_desc}{suffix}"
+        )
+
+        # Classification only, per docs/service-record-contract.md: country +
+        # geography + category is a scope descriptor, not an identity key,
+        # so shared contact channels are never more than a manual-review
+        # candidate. Three mutually exclusive classifications, by category
+        # composition within the group (see classify_group()): a
+        # same-category group is a duplicate candidate; a group where every
+        # represented category occurs exactly once is a cross-category
+        # shared-contact candidate; a group with more than one category
+        # where at least one repeats is a mixed group — a same-category
+        # duplicate candidate can be hiding inside it, so it is reported as
+        # its own bucket rather than being folded into (and hidden by) the
+        # cross-category bucket. Cross-geography is tracked as an
+        # orthogonal count, not a distinctness signal. This is bounded,
+        # read-only reporting — it never mutates records and never asserts
+        # a group is confirmed distinct or a confirmed duplicate.
+        classification_counts = Counter(
+            classify_group(g["category_counts"]) for g in duplicate_groups
+        )
+        cross_geography_groups = [g for g in duplicate_groups if len(g["geographies"]) > 1]
+        breakdown = ", ".join(
+            f"{classification_counts.get(key, 0)} {label}"
+            for key, label in GROUP_CLASSIFICATION_LABELS.items()
+        )
+        report.warn(
+            "exact-contact groups by classification (manual review candidates "
+            "only; no automatic merge/delete, and none of these is a "
+            "distinctness or duplicate determination — see "
+            f"docs/service-record-contract.md): {breakdown}; "
+            f"{len(cross_geography_groups)} cross-geography candidate(s) "
+            "(orthogonal count, not a distinctness signal)"
         )
 
 
