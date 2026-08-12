@@ -127,6 +127,7 @@ for (const check of SOURCE_CHECKS) {
 const expectedUrls = [
   '',
   '/about',
+  '/find-help',
   '/map',
   '/data',
   '/categories',

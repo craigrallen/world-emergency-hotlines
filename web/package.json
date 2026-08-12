@@ -16,7 +16,8 @@
     "verify:search": "node scripts/verify-searchbox.mjs",
     "verify:discovery": "node scripts/verify-discovery-routes.mjs",
     "verify:trust": "node scripts/verify-trust-foundation.mjs",
-    "verify:all": "npm run verify:data && npm run verify:search && npm run verify:discovery && npm run verify:trust",
+    "verify:finder": "node scripts/verify-guided-finder.mjs",
+    "verify:all": "npm run verify:data && npm run verify:search && npm run verify:discovery && npm run verify:trust && npm run verify:finder",
     "typecheck": "astro check"
   },
   "dependencies": {
