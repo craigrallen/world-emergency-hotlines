@@ -1,0 +1,3357 @@
+{
+  "as_of": "2026-08-12",
+  "ranking_source": {
+    "publisher": "U.S. Census Bureau",
+    "dataset": "Annual Estimates of the Resident Population for Incorporated Places: April 1, 2020 to July 1, 2025",
+    "url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/cities/totals/sub-est2025.csv",
+    "download_sha256": "e3508f5201465913476d4ddf91740f191f7977c9f2614a2a7e30b5fd22027934",
+    "selection": "SUMLEV=162 incorporated places; FUNCSTAT A/B; descending POPESTIMATE2025"
+  },
+  "county_mapping_source": {
+    "place_boundaries": "https://www2.census.gov/geo/tiger/TIGER2025/PLACE/",
+    "county_boundaries": "https://www2.census.gov/geo/tiger/TIGER2025/COUNTY/tl_2025_us_county.zip",
+    "method": "TIGER/Line place and county polygon intersection; county included when intersection area is positive"
+  },
+  "summary": {
+    "cities": 100,
+    "cities_with_direct_canonical_locality_match": 22,
+    "cities_without_direct_canonical_locality_match": 78,
+    "cities_with_city_or_county_canonical_match": 38,
+    "cities_without_city_or_county_canonical_match": 62
+  },
+  "cities": [
+    {
+      "rank": 1,
+      "city": "New York",
+      "state": "New York",
+      "population_estimate_2025": 8584629,
+      "census_state_fips": "36",
+      "census_place_fips": "51000",
+      "counties": [
+        {
+          "name": "Queens",
+          "county_fips": "081",
+          "share_of_place_geometry": 0.384102
+        },
+        {
+          "name": "Richmond",
+          "county_fips": "085",
+          "share_of_place_geometry": 0.217417
+        },
+        {
+          "name": "Kings",
+          "county_fips": "047",
+          "share_of_place_geometry": 0.204921
+        },
+        {
+          "name": "Bronx",
+          "county_fips": "005",
+          "share_of_place_geometry": 0.121773
+        },
+        {
+          "name": "New York",
+          "county_fips": "061",
+          "share_of_place_geometry": 0.071788
+        }
+      ],
+      "existing_local_records": [
+        {
+          "name": "NYC Well",
+          "category": "mental_health",
+          "geography": "New York City, New York",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://mentalhealth.cityofnewyork.us/program/nyc-well",
+            "https://nyc988.cityofnewyork.us/en/get-help-now/"
+          ]
+        },
+        {
+          "name": "NYC HOPE Hotline",
+          "category": "domestic_violence",
+          "geography": "New York City, New York",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://www.nyc.gov/content/endgbv/pages/hotlines"
+          ]
+        }
+      ],
+      "existing_city_or_county_records": [
+        {
+          "name": "NYC Well",
+          "category": "mental_health",
+          "geography": "New York City, New York",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://mentalhealth.cityofnewyork.us/program/nyc-well",
+            "https://nyc988.cityofnewyork.us/en/get-help-now/"
+          ]
+        },
+        {
+          "name": "NYC HOPE Hotline",
+          "category": "domestic_violence",
+          "geography": "New York City, New York",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://www.nyc.gov/content/endgbv/pages/hotlines"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 2,
+      "city": "Los Angeles",
+      "state": "California",
+      "population_estimate_2025": 3869089,
+      "census_state_fips": "06",
+      "census_place_fips": "44000",
+      "counties": [
+        {
+          "name": "Los Angeles",
+          "county_fips": "037",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [
+        {
+          "name": "LA County Department of Mental Health Help Line",
+          "category": "mental_health",
+          "geography": "Los Angeles County, California",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://dmh.lacounty.gov/get-help-now/"
+          ]
+        },
+        {
+          "name": "211 LA County",
+          "category": "general_support",
+          "geography": "Los Angeles County, California",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://211la.org/",
+            "http://www.laalmanac.com/social/so01z.php"
+          ]
+        },
+        {
+          "name": "LA County Domestic Violence Hotline",
+          "category": "domestic_violence",
+          "geography": "Los Angeles County, California",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://dpss.lacounty.gov/en/jobs/gain/sss/domestic-violence.html",
+            "https://file.lacounty.gov/SDSInter/lasd/145215_domvspan-LACODA_Eng_Span.pdf"
+          ]
+        }
+      ],
+      "existing_city_or_county_records": [
+        {
+          "name": "LA County Department of Mental Health Help Line",
+          "category": "mental_health",
+          "geography": "Los Angeles County, California",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://dmh.lacounty.gov/get-help-now/"
+          ]
+        },
+        {
+          "name": "211 LA County",
+          "category": "general_support",
+          "geography": "Los Angeles County, California",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://211la.org/",
+            "http://www.laalmanac.com/social/so01z.php"
+          ]
+        },
+        {
+          "name": "LA County Domestic Violence Hotline",
+          "category": "domestic_violence",
+          "geography": "Los Angeles County, California",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://dpss.lacounty.gov/en/jobs/gain/sss/domestic-violence.html",
+            "https://file.lacounty.gov/SDSInter/lasd/145215_domvspan-LACODA_Eng_Span.pdf"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 3,
+      "city": "Chicago",
+      "state": "Illinois",
+      "population_estimate_2025": 2731585,
+      "census_state_fips": "17",
+      "census_place_fips": "14000",
+      "counties": [
+        {
+          "name": "Cook",
+          "county_fips": "031",
+          "share_of_place_geometry": 0.988658
+        },
+        {
+          "name": "DuPage",
+          "county_fips": "043",
+          "share_of_place_geometry": 0.011342
+        }
+      ],
+      "existing_local_records": [
+        {
+          "name": "Chicago Domestic Violence Help Line",
+          "category": "domestic_violence",
+          "geography": "Chicago, Illinois",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://www.chicago.gov/city/en/depts/fss/provdrs/dom_violence/svcs/domestic_violencehelpline.html"
+          ]
+        }
+      ],
+      "existing_city_or_county_records": [
+        {
+          "name": "NAMI Chicago Helpline",
+          "category": "mental_health",
+          "geography": "Cook County, Illinois",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://namichicago.org/helpline/",
+            "https://cookcountyhealth.org/press-release/cook-county-health-and-nami-chicago-announce-enhanced-helpline-and-mental-health-support-for-residents-across-the-county/"
+          ]
+        },
+        {
+          "name": "211 Metro Chicago",
+          "category": "general_support",
+          "geography": "Cook County, Illinois",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://211metrochicago.org/",
+            "https://www.cookcountyil.gov/service/211-metro-chicago"
+          ]
+        },
+        {
+          "name": "Chicago Domestic Violence Help Line",
+          "category": "domestic_violence",
+          "geography": "Chicago, Illinois",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://www.chicago.gov/city/en/depts/fss/provdrs/dom_violence/svcs/domestic_violencehelpline.html"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 4,
+      "city": "Houston",
+      "state": "Texas",
+      "population_estimate_2025": 2397315,
+      "census_state_fips": "48",
+      "census_place_fips": "35000",
+      "counties": [
+        {
+          "name": "Harris",
+          "county_fips": "201",
+          "share_of_place_geometry": 0.963645
+        },
+        {
+          "name": "Fort Bend",
+          "county_fips": "157",
+          "share_of_place_geometry": 0.026673
+        },
+        {
+          "name": "Montgomery",
+          "county_fips": "339",
+          "share_of_place_geometry": 0.009533
+        },
+        {
+          "name": "Waller",
+          "county_fips": "473",
+          "share_of_place_geometry": 0.00015
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": [
+        {
+          "name": "The Harris Center Crisis Line",
+          "category": "mental_health",
+          "geography": "Harris County, Texas",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.theharriscenter.org/services/crisis-services",
+            "https://www.theharriscenter.org/contact"
+          ]
+        },
+        {
+          "name": "HAWC Domestic Violence Hotline",
+          "category": "domestic_violence",
+          "geography": "Harris County, Texas",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://hawc.org/24-hour-hotlines/",
+            "https://dro.harriscountytx.gov/Domestic-Violence-Resources"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 5,
+      "city": "Phoenix",
+      "state": "Arizona",
+      "population_estimate_2025": 1665481,
+      "census_state_fips": "04",
+      "census_place_fips": "55000",
+      "counties": [
+        {
+          "name": "Maricopa",
+          "county_fips": "013",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": [
+        {
+          "name": "Maricopa County (Central Arizona) Crisis Line",
+          "category": "mental_health",
+          "geography": "Maricopa County, Arizona",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://crisis.solari-inc.org/get-help/crisis-line/",
+            "https://www.phoenix.gov/administration/departments/health/substance-use-help/crisis-hotlines-treatment-centers.html"
+          ]
+        },
+        {
+          "name": "Maricopa County Domestic Violence Hotline (A New Leaf)",
+          "category": "domestic_violence",
+          "geography": "Maricopa County, Arizona",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://turnanewleaf.org/services/sexual-and-domestic-violence-services/",
+            "https://turnanewleaf.org/domestic-violence-awareness-month-2024/"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 6,
+      "city": "Philadelphia",
+      "state": "Pennsylvania",
+      "population_estimate_2025": 1574281,
+      "census_state_fips": "42",
+      "census_place_fips": "60000",
+      "counties": [
+        {
+          "name": "Philadelphia",
+          "county_fips": "101",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [
+        {
+          "name": "Philadelphia Crisis Line (DBHIDS)",
+          "category": "mental_health",
+          "geography": "Philadelphia, Pennsylvania",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://www.phila.gov/2021-10-25-improving-behavioral-health-resources-and-police-response/"
+          ]
+        },
+        {
+          "name": "Philadelphia Domestic Violence Hotline",
+          "category": "domestic_violence",
+          "geography": "Philadelphia, Pennsylvania",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://www.phila.gov/services/crime-law-justice/report-a-crime-or-concern/abuse-and-harassment/get-help-with-domestic-violence/",
+            "https://www.phila.gov/2024-05-02-five-things-you-should-know-about-the-philadelphia-domestic-violence-hotline/"
+          ]
+        }
+      ],
+      "existing_city_or_county_records": [
+        {
+          "name": "Philadelphia Crisis Line (DBHIDS)",
+          "category": "mental_health",
+          "geography": "Philadelphia, Pennsylvania",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://www.phila.gov/2021-10-25-improving-behavioral-health-resources-and-police-response/"
+          ]
+        },
+        {
+          "name": "Philadelphia Domestic Violence Hotline",
+          "category": "domestic_violence",
+          "geography": "Philadelphia, Pennsylvania",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://www.phila.gov/services/crime-law-justice/report-a-crime-or-concern/abuse-and-harassment/get-help-with-domestic-violence/",
+            "https://www.phila.gov/2024-05-02-five-things-you-should-know-about-the-philadelphia-domestic-violence-hotline/"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 7,
+      "city": "San Antonio",
+      "state": "Texas",
+      "population_estimate_2025": 1548422,
+      "census_state_fips": "48",
+      "census_place_fips": "65000",
+      "counties": [
+        {
+          "name": "Bexar",
+          "county_fips": "029",
+          "share_of_place_geometry": 0.998879
+        },
+        {
+          "name": "Medina",
+          "county_fips": "325",
+          "share_of_place_geometry": 0.001104
+        },
+        {
+          "name": "Comal",
+          "county_fips": "091",
+          "share_of_place_geometry": 1.7e-05
+        }
+      ],
+      "existing_local_records": [
+        {
+          "name": "CHCS 24-Hour Crisis Line",
+          "category": "mental_health",
+          "geography": "San Antonio / Bexar County, Texas",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://www.bexar.org/3380/Behavioral-Health",
+            "https://chcsbc.org/"
+          ]
+        },
+        {
+          "name": "Family Violence Prevention Services 24-Hour Hotline",
+          "category": "domestic_violence",
+          "geography": "San Antonio / Bexar County, Texas",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://fvps.org/fvps-services/24-hour-emergency-shelter-services/"
+          ]
+        }
+      ],
+      "existing_city_or_county_records": [
+        {
+          "name": "CHCS 24-Hour Crisis Line",
+          "category": "mental_health",
+          "geography": "San Antonio / Bexar County, Texas",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://www.bexar.org/3380/Behavioral-Health",
+            "https://chcsbc.org/"
+          ]
+        },
+        {
+          "name": "Family Violence Prevention Services 24-Hour Hotline",
+          "category": "domestic_violence",
+          "geography": "San Antonio / Bexar County, Texas",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://fvps.org/fvps-services/24-hour-emergency-shelter-services/"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 8,
+      "city": "San Diego",
+      "state": "California",
+      "population_estimate_2025": 1406106,
+      "census_state_fips": "06",
+      "census_place_fips": "66000",
+      "counties": [
+        {
+          "name": "San Diego",
+          "county_fips": "073",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [
+        {
+          "name": "San Diego Access and Crisis Line (ACL)",
+          "category": "mental_health",
+          "geography": "San Diego County, California",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/bhs/ACL.html",
+            "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/bhs/crisis_services.html"
+          ]
+        },
+        {
+          "name": "Center for Community Solutions 24/7 Crisis Hotline",
+          "category": "domestic_violence",
+          "geography": "San Diego County, California",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.ccssd.org/",
+            "https://ospsandiegocounty.gov/after-hours-hotlines/"
+          ]
+        }
+      ],
+      "existing_city_or_county_records": [
+        {
+          "name": "San Diego Access and Crisis Line (ACL)",
+          "category": "mental_health",
+          "geography": "San Diego County, California",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/bhs/ACL.html",
+            "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/bhs/crisis_services.html"
+          ]
+        },
+        {
+          "name": "Center for Community Solutions 24/7 Crisis Hotline",
+          "category": "domestic_violence",
+          "geography": "San Diego County, California",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.ccssd.org/",
+            "https://ospsandiegocounty.gov/after-hours-hotlines/"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 9,
+      "city": "Dallas",
+      "state": "Texas",
+      "population_estimate_2025": 1329491,
+      "census_state_fips": "48",
+      "census_place_fips": "19000",
+      "counties": [
+        {
+          "name": "Dallas",
+          "county_fips": "113",
+          "share_of_place_geometry": 0.900454
+        },
+        {
+          "name": "Rockwall",
+          "county_fips": "397",
+          "share_of_place_geometry": 0.053609
+        },
+        {
+          "name": "Collin",
+          "county_fips": "085",
+          "share_of_place_geometry": 0.031503
+        },
+        {
+          "name": "Kaufman",
+          "county_fips": "257",
+          "share_of_place_geometry": 0.008074
+        },
+        {
+          "name": "Denton",
+          "county_fips": "121",
+          "share_of_place_geometry": 0.006359
+        }
+      ],
+      "existing_local_records": [
+        {
+          "name": "NTBHA Mental Health Crisis Hotline",
+          "category": "mental_health",
+          "geography": "Dallas, Texas",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://ntbha.org/crisis-services/"
+          ]
+        },
+        {
+          "name": "Genesis 24-Hour Helpline",
+          "category": "domestic_violence",
+          "geography": "Dallas, Texas",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.genesisshelter.org/"
+          ]
+        }
+      ],
+      "existing_city_or_county_records": [
+        {
+          "name": "NTBHA Mental Health Crisis Hotline",
+          "category": "mental_health",
+          "geography": "Dallas, Texas",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://ntbha.org/crisis-services/"
+          ]
+        },
+        {
+          "name": "Genesis 24-Hour Helpline",
+          "category": "domestic_violence",
+          "geography": "Dallas, Texas",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.genesisshelter.org/"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 10,
+      "city": "Fort Worth",
+      "state": "Texas",
+      "population_estimate_2025": 1028117,
+      "census_state_fips": "48",
+      "census_place_fips": "27000",
+      "counties": [
+        {
+          "name": "Tarrant",
+          "county_fips": "439",
+          "share_of_place_geometry": 0.917338
+        },
+        {
+          "name": "Denton",
+          "county_fips": "121",
+          "share_of_place_geometry": 0.054388
+        },
+        {
+          "name": "Parker",
+          "county_fips": "367",
+          "share_of_place_geometry": 0.026689
+        },
+        {
+          "name": "Wise",
+          "county_fips": "497",
+          "share_of_place_geometry": 0.001405
+        },
+        {
+          "name": "Johnson",
+          "county_fips": "251",
+          "share_of_place_geometry": 0.000179
+        }
+      ],
+      "existing_local_records": [
+        {
+          "name": "MHMR of Tarrant County I-CARE Crisis Line",
+          "category": "mental_health",
+          "geography": "Fort Worth / Tarrant County, Texas",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://mhmrtarrant.org/crisis-services/"
+          ]
+        },
+        {
+          "name": "The Archway 24-Hour Hotline (formerly SafeHaven of Tarrant County)",
+          "category": "domestic_violence",
+          "geography": "Fort Worth / Tarrant County, Texas",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://thearchwaytx.org/"
+          ]
+        }
+      ],
+      "existing_city_or_county_records": [
+        {
+          "name": "MHMR of Tarrant County I-CARE Crisis Line",
+          "category": "mental_health",
+          "geography": "Fort Worth / Tarrant County, Texas",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://mhmrtarrant.org/crisis-services/"
+          ]
+        },
+        {
+          "name": "The Archway 24-Hour Hotline (formerly SafeHaven of Tarrant County)",
+          "category": "domestic_violence",
+          "geography": "Fort Worth / Tarrant County, Texas",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://thearchwaytx.org/"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 11,
+      "city": "Jacksonville",
+      "state": "Florida",
+      "population_estimate_2025": 1017689,
+      "census_state_fips": "12",
+      "census_place_fips": "35000",
+      "counties": [
+        {
+          "name": "Duval",
+          "county_fips": "031",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [
+        {
+          "name": "211 Northeast Florida (First Call for Help)",
+          "category": "general_support",
+          "geography": "Jacksonville / Duval County, Florida",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://unitedwaynefl.org/get-help/"
+          ]
+        },
+        {
+          "name": "Hubbard House Domestic Violence Hotline",
+          "category": "domestic_violence",
+          "geography": "Jacksonville / Duval County, Florida",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.hubbardhouse.org/domestic-violence-hotline/"
+          ]
+        }
+      ],
+      "existing_city_or_county_records": [
+        {
+          "name": "211 Northeast Florida (First Call for Help)",
+          "category": "general_support",
+          "geography": "Jacksonville / Duval County, Florida",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://unitedwaynefl.org/get-help/"
+          ]
+        },
+        {
+          "name": "Hubbard House Domestic Violence Hotline",
+          "category": "domestic_violence",
+          "geography": "Jacksonville / Duval County, Florida",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.hubbardhouse.org/domestic-violence-hotline/"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 12,
+      "city": "Austin",
+      "state": "Texas",
+      "population_estimate_2025": 1002632,
+      "census_state_fips": "48",
+      "census_place_fips": "05000",
+      "counties": [
+        {
+          "name": "Travis",
+          "county_fips": "453",
+          "share_of_place_geometry": 0.918515
+        },
+        {
+          "name": "Williamson",
+          "county_fips": "491",
+          "share_of_place_geometry": 0.063483
+        },
+        {
+          "name": "Hays",
+          "county_fips": "209",
+          "share_of_place_geometry": 0.017989
+        },
+        {
+          "name": "Bastrop",
+          "county_fips": "021",
+          "share_of_place_geometry": 1.3e-05
+        }
+      ],
+      "existing_local_records": [
+        {
+          "name": "Integral Care 24/7 Crisis Line",
+          "category": "mental_health",
+          "geography": "Austin / Travis County, Texas",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://integralcare.org/en/mental-health-resources/",
+            "https://services.austintexas.gov/edims/document.cfm?id=191181"
+          ]
+        },
+        {
+          "name": "SAFEline",
+          "category": "domestic_violence",
+          "geography": "Austin / Travis County, Texas",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.safeaustin.org/",
+            "https://www.austintexas.gov/health/safety-help"
+          ]
+        }
+      ],
+      "existing_city_or_county_records": [
+        {
+          "name": "Integral Care 24/7 Crisis Line",
+          "category": "mental_health",
+          "geography": "Austin / Travis County, Texas",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://integralcare.org/en/mental-health-resources/",
+            "https://services.austintexas.gov/edims/document.cfm?id=191181"
+          ]
+        },
+        {
+          "name": "SAFEline",
+          "category": "domestic_violence",
+          "geography": "Austin / Travis County, Texas",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.safeaustin.org/",
+            "https://www.austintexas.gov/health/safety-help"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 13,
+      "city": "San Jose",
+      "state": "California",
+      "population_estimate_2025": 989814,
+      "census_state_fips": "06",
+      "census_place_fips": "68000",
+      "counties": [
+        {
+          "name": "Santa Clara",
+          "county_fips": "085",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [
+        {
+          "name": "Behavioral Health Services Call Center",
+          "category": "mental_health",
+          "geography": "San Jose / Santa Clara County, California",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://bhsd.santaclaracounty.gov/get-help-now/talk-someone-now"
+          ]
+        },
+        {
+          "name": "TRUST Direct Crisis Line",
+          "category": "mental_health",
+          "geography": "San Jose / Santa Clara County, California",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://files.santaclaracounty.gov/exjcpb1431/2025-05/trust_faqs.pdf",
+            "https://news.santaclaracounty.gov/call-text-or-chat-crisis-and-suicide-prevention-lifeline-here-everyone"
+          ]
+        },
+        {
+          "name": "Next Door Solutions 24-Hour Crisis Line",
+          "category": "domestic_violence",
+          "geography": "San Jose / Santa Clara County, California",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.nextdoorsolutions.org/"
+          ]
+        }
+      ],
+      "existing_city_or_county_records": [
+        {
+          "name": "Behavioral Health Services Call Center",
+          "category": "mental_health",
+          "geography": "San Jose / Santa Clara County, California",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://bhsd.santaclaracounty.gov/get-help-now/talk-someone-now"
+          ]
+        },
+        {
+          "name": "TRUST Direct Crisis Line",
+          "category": "mental_health",
+          "geography": "San Jose / Santa Clara County, California",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://files.santaclaracounty.gov/exjcpb1431/2025-05/trust_faqs.pdf",
+            "https://news.santaclaracounty.gov/call-text-or-chat-crisis-and-suicide-prevention-lifeline-here-everyone"
+          ]
+        },
+        {
+          "name": "Next Door Solutions 24-Hour Crisis Line",
+          "category": "domestic_violence",
+          "geography": "San Jose / Santa Clara County, California",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.nextdoorsolutions.org/"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 14,
+      "city": "Charlotte",
+      "state": "North Carolina",
+      "population_estimate_2025": 964784,
+      "census_state_fips": "37",
+      "census_place_fips": "12000",
+      "counties": [
+        {
+          "name": "Mecklenburg",
+          "county_fips": "119",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [
+        {
+          "name": "Mecklenburg County Mobile Crisis Team",
+          "category": "mental_health",
+          "geography": "Charlotte / Mecklenburg County, North Carolina",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://thesantegroup.org/where-we-work/mecklenburg-county-nc/",
+            "https://cit.mecknc.gov/emergency-contacts"
+          ]
+        },
+        {
+          "name": "Greater Charlotte Hope Line",
+          "category": "domestic_violence",
+          "geography": "Charlotte / Mecklenburg County, North Carolina",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.safealliance.org/programs/greater-charlotte-hope-line/"
+          ]
+        }
+      ],
+      "existing_city_or_county_records": [
+        {
+          "name": "Mecklenburg County Mobile Crisis Team",
+          "category": "mental_health",
+          "geography": "Charlotte / Mecklenburg County, North Carolina",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://thesantegroup.org/where-we-work/mecklenburg-county-nc/",
+            "https://cit.mecknc.gov/emergency-contacts"
+          ]
+        },
+        {
+          "name": "Greater Charlotte Hope Line",
+          "category": "domestic_violence",
+          "geography": "Charlotte / Mecklenburg County, North Carolina",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.safealliance.org/programs/greater-charlotte-hope-line/"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 15,
+      "city": "Columbus",
+      "state": "Ohio",
+      "population_estimate_2025": 938396,
+      "census_state_fips": "39",
+      "census_place_fips": "18000",
+      "counties": [
+        {
+          "name": "Franklin",
+          "county_fips": "049",
+          "share_of_place_geometry": 0.977797
+        },
+        {
+          "name": "Delaware",
+          "county_fips": "041",
+          "share_of_place_geometry": 0.014779
+        },
+        {
+          "name": "Fairfield",
+          "county_fips": "045",
+          "share_of_place_geometry": 0.007424
+        }
+      ],
+      "existing_local_records": [
+        {
+          "name": "Netcare Access Crisis Hotline",
+          "category": "mental_health",
+          "geography": "Columbus / Franklin County, Ohio",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://adamhfranklin.org/provider/netcare/"
+          ]
+        },
+        {
+          "name": "211 Central Ohio",
+          "category": "general_support",
+          "geography": "Columbus / Franklin County, Ohio",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://lssnetworkofhope.org/211centralohio/services/",
+            "https://adamhfranklin.org/provider/lss-211/"
+          ]
+        },
+        {
+          "name": "Franklin County Domestic Violence Hotline",
+          "category": "domestic_violence",
+          "geography": "Columbus / Franklin County, Ohio",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.nationwidechildrens.org/newsroom/news-releases/2026/03/choices_tcfsh-announcement",
+            "https://familysafetyandhealing.org/resources/"
+          ]
+        }
+      ],
+      "existing_city_or_county_records": [
+        {
+          "name": "Netcare Access Crisis Hotline",
+          "category": "mental_health",
+          "geography": "Columbus / Franklin County, Ohio",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://adamhfranklin.org/provider/netcare/"
+          ]
+        },
+        {
+          "name": "211 Central Ohio",
+          "category": "general_support",
+          "geography": "Columbus / Franklin County, Ohio",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://lssnetworkofhope.org/211centralohio/services/",
+            "https://adamhfranklin.org/provider/lss-211/"
+          ]
+        },
+        {
+          "name": "Franklin County Domestic Violence Hotline",
+          "category": "domestic_violence",
+          "geography": "Columbus / Franklin County, Ohio",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.nationwidechildrens.org/newsroom/news-releases/2026/03/choices_tcfsh-announcement",
+            "https://familysafetyandhealing.org/resources/"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 16,
+      "city": "San Francisco",
+      "state": "California",
+      "population_estimate_2025": 826079,
+      "census_state_fips": "06",
+      "census_place_fips": "67000",
+      "counties": [
+        {
+          "name": "San Francisco",
+          "county_fips": "075",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [
+        {
+          "name": "SF Behavioral Health Access Line",
+          "category": "mental_health",
+          "geography": "San Francisco, California",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://www.sf.gov/information--get-help-mental-health-or-substance-use"
+          ]
+        },
+        {
+          "name": "La Casa de las Madres 24-Hour Crisis Line",
+          "category": "domestic_violence",
+          "geography": "San Francisco, California",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.lacasa.org/"
+          ]
+        }
+      ],
+      "existing_city_or_county_records": [
+        {
+          "name": "SF Behavioral Health Access Line",
+          "category": "mental_health",
+          "geography": "San Francisco, California",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://www.sf.gov/information--get-help-mental-health-or-substance-use"
+          ]
+        },
+        {
+          "name": "La Casa de las Madres 24-Hour Crisis Line",
+          "category": "domestic_violence",
+          "geography": "San Francisco, California",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.lacasa.org/"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 17,
+      "city": "Seattle",
+      "state": "Washington",
+      "population_estimate_2025": 784777,
+      "census_state_fips": "53",
+      "census_place_fips": "63000",
+      "counties": [
+        {
+          "name": "King",
+          "county_fips": "033",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [
+        {
+          "name": "King County Regional Crisis Line",
+          "category": "mental_health",
+          "geography": "Seattle / King County, Washington",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://kingcounty.gov/en/dept/dchs/human-social-services/behavioral-health-recovery/crisis-services"
+          ]
+        },
+        {
+          "name": "DV Hopeline",
+          "category": "domestic_violence",
+          "geography": "Seattle, Washington",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://newbegin.org/about-us/contact/"
+          ]
+        }
+      ],
+      "existing_city_or_county_records": [
+        {
+          "name": "King County Regional Crisis Line",
+          "category": "mental_health",
+          "geography": "Seattle / King County, Washington",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://kingcounty.gov/en/dept/dchs/human-social-services/behavioral-health-recovery/crisis-services"
+          ]
+        },
+        {
+          "name": "DV Hopeline",
+          "category": "domestic_violence",
+          "geography": "Seattle, Washington",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://newbegin.org/about-us/contact/"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 18,
+      "city": "Denver",
+      "state": "Colorado",
+      "population_estimate_2025": 740613,
+      "census_state_fips": "08",
+      "census_place_fips": "20000",
+      "counties": [
+        {
+          "name": "Denver",
+          "county_fips": "031",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [
+        {
+          "name": "STAR (Support Team Assisted Response) Program",
+          "category": "mental_health",
+          "geography": "Denver, Colorado",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Public-Health-Environment/Community-Behavioral-Health/Behavioral-Health-Strategies/Support-Team-Assisted-Response-STAR-Program"
+          ]
+        },
+        {
+          "name": "SafeHouse Denver 24-Hour Crisis Line",
+          "category": "domestic_violence",
+          "geography": "Denver, Colorado",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://safehouse-denver.org/"
+          ]
+        }
+      ],
+      "existing_city_or_county_records": [
+        {
+          "name": "STAR (Support Team Assisted Response) Program",
+          "category": "mental_health",
+          "geography": "Denver, Colorado",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://www.denvergov.org/Government/Agencies-Departments-Offices/Agencies-Departments-Offices-Directory/Public-Health-Environment/Community-Behavioral-Health/Behavioral-Health-Strategies/Support-Team-Assisted-Response-STAR-Program"
+          ]
+        },
+        {
+          "name": "SafeHouse Denver 24-Hour Crisis Line",
+          "category": "domestic_violence",
+          "geography": "Denver, Colorado",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://safehouse-denver.org/"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 19,
+      "city": "Oklahoma City",
+      "state": "Oklahoma",
+      "population_estimate_2025": 719849,
+      "census_state_fips": "40",
+      "census_place_fips": "55000",
+      "counties": [
+        {
+          "name": "Oklahoma",
+          "county_fips": "109",
+          "share_of_place_geometry": 0.578279
+        },
+        {
+          "name": "Canadian",
+          "county_fips": "017",
+          "share_of_place_geometry": 0.218516
+        },
+        {
+          "name": "Cleveland",
+          "county_fips": "027",
+          "share_of_place_geometry": 0.202416
+        },
+        {
+          "name": "Pottawatomie",
+          "county_fips": "125",
+          "share_of_place_geometry": 0.000789
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 20,
+      "city": "El Paso",
+      "state": "Texas",
+      "population_estimate_2025": 683012,
+      "census_state_fips": "48",
+      "census_place_fips": "24000",
+      "counties": [
+        {
+          "name": "El Paso",
+          "county_fips": "141",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 21,
+      "city": "Las Vegas",
+      "state": "Nevada",
+      "population_estimate_2025": 679817,
+      "census_state_fips": "32",
+      "census_place_fips": "40000",
+      "counties": [
+        {
+          "name": "Clark",
+          "county_fips": "003",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": [
+        {
+          "name": "Mobile Crisis Response Team (Southern Nevada)",
+          "category": "mental_health",
+          "geography": "Clark County, Nevada",
+          "verification_status": "cross_referenced",
+          "sources": [
+            "https://www.leg.state.nv.us/Division/Research/LegInfo/Orientation/2016-17/Handouts/MCRT_Brochure.pdf",
+            "https://nvbh.org/wp-content/uploads/2022/05/MCRT-Flyer-2021-4.pdf"
+          ]
+        },
+        {
+          "name": "SafeNest 24/7 Domestic Violence Hotline",
+          "category": "domestic_violence",
+          "geography": "Clark County, Nevada",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://safenest.org/"
+          ]
+        },
+        {
+          "name": "Resiliency & Justice Center (formerly Vegas Strong Resiliency Center)",
+          "category": "general_support",
+          "geography": "Clark County, Nevada",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://resiliencyandjustice.org/",
+            "https://www.clarkcountynv.gov/news/news-detail-t28-r986"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 22,
+      "city": "Boston",
+      "state": "Massachusetts",
+      "population_estimate_2025": 672973,
+      "census_state_fips": "25",
+      "census_place_fips": "07000",
+      "counties": [
+        {
+          "name": "Suffolk",
+          "county_fips": "025",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [
+        {
+          "name": "BEST (Boston Emergency Services Team)",
+          "category": "mental_health",
+          "geography": "Boston, Massachusetts",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.bmc.org/cbhc"
+          ]
+        }
+      ],
+      "existing_city_or_county_records": [
+        {
+          "name": "BEST (Boston Emergency Services Team)",
+          "category": "mental_health",
+          "geography": "Boston, Massachusetts",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.bmc.org/cbhc"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 23,
+      "city": "Detroit",
+      "state": "Michigan",
+      "population_estimate_2025": 649095,
+      "census_state_fips": "26",
+      "census_place_fips": "22000",
+      "counties": [
+        {
+          "name": "Wayne",
+          "county_fips": "163",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": [
+        {
+          "name": "DWIHN Crisis Line",
+          "category": "mental_health",
+          "geography": "Wayne County, Michigan",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://dwihn.org/customer-service/contact-us"
+          ]
+        },
+        {
+          "name": "First Step 24-Hour Helpline",
+          "category": "domestic_violence",
+          "geography": "Wayne County, Michigan",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.firststep-mi.org/"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 24,
+      "city": "Portland",
+      "state": "Oregon",
+      "population_estimate_2025": 635109,
+      "census_state_fips": "41",
+      "census_place_fips": "59000",
+      "counties": [
+        {
+          "name": "Multnomah",
+          "county_fips": "051",
+          "share_of_place_geometry": 0.99504
+        },
+        {
+          "name": "Clackamas",
+          "county_fips": "005",
+          "share_of_place_geometry": 0.003489
+        },
+        {
+          "name": "Washington",
+          "county_fips": "067",
+          "share_of_place_geometry": 0.001471
+        }
+      ],
+      "existing_local_records": [
+        {
+          "name": "Portland Street Response",
+          "category": "mental_health",
+          "geography": "Portland, Oregon",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://www.portland.gov/streetresponse"
+          ]
+        }
+      ],
+      "existing_city_or_county_records": [
+        {
+          "name": "Multnomah County Mental Health Crisis Line",
+          "category": "mental_health",
+          "geography": "Multnomah County, Oregon",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://multco.us/services/behavioral-health-crisis-services",
+            "https://multco.us/programs/behavioral-health"
+          ]
+        },
+        {
+          "name": "Portland Street Response",
+          "category": "mental_health",
+          "geography": "Portland, Oregon",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://www.portland.gov/streetresponse"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 25,
+      "city": "Memphis",
+      "state": "Tennessee",
+      "population_estimate_2025": 609647,
+      "census_state_fips": "47",
+      "census_place_fips": "48000",
+      "counties": [
+        {
+          "name": "Shelby",
+          "county_fips": "157",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [
+        {
+          "name": "Alliance Healthcare Services Adult Crisis Line",
+          "category": "mental_health",
+          "geography": "Memphis/Shelby County, Tennessee",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.alliance-hs.org/program/adult-crisis-services",
+            "https://www.shelbycountytn.gov/3839/Behavioral-Health-Services"
+          ]
+        },
+        {
+          "name": "Memphis Crisis Center",
+          "category": "mental_health",
+          "geography": "Memphis/Shelby County, Tennessee",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.memphiscrisiscenter.org/about"
+          ]
+        },
+        {
+          "name": "LINC 211 Memphis",
+          "category": "general_support",
+          "geography": "Memphis/Shelby County, Tennessee",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.memphislibrary.org/linc-2-1-1/",
+            "https://www.fox13memphis.com/news/citys-linc-211-phone-call-connects-residents-to-wide-range-of-social-services/article_8ac97394-5216-11ee-86cb-93f1c50ca17e.html"
+          ]
+        },
+        {
+          "name": "Family Safety Center 24-Hour Crisis Line",
+          "category": "domestic_violence",
+          "geography": "Memphis/Shelby County, Tennessee",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://familysafetycenter.org/domestic-violence/",
+            "https://www.domesticshelters.org/help/tn/memphis/38104/family-safety-center-of-memphis-and-shelby-county-inc"
+          ]
+        }
+      ],
+      "existing_city_or_county_records": [
+        {
+          "name": "Alliance Healthcare Services Adult Crisis Line",
+          "category": "mental_health",
+          "geography": "Memphis/Shelby County, Tennessee",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.alliance-hs.org/program/adult-crisis-services",
+            "https://www.shelbycountytn.gov/3839/Behavioral-Health-Services"
+          ]
+        },
+        {
+          "name": "Memphis Crisis Center",
+          "category": "mental_health",
+          "geography": "Memphis/Shelby County, Tennessee",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.memphiscrisiscenter.org/about"
+          ]
+        },
+        {
+          "name": "LINC 211 Memphis",
+          "category": "general_support",
+          "geography": "Memphis/Shelby County, Tennessee",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.memphislibrary.org/linc-2-1-1/",
+            "https://www.fox13memphis.com/news/citys-linc-211-phone-call-connects-residents-to-wide-range-of-social-services/article_8ac97394-5216-11ee-86cb-93f1c50ca17e.html"
+          ]
+        },
+        {
+          "name": "Family Safety Center 24-Hour Crisis Line",
+          "category": "domestic_violence",
+          "geography": "Memphis/Shelby County, Tennessee",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://familysafetycenter.org/domestic-violence/",
+            "https://www.domesticshelters.org/help/tn/memphis/38104/family-safety-center-of-memphis-and-shelby-county-inc"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 26,
+      "city": "Baltimore",
+      "state": "Maryland",
+      "population_estimate_2025": 569997,
+      "census_state_fips": "24",
+      "census_place_fips": "04000",
+      "counties": [
+        {
+          "name": "Baltimore",
+          "county_fips": "510",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 27,
+      "city": "Milwaukee",
+      "state": "Wisconsin",
+      "population_estimate_2025": 562407,
+      "census_state_fips": "55",
+      "census_place_fips": "53000",
+      "counties": [
+        {
+          "name": "Milwaukee",
+          "county_fips": "079",
+          "share_of_place_geometry": 0.999011
+        },
+        {
+          "name": "Waukesha",
+          "county_fips": "133",
+          "share_of_place_geometry": 0.000765
+        },
+        {
+          "name": "Washington",
+          "county_fips": "131",
+          "share_of_place_geometry": 0.000225
+        }
+      ],
+      "existing_local_records": [
+        {
+          "name": "Milwaukee County Crisis Line",
+          "category": "mental_health",
+          "geography": "Milwaukee, Wisconsin",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://county.milwaukee.gov/EN/DHHS/BHD/Milwaukee-Mobile-Crisis",
+            "https://mentalhealthmke.org/"
+          ]
+        },
+        {
+          "name": "Sojourner Family Peace Center 24-Hour Domestic Violence Hotline",
+          "category": "domestic_violence",
+          "geography": "Milwaukee, Wisconsin",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://familypeacecenter.org/contact/",
+            "https://familypeacecenter.org/"
+          ]
+        },
+        {
+          "name": "IMPACT 211 Milwaukee",
+          "category": "general_support",
+          "geography": "Milwaukee, Wisconsin",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://city.milwaukee.gov/211",
+            "https://www.impactinc.org/impact-211/"
+          ]
+        }
+      ],
+      "existing_city_or_county_records": [
+        {
+          "name": "Milwaukee County Crisis Line",
+          "category": "mental_health",
+          "geography": "Milwaukee, Wisconsin",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://county.milwaukee.gov/EN/DHHS/BHD/Milwaukee-Mobile-Crisis",
+            "https://mentalhealthmke.org/"
+          ]
+        },
+        {
+          "name": "Sojourner Family Peace Center 24-Hour Domestic Violence Hotline",
+          "category": "domestic_violence",
+          "geography": "Milwaukee, Wisconsin",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://familypeacecenter.org/contact/",
+            "https://familypeacecenter.org/"
+          ]
+        },
+        {
+          "name": "IMPACT 211 Milwaukee",
+          "category": "general_support",
+          "geography": "Milwaukee, Wisconsin",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://city.milwaukee.gov/211",
+            "https://www.impactinc.org/impact-211/"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 28,
+      "city": "Albuquerque",
+      "state": "New Mexico",
+      "population_estimate_2025": 556588,
+      "census_state_fips": "35",
+      "census_place_fips": "02000",
+      "counties": [
+        {
+          "name": "Bernalillo",
+          "county_fips": "001",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 29,
+      "city": "Fresno",
+      "state": "California",
+      "population_estimate_2025": 555549,
+      "census_state_fips": "06",
+      "census_place_fips": "27000",
+      "counties": [
+        {
+          "name": "Fresno",
+          "county_fips": "019",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 30,
+      "city": "Tucson",
+      "state": "Arizona",
+      "population_estimate_2025": 548371,
+      "census_state_fips": "04",
+      "census_place_fips": "77000",
+      "counties": [
+        {
+          "name": "Pima",
+          "county_fips": "019",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 31,
+      "city": "Sacramento",
+      "state": "California",
+      "population_estimate_2025": 536449,
+      "census_state_fips": "06",
+      "census_place_fips": "64000",
+      "counties": [
+        {
+          "name": "Sacramento",
+          "county_fips": "067",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 32,
+      "city": "Atlanta",
+      "state": "Georgia",
+      "population_estimate_2025": 529110,
+      "census_state_fips": "13",
+      "census_place_fips": "04000",
+      "counties": [
+        {
+          "name": "Fulton",
+          "county_fips": "121",
+          "share_of_place_geometry": 0.93448
+        },
+        {
+          "name": "DeKalb",
+          "county_fips": "089",
+          "share_of_place_geometry": 0.06552
+        }
+      ],
+      "existing_local_records": [
+        {
+          "name": "Fulton County Behavioral Health Crisis Center",
+          "category": "mental_health",
+          "geography": "Atlanta/Fulton County, Georgia",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://www.fultoncountyga.gov/inside-fulton-county/fulton-county-departments/behavioral-health-and-developmental-disabilities/behavioral-health-crisis-center"
+          ]
+        },
+        {
+          "name": "Partnership Against Domestic Violence (PADV) Crisis Line",
+          "category": "domestic_violence",
+          "geography": "Atlanta/Fulton County, Georgia",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://padv.org/",
+            "https://fultonrestorativejustice.org/domestic-violence/"
+          ]
+        },
+        {
+          "name": "United Way of Greater Atlanta 211",
+          "category": "general_support",
+          "geography": "Atlanta/Fulton County, Georgia",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://unitedwayatlanta.org/about-211/"
+          ]
+        }
+      ],
+      "existing_city_or_county_records": [
+        {
+          "name": "Fulton County Behavioral Health Crisis Center",
+          "category": "mental_health",
+          "geography": "Atlanta/Fulton County, Georgia",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://www.fultoncountyga.gov/inside-fulton-county/fulton-county-departments/behavioral-health-and-developmental-disabilities/behavioral-health-crisis-center"
+          ]
+        },
+        {
+          "name": "Partnership Against Domestic Violence (PADV) Crisis Line",
+          "category": "domestic_violence",
+          "geography": "Atlanta/Fulton County, Georgia",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://padv.org/",
+            "https://fultonrestorativejustice.org/domestic-violence/"
+          ]
+        },
+        {
+          "name": "United Way of Greater Atlanta 211",
+          "category": "general_support",
+          "geography": "Atlanta/Fulton County, Georgia",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://unitedwayatlanta.org/about-211/"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 33,
+      "city": "Kansas City",
+      "state": "Missouri",
+      "population_estimate_2025": 521220,
+      "census_state_fips": "29",
+      "census_place_fips": "38000",
+      "counties": [
+        {
+          "name": "Jackson",
+          "county_fips": "095",
+          "share_of_place_geometry": 0.492588
+        },
+        {
+          "name": "Clay",
+          "county_fips": "047",
+          "share_of_place_geometry": 0.284082
+        },
+        {
+          "name": "Platte",
+          "county_fips": "165",
+          "share_of_place_geometry": 0.220577
+        },
+        {
+          "name": "Cass",
+          "county_fips": "037",
+          "share_of_place_geometry": 0.002754
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 34,
+      "city": "Mesa",
+      "state": "Arizona",
+      "population_estimate_2025": 513656,
+      "census_state_fips": "04",
+      "census_place_fips": "46000",
+      "counties": [
+        {
+          "name": "Maricopa",
+          "county_fips": "013",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": [
+        {
+          "name": "Maricopa County (Central Arizona) Crisis Line",
+          "category": "mental_health",
+          "geography": "Maricopa County, Arizona",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://crisis.solari-inc.org/get-help/crisis-line/",
+            "https://www.phoenix.gov/administration/departments/health/substance-use-help/crisis-hotlines-treatment-centers.html"
+          ]
+        },
+        {
+          "name": "Maricopa County Domestic Violence Hotline (A New Leaf)",
+          "category": "domestic_violence",
+          "geography": "Maricopa County, Arizona",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://turnanewleaf.org/services/sexual-and-domestic-violence-services/",
+            "https://turnanewleaf.org/domestic-violence-awareness-month-2024/"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 35,
+      "city": "Raleigh",
+      "state": "North Carolina",
+      "population_estimate_2025": 506306,
+      "census_state_fips": "37",
+      "census_place_fips": "55000",
+      "counties": [
+        {
+          "name": "Wake",
+          "county_fips": "183",
+          "share_of_place_geometry": 0.996703
+        },
+        {
+          "name": "Durham",
+          "county_fips": "063",
+          "share_of_place_geometry": 0.003297
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 36,
+      "city": "Colorado Springs",
+      "state": "Colorado",
+      "population_estimate_2025": 494743,
+      "census_state_fips": "08",
+      "census_place_fips": "16000",
+      "counties": [
+        {
+          "name": "El Paso",
+          "county_fips": "041",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 37,
+      "city": "Miami",
+      "state": "Florida",
+      "population_estimate_2025": 489812,
+      "census_state_fips": "12",
+      "census_place_fips": "45000",
+      "counties": [
+        {
+          "name": "Miami-Dade",
+          "county_fips": "086",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [
+        {
+          "name": "Miami-Dade Mobile Response Team Crisis Line",
+          "category": "mental_health",
+          "geography": "Miami/Miami-Dade County, Florida",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://thrivingmind.org/network-services/mobile-response"
+          ]
+        },
+        {
+          "name": "Miami-Dade County Coordinated Victims Assistance Center",
+          "category": "domestic_violence",
+          "geography": "Miami/Miami-Dade County, Florida",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://www.miamidade.gov/global/initiatives/domesticviolence/home.page"
+          ]
+        },
+        {
+          "name": "211 Miami",
+          "category": "general_support",
+          "geography": "Miami/Miami-Dade County, Florida",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://211miami.org/services/suicide-prevention/",
+            "https://211miami.org/"
+          ]
+        }
+      ],
+      "existing_city_or_county_records": [
+        {
+          "name": "Miami-Dade Mobile Response Team Crisis Line",
+          "category": "mental_health",
+          "geography": "Miami/Miami-Dade County, Florida",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://thrivingmind.org/network-services/mobile-response"
+          ]
+        },
+        {
+          "name": "Miami-Dade County Coordinated Victims Assistance Center",
+          "category": "domestic_violence",
+          "geography": "Miami/Miami-Dade County, Florida",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://www.miamidade.gov/global/initiatives/domesticviolence/home.page"
+          ]
+        },
+        {
+          "name": "211 Miami",
+          "category": "general_support",
+          "geography": "Miami/Miami-Dade County, Florida",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://211miami.org/services/suicide-prevention/",
+            "https://211miami.org/"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 38,
+      "city": "Omaha",
+      "state": "Nebraska",
+      "population_estimate_2025": 488797,
+      "census_state_fips": "31",
+      "census_place_fips": "37000",
+      "counties": [
+        {
+          "name": "Douglas",
+          "county_fips": "055",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 39,
+      "city": "Virginia Beach",
+      "state": "Virginia",
+      "population_estimate_2025": 453737,
+      "census_state_fips": "51",
+      "census_place_fips": "82000",
+      "counties": [
+        {
+          "name": "Virginia Beach",
+          "county_fips": "810",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 40,
+      "city": "Long Beach",
+      "state": "California",
+      "population_estimate_2025": 450469,
+      "census_state_fips": "06",
+      "census_place_fips": "43000",
+      "counties": [
+        {
+          "name": "Los Angeles",
+          "county_fips": "037",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": [
+        {
+          "name": "LA County Department of Mental Health Help Line",
+          "category": "mental_health",
+          "geography": "Los Angeles County, California",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://dmh.lacounty.gov/get-help-now/"
+          ]
+        },
+        {
+          "name": "211 LA County",
+          "category": "general_support",
+          "geography": "Los Angeles County, California",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://211la.org/",
+            "http://www.laalmanac.com/social/so01z.php"
+          ]
+        },
+        {
+          "name": "LA County Domestic Violence Hotline",
+          "category": "domestic_violence",
+          "geography": "Los Angeles County, California",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://dpss.lacounty.gov/en/jobs/gain/sss/domestic-violence.html",
+            "https://file.lacounty.gov/SDSInter/lasd/145215_domvspan-LACODA_Eng_Span.pdf"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 41,
+      "city": "Oakland",
+      "state": "California",
+      "population_estimate_2025": 440838,
+      "census_state_fips": "06",
+      "census_place_fips": "53000",
+      "counties": [
+        {
+          "name": "Alameda",
+          "county_fips": "001",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 42,
+      "city": "Minneapolis",
+      "state": "Minnesota",
+      "population_estimate_2025": 430324,
+      "census_state_fips": "27",
+      "census_place_fips": "43000",
+      "counties": [
+        {
+          "name": "Hennepin",
+          "county_fips": "053",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 43,
+      "city": "Bakersfield",
+      "state": "California",
+      "population_estimate_2025": 422165,
+      "census_state_fips": "06",
+      "census_place_fips": "03526",
+      "counties": [
+        {
+          "name": "Kern",
+          "county_fips": "029",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 44,
+      "city": "Tulsa",
+      "state": "Oklahoma",
+      "population_estimate_2025": 416209,
+      "census_state_fips": "40",
+      "census_place_fips": "75000",
+      "counties": [
+        {
+          "name": "Tulsa",
+          "county_fips": "143",
+          "share_of_place_geometry": 0.878706
+        },
+        {
+          "name": "Wagoner",
+          "county_fips": "145",
+          "share_of_place_geometry": 0.067302
+        },
+        {
+          "name": "Osage",
+          "county_fips": "113",
+          "share_of_place_geometry": 0.053394
+        },
+        {
+          "name": "Rogers",
+          "county_fips": "131",
+          "share_of_place_geometry": 0.000598
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 45,
+      "city": "Tampa",
+      "state": "Florida",
+      "population_estimate_2025": 413554,
+      "census_state_fips": "12",
+      "census_place_fips": "71000",
+      "counties": [
+        {
+          "name": "Hillsborough",
+          "county_fips": "057",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 46,
+      "city": "Aurora",
+      "state": "Colorado",
+      "population_estimate_2025": 410053,
+      "census_state_fips": "08",
+      "census_place_fips": "04000",
+      "counties": [
+        {
+          "name": "Arapahoe",
+          "county_fips": "005",
+          "share_of_place_geometry": 0.595262
+        },
+        {
+          "name": "Adams",
+          "county_fips": "001",
+          "share_of_place_geometry": 0.390646
+        },
+        {
+          "name": "Douglas",
+          "county_fips": "035",
+          "share_of_place_geometry": 0.014092
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 47,
+      "city": "Arlington",
+      "state": "Texas",
+      "population_estimate_2025": 402134,
+      "census_state_fips": "48",
+      "census_place_fips": "04000",
+      "counties": [
+        {
+          "name": "Tarrant",
+          "county_fips": "439",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": [
+        {
+          "name": "MHMR of Tarrant County I-CARE Crisis Line",
+          "category": "mental_health",
+          "geography": "Fort Worth / Tarrant County, Texas",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://mhmrtarrant.org/crisis-services/"
+          ]
+        },
+        {
+          "name": "The Archway 24-Hour Hotline (formerly SafeHaven of Tarrant County)",
+          "category": "domestic_violence",
+          "geography": "Fort Worth / Tarrant County, Texas",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://thearchwaytx.org/"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 48,
+      "city": "Wichita",
+      "state": "Kansas",
+      "population_estimate_2025": 400987,
+      "census_state_fips": "20",
+      "census_place_fips": "79000",
+      "counties": [
+        {
+          "name": "Sedgwick",
+          "county_fips": "173",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 49,
+      "city": "Cleveland",
+      "state": "Ohio",
+      "population_estimate_2025": 363608,
+      "census_state_fips": "39",
+      "census_place_fips": "16000",
+      "counties": [
+        {
+          "name": "Cuyahoga",
+          "county_fips": "035",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 50,
+      "city": "New Orleans",
+      "state": "Louisiana",
+      "population_estimate_2025": 362154,
+      "census_state_fips": "22",
+      "census_place_fips": "55000",
+      "counties": [
+        {
+          "name": "Orleans",
+          "county_fips": "071",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 51,
+      "city": "Henderson",
+      "state": "Nevada",
+      "population_estimate_2025": 353289,
+      "census_state_fips": "32",
+      "census_place_fips": "31900",
+      "counties": [
+        {
+          "name": "Clark",
+          "county_fips": "003",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": [
+        {
+          "name": "Mobile Crisis Response Team (Southern Nevada)",
+          "category": "mental_health",
+          "geography": "Clark County, Nevada",
+          "verification_status": "cross_referenced",
+          "sources": [
+            "https://www.leg.state.nv.us/Division/Research/LegInfo/Orientation/2016-17/Handouts/MCRT_Brochure.pdf",
+            "https://nvbh.org/wp-content/uploads/2022/05/MCRT-Flyer-2021-4.pdf"
+          ]
+        },
+        {
+          "name": "SafeNest 24/7 Domestic Violence Hotline",
+          "category": "domestic_violence",
+          "geography": "Clark County, Nevada",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://safenest.org/"
+          ]
+        },
+        {
+          "name": "Resiliency & Justice Center (formerly Vegas Strong Resiliency Center)",
+          "category": "general_support",
+          "geography": "Clark County, Nevada",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://resiliencyandjustice.org/",
+            "https://www.clarkcountynv.gov/news/news-detail-t28-r986"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 52,
+      "city": "Anaheim",
+      "state": "California",
+      "population_estimate_2025": 341008,
+      "census_state_fips": "06",
+      "census_place_fips": "02000",
+      "counties": [
+        {
+          "name": "Orange",
+          "county_fips": "059",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 53,
+      "city": "Orlando",
+      "state": "Florida",
+      "population_estimate_2025": 333888,
+      "census_state_fips": "12",
+      "census_place_fips": "53000",
+      "counties": [
+        {
+          "name": "Orange",
+          "county_fips": "095",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 54,
+      "city": "Lexington-Fayette",
+      "state": "Kentucky",
+      "population_estimate_2025": 329751,
+      "census_state_fips": "21",
+      "census_place_fips": "46027",
+      "counties": [
+        {
+          "name": "Fayette",
+          "county_fips": "067",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 55,
+      "city": "Stockton",
+      "state": "California",
+      "population_estimate_2025": 324597,
+      "census_state_fips": "06",
+      "census_place_fips": "75000",
+      "counties": [
+        {
+          "name": "San Joaquin",
+          "county_fips": "077",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 56,
+      "city": "Newark",
+      "state": "New Jersey",
+      "population_estimate_2025": 323808,
+      "census_state_fips": "34",
+      "census_place_fips": "51000",
+      "counties": [
+        {
+          "name": "Essex",
+          "county_fips": "013",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 57,
+      "city": "Riverside",
+      "state": "California",
+      "population_estimate_2025": 323057,
+      "census_state_fips": "06",
+      "census_place_fips": "62000",
+      "counties": [
+        {
+          "name": "Riverside",
+          "county_fips": "065",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 58,
+      "city": "Irvine",
+      "state": "California",
+      "population_estimate_2025": 318764,
+      "census_state_fips": "06",
+      "census_place_fips": "36770",
+      "counties": [
+        {
+          "name": "Orange",
+          "county_fips": "059",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 59,
+      "city": "Corpus Christi",
+      "state": "Texas",
+      "population_estimate_2025": 317247,
+      "census_state_fips": "48",
+      "census_place_fips": "17000",
+      "counties": [
+        {
+          "name": "Nueces",
+          "county_fips": "355",
+          "share_of_place_geometry": 0.898159
+        },
+        {
+          "name": "Kleberg",
+          "county_fips": "273",
+          "share_of_place_geometry": 0.062943
+        },
+        {
+          "name": "Aransas",
+          "county_fips": "007",
+          "share_of_place_geometry": 0.03125
+        },
+        {
+          "name": "San Patricio",
+          "county_fips": "409",
+          "share_of_place_geometry": 0.007647
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 60,
+      "city": "Santa Ana",
+      "state": "California",
+      "population_estimate_2025": 315586,
+      "census_state_fips": "06",
+      "census_place_fips": "69000",
+      "counties": [
+        {
+          "name": "Orange",
+          "county_fips": "059",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 61,
+      "city": "Cincinnati",
+      "state": "Ohio",
+      "population_estimate_2025": 314367,
+      "census_state_fips": "39",
+      "census_place_fips": "15000",
+      "counties": [
+        {
+          "name": "Hamilton",
+          "county_fips": "061",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 62,
+      "city": "Greensboro",
+      "state": "North Carolina",
+      "population_estimate_2025": 308667,
+      "census_state_fips": "37",
+      "census_place_fips": "28000",
+      "counties": [
+        {
+          "name": "Guilford",
+          "county_fips": "081",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 63,
+      "city": "Pittsburgh",
+      "state": "Pennsylvania",
+      "population_estimate_2025": 307632,
+      "census_state_fips": "42",
+      "census_place_fips": "61000",
+      "counties": [
+        {
+          "name": "Allegheny",
+          "county_fips": "003",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 64,
+      "city": "St. Paul",
+      "state": "Minnesota",
+      "population_estimate_2025": 306684,
+      "census_state_fips": "27",
+      "census_place_fips": "58000",
+      "counties": [
+        {
+          "name": "Ramsey",
+          "county_fips": "123",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 65,
+      "city": "Durham",
+      "state": "North Carolina",
+      "population_estimate_2025": 305561,
+      "census_state_fips": "37",
+      "census_place_fips": "19000",
+      "counties": [
+        {
+          "name": "Durham",
+          "county_fips": "063",
+          "share_of_place_geometry": 0.997167
+        },
+        {
+          "name": "Wake",
+          "county_fips": "183",
+          "share_of_place_geometry": 0.002295
+        },
+        {
+          "name": "Orange",
+          "county_fips": "135",
+          "share_of_place_geometry": 0.000538
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 66,
+      "city": "Jersey City",
+      "state": "New Jersey",
+      "population_estimate_2025": 302013,
+      "census_state_fips": "34",
+      "census_place_fips": "36000",
+      "counties": [
+        {
+          "name": "Hudson",
+          "county_fips": "017",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 67,
+      "city": "Lincoln",
+      "state": "Nebraska",
+      "population_estimate_2025": 301522,
+      "census_state_fips": "31",
+      "census_place_fips": "28000",
+      "counties": [
+        {
+          "name": "Lancaster",
+          "county_fips": "109",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 68,
+      "city": "North Las Vegas",
+      "state": "Nevada",
+      "population_estimate_2025": 296653,
+      "census_state_fips": "32",
+      "census_place_fips": "51800",
+      "counties": [
+        {
+          "name": "Clark",
+          "county_fips": "003",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": [
+        {
+          "name": "Mobile Crisis Response Team (Southern Nevada)",
+          "category": "mental_health",
+          "geography": "Clark County, Nevada",
+          "verification_status": "cross_referenced",
+          "sources": [
+            "https://www.leg.state.nv.us/Division/Research/LegInfo/Orientation/2016-17/Handouts/MCRT_Brochure.pdf",
+            "https://nvbh.org/wp-content/uploads/2022/05/MCRT-Flyer-2021-4.pdf"
+          ]
+        },
+        {
+          "name": "SafeNest 24/7 Domestic Violence Hotline",
+          "category": "domestic_violence",
+          "geography": "Clark County, Nevada",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://safenest.org/"
+          ]
+        },
+        {
+          "name": "Resiliency & Justice Center (formerly Vegas Strong Resiliency Center)",
+          "category": "general_support",
+          "geography": "Clark County, Nevada",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://resiliencyandjustice.org/",
+            "https://www.clarkcountynv.gov/news/news-detail-t28-r986"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 69,
+      "city": "Plano",
+      "state": "Texas",
+      "population_estimate_2025": 293028,
+      "census_state_fips": "48",
+      "census_place_fips": "58016",
+      "counties": [
+        {
+          "name": "Collin",
+          "county_fips": "085",
+          "share_of_place_geometry": 0.964191
+        },
+        {
+          "name": "Denton",
+          "county_fips": "121",
+          "share_of_place_geometry": 0.035809
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 70,
+      "city": "Gilbert",
+      "state": "Arizona",
+      "population_estimate_2025": 287285,
+      "census_state_fips": "04",
+      "census_place_fips": "27400",
+      "counties": [
+        {
+          "name": "Maricopa",
+          "county_fips": "013",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": [
+        {
+          "name": "Maricopa County (Central Arizona) Crisis Line",
+          "category": "mental_health",
+          "geography": "Maricopa County, Arizona",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://crisis.solari-inc.org/get-help/crisis-line/",
+            "https://www.phoenix.gov/administration/departments/health/substance-use-help/crisis-hotlines-treatment-centers.html"
+          ]
+        },
+        {
+          "name": "Maricopa County Domestic Violence Hotline (A New Leaf)",
+          "category": "domestic_violence",
+          "geography": "Maricopa County, Arizona",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://turnanewleaf.org/services/sexual-and-domestic-violence-services/",
+            "https://turnanewleaf.org/domestic-violence-awareness-month-2024/"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 71,
+      "city": "Anchorage",
+      "state": "Alaska",
+      "population_estimate_2025": 287155,
+      "census_state_fips": "02",
+      "census_place_fips": "03000",
+      "counties": [
+        {
+          "name": "Anchorage",
+          "county_fips": "020",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 72,
+      "city": "Madison",
+      "state": "Wisconsin",
+      "population_estimate_2025": 286233,
+      "census_state_fips": "55",
+      "census_place_fips": "48000",
+      "counties": [
+        {
+          "name": "Dane",
+          "county_fips": "025",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 73,
+      "city": "Reno",
+      "state": "Nevada",
+      "population_estimate_2025": 283621,
+      "census_state_fips": "32",
+      "census_place_fips": "60600",
+      "counties": [
+        {
+          "name": "Washoe",
+          "county_fips": "031",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 74,
+      "city": "Chandler",
+      "state": "Arizona",
+      "population_estimate_2025": 278748,
+      "census_state_fips": "04",
+      "census_place_fips": "12000",
+      "counties": [
+        {
+          "name": "Maricopa",
+          "county_fips": "013",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": [
+        {
+          "name": "Maricopa County (Central Arizona) Crisis Line",
+          "category": "mental_health",
+          "geography": "Maricopa County, Arizona",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://crisis.solari-inc.org/get-help/crisis-line/",
+            "https://www.phoenix.gov/administration/departments/health/substance-use-help/crisis-hotlines-treatment-centers.html"
+          ]
+        },
+        {
+          "name": "Maricopa County Domestic Violence Hotline (A New Leaf)",
+          "category": "domestic_violence",
+          "geography": "Maricopa County, Arizona",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://turnanewleaf.org/services/sexual-and-domestic-violence-services/",
+            "https://turnanewleaf.org/domestic-violence-awareness-month-2024/"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 75,
+      "city": "St. Louis",
+      "state": "Missouri",
+      "population_estimate_2025": 278144,
+      "census_state_fips": "29",
+      "census_place_fips": "65000",
+      "counties": [
+        {
+          "name": "St. Louis",
+          "county_fips": "510",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 76,
+      "city": "Chula Vista",
+      "state": "California",
+      "population_estimate_2025": 275533,
+      "census_state_fips": "06",
+      "census_place_fips": "13392",
+      "counties": [
+        {
+          "name": "San Diego",
+          "county_fips": "073",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": [
+        {
+          "name": "San Diego Access and Crisis Line (ACL)",
+          "category": "mental_health",
+          "geography": "San Diego County, California",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/bhs/ACL.html",
+            "https://www.sandiegocounty.gov/content/sdc/hhsa/programs/bhs/crisis_services.html"
+          ]
+        },
+        {
+          "name": "Center for Community Solutions 24/7 Crisis Hotline",
+          "category": "domestic_violence",
+          "geography": "San Diego County, California",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://www.ccssd.org/",
+            "https://ospsandiegocounty.gov/after-hours-hotlines/"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 77,
+      "city": "Fort Wayne",
+      "state": "Indiana",
+      "population_estimate_2025": 275203,
+      "census_state_fips": "18",
+      "census_place_fips": "25000",
+      "counties": [
+        {
+          "name": "Allen",
+          "county_fips": "003",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 78,
+      "city": "Buffalo",
+      "state": "New York",
+      "population_estimate_2025": 274613,
+      "census_state_fips": "36",
+      "census_place_fips": "11000",
+      "counties": [
+        {
+          "name": "Erie",
+          "county_fips": "029",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 79,
+      "city": "Lubbock",
+      "state": "Texas",
+      "population_estimate_2025": 273071,
+      "census_state_fips": "48",
+      "census_place_fips": "45000",
+      "counties": [
+        {
+          "name": "Lubbock",
+          "county_fips": "303",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 80,
+      "city": "Laredo",
+      "state": "Texas",
+      "population_estimate_2025": 269515,
+      "census_state_fips": "48",
+      "census_place_fips": "41464",
+      "counties": [
+        {
+          "name": "Webb",
+          "county_fips": "479",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 81,
+      "city": "Port St. Lucie",
+      "state": "Florida",
+      "population_estimate_2025": 268062,
+      "census_state_fips": "12",
+      "census_place_fips": "58715",
+      "counties": [
+        {
+          "name": "St. Lucie",
+          "county_fips": "111",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 82,
+      "city": "St. Petersburg",
+      "state": "Florida",
+      "population_estimate_2025": 264033,
+      "census_state_fips": "12",
+      "census_place_fips": "63000",
+      "counties": [
+        {
+          "name": "Pinellas",
+          "county_fips": "103",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 83,
+      "city": "Toledo",
+      "state": "Ohio",
+      "population_estimate_2025": 263423,
+      "census_state_fips": "39",
+      "census_place_fips": "77000",
+      "counties": [
+        {
+          "name": "Lucas",
+          "county_fips": "095",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 84,
+      "city": "Glendale",
+      "state": "Arizona",
+      "population_estimate_2025": 260572,
+      "census_state_fips": "04",
+      "census_place_fips": "27820",
+      "counties": [
+        {
+          "name": "Maricopa",
+          "county_fips": "013",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": [
+        {
+          "name": "Maricopa County (Central Arizona) Crisis Line",
+          "category": "mental_health",
+          "geography": "Maricopa County, Arizona",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://crisis.solari-inc.org/get-help/crisis-line/",
+            "https://www.phoenix.gov/administration/departments/health/substance-use-help/crisis-hotlines-treatment-centers.html"
+          ]
+        },
+        {
+          "name": "Maricopa County Domestic Violence Hotline (A New Leaf)",
+          "category": "domestic_violence",
+          "geography": "Maricopa County, Arizona",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://turnanewleaf.org/services/sexual-and-domestic-violence-services/",
+            "https://turnanewleaf.org/domestic-violence-awareness-month-2024/"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 85,
+      "city": "Winston-Salem",
+      "state": "North Carolina",
+      "population_estimate_2025": 257271,
+      "census_state_fips": "37",
+      "census_place_fips": "75000",
+      "counties": [
+        {
+          "name": "Forsyth",
+          "county_fips": "067",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 86,
+      "city": "Irving",
+      "state": "Texas",
+      "population_estimate_2025": 257076,
+      "census_state_fips": "48",
+      "census_place_fips": "37000",
+      "counties": [
+        {
+          "name": "Dallas",
+          "county_fips": "113",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 87,
+      "city": "Chesapeake",
+      "state": "Virginia",
+      "population_estimate_2025": 255332,
+      "census_state_fips": "51",
+      "census_place_fips": "16000",
+      "counties": [
+        {
+          "name": "Chesapeake",
+          "county_fips": "550",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 88,
+      "city": "Garland",
+      "state": "Texas",
+      "population_estimate_2025": 249625,
+      "census_state_fips": "48",
+      "census_place_fips": "29000",
+      "counties": [
+        {
+          "name": "Dallas",
+          "county_fips": "113",
+          "share_of_place_geometry": 0.999074
+        },
+        {
+          "name": "Collin",
+          "county_fips": "085",
+          "share_of_place_geometry": 0.000926
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 89,
+      "city": "Scottsdale",
+      "state": "Arizona",
+      "population_estimate_2025": 243006,
+      "census_state_fips": "04",
+      "census_place_fips": "65000",
+      "counties": [
+        {
+          "name": "Maricopa",
+          "county_fips": "013",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": [
+        {
+          "name": "Maricopa County (Central Arizona) Crisis Line",
+          "category": "mental_health",
+          "geography": "Maricopa County, Arizona",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://crisis.solari-inc.org/get-help/crisis-line/",
+            "https://www.phoenix.gov/administration/departments/health/substance-use-help/crisis-hotlines-treatment-centers.html"
+          ]
+        },
+        {
+          "name": "Maricopa County Domestic Violence Hotline (A New Leaf)",
+          "category": "domestic_violence",
+          "geography": "Maricopa County, Arizona",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://turnanewleaf.org/services/sexual-and-domestic-violence-services/",
+            "https://turnanewleaf.org/domestic-violence-awareness-month-2024/"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 90,
+      "city": "Boise City",
+      "state": "Idaho",
+      "population_estimate_2025": 238429,
+      "census_state_fips": "16",
+      "census_place_fips": "08830",
+      "counties": [
+        {
+          "name": "Ada",
+          "county_fips": "001",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 91,
+      "city": "Richmond",
+      "state": "Virginia",
+      "population_estimate_2025": 237257,
+      "census_state_fips": "51",
+      "census_place_fips": "67000",
+      "counties": [
+        {
+          "name": "Richmond",
+          "county_fips": "760",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 92,
+      "city": "Frisco",
+      "state": "Texas",
+      "population_estimate_2025": 236955,
+      "census_state_fips": "48",
+      "census_place_fips": "27684",
+      "counties": [
+        {
+          "name": "Collin",
+          "county_fips": "085",
+          "share_of_place_geometry": 0.629836
+        },
+        {
+          "name": "Denton",
+          "county_fips": "121",
+          "share_of_place_geometry": 0.370164
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 93,
+      "city": "Cape Coral",
+      "state": "Florida",
+      "population_estimate_2025": 236264,
+      "census_state_fips": "12",
+      "census_place_fips": "10275",
+      "counties": [
+        {
+          "name": "Lee",
+          "county_fips": "071",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 94,
+      "city": "McKinney",
+      "state": "Texas",
+      "population_estimate_2025": 236001,
+      "census_state_fips": "48",
+      "census_place_fips": "45744",
+      "counties": [
+        {
+          "name": "Collin",
+          "county_fips": "085",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 95,
+      "city": "Huntsville",
+      "state": "Alabama",
+      "population_estimate_2025": 233627,
+      "census_state_fips": "01",
+      "census_place_fips": "37000",
+      "counties": [
+        {
+          "name": "Madison",
+          "county_fips": "089",
+          "share_of_place_geometry": 0.798934
+        },
+        {
+          "name": "Limestone",
+          "county_fips": "083",
+          "share_of_place_geometry": 0.196505
+        },
+        {
+          "name": "Morgan",
+          "county_fips": "103",
+          "share_of_place_geometry": 0.004561
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 96,
+      "city": "Norfolk",
+      "state": "Virginia",
+      "population_estimate_2025": 231013,
+      "census_state_fips": "51",
+      "census_place_fips": "57000",
+      "counties": [
+        {
+          "name": "Norfolk",
+          "county_fips": "710",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 97,
+      "city": "Hialeah",
+      "state": "Florida",
+      "population_estimate_2025": 230968,
+      "census_state_fips": "12",
+      "census_place_fips": "30000",
+      "counties": [
+        {
+          "name": "Miami-Dade",
+          "county_fips": "086",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": [
+        {
+          "name": "Miami-Dade Mobile Response Team Crisis Line",
+          "category": "mental_health",
+          "geography": "Miami/Miami-Dade County, Florida",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://thrivingmind.org/network-services/mobile-response"
+          ]
+        },
+        {
+          "name": "Miami-Dade County Coordinated Victims Assistance Center",
+          "category": "domestic_violence",
+          "geography": "Miami/Miami-Dade County, Florida",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://www.miamidade.gov/global/initiatives/domesticviolence/home.page"
+          ]
+        },
+        {
+          "name": "211 Miami",
+          "category": "general_support",
+          "geography": "Miami/Miami-Dade County, Florida",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://211miami.org/services/suicide-prevention/",
+            "https://211miami.org/"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 98,
+      "city": "Spokane",
+      "state": "Washington",
+      "population_estimate_2025": 230783,
+      "census_state_fips": "53",
+      "census_place_fips": "67000",
+      "counties": [
+        {
+          "name": "Spokane",
+          "county_fips": "063",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 99,
+      "city": "Tacoma",
+      "state": "Washington",
+      "population_estimate_2025": 229816,
+      "census_state_fips": "53",
+      "census_place_fips": "70000",
+      "counties": [
+        {
+          "name": "Pierce",
+          "county_fips": "053",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": []
+    },
+    {
+      "rank": 100,
+      "city": "Santa Clarita",
+      "state": "California",
+      "population_estimate_2025": 228430,
+      "census_state_fips": "06",
+      "census_place_fips": "69088",
+      "counties": [
+        {
+          "name": "Los Angeles",
+          "county_fips": "037",
+          "share_of_place_geometry": 1.0
+        }
+      ],
+      "existing_local_records": [],
+      "existing_city_or_county_records": [
+        {
+          "name": "LA County Department of Mental Health Help Line",
+          "category": "mental_health",
+          "geography": "Los Angeles County, California",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://dmh.lacounty.gov/get-help-now/"
+          ]
+        },
+        {
+          "name": "211 LA County",
+          "category": "general_support",
+          "geography": "Los Angeles County, California",
+          "verification_status": "verified_web",
+          "sources": [
+            "https://211la.org/",
+            "http://www.laalmanac.com/social/so01z.php"
+          ]
+        },
+        {
+          "name": "LA County Domestic Violence Hotline",
+          "category": "domestic_violence",
+          "geography": "Los Angeles County, California",
+          "verification_status": "verified_authority",
+          "sources": [
+            "https://dpss.lacounty.gov/en/jobs/gain/sss/domestic-violence.html",
+            "https://file.lacounty.gov/SDSInter/lasd/145215_domvspan-LACODA_Eng_Span.pdf"
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -91,18 +91,18 @@ The counts below describe the dataset as it stood at the end of the 2026-04-22 s
 The dataset has grown substantially since the 2026-04-22 session through additional merge/integration passes (Find A Helpline, Wikipedia crisis lines, Child Helpline International, government travel-advisory emergency numbers, and others — see `scripts/` and `sources/`). As of today, `hotlines.json` (schema v2.0) contains:
 
 - **250 countries / territories**, of which **4** genuinely have zero hotline records (uninhabited territories — see [COVERAGE.md](COVERAGE.md)).
-- **3,241 hotline records** across **30 categories**.
+- **3,255 hotline records** across **30 categories**.
 - Verification status breakdown:
   - `cross_referenced` — 951
   - `legacy_unverified` — 863
-  - `verified_authority` — 660
-  - `verified_web` — 584
+  - `verified_authority` — 672
+  - `verified_web` — 586
   - `verified_knowledge` — 183
   - `disputed` / `deprecated` — 0
-- **All 3,241 records** carry core metadata (name, category, organization, geography) and at least one contact method (phone, SMS, chat, email, or website).
-- Field coverage: `hours` 2,146 · `languages` 1,582 · `website` 1,141 · `chat_url` 201 · `email` 136.
+- **All 3,255 records** carry core metadata (name, category, organization, geography) and at least one contact method (phone, SMS, chat, email, or website).
+- Field coverage: `hours` 2,160 · `languages` 1,582 · `website` 1,155 · `chat_url` 201 · `email` 136.
 - **722 records** are categorised as `general_support` (the largest single category) rather than a more specific tier.
-- **2,378** records carry a `last_verified` date; **863** do not — 862 `legacy_unverified` plus one `verified_knowledge` record. (Separately, exactly one `legacy_unverified` record — the NEDA orphan noted above — does carry a `last_verified` date.)
+- **2,392** records carry a `last_verified` date; **863** do not — 862 `legacy_unverified` plus one `verified_knowledge` record. (Separately, exactly one `legacy_unverified` record — the NEDA orphan noted above — does carry a `last_verified` date.)
 
 See [COVERAGE.md](COVERAGE.md) for the full per-status breakdown and current gaps.
 

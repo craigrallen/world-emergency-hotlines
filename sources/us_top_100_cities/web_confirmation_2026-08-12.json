@@ -1,0 +1,116 @@
+{
+  "review_date": "2026-08-12",
+  "policy": "Only live first-party provider or government pages were accepted. Search snippets, directories, national 911/988 duplicates, state-only lines, facility switchboards, and unclear service areas were excluded.",
+  "ranking_source": {
+    "publisher": "U.S. Census Bureau",
+    "dataset": "Annual Estimates of the Resident Population for Incorporated Places: April 1, 2020 to July 1, 2025",
+    "url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/cities/totals/sub-est2025.csv",
+    "download_sha256": "8f653814b28f919f2afda6208a5aeb1b3746479fd347cc6f24c9d7367bb22d99"
+  },
+  "confirmations": [
+    {
+      "candidate_names": ["Emergence Health Network 24-Hour Crisis Hotline"],
+      "url": "https://emergencehealthnetwork.org/",
+      "source_class": "first_party_provider",
+      "http_status": 200,
+      "effective_url": "https://emergencehealthnetwork.org/",
+      "claims_confirmed": ["EHN crisis hotline 915-779-1800", "Toll-free crisis hotline 1-877-562-6467", "24-hour crisis hotline", "El Paso provider"]
+    },
+    {
+      "candidate_names": ["Albuquerque Rape Crisis Hotline"],
+      "url": "https://www.cabq.gov/albuquerque-family-advocacy-center/victims-rights-and-assistance/24-hour-crisis-lines",
+      "source_class": "city_government",
+      "http_status": 200,
+      "effective_url": "https://www.cabq.gov/albuquerque-family-advocacy-center/victims-rights-and-assistance/24-hour-crisis-lines",
+      "claims_confirmed": ["City page titled 24-Hour Crisis Lines", "Albuquerque Rape Crisis 505-266-7711"]
+    },
+    {
+      "candidate_names": ["Alliance Health Behavioral Health Crisis Line"],
+      "url": "https://www.wake.gov/departments-government/behavioral-health/having-crisis",
+      "source_class": "county_government",
+      "http_status": 200,
+      "effective_url": "https://www.wake.gov/departments-government/behavioral-health/having-crisis",
+      "claims_confirmed": ["Wake County Crisis Services", "Alliance Health Behavioral Health Crisis Line 877-223-4617", "24 hours a day, 7 days a week"]
+    },
+    {
+      "candidate_names": ["Virginia Beach Emergency Services Crisis Line"],
+      "url": "https://hs.virginiabeach.gov/behavioral-health/crisis-response",
+      "source_class": "city_government",
+      "http_status": 200,
+      "effective_url": "https://hs.virginiabeach.gov/behavioral-health/crisis-response",
+      "claims_confirmed": ["Crisis Response Services 757-385-0888", "Telephone and in-person crisis assessment", "24 hours, seven days a week"]
+    },
+    {
+      "candidate_names": ["COPES Crisis Hotline"],
+      "url": "https://www.fcsok.org/services/crisis-services/",
+      "source_class": "first_party_provider",
+      "http_status": 200,
+      "effective_url": "https://www.fcsok.org/services/crisis-services/",
+      "claims_confirmed": ["Adults and children can call COPES 24/7", "COPES crisis line 918-744-4800", "Tulsa County service"]
+    },
+    {
+      "candidate_names": ["Metropolitan Human Services District Crisis Line"],
+      "url": "https://nola.gov/next/behavioral-health/home/",
+      "source_class": "city_government",
+      "http_status": 200,
+      "effective_url": "https://nola.gov/next/behavioral-health/home/",
+      "claims_confirmed": ["MHSD operates a 24-hour crisis line", "504-826-2675", "New Orleans behavioral-health resource"]
+    },
+    {
+      "candidate_names": ["San Joaquin County Crisis Hotline"],
+      "url": "https://www.sjcbhs.org/Crisis_Intervention.aspx",
+      "source_class": "county_provider",
+      "http_status": 200,
+      "effective_url": "https://www.sjcbhs.org/Crisis_Intervention.aspx",
+      "claims_confirmed": ["San Joaquin County Crisis Intervention Services", "Crisis phone 209-468-8686", "24-hour response", "Stockton address"]
+    },
+    {
+      "candidate_names": ["Ramsey County Children's Mental Health Crisis Line", "Ramsey County Adult Mental Health Crisis Line"],
+      "url": "https://www.ramseycountymn.gov/residents/health-medical/clinics-services/mental-health-crisis-services",
+      "source_class": "county_government",
+      "http_status": 200,
+      "effective_url": "https://www.ramseycountymn.gov/residents/health-medical/clinics-services/mental-health-crisis-services",
+      "claims_confirmed": ["Ramsey County offers 24/7 crisis support", "Children under 18: 651-266-7878", "Adults 18 and over: 651-266-7900"]
+    },
+    {
+      "candidate_names": ["Lancaster County 24-Hour Mental Health Crisis Line"],
+      "url": "https://www.lancaster.ne.gov/368/Mental-Health-Crisis-Center",
+      "source_class": "county_government",
+      "http_status": 200,
+      "effective_url": "https://www.lancaster.ne.gov/368/Mental-Health-Crisis-Center",
+      "claims_confirmed": ["24-Hour Mental Health Crisis Line", "402-475-6695", "Mental Health Crisis Center in Lincoln"]
+    },
+    {
+      "candidate_names": ["Crisis Services 24-Hour Crisis Hotline"],
+      "url": "https://www3.erie.gov/mentalhealth/i-need-help-now",
+      "source_class": "county_government",
+      "http_status": 200,
+      "effective_url": "https://www3.erie.gov/mentalhealth/i-need-help-now",
+      "claims_confirmed": ["Crisis Services 24-Hour Crisis Hotline", "716-834-3131", "Available to anyone experiencing or affected by a mental health crisis"]
+    },
+    {
+      "candidate_names": ["Chesapeake Integrated Behavioral Healthcare Crisis Line"],
+      "url": "https://www.cityofchesapeake.net/3422/Crisis-Services",
+      "source_class": "city_government",
+      "http_status": 200,
+      "effective_url": "https://www.cityofchesapeake.net/3422/Crisis-Services",
+      "claims_confirmed": ["Emergency and crisis services available 24 hours per day", "757-548-7000", "Chesapeake Integrated Behavioral Healthcare"]
+    },
+    {
+      "candidate_names": ["Spokane Regional Behavioral Health Crisis Hotline"],
+      "url": "https://www.spokanecounty.gov/4232/Spokane-RSA-Crisis-Services",
+      "source_class": "county_government",
+      "http_status": 200,
+      "effective_url": "https://www.spokanecounty.gov/4232/Spokane-RSA-Crisis-Services",
+      "claims_confirmed": ["Spokane Regional Service Area Behavioral Health Crisis Hotline", "1-877-266-1818", "Telephone response, referrals, and mobile-team dispatch"]
+    },
+    {
+      "candidate_names": ["Pierce County Behavioral Health Crisis Line"],
+      "url": "https://www.hca.wa.gov/free-or-low-cost-health-care/i-need-behavioral-health-support/mental-health-crisis-lines",
+      "source_class": "state_government_county_directory",
+      "http_status": 200,
+      "effective_url": "https://www.hca.wa.gov/free-or-low-cost-health-care/i-need-behavioral-health-support/mental-health-crisis-lines",
+      "claims_confirmed": ["Pierce County crisis line 1-800-576-7764", "County crisis lines available 24 hours, seven days a week, 365 days a year"]
+    }
+  ]
+}

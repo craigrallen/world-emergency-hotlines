@@ -1,0 +1,959 @@
+{
+  "source": {
+    "place_boundaries": "https://www2.census.gov/geo/tiger/TIGER2025/PLACE/",
+    "county_boundaries": "https://www2.census.gov/geo/tiger/TIGER2025/COUNTY/tl_2025_us_county.zip",
+    "method": "TIGER/Line place and county polygon intersection; county included when intersection area is positive"
+  },
+  "places": {
+    "3651000": [
+      {
+        "name": "Queens",
+        "county_fips": "081",
+        "share_of_place_geometry": 0.384102
+      },
+      {
+        "name": "Richmond",
+        "county_fips": "085",
+        "share_of_place_geometry": 0.217417
+      },
+      {
+        "name": "Kings",
+        "county_fips": "047",
+        "share_of_place_geometry": 0.204921
+      },
+      {
+        "name": "Bronx",
+        "county_fips": "005",
+        "share_of_place_geometry": 0.121773
+      },
+      {
+        "name": "New York",
+        "county_fips": "061",
+        "share_of_place_geometry": 0.071788
+      }
+    ],
+    "0644000": [
+      {
+        "name": "Los Angeles",
+        "county_fips": "037",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "1714000": [
+      {
+        "name": "Cook",
+        "county_fips": "031",
+        "share_of_place_geometry": 0.988658
+      },
+      {
+        "name": "DuPage",
+        "county_fips": "043",
+        "share_of_place_geometry": 0.011342
+      }
+    ],
+    "4835000": [
+      {
+        "name": "Harris",
+        "county_fips": "201",
+        "share_of_place_geometry": 0.963645
+      },
+      {
+        "name": "Fort Bend",
+        "county_fips": "157",
+        "share_of_place_geometry": 0.026673
+      },
+      {
+        "name": "Montgomery",
+        "county_fips": "339",
+        "share_of_place_geometry": 0.009533
+      },
+      {
+        "name": "Waller",
+        "county_fips": "473",
+        "share_of_place_geometry": 0.00015
+      }
+    ],
+    "0455000": [
+      {
+        "name": "Maricopa",
+        "county_fips": "013",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "4260000": [
+      {
+        "name": "Philadelphia",
+        "county_fips": "101",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "4865000": [
+      {
+        "name": "Bexar",
+        "county_fips": "029",
+        "share_of_place_geometry": 0.998879
+      },
+      {
+        "name": "Medina",
+        "county_fips": "325",
+        "share_of_place_geometry": 0.001104
+      },
+      {
+        "name": "Comal",
+        "county_fips": "091",
+        "share_of_place_geometry": 1.7e-05
+      }
+    ],
+    "0666000": [
+      {
+        "name": "San Diego",
+        "county_fips": "073",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "4819000": [
+      {
+        "name": "Dallas",
+        "county_fips": "113",
+        "share_of_place_geometry": 0.900454
+      },
+      {
+        "name": "Rockwall",
+        "county_fips": "397",
+        "share_of_place_geometry": 0.053609
+      },
+      {
+        "name": "Collin",
+        "county_fips": "085",
+        "share_of_place_geometry": 0.031503
+      },
+      {
+        "name": "Kaufman",
+        "county_fips": "257",
+        "share_of_place_geometry": 0.008074
+      },
+      {
+        "name": "Denton",
+        "county_fips": "121",
+        "share_of_place_geometry": 0.006359
+      }
+    ],
+    "4827000": [
+      {
+        "name": "Tarrant",
+        "county_fips": "439",
+        "share_of_place_geometry": 0.917338
+      },
+      {
+        "name": "Denton",
+        "county_fips": "121",
+        "share_of_place_geometry": 0.054388
+      },
+      {
+        "name": "Parker",
+        "county_fips": "367",
+        "share_of_place_geometry": 0.026689
+      },
+      {
+        "name": "Wise",
+        "county_fips": "497",
+        "share_of_place_geometry": 0.001405
+      },
+      {
+        "name": "Johnson",
+        "county_fips": "251",
+        "share_of_place_geometry": 0.000179
+      }
+    ],
+    "1235000": [
+      {
+        "name": "Duval",
+        "county_fips": "031",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "4805000": [
+      {
+        "name": "Travis",
+        "county_fips": "453",
+        "share_of_place_geometry": 0.918515
+      },
+      {
+        "name": "Williamson",
+        "county_fips": "491",
+        "share_of_place_geometry": 0.063483
+      },
+      {
+        "name": "Hays",
+        "county_fips": "209",
+        "share_of_place_geometry": 0.017989
+      },
+      {
+        "name": "Bastrop",
+        "county_fips": "021",
+        "share_of_place_geometry": 1.3e-05
+      }
+    ],
+    "0668000": [
+      {
+        "name": "Santa Clara",
+        "county_fips": "085",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "3712000": [
+      {
+        "name": "Mecklenburg",
+        "county_fips": "119",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "3918000": [
+      {
+        "name": "Franklin",
+        "county_fips": "049",
+        "share_of_place_geometry": 0.977797
+      },
+      {
+        "name": "Delaware",
+        "county_fips": "041",
+        "share_of_place_geometry": 0.014779
+      },
+      {
+        "name": "Fairfield",
+        "county_fips": "045",
+        "share_of_place_geometry": 0.007424
+      }
+    ],
+    "0667000": [
+      {
+        "name": "San Francisco",
+        "county_fips": "075",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "5363000": [
+      {
+        "name": "King",
+        "county_fips": "033",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "0820000": [
+      {
+        "name": "Denver",
+        "county_fips": "031",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "4055000": [
+      {
+        "name": "Oklahoma",
+        "county_fips": "109",
+        "share_of_place_geometry": 0.578279
+      },
+      {
+        "name": "Canadian",
+        "county_fips": "017",
+        "share_of_place_geometry": 0.218516
+      },
+      {
+        "name": "Cleveland",
+        "county_fips": "027",
+        "share_of_place_geometry": 0.202416
+      },
+      {
+        "name": "Pottawatomie",
+        "county_fips": "125",
+        "share_of_place_geometry": 0.000789
+      }
+    ],
+    "4824000": [
+      {
+        "name": "El Paso",
+        "county_fips": "141",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "3240000": [
+      {
+        "name": "Clark",
+        "county_fips": "003",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "2507000": [
+      {
+        "name": "Suffolk",
+        "county_fips": "025",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "2622000": [
+      {
+        "name": "Wayne",
+        "county_fips": "163",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "4159000": [
+      {
+        "name": "Multnomah",
+        "county_fips": "051",
+        "share_of_place_geometry": 0.99504
+      },
+      {
+        "name": "Clackamas",
+        "county_fips": "005",
+        "share_of_place_geometry": 0.003489
+      },
+      {
+        "name": "Washington",
+        "county_fips": "067",
+        "share_of_place_geometry": 0.001471
+      }
+    ],
+    "4748000": [
+      {
+        "name": "Shelby",
+        "county_fips": "157",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "2404000": [
+      {
+        "name": "Baltimore",
+        "county_fips": "510",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "5553000": [
+      {
+        "name": "Milwaukee",
+        "county_fips": "079",
+        "share_of_place_geometry": 0.999011
+      },
+      {
+        "name": "Waukesha",
+        "county_fips": "133",
+        "share_of_place_geometry": 0.000765
+      },
+      {
+        "name": "Washington",
+        "county_fips": "131",
+        "share_of_place_geometry": 0.000225
+      }
+    ],
+    "3502000": [
+      {
+        "name": "Bernalillo",
+        "county_fips": "001",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "0627000": [
+      {
+        "name": "Fresno",
+        "county_fips": "019",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "0477000": [
+      {
+        "name": "Pima",
+        "county_fips": "019",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "0664000": [
+      {
+        "name": "Sacramento",
+        "county_fips": "067",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "1304000": [
+      {
+        "name": "Fulton",
+        "county_fips": "121",
+        "share_of_place_geometry": 0.93448
+      },
+      {
+        "name": "DeKalb",
+        "county_fips": "089",
+        "share_of_place_geometry": 0.06552
+      }
+    ],
+    "2938000": [
+      {
+        "name": "Jackson",
+        "county_fips": "095",
+        "share_of_place_geometry": 0.492588
+      },
+      {
+        "name": "Clay",
+        "county_fips": "047",
+        "share_of_place_geometry": 0.284082
+      },
+      {
+        "name": "Platte",
+        "county_fips": "165",
+        "share_of_place_geometry": 0.220577
+      },
+      {
+        "name": "Cass",
+        "county_fips": "037",
+        "share_of_place_geometry": 0.002754
+      }
+    ],
+    "0446000": [
+      {
+        "name": "Maricopa",
+        "county_fips": "013",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "3755000": [
+      {
+        "name": "Wake",
+        "county_fips": "183",
+        "share_of_place_geometry": 0.996703
+      },
+      {
+        "name": "Durham",
+        "county_fips": "063",
+        "share_of_place_geometry": 0.003297
+      }
+    ],
+    "0816000": [
+      {
+        "name": "El Paso",
+        "county_fips": "041",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "1245000": [
+      {
+        "name": "Miami-Dade",
+        "county_fips": "086",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "3137000": [
+      {
+        "name": "Douglas",
+        "county_fips": "055",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "5182000": [
+      {
+        "name": "Virginia Beach",
+        "county_fips": "810",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "0643000": [
+      {
+        "name": "Los Angeles",
+        "county_fips": "037",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "0653000": [
+      {
+        "name": "Alameda",
+        "county_fips": "001",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "2743000": [
+      {
+        "name": "Hennepin",
+        "county_fips": "053",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "0603526": [
+      {
+        "name": "Kern",
+        "county_fips": "029",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "4075000": [
+      {
+        "name": "Tulsa",
+        "county_fips": "143",
+        "share_of_place_geometry": 0.878706
+      },
+      {
+        "name": "Wagoner",
+        "county_fips": "145",
+        "share_of_place_geometry": 0.067302
+      },
+      {
+        "name": "Osage",
+        "county_fips": "113",
+        "share_of_place_geometry": 0.053394
+      },
+      {
+        "name": "Rogers",
+        "county_fips": "131",
+        "share_of_place_geometry": 0.000598
+      }
+    ],
+    "1271000": [
+      {
+        "name": "Hillsborough",
+        "county_fips": "057",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "0804000": [
+      {
+        "name": "Arapahoe",
+        "county_fips": "005",
+        "share_of_place_geometry": 0.595262
+      },
+      {
+        "name": "Adams",
+        "county_fips": "001",
+        "share_of_place_geometry": 0.390646
+      },
+      {
+        "name": "Douglas",
+        "county_fips": "035",
+        "share_of_place_geometry": 0.014092
+      }
+    ],
+    "4804000": [
+      {
+        "name": "Tarrant",
+        "county_fips": "439",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "2079000": [
+      {
+        "name": "Sedgwick",
+        "county_fips": "173",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "3916000": [
+      {
+        "name": "Cuyahoga",
+        "county_fips": "035",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "2255000": [
+      {
+        "name": "Orleans",
+        "county_fips": "071",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "3231900": [
+      {
+        "name": "Clark",
+        "county_fips": "003",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "0602000": [
+      {
+        "name": "Orange",
+        "county_fips": "059",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "1253000": [
+      {
+        "name": "Orange",
+        "county_fips": "095",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "2146027": [
+      {
+        "name": "Fayette",
+        "county_fips": "067",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "0675000": [
+      {
+        "name": "San Joaquin",
+        "county_fips": "077",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "3451000": [
+      {
+        "name": "Essex",
+        "county_fips": "013",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "0662000": [
+      {
+        "name": "Riverside",
+        "county_fips": "065",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "0636770": [
+      {
+        "name": "Orange",
+        "county_fips": "059",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "4817000": [
+      {
+        "name": "Nueces",
+        "county_fips": "355",
+        "share_of_place_geometry": 0.898159
+      },
+      {
+        "name": "Kleberg",
+        "county_fips": "273",
+        "share_of_place_geometry": 0.062943
+      },
+      {
+        "name": "Aransas",
+        "county_fips": "007",
+        "share_of_place_geometry": 0.03125
+      },
+      {
+        "name": "San Patricio",
+        "county_fips": "409",
+        "share_of_place_geometry": 0.007647
+      }
+    ],
+    "0669000": [
+      {
+        "name": "Orange",
+        "county_fips": "059",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "3915000": [
+      {
+        "name": "Hamilton",
+        "county_fips": "061",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "3728000": [
+      {
+        "name": "Guilford",
+        "county_fips": "081",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "4261000": [
+      {
+        "name": "Allegheny",
+        "county_fips": "003",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "2758000": [
+      {
+        "name": "Ramsey",
+        "county_fips": "123",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "3719000": [
+      {
+        "name": "Durham",
+        "county_fips": "063",
+        "share_of_place_geometry": 0.997167
+      },
+      {
+        "name": "Wake",
+        "county_fips": "183",
+        "share_of_place_geometry": 0.002295
+      },
+      {
+        "name": "Orange",
+        "county_fips": "135",
+        "share_of_place_geometry": 0.000538
+      }
+    ],
+    "3436000": [
+      {
+        "name": "Hudson",
+        "county_fips": "017",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "3128000": [
+      {
+        "name": "Lancaster",
+        "county_fips": "109",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "3251800": [
+      {
+        "name": "Clark",
+        "county_fips": "003",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "4858016": [
+      {
+        "name": "Collin",
+        "county_fips": "085",
+        "share_of_place_geometry": 0.964191
+      },
+      {
+        "name": "Denton",
+        "county_fips": "121",
+        "share_of_place_geometry": 0.035809
+      }
+    ],
+    "0427400": [
+      {
+        "name": "Maricopa",
+        "county_fips": "013",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "0203000": [
+      {
+        "name": "Anchorage",
+        "county_fips": "020",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "5548000": [
+      {
+        "name": "Dane",
+        "county_fips": "025",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "3260600": [
+      {
+        "name": "Washoe",
+        "county_fips": "031",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "0412000": [
+      {
+        "name": "Maricopa",
+        "county_fips": "013",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "2965000": [
+      {
+        "name": "St. Louis",
+        "county_fips": "510",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "0613392": [
+      {
+        "name": "San Diego",
+        "county_fips": "073",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "1825000": [
+      {
+        "name": "Allen",
+        "county_fips": "003",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "3611000": [
+      {
+        "name": "Erie",
+        "county_fips": "029",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "4845000": [
+      {
+        "name": "Lubbock",
+        "county_fips": "303",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "4841464": [
+      {
+        "name": "Webb",
+        "county_fips": "479",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "1258715": [
+      {
+        "name": "St. Lucie",
+        "county_fips": "111",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "1263000": [
+      {
+        "name": "Pinellas",
+        "county_fips": "103",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "3977000": [
+      {
+        "name": "Lucas",
+        "county_fips": "095",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "0427820": [
+      {
+        "name": "Maricopa",
+        "county_fips": "013",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "3775000": [
+      {
+        "name": "Forsyth",
+        "county_fips": "067",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "4837000": [
+      {
+        "name": "Dallas",
+        "county_fips": "113",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "5116000": [
+      {
+        "name": "Chesapeake",
+        "county_fips": "550",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "4829000": [
+      {
+        "name": "Dallas",
+        "county_fips": "113",
+        "share_of_place_geometry": 0.999074
+      },
+      {
+        "name": "Collin",
+        "county_fips": "085",
+        "share_of_place_geometry": 0.000926
+      }
+    ],
+    "0465000": [
+      {
+        "name": "Maricopa",
+        "county_fips": "013",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "1608830": [
+      {
+        "name": "Ada",
+        "county_fips": "001",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "5167000": [
+      {
+        "name": "Richmond",
+        "county_fips": "760",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "4827684": [
+      {
+        "name": "Collin",
+        "county_fips": "085",
+        "share_of_place_geometry": 0.629836
+      },
+      {
+        "name": "Denton",
+        "county_fips": "121",
+        "share_of_place_geometry": 0.370164
+      }
+    ],
+    "1210275": [
+      {
+        "name": "Lee",
+        "county_fips": "071",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "4845744": [
+      {
+        "name": "Collin",
+        "county_fips": "085",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "0137000": [
+      {
+        "name": "Madison",
+        "county_fips": "089",
+        "share_of_place_geometry": 0.798934
+      },
+      {
+        "name": "Limestone",
+        "county_fips": "083",
+        "share_of_place_geometry": 0.196505
+      },
+      {
+        "name": "Morgan",
+        "county_fips": "103",
+        "share_of_place_geometry": 0.004561
+      }
+    ],
+    "5157000": [
+      {
+        "name": "Norfolk",
+        "county_fips": "710",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "1230000": [
+      {
+        "name": "Miami-Dade",
+        "county_fips": "086",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "5367000": [
+      {
+        "name": "Spokane",
+        "county_fips": "063",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "5370000": [
+      {
+        "name": "Pierce",
+        "county_fips": "053",
+        "share_of_place_geometry": 1.0
+      }
+    ],
+    "0669088": [
+      {
+        "name": "Los Angeles",
+        "county_fips": "037",
+        "share_of_place_geometry": 1.0
+      }
+    ]
+  }
+}
