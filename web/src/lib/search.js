@@ -256,6 +256,25 @@ export function inferSearchIntent(queryOrParsed, docs = []) {
   };
 }
 
+// A query term that names one country (e.g. "Georgia" the country) can collide with a
+// sub-national `geography` value that belongs to a hotline in a *different* country (e.g.
+// "Georgia DFCS" in the United States, whose `geography` is exactly "Georgia"). Hard-filtering
+// to the matched country would silently drop the locality hotline the searcher actually meant.
+// Detect that specific collision from the dataset itself — rather than assuming geography
+// always means country — so the hard filter is only relaxed where a real collision exists.
+//
+// The collision must be an exact match on the whole `geography` value, not merely a substring:
+// broader coverage notes like "United States (and Canada: 1-877-330-6366)" mention another
+// country's name without that hotline actually belonging to a locality named after it. Using
+// includesPhrase there would relax the country filter for every query that happens to name a
+// country mentioned in someone else's coverage text.
+function isAmbiguousCountryMatch(intentCountry, docs) {
+  return docs.some((doc) => (
+    normalizeText(doc.country_name) !== intentCountry.value
+    && normalizeText(doc.geography) === intentCountry.matched
+  ));
+}
+
 function extractIntentFilters(normalizedQuery, informativeTokens, docs = []) {
   const filters = [];
   const padded = ` ${normalizedQuery} `;
@@ -273,7 +292,7 @@ function extractIntentFilters(normalizedQuery, informativeTokens, docs = []) {
     filters.push('country:united states');
   }
 
-  if (intent.country) {
+  if (intent.country && !isAmbiguousCountryMatch(intent.country, docs)) {
     filters.push(`country:${intent.country.value}`);
   }
 
@@ -320,6 +339,7 @@ function buildHaystack(doc) {
     doc.name,
     doc.organization,
     doc.category,
+    doc.geography,
     doc.numbers?.join(' '),
     doc.languages?.join(' '),
     buildAliasTerms(doc).join(' '),
