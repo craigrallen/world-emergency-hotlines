@@ -37,6 +37,7 @@ Every field except `name`, `category`, and `geography` is optional. Missing data
 
 ```jsonc
 {
+  "id": "weh_2f6a8b7c4d1e9053a671bc82",     // Immutable opaque record ID
   "name": "Samaritans",                      // Display name of the service
   "organization": "Samaritans",              // Operating organisation (may equal name)
   "category": "suicide_crisis",              // One of the enum values below
@@ -64,6 +65,7 @@ Every field except `name`, `category`, and `geography` is optional. Missing data
   "sources": [                               // Authoritative URLs used to verify
     "https://www.samaritans.org/how-we-can-help/contact-samaritan/"
   ],
+  "replaced_by": null,                        // Optional successor ID; deprecated records only
 
   "provenance": {                            // Optional supplemental provenance; see below
     "record_status": "verified_web",
@@ -84,6 +86,17 @@ Every field except `name`, `category`, and `geography` is optional. Missing data
   }
 }
 ```
+
+## Stable record identity and lifecycle
+
+- `id` is required in canonical records and has the form `weh_` plus 24 lowercase hexadecimal characters.
+- IDs are opaque, globally unique, and immutable. Canonical tooling assigns them once; consumers must not derive or recompute them from names, numbers, geography, categories, or array position.
+- Renaming a service or correcting its details retains the same ID.
+- A materially different replacement service receives a new ID. The retired record remains present with `verification_status: "deprecated"` and may set `replaced_by` to the successor ID.
+- `replaced_by` must reference another record in the same dataset, must not self-reference, and is only valid on deprecated records.
+- Records are not silently deleted. Any exceptional ID migration or removal requires an explicit reviewed migration rather than a routine edit.
+
+Generated web artifacts expose `dataset_version` as `sha256:<digest>`, calculated from the exact canonical `hotlines.json` bytes used by the build. `generated_at` is build metadata, not a dataset identity. Consumers can use `dataset_version` for caching, audit evidence, and future change cursors.
 
 ## `category` enum
 

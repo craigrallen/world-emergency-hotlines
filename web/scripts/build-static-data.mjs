@@ -10,6 +10,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, unlinkSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const WEB_ROOT = resolve(__dirname, '..');
@@ -66,13 +67,16 @@ function loadCanonical() {
   const legacyPath = resolve(REPO_ROOT, 'information.json');
   if (existsSync(hotlinesPath)) {
     try {
-      const parsed = JSON.parse(readFileSync(hotlinesPath, 'utf-8'));
+      const raw = readFileSync(hotlinesPath);
+      const parsed = JSON.parse(raw.toString('utf-8'));
       if (parsed && Array.isArray(parsed.countries)) {
         return {
           format: 'v2',
           countries: parsed.countries,
           categories_reference: parsed.categories_reference ?? {},
           schema_version: parsed.$schema_version ?? '2.0',
+          source_last_updated: parsed.last_updated ?? null,
+          dataset_sha256: createHash('sha256').update(raw).digest('hex'),
         };
       }
     } catch (err) {
@@ -85,12 +89,15 @@ function loadCanonical() {
     countries: legacy.map(normalizeLegacy),
     categories_reference: DEFAULT_CATEGORIES,
     schema_version: '1.0-legacy',
+    source_last_updated: null,
+    dataset_sha256: createHash('sha256').update(readFileSync(legacyPath)).digest('hex'),
   };
 }
 
 // Standardizes field names and fills in defaults
 function camelize(h) {
   return {
+    id: h.id ?? null,
     name: h.name ?? h.organization ?? 'Hotline',
     organization: h.organization ?? null,
     category: h.category ?? 'general_support',
@@ -110,6 +117,7 @@ function camelize(h) {
     verification_status: h.verification_status ?? 'legacy_unverified',
     last_verified: h.last_verified ?? null,
     sources: h.sources ?? [],
+    ...(h.replaced_by ? { replaced_by: h.replaced_by } : {}),
     // Carry provenance through if present (populated by trawler/verify passes)
     ...(h.provenance ? { provenance: h.provenance } : {}),
   };
@@ -143,6 +151,8 @@ function countryShape(c) {
 
   return {
     country: c.country,
+    dataset_version: `sha256:${canonical.dataset_sha256}`,
+    schema_version: canonical.schema_version,
     alpha2,
     alpha3: c['alpha-3'],
     region: c.region ?? null,
@@ -205,6 +215,7 @@ for (const raw of canonical.countries) {
 
   for (const h of c.hotlines) {
     searchDocs.push({
+      id: h.id,
       country_code: c.alpha2,
       country_name: c.country,
       region: c.region,
@@ -239,6 +250,8 @@ manifestEntries.sort((a, b) => a.name.localeCompare(b.name));
 const manifest = {
   generated_at: new Date().toISOString(),
   schema_version: canonical.schema_version,
+  dataset_version: `sha256:${canonical.dataset_sha256}`,
+  source_last_updated: canonical.source_last_updated,
   total_countries: manifestEntries.length,
   total_hotlines: totalHotlines,
   countries: manifestEntries,
@@ -251,6 +264,8 @@ writeFileSync(resolve(OUT_DIR, 'search-index.json'), JSON.stringify(searchDocs))
 // Write global category stats
 const categoriesStats = {
   generated_at: new Date().toISOString(),
+  schema_version: canonical.schema_version,
+  dataset_version: `sha256:${canonical.dataset_sha256}`,
   categories: Object.entries(globalCatAccum)
     .map(([slug, s]) => ({
       slug,

@@ -1,11 +1,14 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createHash } from 'node:crypto';
 
 const WEB_ROOT = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const DATA_DIR = resolve(WEB_ROOT, 'public', 'data');
 const COUNTRIES_DIR = resolve(DATA_DIR, 'countries');
 const DATA_DOWNLOADS_PAGE = resolve(WEB_ROOT, 'src', 'pages', 'data.astro');
+const CANONICAL_PATH = resolve(WEB_ROOT, '..', 'hotlines.json');
+const RECORD_ID_RE = /^weh_[0-9a-f]{24}$/;
 
 const errors = [];
 
@@ -73,6 +76,13 @@ function hasSearchableSurface(entry) {
 const manifest = readJson('manifest.json');
 const searchIndex = readJson('search-index.json');
 const categoriesStats = readJson('categories-stats.json');
+const expectedDatasetVersion = `sha256:${createHash('sha256').update(readFileSync(CANONICAL_PATH)).digest('hex')}`;
+if (manifest?.dataset_version !== expectedDatasetVersion) {
+  fail(`manifest.dataset_version does not match canonical hotlines.json (${manifest?.dataset_version})`);
+}
+if (categoriesStats?.dataset_version !== expectedDatasetVersion) {
+  fail('categories-stats.dataset_version does not match manifest/canonical dataset version');
+}
 
 try {
   const dataDownloadsPage = readFileSync(DATA_DOWNLOADS_PAGE, 'utf-8');
@@ -117,6 +127,7 @@ try {
 const manifestByAlpha2 = new Map();
 const manifestCategoriesByCountry = new Map();
 let manifestHotlineTotal = 0;
+const recordIds = new Set();
 
 for (const country of countries) {
   const alpha2 = country?.alpha2;
@@ -147,6 +158,9 @@ for (const country of countries) {
   }
 
   const hotlines = asArray(shard.hotlines, `countries/${shardName}.hotlines`);
+  if (shard.dataset_version !== expectedDatasetVersion) {
+    fail(`countries/${shardName}.dataset_version does not match manifest/canonical dataset version`);
+  }
   const categoryCounts = shard.category_counts ?? {};
   const categoryTotal = sumCounts(categoryCounts, `countries/${shardName}.category_counts`);
   const manifestCategoryTotal = sumCounts(country.category_counts ?? {}, `manifest country ${alpha2}.category_counts`);
@@ -173,6 +187,15 @@ for (const country of countries) {
   const categories = new Set(Object.keys(country.category_counts ?? {}));
   manifestCategoriesByCountry.set(alpha2, categories);
   manifestHotlineTotal += Number.isInteger(country.hotline_count) ? country.hotline_count : 0;
+  for (const [index, hotline] of hotlines.entries()) {
+    if (!RECORD_ID_RE.test(hotline?.id ?? '')) {
+      fail(`countries/${shardName}.hotlines[${index}] has invalid record ID: ${hotline?.id}`);
+    } else if (recordIds.has(hotline.id)) {
+      fail(`duplicate record ID across country shards: ${hotline.id}`);
+    } else {
+      recordIds.add(hotline.id);
+    }
+  }
 }
 
 if (Number.isInteger(manifest?.total_hotlines) && manifestHotlineTotal !== manifest.total_hotlines) {
@@ -187,6 +210,9 @@ if (Number.isInteger(manifest?.total_hotlines) && searchDocs.length !== manifest
 for (const [index, entry] of searchDocs.entries()) {
   const alpha2 = entry?.country_code;
   const category = entry?.category;
+  if (!RECORD_ID_RE.test(entry?.id ?? '') || !recordIds.has(entry.id)) {
+    fail(`search-index[${index}] references invalid or unknown record ID: ${entry?.id}`);
+  }
   if (!manifestByAlpha2.has(alpha2)) {
     fail(`search-index[${index}] references unknown country_code: ${alpha2}`);
   } else if (!manifestCategoriesByCountry.get(alpha2)?.has(category)) {
