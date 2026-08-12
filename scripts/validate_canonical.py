@@ -39,6 +39,11 @@ import sys
 from collections import Counter, defaultdict
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from scripts.lib.record_ids import RECORD_ID_RE
+
 DEFAULT_INPUT = ROOT / "hotlines.json"
 
 VALID_VERIFICATION_STATUSES = frozenset(
@@ -174,6 +179,20 @@ def validate_hotline(hotline, country_name: str, index: int, report: Report) -> 
     else:
         label = f"{country_name!r} hotline {name!r}"
 
+    record_id = hotline.get("id")
+    if not isinstance(record_id, str) or not RECORD_ID_RE.fullmatch(record_id):
+        report.error(f"{label}: missing or invalid immutable 'id' (expected weh_ plus 24 lowercase hex characters)")
+
+    replaced_by = hotline.get("replaced_by")
+    if replaced_by is not None and (
+        not isinstance(replaced_by, str) or not RECORD_ID_RE.fullmatch(replaced_by)
+    ):
+        report.error(f"{label}: invalid 'replaced_by' record ID {replaced_by!r}")
+    if replaced_by == record_id:
+        report.error(f"{label}: 'replaced_by' must not reference the same record")
+    if replaced_by is not None and hotline.get("verification_status") != "deprecated":
+        report.error(f"{label}: 'replaced_by' is only valid when verification_status is 'deprecated'")
+
     category = hotline.get("category")
     if not isinstance(category, str) or not category.strip():
         report.error(f"{label}: missing/empty required field 'category'")
@@ -301,8 +320,29 @@ def validate_dataset(data, report: Report) -> None:
 
     unknown_category_counts: Counter = Counter()
     duplicate_groups: list = []
+    record_locations: dict[str, str] = {}
+    replacement_refs: list[tuple[str, str, str]] = []
     for i, country in enumerate(countries):
         validate_country(country, i, report, known_categories, unknown_category_counts, duplicate_groups)
+        if not isinstance(country, dict):
+            continue
+        for j, hotline in enumerate(country.get("hotlines", [])):
+            if not isinstance(hotline, dict):
+                continue
+            record_id = hotline.get("id")
+            where = f"{country.get('country', f'countries[{i}]')!r} hotline[{j}]"
+            if isinstance(record_id, str) and RECORD_ID_RE.fullmatch(record_id):
+                if record_id in record_locations:
+                    report.error(f"{where}: duplicate immutable 'id' {record_id!r}; first used by {record_locations[record_id]}")
+                else:
+                    record_locations[record_id] = where
+            replaced_by = hotline.get("replaced_by")
+            if isinstance(replaced_by, str) and RECORD_ID_RE.fullmatch(replaced_by):
+                replacement_refs.append((where, record_id if isinstance(record_id, str) else "", replaced_by))
+
+    for where, _record_id, replaced_by in replacement_refs:
+        if replaced_by not in record_locations:
+            report.error(f"{where}: 'replaced_by' references unknown record ID {replaced_by!r}")
 
     if unknown_category_counts:
         total = sum(unknown_category_counts.values())

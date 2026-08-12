@@ -13,6 +13,7 @@ const generatedAt = manifest?.generated_at ?? null;
 const totalCountries = manifest?.total_countries ?? 0;
 const totalHotlines = manifest?.total_hotlines ?? 0;
 const schemaVersion = manifest?.schema_version ?? '2.0';
+const datasetVersion = manifest?.dataset_version ?? null;
 
 const generatedDate = generatedAt
   ? new Date(generatedAt).toLocaleDateString('en', { year: 'numeric', month: 'long', day: 'numeric' })
@@ -72,6 +73,17 @@ const files = [
       </p>
     )}
 
+    <section class="mt-8 rounded-xl border border-border bg-bg-elev p-5">
+      <h2 class="text-lg font-semibold text-fg">Versions and stable IDs</h2>
+      <p class="mt-2 text-sm text-fg-muted">
+        Every hotline record has an opaque, immutable <code>id</code>. Names and contact details can be corrected
+        without changing that identity. Generated manifests and country shards expose a <code>dataset_version</code>
+        calculated from the exact canonical dataset used for the build. Use it for cache keys and audit evidence;
+        <code>generated_at</code> only records build time.
+      </p>
+      {datasetVersion && <code class="mt-3 block break-all text-xs text-accent">{datasetVersion}</code>}
+    </section>
+
     <!-- Download files -->
     <section class="mt-10">
       <h2 class="mb-4 text-2xl font-semibold text-fg" data-i18n="data.staticFiles">Static JSON files</h2>
@@ -115,6 +127,7 @@ const files = [
         <div>
           <h3 class="font-semibold text-fg mb-2">Hotline fields</h3>
           <pre class="overflow-x-auto rounded-xl bg-bg-elev p-4 text-xs text-fg-muted leading-relaxed">{`{
+  "id": "weh_...",
   "name": "string",
   "organization": "string | null",
   "category": "suicide_crisis | mental_health | domestic_violence | ...",
@@ -133,7 +146,8 @@ const files = [
   "notes": "string | null",
   "verification_status": "verified_web | verified_authority | verified_knowledge | cross_referenced | legacy_unverified | disputed | deprecated",
   "last_verified": "YYYY-MM-DD | null",
-  "sources": ["url"]
+  "sources": ["url"],
+  "replaced_by": "weh_... | null"
 }`}</pre>
         </div>
 

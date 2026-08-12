@@ -31,6 +31,7 @@ class PromotionCandidateWorkflowTests(unittest.TestCase):
                     "notes": "",
                     "hotlines": [
                         {
+                            "id": "weh_000000000000000000000001",
                             "name": "Legacy Line",
                             "organization": "Legacy Line",
                             "category": "mental_health",
@@ -63,6 +64,7 @@ class PromotionCandidateWorkflowTests(unittest.TestCase):
                     "notes": "",
                     "hotlines": [
                         {
+                            "id": "weh_000000000000000000000002",
                             "name": "Protected Line",
                             "organization": "Protected Line",
                             "category": "mental_health",
@@ -391,6 +393,9 @@ class PromotionCandidateWorkflowTests(unittest.TestCase):
             self.assertEqual(merged_hotline["provenance"]["review_state"], "staged")
             self.assertTrue(any(item["field"] == "website" for item in merged_hotline["provenance"]["evidence"]))
             self.assertTrue(any(h["name"] == "New Line" for h in testland["hotlines"]))
+            new_hotline = next(h for h in testland["hotlines"] if h["name"] == "New Line")
+            self.assertRegex(new_hotline["id"], r"^weh_[0-9a-f]{24}$")
+            self.assertEqual(merged_hotline["id"], "weh_000000000000000000000001")
             self.assertIn("112", testland["general_emergency"])
 
 

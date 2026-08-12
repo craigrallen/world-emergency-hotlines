@@ -15,6 +15,7 @@ assert.equal(normalizeSiteUrl('javascript:alert(1)'), DEFAULT_SITE_URL);
 assert.equal(normalizeSiteUrl('https://example.org/custom/path?q=1#x'), 'https://example.org');
 
 const issue = new URL(buildHotlineIssueUrl({
+  id: 'weh_00000000000000000000abcd',
   name: 'Example Crisis Service',
   organization: 'Example Authority',
   category: 'mental_health',
@@ -25,6 +26,7 @@ const issue = new URL(buildHotlineIssueUrl({
 assert.equal(issue.origin + issue.pathname, 'https://github.com/craigrallen/world-emergency-hotlines/issues/new');
 assert.match(issue.searchParams.get('title') || '', /^Hotline correction: Example Crisis Service$/);
 const body = issue.searchParams.get('body') || '';
+assert.match(body, /Record ID: weh_00000000000000000000abcd/);
 assert.match(body, /Country: United States/);
 assert.match(body, /Geography: Example County, Example State/);
 assert.match(body, /Source checked: 2026-08-12/);

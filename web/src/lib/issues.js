@@ -9,6 +9,7 @@ export function buildHotlineIssueUrl(hotline, country) {
   const title = `Hotline correction: ${name}`.slice(0, 120);
   const context = [
     '## Listing',
+    `- Record ID: ${bounded(hotline?.id, 40) || 'Not available'}`,
     `- Country: ${bounded(country || 'Not shown')}`,
     `- Service: ${name}`,
     `- Organisation: ${bounded(hotline?.organization || 'Not listed')}`,

@@ -1,4 +1,5 @@
 import json
+import itertools
 import subprocess
 import sys
 import tempfile
@@ -8,10 +9,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SCRIPT = ROOT / "scripts" / "validate_canonical.py"
 CANONICAL_PATH = ROOT / "hotlines.json"
+_ID_SEQUENCE = itertools.count(1)
 
 
 def base_hotline(**overrides):
     hotline = {
+        "id": f"weh_{next(_ID_SEQUENCE):024x}",
         "name": "Test Line",
         "organization": "Test Line",
         "category": "mental_health",
@@ -108,6 +111,56 @@ class ValidateCanonicalTests(unittest.TestCase):
             result = self.run_validator("--input", str(path))
             self.assertEqual(result.returncode, 1)
             self.assertIn("invalid verification_status", result.stdout)
+
+    def test_duplicate_record_id_is_an_error(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "hotlines.json"
+            record_id = "weh_00000000000000000000abcd"
+            self.write_json(
+                path,
+                base_dataset([
+                    base_hotline(id=record_id, name="One"),
+                    base_hotline(id=record_id, name="Two", voice_numbers=["333"]),
+                ]),
+            )
+            result = self.run_validator("--input", str(path))
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("duplicate immutable 'id'", result.stdout)
+
+    def test_replacement_reference_requires_deprecated_source_and_known_target(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "hotlines.json"
+            self.write_json(
+                path,
+                base_dataset([
+                    base_hotline(
+                        id="weh_00000000000000000000aaaa",
+                        replaced_by="weh_00000000000000000000bbbb",
+                    )
+                ]),
+            )
+            result = self.run_validator("--input", str(path))
+            self.assertEqual(result.returncode, 1)
+            self.assertIn("only valid when verification_status is 'deprecated'", result.stdout)
+            self.assertIn("references unknown record ID", result.stdout)
+
+    def test_valid_deprecated_replacement_reference_passes(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "hotlines.json"
+            successor_id = "weh_00000000000000000000bbbb"
+            self.write_json(
+                path,
+                base_dataset([
+                    base_hotline(
+                        id="weh_00000000000000000000aaaa",
+                        verification_status="deprecated",
+                        replaced_by=successor_id,
+                    ),
+                    base_hotline(id=successor_id, name="Successor", voice_numbers=["333"]),
+                ]),
+            )
+            result = self.run_validator("--input", str(path))
+            self.assertEqual(result.returncode, 0, result.stdout)
 
     def test_non_list_field_is_an_error(self):
         with tempfile.TemporaryDirectory() as tmpdir:

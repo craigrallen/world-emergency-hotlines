@@ -14,6 +14,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts.lib.provenance import merge_provenance, normalize_provenance
+from scripts.lib.record_ids import promotion_seed, record_id_from_seed
 from scripts.lib.promotion import (
     LIST_APPEND_FIELDS,
     SAFE_CANDIDATE_TYPES,
@@ -179,7 +180,7 @@ def apply_hotline_merge(country: dict, candidate: dict) -> bool:
     return changed
 
 
-def apply_append_hotline(country: dict, candidate: dict) -> bool:
+def apply_append_hotline(canonical: dict, country: dict, candidate: dict) -> bool:
     proposed = candidate.get("proposed_hotline") or {}
     proposed_name = proposed.get("name")
     if not proposed_name:
@@ -187,7 +188,23 @@ def apply_append_hotline(country: dict, candidate: dict) -> bool:
     existing = build_hotline_index(country)
     if normalize_text(proposed_name) in existing:
         raise ValueError(f"Candidate {candidate.get('candidate_id')} would overwrite existing hotline {proposed_name!r}")
-    country.setdefault("hotlines", []).append(prepare_hotline(proposed, country["country"]))
+    prepared = prepare_hotline(proposed, country["country"])
+    proposed_id = prepared.get("id")
+    assigned_id = record_id_from_seed(promotion_seed(candidate))
+    if proposed_id is not None and proposed_id != assigned_id:
+        raise ValueError(
+            f"Candidate {candidate.get('candidate_id')} supplies an unsupported record ID; "
+            "new IDs are assigned by the canonical promotion workflow"
+        )
+    all_ids = {
+        hotline.get("id")
+        for canonical_country in canonical.get("countries", [])
+        for hotline in canonical_country.get("hotlines", [])
+    }
+    if assigned_id in all_ids:
+        raise ValueError(f"Candidate {candidate.get('candidate_id')} would reuse record ID {assigned_id!r}")
+    prepared["id"] = assigned_id
+    country.setdefault("hotlines", []).append(prepared)
     return True
 
 
@@ -200,7 +217,7 @@ def apply_candidate(canonical: dict, candidate: dict, protected_country_names: s
 
     candidate_type = candidate.get("candidate_type")
     if candidate_type == "append_new_hotline":
-        return apply_append_hotline(country, candidate)
+        return apply_append_hotline(canonical, country, candidate)
     if candidate_type == "merge_missing_fields":
         return apply_hotline_merge(country, candidate)
     if candidate_type == "upgrade_emergency_metadata":

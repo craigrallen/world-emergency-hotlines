@@ -64,6 +64,7 @@ export interface ChannelsSummary {
 }
 
 export interface Hotline {
+  id: string;
   name: string;
   organization?: string | null;
   category: HotlineCategory;
@@ -83,11 +84,14 @@ export interface Hotline {
   verification_status: VerificationStatus;
   last_verified?: string | null;
   sources: string[];
+  replaced_by?: string;
   provenance?: Record<string, unknown> | null;
 }
 
 export interface Country {
   country: string;
+  dataset_version?: string;
+  schema_version?: string;
   alpha2: string;
   alpha3: string;
   region?: string | null;
@@ -120,6 +124,8 @@ export interface CountryManifestEntry {
 export interface Manifest {
   generated_at: string;
   schema_version: string;
+  dataset_version: string;
+  source_last_updated: string | null;
   total_countries: number;
   total_hotlines: number;
   countries: CountryManifestEntry[];
@@ -136,6 +142,8 @@ export interface CategoryGlobalStat {
 
 export interface CategoriesStats {
   generated_at: string;
+  schema_version: string;
+  dataset_version: string;
   categories: CategoryGlobalStat[];
 }
 
