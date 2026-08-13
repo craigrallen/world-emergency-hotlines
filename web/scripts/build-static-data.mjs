@@ -11,6 +11,7 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync, lstatSync, realpath
 import { dirname, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
+import { utf16Compare } from './dataset-diff.mjs';
 import { classifyScope, getHotlineChannels } from '../src/lib/finder.js';
 import { buildMetadataCoverage, coverageAsOf } from './metadata-coverage.mjs';
 import { API_MAJOR, RESOLVER_MAJOR, WIDGET_MAJOR, buildVersions, generateReleaseIntegrity } from './release-integrity.mjs';
@@ -114,7 +115,7 @@ function countryShape(c) {
   const verifiedDates = hotlines
     .filter((h) => h.last_verified && VERIFIED_STATUSES.has(h.verification_status))
     .map((h) => h.last_verified)
-    .sort()
+    .sort(utf16Compare)
     .reverse();
   const last_updated = verifiedDates[0] ?? null;
 
@@ -244,7 +245,7 @@ for (const raw of canonical.countries) {
   }
 }
 
-manifestEntries.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0);
+manifestEntries.sort((a, b) => utf16Compare(a.name, b.name));
 
 const manifest = {
   generated_at: GENERATED_AT,
@@ -318,7 +319,7 @@ const apiManifest = {
     'No hosted query endpoint is provided; consumers fetch static artifacts and resolve locally.',
     'Scope reflects recorded geography and does not guarantee eligibility or current availability.',
   ],
-  countries: apiCountries.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0),
+  countries: apiCountries.sort((a, b) => utf16Compare(a.name, b.name)),
 };
 writeFileSync(resolve(API_DIR, 'manifest.json'), JSON.stringify(apiManifest, null, 2));
 writeFileSync(resolve(API_DIR, 'records.json'), JSON.stringify({

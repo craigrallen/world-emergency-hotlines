@@ -88,6 +88,13 @@ require_missing_headers() {
   require_header "$headers" X-Content-Type-Options 'nosniff'
 }
 
+require_feed_cors() {
+  headers=$1
+  require_header "$headers" Access-Control-Allow-Origin '*'
+  require_header "$headers" Access-Control-Allow-Methods 'GET, HEAD, OPTIONS'
+  require_header "$headers" Access-Control-Allow-Headers 'Accept, If-None-Match, If-Modified-Since'
+}
+
 release_path=/release/v1/release.json
 get_headers="$fixture/responses/get.headers"
 get_body="$fixture/responses/get.body"
@@ -105,6 +112,41 @@ for feed_spec in 'release/v1/changes.json|application/json; charset=utf-8' 'rele
   curl --max-time 5 -sS -D "$feed_headers" -o /dev/null "$base/$feed_path"
   require_status GET "/$feed_path" 200 "$feed_headers"
   require_header "$feed_headers" Content-Type "$feed_type"
+  require_feed_cors "$feed_headers"
+done
+
+feed_path=/feeds/releases.json
+feed_head_headers="$fixture/responses/feed-head.headers"
+feed_head_body="$fixture/responses/feed-head.body"
+curl --max-time 5 -sS --request HEAD --ignore-content-length -H 'Connection: close' -D "$feed_head_headers" -o "$feed_head_body" "$base$feed_path"
+require_status HEAD "$feed_path" 200 "$feed_head_headers"
+require_empty HEAD "$feed_path" "$feed_head_body"
+require_feed_cors "$feed_head_headers"
+require_header "$feed_head_headers" Content-Type 'application/feed+json; charset=utf-8'
+
+for feed_options_path in /feeds/releases.json /feeds/missing.xml; do
+  label=$(printf '%s' "$feed_options_path" | tr '/' '-')
+  feed_options_headers="$fixture/responses/$label-options.headers"
+  feed_options_body="$fixture/responses/$label-options.body"
+  curl --max-time 5 -sS -X OPTIONS -D "$feed_options_headers" -o "$feed_options_body" "$base$feed_options_path"
+  require_status OPTIONS "$feed_options_path" 204 "$feed_options_headers"
+  require_empty OPTIONS "$feed_options_path" "$feed_options_body"
+  require_feed_cors "$feed_options_headers"
+done
+
+for method in GET HEAD; do
+  label=$(printf '%s' "$method" | tr '[:upper:]' '[:lower:]')
+  unknown_feed_headers="$fixture/responses/feed-missing-$label.headers"
+  unknown_feed_body="$fixture/responses/feed-missing-$label.body"
+  if [ "$method" = HEAD ]; then
+    curl --max-time 5 -sS --request HEAD --ignore-content-length -H 'Connection: close' -D "$unknown_feed_headers" -o "$unknown_feed_body" "$base/feeds/missing.xml"
+    require_empty HEAD /feeds/missing.xml "$unknown_feed_body"
+  else
+    curl --max-time 5 -sS -D "$unknown_feed_headers" -o "$unknown_feed_body" "$base/feeds/missing.xml"
+    cmp -s "$expected_missing" "$unknown_feed_body" || { echo "GET unknown feed body is not the stable 404" >&2; exit 1; }
+  fi
+  require_status "$method" /feeds/missing.xml 404 "$unknown_feed_headers"
+  require_feed_cors "$unknown_feed_headers"
 done
 
 head_headers="$fixture/responses/head.headers"
@@ -154,4 +196,4 @@ require_header "$missing_options_headers" Access-Control-Allow-Origin '*'
 require_header "$missing_options_headers" Access-Control-Allow-Methods 'GET, HEAD, OPTIONS'
 require_header "$missing_options_headers" Access-Control-Allow-Headers 'Accept, If-None-Match, If-Modified-Since'
 
-echo "Caddy integration OK: exact GET body; GET/HEAD representation headers; empty HEAD/OPTIONS; release-route CORS; exact unknown-path 404"
+echo "Caddy integration OK: release/feed GET and HEAD; feed/release OPTIONS 204 with CORS; unknown GET/HEAD 404; unknown OPTIONS 204; no route shadowing"

@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { closeSync, constants, fstatSync, lstatSync, mkdirSync, openSync, readFileSync, readdirSync, realpathSync, writeFileSync } from 'node:fs';
 import { dirname, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { codePointCompare } from './dataset-diff.mjs';
+import { utf16Compare } from './dataset-diff.mjs';
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 export const WEB_ROOT = resolve(SCRIPT_DIR, '..');
@@ -30,14 +30,14 @@ export function digestFile(path) {
 export function stableJson(value) {
   if (Array.isArray(value)) return `[${value.map(stableJson).join(',')}]`;
   if (value && typeof value === 'object') {
-    return `{${Object.keys(value).sort(codePointCompare).map((key) => `${JSON.stringify(key)}:${stableJson(value[key])}`).join(',')}}`;
+    return `{${Object.keys(value).sort(utf16Compare).map((key) => `${JSON.stringify(key)}:${stableJson(value[key])}`).join(',')}}`;
   }
   return JSON.stringify(value);
 }
 
 function walkFiles(root) {
   const files = [];
-  for (const name of readdirSync(root).sort(codePointCompare)) {
+  for (const name of readdirSync(root).sort(utf16Compare)) {
     const path = resolve(root, name);
     const metadata = lstatSync(path);
     if (metadata.isSymbolicLink()) throw new Error(`symlink is not allowed in managed artifacts: ${path}`);
@@ -108,7 +108,7 @@ export function generateReleaseIntegrity({ datasetVersion }) {
     if (file.metadata.isSymbolicLink() || !file.metadata.isFile()) throw new Error(`unsupported managed artifact: ${file.path}`);
     const bytes = readDiscoveredFile(file);
     return { path: publicPath(file.path), sha256: `sha256:${sha256(bytes)}`, bytes: bytes.length };
-  }).sort((a, b) => codePointCompare(a.path, b.path));
+  }).sort((a, b) => utf16Compare(a.path, b.path));
 
   const artifactIndex = {
     schema_version: RELEASE_SCHEMA_VERSION,

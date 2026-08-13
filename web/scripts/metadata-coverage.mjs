@@ -1,3 +1,5 @@
+import { utf16Compare } from './dataset-diff.mjs';
+
 const SOURCE_BACKED = new Set(['verified_web', 'verified_authority']);
 const FIELDS = ['hours', 'languages', 'target', 'geography'];
 const STRUCTURED_SECTIONS = ['geography', 'eligibility', 'availability', 'languages'];
@@ -13,15 +15,6 @@ function normalizedText(value) {
   // Shared modest normalization: NFKC, locale-independent lowercasing, then
   // explicit sharp-s/final-sigma substitutions. This is not full casefolding.
   return String(value).trim().normalize('NFKC').toLowerCase().replaceAll('ß', 'ss').replaceAll('ς', 'σ');
-}
-
-function codePointCompare(left, right) {
-  const a = Array.from(left, (char) => char.codePointAt(0));
-  const b = Array.from(right, (char) => char.codePointAt(0));
-  for (let index = 0; index < Math.min(a.length, b.length); index++) {
-    if (a[index] !== b[index]) return a[index] - b[index];
-  }
-  return a.length - b.length;
 }
 
 function parseIsoDate(value) {
@@ -90,7 +83,7 @@ export function buildMetadataCoverage(data, asOf, currentDays = 365, datasetVers
     field_level_evidence: Object.fromEntries(FIELDS.map((field) => [field, metric(evidenced[field], total)])),
     source_backed_status: metric(sourceBacked, total), dated_verification: metric(dated, total), current_dated_verification: metric(current, total),
     structured_scope_adoption: Object.fromEntries(STRUCTURED_SECTIONS.map((section) => [section, metric(structured[section], total)])),
-    verification_statuses: Object.fromEntries(Object.entries(statuses).sort(([a], [b]) => codePointCompare(a, b))),
+    verification_statuses: Object.fromEntries(Object.entries(statuses).sort(([a], [b]) => utf16Compare(a, b))),
     interpretation: {
       no_composite_score: true,
       presence: 'A non-empty legacy field is present; this does not prove the claim is current or source-backed.',

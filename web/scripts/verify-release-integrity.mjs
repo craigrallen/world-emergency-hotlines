@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { closeSync, constants, existsSync, fstatSync, lstatSync, openSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { codePointCompare } from './dataset-diff.mjs';
+import { utf16Compare } from './dataset-diff.mjs';
 
 import {
   API_MAJOR, BUILD_VERSION_INPUTS, CANONICAL_ORIGIN, PUBLIC_ROOT, RELEASE_DIR, RESOLVER_MAJOR, WIDGET_MAJOR,
@@ -16,7 +16,7 @@ const fail = (message) => errors.push(message);
 const readJson = (path) => JSON.parse(readFileSync(path, 'utf8'));
 
 export function discoverFiles(root) {
-  return readdirSync(root).sort(codePointCompare).flatMap((name) => {
+  return readdirSync(root).sort(utf16Compare).flatMap((name) => {
     const path = resolve(root, name);
     const metadata = lstatSync(path);
     if (metadata.isSymbolicLink()) throw new Error(`symlink is not allowed in covered artifacts: ${path}`);
@@ -50,7 +50,7 @@ export function validateArtifactEntries(entries, readBytes) {
   if (new Set(paths).size !== paths.length) findings.push('duplicate artifact paths');
   if (paths.some((path) => !isSafeArtifactPath(path))) findings.push('unsafe artifact path');
   if (paths.some((path) => path === '/release/v1/artifacts.json' || path === '/release/v1/release.json')) findings.push('circular release artifact inclusion');
-  if (paths.some((path, index) => index > 0 && codePointCompare(paths[index - 1], path) > 0)) findings.push('artifact paths are not sorted');
+  if (paths.some((path, index) => index > 0 && utf16Compare(paths[index - 1], path) > 0)) findings.push('artifact paths are not sorted');
   for (const entry of entries) {
     if (!isSafeArtifactPath(entry.path)) continue;
     const bytes = readBytes(entry.path);
@@ -124,7 +124,7 @@ if (existsSync(descriptorPath) && existsSync(indexPath)) {
     discovered = [];
   }
   const safeFiles = new Map(discovered.map((file) => [`/${relative(PUBLIC_ROOT, file.path).split(sep).join('/')}`, file]));
-  const actualPaths = [...safeFiles.keys()].sort(codePointCompare);
+  const actualPaths = [...safeFiles.keys()].sort(utf16Compare);
   const indexedPaths = index.artifacts.map((entry) => entry.path);
   if (JSON.stringify(indexedPaths) !== JSON.stringify(actualPaths)) fail('artifact index path coverage is stale or incomplete');
   for (const finding of validateArtifactEntries(index.artifacts, (path) => {

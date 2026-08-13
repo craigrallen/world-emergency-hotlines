@@ -1,7 +1,7 @@
 {
-  "schema_version": "1.0",
-  "contract": "Hash-chained, self-consistent deterministic dataset release registry. Trusted-base CI separately enforces immutable historical prefixes; local verification alone is not an external or cryptographic anchor.",
-  "history_head": "sha256:37ebe1c79b7ddbd1934c2e430a81fa5ba3572a025dab92fb887cde3e961f0b0b",
+  "schema_version": "2.0",
+  "contract": "Append-only reviewed dataset releases with schema-2 complete country/record hash snapshots; the sole PR #85 baseline migration is fingerprint-allowlisted in CI.",
+  "history_head": "sha256:67896b5b36ce9619db2b42dc6d94df78641a4a62618919209bb726cdc1f2d9ec",
   "releases": [
     {
       "id": "dataset-baseline-2026-08-13",
@@ -11,25 +11,28 @@
       "previous_entry_hash": null,
       "snapshot": {
         "path": "dataset-release-snapshots/dataset-baseline-2026-08-13.json",
-        "sha256": "sha256:2f5a38d9fc478978813c61923c8aa15756c7d7435a8b1910cede6ebe5bc1cf47"
+        "sha256": "sha256:2cf60524ab784d0b70a5fdf07e1a36a2188e0fe451bfe4ace8515f10f7ccf671"
       },
       "changes": {
-        "schema_version": "1.0",
+        "schema_version": "2.0",
         "from_dataset_version": "sha256:e893c9f6b0afcc57832054547002c826e80b5387e544b4cf6909afc9424dde3a",
         "to_dataset_version": "sha256:e893c9f6b0afcc57832054547002c826e80b5387e544b4cf6909afc9424dde3a",
         "counts": {
           "added": 0,
           "removed": 0,
           "modified": 0,
+          "country_metadata_added": 0,
+          "country_metadata_removed": 0,
+          "country_metadata_modified": 0,
           "country_metadata_changed": 0,
           "total_changes": 0
         },
         "countries": [],
         "changes": [],
         "country_metadata_changes": [],
-        "value_policy": "No before/after hotline values are published."
+        "value_policy": "Only field names and cryptographic identities are compared; no before/after field values are published."
       },
-      "entry_hash": "sha256:37ebe1c79b7ddbd1934c2e430a81fa5ba3572a025dab92fb887cde3e961f0b0b"
+      "entry_hash": "sha256:67896b5b36ce9619db2b42dc6d94df78641a4a62618919209bb726cdc1f2d9ec"
     }
   ]
 }
