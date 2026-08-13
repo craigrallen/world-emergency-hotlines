@@ -10,7 +10,7 @@ import { discoverFiles, readDiscoveredFile } from './verify-release-integrity.mj
 
 const webRoot = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const publicRoot = resolve(webRoot, 'public');
-const managed = ['data', 'api/v1', 'release', 'feeds', 'subscriptions/v1', 'gateway/v1'];
+const managed = ['data', 'api/v1', 'release', 'feeds', 'subscriptions/v1', 'gateway/v1', 'organizations/v1'];
 const epoch = '1786579200';
 
 function build(buildEpoch = epoch, root = webRoot) {
@@ -65,6 +65,7 @@ const cleanCopy = mkdtempSync(resolve(tmpdir(), 'weh-clean-copy-'));
 try {
   const cleanWeb = resolve(cleanCopy, 'web');
   cpSync(resolve(webRoot, '..', 'gateway'), resolve(cleanCopy, 'gateway'), { recursive: true });
+  cpSync(resolve(webRoot, '..', 'control-plane'), resolve(cleanCopy, 'control-plane'), { recursive: true });
   cpSync(webRoot, cleanWeb, { recursive: true, filter: (source) => !['node_modules', 'dist', '.astro'].includes(source.split(/[\\/]/).at(-1)) && !source.includes(`${resolve(webRoot, 'public', 'data')}`) && !source.includes(`${resolve(webRoot, 'public', 'api')}`) && !source.includes(`${resolve(webRoot, 'public', 'release')}`) && !source.includes(`${resolve(webRoot, 'public', 'feeds')}`) && !source.includes(`${resolve(webRoot, 'public', 'subscriptions')}`) });
   cpSync(resolve(webRoot, '..', 'hotlines.json'), resolve(cleanCopy, 'hotlines.json'));
   mkdirSync(resolve(cleanCopy, 'docs'));
@@ -76,7 +77,16 @@ try {
   const candidate = (id, interrupt) => spawnSync('npm', ['run', 'release:dataset:candidate', '--', '--id', id, '--date', '2026-08-13', '--title', `Candidate ${id}`, '--summary', 'Exercises the recoverable deterministic candidate command in an isolated clean copy.'], { cwd: cleanWeb, encoding: 'utf8', env: { ...process.env, ...(interrupt ? { WEH_CANDIDATE_INTERRUPT: interrupt } : {}) } });
   for (const absent of ['data', 'api', 'release', 'feeds', 'subscriptions']) assert.equal(lstatOrNull(resolve(cleanWeb, 'public', absent)), null, `clean fixture unexpectedly contains public/${absent}`);
   build(epoch, cleanWeb);
-  for (const created of ['data', 'api/v1', 'release/v1', 'feeds', 'subscriptions/v1']) assert.ok(lstatSync(resolve(cleanWeb, 'public', created)).isDirectory(), `clean build did not create public/${created}`);
+  for (const created of ['data', 'api/v1', 'release/v1', 'feeds', 'subscriptions/v1', 'organizations/v1']) assert.ok(lstatSync(resolve(cleanWeb, 'public', created)).isDirectory(), `clean build did not create public/${created}`);
+  const beforeModelMutation = JSON.parse(readFileSync(resolve(cleanWeb, 'public/release/v1/release.json'), 'utf8'));
+  const copiedModel = resolve(cleanCopy, 'control-plane/model.mjs'); const copiedModelBytes = readFileSync(copiedModel);
+  writeFileSync(copiedModel, Buffer.concat([copiedModelBytes, Buffer.from('\n// isolated release identity mutation\n')]));
+  build(epoch, cleanWeb);
+  const afterModelMutation = JSON.parse(readFileSync(resolve(cleanWeb, 'public/release/v1/release.json'), 'utf8'));
+  assert.notEqual(afterModelMutation.build_versions.integration_generator, beforeModelMutation.build_versions.integration_generator, 'control-plane model change did not change integration generator identity');
+  assert.notEqual(afterModelMutation.release_id, beforeModelMutation.release_id, 'control-plane model change did not change release identity');
+  writeFileSync(copiedModel, copiedModelBytes); build(epoch, cleanWeb);
+  assert.deepEqual(JSON.parse(readFileSync(resolve(cleanWeb, 'public/release/v1/release.json'), 'utf8')), beforeModelMutation, 'restored model did not reproduce the original release descriptor');
   const snapshotRoot = resolve(cleanCopy, 'docs/dataset-release-snapshots'); const outside = resolve(cleanCopy, 'outside'); mkdirSync(outside); const sentinel = resolve(outside, 'sentinel'); writeFileSync(sentinel, 'outside-safe');
   const savedSnapshots = resolve(cleanCopy, 'saved-snapshots'); renameSync(snapshotRoot, savedSnapshots); symlinkSync(outside, snapshotRoot);
   assert.notEqual(candidate('symlink-root').status, 0, 'symlinked snapshot root was accepted'); assert.equal(readFileSync(sentinel, 'utf8'), 'outside-safe'); rmSync(snapshotRoot); renameSync(savedSnapshots, snapshotRoot);
@@ -114,15 +124,17 @@ try {
 
 const scratch = mkdtempSync(resolve(tmpdir(), 'weh-release-inputs-'));
 try {
+  const scratchWeb = resolve(scratch, 'web'); mkdirSync(scratchWeb);
   for (const inputs of Object.values(BUILD_VERSION_INPUTS)) for (const input of inputs) {
-    const target = resolve(scratch, input); mkdirSync(dirname(target), { recursive: true }); cpSync(resolve(webRoot, input), target);
+    const repoInput = input.startsWith('repo:'); const rel = repoInput ? input.slice('repo:'.length) : input;
+    const target = resolve(repoInput ? scratch : scratchWeb, rel); mkdirSync(dirname(target), { recursive: true }); cpSync(resolve(repoInput ? resolve(webRoot, '..') : webRoot, rel), target);
   }
   for (const [identity, inputs] of Object.entries(BUILD_VERSION_INPUTS)) {
-    const before = digestInputs(inputs, scratch);
+    const before = digestInputs(inputs, scratchWeb);
     for (const input of inputs) {
-      const target = resolve(scratch, input); const original = readFileSync(target);
+      const repoInput = input.startsWith('repo:'); const target = resolve(repoInput ? scratch : scratchWeb, repoInput ? input.slice('repo:'.length) : input); const original = readFileSync(target);
       writeFileSync(target, Buffer.concat([original, Buffer.from('\nidentity-test')]));
-      assert.notEqual(digestInputs(inputs, scratch), before, `${identity} did not change when ${input} changed`);
+      assert.notEqual(digestInputs(inputs, scratchWeb), before, `${identity} did not change when ${input} changed`);
       writeFileSync(target, original);
     }
   }

@@ -132,6 +132,40 @@
             }
         }
 
+        # Static organization control-plane foundation/design artifacts only.
+        # No signup, administration, authentication, or write service is deployed.
+        handle /organizations/v1/* {
+            route {
+                @organizationOptions {
+                    method OPTIONS
+                    file {path}
+                }
+                header @organizationOptions {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                }
+                respond @organizationOptions 204
+                @organizationWrite not method GET HEAD OPTIONS
+                respond @organizationWrite "Not found" 404
+                @organizationSchema path *.schema.json
+                header @organizationSchema Content-Type "application/schema+json; charset=utf-8"
+                @organizationOpenApi path */openapi.json
+                header @organizationOpenApi Content-Type "application/vnd.oai.openapi+json; charset=utf-8"
+                @organizationMarkdown path *.md
+                header @organizationMarkdown Content-Type "text/markdown; charset=utf-8"
+                @organizationFile file {path}
+                header @organizationFile {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                    Cache-Control "public, max-age=300, stale-while-revalidate=86400"
+                }
+                file_server @organizationFile
+                respond "Not found" 404
+            }
+        }
+
         handle /feeds/* {
             route {
                 @feedOptions method OPTIONS

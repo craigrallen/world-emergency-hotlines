@@ -4,6 +4,8 @@ All integration surfaces below are public, keyless, static **beta** surfaces. Th
 
 The managed gateway under design does not change that model. The static [managed gateway v1 foundation contract](https://worldhotlines.org/gateway/v1/README.md) is **not deployed** and contains synthetic examples only. A future hosted layer may offer organizational authentication, quotas, administration, and operational assurance, but it will not remove or key-gate the current free static API, feeds, widget, or data. There is no pricing and no uptime, support, or SLA commitment.
 
+The static [organization control-plane v1 foundation design contract](https://worldhotlines.org/organizations/v1/README.md) is also **not deployed**. It contains only schemas, documentation, and deterministic synthetic `.invalid` fixtures for possible future organization/project governance; there is no signup, admin or write service, pricing, SLA, billing, customer collection, domain-ownership verification, or active signing. Its proposed dynamic OpenAPI URLs are deliberately separate from the static publication path.
+
 ## Choose a surface
 
 | Need | Use | Trade-off |

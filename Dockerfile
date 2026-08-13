@@ -18,6 +18,7 @@ COPY hotlines.json information.json ./
 COPY docs/releases.json docs/dataset-releases.json ./docs/
 COPY docs/dataset-release-snapshots/ ./docs/dataset-release-snapshots/
 COPY gateway/contracts/ ./gateway/contracts/
+COPY control-plane/ ./control-plane/
 COPY web/ ./web/
 
 # Generate /public/data and build the static Astro site

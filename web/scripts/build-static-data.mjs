@@ -18,6 +18,7 @@ import { API_MAJOR, RESOLVER_MAJOR, WIDGET_MAJOR, buildVersions, generateRelease
 import { generateReleaseFeeds } from './release-feeds.mjs';
 import { generateSubscriptionContracts } from './generate-subscription-contracts.mjs';
 import { generateGatewayContracts, verifyGatewayContractDrift } from './generate-gateway-contracts.mjs';
+import { generateOrganizationContracts, verifyOrganizationContractDrift } from './generate-organization-contracts.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const WEB_ROOT = resolve(__dirname, '..');
@@ -147,11 +148,13 @@ console.log(`  source: ${canonical.format}, schema ${canonical.schema_version}`)
 console.log(`  countries: ${canonical.countries.length}`);
 
 verifyGatewayContractDrift();
+verifyOrganizationContractDrift();
 recreateManagedRoot(OUT_DIR);
 recreateManagedRoot(API_DIR);
 recreateManagedRoot(resolve(WEB_ROOT, 'public', 'release'));
 recreateManagedRoot(resolve(WEB_ROOT, 'public', 'subscriptions'));
 recreateManagedRoot(resolve(WEB_ROOT, 'public', 'gateway'));
+recreateManagedRoot(resolve(WEB_ROOT, 'public', 'organizations'));
 mkdirSync(resolve(OUT_DIR, 'countries'), { recursive: true });
 mkdirSync(resolve(API_DIR, 'countries'), { recursive: true });
 
@@ -336,6 +339,7 @@ writeFileSync(resolve(API_DIR, 'resolver.js'), readFileSync(resolve(WEB_ROOT, 's
 generateReleaseFeeds({ currentDataset: { $schema_version: canonical.schema_version, countries: canonical.countries }, datasetVersion: manifest.dataset_version });
 generateSubscriptionContracts();
 generateGatewayContracts();
+generateOrganizationContracts();
 const release = generateReleaseIntegrity({ datasetVersion: manifest.dataset_version });
 
 console.log(`  wrote ${manifestEntries.length} country shards + manifest + search-index + categories-stats + metadata-coverage`);

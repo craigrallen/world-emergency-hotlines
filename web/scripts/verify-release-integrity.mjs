@@ -105,7 +105,7 @@ if (existsSync(descriptorPath) && existsSync(indexPath)) {
   if (descriptor.artifact_index.artifact_count !== index.artifacts.length) fail('descriptor artifact count is stale');
   if (JSON.stringify(descriptor.build_versions) !== JSON.stringify(buildVersions())) fail('build/code versions are stale');
   if (JSON.stringify(descriptor.build_version_semantics?.inputs) !== JSON.stringify(BUILD_VERSION_INPUTS)) fail('build-version finite source-set documentation is stale');
-  for (const input of Object.values(BUILD_VERSION_INPUTS).flat()) if (input.startsWith('/') || input.includes('..') || /^[A-Za-z]:/.test(input)) fail(`unsafe build-version source path: ${input}`);
+  for (const input of Object.values(BUILD_VERSION_INPUTS).flat()) if (input.startsWith('/') || input.split('/').includes('..') || input.includes('\\') || /^[A-Za-z]:/.test(input) || (input.includes(':') && !input.startsWith('repo:'))) fail(`unsafe build-version source path: ${input}`);
   if (descriptor.compatibility?.api?.major !== API_MAJOR || descriptor.compatibility?.resolver?.major !== RESOLVER_MAJOR || descriptor.compatibility?.widget?.major !== WIDGET_MAJOR) fail('major compatibility metadata mismatch');
   if (JSON.stringify(descriptor.compatibility?.resolver?.tested_api_majors) !== `[${API_MAJOR}]`) fail('resolver tested API majors exceed or differ from verified scope');
   if (JSON.stringify(descriptor.compatibility?.widget?.tested_api_majors) !== `[${API_MAJOR}]` || JSON.stringify(descriptor.compatibility?.widget?.tested_resolver_majors) !== `[${RESOLVER_MAJOR}]`) fail('widget tested majors exceed or differ from verified scope');
@@ -118,6 +118,7 @@ if (existsSync(descriptorPath) && existsSync(indexPath)) {
       ...discoverFiles(resolve(PUBLIC_ROOT, 'feeds')),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'subscriptions', 'v1')),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'gateway', 'v1')),
+      ...discoverFiles(resolve(PUBLIC_ROOT, 'organizations', 'v1')),
       ...discoverFiles(RELEASE_DIR).filter(({ path }) => !path.endsWith(`${sep}artifacts.json`) && !path.endsWith(`${sep}release.json`)),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'widget', 'v1')).filter(({ path }) => path.endsWith(`${sep}hotlines-widget.js`)),
     ];
@@ -146,6 +147,9 @@ if (existsSync(descriptorPath) && existsSync(indexPath)) {
   }
   for (const required of ['/gateway/v1/README.md', '/gateway/v1/artifact-descriptor.schema.json', '/gateway/v1/openapi.json', '/gateway/v1/error.schema.json', '/gateway/v1/health.schema.json', '/gateway/v1/key-record.schema.json', '/gateway/v1/privacy.json', '/gateway/v1/security.json']) {
     if (!descriptor.relationships?.[required]) fail(`missing gateway relationship: ${required}`);
+  }
+  for (const required of ['/organizations/v1/README.md', '/organizations/v1/fixture.synthetic.json', '/organizations/v1/model.schema.json', '/organizations/v1/openapi.json']) {
+    if (!descriptor.relationships?.[required]) fail(`missing organization contract relationship: ${required}`);
   }
 }
 
