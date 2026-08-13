@@ -14,7 +14,7 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-mkdir -p "$fixture/release/v1/changes" "$fixture/feeds" "$fixture/subscriptions/v1" "$fixture/gateway/v1" "$fixture/responses"
+mkdir -p "$fixture/release/v1/changes" "$fixture/feeds" "$fixture/subscriptions/v1" "$fixture/gateway/v1" "$fixture/organizations/v1" "$fixture/responses"
 expected_release="$fixture/release/v1/release.json"
 printf '%s\n' '{"schema_version":"1.0","release_id":"sha256:test"}' > "$expected_release"
 printf '%s\n' '{"schema_version":"1.0"}' > "$fixture/release/v1/changes.json"
@@ -29,6 +29,9 @@ printf '%s\n' '# Synthetic subscription contract' '' '[Event schema](event.schem
 printf '%s\n' '{"$schema":"https://json-schema.org/draft/2020-12/schema"}' > "$fixture/gateway/v1/error.schema.json"
 printf '%s\n' '{"openapi":"3.1.0"}' > "$fixture/gateway/v1/openapi.json"
 printf '%s\n' '# Foundation contract—not deployed' > "$fixture/gateway/v1/README.md"
+printf '%s\n' '{"$schema":"https://json-schema.org/draft/2020-12/schema"}' > "$fixture/organizations/v1/model.schema.json"
+printf '%s\n' '{"openapi":"3.1.0"}' > "$fixture/organizations/v1/openapi.json"
+printf '%s\n' '# Organization foundation design contract — not deployed' > "$fixture/organizations/v1/README.md"
 expected_missing="$fixture/responses/missing.body"
 printf '%s' 'Not found' > "$expected_missing"
 
@@ -140,6 +143,25 @@ done
 for method in POST PUT DELETE; do
   status=$(curl --max-time 5 -sS -X "$method" -o /dev/null -w '%{http_code}' "$base/gateway/v1/openapi.json")
   [ "$status" = 404 ] || { echo "$method static gateway contract returned $status" >&2; exit 1; }
+done
+
+for organization_spec in 'organizations/v1/model.schema.json|application/schema+json; charset=utf-8' 'organizations/v1/openapi.json|application/vnd.oai.openapi+json; charset=utf-8' 'organizations/v1/README.md|text/markdown; charset=utf-8'; do
+  organization_path=${organization_spec%%|*}; organization_type=${organization_spec#*|}; organization_headers="$fixture/responses/$(printf '%s' "$organization_path" | tr '/' '-').headers"
+  curl --max-time 5 -sS -D "$organization_headers" -o /dev/null "$base/$organization_path"
+  require_status GET "/$organization_path" 200 "$organization_headers"; require_header "$organization_headers" Content-Type "$organization_type"; require_feed_cors "$organization_headers"
+done
+for method in POST PUT PATCH DELETE; do
+  status=$(curl --max-time 5 -sS -X "$method" -o /dev/null -w '%{http_code}' "$base/organizations/v1/openapi.json")
+  [ "$status" = 404 ] || { echo "$method static organization contract returned $status" >&2; exit 1; }
+done
+for spec in 'OPTIONS|organizations/v1/openapi.json|204' 'GET|organizations/v1/missing.json|404' 'HEAD|organizations/v1/missing.json|404' 'OPTIONS|organizations/v1/missing.json|404'; do
+  method=${spec%%|*}; rest=${spec#*|}; path=${rest%%|*}; expected=${rest#*|}; headers="$fixture/responses/organization-$method-$(printf '%s' "$path" | tr '/' '-').headers"
+  if [ "$method" = HEAD ]; then
+    curl --max-time 5 -sS --request HEAD --ignore-content-length -H 'Connection: close' -D "$headers" -o /dev/null "$base/$path"
+  else
+    curl --max-time 5 -sS -X "$method" -D "$headers" -o /dev/null "$base/$path"
+  fi
+  require_status "$method" "/$path" "$expected" "$headers"
 done
 
 readme_body="$fixture/responses/readme.body"
@@ -257,4 +279,4 @@ require_header "$missing_options_headers" Access-Control-Allow-Origin '*'
 require_header "$missing_options_headers" Access-Control-Allow-Methods 'GET, HEAD, OPTIONS'
 require_header "$missing_options_headers" Access-Control-Allow-Headers 'Accept, If-None-Match, If-Modified-Since'
 
-echo "Caddy integration OK: release/feed/subscription JSON, schema, OpenAPI, and README GET/HEAD MIME; OPTIONS 204 with CORS; subscription POST/PUT/DELETE and unknown routes 404; no route shadowing"
+echo "Caddy integration OK: release/feed/subscription/organization static MIME and CORS; organization GET/HEAD, existing-file OPTIONS, all writes and unknown routes enforce the read-only 404 boundary; no route shadowing"

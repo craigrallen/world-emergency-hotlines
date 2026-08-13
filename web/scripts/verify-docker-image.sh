@@ -58,6 +58,10 @@ require_page /feeds/releases.rss '<rss version="2.0"' "$fixture/feed.rss"
 require_page /feeds/releases.atom '<feed xmlns="http://www.w3.org/2005/Atom">' "$fixture/feed.atom"
 require_page /gateway/v1/README.md 'Foundation contract—not deployed' "$fixture/gateway-readme.md"
 require_page /gateway/v1/openapi.json '0.1.0-foundation' "$fixture/gateway-openapi.json"
+require_page /organizations/v1/README.md 'foundation design contract — not deployed' "$fixture/organizations-readme.md"
+require_page /organizations/v1/openapi.json 'future-admin/organizations/v1' "$fixture/organizations-openapi.json"
+organization_write_status=$(curl --max-time 5 -sS -X POST -o "$fixture/organizations-write.txt" -w '%{http_code}' "$base/organizations/v1/openapi.json")
+[ "$organization_write_status" = 404 ] || { echo "POST static organization contract returned $organization_write_status" >&2; exit 1; }
 node - "$fixture/release.json" <<'NODE'
 const { readFileSync } = require('node:fs');
 
