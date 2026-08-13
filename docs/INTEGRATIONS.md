@@ -6,6 +6,8 @@ The managed gateway under design does not change that model. The static [managed
 
 The static [organization control-plane v1 foundation design contract](https://worldhotlines.org/organizations/v1/README.md) is also **not deployed**. It contains only schemas, documentation, and deterministic synthetic `.invalid` fixtures for possible future organization/project governance; there is no signup, admin or write service, pricing, SLA, billing, customer collection, domain-ownership verification, or active signing. Its proposed dynamic OpenAPI URLs are deliberately separate from the static publication path.
 
+The [managed widget configuration v1 contract](https://worldhotlines.org/managed-widget-config/v1/README.md) is likewise a static, synthetic design and local reference harness—not a hosted product. It defines closed presentation, evidence-backed filtering, mandatory safety disclosure, release pinning, signed-envelope, staged rollout, and rollback rules using a conspicuously test-only Ed25519 key and `.invalid` identities. No production signing, credentials, domain ownership verification, configuration delivery, customers, collection, telemetry, writes, pricing, billing, or SLA exists. Provider payment or status never affects ranking or verification. Proposed dynamic URLs are non-resolving and distinct from the GET/HEAD/OPTIONS-only static artifacts.
+
 ## Choose a surface
 
 | Need | Use | Trade-off |

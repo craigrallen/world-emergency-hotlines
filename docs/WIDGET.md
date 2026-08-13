@@ -9,6 +9,8 @@ Add the privacy-first guided finder to a website you control:
 
 The script registers a Shadow DOM custom element. It fetches the public static API manifest, one selected country artifact, and the shared resolver. Country, locality, need, and channel resolution stays in the visitor's browser; the project does not receive those selections as queries.
 
+An optional future managed-configuration design is documented at `/managed-widget-config/v1/README.md`. It is currently only a static contract and deterministic synthetic local harness: this widget does not fetch it, no hosted configuration or signing service exists, and the public widget remains free and keyless. The contract requires emergency context, provenance, verification uncertainty, correction links, and the non-real-time limitation to remain visible. Its synthetic installation tokens model only future random pseudonymous technical installation identity; user identity, IP, crisis query, country, locality, category, hotline selection, path, referrer, and behaviour must never be accepted or stored.
+
 ## Attributes
 
 - `country`: optional lowercase ISO alpha-2 initial country

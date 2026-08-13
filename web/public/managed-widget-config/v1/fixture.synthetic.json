@@ -1,0 +1,51 @@
+{
+  "envelope_version":"1.0",
+  "protected": {
+    "algorithm": "Ed25519",
+    "key_id": "mwc-test-ed25519-2026.keys.example.invalid",
+    "purpose": "world-emergency-hotlines:managed-widget-config:v1",
+    "audience": {
+      "organization_id": "org_public_synthetic",
+      "project_id": "project_public_synthetic"
+    },
+    "issued_at": "2030-01-01T00:00:00.000Z",
+    "not_before": "2030-01-01T00:00:00.000Z",
+    "expires_at": "2030-01-02T00:00:00.000Z"
+  },
+  "payload": {
+    "schema_version": "1.0",
+    "config_id": "mwc_e85f8e04ec1d1c9da74ebe17",
+    "revision": 2,
+    "organization_id": "org_public_synthetic",
+    "project_id": "project_public_synthetic",
+    "allowed_domains": ["https://widget.synthetic.example.invalid"],
+    "presentation": { "locale": "en", "theme": "system", "accessibility_preset": "high-contrast" },
+    "filters": {
+      "categories": ["general_support"],
+      "channels": ["phone", "text"],
+      "evidence_policy": "published_dataset_only"
+    },
+    "safety": {
+      "emergency_context": "required_visible",
+      "provenance": "required_visible",
+      "verification_uncertainty": "required_visible",
+      "correction_link": "required_visible",
+      "non_real_time_limitation": "required_visible",
+      "fallback_copy": "If danger is immediate, contact local emergency services. This directory is not real-time."
+    },
+    "pins": {
+      "widget_major": 1,
+      "api_major": 1,
+      "release_id": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    "lifecycle": { "state": "staged" },
+    "rollout": { "percentage": 25, "salt": "synthetic-rollout-a" },
+    "rollback": {
+      "previous_config_id": "mwc_synthetic_rev1",
+      "previous_revision": 1,
+      "target_config_id": null,
+      "target_revision": null
+    }
+  },
+  "signature": "xj15I9apegbc9iDXf8TofWDAXzW7A72TnDOLZoIb-7-_51Qbo0jVClj10LK8RB9HEtETXw1jEqgKxCNj_E7sCw"
+}

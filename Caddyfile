@@ -166,6 +166,40 @@
             }
         }
 
+        # Static/synthetic managed-widget configuration design artifacts only.
+        # There is no signing, configuration, ownership, telemetry, or write service.
+        handle /managed-widget-config/v1/* {
+            route {
+                @managedWidgetConfigOptions {
+                    method OPTIONS
+                    file {path}
+                }
+                header @managedWidgetConfigOptions {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                }
+                respond @managedWidgetConfigOptions 204
+                @managedWidgetConfigWrite not method GET HEAD OPTIONS
+                respond @managedWidgetConfigWrite "Not found" 404
+                @managedWidgetConfigSchema path *.schema.json
+                header @managedWidgetConfigSchema Content-Type "application/schema+json; charset=utf-8"
+                @managedWidgetConfigOpenApi path */openapi.json
+                header @managedWidgetConfigOpenApi Content-Type "application/vnd.oai.openapi+json; charset=utf-8"
+                @managedWidgetConfigMarkdown path *.md
+                header @managedWidgetConfigMarkdown Content-Type "text/markdown; charset=utf-8"
+                @managedWidgetConfigFile file {path}
+                header @managedWidgetConfigFile {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                    Cache-Control "public, max-age=300, stale-while-revalidate=86400"
+                }
+                file_server @managedWidgetConfigFile
+                respond "Not found" 404
+            }
+        }
+
         handle /feeds/* {
             route {
                 @feedOptions method OPTIONS

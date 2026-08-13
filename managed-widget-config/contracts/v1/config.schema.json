@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.example.invalid/managed-widget-config/v1/config.schema.json",
+  "title": "Managed widget configuration v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "config_id", "revision", "organization_id", "project_id", "allowed_domains", "presentation", "filters", "safety", "pins", "lifecycle", "rollout", "rollback"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "config_id": { "type": "string", "pattern": "^mwc_[a-z0-9_]{3,48}$" },
+    "revision": { "type": "integer", "minimum": 1, "maximum": 2147483647 },
+    "organization_id": { "type": "string", "pattern": "^org_public_[a-z0-9_]+$" },
+    "project_id": { "type": "string", "pattern": "^project_public_[a-z0-9_]+$" },
+    "allowed_domains": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 16,
+      "uniqueItems": true,
+      "items": { "type": "string", "format": "uri", "pattern": "^https://[a-z0-9][a-z0-9.-]*\\.invalid$" }
+    },
+    "presentation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["locale", "theme", "accessibility_preset"],
+      "properties": {
+        "locale": { "type": "string", "pattern": "^[a-z]{2}(-[A-Z]{2})?$" },
+        "theme": { "enum": ["system", "light", "dark"] },
+        "accessibility_preset": { "enum": ["standard", "high-contrast", "large-text"] }
+      }
+    },
+    "filters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["categories", "channels", "evidence_policy"],
+      "properties": {
+        "categories": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "x-sorted": true,
+          "items": {
+            "enum": ["animal_welfare", "bereavement", "child_protection", "consular", "disability", "disaster", "domestic_violence", "eating_disorders", "elder_abuse", "emergency", "financial_aid", "gambling", "general_support", "housing", "human_rights", "human_trafficking", "legal_aid", "lgbtqia", "male_victims", "mental_health", "missing_persons", "perinatal", "refugee_migrant", "self_harm", "sexual_violence", "stalking", "substance_use", "suicide_crisis", "veterans", "youth"]
+          }
+        },
+        "channels": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "x-sorted": true,
+          "items": { "enum": ["chat", "phone", "text"] }
+        },
+        "evidence_policy": { "const": "published_dataset_only" }
+      }
+    },
+    "safety": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["emergency_context", "provenance", "verification_uncertainty", "correction_link", "non_real_time_limitation", "fallback_copy"],
+      "properties": {
+        "emergency_context": { "const": "required_visible" },
+        "provenance": { "const": "required_visible" },
+        "verification_uncertainty": { "const": "required_visible" },
+        "correction_link": { "const": "required_visible" },
+        "non_real_time_limitation": { "const": "required_visible" },
+        "fallback_copy": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 240,
+          "allOf": [
+            { "pattern": "[Ee][Mm][Ee][Rr][Gg][Ee][Nn][Cc][Yy]" },
+            { "pattern": "[Nn][Oo][Tt] [Rr][Ee][Aa][Ll][- ][Tt][Ii][Mm][Ee]" }
+          ]
+        }
+      }
+    },
+    "pins": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["widget_major", "api_major", "release_id"],
+      "properties": {
+        "widget_major": { "const": 1 },
+        "api_major": { "const": 1 },
+        "release_id": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" }
+      }
+    },
+    "lifecycle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["state"],
+      "properties": { "state": { "enum": ["draft", "staged", "active", "retired"] } }
+    },
+    "rollout": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["percentage", "salt"],
+      "properties": {
+        "percentage": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "salt": { "type": "string", "pattern": "^synthetic-[a-z0-9-]+$" }
+      }
+    },
+    "rollback": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["previous_config_id", "previous_revision", "target_config_id", "target_revision"],
+      "properties": {
+        "previous_config_id": { "type": ["string", "null"], "pattern": "^mwc_[a-z0-9_]{3,48}$" },
+        "previous_revision": { "type": ["integer", "null"], "minimum": 1, "maximum": 2147483647 },
+        "target_config_id": { "type": ["string", "null"], "pattern": "^mwc_[a-z0-9_]{3,48}$" },
+        "target_revision": { "type": ["integer", "null"], "minimum": 1, "maximum": 2147483647 }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "revision": { "const": 1 } }, "required": ["revision"] },
+      "then": {
+        "properties": {
+          "rollback": {
+            "properties": {
+              "previous_config_id": { "type": "null" },
+              "previous_revision": { "type": "null" },
+              "target_config_id": { "type": "null" },
+              "target_revision": { "type": "null" }
+            }
+          }
+        }
+      },
+      "else": { "properties": { "rollback": { "properties": { "previous_config_id": { "type": "string" }, "previous_revision": { "type": "integer" } } } } }
+    },
+    {
+      "if": { "properties": { "rollback": { "type": "object", "properties": { "target_config_id": { "type": "string" } }, "required": ["target_config_id"] } } },
+      "then": {
+        "properties": {
+          "revision": { "minimum": 3 },
+          "lifecycle": { "properties": { "state": { "const": "active" } } },
+          "rollback": { "properties": { "target_revision": { "type": "integer" } } }
+        }
+      },
+      "else": { "properties": { "rollback": { "type": "object", "properties": { "target_config_id": { "type": "null" }, "target_revision": { "type": "null" } } } } }
+    },
+    {
+      "if": { "properties": { "lifecycle": { "type": "object", "properties": { "state": { "enum": ["draft", "retired"] } } } } },
+      "then": { "properties": { "rollout": { "type": "object", "properties": { "percentage": { "const": 0 } } } } }
+    },
+    {
+      "if": {
+        "properties": { "lifecycle": { "type": "object", "properties": { "state": { "const": "staged" } } } }
+      },
+      "then": {
+        "properties": {
+          "rollout": { "type": "object", "properties": { "percentage": { "type": "integer", "minimum": 1, "maximum": 99 } } }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": { "lifecycle": { "type": "object", "properties": { "state": { "const": "active" } } } }
+      },
+      "then": {
+        "properties": {
+          "rollout": { "type": "object", "properties": { "percentage": { "const": 100 } } }
+        }
+      }
+    }
+  ]
+}
