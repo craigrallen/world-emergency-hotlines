@@ -31,6 +31,8 @@ There is deliberately no hosted `GET /resolve?...` query endpoint in v1. Consume
 - `resolver.js` — browser/Node ESM resolver shared with the public guided finder
 - `/release/v1/release.json` — deterministic release descriptor with core relationships, compatibility metadata, and independent code/build identities
 - `/release/v1/artifacts.json` — ordered exact-byte SHA-256 index covering all data/API artifacts and widget v1
+- `/release/v1/changes.json` and `/release/v1/changes/latest.json` — deterministic dataset release history and current metadata-only delta
+- `/feeds/releases.json`, `/feeds/releases.rss`, and `/feeds/releases.atom` — JSON Feed 1.1, RSS 2.0, and Atom 1.0 factual release feeds
 
 Every manifest, country artifact, and indexed record carries `api_version` and `dataset_version`.
 

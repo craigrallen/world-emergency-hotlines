@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { closeSync, constants, fstatSync, lstatSync, mkdirSync, openSync, readFileSync, readdirSync, realpathSync, writeFileSync } from 'node:fs';
 import { dirname, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { codePointCompare } from './dataset-diff.mjs';
 
 const SCRIPT_DIR = dirname(fileURLToPath(import.meta.url));
 export const WEB_ROOT = resolve(SCRIPT_DIR, '..');
@@ -13,7 +14,7 @@ export const API_MAJOR = 1;
 export const RESOLVER_MAJOR = 1;
 export const WIDGET_MAJOR = 1;
 export const BUILD_VERSION_INPUTS = {
-  integration_generator: ['scripts/build-static-data.mjs', 'scripts/centroids.json', 'scripts/metadata-coverage.mjs', 'scripts/release-integrity.mjs'],
+  integration_generator: ['scripts/build-static-data.mjs', 'scripts/centroids.json', 'scripts/dataset-diff.mjs', 'scripts/metadata-coverage.mjs', 'scripts/release-feeds.mjs', 'scripts/release-integrity.mjs'],
   resolver_code: ['src/lib/finder.js'],
   widget_code: ['public/widget/v1/hotlines-widget.js'],
 };
@@ -29,14 +30,14 @@ export function digestFile(path) {
 export function stableJson(value) {
   if (Array.isArray(value)) return `[${value.map(stableJson).join(',')}]`;
   if (value && typeof value === 'object') {
-    return `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${stableJson(value[key])}`).join(',')}}`;
+    return `{${Object.keys(value).sort(codePointCompare).map((key) => `${JSON.stringify(key)}:${stableJson(value[key])}`).join(',')}}`;
   }
   return JSON.stringify(value);
 }
 
 function walkFiles(root) {
   const files = [];
-  for (const name of readdirSync(root).sort()) {
+  for (const name of readdirSync(root).sort(codePointCompare)) {
     const path = resolve(root, name);
     const metadata = lstatSync(path);
     if (metadata.isSymbolicLink()) throw new Error(`symlink is not allowed in managed artifacts: ${path}`);
@@ -99,13 +100,15 @@ export function generateReleaseIntegrity({ datasetVersion }) {
   const artifactFiles = [
     ...walkFiles(resolve(PUBLIC_ROOT, 'data')),
     ...walkFiles(resolve(PUBLIC_ROOT, 'api', 'v1')),
+    ...walkFiles(resolve(PUBLIC_ROOT, 'feeds')),
+    ...walkFiles(RELEASE_DIR).filter(({ path }) => !path.endsWith(`${sep}artifacts.json`) && !path.endsWith(`${sep}release.json`)),
     (() => { const path = resolve(PUBLIC_ROOT, 'widget', 'v1', 'hotlines-widget.js'); return { path, metadata: lstatSync(path) }; })(),
   ];
   const artifacts = artifactFiles.map((file) => {
     if (file.metadata.isSymbolicLink() || !file.metadata.isFile()) throw new Error(`unsupported managed artifact: ${file.path}`);
     const bytes = readDiscoveredFile(file);
     return { path: publicPath(file.path), sha256: `sha256:${sha256(bytes)}`, bytes: bytes.length };
-  }).sort((a, b) => a.path < b.path ? -1 : a.path > b.path ? 1 : 0);
+  }).sort((a, b) => codePointCompare(a.path, b.path));
 
   const artifactIndex = {
     schema_version: RELEASE_SCHEMA_VERSION,
@@ -121,6 +124,8 @@ export function generateReleaseIntegrity({ datasetVersion }) {
     '/data/manifest.json', '/api/v1/manifest.json', '/api/v1/records.json',
     '/api/v1/resolver.js', '/widget/v1/hotlines-widget.js',
     '/data/metadata-coverage.json', '/data/categories-stats.json', '/data/search-index.json',
+    '/release/v1/changes.json', '/release/v1/changes/latest.json',
+    '/feeds/releases.json', '/feeds/releases.rss', '/feeds/releases.atom',
   ];
   const payload = {
     schema_version: RELEASE_SCHEMA_VERSION,
@@ -144,7 +149,7 @@ export function generateReleaseIntegrity({ datasetVersion }) {
       path: '/release/v1/artifacts.json',
       sha256: digestFile(indexPath),
       artifact_count: artifacts.length,
-      coverage: ['/data/**', '/api/v1/**', '/widget/v1/hotlines-widget.js'],
+      coverage: ['/data/**', '/api/v1/**', '/widget/v1/hotlines-widget.js', '/release/v1/changes.json', '/release/v1/changes/**', '/feeds/**'],
       excludes: ['/release/v1/artifacts.json', '/release/v1/release.json'],
     },
     checksum_semantics: 'Unsigned SHA-256 checksums detect byte mismatch after a descriptor is obtained through a trusted channel; they do not prove publisher identity or freshness.',

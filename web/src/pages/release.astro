@@ -20,14 +20,14 @@ const release = JSON.parse(readFileSync(resolve(process.cwd(), 'public/release/v
         <div><dt class="text-fg-muted">Release descriptor identity</dt><dd><code class="break-all text-accent">{release.release_id}</code></dd></div>
         <div><dt class="text-fg-muted">Checksummed artifacts</dt><dd>{release.artifact_index.artifact_count}</dd></div>
       </dl>
-      <div class="mt-4 flex flex-wrap gap-4 text-sm"><a class="text-accent hover:underline" href="/release/v1/release.json">Release descriptor JSON</a><a class="text-accent hover:underline" href="/release/v1/artifacts.json">Artifact checksum index</a><a class="text-accent hover:underline" href="/api/v1/manifest.json">API v1 manifest</a></div>
+      <div class="mt-4 flex flex-wrap gap-4 text-sm"><a class="text-accent hover:underline" href="/release/v1/release.json">Release descriptor JSON</a><a class="text-accent hover:underline" href="/release/v1/artifacts.json">Artifact checksum index</a><a class="text-accent hover:underline" href="/release/v1/changes.json">Dataset change history</a><a class="text-accent hover:underline" href="/feeds/releases.json">Release feed</a><a class="text-accent hover:underline" href="/api/v1/manifest.json">API v1 manifest</a></div>
     </section>
 
     <section class="mt-8">
       <h2 class="text-2xl font-semibold text-fg">Three different identities</h2>
       <ul class="mt-4 list-disc space-y-3 pl-6 text-fg-muted">
         <li><code>dataset_version</code> is only the SHA-256 of the exact canonical <code>hotlines.json</code> bytes. It does not identify generated files or code.</li>
-        <li>Each artifact checksum identifies the exact bytes at one path in this release. The deterministic artifact index covers every generated <code>/data/</code> and <code>/api/v1/</code> file plus widget v1.</li>
+        <li>Each artifact checksum identifies the exact bytes at one path in this release. The deterministic artifact index covers generated <code>/data/</code>, <code>/api/v1/</code>, dataset-change, release-feed, and widget v1 files. It excludes only the artifact index and descriptor themselves to avoid circular identity.</li>
         <li>Build/code versions hash documented finite source sets for the generator, resolver, and widget. They are review aids, not timestamps, signatures, or compatibility guarantees.</li>
       </ul>
       <p class="mt-4 text-sm text-fg-muted">The release descriptor's <code>generated_at</code> is null by design. API/data manifests instead retain an ISO build timestamp; <code>SOURCE_DATE_EPOCH</code> is required to reproduce those timestamp-bearing artifacts byte-for-byte. Changed artifact bytes change the index digest and release ID.</p>

@@ -9,7 +9,7 @@ import { discoverFiles, readDiscoveredFile } from './verify-release-integrity.mj
 
 const webRoot = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const publicRoot = resolve(webRoot, 'public');
-const managed = ['data', 'api/v1', 'release'];
+const managed = ['data', 'api/v1', 'release', 'feeds'];
 const epoch = '1786579200';
 
 function build(buildEpoch = epoch, root = webRoot) {
@@ -61,11 +61,26 @@ build();
 const cleanCopy = mkdtempSync(resolve(tmpdir(), 'weh-clean-copy-'));
 try {
   const cleanWeb = resolve(cleanCopy, 'web');
-  cpSync(webRoot, cleanWeb, { recursive: true, filter: (source) => !['node_modules', 'dist', '.astro'].includes(source.split(/[\\/]/).at(-1)) && !source.includes(`${resolve(webRoot, 'public', 'data')}`) && !source.includes(`${resolve(webRoot, 'public', 'api')}`) && !source.includes(`${resolve(webRoot, 'public', 'release')}`) });
+  cpSync(webRoot, cleanWeb, { recursive: true, filter: (source) => !['node_modules', 'dist', '.astro'].includes(source.split(/[\\/]/).at(-1)) && !source.includes(`${resolve(webRoot, 'public', 'data')}`) && !source.includes(`${resolve(webRoot, 'public', 'api')}`) && !source.includes(`${resolve(webRoot, 'public', 'release')}`) && !source.includes(`${resolve(webRoot, 'public', 'feeds')}`) });
   cpSync(resolve(webRoot, '..', 'hotlines.json'), resolve(cleanCopy, 'hotlines.json'));
-  for (const absent of ['data', 'api', 'release']) assert.equal(lstatOrNull(resolve(cleanWeb, 'public', absent)), null, `clean fixture unexpectedly contains public/${absent}`);
+  mkdirSync(resolve(cleanCopy, 'docs'));
+  cpSync(resolve(webRoot, '..', 'docs/releases.json'), resolve(cleanCopy, 'docs/releases.json'));
+  cpSync(resolve(webRoot, '..', 'docs/dataset-releases.json'), resolve(cleanCopy, 'docs/dataset-releases.json'));
+  cpSync(resolve(webRoot, '..', 'docs/dataset-release-snapshots'), resolve(cleanCopy, 'docs/dataset-release-snapshots'), { recursive: true });
+  for (const absent of ['data', 'api', 'release', 'feeds']) assert.equal(lstatOrNull(resolve(cleanWeb, 'public', absent)), null, `clean fixture unexpectedly contains public/${absent}`);
   build(epoch, cleanWeb);
-  for (const created of ['data', 'api/v1', 'release/v1']) assert.ok(lstatSync(resolve(cleanWeb, 'public', created)).isDirectory(), `clean build did not create public/${created}`);
+  for (const created of ['data', 'api/v1', 'release/v1', 'feeds']) assert.ok(lstatSync(resolve(cleanWeb, 'public', created)).isDirectory(), `clean build did not create public/${created}`);
+  const candidateArgs = ['run', 'release:dataset:candidate', '--', '--id', 'clean-copy-candidate', '--date', '2026-08-13', '--title', 'Clean copy candidate', '--summary', 'Exercises the public deterministic candidate command in an isolated clean copy.'];
+  const candidate = spawnSync('npm', candidateArgs, { cwd: cleanWeb, encoding: 'utf8' });
+  assert.equal(candidate.status, 0, `${candidate.stdout}\n${candidate.stderr}`);
+  const candidateRegistry = JSON.parse(readFileSync(resolve(cleanCopy, 'docs/dataset-releases.json'), 'utf8'));
+  assert.equal(candidateRegistry.releases.at(-1).id, 'clean-copy-candidate');
+  assert.ok(lstatSync(resolve(cleanCopy, 'docs/dataset-release-snapshots/clean-copy-candidate.json')).isFile());
+  const beforeRefusal = readFileSync(resolve(cleanCopy, 'docs/dataset-releases.json'));
+  const refused = spawnSync('npm', candidateArgs, { cwd: cleanWeb, encoding: 'utf8' });
+  assert.notEqual(refused.status, 0, 'candidate command silently rewrote historical data');
+  assert.deepEqual(readFileSync(resolve(cleanCopy, 'docs/dataset-releases.json')), beforeRefusal, 'failed candidate changed the registry');
+  build(epoch, cleanWeb);
   rmSync(resolve(cleanWeb, 'public/api'), { recursive: true });
   mkdirSync(resolve(cleanCopy, 'outside-api')); symlinkSync(resolve(cleanCopy, 'outside-api'), resolve(cleanWeb, 'public/api'));
   assert.throws(() => build(epoch, cleanWeb), /symlink component/, 'managed-root ancestor symlink was accepted');

@@ -20,7 +20,11 @@
     "verify:api": "node scripts/verify-static-api.mjs",
     "verify:widget": "node scripts/verify-widget.mjs && node scripts/verify-widget-runtime.mjs",
     "verify:integration": "node scripts/verify-integration-readiness.mjs",
-    "verify:release": "node scripts/verify-release-integrity.mjs && node scripts/verify-release-reproducibility.mjs && node scripts/verify-release-integrity.mjs",
+    "verify:release": "SOURCE_DATE_EPOCH=1786579200 node scripts/build-static-data.mjs && node scripts/verify-release-feeds.mjs && node scripts/verify-release-reproducibility.mjs && node scripts/verify-release-integrity.mjs && npm run verify:feeds:artifacts",
+    "verify:feeds:unit": "node scripts/verify-release-feeds.mjs && node scripts/verify-dataset-append-only.mjs",
+    "verify:feeds": "npm run verify:feeds:unit && SOURCE_DATE_EPOCH=1786579200 node scripts/build-static-data.mjs && node scripts/verify-release-integrity.mjs && npm run verify:feeds:artifacts",
+    "verify:feeds:artifacts": "node scripts/verify-release-feed-artifacts.mjs && python3 scripts/verify-release-feed-semantics.py",
+    "release:dataset:candidate": "node scripts/release-dataset-candidate.mjs",
     "verify:caddy": "sh scripts/verify-caddy.sh",
     "verify:all": "npm run verify:data && npm run verify:search && npm run verify:discovery && npm run verify:trust && npm run verify:finder && npm run verify:api && npm run verify:widget && npm run verify:integration && npm run verify:release",
     "typecheck": "astro check"
