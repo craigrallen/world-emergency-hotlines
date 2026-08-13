@@ -14,9 +14,14 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-mkdir -p "$fixture/release/v1" "$fixture/responses"
+mkdir -p "$fixture/release/v1/changes" "$fixture/feeds" "$fixture/responses"
 expected_release="$fixture/release/v1/release.json"
 printf '%s\n' '{"schema_version":"1.0","release_id":"sha256:test"}' > "$expected_release"
+printf '%s\n' '{"schema_version":"1.0"}' > "$fixture/release/v1/changes.json"
+printf '%s\n' '{"schema_version":"1.0"}' > "$fixture/release/v1/changes/latest.json"
+printf '%s\n' '{"version":"https://jsonfeed.org/version/1.1"}' > "$fixture/feeds/releases.json"
+printf '%s\n' '<rss version="2.0"><channel><title>Releases</title></channel></rss>' > "$fixture/feeds/releases.rss"
+printf '%s\n' '<feed xmlns="http://www.w3.org/2005/Atom"><title>Releases</title></feed>' > "$fixture/feeds/releases.atom"
 expected_missing="$fixture/responses/missing.body"
 printf '%s' 'Not found' > "$expected_missing"
 
@@ -92,6 +97,15 @@ require_release_headers "$get_headers"
 cmp -s "$expected_release" "$get_body" || { echo "GET $release_path body does not byte-match the fixture" >&2; exit 1; }
 expected_length=$(wc -c < "$expected_release" | tr -d ' ')
 require_header "$get_headers" Content-Length "$expected_length"
+
+for feed_spec in 'release/v1/changes.json|application/json; charset=utf-8' 'release/v1/changes/latest.json|application/json; charset=utf-8' 'feeds/releases.json|application/feed+json; charset=utf-8' 'feeds/releases.rss|application/rss+xml; charset=utf-8' 'feeds/releases.atom|application/atom+xml; charset=utf-8'; do
+  feed_path=${feed_spec%%|*}
+  feed_type=${feed_spec#*|}
+  feed_headers="$fixture/responses/$(printf '%s' "$feed_path" | tr '/' '-').headers"
+  curl --max-time 5 -sS -D "$feed_headers" -o /dev/null "$base/$feed_path"
+  require_status GET "/$feed_path" 200 "$feed_headers"
+  require_header "$feed_headers" Content-Type "$feed_type"
+done
 
 head_headers="$fixture/responses/head.headers"
 head_body="$fixture/responses/head.body"

@@ -40,6 +40,9 @@ const bootPayload = JSON.stringify({ defaultLocale: locale, dictionaries: DICTIO
     <meta name="description" content={description} />
 
     <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="application/feed+json" title="World Hotlines releases (JSON Feed)" href="/feeds/releases.json" />
+    <link rel="alternate" type="application/rss+xml" title="World Hotlines releases (RSS)" href="/feeds/releases.rss" />
+    <link rel="alternate" type="application/atom+xml" title="World Hotlines releases (Atom)" href="/feeds/releases.atom" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <meta property="og:title" content={title} />

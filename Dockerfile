@@ -15,7 +15,8 @@ RUN cd web && npm install --no-audit --no-fund --loglevel=error
 
 # Copy the canonical data, release changelog source, and the rest of the web source
 COPY hotlines.json information.json ./
-COPY docs/releases.json ./docs/releases.json
+COPY docs/releases.json docs/dataset-releases.json ./docs/
+COPY docs/dataset-release-snapshots/ ./docs/dataset-release-snapshots/
 COPY web/ ./web/
 
 # Generate /public/data and build the static Astro site

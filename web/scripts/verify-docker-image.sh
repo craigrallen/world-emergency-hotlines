@@ -51,6 +51,11 @@ changelog_title=$(node -e '
 ' "$repo_root/docs/releases.json")
 require_page /releases "$changelog_title" "$fixture/releases.html"
 require_page /release/v1/release.json '"release_id"' "$fixture/release.json"
+require_page /release/v1/changes.json '"latest"' "$fixture/changes.json"
+require_page /release/v1/changes/latest.json '"total_changes"' "$fixture/latest.json"
+require_page /feeds/releases.json 'https://jsonfeed.org/version/1.1' "$fixture/feed.json"
+require_page /feeds/releases.rss '<rss version="2.0"' "$fixture/feed.rss"
+require_page /feeds/releases.atom '<feed xmlns="http://www.w3.org/2005/Atom">' "$fixture/feed.atom"
 node - "$fixture/release.json" <<'NODE'
 const { readFileSync } = require('node:fs');
 

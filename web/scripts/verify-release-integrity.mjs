@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { closeSync, constants, existsSync, fstatSync, lstatSync, openSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { codePointCompare } from './dataset-diff.mjs';
 
 import {
   API_MAJOR, BUILD_VERSION_INPUTS, CANONICAL_ORIGIN, PUBLIC_ROOT, RELEASE_DIR, RESOLVER_MAJOR, WIDGET_MAJOR,
@@ -15,7 +16,7 @@ const fail = (message) => errors.push(message);
 const readJson = (path) => JSON.parse(readFileSync(path, 'utf8'));
 
 export function discoverFiles(root) {
-  return readdirSync(root).sort().flatMap((name) => {
+  return readdirSync(root).sort(codePointCompare).flatMap((name) => {
     const path = resolve(root, name);
     const metadata = lstatSync(path);
     if (metadata.isSymbolicLink()) throw new Error(`symlink is not allowed in covered artifacts: ${path}`);
@@ -48,8 +49,8 @@ export function validateArtifactEntries(entries, readBytes) {
   const paths = entries.map((entry) => entry.path);
   if (new Set(paths).size !== paths.length) findings.push('duplicate artifact paths');
   if (paths.some((path) => !isSafeArtifactPath(path))) findings.push('unsafe artifact path');
-  if (paths.some((path) => path.startsWith('/release/v1/'))) findings.push('circular release artifact inclusion');
-  if (paths.some((path, index) => index > 0 && paths[index - 1] > path)) findings.push('artifact paths are not sorted');
+  if (paths.some((path) => path === '/release/v1/artifacts.json' || path === '/release/v1/release.json')) findings.push('circular release artifact inclusion');
+  if (paths.some((path, index) => index > 0 && codePointCompare(paths[index - 1], path) > 0)) findings.push('artifact paths are not sorted');
   for (const entry of entries) {
     if (!isSafeArtifactPath(entry.path)) continue;
     const bytes = readBytes(entry.path);
@@ -114,6 +115,8 @@ if (existsSync(descriptorPath) && existsSync(indexPath)) {
     discovered = [
       ...discoverFiles(resolve(PUBLIC_ROOT, 'data')),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'api', 'v1')),
+      ...discoverFiles(resolve(PUBLIC_ROOT, 'feeds')),
+      ...discoverFiles(RELEASE_DIR).filter(({ path }) => !path.endsWith(`${sep}artifacts.json`) && !path.endsWith(`${sep}release.json`)),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'widget', 'v1')).filter(({ path }) => path.endsWith(`${sep}hotlines-widget.js`)),
     ];
   } catch (error) {
@@ -121,7 +124,7 @@ if (existsSync(descriptorPath) && existsSync(indexPath)) {
     discovered = [];
   }
   const safeFiles = new Map(discovered.map((file) => [`/${relative(PUBLIC_ROOT, file.path).split(sep).join('/')}`, file]));
-  const actualPaths = [...safeFiles.keys()].sort();
+  const actualPaths = [...safeFiles.keys()].sort(codePointCompare);
   const indexedPaths = index.artifacts.map((entry) => entry.path);
   if (JSON.stringify(indexedPaths) !== JSON.stringify(actualPaths)) fail('artifact index path coverage is stale or incomplete');
   for (const finding of validateArtifactEntries(index.artifacts, (path) => {
@@ -136,7 +139,7 @@ if (existsSync(descriptorPath) && existsSync(indexPath)) {
   for (const [path, relationship] of Object.entries(descriptor.relationships ?? {})) {
     if (JSON.stringify(relationship) !== JSON.stringify(indexed.get(path))) fail(`stale or mismatched manifest relationship: ${path}`);
   }
-  for (const required of ['/data/manifest.json', '/api/v1/manifest.json', '/api/v1/records.json', '/api/v1/resolver.js', '/widget/v1/hotlines-widget.js', '/data/metadata-coverage.json']) {
+  for (const required of ['/data/manifest.json', '/api/v1/manifest.json', '/api/v1/records.json', '/api/v1/resolver.js', '/widget/v1/hotlines-widget.js', '/data/metadata-coverage.json', '/release/v1/changes.json', '/release/v1/changes/latest.json', '/feeds/releases.json', '/feeds/releases.rss', '/feeds/releases.atom']) {
     if (!descriptor.relationships?.[required]) fail(`missing core relationship: ${required}`);
   }
 }

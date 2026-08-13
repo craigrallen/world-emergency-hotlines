@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "contract": "Hash-chained, self-consistent deterministic dataset release registry. Trusted-base CI separately enforces immutable historical prefixes; local verification alone is not an external or cryptographic anchor.",
+  "history_head": "sha256:37ebe1c79b7ddbd1934c2e430a81fa5ba3572a025dab92fb887cde3e961f0b0b",
+  "releases": [
+    {
+      "id": "dataset-baseline-2026-08-13",
+      "date": "2026-08-13",
+      "title": "Dataset release baseline",
+      "summary": "Registered the current canonical dataset as the initial deterministic release baseline; no counsel-cleared prior snapshot is represented.",
+      "previous_entry_hash": null,
+      "snapshot": {
+        "path": "dataset-release-snapshots/dataset-baseline-2026-08-13.json",
+        "sha256": "sha256:2f5a38d9fc478978813c61923c8aa15756c7d7435a8b1910cede6ebe5bc1cf47"
+      },
+      "changes": {
+        "schema_version": "1.0",
+        "from_dataset_version": "sha256:e893c9f6b0afcc57832054547002c826e80b5387e544b4cf6909afc9424dde3a",
+        "to_dataset_version": "sha256:e893c9f6b0afcc57832054547002c826e80b5387e544b4cf6909afc9424dde3a",
+        "counts": {
+          "added": 0,
+          "removed": 0,
+          "modified": 0,
+          "country_metadata_changed": 0,
+          "total_changes": 0
+        },
+        "countries": [],
+        "changes": [],
+        "country_metadata_changes": [],
+        "value_policy": "No before/after hotline values are published."
+      },
+      "entry_hash": "sha256:37ebe1c79b7ddbd1934c2e430a81fa5ba3572a025dab92fb887cde3e961f0b0b"
+    }
+  ]
+}

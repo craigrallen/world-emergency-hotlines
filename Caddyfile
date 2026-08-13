@@ -58,6 +58,25 @@
     # Release descriptors are cross-origin verifiable metadata. Keep unknown
     # descriptor paths as real 404s; the Railway hostname has no special case.
     route {
+        handle /feeds/* {
+            route {
+                @feedJson path *.json
+                header @feedJson Content-Type "application/feed+json; charset=utf-8"
+                @feedRss path *.rss
+                header @feedRss Content-Type "application/rss+xml; charset=utf-8"
+                @feedAtom path *.atom
+                header @feedAtom Content-Type "application/atom+xml; charset=utf-8"
+                header {
+                    Access-Control-Allow-Origin "*"
+                    Cache-Control "public, max-age=300, stale-while-revalidate=86400"
+                }
+                file_server {
+                    pass_thru
+                }
+                respond "Not found" 404
+            }
+        }
+
         handle /release/v1/* {
             route {
                 @releaseOptions method OPTIONS
