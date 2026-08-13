@@ -1,4 +1,5 @@
-const ISSUES_URL = 'https://github.com/craigrallen/world-emergency-hotlines/issues/new';
+export const CORRECTION_URL = 'https://github.com/craigrallen/world-emergency-hotlines/issues/new?template=hotline-correction.yml';
+export const PROVIDER_URL = 'https://github.com/craigrallen/world-emergency-hotlines/issues/new?template=provider-submission.yml';
 
 function bounded(value, limit = 200) {
   return String(value ?? '').replace(/[\u0000-\u001f\u007f]/g, ' ').trim().slice(0, limit);
@@ -21,5 +22,8 @@ export function buildHotlineIssueUrl(hotline, country) {
     '## What is wrong?',
     '<!-- Do not include sensitive personal or crisis details. Describe the listing problem only: wrong/disconnected contact, changed hours, closure, service-area error, or another correction. -->',
   ].join('\n');
-  return `${ISSUES_URL}?${new URLSearchParams({ title, body: context }).toString()}`;
+  return `${CORRECTION_URL}&${new URLSearchParams({
+    title,
+    body: context,
+  }).toString()}`;
 }

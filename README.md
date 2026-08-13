@@ -21,6 +21,7 @@ A project to build a source-backed global reference of emergency numbers and cri
 | `VERIFICATION_LOG.md` | Running log of which sources were used to verify which numbers |
 | `docs/data-flow.md` | Canonical vs preview/review artifact roles and write-permission contract |
 | `docs/plans/2026-04-22-v2-data-expansion-roadmap.md` | Concrete implementation roadmap for safe schema-v2 data expansion and promotion |
+| `docs/OPERATIONS.md` | Privacy-safe public intake, read-only source monitoring, and the verification reviewer workbench |
 | `README.md` | This file |
 
 ## Scope
@@ -111,7 +112,7 @@ See [COVERAGE.md](COVERAGE.md) for the full per-status breakdown and current gap
 These are the gaps visible in the dataset today, not a committed schedule:
 
 1. **863 `legacy_unverified` records** carry only minimal metadata and haven't been independently checked — candidates for enrichment via Befrienders Worldwide, IASP, or Find A Helpline.
-2. **951 `cross_referenced` records** come from third-party directories but haven't been checked against the provider's own site — candidates for a `scripts/web_verify.py` pass to promote to `verified_web`.
+2. **951 `cross_referenced` records** come from third-party directories without a recorded provider-site observation — candidates for read-only `scripts/source_monitor.py` review followed by the separate candidate/approval process. A source observation alone never promotes a record.
 3. **722 records sit in `general_support`** rather than a more specific category; some are genuinely generic listening lines. Any recategorization requires source review rather than a blind keyword rewrite.
 4. **4 territories have no hotline records** (Bouvet Island, French Southern Territories, Heard Island and McDonald Islands, US Minor Outlying Islands) — all are uninhabited or research-station-only, so this is expected, not a gap to fill.
 5. **Safe supplemental promotion** — `docs/plans/2026-04-22-v2-data-expansion-roadmap.md` plus the non-canonical preview/report artifacts under `sources/` and `REPORTS/` remain the process for reviewing and promoting web-derived rows without downgrading existing rich canonical records.

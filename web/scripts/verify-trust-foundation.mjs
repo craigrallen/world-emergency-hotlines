@@ -24,6 +24,10 @@ const issue = new URL(buildHotlineIssueUrl({
   last_verified: '2026-08-12',
 }, 'United States'));
 assert.equal(issue.origin + issue.pathname, 'https://github.com/craigrallen/world-emergency-hotlines/issues/new');
+assert.equal(issue.searchParams.get('template'), 'hotline-correction.yml');
+assert.equal(issue.searchParams.get('record_id'), null);
+assert.equal(issue.searchParams.get('country_service'), null);
+assert.match(issue.searchParams.get('body'), /weh_00000000000000000000abcd/);
 assert.match(issue.searchParams.get('title') || '', /^Hotline correction: Example Crisis Service$/);
 const body = issue.searchParams.get('body') || '';
 assert.match(body, /Record ID: weh_00000000000000000000abcd/);
@@ -39,6 +43,11 @@ const hostile = new URL(buildHotlineIssueUrl({
 }, 'Test'));
 assert.ok(hostile.toString().length < 2000, 'hostile values should remain bounded');
 assert.doesNotMatch(hostile.searchParams.get('title') || '', /[\u0000-\u001f\u007f]/);
+assert.equal(hostile.searchParams.get('template'), 'hotline-correction.yml');
+
+const intake = readFileSync(resolve(REPO_ROOT, '.github/ISSUE_TEMPLATE/provider-submission.yml'), 'utf8');
+assert.match(intake, /sensitive personal data/i);
+assert.match(intake, /review leads/i);
 
 const currentPublicCopy = [
   readFileSync(resolve(REPO_ROOT, 'README.md'), 'utf8'),

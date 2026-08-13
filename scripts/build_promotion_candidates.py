@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from collections import Counter
@@ -158,7 +159,7 @@ def create_hotline_candidates(existing_country: dict, preview_country: dict, pre
     return candidates
 
 
-def build_candidates(canonical: dict, preview_datasets: list[tuple[Path, dict]]) -> tuple[dict, list[str]]:
+def build_candidates(canonical: dict, preview_datasets: list[tuple[Path, dict]], canonical_hash: str | None = None) -> tuple[dict, list[str]]:
     by_alpha2, by_name = canonical_index(canonical)
     candidates: list[dict] = []
     notes: list[str] = []
@@ -187,6 +188,7 @@ def build_candidates(canonical: dict, preview_datasets: list[tuple[Path, dict]])
 
     candidate_bundle = {
         "$schema_version": canonical.get("$schema_version", SCHEMA_V2),
+        "canonical_hash": canonical_hash,
         "generated_at": utc_now(),
         "canonical_dataset": None,
         "preview_datasets": [],
@@ -241,7 +243,7 @@ def main(argv: list[str] | None = None) -> int:
         raise ValueError(f"Canonical dataset {canonical_path} must use schema {SCHEMA_V2}.")
 
     preview_datasets = [(path, json.loads(path.read_text(encoding="utf-8"))) for path in preview_paths]
-    bundle, notes = build_candidates(canonical, preview_datasets)
+    bundle, notes = build_candidates(canonical, preview_datasets, "sha256:" + hashlib.sha256(canonical_path.read_bytes()).hexdigest())
     bundle["canonical_dataset"] = str(canonical_path)
     bundle["preview_datasets"] = [str(path) for path, _ in preview_datasets]
 

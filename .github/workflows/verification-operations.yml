@@ -1,0 +1,124 @@
+name: Verification Operations
+
+on:
+  workflow_dispatch:
+    inputs:
+      as_of:
+        description: "Deterministic review date (YYYY-MM-DD); defaults to UTC run date"
+        required: false
+        type: string
+  schedule:
+    - cron: "31 6 * * 1"
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+      - name: Choose deterministic date
+        id: date
+        env:
+          REQUESTED_AS_OF: ${{ inputs.as_of }}
+        run: echo "as_of=${REQUESTED_AS_OF:-$(date -u +%F)}" >> "$GITHUB_OUTPUT"
+      - name: Retrieve latest successful prior snapshot when available
+        id: prior
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set +e
+          mkdir -p prior
+          run_id=$(gh api \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/${GITHUB_REPOSITORY}/actions/workflows/verification-operations.yml/runs?branch=${{ github.event.repository.default_branch }}&status=success&per_page=20" \
+            --jq '[.workflow_runs[] | select(.id != ${{ github.run_id }}) | select(.event == "schedule" or .event == "workflow_dispatch")] | .[0].id // empty' 2>prior/error.txt)
+          if [ -z "$run_id" ]; then
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            reason=$(head -c 300 prior/error.txt | tr '\n\r' '  ')
+            reason=${reason:-no prior artifact}
+            echo "reason=$reason" >> "$GITHUB_OUTPUT"
+            echo "Prior snapshot: unavailable ($reason). Continuing without prior." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          artifact_id=$(gh api "/repos/${GITHUB_REPOSITORY}/actions/runs/${run_id}/artifacts" \
+            --jq '[.artifacts[] | select(.expired == false and (.name | startswith("verification-operations-")))] | .[0].id // empty' 2>prior/error.txt)
+          if [ -z "$artifact_id" ]; then
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            reason=$(head -c 300 prior/error.txt | tr '\n\r' '  ')
+            reason=${reason:-no prior snapshot artifact}
+            echo "reason=$reason" >> "$GITHUB_OUTPUT"
+            echo "Prior snapshot: unavailable ($reason). Continuing without prior." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          if ! gh api "/repos/${GITHUB_REPOSITORY}/actions/artifacts/${artifact_id}/zip" > prior/artifact.zip 2>prior/error.txt; then
+            reason=$(head -c 300 prior/error.txt | tr '\n\r' '  ')
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "reason=${reason:-artifact download failed}" >> "$GITHUB_OUTPUT"
+            echo "Prior snapshot: download failed. Continuing without prior." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+          archive = Path("prior/artifact.zip")
+          target = Path("prior/source-snapshot.json")
+          with ZipFile(archive) as zipped:
+              matches = [item for item in zipped.infolist() if item.filename == "source-snapshot.json" or item.filename.endswith("/source-snapshot.json")]
+              if len(matches) != 1 or matches[0].file_size > 10_000_000:
+                  raise SystemExit("prior artifact must contain exactly one bounded source-snapshot.json")
+              target.write_bytes(zipped.read(matches[0]))
+          PY
+          extract_status=$?
+          if [ "$extract_status" -ne 0 ]; then
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "reason=malformed or incompatible artifact ZIP" >> "$GITHUB_OUTPUT"
+            echo "Prior snapshot: malformed artifact ZIP. Continuing without prior." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          python scripts/source_monitor.py --as-of "${{ steps.date.outputs.as_of }}" \
+            --previous prior/source-snapshot.json --validate-previous-only
+          validation_status=$?
+          if [ "$validation_status" -ne 0 ]; then
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "reason=incompatible prior snapshot" >> "$GITHUB_OUTPUT"
+            echo "Prior snapshot: incompatible with current canonical data/date. Continuing without prior." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          echo "available=true" >> "$GITHUB_OUTPUT"
+          echo "reason=compatible prior snapshot" >> "$GITHUB_OUTPUT"
+          echo "Prior snapshot: compatible and enabled." >> "$GITHUB_STEP_SUMMARY"
+      - name: Generate read-only reviewer artifacts
+        run: |
+          mkdir operations-output
+          before=$(sha256sum hotlines.json | cut -d' ' -f1)
+          python scripts/freshness_report.py --as-of "${{ steps.date.outputs.as_of }}" --review-limit 250 --json-report operations-output/freshness.json --report operations-output/freshness.md
+          previous=()
+          if [ "${{ steps.prior.outputs.available }}" = "true" ]; then
+            previous=(--previous prior/source-snapshot.json)
+          fi
+          python scripts/source_monitor.py --as-of "${{ steps.date.outputs.as_of }}" --limit 25 "${previous[@]}" --json-output operations-output/source-snapshot.json --markdown-output operations-output/source-report.md
+          python scripts/verification_workbench.py --as-of "${{ steps.date.outputs.as_of }}" --freshness operations-output/freshness.json --source-monitor operations-output/source-snapshot.json --json-output operations-output/workbench.json --markdown-output operations-output/workbench.md
+          after=$(sha256sum hotlines.json | cut -d' ' -f1)
+          test "$before" = "$after"
+      - name: Publish summary
+        run: |
+          {
+            cat operations-output/source-report.md
+            printf '\n'
+            cat operations-output/workbench.md
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v6
+        with:
+          name: verification-operations-${{ steps.date.outputs.as_of }}
+          path: operations-output/
+          if-no-files-found: error
+          retention-days: 30

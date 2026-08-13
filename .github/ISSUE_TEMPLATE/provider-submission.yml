@@ -1,0 +1,53 @@
+name: Provider or new-service submission
+description: Submit an official service for human review (public review lead)
+title: "Provider submission: "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **This issue is public. Do not include personal crisis stories, health details, names of people seeking help, or any other sensitive personal data.**
+
+        If someone is in immediate danger, contact the local emergency services. This repository does not provide crisis counselling or real-time support.
+
+        Submissions are unverified review leads, not verified or canonical records. Review and publication are not guaranteed.
+  - type: input
+    id: organization
+    attributes:
+      label: Official organization identity
+      placeholder: Legal/public organization name and official website
+    validations: { required: true }
+  - type: textarea
+    id: scope
+    attributes:
+      label: Service scope
+      description: What support does this service officially provide?
+    validations: { required: true }
+  - type: textarea
+    id: contacts
+    attributes:
+      label: Official contacts and channels
+      description: Phone, SMS, text, chat, email, or other public service channels.
+    validations: { required: true }
+  - type: input
+    id: geography
+    attributes: { label: Geography served }
+    validations: { required: true }
+  - type: textarea
+    id: eligibility
+    attributes: { label: Eligibility or intended users }
+    validations: { required: true }
+  - type: input
+    id: hours
+    attributes: { label: Published operating hours }
+    validations: { required: true }
+  - type: input
+    id: languages
+    attributes: { label: Languages offered }
+    validations: { required: true }
+  - type: textarea
+    id: evidence
+    attributes:
+      label: First-party or government evidence URL(s)
+      description: One public official URL per line supporting the details above.
+    validations: { required: true }

@@ -108,11 +108,12 @@ import Base from '../layouts/Base.astro';
     <h2 class="mt-8 text-2xl font-semibold text-fg" data-i18n="about.openDataTitle">Open data & contributing</h2>
     <p class="text-fg-muted">
       The entire dataset is open. Download it from the <a href="/data" class="text-accent hover:underline">data page</a>
-      in JSON format. To contribute corrections or new hotlines, open a pull request or issue on GitHub.
+      in JSON format. Public submissions are review leads, not verified records, and publication is not guaranteed.
     </p>
     <div class="not-prose mt-4 flex flex-wrap gap-3">
       <a href="/data" class="btn-primary">Data downloads →</a>
-      <a href="https://github.com/craigrallen/world-emergency-hotlines/issues" target="_blank" rel="noopener" class="btn-ghost">Report an error ↗</a>
+      <a href="https://github.com/craigrallen/world-emergency-hotlines/issues/new?template=hotline-correction.yml" target="_blank" rel="noopener" class="btn-ghost">Correct a listing ↗</a>
+      <a href="https://github.com/craigrallen/world-emergency-hotlines/issues/new?template=provider-submission.yml" target="_blank" rel="noopener" class="btn-ghost">Submit a provider ↗</a>
     </div>
   </article>
 </Base>
