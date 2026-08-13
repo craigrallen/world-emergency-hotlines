@@ -10,7 +10,7 @@ import { discoverFiles, readDiscoveredFile } from './verify-release-integrity.mj
 
 const webRoot = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const publicRoot = resolve(webRoot, 'public');
-const managed = ['data', 'api/v1', 'release', 'feeds', 'subscriptions/v1'];
+const managed = ['data', 'api/v1', 'release', 'feeds', 'subscriptions/v1', 'gateway/v1'];
 const epoch = '1786579200';
 
 function build(buildEpoch = epoch, root = webRoot) {
@@ -64,6 +64,7 @@ build();
 const cleanCopy = mkdtempSync(resolve(tmpdir(), 'weh-clean-copy-'));
 try {
   const cleanWeb = resolve(cleanCopy, 'web');
+  cpSync(resolve(webRoot, '..', 'gateway'), resolve(cleanCopy, 'gateway'), { recursive: true });
   cpSync(webRoot, cleanWeb, { recursive: true, filter: (source) => !['node_modules', 'dist', '.astro'].includes(source.split(/[\\/]/).at(-1)) && !source.includes(`${resolve(webRoot, 'public', 'data')}`) && !source.includes(`${resolve(webRoot, 'public', 'api')}`) && !source.includes(`${resolve(webRoot, 'public', 'release')}`) && !source.includes(`${resolve(webRoot, 'public', 'feeds')}`) && !source.includes(`${resolve(webRoot, 'public', 'subscriptions')}`) });
   cpSync(resolve(webRoot, '..', 'hotlines.json'), resolve(cleanCopy, 'hotlines.json'));
   mkdirSync(resolve(cleanCopy, 'docs'));

@@ -1,0 +1,7 @@
+# Managed gateway v1 design contract
+
+**Foundation contract—not deployed.** These files describe a future operational-assurance layer, not a live endpoint, customer system, price, entitlement, SLA, or telemetry pipeline. The public `/api/v1/**`, feeds, widget, and data remain free and keyless.
+
+The exact query-free routes are `/managed/v1/health`, `/manifest`, `/records`, and `/resolver.js`; there is no `latest` alias and no `/managed/v1/data`. Artifact bytes are the canonical public `/api/v1` files pinned through the release-derived trusted descriptor. GET, HEAD, and authenticated 304 artifact attempts consume quota. Requests are bodyless; unsupported framing returns generic 400 and closes the connection.
+
+OPTIONS returns 204 only for these exact query-free routes. Other HTTP methods on an exact known query-free route return stable 405 with `Allow: GET, HEAD, OPTIONS`; unsupported methods on unknown or query-bearing routes return 404. OpenAPI 3.1 cannot enumerate arbitrary unsupported methods, so 405 is documented at API/path level rather than as a response of GET, HEAD, or OPTIONS. Allowed configured HTTPS origins receive ACAO and `Vary: Origin` on success, 304, preflight, and known-route errors. Disallowed origins receive no ACAO. Credentials and wildcard origins are unsupported. See `openapi.json`, schemas, `security.json`, and `privacy.json`; all examples and quotas are synthetic.

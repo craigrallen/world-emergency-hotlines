@@ -56,6 +56,8 @@ require_page /release/v1/changes/latest.json '"total_changes"' "$fixture/latest.
 require_page /feeds/releases.json 'https://jsonfeed.org/version/1.1' "$fixture/feed.json"
 require_page /feeds/releases.rss '<rss version="2.0"' "$fixture/feed.rss"
 require_page /feeds/releases.atom '<feed xmlns="http://www.w3.org/2005/Atom">' "$fixture/feed.atom"
+require_page /gateway/v1/README.md 'Foundation contract—not deployed' "$fixture/gateway-readme.md"
+require_page /gateway/v1/openapi.json '0.1.0-foundation' "$fixture/gateway-openapi.json"
 node - "$fixture/release.json" <<'NODE'
 const { readFileSync } = require('node:fs');
 

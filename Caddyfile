@@ -58,6 +58,37 @@
     # Release descriptors are cross-origin verifiable metadata. Keep unknown
     # descriptor paths as real 404s; the Railway hostname has no special case.
     route {
+        # Static managed-gateway design artifacts only. This is not the dynamic
+        # gateway service and accepts no writes.
+        handle /gateway/v1/* {
+            route {
+                @gatewayOptions method OPTIONS
+                header @gatewayOptions {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                }
+                respond @gatewayOptions 204
+                @gatewayWrite not method GET HEAD OPTIONS
+                respond @gatewayWrite "Not found" 404
+                @gatewaySchema path *.schema.json
+                header @gatewaySchema Content-Type "application/schema+json; charset=utf-8"
+                @gatewayOpenApi path */openapi.json
+                header @gatewayOpenApi Content-Type "application/vnd.oai.openapi+json; charset=utf-8"
+                @gatewayMarkdown path *.md
+                header @gatewayMarkdown Content-Type "text/markdown; charset=utf-8"
+                @gatewayFile file {path}
+                header @gatewayFile {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                    Cache-Control "public, max-age=300, stale-while-revalidate=86400"
+                }
+                file_server @gatewayFile
+                respond "Not found" 404
+            }
+        }
+
         handle /subscriptions/v1/* {
             route {
                 @subscriptionOptions method OPTIONS

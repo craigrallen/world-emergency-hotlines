@@ -2,6 +2,8 @@
 
 All integration surfaces below are public, keyless, static **beta** surfaces. They are free to access today, but there is no uptime, support, or SLA commitment. Public access is not a grant of reuse rights: this repository currently has no license. Before production reuse, an integration team must review the repository's licensing status and obtain or confirm the permission it needs.
 
+The managed gateway under design does not change that model. The static [managed gateway v1 foundation contract](https://worldhotlines.org/gateway/v1/README.md) is **not deployed** and contains synthetic examples only. A future hosted layer may offer organizational authentication, quotas, administration, and operational assurance, but it will not remove or key-gate the current free static API, feeds, widget, or data. There is no pricing and no uptime, support, or SLA commitment.
+
 ## Choose a surface
 
 | Need | Use | Trade-off |
