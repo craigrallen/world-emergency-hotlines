@@ -41,3 +41,6 @@ jobs:
 
       - name: Typecheck
         run: npm run typecheck
+
+      - name: Validate and integration-test Caddy release routes
+        run: npm run verify:caddy

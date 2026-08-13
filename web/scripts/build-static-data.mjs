@@ -7,12 +7,13 @@
 //   public/data/search-index.json        — lightweight search docs (client-side search)
 //   public/data/categories-stats.json    — global per-category aggregates
 
-import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, unlinkSync } from 'node:fs';
-import { dirname, resolve } from 'node:path';
+import { readFileSync, writeFileSync, mkdirSync, existsSync, lstatSync, realpathSync, rmSync } from 'node:fs';
+import { dirname, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { classifyScope, getHotlineChannels } from '../src/lib/finder.js';
 import { buildMetadataCoverage, coverageAsOf } from './metadata-coverage.mjs';
+import { API_MAJOR, RESOLVER_MAJOR, WIDGET_MAJOR, buildVersions, generateReleaseIntegrity } from './release-integrity.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const WEB_ROOT = resolve(__dirname, '..');
@@ -20,82 +21,44 @@ const REPO_ROOT = resolve(WEB_ROOT, '..');
 const OUT_DIR = resolve(WEB_ROOT, 'public', 'data');
 const API_DIR = resolve(WEB_ROOT, 'public', 'api', 'v1');
 const API_VERSION = '1.0';
+const GENERATED_AT = new Date(process.env.SOURCE_DATE_EPOCH
+  ? Number(process.env.SOURCE_DATE_EPOCH) * 1000
+  : Date.now()).toISOString();
 
 const CENTROIDS = JSON.parse(readFileSync(resolve(__dirname, 'centroids.json'), 'utf-8'));
 
-const DEFAULT_CATEGORIES = {
-  emergency: 'General emergency (police/fire/ambulance)',
-  suicide_crisis: 'Suicide prevention and acute suicidal crisis',
-  mental_health: 'General mental health support (not acute crisis)',
-  general_support: 'Loneliness, general wellbeing, listening lines',
-};
-
 const VERIFIED_STATUSES = new Set(['verified_web', 'verified_authority', 'verified_knowledge']);
-
-// Normalizes legacy information.json format to schema v2
-function normalizeLegacy(country) {
-  return {
-    country: country.country,
-    'alpha-2': country['alpha-2'],
-    'alpha-3': country['alpha-3'],
-    region: null,
-    subregion: null,
-    general_emergency: [],
-    notes: null,
-    hotlines: (country.hotlines ?? []).map((h) => ({
-      name: h.name,
-      organization: h.name,
-      category: /suicide|crisis/i.test(h.name) ? 'suicide_crisis' : 'general_support',
-      voice_numbers: h.numbers ?? [],
-      sms_numbers: [],
-      text_numbers: [],
-      short_codes: [],
-      chat_url: null,
-      email: null,
-      website: null,
-      hours: null,
-      languages: [],
-      cost: 'unknown',
-      target: null,
-      geography: country.country,
-      notes: '',
-      verification_status: 'legacy_unverified',
-      last_verified: null,
-      sources: ['information.json'],
-    })),
-  };
-}
 
 function loadCanonical() {
   const hotlinesPath = resolve(REPO_ROOT, 'hotlines.json');
-  const legacyPath = resolve(REPO_ROOT, 'information.json');
-  if (existsSync(hotlinesPath)) {
-    try {
-      const raw = readFileSync(hotlinesPath);
-      const parsed = JSON.parse(raw.toString('utf-8'));
-      if (parsed && Array.isArray(parsed.countries)) {
-        return {
-          format: 'v2',
-          countries: parsed.countries,
-          categories_reference: parsed.categories_reference ?? {},
-          schema_version: parsed.$schema_version ?? '2.0',
-          source_last_updated: parsed.last_updated ?? null,
-          dataset_sha256: createHash('sha256').update(raw).digest('hex'),
-        };
-      }
-    } catch (err) {
-      console.warn(`  ! hotlines.json failed to parse (${err.message}); falling back to information.json`);
-    }
-  }
-  const legacy = JSON.parse(readFileSync(legacyPath, 'utf-8'));
+  if (!existsSync(hotlinesPath)) throw new Error('canonical hotlines.json is required for release generation');
+  const raw = readFileSync(hotlinesPath);
+  const parsed = JSON.parse(raw.toString('utf-8'));
+  if (!parsed || !Array.isArray(parsed.countries)) throw new Error('canonical hotlines.json must contain a countries array');
   return {
-    format: 'legacy',
-    countries: legacy.map(normalizeLegacy),
-    categories_reference: DEFAULT_CATEGORIES,
-    schema_version: '1.0-legacy',
-    source_last_updated: null,
-    dataset_sha256: createHash('sha256').update(readFileSync(legacyPath)).digest('hex'),
+    format: 'v2',
+    countries: parsed.countries,
+    categories_reference: parsed.categories_reference ?? {},
+    schema_version: parsed.$schema_version ?? '2.0',
+    source_last_updated: parsed.last_updated ?? null,
+    dataset_sha256: createHash('sha256').update(raw).digest('hex'),
   };
+}
+
+export function recreateManagedRoot(root, publicDirectory = resolve(WEB_ROOT, 'public')) {
+  const publicRoot = realpathSync(publicDirectory);
+  const relativeRoot = root.slice(publicRoot.length + 1);
+  if (root === publicRoot || !root.startsWith(`${publicRoot}${sep}`) || !relativeRoot || relativeRoot.split(sep).some((part) => !part || part === '.' || part === '..')) {
+    throw new Error(`refusing to clean outside public root: ${root}`);
+  }
+  let cursor = publicRoot;
+  for (const component of relativeRoot.split(sep)) {
+    cursor = resolve(cursor, component);
+    if (!existsSync(cursor)) break;
+    if (lstatSync(cursor).isSymbolicLink()) throw new Error(`refusing managed path with symlink component: ${cursor}`);
+  }
+  rmSync(root, { recursive: true, force: true });
+  mkdirSync(root, { recursive: true });
 }
 
 // Standardizes field names and fills in defaults
@@ -179,22 +142,11 @@ const canonical = loadCanonical();
 console.log(`  source: ${canonical.format}, schema ${canonical.schema_version}`);
 console.log(`  countries: ${canonical.countries.length}`);
 
+recreateManagedRoot(OUT_DIR);
+recreateManagedRoot(API_DIR);
+recreateManagedRoot(resolve(WEB_ROOT, 'public', 'release'));
 mkdirSync(resolve(OUT_DIR, 'countries'), { recursive: true });
 mkdirSync(resolve(API_DIR, 'countries'), { recursive: true });
-try {
-  for (const f of readdirSync(resolve(OUT_DIR, 'countries'))) {
-    if (f.endsWith('.json')) unlinkSync(resolve(OUT_DIR, 'countries', f));
-  }
-} catch (err) {
-  console.warn(`  ! couldn't clean old shards: ${err.message}`);
-}
-try {
-  for (const f of readdirSync(resolve(API_DIR, 'countries'))) {
-    if (f.endsWith('.json')) unlinkSync(resolve(API_DIR, 'countries', f));
-  }
-} catch (err) {
-  console.warn(`  ! couldn't clean old API country artifacts: ${err.message}`);
-}
 
 const manifestEntries = [];
 const searchDocs = [];
@@ -294,7 +246,8 @@ for (const raw of canonical.countries) {
 manifestEntries.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0);
 
 const manifest = {
-  generated_at: new Date().toISOString(),
+  generated_at: GENERATED_AT,
+  generated_at_semantics: 'Wall-clock build metadata; excluded from dataset and build identities. SOURCE_DATE_EPOCH may pin it for reproducible builds.',
   schema_version: canonical.schema_version,
   dataset_version: `sha256:${canonical.dataset_sha256}`,
   source_last_updated: canonical.source_last_updated,
@@ -309,7 +262,8 @@ writeFileSync(resolve(OUT_DIR, 'search-index.json'), JSON.stringify(searchDocs))
 
 // Write global category stats
 const categoriesStats = {
-  generated_at: new Date().toISOString(),
+  generated_at: GENERATED_AT,
+  generated_at_semantics: 'Wall-clock build metadata; excluded from dataset and build identities. SOURCE_DATE_EPOCH may pin it for reproducible builds.',
   schema_version: canonical.schema_version,
   dataset_version: `sha256:${canonical.dataset_sha256}`,
   categories: Object.entries(globalCatAccum)
@@ -333,6 +287,12 @@ writeFileSync(resolve(OUT_DIR, 'metadata-coverage.json'), JSON.stringify(metadat
 
 const apiManifest = {
   api_version: API_VERSION,
+  compatibility: {
+    api_major: API_MAJOR,
+    resolver: { major: RESOLVER_MAJOR, tested_api_majors: [API_MAJOR] },
+    widget: { major: WIDGET_MAJOR, tested_api_majors: [API_MAJOR], tested_resolver_majors: [RESOLVER_MAJOR] },
+  },
+  build_versions: buildVersions(),
   dataset_version: manifest.dataset_version,
   generated_at: manifest.generated_at,
   contract: 'static-read-only',
@@ -343,6 +303,8 @@ const apiManifest = {
     records: 'records.json',
     country: 'countries/{alpha2}.json',
     resolver_module: 'resolver.js',
+    release_descriptor: '../../release/v1/release.json',
+    artifact_index: '../../release/v1/artifacts.json',
   },
   resolver_input: {
     country: 'country artifact object',
@@ -364,8 +326,10 @@ writeFileSync(resolve(API_DIR, 'records.json'), JSON.stringify({
   records: recordsById,
 }));
 writeFileSync(resolve(API_DIR, 'resolver.js'), readFileSync(resolve(WEB_ROOT, 'src', 'lib', 'finder.js'), 'utf-8'));
+const release = generateReleaseIntegrity({ datasetVersion: manifest.dataset_version });
 
 console.log(`  wrote ${manifestEntries.length} country shards + manifest + search-index + categories-stats + metadata-coverage`);
 console.log(`  wrote API v${API_VERSION}: manifest + records index + ${apiCountries.length} countries + resolver`);
+console.log(`  release: ${release.release_id} (${release.artifact_index.artifact_count} checksummed artifacts)`);
 console.log(`  total hotlines: ${totalHotlines}`);
 console.log('  done.');

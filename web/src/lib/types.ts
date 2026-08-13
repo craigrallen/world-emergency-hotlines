@@ -131,6 +131,7 @@ export interface CountryManifestEntry {
 
 export interface Manifest {
   generated_at: string;
+  generated_at_semantics?: string;
   schema_version: string;
   dataset_version: string;
   source_last_updated: string | null;

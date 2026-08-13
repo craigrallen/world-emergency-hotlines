@@ -18,9 +18,11 @@
     "verify:trust": "node scripts/verify-trust-foundation.mjs",
     "verify:finder": "node scripts/verify-guided-finder.mjs",
     "verify:api": "node scripts/verify-static-api.mjs",
-    "verify:widget": "node scripts/verify-widget.mjs",
+    "verify:widget": "node scripts/verify-widget.mjs && node scripts/verify-widget-runtime.mjs",
     "verify:integration": "node scripts/verify-integration-readiness.mjs",
-    "verify:all": "npm run verify:data && npm run verify:search && npm run verify:discovery && npm run verify:trust && npm run verify:finder && npm run verify:api && npm run verify:widget && npm run verify:integration",
+    "verify:release": "node scripts/verify-release-integrity.mjs && node scripts/verify-release-reproducibility.mjs && node scripts/verify-release-integrity.mjs",
+    "verify:caddy": "sh scripts/verify-caddy.sh",
+    "verify:all": "npm run verify:data && npm run verify:search && npm run verify:discovery && npm run verify:trust && npm run verify:finder && npm run verify:api && npm run verify:widget && npm run verify:integration && npm run verify:release",
     "typecheck": "astro check"
   },
   "dependencies": {
