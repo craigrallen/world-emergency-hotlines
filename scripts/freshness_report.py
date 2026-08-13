@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import json
+import hashlib
 from collections import Counter
 from pathlib import Path
 
@@ -41,7 +42,7 @@ def record_age(last_verified: object, as_of: dt.date) -> tuple[str, int | None]:
     return "dated", age
 
 
-def build_report(data: dict, as_of: dt.date, stale_days: int, review_limit: int) -> dict:
+def build_report(data: dict, as_of: dt.date, stale_days: int, review_limit: int, dataset_version: str | None = None) -> dict:
     status_counts: Counter[str] = Counter()
     category_counts: Counter[str] = Counter()
     freshness_counts: Counter[str] = Counter()
@@ -74,6 +75,7 @@ def build_report(data: dict, as_of: dt.date, stale_days: int, review_limit: int)
                 continue
             stale_by_status[status] += 1
             row = {
+                "record_id": hotline.get("id"),
                 "country": country_name,
                 "record_index": index,
                 "name": hotline.get("name") or "",
@@ -103,10 +105,12 @@ def build_report(data: dict, as_of: dt.date, stale_days: int, review_limit: int)
 
     critical_review.sort(key=priority)
     general_review.sort(key=priority)
-    review_queue = (critical_review + general_review)[:review_limit]
+    review_records = critical_review + general_review
+    review_queue = review_records[:review_limit]
 
     return {
         "schema_version": "1.0",
+        "canonical_hash": dataset_version,
         "as_of": as_of.isoformat(),
         "stale_after_days": stale_days,
         "review_limit": review_limit,
@@ -127,7 +131,10 @@ def build_report(data: dict, as_of: dt.date, stale_days: int, review_limit: int)
         "all_records_by_status": dict(sorted(status_counts.items())),
         "all_records_by_category": dict(sorted(category_counts.items())),
         "review_queue": review_queue,
-        "review_queue_truncated": len(critical_review) + len(general_review) > review_limit,
+        "review_records": review_records,
+        "review_queue_total": len(review_records),
+        "review_queue_omitted": max(0, len(review_records) - len(review_queue)),
+        "review_queue_truncated": len(review_records) > review_limit,
         "policy": {
             "critical_categories_first": sorted(CRITICAL_CATEGORIES),
             "meaning": "Freshness flags are review prompts, not evidence that a service is invalid.",
@@ -180,7 +187,7 @@ def markdown(report: dict) -> str:
             f"`{row['freshness']}` |"
         )
     if report["review_queue_truncated"]:
-        lines += ["", "Queue truncated; use the JSON report or a larger `--review-limit` for additional records."]
+        lines += ["", f"Queue preview omitted {report['review_queue_omitted']} records. The JSON `review_records` array contains all {report['review_queue_total']} review-required records."]
     return "\n".join(lines) + "\n"
 
 
@@ -215,13 +222,16 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         guard_output(args.report, args.input, ".md")
     if args.json_report:
         guard_output(args.json_report, args.input, ".json")
+    if args.report and args.json_report and args.report.resolve() == args.json_report.resolve():
+        parser.error("--report and --json-report must not alias each other")
     return args
 
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
-    data = json.loads(args.input.read_text(encoding="utf-8"))
-    report = build_report(data, args.as_of, args.stale_days, args.review_limit)
+    raw = args.input.read_bytes()
+    data = json.loads(raw)
+    report = build_report(data, args.as_of, args.stale_days, args.review_limit, "sha256:" + hashlib.sha256(raw).hexdigest())
     print(json.dumps(report["summary"], sort_keys=True))
     if args.report:
         args.report.parent.mkdir(parents=True, exist_ok=True)

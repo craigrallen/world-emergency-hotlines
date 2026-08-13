@@ -185,11 +185,11 @@ const files = [
           <h3 class="font-semibold text-fg mb-2">Verification statuses explained</h3>
           <dl class="space-y-2">
             {[
-              ['verified_web',       'Confirmed against the organisation\'s official public website.'],
-              ['verified_authority', 'Confirmed directly with an authoritative source (e.g. government or official body).'],
-              ['verified_knowledge', 'Confirmed against a trusted third-party reference.'],
-              ['cross_referenced',   'Found in multiple independent sources; not yet checked against the official site. Treat as reliable but worth confirming.'],
-              ['legacy_unverified',  'From an earlier dataset; not independently confirmed. Please double-check before relying on it.'],
+              ['verified_web',       'A maintainer recorded an observation from the organisation\'s public website; this is not a test call or availability check.'],
+              ['verified_authority', 'A maintainer recorded evidence from a government or other responsible authority; current operation is not guaranteed.'],
+              ['verified_knowledge', 'A maintainer recorded evidence from a cited reference; current operation is not guaranteed.'],
+              ['cross_referenced',   'Found in multiple sources but not observed from the provider or responsible authority. Check current official guidance.'],
+              ['legacy_unverified',  'From an earlier dataset without a current source observation. Check official guidance before relying on it.'],
               ['disputed',           'Conflicting information found across sources. Treat with caution.'],
               ['deprecated',         'Service is believed to have closed or changed number. Included for historical reference.'],
             ].map(([status, desc]) => (
@@ -209,7 +209,9 @@ const files = [
       <p class="text-sm text-fg-muted">
         The authoritative dataset lives in <code class="rounded bg-bg-elev px-1 py-0.5 text-fg">hotlines.json</code> at
         the root of the GitHub repository. The JSON shards served here are generated from it at build time.
-        To contribute corrections or new hotlines, open a pull request or issue on GitHub.
+        Use the separate public forms for a <a class="text-accent hover:underline" href="https://github.com/craigrallen/world-emergency-hotlines/issues/new?template=hotline-correction.yml">listing correction</a>
+        or <a class="text-accent hover:underline" href="https://github.com/craigrallen/world-emergency-hotlines/issues/new?template=provider-submission.yml">provider/new service</a>.
+        Do not submit sensitive personal data. Submissions are review leads; publication is not guaranteed.
       </p>
       <div class="mt-4 flex flex-wrap gap-3">
         <a
@@ -221,12 +223,12 @@ const files = [
           GitHub repository ↗
         </a>
         <a
-          href="https://github.com/craigrallen/world-emergency-hotlines/issues"
+          href="https://github.com/craigrallen/world-emergency-hotlines/issues/new?template=hotline-correction.yml"
           target="_blank"
           rel="noopener"
           class="btn-ghost"
         >
-          Report an error ↗
+          Correct a listing ↗
         </a>
       </div>
     </section>

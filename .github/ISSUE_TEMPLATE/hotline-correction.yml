@@ -1,0 +1,43 @@
+name: Hotline correction
+description: Report a possible error in an existing listing (public review lead)
+title: "Hotline correction: "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **This issue is public. Do not include personal crisis stories, health details, names of people seeking help, or any other sensitive personal data.**
+
+        If someone is in immediate danger, contact the local emergency services. This repository does not provide crisis counselling or real-time support.
+
+        Submissions are unverified review leads, not canonical records. Maintainers review first-party evidence through the separate approvals process; publication is not guaranteed.
+  - type: input
+    id: record_id
+    attributes:
+      label: Listing record ID
+      description: Include the weh_… ID from the listing when available.
+      placeholder: weh_… (or Not available)
+    validations:
+      required: true
+  - type: input
+    id: country_service
+    attributes:
+      label: Country and service
+      placeholder: Country — service name
+    validations:
+      required: true
+  - type: textarea
+    id: changed
+    attributes:
+      label: What changed?
+      description: Describe only the listing correction; do not include personal or crisis details.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: First-party or government evidence URL(s)
+      description: One public official URL per line. Aggregator pages alone are insufficient.
+      placeholder: https://official.example/...
+    validations:
+      required: true
