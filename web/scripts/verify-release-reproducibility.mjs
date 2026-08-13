@@ -5,6 +5,7 @@ import { dirname, relative, resolve } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { BUILD_VERSION_INPUTS, digestInputs, generateReleaseIntegrity } from './release-integrity.mjs';
+import { utf16Compare } from './dataset-diff.mjs';
 import { discoverFiles, readDiscoveredFile } from './verify-release-integrity.mjs';
 
 const webRoot = resolve(fileURLToPath(new URL('..', import.meta.url)));
@@ -20,7 +21,7 @@ function build(buildEpoch = epoch, root = webRoot) {
   if (result.status !== 0) throw new Error(`${result.stdout}\n${result.stderr}`);
 }
 function files(root) {
-  return readdirSync(root).sort().flatMap((name) => {
+  return readdirSync(root).sort(utf16Compare).flatMap((name) => {
     const path = resolve(root, name);
     const metadata = lstatSync(path);
     return metadata.isDirectory() ? files(path) : [[relative(publicRoot, path).replaceAll('\\', '/'), readFileSync(path).toString('base64')]];
@@ -67,19 +68,37 @@ try {
   cpSync(resolve(webRoot, '..', 'docs/releases.json'), resolve(cleanCopy, 'docs/releases.json'));
   cpSync(resolve(webRoot, '..', 'docs/dataset-releases.json'), resolve(cleanCopy, 'docs/dataset-releases.json'));
   cpSync(resolve(webRoot, '..', 'docs/dataset-release-snapshots'), resolve(cleanCopy, 'docs/dataset-release-snapshots'), { recursive: true });
+  const fixtureDatasetPath = resolve(cleanCopy, 'hotlines.json');
+  const mutateDataset = (token) => { const data = JSON.parse(readFileSync(fixtureDatasetPath)); data.countries[0].notes = `deterministic fixture ${token}`; writeFileSync(fixtureDatasetPath, `${JSON.stringify(data, null, 2)}\n`); };
+  const candidate = (id, interrupt) => spawnSync('npm', ['run', 'release:dataset:candidate', '--', '--id', id, '--date', '2026-08-13', '--title', `Candidate ${id}`, '--summary', 'Exercises the recoverable deterministic candidate command in an isolated clean copy.'], { cwd: cleanWeb, encoding: 'utf8', env: { ...process.env, ...(interrupt ? { WEH_CANDIDATE_INTERRUPT: interrupt } : {}) } });
   for (const absent of ['data', 'api', 'release', 'feeds']) assert.equal(lstatOrNull(resolve(cleanWeb, 'public', absent)), null, `clean fixture unexpectedly contains public/${absent}`);
   build(epoch, cleanWeb);
   for (const created of ['data', 'api/v1', 'release/v1', 'feeds']) assert.ok(lstatSync(resolve(cleanWeb, 'public', created)).isDirectory(), `clean build did not create public/${created}`);
-  const candidateArgs = ['run', 'release:dataset:candidate', '--', '--id', 'clean-copy-candidate', '--date', '2026-08-13', '--title', 'Clean copy candidate', '--summary', 'Exercises the public deterministic candidate command in an isolated clean copy.'];
-  const candidate = spawnSync('npm', candidateArgs, { cwd: cleanWeb, encoding: 'utf8' });
-  assert.equal(candidate.status, 0, `${candidate.stdout}\n${candidate.stderr}`);
+  const snapshotRoot = resolve(cleanCopy, 'docs/dataset-release-snapshots'); const outside = resolve(cleanCopy, 'outside'); mkdirSync(outside); const sentinel = resolve(outside, 'sentinel'); writeFileSync(sentinel, 'outside-safe');
+  const savedSnapshots = resolve(cleanCopy, 'saved-snapshots'); renameSync(snapshotRoot, savedSnapshots); symlinkSync(outside, snapshotRoot);
+  assert.notEqual(candidate('symlink-root').status, 0, 'symlinked snapshot root was accepted'); assert.equal(readFileSync(sentinel, 'utf8'), 'outside-safe'); rmSync(snapshotRoot); renameSync(savedSnapshots, snapshotRoot);
+  const docsRoot = resolve(cleanCopy, 'docs'); const savedDocs = resolve(cleanCopy, 'saved-docs'); renameSync(docsRoot, savedDocs); symlinkSync(outside, docsRoot);
+  assert.notEqual(candidate('symlink-ancestor').status, 0, 'symlinked docs ancestor was accepted'); assert.equal(readFileSync(sentinel, 'utf8'), 'outside-safe'); rmSync(docsRoot); renameSync(savedDocs, docsRoot);
+  mutateDataset('first');
+  const targetLink = resolve(snapshotRoot, 'clean-copy-candidate.json'); symlinkSync(sentinel, targetLink);
+  assert.notEqual(candidate('clean-copy-candidate').status, 0, 'symlinked candidate target was accepted'); assert.equal(readFileSync(sentinel, 'utf8'), 'outside-safe'); rmSync(targetLink);
+  const transactionRoot = resolve(docsRoot, '.dataset-release-transaction'); mkdirSync(transactionRoot); symlinkSync(sentinel, resolve(transactionRoot, 'snapshot.json'));
+  assert.notEqual(candidate('clean-copy-candidate').status, 0, 'symlinked staged temp was accepted'); assert.equal(readFileSync(sentinel, 'utf8'), 'outside-safe'); rmSync(transactionRoot, { recursive: true });
+  const firstCandidate = candidate('clean-copy-candidate');
+  assert.equal(firstCandidate.status, 0, `${firstCandidate.stdout}\n${firstCandidate.stderr}`);
   const candidateRegistry = JSON.parse(readFileSync(resolve(cleanCopy, 'docs/dataset-releases.json'), 'utf8'));
   assert.equal(candidateRegistry.releases.at(-1).id, 'clean-copy-candidate');
   assert.ok(lstatSync(resolve(cleanCopy, 'docs/dataset-release-snapshots/clean-copy-candidate.json')).isFile());
   const beforeRefusal = readFileSync(resolve(cleanCopy, 'docs/dataset-releases.json'));
-  const refused = spawnSync('npm', candidateArgs, { cwd: cleanWeb, encoding: 'utf8' });
-  assert.notEqual(refused.status, 0, 'candidate command silently rewrote historical data');
+  assert.notEqual(candidate('clean-copy-candidate').status, 0, 'duplicate ID silently rewrote historical data');
+  assert.notEqual(candidate('unchanged-dataset').status, 0, 'unchanged canonical dataset was accepted');
   assert.deepEqual(readFileSync(resolve(cleanCopy, 'docs/dataset-releases.json')), beforeRefusal, 'failed candidate changed the registry');
+  mutateDataset('interrupt-before'); const beforeInterrupt = candidate('interrupt-before', 'before-snapshot-install'); assert.notEqual(beforeInterrupt.status, 0); assert.ok(lstatSync(transactionRoot).isDirectory());
+  const recoveredBefore = candidate('interrupt-before'); assert.equal(recoveredBefore.status, 0, `${recoveredBefore.stdout}\n${recoveredBefore.stderr}`); assert.equal(lstatOrNull(transactionRoot), null);
+  mutateDataset('interrupt-after'); const afterInterrupt = candidate('interrupt-after', 'after-snapshot-install'); assert.notEqual(afterInterrupt.status, 0); assert.ok(lstatSync(resolve(snapshotRoot, 'interrupt-after.json')).isFile());
+  const recoveredAfter = candidate('interrupt-after'); assert.equal(recoveredAfter.status, 0, `${recoveredAfter.stdout}\n${recoveredAfter.stderr}`); assert.equal(lstatOrNull(transactionRoot), null);
+  mutateDataset('interrupt-registry'); const registryInterrupt = candidate('interrupt-registry', 'after-registry-install'); assert.notEqual(registryInterrupt.status, 0); assert.ok(lstatSync(transactionRoot).isDirectory());
+  const installedRegistry = readFileSync(resolve(docsRoot, 'dataset-releases.json')); const recoveredRegistry = candidate('interrupt-registry'); assert.notEqual(recoveredRegistry.status, 0, 'recovered installed registry should then reject its duplicate ID'); assert.equal(lstatOrNull(transactionRoot), null); assert.deepEqual(readFileSync(resolve(docsRoot, 'dataset-releases.json')), installedRegistry);
   build(epoch, cleanWeb);
   rmSync(resolve(cleanWeb, 'public/api'), { recursive: true });
   mkdirSync(resolve(cleanCopy, 'outside-api')); symlinkSync(resolve(cleanCopy, 'outside-api'), resolve(cleanWeb, 'public/api'));

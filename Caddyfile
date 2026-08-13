@@ -60,6 +60,14 @@
     route {
         handle /feeds/* {
             route {
+                @feedOptions method OPTIONS
+                header @feedOptions {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                }
+                respond @feedOptions 204
+
                 @feedJson path *.json
                 header @feedJson Content-Type "application/feed+json; charset=utf-8"
                 @feedRss path *.rss
@@ -68,6 +76,8 @@
                 header @feedAtom Content-Type "application/atom+xml; charset=utf-8"
                 header {
                     Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
                     Cache-Control "public, max-age=300, stale-while-revalidate=86400"
                 }
                 file_server {
