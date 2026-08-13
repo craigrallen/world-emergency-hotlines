@@ -9,6 +9,7 @@ on:
 jobs:
   web:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     defaults:
       run:
@@ -44,3 +45,7 @@ jobs:
 
       - name: Validate and integration-test Caddy release routes
         run: npm run verify:caddy
+
+      - name: Build and smoke-test the deployment image
+        working-directory: .
+        run: sh web/scripts/verify-docker-image.sh

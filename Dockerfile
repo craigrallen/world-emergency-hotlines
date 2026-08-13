@@ -13,8 +13,9 @@ WORKDIR /app
 COPY web/package.json web/package-lock.json* ./web/
 RUN cd web && npm install --no-audit --no-fund --loglevel=error
 
-# Copy the canonical data + the rest of the web source
+# Copy the canonical data, release changelog source, and the rest of the web source
 COPY hotlines.json information.json ./
+COPY docs/releases.json ./docs/releases.json
 COPY web/ ./web/
 
 # Generate /public/data and build the static Astro site
