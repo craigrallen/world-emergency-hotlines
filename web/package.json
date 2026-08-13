@@ -19,7 +19,8 @@
     "verify:finder": "node scripts/verify-guided-finder.mjs",
     "verify:api": "node scripts/verify-static-api.mjs",
     "verify:widget": "node scripts/verify-widget.mjs",
-    "verify:all": "npm run verify:data && npm run verify:search && npm run verify:discovery && npm run verify:trust && npm run verify:finder && npm run verify:api && npm run verify:widget",
+    "verify:integration": "node scripts/verify-integration-readiness.mjs",
+    "verify:all": "npm run verify:data && npm run verify:search && npm run verify:discovery && npm run verify:trust && npm run verify:finder && npm run verify:api && npm run verify:widget && npm run verify:integration",
     "typecheck": "astro check"
   },
   "dependencies": {
