@@ -11,6 +11,7 @@ public/data/
 public/api/
 public/release/
 public/feeds/
+public/subscriptions/
 
 # env & secrets
 .env

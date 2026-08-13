@@ -19,7 +19,8 @@
     "verify:finder": "node scripts/verify-guided-finder.mjs",
     "verify:api": "node scripts/verify-static-api.mjs",
     "verify:widget": "node scripts/verify-widget.mjs && node scripts/verify-widget-runtime.mjs",
-    "verify:integration": "node scripts/verify-integration-readiness.mjs",
+    "verify:integration": "node scripts/verify-integration-readiness.mjs && node scripts/verify-subscription-contracts.mjs",
+    "verify:subscriptions": "SOURCE_DATE_EPOCH=1786579200 node scripts/build-static-data.mjs && node scripts/verify-subscription-contracts.mjs",
     "verify:release": "SOURCE_DATE_EPOCH=1786579200 node scripts/build-static-data.mjs && node scripts/verify-release-feeds.mjs && node scripts/verify-release-reproducibility.mjs && node scripts/verify-release-integrity.mjs && npm run verify:feeds:artifacts",
     "verify:feeds:unit": "node scripts/verify-release-feeds.mjs && node scripts/verify-dataset-append-only.mjs",
     "verify:feeds": "npm run verify:feeds:unit && SOURCE_DATE_EPOCH=1786579200 node scripts/build-static-data.mjs && node scripts/verify-release-integrity.mjs && npm run verify:feeds:artifacts",
@@ -36,8 +37,11 @@
     "tailwindcss": "^3.4.14"
   },
   "devDependencies": {
+    "@apidevtools/swagger-parser": "^12.1.0",
     "@astrojs/check": "^0.9.10",
     "@types/node": "^22.7.5",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.5.26",
     "typescript": "^5.6.3"

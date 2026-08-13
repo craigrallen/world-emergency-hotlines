@@ -1,0 +1,14 @@
+{
+  "openapi": "3.1.0",
+  "info": { "title": "World Hotlines release subscriptions — proposed managed API", "version": "1.0.0", "description": "DESIGN CONTRACT ONLY. These operations are not deployed and this static site collects no subscription or contact data.", "x-world-hotlines-status": "design-contract" },
+  "servers": [{ "url": "https://managed.example.invalid", "description": "Non-resolving illustrative future service origin" }],
+  "paths": {
+    "/v1/subscriptions": {
+      "post": { "x-world-hotlines-status": "design-contract", "summary": "Propose creation of a release webhook subscription", "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "./subscription-request.schema.json" } } } }, "responses": { "201": { "description": "Illustrative created response", "content": { "application/json": { "schema": { "$ref": "./subscription-response.schema.json" } } } }, "400": { "$ref": "#/components/responses/Error" } } }
+    },
+    "/v1/subscriptions/{subscription_id}": {
+      "delete": { "x-world-hotlines-status": "design-contract", "summary": "Propose disabling and deleting a subscription", "parameters": [{ "name": "subscription_id", "in": "path", "required": true, "schema": { "type": "string" } }], "responses": { "204": { "description": "Illustrative deletion" }, "404": { "$ref": "#/components/responses/Error" } } }
+    }
+  },
+  "components": { "responses": { "Error": { "description": "Illustrative error", "content": { "application/json": { "schema": { "$ref": "./error.schema.json" } } } } } }
+}

@@ -14,7 +14,7 @@ export const API_MAJOR = 1;
 export const RESOLVER_MAJOR = 1;
 export const WIDGET_MAJOR = 1;
 export const BUILD_VERSION_INPUTS = {
-  integration_generator: ['scripts/build-static-data.mjs', 'scripts/centroids.json', 'scripts/dataset-diff.mjs', 'scripts/metadata-coverage.mjs', 'scripts/release-feeds.mjs', 'scripts/release-integrity.mjs'],
+  integration_generator: ['scripts/build-static-data.mjs', 'scripts/centroids.json', 'scripts/dataset-diff.mjs', 'scripts/generate-subscription-contracts.mjs', 'scripts/metadata-coverage.mjs', 'scripts/release-feeds.mjs', 'scripts/release-integrity.mjs', 'scripts/subscription-events.mjs'],
   resolver_code: ['src/lib/finder.js'],
   widget_code: ['public/widget/v1/hotlines-widget.js'],
 };
@@ -101,6 +101,7 @@ export function generateReleaseIntegrity({ datasetVersion }) {
     ...walkFiles(resolve(PUBLIC_ROOT, 'data')),
     ...walkFiles(resolve(PUBLIC_ROOT, 'api', 'v1')),
     ...walkFiles(resolve(PUBLIC_ROOT, 'feeds')),
+    ...walkFiles(resolve(PUBLIC_ROOT, 'subscriptions', 'v1')),
     ...walkFiles(RELEASE_DIR).filter(({ path }) => !path.endsWith(`${sep}artifacts.json`) && !path.endsWith(`${sep}release.json`)),
     (() => { const path = resolve(PUBLIC_ROOT, 'widget', 'v1', 'hotlines-widget.js'); return { path, metadata: lstatSync(path) }; })(),
   ];
@@ -120,12 +121,20 @@ export function generateReleaseIntegrity({ datasetVersion }) {
 
   const versions = buildVersions();
   const byPath = new Map(artifacts.map((entry) => [entry.path, entry]));
+  const subscriptionRelationshipPaths = [
+    '/subscriptions/v1/README.md', '/subscriptions/v1/common.schema.json', '/subscriptions/v1/event.schema.json',
+    '/subscriptions/v1/subscription-request.schema.json', '/subscriptions/v1/subscription-response.schema.json', '/subscriptions/v1/error.schema.json',
+    '/subscriptions/v1/openapi.json', '/subscriptions/v1/webhook-contract.json',
+    '/subscriptions/v1/fixture-baseline.json', '/subscriptions/v1/fixture-no-change.json', '/subscriptions/v1/fixture-added.json',
+    '/subscriptions/v1/fixture-modified.json', '/subscriptions/v1/fixture-country-metadata.json',
+  ];
   const relationshipPaths = [
     '/data/manifest.json', '/api/v1/manifest.json', '/api/v1/records.json',
     '/api/v1/resolver.js', '/widget/v1/hotlines-widget.js',
     '/data/metadata-coverage.json', '/data/categories-stats.json', '/data/search-index.json',
     '/release/v1/changes.json', '/release/v1/changes/latest.json',
     '/feeds/releases.json', '/feeds/releases.rss', '/feeds/releases.atom',
+    ...subscriptionRelationshipPaths,
   ];
   const payload = {
     schema_version: RELEASE_SCHEMA_VERSION,
@@ -149,7 +158,7 @@ export function generateReleaseIntegrity({ datasetVersion }) {
       path: '/release/v1/artifacts.json',
       sha256: digestFile(indexPath),
       artifact_count: artifacts.length,
-      coverage: ['/data/**', '/api/v1/**', '/widget/v1/hotlines-widget.js', '/release/v1/changes.json', '/release/v1/changes/**', '/feeds/**'],
+      coverage: ['/data/**', '/api/v1/**', '/widget/v1/hotlines-widget.js', '/release/v1/changes.json', '/release/v1/changes/**', '/feeds/**', '/subscriptions/v1/**'],
       excludes: ['/release/v1/artifacts.json', '/release/v1/release.json'],
     },
     checksum_semantics: 'Unsigned SHA-256 checksums detect byte mismatch after a descriptor is obtained through a trusted channel; they do not prove publisher identity or freshness.',

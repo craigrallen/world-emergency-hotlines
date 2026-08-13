@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://worldhotlines.org/subscriptions/v1/subscription-response.schema.json",
+  "title": "Illustrative future managed subscription response (not deployed)",
+  "type": "object", "additionalProperties": false,
+  "required": ["subscription_id", "status", "created_at", "filters"],
+  "properties": {
+    "subscription_id": { "type": "string", "pattern": "^sub_[a-zA-Z0-9_-]{16,64}$" },
+    "status": { "enum": ["pending-verification", "active", "disabled"] },
+    "created_at": { "type": "string", "format": "date-time" },
+    "filters": { "$ref": "subscription-request.schema.json#/properties/filters" }
+  }
+}

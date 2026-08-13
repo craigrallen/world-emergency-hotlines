@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://worldhotlines.org/subscriptions/v1/common.schema.json",
+  "title": "World Hotlines subscription contract shared definitions",
+  "$defs": {
+    "event_type": {
+      "enum": [
+        "org.worldhotlines.dataset.release.baseline",
+        "org.worldhotlines.dataset.release.no-change",
+        "org.worldhotlines.dataset.release.added",
+        "org.worldhotlines.dataset.release.modified",
+        "org.worldhotlines.dataset.release.country-metadata"
+      ]
+    },
+    "artifact_class": {
+      "enum": ["dataset", "static-api", "release-metadata", "release-feeds", "subscription-contracts"]
+    },
+    "sha256": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+    "count": { "type": "integer", "minimum": 0 }
+  }
+}

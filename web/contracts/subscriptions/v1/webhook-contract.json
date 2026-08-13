@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "status": "design-contract",
+  "deployed": false,
+  "transport": { "https_only": true, "method": "POST", "content_type": "application/json", "maximum_body_bytes": 65536, "connect_timeout_seconds": 3, "total_timeout_seconds": 10, "maximum_concurrent_deliveries_per_subscription": 1 },
+  "headers": {
+    "World-Hotlines-Timestamp": "Unix seconds supplied by the sender",
+    "World-Hotlines-Signature": "v1=<lowercase hex HMAC-SHA256>",
+    "World-Hotlines-Event-Id": "Stable event id; identical for every attempt",
+    "World-Hotlines-Delivery-Id": "Unique attempt id; distinct from event id",
+    "Idempotency-Key": "Same value as World-Hotlines-Event-Id"
+  },
+  "signature": { "version": "v1", "algorithm": "HMAC-SHA256", "secret_encoding": "32 random bytes encoded as unpadded base64url; decode strictly to bytes before HMAC", "signed_bytes": "ASCII(timestamp) + '.' + exact raw request body bytes", "comparison": "constant-time after equal-length decoding", "replay_window_seconds": 300 },
+  "retries": { "kind": "fixed-design-schedule-not-active-sla", "delays_seconds_after_initial_attempt": [30, 120, 600, 3600, 21600], "success": "Any 2xx response", "disable": "410 disables the subscription after this attempt", "permanent_no_retry_statuses": [400, 401, 403, 404, 405, 409, 413, 415, 422], "terminal": "After the final attempt, retain only bounded operational delivery metadata according to the future service retention policy; no payload-derived analytics." },
+  "destination_safety": { "registration_and_each_delivery": "Resolve every address and require a globally routable public IP.", "redirects": "Disabled; if a future version permits them, every hop must be revalidated.", "dns_rebinding": "Pin the validated address for the connection and verify the connected peer.", "blocked": ["private", "loopback", "link-local", "carrier-grade NAT", "multicast", "unspecified", "reserved/documentation", "IPv4-mapped blocked IPv6", "cloud metadata endpoints"] },
+  "secret_handling": { "generation": "Generate exactly 32 cryptographically random bytes and deliver them as canonical unpadded base64url.", "rotation_overlap": "The current secret has no expiry metadata and remains usable before, during, and after the previous-secret interval. The immediately previous secret requires valid finite safe-integer Unix-second activated_at and expires_at metadata, with expires_at at or after activated_at and overlap expires_at - activated_at <= 86400 seconds. The previous secret is eligible only during the inclusive interval activated_at <= now <= expires_at; outside that interval it is not eligible. Reject malformed metadata.", "prohibitions": ["Never put a secret in a URL.", "Never log a secret, signature base, or raw payload."] },
+  "privacy": { "payload_user_identifiers": false, "crisis_analytics": false, "minimization": "Store only delivery configuration and bounded delivery state needed to operate a future service; delete disabled configuration and attempt metadata on a documented short schedule.", "operational_data_notice": "Destination URIs and any future contact details would be operational data of a future service. This repository does not collect or store them." }
+}

@@ -41,6 +41,14 @@ const githubDocs = 'https://github.com/craigrallen/world-emergency-hotlines/blob
       </ul>
     </section>
 
+    <section class="mt-10 rounded-xl border border-border bg-bg-elev p-5" aria-labelledby="notifications-title">
+      <p class="text-sm font-semibold uppercase tracking-wider text-accent">Design contract · not deployed</p>
+      <h2 id="notifications-title" class="mt-2 text-2xl font-semibold text-fg">Release notifications</h2>
+      <p class="mt-3 text-fg-muted">The versioned webhook and subscription contracts are static design artifacts for integrator planning. There is no live signup or POST endpoint, and this project collects no subscriber, destination, contact, crisis-query, location, or behaviour data.</p>
+      <p class="mt-3 text-fg-muted">Available now without registration: <a class="text-accent hover:underline" href="/feeds/releases.json">JSON Feed</a>, <a class="text-accent hover:underline" href="/feeds/releases.rss">RSS</a>, and <a class="text-accent hover:underline" href="/feeds/releases.atom">Atom</a>. A future managed service could add hosted delivery, retries, and operational assurance without withholding these feeds or the static data; no pricing or service-level commitment exists.</p>
+      <a class="mt-4 inline-block text-accent hover:underline" href="/subscriptions/v1/README.md">Read the release-notification design contract →</a>
+    </section>
+
     <aside class="mt-10 rounded-xl border border-amber-400/60 bg-amber-400/10 p-5" aria-labelledby="license-title">
       <h2 id="license-title" class="text-xl font-semibold text-fg">Licensing status</h2>
       <p class="mt-2 text-sm text-fg-muted"><strong>Public access does not itself grant reuse rights.</strong> This repository currently has no license. Integration teams must review the repository licensing status and obtain or confirm permission before production reuse.</p>

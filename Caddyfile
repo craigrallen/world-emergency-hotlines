@@ -58,6 +58,49 @@
     # Release descriptors are cross-origin verifiable metadata. Keep unknown
     # descriptor paths as real 404s; the Railway hostname has no special case.
     route {
+        handle /subscriptions/v1/* {
+            route {
+                @subscriptionOptions method OPTIONS
+                header @subscriptionOptions {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                }
+                respond @subscriptionOptions 204
+
+                @subscriptionWrite not method GET HEAD OPTIONS
+                header @subscriptionWrite {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Cache-Control "no-store"
+                    Content-Type "text/plain; charset=utf-8"
+                }
+                respond @subscriptionWrite "Not found" 404
+
+                @subscriptionSchema path *.schema.json
+                header @subscriptionSchema Content-Type "application/schema+json; charset=utf-8"
+                @subscriptionOpenApi path */openapi.json
+                header @subscriptionOpenApi Content-Type "application/vnd.oai.openapi+json; charset=utf-8"
+                @subscriptionMarkdown path *.md
+                header @subscriptionMarkdown Content-Type "text/markdown; charset=utf-8"
+                @subscriptionFile file {path}
+                header @subscriptionFile {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                    Cache-Control "public, max-age=300, stale-while-revalidate=86400"
+                }
+                file_server @subscriptionFile
+                header {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Cache-Control "no-store"
+                    Content-Type "text/plain; charset=utf-8"
+                }
+                respond "Not found" 404
+            }
+        }
+
         handle /feeds/* {
             route {
                 @feedOptions method OPTIONS

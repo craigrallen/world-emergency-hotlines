@@ -14,7 +14,7 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-mkdir -p "$fixture/release/v1/changes" "$fixture/feeds" "$fixture/responses"
+mkdir -p "$fixture/release/v1/changes" "$fixture/feeds" "$fixture/subscriptions/v1" "$fixture/responses"
 expected_release="$fixture/release/v1/release.json"
 printf '%s\n' '{"schema_version":"1.0","release_id":"sha256:test"}' > "$expected_release"
 printf '%s\n' '{"schema_version":"1.0"}' > "$fixture/release/v1/changes.json"
@@ -22,6 +22,10 @@ printf '%s\n' '{"schema_version":"1.0"}' > "$fixture/release/v1/changes/latest.j
 printf '%s\n' '{"version":"https://jsonfeed.org/version/1.1"}' > "$fixture/feeds/releases.json"
 printf '%s\n' '<rss version="2.0"><channel><title>Releases</title></channel></rss>' > "$fixture/feeds/releases.rss"
 printf '%s\n' '<feed xmlns="http://www.w3.org/2005/Atom"><title>Releases</title></feed>' > "$fixture/feeds/releases.atom"
+printf '%s\n' '{"$schema":"https://json-schema.org/draft/2020-12/schema"}' > "$fixture/subscriptions/v1/event.schema.json"
+printf '%s\n' '{"openapi":"3.1.0"}' > "$fixture/subscriptions/v1/openapi.json"
+printf '%s\n' '{"schema_version":"1.0"}' > "$fixture/subscriptions/v1/webhook-contract.json"
+printf '%s\n' '# Synthetic subscription contract' '' '[Event schema](event.schema.json)' > "$fixture/subscriptions/v1/README.md"
 expected_missing="$fixture/responses/missing.body"
 printf '%s' 'Not found' > "$expected_missing"
 
@@ -115,6 +119,50 @@ for feed_spec in 'release/v1/changes.json|application/json; charset=utf-8' 'rele
   require_feed_cors "$feed_headers"
 done
 
+for contract_spec in 'subscriptions/v1/event.schema.json|application/schema+json; charset=utf-8' 'subscriptions/v1/openapi.json|application/vnd.oai.openapi+json; charset=utf-8' 'subscriptions/v1/webhook-contract.json|application/json' 'subscriptions/v1/README.md|text/markdown; charset=utf-8'; do
+  contract_path=${contract_spec%%|*}
+  contract_type=${contract_spec#*|}
+  contract_headers="$fixture/responses/$(printf '%s' "$contract_path" | tr '/' '-').headers"
+  curl --max-time 5 -sS -D "$contract_headers" -o /dev/null "$base/$contract_path"
+  require_status GET "/$contract_path" 200 "$contract_headers"
+  require_header "$contract_headers" Content-Type "$contract_type"
+  require_feed_cors "$contract_headers"
+done
+
+readme_body="$fixture/responses/readme.body"
+curl --max-time 5 -sS -o "$readme_body" "$base/subscriptions/v1/README.md"
+cmp -s "$fixture/subscriptions/v1/README.md" "$readme_body" || { echo "README link target was not served byte-for-byte" >&2; exit 1; }
+curl --max-time 5 -fsS "$base/subscriptions/v1/event.schema.json" >/dev/null
+
+contract_head_headers="$fixture/responses/contract-head.headers"
+contract_head_body="$fixture/responses/contract-head.body"
+curl --max-time 5 -sS --request HEAD --ignore-content-length -H 'Connection: close' -D "$contract_head_headers" -o "$contract_head_body" "$base/subscriptions/v1/event.schema.json"
+require_status HEAD /subscriptions/v1/event.schema.json 200 "$contract_head_headers"
+require_empty HEAD /subscriptions/v1/event.schema.json "$contract_head_body"
+require_header "$contract_head_headers" Content-Type 'application/schema+json; charset=utf-8'
+
+readme_head_headers="$fixture/responses/readme-head.headers"
+readme_head_body="$fixture/responses/readme-head.body"
+curl --max-time 5 -sS --request HEAD --ignore-content-length -H 'Connection: close' -D "$readme_head_headers" -o "$readme_head_body" "$base/subscriptions/v1/README.md"
+require_status HEAD /subscriptions/v1/README.md 200 "$readme_head_headers"
+require_empty HEAD /subscriptions/v1/README.md "$readme_head_body"
+require_header "$readme_head_headers" Content-Type 'text/markdown; charset=utf-8'
+
+contract_options_headers="$fixture/responses/contract-options.headers"
+contract_options_body="$fixture/responses/contract-options.body"
+curl --max-time 5 -sS -X OPTIONS -D "$contract_options_headers" -o "$contract_options_body" "$base/subscriptions/v1/missing.json"
+require_status OPTIONS /subscriptions/v1/missing.json 204 "$contract_options_headers"
+require_empty OPTIONS /subscriptions/v1/missing.json "$contract_options_body"
+require_feed_cors "$contract_options_headers"
+
+for method in GET POST PUT DELETE; do
+  contract_missing_headers="$fixture/responses/contract-missing-$method.headers"
+  contract_missing_body="$fixture/responses/contract-missing-$method.body"
+  curl --max-time 5 -sS -X "$method" -D "$contract_missing_headers" -o "$contract_missing_body" "$base/subscriptions/v1/subscriptions"
+  require_status "$method" /subscriptions/v1/subscriptions 404 "$contract_missing_headers"
+  cmp -s "$expected_missing" "$contract_missing_body" || { echo "$method subscription design path body is not stable 404" >&2; exit 1; }
+done
+
 feed_path=/feeds/releases.json
 feed_head_headers="$fixture/responses/feed-head.headers"
 feed_head_body="$fixture/responses/feed-head.body"
@@ -196,4 +244,4 @@ require_header "$missing_options_headers" Access-Control-Allow-Origin '*'
 require_header "$missing_options_headers" Access-Control-Allow-Methods 'GET, HEAD, OPTIONS'
 require_header "$missing_options_headers" Access-Control-Allow-Headers 'Accept, If-None-Match, If-Modified-Since'
 
-echo "Caddy integration OK: release/feed GET and HEAD; feed/release OPTIONS 204 with CORS; unknown GET/HEAD 404; unknown OPTIONS 204; no route shadowing"
+echo "Caddy integration OK: release/feed/subscription JSON, schema, OpenAPI, and README GET/HEAD MIME; OPTIONS 204 with CORS; subscription POST/PUT/DELETE and unknown routes 404; no route shadowing"
