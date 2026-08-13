@@ -1,0 +1,65 @@
+---
+import Base from '../layouts/Base.astro';
+
+const githubDocs = 'https://github.com/craigrallen/world-emergency-hotlines/blob/main/docs';
+---
+
+<Base title="Integrate · World Emergency & Hotlines" description="Choose a public, keyless static beta integration surface for the crisis-support directory.">
+  <nav class="mb-6 flex items-center gap-2 text-xs text-fg-muted" aria-label="Breadcrumb">
+    <a href="/" class="hover:text-fg">Home</a><span aria-hidden="true">›</span><span class="text-fg">Integrate</span>
+  </nav>
+
+  <article class="mx-auto max-w-4xl">
+    <header>
+      <p class="text-sm font-semibold uppercase tracking-wider text-accent">Public static beta</p>
+      <h1 class="mt-2 text-4xl font-semibold text-fg sm:text-5xl">Choose the smallest safe integration</h1>
+      <p class="mt-4 max-w-3xl text-lg text-fg-muted">The finder, API v1, widget v1, and downloads are free to access without an account or API key. They have no uptime, support, or SLA commitment.</p>
+    </header>
+
+    <section class="mt-10 grid gap-4 sm:grid-cols-2" aria-labelledby="choices-title">
+      <h2 id="choices-title" class="sr-only">Integration choices</h2>
+      <div class="card p-5"><h3 class="text-xl font-semibold text-fg">Link to the finder</h3><p class="mt-2 text-sm text-fg-muted">Send people to the maintained interface. This is the least complex choice.</p><a class="mt-4 inline-block text-accent hover:underline" href="/find-help">Open finder →</a></div>
+      <div class="card p-5"><h3 class="text-xl font-semibold text-fg">Static API v1</h3><p class="mt-2 text-sm text-fg-muted">Fetch versioned country artifacts and run the deterministic resolver locally.</p><a class="mt-4 inline-block text-accent hover:underline" href="/api/v1/manifest.json">Open API manifest →</a></div>
+      <div class="card p-5"><h3 class="text-xl font-semibold text-fg">Widget v1</h3><p class="mt-2 text-sm text-fg-muted">Embed the client-side guided finder in a site you control.</p><a class="mt-4 inline-block text-accent hover:underline" href="/widget">View widget demo →</a></div>
+      <div class="card p-5"><h3 class="text-xl font-semibold text-fg">Direct snapshot</h3><p class="mt-2 text-sm text-fg-muted">Inspect the canonical branch snapshot directly. Prefer API v1 when you need a versioned contract.</p><a class="mt-4 inline-block text-accent hover:underline" href="https://raw.githubusercontent.com/craigrallen/world-emergency-hotlines/main/hotlines.json" target="_blank" rel="noopener noreferrer">Open hotlines.json ↗</a></div>
+    </section>
+
+    <section class="mt-10 rounded-xl border border-border bg-bg-elev p-5" aria-labelledby="embed-title">
+      <h2 id="embed-title" class="text-2xl font-semibold text-fg">Copy/paste widget</h2>
+      <pre class="mt-4 overflow-x-auto rounded-lg bg-bg p-4 text-xs text-fg-muted"><code>&lt;script src="https://world-emergency-hotlines-production.up.railway.app/widget/v1/hotlines-widget.js" defer&gt;&lt;/script&gt;
+&lt;world-emergency-hotlines country="us" category="mental_health" max-results="6"&gt;&lt;/world-emergency-hotlines&gt;</code></pre>
+      <p class="mt-4 text-sm text-fg-muted">Allow the production origin in your CSP <code>script-src</code> and <code>connect-src</code>. See the complete <a class="text-accent hover:underline" href={`${githubDocs}/WIDGET.md`} target="_blank" rel="noopener noreferrer">widget guide ↗</a>.</p>
+    </section>
+
+    <section class="mt-10" aria-labelledby="limits-title">
+      <h2 id="limits-title" class="text-2xl font-semibold text-fg">Current limitations</h2>
+      <ul class="mt-4 list-disc space-y-2 pl-6 text-fg-muted">
+        <li>Records are source-backed directory entries, not live availability, medical advice, eligibility, clinical suitability, or outcome guarantees.</li>
+        <li>Verification status describes recorded evidence; numbers, hours, services, and official guidance can change.</li>
+        <li>Resolver scope and fallback are conservative. Integrators must preserve their explanations and handle network, empty, and malformed-response states.</li>
+        <li>All surfaces are static beta and provide no uptime, support, response, or verification SLA.</li>
+      </ul>
+    </section>
+
+    <aside class="mt-10 rounded-xl border border-amber-400/60 bg-amber-400/10 p-5" aria-labelledby="license-title">
+      <h2 id="license-title" class="text-xl font-semibold text-fg">Licensing status</h2>
+      <p class="mt-2 text-sm text-fg-muted"><strong>Public access does not itself grant reuse rights.</strong> This repository currently has no license. Integration teams must review the repository licensing status and obtain or confirm permission before production reuse.</p>
+    </aside>
+
+    <section class="mt-10" aria-labelledby="privacy-title">
+      <h2 id="privacy-title" class="text-2xl font-semibold text-fg">Privacy by design</h2>
+      <p class="mt-3 text-fg-muted">Static artifacts and local resolution avoid sending locality, need, or channel selections to this project. No API key, third-party cookie, or user-identifying analytics are required, and this repository does not implement integration telemetry. Any future technical-health counters require customer-boundary aggregation and qualified privacy/legal review. Keep sensitive values out of URLs, logs, attributes, and analytics.</p>
+    </section>
+
+    <section class="mt-10 border-t border-border pt-8" aria-labelledby="docs-title">
+      <h2 id="docs-title" class="text-2xl font-semibold text-fg">Integration documentation</h2>
+      <div class="mt-4 flex flex-wrap gap-4 text-sm">
+        <a class="text-accent hover:underline" href={`${githubDocs}/INTEGRATIONS.md`} target="_blank" rel="noopener noreferrer">Decision and production checklist ↗</a>
+        <a class="text-accent hover:underline" href={`${githubDocs}/API.md`} target="_blank" rel="noopener noreferrer">API v1 guide ↗</a>
+        <a class="text-accent hover:underline" href={`${githubDocs}/PRIVACY_SAFE_METRICS.md`} target="_blank" rel="noopener noreferrer">Privacy-safe metrics contract ↗</a>
+        <a class="text-accent hover:underline" href={`${githubDocs}/PACKAGING.md`} target="_blank" rel="noopener noreferrer">Capability matrix ↗</a>
+        <a class="text-accent hover:underline" href={`${githubDocs}/DESIGN_PARTNER_PILOT.md`} target="_blank" rel="noopener noreferrer">Draft design-partner pilot brief ↗</a>
+      </div>
+    </section>
+  </article>
+</Base>

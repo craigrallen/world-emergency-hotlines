@@ -36,14 +36,8 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Verify data
-        run: npm run verify:data
-
-      - name: Verify search
-        run: npm run verify:search
-
-      - name: Verify discovery
-        run: npm run verify:discovery
+      - name: Verify all static contracts
+        run: npm run verify:all
 
       - name: Typecheck
         run: npm run typecheck
