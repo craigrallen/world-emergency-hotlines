@@ -4,6 +4,16 @@
   const script = document.currentScript;
   const scriptOrigin = script?.src ? new URL(script.src, document.baseURI).origin : window.location.origin;
   const TAG = 'world-emergency-hotlines';
+  const API_MAJOR_VERSION = 1;
+  const RESOLVER_MAJOR_VERSION = 1;
+  const WIDGET_MAJOR_VERSION = 1;
+  function majorOf(value) {
+    const match = String(value ?? '').match(/^(\d+)(?:\.|$)/);
+    return match ? Number(match[1]) : null;
+  }
+  function requireMajor(label, actual, expected) {
+    if (actual !== expected) throw new Error(`${label} major ${actual ?? 'unknown'} is incompatible with widget v${WIDGET_MAJOR_VERSION}`);
+  }
   const CATEGORY_LABELS = {
     emergency: 'General emergency', suicide_crisis: 'Suicide & acute crisis', mental_health: 'Mental health',
     child_protection: 'Child protection', youth: 'Youth', domestic_violence: 'Domestic violence',
@@ -119,6 +129,7 @@
         const response = await fetch(new URL('manifest.json', this.apiBase));
         if (!response.ok) throw new Error(`API manifest returned ${response.status}`);
         this.manifest = await response.json();
+        requireMajor('API', this.manifest.compatibility?.api_major ?? majorOf(this.manifest.api_version), API_MAJOR_VERSION);
         this.ui.country.replaceChildren(new Option('Select a country', ''));
         for (const country of this.manifest.countries || []) this.ui.country.append(new Option(country.name, country.alpha2.toLowerCase()));
         const initial = (this.getAttribute('country') || '').toLowerCase();
@@ -138,6 +149,7 @@
         const response = await fetch(new URL(`countries/${encodeURIComponent(code)}.json`, this.apiBase));
         if (!response.ok) throw new Error(`Country data returned ${response.status}`);
         this.country = await response.json();
+        requireMajor('Country API', majorOf(this.country.api_version), API_MAJOR_VERSION);
         const categories = [...new Set((this.country.hotlines || []).filter((h) => h.verification_status !== 'deprecated').map((h) => h.category))].sort((a, b) => (CATEGORY_LABELS[a] || a).localeCompare(CATEGORY_LABELS[b] || b));
         this.ui.need.replaceChildren(new Option('Select a need', ''));
         for (const category of categories) this.ui.need.append(new Option(CATEGORY_LABELS[category] || category.replace(/_/g, ' '), category));
@@ -153,6 +165,8 @@
       this.ui.submit.disabled = true; this.setStatus('Resolving recorded options…');
       try {
         if (!this.resolver) this.resolver = await import(new URL('resolver.js', this.apiBase).href);
+        requireMajor('Resolver', this.resolver.RESOLVER_MAJOR_VERSION, RESOLVER_MAJOR_VERSION);
+        requireMajor('Resolver API', this.resolver.API_MAJOR_VERSION, API_MAJOR_VERSION);
         const channel = this.shadowRoot.querySelector('input[name="weh-channel"]:checked')?.value || 'any';
         const result = this.resolver.resolveGuidedHelp({ country: this.country, category: this.ui.need.value, channel, locality: this.ui.locality.value.trim() });
         this.renderResult(result);
@@ -203,7 +217,12 @@
     }
 
     setStatus(message) { this.ui.status.className = 'status'; this.ui.status.textContent = message; }
-    showError(error) { this.ui.status.className = 'status error'; this.ui.status.textContent = error instanceof Error ? error.message : 'The widget could not load recorded options.'; }
+    showError(error) {
+      this.country = null;
+      if (this.ui?.output) { this.ui.output.replaceChildren(); this.ui.output.hidden = true; }
+      this.ui.status.className = 'status error';
+      this.ui.status.textContent = error instanceof Error ? error.message : 'The widget could not load recorded options.';
+    }
   }
 
   if (!customElements.get(TAG)) customElements.define(TAG, WorldEmergencyHotlines);

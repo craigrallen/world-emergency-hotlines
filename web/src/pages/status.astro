@@ -1,0 +1,26 @@
+---
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import Base from '../layouts/Base.astro';
+const release = JSON.parse(readFileSync(resolve(process.cwd(), 'public/release/v1/release.json'), 'utf8'));
+---
+
+<Base title="Static release status · World Emergency & Hotlines" description="Statically provable World Hotlines build and release information; not live monitoring.">
+  <article class="mx-auto max-w-3xl">
+    <p class="text-sm font-semibold uppercase tracking-wider text-accent">Static build evidence</p>
+    <h1 class="mt-2 text-4xl font-semibold text-fg sm:text-5xl">Status</h1>
+    <div class="mt-6 rounded-xl border border-border bg-bg-elev p-5">
+      <h2 class="text-xl font-semibold text-fg">What this build proves</h2>
+      <p class="mt-3 text-fg-muted">At build time, the generated release descriptor loaded successfully and indexed <strong>{release.artifact_index.artifact_count}</strong> integration artifacts under release <code class="break-all">{release.release_id}</code>.</p>
+    </div>
+    <div class="mt-6 rounded-xl border border-amber-400/60 bg-amber-400/10 p-5">
+      <h2 class="text-xl font-semibold text-fg">This is not live monitoring</h2>
+      <p class="mt-3 text-fg-muted">This static page does not test the website, CDN, API paths, widget, providers, phone numbers, or network reachability after deployment. It does not report hotline availability, operating status, incidents, uptime, response time, eligibility, or successful contact.</p>
+    </div>
+    <section class="mt-8">
+      <h2 class="text-2xl font-semibold text-fg">Inspect the evidence</h2>
+      <div class="mt-4 flex flex-wrap gap-4 text-sm"><a class="text-accent hover:underline" href="/release">Release and verification guide</a><a class="text-accent hover:underline" href="/release/v1/release.json">Machine-readable descriptor</a><a class="text-accent hover:underline" href="/release/v1/artifacts.json">Checksum index</a><a class="text-accent hover:underline" href="/releases">Release changelog</a></div>
+      <p class="mt-4 text-sm text-fg-muted">All public integration surfaces remain static beta with no uptime, support, or SLA commitment. If an artifact cannot be fetched or verified, integrators should use their reviewed degraded behavior and revalidate before promotion.</p>
+    </section>
+  </article>
+</Base>

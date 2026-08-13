@@ -25,6 +25,7 @@ Public site: <https://worldhotlines.org>
 | `docs/plans/2026-04-22-v2-data-expansion-roadmap.md` | Concrete implementation roadmap for safe schema-v2 data expansion and promotion |
 | `docs/OPERATIONS.md` | Privacy-safe public intake, read-only source monitoring, and the verification reviewer workbench |
 | `docs/INTEGRATIONS.md` | Integration decision guide, v1 examples, limitations, and production checklist |
+| `docs/RELEASES.md` / `docs/releases.json` | Contract and machine-readable source for factual public release milestones |
 | `docs/PRIVACY_SAFE_METRICS.md` | Non-implemented, customer-boundary aggregate metrics contract |
 | `docs/PACKAGING.md` | Current public-beta versus not-offered capability matrix |
 | `docs/DESIGN_PARTNER_PILOT.md` | Internal/reviewable bounded pilot brief |

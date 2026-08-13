@@ -1,0 +1,19 @@
+{
+  "api_version": "1.0",
+  "dataset_version": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "generated_at": "2026-08-12T12:34:56.789Z",
+  "contract": "static-read-only",
+  "total_countries": 1,
+  "total_records": 1,
+  "countries": [
+    {
+      "alpha2": "TT",
+      "name": "Test Territory",
+      "path": "countries/tt.json",
+      "hotline_count": 1
+    }
+  ],
+  "limitations": [
+    "No hosted query endpoint is provided; consumers fetch static artifacts and resolve locally."
+  ]
+}

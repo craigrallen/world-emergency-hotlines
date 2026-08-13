@@ -55,6 +55,44 @@
         }
     }
 
+    # Release descriptors are cross-origin verifiable metadata. Keep unknown
+    # descriptor paths as real 404s; the Railway hostname has no special case.
+    route {
+        handle /release/v1/* {
+            route {
+                @releaseOptions method OPTIONS
+                header @releaseOptions {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                }
+                respond @releaseOptions 204
+
+                @releaseFile file {path}
+                header @releaseFile {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                    Cache-Control "public, max-age=60, stale-while-revalidate=300"
+                    Content-Type "application/json; charset=utf-8"
+                }
+                file_server @releaseFile
+
+                header {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                    Cache-Control "no-store"
+                    Content-Type "text/plain; charset=utf-8"
+                }
+                respond "Not found" 404
+            }
+        }
+
+        # Friendly routing: /country/au → /country/au/index.html (Astro default layout)
+        try_files {path} {path}.html {path}/index.html =404
+    }
+
     # Static media
     @media path *.css *.js *.svg *.png *.ico *.webp *.woff2
     header @media Cache-Control "public, max-age=3600, stale-while-revalidate=86400"
@@ -62,9 +100,6 @@
     # HTML pages — short cache
     @html path *.html /
     header @html Cache-Control "public, max-age=120, stale-while-revalidate=86400"
-
-    # Friendly routing: /country/au → /country/au/index.html (Astro default layout)
-    try_files {path} {path}.html {path}/index.html =404
 
     handle_errors {
         @404 expression {err.status_code} == 404

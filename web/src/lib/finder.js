@@ -1,3 +1,6 @@
+export const API_MAJOR_VERSION = 1;
+export const RESOLVER_MAJOR_VERSION = 1;
+
 const NATIONAL_TERMS = [
   'nationwide', 'national', 'all areas', 'countrywide', 'across the country',
 ];

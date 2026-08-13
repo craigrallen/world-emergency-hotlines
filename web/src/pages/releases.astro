@@ -1,0 +1,14 @@
+---
+import releases from '../../../docs/releases.json';
+import Base from '../layouts/Base.astro';
+---
+<Base title="Release changelog · World Emergency & Hotlines" description="Factual milestones for already-delivered World Hotlines public versions.">
+  <article class="mx-auto max-w-3xl">
+    <h1 class="text-4xl font-semibold text-fg sm:text-5xl">Public release changelog</h1>
+    <p class="mt-4 text-fg-muted">Factual, already-delivered public milestones. This is not an incident history, deployment ledger, availability report, or semantic-version promise.</p>
+    <div class="mt-8 space-y-6">
+      {releases.releases.map((entry) => <section class="card p-5" id={entry.id}><p class="text-xs text-fg-muted">{entry.date}</p><h2 class="mt-1 text-xl font-semibold text-fg">{entry.title}</h2><ul class="mt-3 list-disc space-y-2 pl-5 text-sm text-fg-muted">{entry.facts.map((fact) => <li>{fact}</li>)}</ul></section>)}
+    </div>
+    <p class="mt-8 text-sm text-fg-muted">The repository contract and machine-readable source are documented in <a class="text-accent hover:underline" href="https://github.com/craigrallen/world-emergency-hotlines/blob/main/docs/RELEASES.md" target="_blank" rel="noopener">docs/RELEASES.md</a>.</p>
+  </article>
+</Base>

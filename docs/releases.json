@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "contract": "Append-only factual public milestones. Entries describe capabilities already delivered on the stated date; they are not incident records and do not imply semantic-version compatibility.",
+  "releases": [
+    {
+      "date": "2026-08-13",
+      "id": "canonical-origin",
+      "title": "Canonical public origin",
+      "facts": [
+        "The canonical public site origin became https://worldhotlines.org.",
+        "The Railway hostname remains a deployment fallback rather than the published canonical origin."
+      ]
+    },
+    {
+      "date": "2026-08-13",
+      "id": "widget-v1",
+      "title": "Widget v1",
+      "facts": [
+        "A public client-side widget v1 was added.",
+        "The widget uses the static API and shared resolver without sending finder selections to a hosted query endpoint."
+      ]
+    },
+    {
+      "date": "2026-08-13",
+      "id": "api-v1",
+      "title": "Static API v1",
+      "facts": [
+        "A public keyless static API v1 was added with country artifacts, a record index, a manifest, and a local resolver module."
+      ]
+    },
+    {
+      "date": "2026-08-12",
+      "id": "stable-record-ids",
+      "title": "Stable hotline record IDs",
+      "facts": [
+        "Opaque weh_ record IDs were added to the canonical dataset and guarded against unintended changes."
+      ]
+    }
+  ]
+}

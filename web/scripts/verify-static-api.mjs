@@ -23,6 +23,7 @@ if (errors.length === 0) {
   const countryFiles = readdirSync(resolve(API_DIR, 'countries')).filter((name) => name.endsWith('.json')).sort();
 
   if (manifest.api_version !== '1.0') fail(`unexpected api_version: ${manifest.api_version}`);
+  if (typeof manifest.generated_at !== 'string' || Number.isNaN(Date.parse(manifest.generated_at))) fail('generated_at must remain an ISO timestamp string in API v1');
   if (manifest.contract !== 'static-read-only') fail(`unexpected contract: ${manifest.contract}`);
   if (manifest.dataset_version !== dataManifest.dataset_version) fail('API/data dataset versions differ');
   if (recordIndex.dataset_version !== manifest.dataset_version) fail('record index dataset version differs');
@@ -69,6 +70,9 @@ if (errors.length === 0) {
   assert.ok(resolved.results.every((record) => /^weh_[0-9a-f]{24}$/.test(record.id)));
   assert.match(resolved.reason, /recorded coverage mentions/);
 }
+
+const publishedV1 = readJson(resolve(WEB_ROOT, 'scripts/fixtures/api-v1-manifest-published.json'));
+if (publishedV1.api_version !== '1.0' || typeof publishedV1.generated_at !== 'string' || Number.isNaN(Date.parse(publishedV1.generated_at)) || publishedV1.total_countries !== publishedV1.countries.length || publishedV1.total_records !== publishedV1.countries.reduce((sum, country) => sum + country.hotline_count, 0) || publishedV1.countries.some((country) => country.path !== `countries/${country.alpha2.toLowerCase()}.json`) || !publishedV1.limitations.some((value) => /No hosted query endpoint/.test(value))) fail('published API v1 manifest compatibility fixture is incoherent or no longer preserves the tested v1 shape');
 
 if (errors.length) {
   console.error(`Static API verification failed with ${errors.length} error(s):`);
