@@ -116,6 +116,7 @@ if (existsSync(descriptorPath) && existsSync(indexPath)) {
       ...discoverFiles(resolve(PUBLIC_ROOT, 'data')),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'api', 'v1')),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'feeds')),
+      ...discoverFiles(resolve(PUBLIC_ROOT, 'subscriptions', 'v1')),
       ...discoverFiles(RELEASE_DIR).filter(({ path }) => !path.endsWith(`${sep}artifacts.json`) && !path.endsWith(`${sep}release.json`)),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'widget', 'v1')).filter(({ path }) => path.endsWith(`${sep}hotlines-widget.js`)),
     ];
@@ -139,7 +140,7 @@ if (existsSync(descriptorPath) && existsSync(indexPath)) {
   for (const [path, relationship] of Object.entries(descriptor.relationships ?? {})) {
     if (JSON.stringify(relationship) !== JSON.stringify(indexed.get(path))) fail(`stale or mismatched manifest relationship: ${path}`);
   }
-  for (const required of ['/data/manifest.json', '/api/v1/manifest.json', '/api/v1/records.json', '/api/v1/resolver.js', '/widget/v1/hotlines-widget.js', '/data/metadata-coverage.json', '/release/v1/changes.json', '/release/v1/changes/latest.json', '/feeds/releases.json', '/feeds/releases.rss', '/feeds/releases.atom']) {
+  for (const required of ['/data/manifest.json', '/api/v1/manifest.json', '/api/v1/records.json', '/api/v1/resolver.js', '/widget/v1/hotlines-widget.js', '/data/metadata-coverage.json', '/release/v1/changes.json', '/release/v1/changes/latest.json', '/feeds/releases.json', '/feeds/releases.rss', '/feeds/releases.atom', '/subscriptions/v1/README.md', '/subscriptions/v1/common.schema.json', '/subscriptions/v1/event.schema.json', '/subscriptions/v1/subscription-request.schema.json', '/subscriptions/v1/subscription-response.schema.json', '/subscriptions/v1/error.schema.json', '/subscriptions/v1/openapi.json', '/subscriptions/v1/webhook-contract.json', '/subscriptions/v1/fixture-baseline.json', '/subscriptions/v1/fixture-no-change.json', '/subscriptions/v1/fixture-added.json', '/subscriptions/v1/fixture-modified.json', '/subscriptions/v1/fixture-country-metadata.json']) {
     if (!descriptor.relationships?.[required]) fail(`missing core relationship: ${required}`);
   }
 }

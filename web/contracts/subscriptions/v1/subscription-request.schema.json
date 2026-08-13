@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://worldhotlines.org/subscriptions/v1/subscription-request.schema.json",
+  "title": "Illustrative future managed subscription request (not deployed)",
+  "type": "object", "additionalProperties": false,
+  "required": ["delivery", "filters"],
+  "properties": {
+    "delivery": {
+      "type": "object", "additionalProperties": false, "required": ["method", "endpoint_uri"],
+      "properties": { "method": { "const": "webhook" }, "endpoint_uri": { "type": "string", "format": "uri", "pattern": "^https://" } }
+    },
+    "filters": {
+      "type": "object", "additionalProperties": false,
+      "properties": {
+        "event_types": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/event_type" } },
+        "api_majors": { "type": "array", "uniqueItems": true, "items": { "type": "integer", "minimum": 1 } },
+        "artifact_classes": { "type": "array", "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/artifact_class" } }
+      }
+    }
+  }
+}

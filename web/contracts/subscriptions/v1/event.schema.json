@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://worldhotlines.org/subscriptions/v1/event.schema.json",
+  "title": "World Hotlines dataset release event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["specversion", "id", "source", "type", "time", "datacontenttype", "data"],
+  "properties": {
+    "specversion": { "const": "1.0" },
+    "id": { "type": "string", "pattern": "^evt_[a-f0-9]{64}$" },
+    "source": { "const": "https://worldhotlines.org" },
+    "type": { "$ref": "common.schema.json#/$defs/event_type" },
+    "time": { "type": "string", "format": "date-time", "pattern": "Z$" },
+    "datacontenttype": { "const": "application/json" },
+    "data": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["release_entry_id", "release_entry_hash", "dataset_version", "release_kind", "schema_major", "change_summary", "artifact_classes"],
+      "properties": {
+        "release_entry_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "release_entry_hash": { "$ref": "common.schema.json#/$defs/sha256" },
+        "dataset_version": { "$ref": "common.schema.json#/$defs/sha256" },
+        "release_kind": { "enum": ["baseline", "no-change", "added", "modified", "country-metadata"] },
+        "schema_major": { "const": 2 },
+        "change_summary": {
+          "type": "object", "additionalProperties": false,
+          "required": ["added", "removed", "modified", "metadata_added", "metadata_removed", "metadata_modified"],
+          "properties": {
+            "added": { "$ref": "common.schema.json#/$defs/count" }, "removed": { "$ref": "common.schema.json#/$defs/count" }, "modified": { "$ref": "common.schema.json#/$defs/count" },
+            "metadata_added": { "$ref": "common.schema.json#/$defs/count" }, "metadata_removed": { "$ref": "common.schema.json#/$defs/count" }, "metadata_modified": { "$ref": "common.schema.json#/$defs/count" }
+          }
+        },
+        "artifact_classes": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "common.schema.json#/$defs/artifact_class" } }
+      }
+    }
+  },
+  "oneOf": [
+    {
+      "properties": { "type": { "const": "org.worldhotlines.dataset.release.baseline" }, "data": { "properties": { "release_kind": { "const": "baseline" }, "change_summary": { "properties": { "added": { "const": 0 }, "removed": { "const": 0 }, "modified": { "const": 0 }, "metadata_added": { "const": 0 }, "metadata_removed": { "const": 0 }, "metadata_modified": { "const": 0 } } } } } }
+    },
+    {
+      "properties": { "type": { "const": "org.worldhotlines.dataset.release.no-change" }, "data": { "properties": { "release_kind": { "const": "no-change" }, "change_summary": { "properties": { "added": { "const": 0 }, "removed": { "const": 0 }, "modified": { "const": 0 }, "metadata_added": { "const": 0 }, "metadata_removed": { "const": 0 }, "metadata_modified": { "const": 0 } } } } } }
+    },
+    {
+      "properties": { "type": { "const": "org.worldhotlines.dataset.release.added" }, "data": { "properties": { "release_kind": { "const": "added" }, "change_summary": { "properties": { "added": { "minimum": 1 }, "removed": { "const": 0 }, "modified": { "const": 0 }, "metadata_added": { "const": 0 }, "metadata_removed": { "const": 0 }, "metadata_modified": { "const": 0 } } } } } }
+    },
+    {
+      "properties": { "type": { "const": "org.worldhotlines.dataset.release.country-metadata" }, "data": { "properties": { "release_kind": { "const": "country-metadata" }, "change_summary": { "properties": { "added": { "const": 0 }, "removed": { "const": 0 }, "modified": { "const": 0 } }, "anyOf": [{ "properties": { "metadata_added": { "minimum": 1 } } }, { "properties": { "metadata_removed": { "minimum": 1 } } }, { "properties": { "metadata_modified": { "minimum": 1 } } }] } } } }
+    },
+    {
+      "properties": { "type": { "const": "org.worldhotlines.dataset.release.modified" }, "data": { "properties": { "release_kind": { "const": "modified" }, "change_summary": { "anyOf": [{ "properties": { "removed": { "minimum": 1 } } }, { "properties": { "modified": { "minimum": 1 } } }, { "properties": { "added": { "minimum": 1 } }, "anyOf": [{ "properties": { "metadata_added": { "minimum": 1 } } }, { "properties": { "metadata_removed": { "minimum": 1 } } }, { "properties": { "metadata_modified": { "minimum": 1 } } }] }] } } } }
+    }
+  ]
+}

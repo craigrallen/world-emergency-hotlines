@@ -10,7 +10,7 @@ import { discoverFiles, readDiscoveredFile } from './verify-release-integrity.mj
 
 const webRoot = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const publicRoot = resolve(webRoot, 'public');
-const managed = ['data', 'api/v1', 'release', 'feeds'];
+const managed = ['data', 'api/v1', 'release', 'feeds', 'subscriptions/v1'];
 const epoch = '1786579200';
 
 function build(buildEpoch = epoch, root = webRoot) {
@@ -35,6 +35,8 @@ writeFileSync(resolve(publicRoot, 'data/stale/nested/file.bin'), 'stale');
 mkdirSync(resolve(publicRoot, 'api/v1/stale/nested'), { recursive: true });
 writeFileSync(resolve(publicRoot, 'api/v1/stale-top.json'), '{}');
 writeFileSync(resolve(publicRoot, 'api/v1/stale/nested/file.json'), '{}');
+mkdirSync(resolve(publicRoot, 'subscriptions/v1/stale/nested'), { recursive: true });
+writeFileSync(resolve(publicRoot, 'subscriptions/v1/stale/nested/file.json'), '{}');
 build();
 const first = snapshot();
 assert.ok(!first.some(([path]) => path.includes('stale')), 'first generation retained stale managed files');
@@ -62,7 +64,7 @@ build();
 const cleanCopy = mkdtempSync(resolve(tmpdir(), 'weh-clean-copy-'));
 try {
   const cleanWeb = resolve(cleanCopy, 'web');
-  cpSync(webRoot, cleanWeb, { recursive: true, filter: (source) => !['node_modules', 'dist', '.astro'].includes(source.split(/[\\/]/).at(-1)) && !source.includes(`${resolve(webRoot, 'public', 'data')}`) && !source.includes(`${resolve(webRoot, 'public', 'api')}`) && !source.includes(`${resolve(webRoot, 'public', 'release')}`) && !source.includes(`${resolve(webRoot, 'public', 'feeds')}`) });
+  cpSync(webRoot, cleanWeb, { recursive: true, filter: (source) => !['node_modules', 'dist', '.astro'].includes(source.split(/[\\/]/).at(-1)) && !source.includes(`${resolve(webRoot, 'public', 'data')}`) && !source.includes(`${resolve(webRoot, 'public', 'api')}`) && !source.includes(`${resolve(webRoot, 'public', 'release')}`) && !source.includes(`${resolve(webRoot, 'public', 'feeds')}`) && !source.includes(`${resolve(webRoot, 'public', 'subscriptions')}`) });
   cpSync(resolve(webRoot, '..', 'hotlines.json'), resolve(cleanCopy, 'hotlines.json'));
   mkdirSync(resolve(cleanCopy, 'docs'));
   cpSync(resolve(webRoot, '..', 'docs/releases.json'), resolve(cleanCopy, 'docs/releases.json'));
@@ -71,9 +73,9 @@ try {
   const fixtureDatasetPath = resolve(cleanCopy, 'hotlines.json');
   const mutateDataset = (token) => { const data = JSON.parse(readFileSync(fixtureDatasetPath)); data.countries[0].notes = `deterministic fixture ${token}`; writeFileSync(fixtureDatasetPath, `${JSON.stringify(data, null, 2)}\n`); };
   const candidate = (id, interrupt) => spawnSync('npm', ['run', 'release:dataset:candidate', '--', '--id', id, '--date', '2026-08-13', '--title', `Candidate ${id}`, '--summary', 'Exercises the recoverable deterministic candidate command in an isolated clean copy.'], { cwd: cleanWeb, encoding: 'utf8', env: { ...process.env, ...(interrupt ? { WEH_CANDIDATE_INTERRUPT: interrupt } : {}) } });
-  for (const absent of ['data', 'api', 'release', 'feeds']) assert.equal(lstatOrNull(resolve(cleanWeb, 'public', absent)), null, `clean fixture unexpectedly contains public/${absent}`);
+  for (const absent of ['data', 'api', 'release', 'feeds', 'subscriptions']) assert.equal(lstatOrNull(resolve(cleanWeb, 'public', absent)), null, `clean fixture unexpectedly contains public/${absent}`);
   build(epoch, cleanWeb);
-  for (const created of ['data', 'api/v1', 'release/v1', 'feeds']) assert.ok(lstatSync(resolve(cleanWeb, 'public', created)).isDirectory(), `clean build did not create public/${created}`);
+  for (const created of ['data', 'api/v1', 'release/v1', 'feeds', 'subscriptions/v1']) assert.ok(lstatSync(resolve(cleanWeb, 'public', created)).isDirectory(), `clean build did not create public/${created}`);
   const snapshotRoot = resolve(cleanCopy, 'docs/dataset-release-snapshots'); const outside = resolve(cleanCopy, 'outside'); mkdirSync(outside); const sentinel = resolve(outside, 'sentinel'); writeFileSync(sentinel, 'outside-safe');
   const savedSnapshots = resolve(cleanCopy, 'saved-snapshots'); renameSync(snapshotRoot, savedSnapshots); symlinkSync(outside, snapshotRoot);
   assert.notEqual(candidate('symlink-root').status, 0, 'symlinked snapshot root was accepted'); assert.equal(readFileSync(sentinel, 'utf8'), 'outside-safe'); rmSync(snapshotRoot); renameSync(savedSnapshots, snapshotRoot);
@@ -103,6 +105,10 @@ try {
   rmSync(resolve(cleanWeb, 'public/api'), { recursive: true });
   mkdirSync(resolve(cleanCopy, 'outside-api')); symlinkSync(resolve(cleanCopy, 'outside-api'), resolve(cleanWeb, 'public/api'));
   assert.throws(() => build(epoch, cleanWeb), /symlink component/, 'managed-root ancestor symlink was accepted');
+  rmSync(resolve(cleanWeb, 'public/api'));
+  rmSync(resolve(cleanWeb, 'public/subscriptions'), { recursive: true });
+  mkdirSync(resolve(cleanCopy, 'outside-subscriptions')); symlinkSync(resolve(cleanCopy, 'outside-subscriptions'), resolve(cleanWeb, 'public/subscriptions'));
+  assert.throws(() => build(epoch, cleanWeb), /symlink component/, 'subscription managed-root ancestor symlink was accepted');
 } finally { rmSync(cleanCopy, { recursive: true, force: true }); }
 
 const scratch = mkdtempSync(resolve(tmpdir(), 'weh-release-inputs-'));

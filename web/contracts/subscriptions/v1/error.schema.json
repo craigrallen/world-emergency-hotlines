@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://worldhotlines.org/subscriptions/v1/error.schema.json",
+  "title": "Illustrative future managed API error (not deployed)",
+  "type": "object", "additionalProperties": false,
+  "required": ["error"],
+  "properties": { "error": { "type": "object", "additionalProperties": false, "required": ["code", "message", "request_id"], "properties": { "code": { "type": "string", "pattern": "^[a-z_]+$" }, "message": { "type": "string", "maxLength": 512 }, "request_id": { "type": "string", "pattern": "^req_[a-zA-Z0-9_-]{16,64}$" } } } }
+}

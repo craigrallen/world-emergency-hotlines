@@ -16,6 +16,7 @@ import { classifyScope, getHotlineChannels } from '../src/lib/finder.js';
 import { buildMetadataCoverage, coverageAsOf } from './metadata-coverage.mjs';
 import { API_MAJOR, RESOLVER_MAJOR, WIDGET_MAJOR, buildVersions, generateReleaseIntegrity } from './release-integrity.mjs';
 import { generateReleaseFeeds } from './release-feeds.mjs';
+import { generateSubscriptionContracts } from './generate-subscription-contracts.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const WEB_ROOT = resolve(__dirname, '..');
@@ -147,6 +148,7 @@ console.log(`  countries: ${canonical.countries.length}`);
 recreateManagedRoot(OUT_DIR);
 recreateManagedRoot(API_DIR);
 recreateManagedRoot(resolve(WEB_ROOT, 'public', 'release'));
+recreateManagedRoot(resolve(WEB_ROOT, 'public', 'subscriptions'));
 mkdirSync(resolve(OUT_DIR, 'countries'), { recursive: true });
 mkdirSync(resolve(API_DIR, 'countries'), { recursive: true });
 
@@ -329,6 +331,7 @@ writeFileSync(resolve(API_DIR, 'records.json'), JSON.stringify({
 }));
 writeFileSync(resolve(API_DIR, 'resolver.js'), readFileSync(resolve(WEB_ROOT, 'src', 'lib', 'finder.js'), 'utf-8'));
 generateReleaseFeeds({ currentDataset: { $schema_version: canonical.schema_version, countries: canonical.countries }, datasetVersion: manifest.dataset_version });
+generateSubscriptionContracts();
 const release = generateReleaseIntegrity({ datasetVersion: manifest.dataset_version });
 
 console.log(`  wrote ${manifestEntries.length} country shards + manifest + search-index + categories-stats + metadata-coverage`);

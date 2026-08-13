@@ -19,6 +19,7 @@ web/.astro
 web/.wrangler
 web/public/data
 web/public/api
+web/public/subscriptions
 
 # Legacy Python site output
 site/public
