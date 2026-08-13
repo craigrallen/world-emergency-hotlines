@@ -1,0 +1,5 @@
+{
+  "openapi":"3.1.0","info":{"title":"Future managed widget configuration API design","version":"0.1.0-static-synthetic","x-world-hotlines-status":"design-contract-not-deployed"},
+  "servers":[{"url":"https://managed-config-api.example.invalid/future/v1","description":"Non-resolving proposed dynamic service; no implementation exists"}],
+  "paths":{"/organizations/{organization_id}/projects/{project_id}/configurations":{"post":{"summary":"Proposed future creation operation; absent from static publication","responses":{"501":{"description":"Design only"}}}}}
+}

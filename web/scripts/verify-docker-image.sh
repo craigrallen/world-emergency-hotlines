@@ -60,6 +60,8 @@ require_page /gateway/v1/README.md 'Foundation contract—not deployed' "$fixtur
 require_page /gateway/v1/openapi.json '0.1.0-foundation' "$fixture/gateway-openapi.json"
 require_page /organizations/v1/README.md 'foundation design contract — not deployed' "$fixture/organizations-readme.md"
 require_page /organizations/v1/openapi.json 'future-admin/organizations/v1' "$fixture/organizations-openapi.json"
+require_page /managed-widget-config/v1/README.md 'STATIC/SYNTHETIC' "$fixture/managed-widget-config-readme.md"
+require_page /managed-widget-config/v1/openapi.json 'managed-config-api.example.invalid' "$fixture/managed-widget-config-openapi.json"
 organization_write_status=$(curl --max-time 5 -sS -X POST -o "$fixture/organizations-write.txt" -w '%{http_code}' "$base/organizations/v1/openapi.json")
 [ "$organization_write_status" = 404 ] || { echo "POST static organization contract returned $organization_write_status" >&2; exit 1; }
 node - "$fixture/release.json" <<'NODE'

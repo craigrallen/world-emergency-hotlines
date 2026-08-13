@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.example.invalid/managed-widget-config/v1/envelope.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["envelope_version", "protected", "payload", "signature"],
+  "properties": {
+    "envelope_version": { "const": "1.0" },
+    "protected": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["algorithm", "key_id", "purpose", "audience", "issued_at", "not_before", "expires_at"],
+      "properties": {
+        "algorithm": { "const": "Ed25519" },
+        "key_id": { "type": "string", "pattern": "^[a-z0-9]([a-z0-9.-]{0,126}[a-z0-9])?\\.invalid$" },
+        "purpose": { "const": "world-emergency-hotlines:managed-widget-config:v1" },
+        "audience": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["organization_id", "project_id"],
+          "properties": {
+            "organization_id": { "type": "string", "pattern": "^org_public_[a-z0-9_]+$" },
+            "project_id": { "type": "string", "pattern": "^project_public_[a-z0-9_]+$" }
+          }
+        },
+        "issued_at": { "type": "string", "format": "date-time" },
+        "not_before": { "type": "string", "format": "date-time" },
+        "expires_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "payload": { "$ref": "config.schema.json" },
+    "signature": { "type": "string", "pattern": "^[A-Za-z0-9_-]{86}$" }
+  }
+}

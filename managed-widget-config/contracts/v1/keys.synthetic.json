@@ -1,0 +1,6 @@
+{
+  "status": "TEST-ONLY-DO-NOT-TRUST",
+  "key_id": "mwc-test-ed25519-2026.keys.example.invalid",
+  "algorithm": "Ed25519",
+  "public_jwk": {"kty":"OKP","crv":"Ed25519","x":"11qYAYKxCrfVS_7TyWQHOg7hcvPapiMlrwIaaPcHURo"}
+}

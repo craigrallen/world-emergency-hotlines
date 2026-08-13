@@ -14,7 +14,7 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-mkdir -p "$fixture/release/v1/changes" "$fixture/feeds" "$fixture/subscriptions/v1" "$fixture/gateway/v1" "$fixture/organizations/v1" "$fixture/responses"
+mkdir -p "$fixture/release/v1/changes" "$fixture/feeds" "$fixture/subscriptions/v1" "$fixture/gateway/v1" "$fixture/organizations/v1" "$fixture/managed-widget-config/v1" "$fixture/responses"
 expected_release="$fixture/release/v1/release.json"
 printf '%s\n' '{"schema_version":"1.0","release_id":"sha256:test"}' > "$expected_release"
 printf '%s\n' '{"schema_version":"1.0"}' > "$fixture/release/v1/changes.json"
@@ -32,6 +32,9 @@ printf '%s\n' '# Foundation contract—not deployed' > "$fixture/gateway/v1/READ
 printf '%s\n' '{"$schema":"https://json-schema.org/draft/2020-12/schema"}' > "$fixture/organizations/v1/model.schema.json"
 printf '%s\n' '{"openapi":"3.1.0"}' > "$fixture/organizations/v1/openapi.json"
 printf '%s\n' '# Organization foundation design contract — not deployed' > "$fixture/organizations/v1/README.md"
+printf '%s\n' '{"$schema":"https://json-schema.org/draft/2020-12/schema"}' > "$fixture/managed-widget-config/v1/config.schema.json"
+printf '%s\n' '{"openapi":"3.1.0"}' > "$fixture/managed-widget-config/v1/openapi.json"
+printf '%s\n' '# Managed widget configuration static design contract only' > "$fixture/managed-widget-config/v1/README.md"
 expected_missing="$fixture/responses/missing.body"
 printf '%s' 'Not found' > "$expected_missing"
 
@@ -153,6 +156,20 @@ done
 for method in POST PUT PATCH DELETE; do
   status=$(curl --max-time 5 -sS -X "$method" -o /dev/null -w '%{http_code}' "$base/organizations/v1/openapi.json")
   [ "$status" = 404 ] || { echo "$method static organization contract returned $status" >&2; exit 1; }
+done
+for config_spec in 'managed-widget-config/v1/config.schema.json|application/schema+json; charset=utf-8' 'managed-widget-config/v1/openapi.json|application/vnd.oai.openapi+json; charset=utf-8' 'managed-widget-config/v1/README.md|text/markdown; charset=utf-8'; do
+  config_path=${config_spec%%|*}; config_type=${config_spec#*|}; config_headers="$fixture/responses/$(printf '%s' "$config_path" | tr '/' '-').headers"
+  curl --max-time 5 -sS -D "$config_headers" -o /dev/null "$base/$config_path"
+  require_status GET "/$config_path" 200 "$config_headers"; require_header "$config_headers" Content-Type "$config_type"; require_feed_cors "$config_headers"
+done
+for method in POST PUT PATCH DELETE; do
+  status=$(curl --max-time 5 -sS -X "$method" -o /dev/null -w '%{http_code}' "$base/managed-widget-config/v1/openapi.json")
+  [ "$status" = 404 ] || { echo "$method static managed widget config returned $status" >&2; exit 1; }
+done
+for spec in 'OPTIONS|managed-widget-config/v1/openapi.json|204' 'GET|managed-widget-config/v1/missing.json|404' 'HEAD|managed-widget-config/v1/missing.json|404' 'OPTIONS|managed-widget-config/v1/missing.json|404'; do
+  method=${spec%%|*}; rest=${spec#*|}; path=${rest%%|*}; expected=${rest#*|}; headers="$fixture/responses/config-$method-$(printf '%s' "$path" | tr '/' '-').headers"
+  if [ "$method" = HEAD ]; then curl --max-time 5 -sS --request HEAD --ignore-content-length -H 'Connection: close' -D "$headers" -o /dev/null "$base/$path"; else curl --max-time 5 -sS -X "$method" -D "$headers" -o /dev/null "$base/$path"; fi
+  require_status "$method" "/$path" "$expected" "$headers"
 done
 for spec in 'OPTIONS|organizations/v1/openapi.json|204' 'GET|organizations/v1/missing.json|404' 'HEAD|organizations/v1/missing.json|404' 'OPTIONS|organizations/v1/missing.json|404'; do
   method=${spec%%|*}; rest=${spec#*|}; path=${rest%%|*}; expected=${rest#*|}; headers="$fixture/responses/organization-$method-$(printf '%s' "$path" | tr '/' '-').headers"
