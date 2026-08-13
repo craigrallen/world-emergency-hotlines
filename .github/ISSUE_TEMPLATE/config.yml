@@ -1,5 +1,5 @@
 blank_issues_enabled: false
 contact_links:
   - name: Immediate emergency help
-    url: https://world-emergency-hotlines-production.up.railway.app/
+    url: https://worldhotlines.org/
     about: If there is immediate danger, contact local emergency services. This repository does not provide crisis counselling.

@@ -4,7 +4,8 @@ import { fileURLToPath } from 'node:url';
 
 const WEB_ROOT = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const REPO_ROOT = resolve(WEB_ROOT, '..');
-const PROD = 'https://world-emergency-hotlines-production.up.railway.app';
+const PROD = 'https://worldhotlines.org';
+const RAILWAY_FALLBACK = 'world-emergency-hotlines-production.up.railway.app';
 const errors = [];
 
 function fail(message) { errors.push(message); }
@@ -17,6 +18,10 @@ function requireAll(relativePath, phrases) {
   const source = read(relativePath);
   for (const phrase of phrases) if (!source.includes(phrase)) fail(`${relativePath} missing required phrase: ${phrase}`);
   return source;
+}
+
+function forbidRailwayOrigin(relativePath) {
+  if (read(relativePath).includes(RAILWAY_FALLBACK)) fail(`${relativePath} publishes the Railway fallback origin`);
 }
 
 const SENSITIVE_I18N_KEYS = [
@@ -110,6 +115,16 @@ const page = requireAll('web/src/pages/integrate.astro', [
   'Public access does not itself grant reuse rights', 'currently has no license', 'Privacy by design',
   'DESIGN_PARTNER_PILOT.md', 'target="_blank" rel="noopener noreferrer"',
 ]);
+for (const file of [
+  '.github/ISSUE_TEMPLATE/config.yml', 'README.md', 'docs/API.md', 'docs/INTEGRATIONS.md', 'docs/WIDGET.md',
+  'web/src/lib/site.js', 'web/src/pages/integrate.astro', 'web/src/pages/widget.astro',
+]) forbidRailwayOrigin(file);
+requireAll('web/src/lib/site.js', [`DEFAULT_SITE_URL = '${PROD}'`]);
+
+const caddy = requireAll('Caddyfile', [
+  '@www host www.worldhotlines.org', 'redir @www https://worldhotlines.org{uri} permanent',
+]);
+if (caddy.includes(`host ${RAILWAY_FALLBACK}`)) fail('Caddyfile redirects or special-cases the Railway fallback host');
 for (const [pattern, label] of [
   [/<form\b/i, 'lead form'], [/(google-analytics|gtag\(|segment\.com|posthog|mixpanel)/i, 'analytics implementation'],
   [/enterprise[- ]ready/i, 'enterprise-ready claim'], [/(buy now|available for purchase)/i, 'purchase claim'],

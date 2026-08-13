@@ -1,4 +1,4 @@
-const DEFAULT_SITE_URL = 'https://world-emergency-hotlines-production.up.railway.app';
+const DEFAULT_SITE_URL = 'https://worldhotlines.org';
 
 function normalizeSiteUrl(value) {
   const candidate = String(value || DEFAULT_SITE_URL).trim();

@@ -5,6 +5,9 @@
 }
 
 :{$PORT} {
+    @www host www.worldhotlines.org
+    redir @www https://worldhotlines.org{uri} permanent
+
     root * /srv
     encode gzip zstd
     file_server

@@ -6,9 +6,9 @@ All integration surfaces below are public, keyless, static **beta** surfaces. Th
 
 | Need | Use | Trade-off |
 | --- | --- | --- |
-| Send a person to a maintained interface | [Public finder](https://world-emergency-hotlines-production.up.railway.app/find-help) | Least integration work; the person leaves your product. |
-| Build your own local interface or routing | [Static API v1](https://world-emergency-hotlines-production.up.railway.app/api/v1/manifest.json) | Full presentation control; you own caching, errors, accessibility, and safety context. |
-| Embed a ready-made local resolver | [Widget v1](https://world-emergency-hotlines-production.up.railway.app/widget) | Fastest embed; Shadow DOM and CSP requirements apply. |
+| Send a person to a maintained interface | [Public finder](https://worldhotlines.org/find-help) | Least integration work; the person leaves your product. |
+| Build your own local interface or routing | [Static API v1](https://worldhotlines.org/api/v1/manifest.json) | Full presentation control; you own caching, errors, accessibility, and safety context. |
+| Embed a ready-made local resolver | [Widget v1](https://worldhotlines.org/widget) | Fastest embed; Shadow DOM and CSP requirements apply. |
 | Review or process the canonical snapshot | [Direct snapshot (`hotlines.json`)](https://raw.githubusercontent.com/craigrallen/world-emergency-hotlines/main/hotlines.json) | Direct, unversioned branch snapshot; schema handling, updates, and permission review are yours. |
 
 Prefer a finder link when embedding crisis data is not essential. Prefer API v1 over the direct snapshot for a versioned integration contract.
@@ -16,7 +16,7 @@ Prefer a finder link when embedding crisis data is not essential. Prefer API v1 
 ## Copy/paste examples
 
 ```js
-const base = 'https://world-emergency-hotlines-production.up.railway.app/api/v1';
+const base = 'https://worldhotlines.org/api/v1';
 const manifest = await fetch(`${base}/manifest.json`).then((response) => {
   if (!response.ok) throw new Error(`manifest HTTP ${response.status}`);
   return response.json();
@@ -31,7 +31,7 @@ console.log(manifest.dataset_version, result.results);
 ```
 
 ```html
-<script src="https://world-emergency-hotlines-production.up.railway.app/widget/v1/hotlines-widget.js" defer></script>
+<script src="https://worldhotlines.org/widget/v1/hotlines-widget.js" defer></script>
 <world-emergency-hotlines country="us" category="mental_health" max-results="6"></world-emergency-hotlines>
 ```
 
