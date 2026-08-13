@@ -3,7 +3,7 @@
 Add the privacy-first guided finder to a website you control:
 
 ```html
-<script src="https://world-emergency-hotlines-production.up.railway.app/widget/v1/hotlines-widget.js" defer></script>
+<script src="https://worldhotlines.org/widget/v1/hotlines-widget.js" defer></script>
 <world-emergency-hotlines country="us" category="mental_health" max-results="6"></world-emergency-hotlines>
 ```
 

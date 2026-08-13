@@ -6,9 +6,10 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class Phase7SurfaceTests(unittest.TestCase):
-    def test_emergency_link_is_verified_railway_origin(self):
+    def test_emergency_link_uses_canonical_public_origin(self):
         config = (ROOT / ".github/ISSUE_TEMPLATE/config.yml").read_text()
-        self.assertIn("https://world-emergency-hotlines-production.up.railway.app/", config)
+        self.assertIn("https://worldhotlines.org/", config)
+        self.assertNotIn("world-emergency-hotlines-production.up.railway.app", config)
         self.assertNotIn("hotlines.world", config)
         self.assertNotIn("world-emergency-hotlines.org", config)
 

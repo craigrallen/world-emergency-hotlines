@@ -5,7 +5,7 @@ The World Emergency Hotlines API v1 is a versioned, read-only set of static JSON
 Base URL:
 
 ```text
-https://world-emergency-hotlines-production.up.railway.app/api/v1/
+https://worldhotlines.org/api/v1/
 ```
 
 ## Contract
@@ -34,7 +34,7 @@ Every manifest, country artifact, and indexed record carries `api_version` and `
 ## Record lookup
 
 ```js
-const base = 'https://world-emergency-hotlines-production.up.railway.app/api/v1';
+const base = 'https://worldhotlines.org/api/v1';
 const index = await fetch(`${base}/records.json`).then((response) => response.json());
 const record = index.records['weh_c2012344042d59a49aae9f5c'];
 ```
@@ -57,7 +57,7 @@ Record fields include canonical contact/provenance fields plus derived:
 ## Local resolution
 
 ```js
-const base = 'https://world-emergency-hotlines-production.up.railway.app/api/v1';
+const base = 'https://worldhotlines.org/api/v1';
 const { resolveGuidedHelp } = await import(`${base}/resolver.js`);
 const country = await fetch(`${base}/countries/us.json`).then((response) => response.json());
 

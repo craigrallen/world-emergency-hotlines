@@ -14,15 +14,17 @@ The deployed app is the Astro site under `web/` (a static site — see `web/ARCH
 
 That's it — the site is live. Railway's health check hits `/` (configured in `railway.toml`); the deploy is marked healthy once Caddy responds there.
 
-Set Railway's `PUBLIC_SITE_URL` variable to the public HTTPS origin that should appear in canonical links, `robots.txt`, and `sitemap.xml`. When it is unset or invalid, builds use `https://world-emergency-hotlines-production.up.railway.app` rather than emitting links to an unverified custom domain. Only set a custom origin after its DNS and TLS work publicly.
+The canonical public origin is `https://worldhotlines.org`. Builds use it for canonical links, `robots.txt`, and `sitemap.xml` when Railway's `PUBLIC_SITE_URL` is unset or invalid. During rollout, the generated `https://world-emergency-hotlines-production.up.railway.app` origin remains available as a fallback, but must not be published as the canonical or integration origin. If `PUBLIC_SITE_URL` is set, keep it at `https://worldhotlines.org`.
 
 ## 2. Attach your own domain (optional, 5 minutes)
 
-If you want `hotlines.world` (or any domain you own) pointing at the deployment:
+For `worldhotlines.org` and `www.worldhotlines.org` (or another domain you own) pointing at the deployment:
 
 1. In Railway: **Settings → Networking → Custom Domain → Add**. Enter the hostname.
 2. Railway will show you a CNAME target (e.g. `ghj12.up.railway.app`). Add that CNAME at your DNS provider.
 3. Wait for DNS propagation + automatic HTTPS (Railway provisions certs via Let's Encrypt).
+
+Caddy permanently redirects only `www.worldhotlines.org` to `https://worldhotlines.org`, preserving the request path and query. The Railway fallback host is intentionally served without redirect for rollout and recovery.
 
 ## 3. Updates
 
