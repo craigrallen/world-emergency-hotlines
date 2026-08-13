@@ -14,7 +14,7 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-mkdir -p "$fixture/release/v1/changes" "$fixture/feeds" "$fixture/subscriptions/v1" "$fixture/responses"
+mkdir -p "$fixture/release/v1/changes" "$fixture/feeds" "$fixture/subscriptions/v1" "$fixture/gateway/v1" "$fixture/responses"
 expected_release="$fixture/release/v1/release.json"
 printf '%s\n' '{"schema_version":"1.0","release_id":"sha256:test"}' > "$expected_release"
 printf '%s\n' '{"schema_version":"1.0"}' > "$fixture/release/v1/changes.json"
@@ -26,6 +26,9 @@ printf '%s\n' '{"$schema":"https://json-schema.org/draft/2020-12/schema"}' > "$f
 printf '%s\n' '{"openapi":"3.1.0"}' > "$fixture/subscriptions/v1/openapi.json"
 printf '%s\n' '{"schema_version":"1.0"}' > "$fixture/subscriptions/v1/webhook-contract.json"
 printf '%s\n' '# Synthetic subscription contract' '' '[Event schema](event.schema.json)' > "$fixture/subscriptions/v1/README.md"
+printf '%s\n' '{"$schema":"https://json-schema.org/draft/2020-12/schema"}' > "$fixture/gateway/v1/error.schema.json"
+printf '%s\n' '{"openapi":"3.1.0"}' > "$fixture/gateway/v1/openapi.json"
+printf '%s\n' '# Foundation contract—not deployed' > "$fixture/gateway/v1/README.md"
 expected_missing="$fixture/responses/missing.body"
 printf '%s' 'Not found' > "$expected_missing"
 
@@ -127,6 +130,16 @@ for contract_spec in 'subscriptions/v1/event.schema.json|application/schema+json
   require_status GET "/$contract_path" 200 "$contract_headers"
   require_header "$contract_headers" Content-Type "$contract_type"
   require_feed_cors "$contract_headers"
+done
+
+for gateway_spec in 'gateway/v1/error.schema.json|application/schema+json; charset=utf-8' 'gateway/v1/openapi.json|application/vnd.oai.openapi+json; charset=utf-8' 'gateway/v1/README.md|text/markdown; charset=utf-8'; do
+  gateway_path=${gateway_spec%%|*}; gateway_type=${gateway_spec#*|}; gateway_headers="$fixture/responses/$(printf '%s' "$gateway_path" | tr '/' '-').headers"
+  curl --max-time 5 -sS -D "$gateway_headers" -o /dev/null "$base/$gateway_path"
+  require_status GET "/$gateway_path" 200 "$gateway_headers"; require_header "$gateway_headers" Content-Type "$gateway_type"; require_feed_cors "$gateway_headers"
+done
+for method in POST PUT DELETE; do
+  status=$(curl --max-time 5 -sS -X "$method" -o /dev/null -w '%{http_code}' "$base/gateway/v1/openapi.json")
+  [ "$status" = 404 ] || { echo "$method static gateway contract returned $status" >&2; exit 1; }
 done
 
 readme_body="$fixture/responses/readme.body"

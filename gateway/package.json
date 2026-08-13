@@ -1,0 +1,8 @@
+{
+  "name": "@world-hotlines/managed-gateway-foundation",
+  "version": "0.1.0-foundation",
+  "private": true,
+  "type": "module",
+  "scripts": { "start": "node src/cli.mjs serve", "test": "node --test test/*.test.mjs" },
+  "engines": { "node": ">=22" }
+}

@@ -1,0 +1,57 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "World Hotlines managed gateway foundation",
+    "version": "0.1.0-foundation",
+    "description": "Foundation contract—not deployed. Every request is bodyless and query-free; Transfer-Encoding or nonzero Content-Length is rejected with 400 and the connection is closed. Health is unauthenticated. Exact known-route OPTIONS is unauthenticated and uncharged. GET, HEAD, and authenticated 304 artifact attempts consume one quota token. Other methods on exact known query-free routes return stable 405 with Allow: GET, HEAD, OPTIONS; unknown or query-bearing routes return 404. OpenAPI 3.1 cannot enumerate arbitrary unsupported methods, so 405 is not attributed to the represented GET, HEAD, or OPTIONS operations. Errors use stable generic bodies. Configured exact HTTPS origins receive Access-Control-Allow-Origin plus Vary: Origin on known-route responses; disallowed origins receive neither ACAO nor credentials. Malformed or over-8192-byte If-None-Match values are bounded and treated as non-matching."
+  },
+  "servers": [{"url":"http://127.0.0.1:{port}","description":"Synthetic loopback only","variables":{"port":{"default":"8081"}}}],
+  "paths": {
+    "/managed/v1/health": {"$ref":"#/components/pathItems/health"},
+    "/managed/v1/manifest": {"$ref":"#/components/pathItems/artifact"},
+    "/managed/v1/records": {"$ref":"#/components/pathItems/artifact"},
+    "/managed/v1/resolver.js": {"$ref":"#/components/pathItems/artifact"}
+  },
+  "components": {
+    "securitySchemes": {"bearerKey":{"type":"http","scheme":"bearer","description":"Authorization header only; never URL or body."}},
+    "headers": {
+      "RequestId":{"description":"Opaque request correlation identifier.","schema":{"type":"string","format":"uuid"}},
+      "CacheControl":{"schema":{"type":"string"}},
+      "ETag":{"description":"Strong SHA-256 entity tag on artifact 200/304 responses.","schema":{"type":"string"}},
+      "ContentLength":{"schema":{"type":"integer","minimum":0}},
+      "ContentTypeOptions":{"schema":{"type":"string","const":"nosniff"}},
+      "ContentSecurityPolicy":{"schema":{"type":"string","const":"default-src 'none'"}},
+      "AllowOrigin":{"description":"Present only when Origin exactly matches the configured HTTPS allowlist.","schema":{"type":"string","format":"uri"}},
+      "Vary":{"description":"Present as Origin when Access-Control-Allow-Origin is present.","schema":{"type":"string","const":"Origin"}},
+      "AllowMethods":{"schema":{"type":"string","const":"GET, HEAD, OPTIONS"}},
+      "AllowHeaders":{"schema":{"type":"string","const":"Authorization, Accept, If-None-Match"}},
+      "RateLimitLimit":{"schema":{"type":"integer","minimum":1,"maximum":10000}},
+      "RateLimitRemaining":{"schema":{"type":"integer","minimum":0,"maximum":10000}},
+      "RateLimitReset":{"schema":{"type":"integer","minimum":0,"maximum":86400}},
+      "RetryAfter":{"schema":{"type":"integer","minimum":1,"maximum":86400}},
+      "Authenticate":{"schema":{"type":"string","const":"Bearer"}},
+      "Allow":{"schema":{"type":"string","const":"GET, HEAD, OPTIONS"}}
+    },
+    "responses": {
+      "Health":{"description":"Technical identity; unauthenticated.","headers":{"X-Request-Id":{"$ref":"#/components/headers/RequestId"},"Cache-Control":{"$ref":"#/components/headers/CacheControl"},"Content-Length":{"$ref":"#/components/headers/ContentLength"},"X-Content-Type-Options":{"$ref":"#/components/headers/ContentTypeOptions"},"Content-Security-Policy":{"$ref":"#/components/headers/ContentSecurityPolicy"},"Access-Control-Allow-Origin":{"$ref":"#/components/headers/AllowOrigin"},"Vary":{"$ref":"#/components/headers/Vary"}},"content":{"application/json":{"schema":{"$ref":"./health.schema.json"}}}},
+      "Artifact":{"description":"Descriptor-pinned canonical artifact bytes; quota charged.","headers":{"X-Request-Id":{"$ref":"#/components/headers/RequestId"},"Cache-Control":{"$ref":"#/components/headers/CacheControl"},"ETag":{"$ref":"#/components/headers/ETag"},"Content-Length":{"$ref":"#/components/headers/ContentLength"},"X-Content-Type-Options":{"$ref":"#/components/headers/ContentTypeOptions"},"Access-Control-Allow-Origin":{"$ref":"#/components/headers/AllowOrigin"},"Vary":{"$ref":"#/components/headers/Vary"},"RateLimit-Limit":{"$ref":"#/components/headers/RateLimitLimit"},"RateLimit-Remaining":{"$ref":"#/components/headers/RateLimitRemaining"},"RateLimit-Reset":{"$ref":"#/components/headers/RateLimitReset"}}},
+      "NotModified":{"description":"Weak If-None-Match comparison matched; no body; quota charged.","headers":{"X-Request-Id":{"$ref":"#/components/headers/RequestId"},"Cache-Control":{"$ref":"#/components/headers/CacheControl"},"ETag":{"$ref":"#/components/headers/ETag"},"X-Content-Type-Options":{"$ref":"#/components/headers/ContentTypeOptions"},"Access-Control-Allow-Origin":{"$ref":"#/components/headers/AllowOrigin"},"Vary":{"$ref":"#/components/headers/Vary"},"RateLimit-Limit":{"$ref":"#/components/headers/RateLimitLimit"},"RateLimit-Remaining":{"$ref":"#/components/headers/RateLimitRemaining"},"RateLimit-Reset":{"$ref":"#/components/headers/RateLimitReset"}}},
+      "Preflight":{"description":"Exact query-free known-route capabilities; no body, authentication, or quota charge.","headers":{"X-Request-Id":{"$ref":"#/components/headers/RequestId"},"Access-Control-Allow-Origin":{"$ref":"#/components/headers/AllowOrigin"},"Vary":{"$ref":"#/components/headers/Vary"},"Access-Control-Allow-Methods":{"$ref":"#/components/headers/AllowMethods"},"Access-Control-Allow-Headers":{"$ref":"#/components/headers/AllowHeaders"}}},
+      "Error":{"description":"Stable generic error. Known routes apply exact-origin CORS semantics.","headers":{"X-Request-Id":{"$ref":"#/components/headers/RequestId"},"Cache-Control":{"$ref":"#/components/headers/CacheControl"},"Content-Length":{"$ref":"#/components/headers/ContentLength"},"X-Content-Type-Options":{"$ref":"#/components/headers/ContentTypeOptions"},"Content-Security-Policy":{"$ref":"#/components/headers/ContentSecurityPolicy"},"Access-Control-Allow-Origin":{"$ref":"#/components/headers/AllowOrigin"},"Vary":{"$ref":"#/components/headers/Vary"},"RateLimit-Limit":{"$ref":"#/components/headers/RateLimitLimit"},"RateLimit-Remaining":{"$ref":"#/components/headers/RateLimitRemaining"},"RateLimit-Reset":{"$ref":"#/components/headers/RateLimitReset"},"Retry-After":{"$ref":"#/components/headers/RetryAfter"},"WWW-Authenticate":{"$ref":"#/components/headers/Authenticate"},"Allow":{"$ref":"#/components/headers/Allow"}},"content":{"application/json":{"schema":{"$ref":"./error.schema.json"}}}}
+    },
+    "pathItems": {
+      "health": {
+        "description":"Other methods on this exact query-free route return 405 with Allow: GET, HEAD, OPTIONS; unknown or query-bearing routes return 404.",
+        "get":{"description":"Unauthenticated health identity. A query-bearing form is not an exact known route and returns 404.","responses":{"200":{"$ref":"#/components/responses/Health"},"400":{"$ref":"#/components/responses/Error"},"404":{"$ref":"#/components/responses/Error"},"503":{"$ref":"#/components/responses/Error"}}},
+        "head":{"description":"Unauthenticated health headers; bodyless. A query-bearing form returns 404.","responses":{"200":{"$ref":"#/components/responses/Health"},"400":{"$ref":"#/components/responses/Error"},"404":{"$ref":"#/components/responses/Error"},"503":{"$ref":"#/components/responses/Error"}}},
+        "options":{"description":"Only the exact query-free route preflights.","responses":{"204":{"$ref":"#/components/responses/Preflight"},"400":{"$ref":"#/components/responses/Error"},"404":{"$ref":"#/components/responses/Error"},"503":{"$ref":"#/components/responses/Error"}}}
+      },
+      "artifact": {
+        "description":"Other methods on each exact query-free artifact route return 405 with Allow: GET, HEAD, OPTIONS; unknown or query-bearing routes return 404.",
+        "get":{"description":"Authenticated artifact attempt; 200, 304, HEAD, and rejected quota attempts follow the documented charging rules. A query-bearing form returns 404 before authentication or charging.","security":[{"bearerKey":[]}],"parameters":[{"name":"If-None-Match","in":"header","description":"Wildcard, weak tags, and comma lists use weak comparison. Malformed or oversized values are treated as non-matching.","schema":{"type":"string","maxLength":8192}}],"responses":{"200":{"$ref":"#/components/responses/Artifact"},"304":{"$ref":"#/components/responses/NotModified"},"400":{"$ref":"#/components/responses/Error"},"401":{"$ref":"#/components/responses/Error"},"403":{"$ref":"#/components/responses/Error"},"404":{"$ref":"#/components/responses/Error"},"429":{"$ref":"#/components/responses/Error"},"503":{"$ref":"#/components/responses/Error"}}},
+        "head":{"description":"Authenticated, quota-charged artifact headers; bodyless. A query-bearing form returns 404 before authentication or charging.","security":[{"bearerKey":[]}],"parameters":[{"name":"If-None-Match","in":"header","schema":{"type":"string","maxLength":8192}}],"responses":{"200":{"$ref":"#/components/responses/Artifact"},"304":{"$ref":"#/components/responses/NotModified"},"400":{"$ref":"#/components/responses/Error"},"401":{"$ref":"#/components/responses/Error"},"403":{"$ref":"#/components/responses/Error"},"404":{"$ref":"#/components/responses/Error"},"429":{"$ref":"#/components/responses/Error"},"503":{"$ref":"#/components/responses/Error"}}},
+        "options":{"description":"Only the exact query-free route preflights; unauthenticated and uncharged.","responses":{"204":{"$ref":"#/components/responses/Preflight"},"400":{"$ref":"#/components/responses/Error"},"404":{"$ref":"#/components/responses/Error"},"503":{"$ref":"#/components/responses/Error"}}}
+      }
+    }
+  }
+}

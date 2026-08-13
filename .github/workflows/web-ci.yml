@@ -46,6 +46,10 @@ jobs:
       - name: Generate deterministic data and build
         run: npm run build
 
+      - name: Reject generated gateway contract changes
+        working-directory: .
+        run: git diff --exit-code -- web/public/gateway/v1
+
       - name: Verify all static contracts
         run: npm run verify:all
 

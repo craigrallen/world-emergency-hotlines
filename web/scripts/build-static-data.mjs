@@ -17,6 +17,7 @@ import { buildMetadataCoverage, coverageAsOf } from './metadata-coverage.mjs';
 import { API_MAJOR, RESOLVER_MAJOR, WIDGET_MAJOR, buildVersions, generateReleaseIntegrity } from './release-integrity.mjs';
 import { generateReleaseFeeds } from './release-feeds.mjs';
 import { generateSubscriptionContracts } from './generate-subscription-contracts.mjs';
+import { generateGatewayContracts, verifyGatewayContractDrift } from './generate-gateway-contracts.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const WEB_ROOT = resolve(__dirname, '..');
@@ -145,10 +146,12 @@ const canonical = loadCanonical();
 console.log(`  source: ${canonical.format}, schema ${canonical.schema_version}`);
 console.log(`  countries: ${canonical.countries.length}`);
 
+verifyGatewayContractDrift();
 recreateManagedRoot(OUT_DIR);
 recreateManagedRoot(API_DIR);
 recreateManagedRoot(resolve(WEB_ROOT, 'public', 'release'));
 recreateManagedRoot(resolve(WEB_ROOT, 'public', 'subscriptions'));
+recreateManagedRoot(resolve(WEB_ROOT, 'public', 'gateway'));
 mkdirSync(resolve(OUT_DIR, 'countries'), { recursive: true });
 mkdirSync(resolve(API_DIR, 'countries'), { recursive: true });
 
@@ -332,6 +335,7 @@ writeFileSync(resolve(API_DIR, 'records.json'), JSON.stringify({
 writeFileSync(resolve(API_DIR, 'resolver.js'), readFileSync(resolve(WEB_ROOT, 'src', 'lib', 'finder.js'), 'utf-8'));
 generateReleaseFeeds({ currentDataset: { $schema_version: canonical.schema_version, countries: canonical.countries }, datasetVersion: manifest.dataset_version });
 generateSubscriptionContracts();
+generateGatewayContracts();
 const release = generateReleaseIntegrity({ datasetVersion: manifest.dataset_version });
 
 console.log(`  wrote ${manifestEntries.length} country shards + manifest + search-index + categories-stats + metadata-coverage`);

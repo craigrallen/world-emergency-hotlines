@@ -1,0 +1,26 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "$id":"https://worldhotlines.org/gateway/v1/artifact-descriptor.schema.json",
+  "title":"Trusted managed gateway artifact descriptor",
+  "type":"object",
+  "additionalProperties":false,
+  "required":["schema_version","release_id","dataset_version","artifact_index_sha256","artifacts"],
+  "properties":{
+    "schema_version":{"const":"1.0"},
+    "release_id":{"$ref":"#/$defs/identity"},
+    "dataset_version":{"$ref":"#/$defs/identity"},
+    "artifact_index_sha256":{"$ref":"#/$defs/identity"},
+    "artifacts":{"type":"object","additionalProperties":false,"required":["/managed/v1/manifest","/managed/v1/records","/managed/v1/resolver.js"],"properties":{
+      "/managed/v1/manifest":{"$ref":"#/$defs/manifest"},
+      "/managed/v1/records":{"$ref":"#/$defs/records"},
+      "/managed/v1/resolver.js":{"$ref":"#/$defs/resolver"}
+    }}
+  },
+  "$defs":{
+    "identity":{"type":"string","pattern":"^sha256:[0-9a-f]{64}$"},
+    "base":{"type":"object","additionalProperties":false,"required":["path","sha256","bytes","content_type"],"properties":{"path":{"type":"string"},"sha256":{"$ref":"#/$defs/identity"},"bytes":{"type":"integer","minimum":1,"maximum":67108864},"content_type":{"type":"string"}}},
+    "manifest":{"type":"object","$ref":"#/$defs/base","properties":{"path":{"const":"api/v1/manifest.json"},"content_type":{"const":"application/json; charset=utf-8"}}},
+    "records":{"type":"object","$ref":"#/$defs/base","properties":{"path":{"const":"api/v1/records.json"},"content_type":{"const":"application/json; charset=utf-8"}}},
+    "resolver":{"type":"object","$ref":"#/$defs/base","properties":{"path":{"const":"api/v1/resolver.js"},"content_type":{"const":"text/javascript; charset=utf-8"}}}
+  }
+}
