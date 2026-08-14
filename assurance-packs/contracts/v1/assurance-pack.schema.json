@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://worldhotlines.org/assurance-packs/v1/assurance-pack.schema.json",
+  "title": "Static synthetic data assurance pack v1",
+  "x-runtime-invariants": [
+    "Array ordering where order is canonical rather than semantic",
+    "Record replacement targets exist in records and differ from the replaced record",
+    "Footprint members exactly equal the distinct record countries and categories",
+    "Coverage counts exactly equal record, footprint, lifecycle, replacement, and evidence aggregates"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "pack_kind", "synthetic_identity", "trust_policy", "dataset_version", "release", "footprint", "coverage", "records", "limitations"],
+  "properties": {
+    "schema": { "const": "data-assurance-pack/v1" },
+    "pack_kind": { "const": "static_synthetic_reference" },
+    "synthetic_identity": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*\\.invalid$" },
+    "trust_policy": {
+      "type": "object", "additionalProperties": false, "required": ["policy_identity", "sha256"],
+      "properties": { "policy_identity": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*\\.invalid$" }, "sha256": { "$ref": "#/$defs/sha" } }
+    },
+    "dataset_version": { "$ref": "#/$defs/sha" },
+    "release": {
+      "type": "object", "additionalProperties": false,
+      "required": ["release_id", "artifact_index_sha256", "artifacts"],
+      "properties": {
+        "release_id": { "$ref": "#/$defs/sha" }, "artifact_index_sha256": { "$ref": "#/$defs/sha" },
+        "artifacts": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/artifact" } }
+      }
+    },
+    "footprint": {
+      "type": "object", "additionalProperties": false, "required": ["countries", "categories"],
+      "properties": {
+        "countries": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^[A-Z]{2}$" } },
+        "categories": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" } }
+      }
+    },
+    "coverage": {
+      "type": "object", "additionalProperties": false,
+      "required": ["record_count", "country_count", "category_count", "active_count", "deprecated_count", "replacement_reference_count", "independently_accepted_evidence_count", "provider_claims_pending_count", "provider_claims_rejected_count", "unresolved_or_unknown_evidence_count"],
+      "properties": {
+        "record_count": { "$ref": "#/$defs/count" }, "country_count": { "$ref": "#/$defs/count" }, "category_count": { "$ref": "#/$defs/count" },
+        "active_count": { "$ref": "#/$defs/count" }, "deprecated_count": { "$ref": "#/$defs/count" }, "replacement_reference_count": { "$ref": "#/$defs/count" },
+        "independently_accepted_evidence_count": { "$ref": "#/$defs/count" }, "provider_claims_pending_count": { "$ref": "#/$defs/count" },
+        "provider_claims_rejected_count": { "$ref": "#/$defs/count" }, "unresolved_or_unknown_evidence_count": { "$ref": "#/$defs/count" }
+      }
+    },
+    "records": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/record" } },
+    "limitations": {
+      "const": [
+        "Static synthetic contract evidence only; not a customer or provider export.",
+        "No raw crisis usage, live availability, quality, ranking, outcome, uptime, support, or SLA claim.",
+        "Provider claims are untrusted input and cannot verify, rank, publish, or mutate canonical records."
+      ]
+    }
+  },
+  "$defs": {
+    "sha": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "count": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+    "artifact": {
+      "type": "object", "additionalProperties": false, "required": ["path", "sha256", "bytes"],
+      "properties": { "path": { "type": "string", "pattern": "^/(api|data)/(?!\\.\\.?(?:/|$))(?!.*\\/\\.\\.?(?:/|$))[-a-z0-9.]+(?:/[-a-z0-9.]+)*$" }, "sha256": { "$ref": "#/$defs/sha" }, "bytes": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 } }
+    },
+    "record": {
+      "type": "object", "additionalProperties": false,
+      "required": ["record_id", "country", "category", "lifecycle", "replacement_record_id", "evidence_summary", "uncertainty"],
+      "properties": {
+        "record_id": { "type": "string", "pattern": "^weh_[0-9a-f]{24}$" }, "country": { "type": "string", "pattern": "^[A-Z]{2}$" },
+        "category": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" }, "lifecycle": { "enum": ["active", "deprecated"] },
+        "replacement_record_id": { "oneOf": [{ "type": "null" }, { "type": "string", "pattern": "^weh_[0-9a-f]{24}$" }] },
+        "evidence_summary": {
+          "type": "object", "additionalProperties": false,
+          "required": ["independently_accepted", "provider_claims_pending", "provider_claims_rejected", "unresolved_or_unknown"],
+          "properties": { "independently_accepted": { "$ref": "#/$defs/count" }, "provider_claims_pending": { "$ref": "#/$defs/count" }, "provider_claims_rejected": { "$ref": "#/$defs/count" }, "unresolved_or_unknown": { "$ref": "#/$defs/count" } }
+        },
+        "uncertainty": { "enum": ["independently_reviewed", "unresolved", "unknown"] }
+      },
+      "allOf": [
+        {
+          "if": { "type": "object", "properties": { "lifecycle": { "const": "active" } }, "required": ["lifecycle"] },
+          "then": { "type": "object", "properties": { "replacement_record_id": { "type": "null" } } }
+        },
+        {
+          "if": { "type": "object", "properties": { "lifecycle": { "const": "deprecated" } }, "required": ["lifecycle"] },
+          "then": { "type": "object", "properties": { "replacement_record_id": { "type": "string", "pattern": "^weh_[0-9a-f]{24}$" } } }
+        },
+        {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "evidence_summary": { "type": "object", "properties": { "independently_accepted": { "type": "integer", "minimum": 1 } } },
+                "uncertainty": { "const": "independently_reviewed" }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "evidence_summary": {
+                  "type": "object",
+                  "properties": { "independently_accepted": { "const": 0 } },
+                  "oneOf": [
+                    { "type": "object", "properties": { "provider_claims_pending": { "type": "integer", "minimum": 1 } } },
+                    { "type": "object", "properties": { "provider_claims_pending": { "const": 0 }, "provider_claims_rejected": { "type": "integer", "minimum": 1 } } }
+                  ]
+                },
+                "uncertainty": { "const": "unresolved" }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "evidence_summary": { "type": "object", "properties": { "independently_accepted": { "const": 0 }, "provider_claims_pending": { "const": 0 }, "provider_claims_rejected": { "const": 0 } } },
+                "uncertainty": { "const": "unknown" }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -21,6 +21,7 @@ import { generateGatewayContracts, verifyGatewayContractDrift } from './generate
 import { generateOrganizationContracts, verifyOrganizationContractDrift } from './generate-organization-contracts.mjs';
 import { generateManagedWidgetConfigContracts, verifyManagedWidgetConfigContractDrift } from './generate-managed-widget-config-contracts.mjs';
 import { generateTechnicalHealthContracts } from './generate-technical-health-contracts.mjs';
+import { generateAssurancePackContracts } from './generate-assurance-pack-contracts.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const WEB_ROOT = resolve(__dirname, '..');
@@ -166,6 +167,7 @@ recreateManagedRoot(resolve(WEB_ROOT, 'public', 'subscriptions'));
 recreateManagedRoot(resolve(WEB_ROOT, 'public', 'gateway'));
 recreateManagedRoot(resolve(WEB_ROOT, 'public', 'organizations'));
 recreateManagedRoot(resolve(WEB_ROOT, 'public', 'managed-widget-config'));
+recreateManagedRoot(resolve(WEB_ROOT, 'public', 'assurance-packs'));
 mkdirSync(resolve(OUT_DIR, 'countries'), { recursive: true });
 mkdirSync(resolve(API_DIR, 'countries'), { recursive: true });
 
@@ -353,6 +355,7 @@ generateGatewayContracts();
 generateOrganizationContracts();
 generateManagedWidgetConfigContracts();
 generateTechnicalHealthContracts();
+generateAssurancePackContracts();
 const release = generateReleaseIntegrity({ datasetVersion: manifest.dataset_version });
 
 console.log(`  wrote ${manifestEntries.length} country shards + manifest + search-index + categories-stats + metadata-coverage`);

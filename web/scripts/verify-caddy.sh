@@ -14,7 +14,7 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-mkdir -p "$fixture/release/v1/changes" "$fixture/feeds" "$fixture/subscriptions/v1" "$fixture/gateway/v1" "$fixture/organizations/v1" "$fixture/managed-widget-config/v1" "$fixture/technical-health/v1" "$fixture/responses"
+mkdir -p "$fixture/release/v1/changes" "$fixture/feeds" "$fixture/subscriptions/v1" "$fixture/gateway/v1" "$fixture/organizations/v1" "$fixture/managed-widget-config/v1" "$fixture/technical-health/v1" "$fixture/assurance-packs/v1" "$fixture/responses"
 expected_release="$fixture/release/v1/release.json"
 printf '%s\n' '{"schema_version":"1.0","release_id":"sha256:test"}' > "$expected_release"
 printf '%s\n' '{"schema_version":"1.0"}' > "$fixture/release/v1/changes.json"
@@ -37,6 +37,8 @@ printf '%s\n' '{"openapi":"3.1.0"}' > "$fixture/managed-widget-config/v1/openapi
 printf '%s\n' '# Managed widget configuration static design contract only' > "$fixture/managed-widget-config/v1/README.md"
 printf '%s\n' '{"$schema":"https://json-schema.org/draft/2020-12/schema"}' > "$fixture/technical-health/v1/dashboard.schema.json"
 printf '%s\n' '# Static technical-health contract v1 — SYNTHETIC / NOT A SERVICE' > "$fixture/technical-health/v1/README.md"
+printf '%s\n' '{"$schema":"https://json-schema.org/draft/2020-12/schema"}' > "$fixture/assurance-packs/v1/assurance-pack.schema.json"
+printf '%s\n' '# Data assurance pack v1 — STATIC/SYNTHETIC CONTRACT, NOT A SERVICE' > "$fixture/assurance-packs/v1/README.md"
 expected_missing="$fixture/responses/missing.body"
 printf '%s' 'Not found' > "$expected_missing"
 
@@ -170,6 +172,20 @@ for method in POST PUT PATCH DELETE; do
 done
 for spec in 'OPTIONS|technical-health/v1/dashboard.schema.json|204' 'GET|technical-health/v1/missing.json|404' 'HEAD|technical-health/v1/missing.json|404' 'OPTIONS|technical-health/v1/missing.json|404'; do
   method=${spec%%|*}; rest=${spec#*|}; path=${rest%%|*}; expected=${rest#*|}; headers="$fixture/responses/health-$method-$(printf '%s' "$path" | tr '/' '-').headers"
+  if [ "$method" = HEAD ]; then curl --max-time 5 -sS --request HEAD --ignore-content-length -H 'Connection: close' -D "$headers" -o /dev/null "$base/$path"; else curl --max-time 5 -sS -X "$method" -D "$headers" -o /dev/null "$base/$path"; fi
+  require_status "$method" "/$path" "$expected" "$headers"
+done
+for assurance_spec in 'assurance-packs/v1/assurance-pack.schema.json|application/schema+json; charset=utf-8' 'assurance-packs/v1/README.md|text/markdown; charset=utf-8'; do
+  assurance_path=${assurance_spec%%|*}; assurance_type=${assurance_spec#*|}; assurance_headers="$fixture/responses/$(printf '%s' "$assurance_path" | tr '/' '-').headers"
+  curl --max-time 5 -sS -D "$assurance_headers" -o /dev/null "$base/$assurance_path"
+  require_status GET "/$assurance_path" 200 "$assurance_headers"; require_header "$assurance_headers" Content-Type "$assurance_type"; require_feed_cors "$assurance_headers"
+done
+for method in POST PUT PATCH DELETE; do
+  status=$(curl --max-time 5 -sS -X "$method" -o /dev/null -w '%{http_code}' "$base/assurance-packs/v1/assurance-pack.schema.json")
+  [ "$status" = 404 ] || { echo "$method static assurance pack returned $status" >&2; exit 1; }
+done
+for spec in 'OPTIONS|assurance-packs/v1/assurance-pack.schema.json|204' 'GET|assurance-packs/v1/missing.json|404' 'HEAD|assurance-packs/v1/missing.json|404' 'OPTIONS|assurance-packs/v1/missing.json|404'; do
+  method=${spec%%|*}; rest=${spec#*|}; path=${rest%%|*}; expected=${rest#*|}; headers="$fixture/responses/assurance-$method-$(printf '%s' "$path" | tr '/' '-').headers"
   if [ "$method" = HEAD ]; then curl --max-time 5 -sS --request HEAD --ignore-content-length -H 'Connection: close' -D "$headers" -o /dev/null "$base/$path"; else curl --max-time 5 -sS -X "$method" -D "$headers" -o /dev/null "$base/$path"; fi
   require_status "$method" "/$path" "$expected" "$headers"
 done
@@ -312,4 +328,4 @@ require_header "$missing_options_headers" Access-Control-Allow-Origin '*'
 require_header "$missing_options_headers" Access-Control-Allow-Methods 'GET, HEAD, OPTIONS'
 require_header "$missing_options_headers" Access-Control-Allow-Headers 'Accept, If-None-Match, If-Modified-Since'
 
-echo "Caddy integration OK: release/feed/subscription/organization/technical-health static MIME and CORS; existing-file OPTIONS, all writes and unknown routes enforce the read-only 404 boundary; no route shadowing"
+echo "Caddy integration OK: release/feed/subscription/organization/technical-health/assurance-pack static MIME and CORS; existing-file OPTIONS, all writes and unknown routes enforce the read-only 404 boundary; no route shadowing"
