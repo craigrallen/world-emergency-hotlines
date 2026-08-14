@@ -121,6 +121,7 @@ if (existsSync(descriptorPath) && existsSync(indexPath)) {
       ...discoverFiles(resolve(PUBLIC_ROOT, 'organizations', 'v1')),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'managed-widget-config', 'v1')),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'technical-health', 'v1')),
+      ...discoverFiles(resolve(PUBLIC_ROOT, 'assurance-packs', 'v1')),
       ...discoverFiles(RELEASE_DIR).filter(({ path }) => !path.endsWith(`${sep}artifacts.json`) && !path.endsWith(`${sep}release.json`)),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'widget', 'v1')).filter(({ path }) => path.endsWith(`${sep}hotlines-widget.js`)),
     ];
@@ -158,6 +159,9 @@ if (existsSync(descriptorPath) && existsSync(indexPath)) {
   }
   for (const required of ['/technical-health/v1/README.md','/technical-health/v1/aggregate-batch.schema.json','/technical-health/v1/aggregate.synthetic.json','/technical-health/v1/dashboard.schema.json','/technical-health/v1/dashboard.synthetic.json']) {
     if (!descriptor.relationships?.[required]) fail(`missing technical-health contract relationship: ${required}`);
+  }
+  for (const required of ['/assurance-packs/v1/README.md','/assurance-packs/v1/assurance-pack.schema.json','/assurance-packs/v1/assurance-pack.synthetic.json']) {
+    if (!descriptor.relationships?.[required]) fail(`missing assurance-pack contract relationship: ${required}`);
   }
 }
 

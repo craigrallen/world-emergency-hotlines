@@ -232,6 +232,44 @@
             }
         }
 
+        # Static/synthetic data assurance-pack contract artifacts only. There
+        # is no export, ingestion, provider, customer, administration, or write service.
+        handle /assurance-packs/v1/* {
+            route {
+                @assurancePackOptions {
+                    method OPTIONS
+                    file {path}
+                }
+                header @assurancePackOptions {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                }
+                respond @assurancePackOptions 204
+                @assurancePackWrite not method GET HEAD OPTIONS
+                respond @assurancePackWrite "Not found" 404
+                @assurancePackSchema path *.schema.json
+                header @assurancePackSchema Content-Type "application/schema+json; charset=utf-8"
+                @assurancePackMarkdown path *.md
+                header @assurancePackMarkdown Content-Type "text/markdown; charset=utf-8"
+                @assurancePackFile file {path}
+                header @assurancePackFile {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                    Cache-Control "public, max-age=300, stale-while-revalidate=86400"
+                }
+                file_server @assurancePackFile
+                header {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Cache-Control "no-store"
+                    Content-Type "text/plain; charset=utf-8"
+                }
+                respond "Not found" 404
+            }
+        }
+
         handle /feeds/* {
             route {
                 @feedOptions method OPTIONS

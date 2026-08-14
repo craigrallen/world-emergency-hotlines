@@ -10,7 +10,7 @@ import { discoverFiles, readDiscoveredFile } from './verify-release-integrity.mj
 
 const webRoot = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const publicRoot = resolve(webRoot, 'public');
-const managed = ['data', 'api/v1', 'release', 'feeds', 'subscriptions/v1', 'gateway/v1', 'organizations/v1', 'managed-widget-config/v1', 'technical-health/v1'];
+const managed = ['data', 'api/v1', 'release', 'feeds', 'subscriptions/v1', 'gateway/v1', 'organizations/v1', 'managed-widget-config/v1', 'technical-health/v1', 'assurance-packs/v1'];
 const epoch = '1786579200';
 
 function build(buildEpoch = epoch, root = webRoot) {
@@ -68,7 +68,8 @@ try {
   cpSync(resolve(webRoot, '..', 'managed-widget-config'), resolve(cleanCopy, 'managed-widget-config'), { recursive: true });
   cpSync(resolve(webRoot, '..', 'control-plane'), resolve(cleanCopy, 'control-plane'), { recursive: true });
   cpSync(resolve(webRoot, '..', 'technical-health'), resolve(cleanCopy, 'technical-health'), { recursive: true });
-  cpSync(webRoot, cleanWeb, { recursive: true, filter: (source) => !['node_modules', 'dist', '.astro'].includes(source.split(/[\\/]/).at(-1)) && !source.includes(`${resolve(webRoot, 'public', 'data')}`) && !source.includes(`${resolve(webRoot, 'public', 'api')}`) && !source.includes(`${resolve(webRoot, 'public', 'release')}`) && !source.includes(`${resolve(webRoot, 'public', 'feeds')}`) && !source.includes(`${resolve(webRoot, 'public', 'subscriptions')}`) });
+  cpSync(resolve(webRoot, '..', 'assurance-packs'), resolve(cleanCopy, 'assurance-packs'), { recursive: true });
+  cpSync(webRoot, cleanWeb, { recursive: true, filter: (source) => !['node_modules', 'dist', '.astro'].includes(source.split(/[\\/]/).at(-1)) && !source.includes(`${resolve(webRoot, 'public', 'data')}`) && !source.includes(`${resolve(webRoot, 'public', 'api')}`) && !source.includes(`${resolve(webRoot, 'public', 'release')}`) && !source.includes(`${resolve(webRoot, 'public', 'feeds')}`) && !source.includes(`${resolve(webRoot, 'public', 'subscriptions')}`) && !source.includes(`${resolve(webRoot, 'public', 'assurance-packs')}`) });
   cpSync(resolve(webRoot, '..', 'hotlines.json'), resolve(cleanCopy, 'hotlines.json'));
   mkdirSync(resolve(cleanCopy, 'docs'));
   cpSync(resolve(webRoot, '..', 'docs/releases.json'), resolve(cleanCopy, 'docs/releases.json'));
@@ -79,7 +80,7 @@ try {
   const candidate = (id, interrupt) => spawnSync('npm', ['run', 'release:dataset:candidate', '--', '--id', id, '--date', '2026-08-13', '--title', `Candidate ${id}`, '--summary', 'Exercises the recoverable deterministic candidate command in an isolated clean copy.'], { cwd: cleanWeb, encoding: 'utf8', env: { ...process.env, ...(interrupt ? { WEH_CANDIDATE_INTERRUPT: interrupt } : {}) } });
   for (const absent of ['data', 'api', 'release', 'feeds', 'subscriptions']) assert.equal(lstatOrNull(resolve(cleanWeb, 'public', absent)), null, `clean fixture unexpectedly contains public/${absent}`);
   build(epoch, cleanWeb);
-  for (const created of ['data', 'api/v1', 'release/v1', 'feeds', 'subscriptions/v1', 'organizations/v1', 'managed-widget-config/v1', 'technical-health/v1']) assert.ok(lstatSync(resolve(cleanWeb, 'public', created)).isDirectory(), `clean build did not create public/${created}`);
+  for (const created of ['data', 'api/v1', 'release/v1', 'feeds', 'subscriptions/v1', 'organizations/v1', 'managed-widget-config/v1', 'technical-health/v1', 'assurance-packs/v1']) assert.ok(lstatSync(resolve(cleanWeb, 'public', created)).isDirectory(), `clean build did not create public/${created}`);
   const beforeModelMutation = JSON.parse(readFileSync(resolve(cleanWeb, 'public/release/v1/release.json'), 'utf8'));
   const copiedModel = resolve(cleanCopy, 'control-plane/model.mjs'); const copiedModelBytes = readFileSync(copiedModel);
   writeFileSync(copiedModel, Buffer.concat([copiedModelBytes, Buffer.from('\n// isolated release identity mutation\n')]));
@@ -114,7 +115,6 @@ try {
   const recoveredAfter = candidate('interrupt-after'); assert.equal(recoveredAfter.status, 0, `${recoveredAfter.stdout}\n${recoveredAfter.stderr}`); assert.equal(lstatOrNull(transactionRoot), null);
   mutateDataset('interrupt-registry'); const registryInterrupt = candidate('interrupt-registry', 'after-registry-install'); assert.notEqual(registryInterrupt.status, 0); assert.ok(lstatSync(transactionRoot).isDirectory());
   const installedRegistry = readFileSync(resolve(docsRoot, 'dataset-releases.json')); const recoveredRegistry = candidate('interrupt-registry'); assert.notEqual(recoveredRegistry.status, 0, 'recovered installed registry should then reject its duplicate ID'); assert.equal(lstatOrNull(transactionRoot), null); assert.deepEqual(readFileSync(resolve(docsRoot, 'dataset-releases.json')), installedRegistry);
-  build(epoch, cleanWeb);
   rmSync(resolve(cleanWeb, 'public/api'), { recursive: true });
   mkdirSync(resolve(cleanCopy, 'outside-api')); symlinkSync(resolve(cleanCopy, 'outside-api'), resolve(cleanWeb, 'public/api'));
   assert.throws(() => build(epoch, cleanWeb), /symlink component/, 'managed-root ancestor symlink was accepted');

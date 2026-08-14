@@ -1,0 +1,29 @@
+{
+  "schema": "assurance-pack-synthetic-trust-policy/v1",
+  "policy_identity": "assurance-trust-policy.example.invalid",
+  "sources": [
+    {
+      "source_id": "src_authority_reviewed",
+      "record_id": "weh_c3f7a20baee453f8ba87d0d3",
+      "kind": "canonical_source",
+      "locator_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "authorized_submitter_identity": "canonical-curator.example.invalid",
+      "allowed_provider_claim_states": ["not_applicable"]
+    },
+    {
+      "source_id": "src_legacy_pending",
+      "record_id": "weh_7539ec4b00fd54f5ae729d71",
+      "kind": "provider_claim",
+      "locator_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "authorized_submitter_identity": "provider-submitter.example.invalid",
+      "allowed_provider_claim_states": ["pending", "rejected"]
+    }
+  ],
+  "reviewers": [
+    {
+      "reviewer_identity": "independent-reviewer.example.invalid",
+      "role": "independent_reviewer",
+      "allowed_decisions": ["accepted", "rejected", "unknown"]
+    }
+  ]
+}

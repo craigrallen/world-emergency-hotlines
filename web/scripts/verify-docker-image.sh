@@ -51,6 +51,7 @@ changelog_title=$(node -e '
 ' "$repo_root/docs/releases.json")
 require_page /releases "$changelog_title" "$fixture/releases.html"
 require_page /release/v1/release.json '"release_id"' "$fixture/release.json"
+require_page /release/v1/artifacts.json '"artifacts"' "$fixture/artifacts.json"
 require_page /release/v1/changes.json '"latest"' "$fixture/changes.json"
 require_page /release/v1/changes/latest.json '"total_changes"' "$fixture/latest.json"
 require_page /feeds/releases.json 'https://jsonfeed.org/version/1.1' "$fixture/feed.json"
@@ -64,14 +65,35 @@ require_page /managed-widget-config/v1/README.md 'STATIC/SYNTHETIC' "$fixture/ma
 require_page /managed-widget-config/v1/openapi.json 'managed-config-api.example.invalid' "$fixture/managed-widget-config-openapi.json"
 require_page /technical-health/v1/README.md 'SYNTHETIC / NOT A SERVICE' "$fixture/technical-health-readme.md"
 require_page /technical-health/v1/dashboard.schema.json 'technical-health-dashboard/v1' "$fixture/technical-health-dashboard-schema.json"
+require_page /assurance-packs/v1/README.md 'STATIC/SYNTHETIC CONTRACT, NOT A SERVICE' "$fixture/assurance-pack-readme.md"
+require_page /assurance-packs/v1/assurance-pack.schema.json 'data-assurance-pack/v1' "$fixture/assurance-pack-schema.json"
+require_page /assurance-packs/v1/assurance-pack.synthetic.json 'static_synthetic_reference' "$fixture/assurance-pack.json"
+for assurance_file in README.md assurance-pack.schema.json assurance-pack.synthetic.json; do
+  cmp "$fixture/${assurance_file#assurance-pack.}" "$repo_root/assurance-packs/contracts/v1/$assurance_file" >/dev/null 2>&1 || {
+    case "$assurance_file" in
+      README.md) downloaded="$fixture/assurance-pack-readme.md" ;;
+      assurance-pack.schema.json) downloaded="$fixture/assurance-pack-schema.json" ;;
+      assurance-pack.synthetic.json) downloaded="$fixture/assurance-pack.json" ;;
+    esac
+    cmp "$downloaded" "$repo_root/assurance-packs/contracts/v1/$assurance_file" >/dev/null || { echo "served assurance artifact differs from checked-in exact bytes: $assurance_file" >&2; exit 1; }
+  }
+done
 organization_write_status=$(curl --max-time 5 -sS -X POST -o "$fixture/organizations-write.txt" -w '%{http_code}' "$base/organizations/v1/openapi.json")
 [ "$organization_write_status" = 404 ] || { echo "POST static organization contract returned $organization_write_status" >&2; exit 1; }
 technical_health_write_status=$(curl --max-time 5 -sS -X POST -o "$fixture/technical-health-write.txt" -w '%{http_code}' "$base/technical-health/v1/aggregate.synthetic.json")
 [ "$technical_health_write_status" = 404 ] || { echo "POST static technical-health contract returned $technical_health_write_status" >&2; exit 1; }
-node - "$fixture/release.json" <<'NODE'
+assurance_pack_write_status=$(curl --max-time 5 -sS -X POST -o "$fixture/assurance-pack-write.txt" -w '%{http_code}' "$base/assurance-packs/v1/assurance-pack.synthetic.json")
+[ "$assurance_pack_write_status" = 404 ] || { echo "POST static assurance pack returned $assurance_pack_write_status" >&2; exit 1; }
+node - "$fixture/release.json" "$fixture/assurance-pack.json" "$fixture/artifacts.json" "$repo_root/assurance-packs/contracts/v1" <<'NODE'
+const { createHash } = require('node:crypto');
 const { readFileSync } = require('node:fs');
 
 const descriptor = JSON.parse(readFileSync(process.argv[2], 'utf8'));
+const pack = JSON.parse(readFileSync(process.argv[3], 'utf8'));
+const indexBytes = readFileSync(process.argv[4]);
+const index = JSON.parse(indexBytes);
+const stable = (value) => Array.isArray(value) ? `[${value.map(stable).join(',')}]` : value && typeof value === 'object' ? `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${stable(value[key])}`).join(',')}}` : JSON.stringify(value);
+const digest = (bytes) => `sha256:${createHash('sha256').update(bytes).digest('hex')}`;
 const identity = /^sha256:[0-9a-f]{64}$/;
 const valid = descriptor.schema_version === '1.0'
   && descriptor.canonical_origin === 'https://worldhotlines.org'
@@ -79,11 +101,29 @@ const valid = descriptor.schema_version === '1.0'
   && identity.test(descriptor.release_id)
   && Number.isInteger(descriptor.artifact_index?.artifact_count)
   && descriptor.artifact_index.artifact_count > 0
+  && descriptor.artifact_index.artifact_count === index.artifacts.length
+  && descriptor.artifact_index.sha256 === digest(indexBytes)
+  && descriptor.release_id === digest(Buffer.from(stable({ schema_version: descriptor.schema_version, canonical_origin: descriptor.canonical_origin, dataset_version: descriptor.dataset_version, build_versions: descriptor.build_versions, compatibility: descriptor.compatibility, artifact_index_sha256: descriptor.artifact_index.sha256 })))
   && descriptor.mutable_paths === true;
 if (!valid) {
   console.error('Release descriptor failed structural validation');
   process.exit(1);
 }
+const byPath = new Map(index.artifacts.map((entry) => [entry.path, entry]));
+const packValid = pack.schema === 'data-assurance-pack/v1'
+  && pack.pack_kind === 'static_synthetic_reference'
+  && pack.release.release_id === 'sha256:da1a06c5b11b20fc76afa269c324ab869293cdd67d232cf62f05724dc1fc124a'
+  && pack.release.artifact_index_sha256 === 'sha256:9964bddf9dbb99cd09f4be234619bf52b1dcc7eeec309f0874b45bc42db0156c'
+  && pack.records.length === pack.coverage.record_count
+  && pack.records.every((record) => record.uncertainty !== 'independently_reviewed' || record.evidence_summary.independently_accepted > 0)
+  && pack.release.artifacts.every((entry, i, values) => i === 0 || values[i - 1].path < entry.path)
+  && ['/assurance-packs/v1/README.md', '/assurance-packs/v1/assurance-pack.schema.json', '/assurance-packs/v1/assurance-pack.synthetic.json'].every((path) => {
+    const entry = byPath.get(path); if (!entry || descriptor.relationships[path]?.sha256 !== entry.sha256) return false;
+    const localName = path.slice('/assurance-packs/v1/'.length);
+    const local = readFileSync(`${process.argv[5]}/${localName}`);
+    return entry.bytes === local.length && entry.sha256 === `sha256:${createHash('sha256').update(local).digest('hex')}`;
+  });
+if (!packValid) { console.error('Assurance pack or current-release relationship validation failed'); process.exit(1); }
 NODE
 
 missing=/release/v1/does-not-exist.json
@@ -91,4 +131,4 @@ missing_status=$(curl --max-time 5 -sS -o "$fixture/missing.txt" -w '%{http_code
 [ "$missing_status" = 404 ] || { echo "GET $missing returned $missing_status, expected 404" >&2; exit 1; }
 [ "$(cat "$fixture/missing.txt")" = 'Not found' ] || { echo "GET $missing did not return the stable 404 body" >&2; exit 1; }
 
-echo "Deployment image OK: Docker build; status/release/changelog pages; release descriptor; unknown release 404"
+echo "Deployment image OK: Docker build; exact assurance bytes and invariants; release relationships; unknown release 404"
