@@ -1,0 +1,19 @@
+{
+  "schema": "reviewer-disposition-audit/v1",
+  "audit_id": "rwa_syn_example_0001",
+  "queue_id": "rwq_syn_example_0001",
+  "queue_pin": "sha256:6b62641b70024e7b2f731cdd98fc200f12b8d50917c5f2ce368b47b45ecf6441",
+  "append_only": true,
+  "events": [
+    { "event_id": "rwe_syn_example_0001", "sequence": 1, "item_id": "rwi_syn_example_0001", "claim_id": "pclm_syn_example_0001", "actor": "queue-system.example.invalid", "action": "queued", "from": "not_queued", "to": "queued", "previous_event_sha256": "sha256:0000000000000000000000000000000000000000000000000000000000000000", "event_sha256": "sha256:199a5ad11fba92ed4cbed45b01bc7ef2b682b4b3212cd61e6caca5df2d63ee15" },
+    { "event_id": "rwe_syn_example_0002", "sequence": 2, "item_id": "rwi_syn_example_0001", "claim_id": "pclm_syn_example_0001", "actor": "reviewer-independent.example.invalid", "action": "assigned", "from": "queued", "to": "assigned", "previous_event_sha256": "sha256:199a5ad11fba92ed4cbed45b01bc7ef2b682b4b3212cd61e6caca5df2d63ee15", "event_sha256": "sha256:e40f2fa835e4a9c1558f5e696d80e47ccd3231829558dea61cd2111de3848afa" },
+    { "event_id": "rwe_syn_example_0003", "sequence": 3, "item_id": "rwi_syn_example_0001", "claim_id": "pclm_syn_example_0001", "actor": "reviewer-independent.example.invalid", "action": "disposed", "from": "assigned", "to": "disposed", "previous_event_sha256": "sha256:e40f2fa835e4a9c1558f5e696d80e47ccd3231829558dea61cd2111de3848afa", "event_sha256": "sha256:b17b364c3f2d4851503ed65bc13664e32b90b4d5fc798e668f323486632e2b2e" }
+  ],
+  "event_head_sha256": "sha256:b17b364c3f2d4851503ed65bc13664e32b90b4d5fc798e668f323486632e2b2e",
+  "terminal_disposition": {
+    "item_id": "rwi_syn_example_0001", "claim_id": "pclm_syn_example_0001", "review_id": "prv_syn_example_0001",
+    "review_pin": "sha256:96f3e2dbc7677d084e377ee42e33ef987a433530502e6f0adf2bacbc68b73eef",
+    "decision": "accepted_for_candidate", "candidate_eligible": true
+  },
+  "effects": { "canonical_mutation": false, "verified_status": false, "ranking_or_search_effect": false, "publication": false }
+}

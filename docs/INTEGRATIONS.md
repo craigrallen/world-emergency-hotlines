@@ -12,6 +12,8 @@ The [data assurance pack v1 contract](https://worldhotlines.org/assurance-packs/
 
 The [provider claim staging and independent review v1 contract](https://worldhotlines.org/provider-claims/v1/README.md) is likewise static and wholly synthetic. It demonstrates the fail-closed `staged` → `under_review` → terminal decision state machine, claimant-evidence classification, and reviewer independence/conflict declarations. `accepted_for_candidate` only permits consideration by the separately approved promotion workflow; it cannot mutate canonical data, confer verified status, affect ranking/search, or publish anything. There is no live provider intake, review, administration, contact collection, or commercial service. Public crisis information remains free, and the repository's no-license wording remains unchanged.
 
+The [reviewer work queue and disposition audit v1 contract](https://worldhotlines.org/reviewer-work-queue/v1/README.md) is a single-item static synthetic reference that pins and validates exact claim, queue, and review bytes. Its explicit administrative sequence is not priority, risk, urgency, geography, crisis intent, provider prominence, or ranking. Its three-event hash chain and committed head let the release-pinned static snapshot detect history tampering; arbitrary mutable logs are not thereby inherently append-only. It provides no live workbench, admin, accounts, auth, persistence, writes, telemetry, automatic acceptance, or promotion bypass.
+
 ## Choose a surface
 
 | Need | Use | Trade-off |

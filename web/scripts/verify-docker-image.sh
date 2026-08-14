@@ -68,6 +68,8 @@ require_page /technical-health/v1/dashboard.schema.json 'technical-health-dashbo
 require_page /assurance-packs/v1/README.md 'STATIC/SYNTHETIC CONTRACT, NOT A SERVICE' "$fixture/assurance-pack-readme.md"
 require_page /assurance-packs/v1/assurance-pack.schema.json 'data-assurance-pack/v1' "$fixture/assurance-pack-schema.json"
 require_page /assurance-packs/v1/assurance-pack.synthetic.json 'static_synthetic_reference' "$fixture/assurance-pack.json"
+require_page /reviewer-work-queue/v1/queue.schema.json 'reviewer-work-queue/v1' "$fixture/reviewer-work-queue-schema.json"
+require_page /reviewer-work-queue/v1/disposition-audit.synthetic.json 'rwa_syn_example_0001' "$fixture/reviewer-work-queue-audit.json"
 for assurance_file in README.md assurance-pack.schema.json assurance-pack.synthetic.json; do
   cmp "$fixture/${assurance_file#assurance-pack.}" "$repo_root/assurance-packs/contracts/v1/$assurance_file" >/dev/null 2>&1 || {
     case "$assurance_file" in

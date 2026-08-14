@@ -123,6 +123,7 @@ if (existsSync(descriptorPath) && existsSync(indexPath)) {
       ...discoverFiles(resolve(PUBLIC_ROOT, 'technical-health', 'v1')),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'assurance-packs', 'v1')),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'provider-claims', 'v1')),
+      ...discoverFiles(resolve(PUBLIC_ROOT, 'reviewer-work-queue', 'v1')),
       ...discoverFiles(RELEASE_DIR).filter(({ path }) => !path.endsWith(`${sep}artifacts.json`) && !path.endsWith(`${sep}release.json`)),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'widget', 'v1')).filter(({ path }) => path.endsWith(`${sep}hotlines-widget.js`)),
     ];
@@ -166,6 +167,9 @@ if (existsSync(descriptorPath) && existsSync(indexPath)) {
   }
   for (const required of ['/provider-claims/v1/README.md','/provider-claims/v1/claim-envelope.schema.json','/provider-claims/v1/claim.synthetic.json','/provider-claims/v1/review-decision.schema.json','/provider-claims/v1/review.synthetic.json']) {
     if (!descriptor.relationships?.[required]) fail(`missing provider-claim contract relationship: ${required}`);
+  }
+  for (const required of ['/reviewer-work-queue/v1/README.md','/reviewer-work-queue/v1/disposition-audit.schema.json','/reviewer-work-queue/v1/disposition-audit.synthetic.json','/reviewer-work-queue/v1/queue.schema.json','/reviewer-work-queue/v1/queue.synthetic.json']) {
+    if (!descriptor.relationships?.[required]) fail(`missing reviewer-work-queue contract relationship: ${required}`);
   }
 }
 

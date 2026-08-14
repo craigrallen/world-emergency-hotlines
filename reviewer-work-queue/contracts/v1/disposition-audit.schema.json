@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.invalid/reviewer-work-queue/v1/disposition-audit.schema.json",
+  "title": "Static synthetic append-only disposition audit v1",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "audit_id", "queue_id", "queue_pin", "append_only", "events", "event_head_sha256", "terminal_disposition", "effects"],
+  "properties": {
+    "schema": { "const": "reviewer-disposition-audit/v1" },
+    "audit_id": { "type": "string", "pattern": "^rwa_syn_[a-z0-9_]{8,48}$" },
+    "queue_id": { "type": "string", "pattern": "^rwq_syn_[a-z0-9_]{8,48}$" },
+    "queue_pin": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "append_only": { "const": true },
+    "events": {
+      "type": "array", "minItems": 3, "maxItems": 3,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["event_id", "sequence", "item_id", "claim_id", "actor", "action", "from", "to", "previous_event_sha256", "event_sha256"],
+        "properties": {
+          "event_id": { "type": "string", "pattern": "^rwe_syn_[a-z0-9_]{8,48}$" },
+          "sequence": { "type": "integer", "minimum": 1, "maximum": 3 },
+          "item_id": { "type": "string", "pattern": "^rwi_syn_[a-z0-9_]{8,48}$" },
+          "claim_id": { "type": "string", "pattern": "^pclm_syn_[a-z0-9_]{8,48}$" },
+          "actor": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*\\.invalid$" },
+          "action": { "enum": ["queued", "assigned", "disposed"] },
+          "from": { "enum": ["not_queued", "queued", "assigned"] },
+          "to": { "enum": ["queued", "assigned", "disposed"] },
+          "previous_event_sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+          "event_sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" }
+        }
+      }
+    },
+    "event_head_sha256": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "terminal_disposition": {
+      "type": "object", "additionalProperties": false,
+      "required": ["item_id", "claim_id", "review_id", "review_pin", "decision", "candidate_eligible"],
+      "properties": {
+        "item_id": { "type": "string", "pattern": "^rwi_syn_[a-z0-9_]{8,48}$" },
+        "claim_id": { "type": "string", "pattern": "^pclm_syn_[a-z0-9_]{8,48}$" },
+        "review_id": { "type": "string", "pattern": "^prv_syn_[a-z0-9_]{8,48}$" },
+        "review_pin": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+        "decision": { "enum": ["accepted_for_candidate", "rejected", "needs_more_evidence"] },
+        "candidate_eligible": { "type": "boolean" }
+      }
+    },
+    "effects": { "$ref": "#/$defs/effects" }
+  },
+  "$defs": {
+    "effects": {
+      "type": "object", "additionalProperties": false,
+      "required": ["canonical_mutation", "verified_status", "ranking_or_search_effect", "publication"],
+      "properties": { "canonical_mutation": { "const": false }, "verified_status": { "const": false }, "ranking_or_search_effect": { "const": false }, "publication": { "const": false } }
+    }
+  },
+  "x-runtime-invariants": ["queue_pin binds the exact validated queue bytes", "v1 contains exactly three hash-chained events for its one item and event_head_sha256 commits the validated final link", "the item follows queued to assigned to disposed and the full audit requires queue state disposed", "assignment and disposition actors and the provider review reviewer identity exactly equal the queue-assigned independent reviewer", "exactly one terminal disposition binds exact validated review bytes and its decision and eligibility cohere with provider review"]
+}
