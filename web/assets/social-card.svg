@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <!-- Tracked single-line glyph geometry: no host font lookup or text shaping. -->
+    <path id="A" d="M0 7 2.5 0 5 7M1 4h3"/><path id="B" d="M0 0v7h3.2Q5 7 5 5.25T3.2 3.5H0h3.2Q5 3.5 5 1.75T3.2 0Z"/>
+    <path id="C" d="M5 1Q4 0 2.5 0 0 0 0 3.5T2.5 7Q4 7 5 6"/><path id="D" d="M0 0v7h2.5Q5 7 5 3.5T2.5 0Z"/>
+    <path id="E" d="M5 0H0v7h5M0 3.5h4"/><path id="G" d="M5 1Q4 0 2.5 0 0 0 0 3.5T2.5 7Q5 7 5 4H3"/>
+    <path id="H" d="M0 0v7M5 0v7M0 3.5h5"/><path id="I" d="M0 0h5M2.5 0v7M0 7h5"/>
+    <path id="K" d="M0 0v7M5 0 0 4M2 2.8 5 7"/><path id="L" d="M0 0v7h5"/>
+    <path id="M" d="M0 7V0l2.5 3L5 0v7"/><path id="N" d="M0 7V0l5 7V0"/>
+    <path id="O" d="M2.5 0Q0 0 0 3.5T2.5 7Q5 7 5 3.5T2.5 0Z"/><path id="R" d="M0 7V0h3Q5 0 5 2t-2 2H0m3 0 2 3"/>
+    <path id="S" d="M5 1Q4 0 2.5 0 0 0 0 1.75T2.5 3.5 5 5.25 2.5 7Q1 7 0 6"/><path id="T" d="M0 0h5M2.5 0v7"/>
+    <path id="U" d="M0 0v4.5Q0 7 2.5 7T5 4.5V0"/><path id="W" d="M0 0 1 7l1.5-3L4 7l1-7"/>
+    <path id="Y" d="M0 0 2.5 3.5 5 0M2.5 3.5V7"/>
+  </defs>
+  <rect width="1200" height="630" fill="#0f172a"/>
+  <circle cx="1040" cy="80" r="330" fill="#1d4ed8" opacity=".22"/>
+  <circle cx="130" cy="610" r="280" fill="#0ea5e9" opacity=".14"/>
+  <g transform="translate(90 105)">
+    <rect width="112" height="112" rx="30" fill="#2563eb"/>
+    <path d="M56 24v64M24 56h64" stroke="white" stroke-width="15" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(90 270) scale(6.5)" fill="none" stroke="white" stroke-width=".85" stroke-linecap="round" stroke-linejoin="round">
+    <use href="#W"/><use href="#O" x="6"/><use href="#R" x="12"/><use href="#L" x="18"/><use href="#D" x="24"/>
+    <use href="#E" x="36"/><use href="#M" x="42"/><use href="#E" x="48"/><use href="#R" x="54"/><use href="#G" x="60"/><use href="#E" x="66"/><use href="#N" x="72"/><use href="#C" x="78"/><use href="#Y" x="84"/>
+    <use href="#H" x="96"/><use href="#O" x="102"/><use href="#T" x="108"/><use href="#L" x="114"/><use href="#I" x="120"/><use href="#N" x="126"/><use href="#E" x="132"/><use href="#S" x="138"/>
+  </g>
+  <g transform="translate(90 350) scale(4.3)" fill="none" stroke="#cbd5e1" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round">
+    <use href="#S"/><use href="#O" x="6"/><use href="#U" x="12"/><use href="#R" x="18"/><use href="#C" x="24"/><use href="#E" x="30"/>
+    <use href="#B" x="42"/><use href="#A" x="48"/><use href="#C" x="54"/><use href="#K" x="60"/><use href="#E" x="66"/><use href="#D" x="72"/>
+    <use href="#G" x="84"/><use href="#L" x="90"/><use href="#O" x="96"/><use href="#B" x="102"/><use href="#A" x="108"/><use href="#L" x="114"/>
+    <use href="#D" x="126"/><use href="#I" x="132"/><use href="#R" x="138"/><use href="#E" x="144"/><use href="#C" x="150"/><use href="#T" x="156"/><use href="#O" x="162"/><use href="#R" x="168"/><use href="#Y" x="174"/>
+  </g>
+  <g transform="translate(90 465) scale(3.2)" fill="none" stroke="#93c5fd" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+    <use href="#S"/><use href="#O" x="6"/><use href="#U" x="12"/><use href="#R" x="18"/><use href="#C" x="24"/><use href="#E" x="30"/>
+    <use href="#D" x="42"/><use href="#A" x="48"/><use href="#T" x="54"/><use href="#E" x="60"/><use href="#S" x="66"/>
+    <use href="#C" x="78"/><use href="#O" x="84"/><use href="#U" x="90"/><use href="#N" x="96"/><use href="#T" x="102"/><use href="#R" x="108"/><use href="#Y" x="114"/>
+    <use href="#B" x="126"/><use href="#R" x="132"/><use href="#O" x="138"/><use href="#W" x="144"/><use href="#S" x="150"/><use href="#I" x="156"/><use href="#N" x="162"/><use href="#G" x="168"/>
+  </g>
+</svg>

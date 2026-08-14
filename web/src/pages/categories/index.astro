@@ -3,6 +3,8 @@ import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
 import { getCategoriesStats } from '../../lib/data';
 import { CATEGORY_META } from '../../lib/types';
+import { breadcrumbJsonLd } from '../../lib/seo';
+import { SITE_URL } from '../../lib/site';
 
 const stats = await getCategoriesStats();
 const PRIORITY_SLUGS = ['suicide_crisis', 'emergency', 'mental_health', 'child_protection', 'domestic_violence', 'sexual_violence', 'lgbtqia', 'substance_use', 'veterans', 'human_trafficking', 'disaster', 'missing_persons'];
@@ -19,9 +21,10 @@ const total = sorted.reduce((s, c) => s + c.count, 0);
 const totalVerified = sorted.reduce((s, c) => s + c.verified_count, 0);
 const verifiedPct = total > 0 ? Math.round((totalVerified / total) * 100) : 0;
 const countriesCovered = sorted.reduce((s, c) => Math.max(s, c.countries), 0);
+const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Categories', path: '/categories' }], Astro.site ?? SITE_URL);
 ---
 
-<Base title="All categories · Hotlines directory" description={`Browse all ${sorted.length} categories of emergency and crisis helplines. ${total.toLocaleString()} hotlines worldwide, ${verifiedPct}% verified.`}>
+<Base title="All categories · Hotlines directory" description={`Browse all ${sorted.length} categories of emergency and crisis helplines. ${total.toLocaleString()} hotlines worldwide, ${verifiedPct}% source checked.`} jsonLd={breadcrumbs}>
   <nav class="mb-6 flex items-center gap-2 text-xs text-fg-muted" aria-label="Breadcrumb">
     <a href="/" class="hover:text-fg" data-i18n="nav.home">Home</a>
     <span aria-hidden="true">›</span>

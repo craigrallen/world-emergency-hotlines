@@ -43,16 +43,13 @@ jobs:
           DATASET_RELEASE_BASE_REF: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || '' }}
         run: npm run verify:feeds
 
-      - name: Generate deterministic data and build
-        run: npm run build
+      - name: Build and verify all static contracts
+        run: npm run verify:all
 
       - name: Reject generated contract changes
         working-directory: .
         run: |
           test -z "$(git status --porcelain --untracked-files=all -- web/public/gateway/v1 web/public/organizations/v1 web/public/managed-widget-config/v1 web/public/technical-health/v1 web/public/assurance-packs/v1 web/public/provider-claims/v1 web/public/reviewer-work-queue/v1 web/public/managed-api-plans/v1)"
-
-      - name: Verify all static contracts
-        run: npm run verify:all
 
       - name: Typecheck
         run: npm run typecheck

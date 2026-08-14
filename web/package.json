@@ -15,6 +15,10 @@
     "verify:links": "node scripts/verify-contact-links.mjs",
     "verify:search": "node scripts/verify-searchbox.mjs",
     "verify:discovery": "node scripts/verify-discovery-routes.mjs",
+    "generate:seo-images": "node scripts/generate-seo-images.mjs",
+    "verify:seo-images": "node scripts/verify-seo-images.mjs",
+    "verify:seo:dist": "node scripts/verify-seo.mjs && npm run verify:seo-images",
+    "verify:seo": "npm run build && npm run verify:seo:dist",
     "verify:trust": "node scripts/verify-trust-foundation.mjs",
     "verify:finder": "node scripts/verify-guided-finder.mjs",
     "verify:api": "node scripts/verify-static-api.mjs",
@@ -35,7 +39,7 @@
     "verify:feeds:artifacts": "node scripts/verify-release-feed-artifacts.mjs && python3 scripts/verify-release-feed-semantics.py",
     "release:dataset:candidate": "node scripts/release-dataset-candidate.mjs",
     "verify:caddy": "sh scripts/verify-caddy.sh",
-    "verify:all": "npm run verify:data && npm run verify:search && npm run verify:discovery && npm run verify:trust && npm run verify:finder && npm run verify:api && npm run verify:widget && npm run verify:integration && npm run verify:gateway && npm run verify:organizations && npm run verify:managed-widget-config && npm run verify:technical-health && npm run verify:assurance-packs && npm run verify:provider-claims && npm run verify:reviewer-work-queue && npm run verify:managed-api-plans && npm run verify:release",
+    "verify:all": "npm run verify:data && npm run verify:search && npm run verify:discovery && npm run verify:seo && npm run verify:trust && npm run verify:finder && npm run verify:api && npm run verify:widget && npm run verify:integration && npm run verify:gateway && npm run verify:organizations && npm run verify:managed-widget-config && npm run verify:technical-health && npm run verify:assurance-packs && npm run verify:provider-claims && npm run verify:reviewer-work-queue && npm run verify:managed-api-plans && npm run verify:release",
     "typecheck": "astro check"
   },
   "dependencies": {

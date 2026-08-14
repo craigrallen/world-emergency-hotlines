@@ -1,6 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import { getManifest } from '../lib/data';
+import { breadcrumbJsonLd } from '../lib/seo';
+import { SITE_URL } from '../lib/site';
 
 let manifest;
 try {
@@ -14,6 +16,7 @@ const totalCountries = manifest?.total_countries ?? 0;
 const totalHotlines = manifest?.total_hotlines ?? 0;
 const schemaVersion = manifest?.schema_version ?? '2.0';
 const datasetVersion = manifest?.dataset_version ?? null;
+const sourceLastUpdated = manifest?.source_last_updated ?? null;
 
 const generatedDate = generatedAt
   ? new Date(generatedAt).toLocaleDateString('en', { year: 'numeric', month: 'long', day: 'numeric' })
@@ -51,11 +54,29 @@ const files = [
     description: `Individual country shards with full hotline records. Example: /data/countries/us.json, /data/countries/gb.json. Use manifest.json to enumerate all ${totalCountries} country codes.`,
   },
 ];
+const site = Astro.site ?? SITE_URL;
+const jsonLd = manifest ? [
+  breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Data', path: '/data' }], site),
+  {
+    '@context': 'https://schema.org', '@type': 'Dataset',
+    name: 'World Emergency & Hotlines dataset',
+    description: 'Listed emergency and crisis hotline records; source information and source-check status are shown when available.',
+    url: new URL('/data', site).toString(), version: manifest.dataset_version,
+    dateModified: sourceLastUpdated, isAccessibleForFree: true,
+    creator: { '@type': 'Organization', name: 'World Emergency & Hotlines project maintainers', url: 'https://github.com/craigrallen/world-emergency-hotlines' },
+    distribution: [
+      { '@type': 'DataDownload', name: 'Dataset manifest', encodingFormat: 'application/json', contentUrl: new URL('/data/manifest.json', site).toString() },
+      { '@type': 'DataDownload', name: 'Category statistics', encodingFormat: 'application/json', contentUrl: new URL('/data/categories-stats.json', site).toString() },
+      { '@type': 'DataDownload', name: 'Search index', encodingFormat: 'application/json', contentUrl: new URL('/data/search-index.json', site).toString() },
+    ],
+  },
+] : undefined;
 ---
 
 <Base
   title="Data downloads · Hotlines directory"
   description="Machine-readable downloads for the World Emergency & Hotlines dataset. JSON shards, manifest, search index, and category statistics."
+  jsonLd={jsonLd}
 >
   <!-- Breadcrumb -->
   <nav class="mb-6 flex items-center gap-2 text-xs text-fg-muted" aria-label="Breadcrumb">

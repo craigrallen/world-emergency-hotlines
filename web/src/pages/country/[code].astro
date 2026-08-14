@@ -5,6 +5,8 @@ import Icon from '../../components/Icon.astro';
 import { getManifest, getCountry, getBestAvailableHelp, getFreshnessInfo } from '../../lib/data';
 import { CATEGORY_META } from '../../lib/types';
 import type { Hotline, HotlineCategory } from '../../lib/types';
+import { breadcrumbJsonLd } from '../../lib/seo';
+import { SITE_URL } from '../../lib/site';
 
 export const getStaticPaths = async () => {
   const manifest = await getManifest();
@@ -61,14 +63,17 @@ const emergency = country.general_emergency ?? [];
 // Freshness info for best help line
 const bestHelpFreshness = bestHelp ? getFreshnessInfo(bestHelp) : null;
 
-const title = `${country.country} — Emergency & crisis hotlines`;
-const description = `Emergency numbers, crisis lines, and support hotlines for ${country.country}. ${country.hotlines.length} hotlines listed, ${verifiedHotlines.length} verified.`;
+const title = `${country.country}: emergency numbers and crisis hotlines`;
+const description = `Find emergency numbers and crisis hotlines in ${country.country}. ${country.hotlines.length} ${country.hotlines.length === 1 ? 'hotline' : 'hotlines'} listed; ${verifiedHotlines.length} source checked.`;
+const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Countries', path: '/countries' }, { name: country.country, path: `/country/${country.alpha2.toLowerCase()}` }], Astro.site ?? SITE_URL);
 ---
 
-<Base title={title} description={description}>
+<Base title={title} description={description} robots={country.hotlines.length === 0 ? 'noindex,follow' : 'index,follow'} jsonLd={breadcrumbs}>
   <!-- Breadcrumb -->
   <nav class="mb-6 flex items-center gap-2 text-xs text-fg-muted" aria-label="Breadcrumb">
-    <a href="/" class="hover:text-fg">Home</a>
+    <a href="/" class="underline hover:text-fg">Home</a>
+    <span aria-hidden="true">›</span>
+    <a href="/countries" class="underline hover:text-fg">Countries</a>
     <span aria-hidden="true">›</span>
     <span class="text-fg">{country.country}</span>
   </nav>
@@ -77,7 +82,8 @@ const description = `Emergency numbers, crisis lines, and support hotlines for $
   <div class="mb-8 flex flex-wrap items-start gap-4">
     <span class="text-5xl leading-none" aria-hidden="true">{flag}</span>
     <div class="min-w-0 flex-1">
-      <h1 class="text-4xl font-semibold text-fg sm:text-5xl">{country.country}</h1>
+      <h1 class="text-4xl font-semibold text-fg sm:text-5xl">Emergency numbers and crisis hotlines in {country.country}</h1>
+      <p class="mt-3 max-w-3xl text-sm text-fg-muted">This page lists {country.hotlines.length} {country.hotlines.length === 1 ? 'record' : 'records'} for {country.country}. Source information and verification status vary and are shown per record. These statuses do not confirm live availability; verify details locally and with the cited provider or authority when available.</p>
       <p class="mt-1 text-sm text-fg-muted">
         {country.alpha2}
         {country.region && <span> · {country.region}</span>}
@@ -192,14 +198,8 @@ const description = `Emergency numbers, crisis lines, and support hotlines for $
       <h2 class="mt-2 font-semibold text-fg">No hotlines listed yet</h2>
       <p class="mt-1 text-sm text-fg-muted">
         We don't have specific hotline data for {country.country} yet.
-        Try searching online for "{country.country} crisis line" or "{country.country} mental health support".
+        This dataset does not currently contain a country-specific listing. Emergency numbers and carrier or SIM access vary; verify the appropriate number locally.
       </p>
-      {emergency.length === 0 && (
-        <p class="mt-3 text-sm text-fg-muted">
-          For general emergencies, try <span class="font-mono text-fg">112</span> (works in most countries)
-          or <span class="font-mono text-fg">911</span> / <span class="font-mono text-fg">999</span>.
-        </p>
-      )}
     </div>
   )}
 
@@ -208,7 +208,7 @@ const description = `Emergency numbers, crisis lines, and support hotlines for $
     <span class="mr-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent/10 text-accent" aria-hidden="true"><Icon name="map" class="h-4 w-4" /></span>
     <strong class="text-fg">Traveller note:</strong> Most hotlines listed here require a local {country.country} phone number or SIM card.
     If calling from abroad, you may need to dial your country's international exit code followed by the {country.country} country code,
-    and some free-call numbers may not connect internationally. When in doubt, ask your hotel or the local emergency number.
+    and some free-call numbers may not connect internationally. Emergency access varies by carrier and SIM status; verify current local guidance.
   </div>
 
   <!-- Data quality notice if all unverified -->
@@ -259,7 +259,7 @@ const description = `Emergency numbers, crisis lines, and support hotlines for $
           <section data-section-cat={cat}>
             <h2 class="mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-fg-muted">
               {meta?.icon && <span aria-hidden="true">{meta.icon}</span>}
-              {meta?.label ?? cat.replace(/_/g, ' ')}
+              <a class="underline hover:text-fg" href={`/category/${cat}`}>{meta?.label ?? cat.replace(/_/g, ' ')}</a>
               <span class="text-xs font-normal normal-case">({hotlines.length})</span>
             </h2>
             <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

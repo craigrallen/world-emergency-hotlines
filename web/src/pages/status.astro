@@ -5,7 +5,7 @@ import Base from '../layouts/Base.astro';
 const release = JSON.parse(readFileSync(resolve(process.cwd(), 'public/release/v1/release.json'), 'utf8'));
 ---
 
-<Base title="Static release status · World Emergency & Hotlines" description="Statically provable World Hotlines build and release information; not live monitoring.">
+<Base title="Static release status · World Emergency & Hotlines" description="Statically provable World Hotlines build and release information; not live monitoring." robots="noindex,follow">
   <article class="mx-auto max-w-3xl">
     <p class="text-sm font-semibold uppercase tracking-wider text-accent">Static build evidence</p>
     <h1 class="mt-2 text-4xl font-semibold text-fg sm:text-5xl">Status</h1>

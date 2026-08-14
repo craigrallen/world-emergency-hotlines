@@ -3,6 +3,7 @@ import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import { SITE_URL } from '../src/lib/site.js';
+import { isCategoryIndexable } from '../src/lib/seo.ts';
 
 const WEB_ROOT = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const DATA_DIR = resolve(WEB_ROOT, 'public', 'data');
@@ -128,17 +129,13 @@ const expectedUrls = [
   '',
   '/about',
   '/find-help',
-  '/widget',
   '/integrate',
-  '/managed-api',
-  '/release',
-  '/releases',
-  '/status',
   '/map',
   '/data',
   '/categories',
-  ...countries.map((country) => `/country/${country.alpha2.toLowerCase()}`).sort(),
-  ...categories.map((category) => `/category/${category.slug}`).sort(),
+  '/countries',
+  ...countries.filter((country) => country.hotline_count > 0).map((country) => `/country/${country.alpha2.toLowerCase()}`).sort(),
+  ...categories.filter(isCategoryIndexable).map((category) => `/category/${category.slug}`).sort(),
 ].map(absoluteUrl);
 
 const sitemapPath = resolve(DIST_DIR, 'sitemap.xml');
@@ -171,6 +168,11 @@ if (hasBuiltSitemap || hasBuiltRobots) {
     if (!robots.includes(`Sitemap: ${sitemapUrl}`)) {
       fail(`dist/robots.txt is missing sitemap pointer: ${sitemapUrl}`);
     }
+    for (const path of ['/api/', '/gateway/', '/feeds/']) {
+      if (!robots.includes(`Disallow: ${path}`)) fail(`dist/robots.txt is missing Disallow: ${path}`);
+    }
+    if (robots.includes('Disallow: /data/')) fail('dist/robots.txt must allow crawling Dataset JSON distributions under /data/');
+    if (hasBuiltSitemap && extractSitemapLocs(readText(sitemapPath)).some((url) => new URL(url).pathname.startsWith('/data/'))) fail('dist/sitemap.xml must not include non-HTML /data/ artifacts');
   }
 }
 

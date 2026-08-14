@@ -4,6 +4,8 @@ import HotlineCard from '../../components/HotlineCard.astro';
 import Icon from '../../components/Icon.astro';
 import { getByCategory, getCategoriesStats } from '../../lib/data';
 import { CATEGORY_META } from '../../lib/types';
+import { breadcrumbJsonLd, isCategoryIndexable } from '../../lib/seo';
+import { SITE_URL } from '../../lib/site';
 
 export const getStaticPaths = async () => {
   const stats = await getCategoriesStats();
@@ -13,6 +15,8 @@ export const getStaticPaths = async () => {
 const { slug } = Astro.params as { slug: string };
 
 const results = await getByCategory(slug);
+const stats = await getCategoriesStats();
+const categoryStat = stats.categories.find((entry) => entry.slug === slug);
 
 const meta = CATEGORY_META[slug];
 
@@ -64,11 +68,15 @@ const label = meta?.label ?? slug.replace(/_/g, ' ');
 const icon = meta?.icon ?? '🌐';
 const description = meta?.description ?? '';
 
-const pageTitle = `${label} · Global hotlines directory`;
-const pageDescription = `${description} — ${totalHotlines} hotlines in ${results.length} countries worldwide.`;
+const hotlineWord = totalHotlines === 1 ? 'hotline' : 'hotlines';
+const countryWord = results.length === 1 ? 'country' : 'countries';
+const pageTitle = `${label} hotlines by country`;
+const pageDescription = `${description}. Browse ${totalHotlines} ${hotlineWord} in ${results.length} ${countryWord}.`;
+const indexable = categoryStat ? isCategoryIndexable(categoryStat) : false;
+const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Categories', path: '/categories' }, { name: label, path: `/category/${slug}` }], Astro.site ?? SITE_URL);
 ---
 
-<Base title={pageTitle} description={pageDescription}>
+<Base title={pageTitle} description={pageDescription} robots={indexable ? 'index,follow' : 'noindex,follow'} jsonLd={breadcrumbs}>
   <!-- Breadcrumb -->
   <nav class="mb-6 flex items-center gap-2 text-xs text-fg-muted" aria-label="Breadcrumb">
     <a href="/" class="hover:text-fg">Home</a>
@@ -83,7 +91,7 @@ const pageDescription = `${description} — ${totalHotlines} hotlines in ${resul
     <div class="flex items-center gap-4">
       <span class="text-5xl" aria-hidden="true">{icon}</span>
       <div>
-        <h1 class="text-4xl font-semibold text-fg sm:text-5xl">{label}</h1>
+        <h1 class="text-4xl font-semibold text-fg sm:text-5xl">{label} hotlines by country</h1>
         {description && <p class="mt-1 text-base text-fg-muted">{description}</p>}
       </div>
     </div>
@@ -92,11 +100,11 @@ const pageDescription = `${description} — ${totalHotlines} hotlines in ${resul
     <div class="mt-6 flex flex-wrap gap-4">
       <div class="card flex flex-col p-4 text-center">
         <span class="text-3xl font-semibold text-fg">{totalHotlines}</span>
-        <span class="text-xs text-fg-muted">hotlines</span>
+        <span class="text-xs text-fg-muted">{hotlineWord}</span>
       </div>
       <div class="card flex flex-col p-4 text-center">
         <span class="text-3xl font-semibold text-fg">{results.length}</span>
-        <span class="text-xs text-fg-muted">countries</span>
+        <span class="text-xs text-fg-muted">{countryWord}</span>
       </div>
       <div class="card flex flex-col p-4 text-center">
         <span class="text-3xl font-semibold text-success">{totalVerified}</span>

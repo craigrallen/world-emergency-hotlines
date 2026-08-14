@@ -37,7 +37,7 @@ The widget uses native labelled inputs, fieldset/legend channel controls, keyboa
 
 ## Safety and limitations
 
-- Listings are source-backed records, not live availability checks, medical advice, or eligibility guarantees.
+- The widget shows listed records, with source information and source-check status when available; they are not live availability checks, medical advice, or eligibility guarantees.
 - Scope describes recorded geography only.
 - Deprecated records are excluded by the shared resolver.
 - Unknown/network-failed artifacts produce an in-widget error.

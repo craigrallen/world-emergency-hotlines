@@ -1,0 +1,34 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getManifest } from '../../lib/data';
+import { breadcrumbJsonLd } from '../../lib/seo';
+import { SITE_URL } from '../../lib/site';
+
+const manifest = await getManifest();
+const eligible = manifest.countries.filter((country) => country.hotline_count > 0);
+const grouped = Map.groupBy(eligible, (country) => country.region ?? 'Other');
+const regions = [...grouped.keys()].sort();
+const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Countries', path: '/countries' }], Astro.site ?? SITE_URL);
+---
+
+<Base title="Countries with emergency numbers and crisis hotlines" description={`Browse listed emergency and crisis hotline records for ${eligible.length} countries and territories, grouped by region.`} jsonLd={breadcrumbs}>
+  <nav class="mb-6 flex items-center gap-2 text-xs text-fg-muted" aria-label="Breadcrumb">
+    <a href="/" class="underline hover:text-fg">Home</a><span aria-hidden="true">›</span><span class="text-fg">Countries</span>
+  </nav>
+  <header class="max-w-3xl">
+    <h1 class="text-4xl font-semibold text-fg sm:text-5xl">Countries with emergency numbers and crisis hotlines</h1>
+    <p class="mt-4 text-fg-muted">Browse countries and territories with at least one listed hotline. Counts describe this dataset, not live service availability. Source-check depth varies; confirm details with the cited source before relying on them.</p>
+  </header>
+  <div class="mt-10 space-y-10">
+    {regions.map((region) => (
+      <section aria-labelledby={`region-${region.replace(/\W+/g, '-').toLowerCase()}`}>
+        <h2 id={`region-${region.replace(/\W+/g, '-').toLowerCase()}`} class="text-2xl font-semibold text-fg">{region}</h2>
+        <ul class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {(grouped.get(region) ?? []).sort((a, b) => a.name.localeCompare(b.name)).map((country) => (
+            <li><a class="card block p-4 hover:border-accent" href={`/country/${country.alpha2.toLowerCase()}`}><span class="font-semibold text-fg underline decoration-accent/50 underline-offset-2">{country.name}</span><span class="mt-1 block text-xs text-fg-muted">{country.hotline_count} hotline{country.hotline_count === 1 ? '' : 's'} · {country.verified_count} source checked</span></a></li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</Base>

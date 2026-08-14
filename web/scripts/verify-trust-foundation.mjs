@@ -56,7 +56,7 @@ const currentPublicCopy = [
   readFileSync(resolve(WEB_ROOT, 'src/pages/about.astro'), 'utf8'),
 ].join('\n');
 assert.doesNotMatch(currentPublicCopy, /\b(definitive|exhaustive)\b/i, 'current public claims must not imply completeness');
-assert.match(currentPublicCopy, /source-backed/i);
+assert.match(currentPublicCopy, /source information.{0,20}verification status.{0,20}vary.{0,20}shown per record/i);
 assert.match(currentPublicCopy, /not (whether|a) .*live|not a live availability check/is);
 
 console.log('Trust foundation OK: conservative claims, safe site URL, and bounded correction links');

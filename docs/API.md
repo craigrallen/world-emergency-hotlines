@@ -14,7 +14,7 @@ https://worldhotlines.org/api/v1/
 - Delivery: static files over HTTPS
 - Identity: immutable `weh_...` record IDs
 - Dataset version: exact canonical SHA-256 in `sha256:<digest>` form
-- Availability semantics: source-backed records, not live service monitoring
+- Availability semantics: listed records with source information and source-check status shown when available, not live service monitoring
 - Privacy: resolution can run locally after downloading a country artifact and resolver module
 - Compatibility: fields may be added within v1; existing field meanings and paths will not be changed incompatibly
 - Tested majors: API v1, resolver v1, and widget v1 are exercised together by repository verification; no other major combination is claimed
