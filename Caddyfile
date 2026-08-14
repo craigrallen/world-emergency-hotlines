@@ -346,6 +346,38 @@
             }
         }
 
+        # Static/synthetic managed API plan contract only. No signup, billing,
+        # keys, counters, telemetry, or dynamic managed service is deployed.
+        handle /managed-api-plans/v1/* {
+            route {
+                @managedApiPlanOptions {
+                    method OPTIONS
+                    file {path}
+                }
+                header @managedApiPlanOptions {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                }
+                respond @managedApiPlanOptions 204
+                @managedApiPlanWrite not method GET HEAD OPTIONS
+                respond @managedApiPlanWrite "Not found" 404
+                @managedApiPlanSchema path *.schema.json
+                header @managedApiPlanSchema Content-Type "application/schema+json; charset=utf-8"
+                @managedApiPlanMarkdown path *.md
+                header @managedApiPlanMarkdown Content-Type "text/markdown; charset=utf-8"
+                @managedApiPlanFile file {path}
+                header @managedApiPlanFile {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                    Cache-Control "public, max-age=300, stale-while-revalidate=86400"
+                }
+                file_server @managedApiPlanFile
+                respond "Not found" 404
+            }
+        }
+
         handle /feeds/* {
             route {
                 @feedOptions method OPTIONS

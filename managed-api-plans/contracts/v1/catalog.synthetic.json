@@ -1,0 +1,14 @@
+{
+  "schema": "managed-api-plan-catalog/v1",
+  "status": "proposed_design_only",
+  "currency": "USD",
+  "free_static_surfaces": { "keyless": true, "metered": false, "surfaces": ["site", "/api/v1/**", "feeds", "widget", "data"] },
+  "plans": [
+    { "id": "developer_free", "availability": "planned", "monthly_price_usd": 0, "monthly_managed_request_units": 100000, "payment_method_required": false, "commercial_use_permitted": true, "permission_caveat": "Repository access does not grant reuse rights; no repository license exists and permission must be confirmed.", "allowance_behavior": "hard_stop_429_until_next_utc_month", "automatic_overage_charge": false, "support": "best_effort_community", "sla": false, "design_only_limits": { "organizations": 1, "projects": 1, "active_keys": 2 } },
+    { "id": "growth", "availability": "planned", "base_subscription_usd": "not_published", "included_units": "not_published", "overage_rate_usd": "not_published", "metered_overage": true, "charge_opt_in_required": true, "automatic_free_conversion": false },
+    { "id": "enterprise", "availability": "planned", "price": "not_published", "options": ["custom_volume", "sla", "support", "procurement", "security"] }
+  ],
+  "counter_transition": { "implementation": "future_only", "planning_operation": "single_ordered_authoritative", "generation": "monotonic_safe_integer", "authoritative_state": ["generation", "utc_month", "used_units"], "authority": "store_read_only", "atomicity": "compare_and_swap_required", "cas_identity": "full_expected_state", "caller_supplied_state_trusted": false, "caller_supplied_generation_trusted": false, "deployed": false },
+  "privacy": { "allowed": ["account_id", "utc_month", "aggregate_managed_request_units", "monotonic_counter_generation"], "forbidden": ["url", "query", "raw_path", "country", "category", "hotline", "crisis_intent", "user_behavior", "ip", "referrer", "contact_data", "authorization", "raw_key", "distress_analytics"] },
+  "non_offer": true
+}

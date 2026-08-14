@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://worldhotlines.org/managed-api-plans/v1/plan-catalog.schema.json",
+  "title": "Managed API plan catalog v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "status", "currency", "free_static_surfaces", "plans", "counter_transition", "privacy", "non_offer"],
+  "properties": {
+    "schema": { "const": "managed-api-plan-catalog/v1" },
+    "status": { "const": "proposed_design_only" },
+    "currency": { "const": "USD" },
+    "free_static_surfaces": {
+      "type": "object", "additionalProperties": false,
+      "required": ["keyless", "metered", "surfaces"],
+      "properties": {
+        "keyless": { "const": true }, "metered": { "const": false },
+        "surfaces": { "const": ["site", "/api/v1/**", "feeds", "widget", "data"] }
+      }
+    },
+    "plans": {
+      "type": "array", "minItems": 3, "maxItems": 3,
+      "prefixItems": [
+        { "$ref": "#/$defs/developerFree" }, { "$ref": "#/$defs/growth" }, { "$ref": "#/$defs/enterprise" }
+      ], "items": false
+    },
+    "counter_transition": {
+      "type": "object", "additionalProperties": false,
+      "required": ["implementation", "planning_operation", "generation", "authoritative_state", "authority", "atomicity", "cas_identity", "caller_supplied_state_trusted", "caller_supplied_generation_trusted", "deployed"],
+      "properties": { "implementation": { "const": "future_only" }, "planning_operation": { "const": "single_ordered_authoritative" }, "generation": { "const": "monotonic_safe_integer" }, "authoritative_state": { "const": ["generation", "utc_month", "used_units"] }, "authority": { "const": "store_read_only" }, "atomicity": { "const": "compare_and_swap_required" }, "cas_identity": { "const": "full_expected_state" }, "caller_supplied_state_trusted": { "const": false }, "caller_supplied_generation_trusted": { "const": false }, "deployed": { "const": false } }
+    },
+    "privacy": { "$ref": "#/$defs/privacy" },
+    "non_offer": { "const": true }
+  },
+  "$defs": {
+    "developerFree": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "availability", "monthly_price_usd", "monthly_managed_request_units", "payment_method_required", "commercial_use_permitted", "permission_caveat", "allowance_behavior", "automatic_overage_charge", "support", "sla", "design_only_limits"],
+      "properties": {
+        "id": { "const": "developer_free" }, "availability": { "const": "planned" },
+        "monthly_price_usd": { "const": 0 }, "monthly_managed_request_units": { "const": 100000 },
+        "payment_method_required": { "const": false }, "commercial_use_permitted": { "const": true },
+        "permission_caveat": { "const": "Repository access does not grant reuse rights; no repository license exists and permission must be confirmed." },
+        "allowance_behavior": { "const": "hard_stop_429_until_next_utc_month" }, "automatic_overage_charge": { "const": false },
+        "support": { "const": "best_effort_community" }, "sla": { "const": false },
+        "design_only_limits": {
+          "type": "object", "additionalProperties": false, "required": ["organizations", "projects", "active_keys"],
+          "properties": { "organizations": { "const": 1 }, "projects": { "const": 1 }, "active_keys": { "const": 2 } }
+        }
+      }
+    },
+    "growth": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "availability", "base_subscription_usd", "included_units", "overage_rate_usd", "metered_overage", "charge_opt_in_required", "automatic_free_conversion"],
+      "properties": {
+        "id": { "const": "growth" }, "availability": { "const": "planned" },
+        "base_subscription_usd": { "const": "not_published" }, "included_units": { "const": "not_published" }, "overage_rate_usd": { "const": "not_published" },
+        "metered_overage": { "const": true }, "charge_opt_in_required": { "const": true }, "automatic_free_conversion": { "const": false }
+      }
+    },
+    "enterprise": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "availability", "price", "options"],
+      "properties": {
+        "id": { "const": "enterprise" }, "availability": { "const": "planned" }, "price": { "const": "not_published" },
+        "options": { "const": ["custom_volume", "sla", "support", "procurement", "security"] }
+      }
+    },
+    "privacy": {
+      "type": "object", "additionalProperties": false,
+      "required": ["allowed", "forbidden"],
+      "properties": {
+        "allowed": { "const": ["account_id", "utc_month", "aggregate_managed_request_units", "monotonic_counter_generation"] },
+        "forbidden": { "const": ["url", "query", "raw_path", "country", "category", "hotline", "crisis_intent", "user_behavior", "ip", "referrer", "contact_data", "authorization", "raw_key", "distress_analytics"] }
+      }
+    }
+  }
+}

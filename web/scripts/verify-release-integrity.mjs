@@ -124,6 +124,7 @@ if (existsSync(descriptorPath) && existsSync(indexPath)) {
       ...discoverFiles(resolve(PUBLIC_ROOT, 'assurance-packs', 'v1')),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'provider-claims', 'v1')),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'reviewer-work-queue', 'v1')),
+      ...discoverFiles(resolve(PUBLIC_ROOT, 'managed-api-plans', 'v1')),
       ...discoverFiles(RELEASE_DIR).filter(({ path }) => !path.endsWith(`${sep}artifacts.json`) && !path.endsWith(`${sep}release.json`)),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'widget', 'v1')).filter(({ path }) => path.endsWith(`${sep}hotlines-widget.js`)),
     ];
