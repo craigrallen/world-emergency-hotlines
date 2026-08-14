@@ -41,6 +41,21 @@ for (const [name, value] of [
   ['arbitrary metadata', mutate(review, (x) => { x.metadata = {}; })],
 ]) test(`rejects review ${name}`, () => assert.throws(() => validateReviewDecision(value, claim)));
 
+test('rejects decision-specific uncertainty mismatches', () => {
+  const decisions = [
+    ['accepted_for_candidate', 'evidence_sufficient_for_candidate', true, 'bounded_uncertainty_remains'],
+    ['rejected', 'claim_rejected', false, 'material_uncertainty'],
+    ['needs_more_evidence', 'additional_evidence_required', false, 'insufficient_evidence'],
+  ];
+  for (const [state, reason, candidateEligible, expectedUncertainty] of decisions) {
+    for (const uncertainty of ['bounded_uncertainty_remains', 'material_uncertainty', 'insufficient_evidence']) {
+      if (uncertainty === expectedUncertainty) continue;
+      const value = mutate(review, (x) => { x.transition.to = state; x.decision_basis.decision = state; x.decision_basis.reason_code = reason; x.decision_basis.uncertainty = uncertainty; x.effects.candidate_eligibility_only = candidateEligible; });
+      assert.throws(() => validateReviewDecision(value, claim), `${state} must reject ${uncertainty}`);
+    }
+  }
+});
+
 test('rejected and needs-more-evidence decisions are never candidate eligible', () => {
   for (const [state, reason, uncertainty] of [['rejected', 'claim_rejected', 'material_uncertainty'], ['needs_more_evidence', 'additional_evidence_required', 'insufficient_evidence']]) {
     const value = mutate(review, (x) => { x.transition.to = state; x.decision_basis.decision = state; x.decision_basis.reason_code = reason; x.decision_basis.uncertainty = uncertainty; x.effects.candidate_eligibility_only = false; });
