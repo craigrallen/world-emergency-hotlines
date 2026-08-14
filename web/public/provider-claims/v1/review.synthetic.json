@@ -1,0 +1,34 @@
+{
+  "schema": "provider-claim-independent-review/v1",
+  "review_id": "prv_syn_example_0001",
+  "claim_id": "pclm_syn_example_0001",
+  "reviewer": {
+    "identity": "reviewer-independent.example.invalid",
+    "role": "independent_reviewer"
+  },
+  "transition": {
+    "from": "staged",
+    "via": "under_review",
+    "to": "accepted_for_candidate"
+  },
+  "decision_basis": {
+    "decision": "accepted_for_candidate",
+    "reason_code": "evidence_sufficient_for_candidate",
+    "reason": "Synthetic evidence is bounded enough for separate candidate workflow review",
+    "evidence_ids": ["pev_syn_document_0001"],
+    "uncertainty": "bounded_uncertainty_remains"
+  },
+  "conflict_declaration": {
+    "no_conflict": true,
+    "not_claimant": true,
+    "not_provider": true,
+    "basis": "Reviewer identity and synthetic affiliations are distinct from claimant and provider"
+  },
+  "effects": {
+    "candidate_eligibility_only": true,
+    "canonical_mutation": false,
+    "verified_status": false,
+    "ranking_or_search_effect": false,
+    "publication": false
+  }
+}

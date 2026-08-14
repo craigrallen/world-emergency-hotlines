@@ -25,6 +25,7 @@
     "verify:managed-widget-config": "node scripts/verify-managed-widget-config-contracts.mjs && node --test ../managed-widget-config/test/*.test.mjs",
     "verify:technical-health": "node scripts/verify-technical-health-contracts.mjs && node --test ../technical-health/test/*.test.mjs",
     "verify:assurance-packs": "node scripts/verify-assurance-pack-contracts.mjs && node --test ../assurance-packs/test/*.test.mjs",
+    "verify:provider-claims": "node scripts/verify-provider-claim-contracts.mjs && node --test ../provider-claims/test/*.test.mjs",
     "verify:subscriptions": "SOURCE_DATE_EPOCH=1786579200 node scripts/build-static-data.mjs && node scripts/verify-subscription-contracts.mjs",
     "verify:release": "SOURCE_DATE_EPOCH=1786579200 node scripts/build-static-data.mjs && node scripts/verify-release-feeds.mjs && node scripts/verify-release-reproducibility.mjs && node scripts/verify-release-integrity.mjs && npm run verify:feeds:artifacts",
     "verify:feeds:unit": "node scripts/verify-release-feeds.mjs && node scripts/verify-dataset-append-only.mjs",
@@ -32,7 +33,7 @@
     "verify:feeds:artifacts": "node scripts/verify-release-feed-artifacts.mjs && python3 scripts/verify-release-feed-semantics.py",
     "release:dataset:candidate": "node scripts/release-dataset-candidate.mjs",
     "verify:caddy": "sh scripts/verify-caddy.sh",
-    "verify:all": "npm run verify:data && npm run verify:search && npm run verify:discovery && npm run verify:trust && npm run verify:finder && npm run verify:api && npm run verify:widget && npm run verify:integration && npm run verify:gateway && npm run verify:organizations && npm run verify:managed-widget-config && npm run verify:technical-health && npm run verify:assurance-packs && npm run verify:release",
+    "verify:all": "npm run verify:data && npm run verify:search && npm run verify:discovery && npm run verify:trust && npm run verify:finder && npm run verify:api && npm run verify:widget && npm run verify:integration && npm run verify:gateway && npm run verify:organizations && npm run verify:managed-widget-config && npm run verify:technical-health && npm run verify:assurance-packs && npm run verify:provider-claims && npm run verify:release",
     "typecheck": "astro check"
   },
   "dependencies": {
