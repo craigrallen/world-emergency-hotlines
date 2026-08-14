@@ -25,14 +25,14 @@ function eventPin(event) {
 export function validateWorkQueue(queue, claim, claimBytes) {
   validateClaimEnvelope(claim);
   encodedBy(claimBytes, claim, 'claim');
-  exact(queue, ['schema', 'queue_id', 'ordering', 'items', 'effects'], 'queue'); assert.equal(queue.schema, 'reviewer-work-queue/v1'); assert.match(queue.queue_id, IDS.queue);
+  exact(queue, ['schema', 'queue_id', 'queueing_actor', 'ordering', 'items', 'effects'], 'queue'); assert.equal(queue.schema, 'reviewer-work-queue/v1'); assert.match(queue.queue_id, IDS.queue); identity(queue.queueing_actor, 'queueing actor'); assert.notEqual(queue.queueing_actor, claim.claimant.identity, 'claimant cannot queue'); assert.notEqual(queue.queueing_actor, claim.provider.identity, 'provider cannot queue');
   exact(queue.ordering, ['method', 'meaning'], 'ordering'); assert.equal(queue.ordering.method, 'administrative_sequence'); assert.equal(queue.ordering.meaning, 'explicit_non_priority_non_ranking_order');
   assert.ok(Array.isArray(queue.items) && queue.items.length === 1, 'v1 queue must contain exactly one item');
   const itemIds = new Set(); const claimIds = new Set();
   queue.items.forEach((item, index) => {
     exact(item, ['item_id', 'administrative_sequence', 'claim_id', 'claim_pin', 'assigned_reviewer', 'state'], 'queue item'); assert.match(item.item_id, IDS.item); assert.ok(!itemIds.has(item.item_id), 'duplicate queue item ID'); itemIds.add(item.item_id);
     assert.equal(item.administrative_sequence, index + 1, 'administrative sequence must be explicit, contiguous, and array ordered'); assert.equal(item.claim_id, claim.claim_id, 'queue item claim substitution'); assert.ok(!claimIds.has(item.claim_id), 'duplicate queue claim ID'); claimIds.add(item.claim_id);
-    assert.match(item.claim_pin, SHA); assert.equal(item.claim_pin, pin(claimBytes), 'claim content pin mismatch'); identity(item.assigned_reviewer, 'assigned reviewer'); assert.notEqual(item.assigned_reviewer, claim.claimant.identity, 'claimant cannot be assigned'); assert.notEqual(item.assigned_reviewer, claim.provider.identity, 'provider cannot be assigned'); assert.ok(['queued', 'assigned', 'disposed'].includes(item.state), 'invalid queue state');
+    assert.match(item.claim_pin, SHA); assert.equal(item.claim_pin, pin(claimBytes), 'claim content pin mismatch'); identity(item.assigned_reviewer, 'assigned reviewer'); assert.notEqual(item.assigned_reviewer, claim.claimant.identity, 'claimant cannot be assigned'); assert.notEqual(item.assigned_reviewer, claim.provider.identity, 'provider cannot be assigned'); assert.notEqual(item.assigned_reviewer, queue.queueing_actor, 'queueing actor cannot be assigned'); assert.ok(['queued', 'assigned', 'disposed'].includes(item.state), 'invalid queue state');
   }); effects(queue.effects); return true;
 }
 
@@ -46,7 +46,8 @@ export function validateDispositionAudit(audit, queue, claim, review, queueBytes
     exact(event, ['event_id', 'sequence', 'item_id', 'claim_id', 'actor', 'action', 'from', 'to', 'previous_event_sha256', 'event_sha256'], 'audit event'); assert.match(event.event_id, IDS.event); assert.ok(!eventIds.has(event.event_id), 'duplicate event ID'); eventIds.add(event.event_id); assert.equal(event.sequence, index + 1, 'audit sequence reordered, skipped, or duplicated');
     const item = queue.items[0]; const phase = expected[index]; assert.equal(event.item_id, item.item_id, 'cross-item event substitution'); assert.equal(event.claim_id, item.claim_id, 'cross-claim event substitution'); identity(event.actor, 'event actor'); assert.deepEqual([event.action, event.from, event.to], phase, 'invalid audit transition');
     assert.match(event.previous_event_sha256, SHA); assert.equal(event.previous_event_sha256, index === 0 ? GENESIS_EVENT_SHA256 : audit.events[index - 1].event_sha256, 'broken audit event history link'); assert.match(event.event_sha256, SHA); assert.equal(event.event_sha256, eventPin(event), 'audit event content hash mismatch');
-    if (event.action !== 'queued') assert.equal(event.actor, item.assigned_reviewer, 'assignment identity substitution');
+    if (event.action === 'queued') assert.equal(event.actor, queue.queueing_actor, 'queueing actor identity substitution');
+    else assert.equal(event.actor, item.assigned_reviewer, 'assignment identity substitution');
   });
   assert.match(audit.event_head_sha256, SHA); assert.equal(audit.event_head_sha256, audit.events[2].event_sha256, 'audit event head mismatch');
   const terminal = audit.terminal_disposition; exact(terminal, ['item_id', 'claim_id', 'review_id', 'review_pin', 'decision', 'candidate_eligible'], 'terminal disposition'); const item = queue.items[0]; assert.equal(item.state, 'disposed', 'full audit requires disposed queue state'); assert.equal(terminal.item_id, item.item_id); assert.equal(terminal.claim_id, item.claim_id); assert.equal(terminal.review_id, review.review_id); assert.match(terminal.review_pin, SHA); assert.equal(terminal.review_pin, pin(reviewBytes), 'review content pin mismatch'); assert.equal(item.assigned_reviewer, review.reviewer.identity, 'queue reviewer does not match provider review reviewer identity');

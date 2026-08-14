@@ -4,10 +4,11 @@
   "title": "Static synthetic reviewer work queue v1",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema", "queue_id", "ordering", "items", "effects"],
+  "required": ["schema", "queue_id", "queueing_actor", "ordering", "items", "effects"],
   "properties": {
     "schema": { "const": "reviewer-work-queue/v1" },
     "queue_id": { "type": "string", "pattern": "^rwq_syn_[a-z0-9_]{8,48}$" },
+    "queueing_actor": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*\\.invalid$" },
     "ordering": {
       "type": "object", "additionalProperties": false,
       "required": ["method", "meaning"],
@@ -43,5 +44,5 @@
       }
     }
   },
-  "x-runtime-invariants": ["v1 contains exactly one item with administrative_sequence 1", "ordering never expresses or derives priority, urgency, geography, crisis intent, provider prominence, risk, or ranking", "claim pins bind exact validated provider-claim bytes", "assigned reviewer exactly matches the pinned provider review reviewer identity and cannot be substituted", "a supplied full disposition audit requires the item state to be disposed"]
+  "x-runtime-invariants": ["v1 contains exactly one item with administrative_sequence 1", "ordering never expresses or derives priority, urgency, geography, crisis intent, provider prominence, risk, or ranking", "claim pins bind exact validated provider-claim bytes", "queueing actor is a synthetic identity distinct from claimant, provider, and assigned reviewer and exactly matches the queued event actor", "assigned reviewer exactly matches the pinned provider review reviewer identity and cannot be substituted", "a supplied full disposition audit requires the item state to be disposed"]
 }

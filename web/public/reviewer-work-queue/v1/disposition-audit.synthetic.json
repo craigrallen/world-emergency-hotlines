@@ -2,7 +2,7 @@
   "schema": "reviewer-disposition-audit/v1",
   "audit_id": "rwa_syn_example_0001",
   "queue_id": "rwq_syn_example_0001",
-  "queue_pin": "sha256:6b62641b70024e7b2f731cdd98fc200f12b8d50917c5f2ce368b47b45ecf6441",
+  "queue_pin": "sha256:ee9209bd0d9eeb0b6669a31d2ae2b6ebcf4f5869d595d36d94beaf8a0f0f0157",
   "append_only": true,
   "events": [
     { "event_id": "rwe_syn_example_0001", "sequence": 1, "item_id": "rwi_syn_example_0001", "claim_id": "pclm_syn_example_0001", "actor": "queue-system.example.invalid", "action": "queued", "from": "not_queued", "to": "queued", "previous_event_sha256": "sha256:0000000000000000000000000000000000000000000000000000000000000000", "event_sha256": "sha256:199a5ad11fba92ed4cbed45b01bc7ef2b682b4b3212cd61e6caca5df2d63ee15" },

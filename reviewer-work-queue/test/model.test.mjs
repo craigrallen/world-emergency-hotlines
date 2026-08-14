@@ -46,6 +46,9 @@ for (const [name, value] of [
   ['risk score field', mutate(queue, (x) => { x.items[0].risk_score = 1; })],
   ['ranking field', mutate(queue, (x) => { x.items[0].ranking = 1; })],
   ['canonical-shaped item ID', mutate(queue, (x) => { x.items[0].item_id = 'weh_0123456789abcdef01234567'; })],
+  ['claimant queueing actor', mutate(queue, (x) => { x.queueing_actor = claim.claimant.identity; })],
+  ['provider queueing actor', mutate(queue, (x) => { x.queueing_actor = claim.provider.identity; })],
+  ['assigned-reviewer queueing actor', mutate(queue, (x) => { x.queueing_actor = x.items[0].assigned_reviewer; })],
   ['claimant assignment', mutate(queue, (x) => { x.items[0].assigned_reviewer = claim.claimant.identity; })],
   ['provider assignment', mutate(queue, (x) => { x.items[0].assigned_reviewer = claim.provider.identity; })],
   ['canonical effect', mutate(queue, (x) => { x.effects.canonical_mutation = true; })],
@@ -87,8 +90,13 @@ test('rejects coherent queue and event-actor substitution despite recomputed que
   assert.throws(() => validateDispositionAudit(changedAudit, changedQueue, claim, review, changedQueueBytes, claimBytes, reviewBytes), /queue reviewer does not match provider review reviewer identity/);
 });
 
+test('rejects queued actor substitution despite a fully recomputed event chain and head', () => {
+  const changedAudit = mutate(audit, (x) => { x.events[0].actor = 'alternate-queue-system.example.invalid'; rechain(x); });
+  assert.throws(() => validateDispositionAudit(changedAudit, queue, claim, review, queueBytes, claimBytes, reviewBytes), /queueing actor identity substitution/);
+});
+
 test('rejects historical event-prefix rewriting through the committed successor link', () => {
-  const changedAudit = mutate(audit, (x) => { x.events[0].actor = 'alternate-queue-system.example.invalid'; x.events[0].event_sha256 = eventPin(x.events[0]); });
+  const changedAudit = mutate(audit, (x) => { x.events[0].event_id = 'rwe_syn_alternate_0001'; x.events[0].event_sha256 = eventPin(x.events[0]); });
   assert.throws(() => validateDispositionAudit(changedAudit, queue, claim, review, queueBytes, claimBytes, reviewBytes), /broken audit event history link/);
 });
 

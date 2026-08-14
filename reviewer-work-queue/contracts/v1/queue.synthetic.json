@@ -1,6 +1,7 @@
 {
   "schema": "reviewer-work-queue/v1",
   "queue_id": "rwq_syn_example_0001",
+  "queueing_actor": "queue-system.example.invalid",
   "ordering": { "method": "administrative_sequence", "meaning": "explicit_non_priority_non_ranking_order" },
   "items": [
     {
