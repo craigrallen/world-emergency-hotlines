@@ -14,7 +14,7 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-mkdir -p "$fixture/release/v1/changes" "$fixture/feeds" "$fixture/subscriptions/v1" "$fixture/gateway/v1" "$fixture/organizations/v1" "$fixture/managed-widget-config/v1" "$fixture/responses"
+mkdir -p "$fixture/release/v1/changes" "$fixture/feeds" "$fixture/subscriptions/v1" "$fixture/gateway/v1" "$fixture/organizations/v1" "$fixture/managed-widget-config/v1" "$fixture/technical-health/v1" "$fixture/responses"
 expected_release="$fixture/release/v1/release.json"
 printf '%s\n' '{"schema_version":"1.0","release_id":"sha256:test"}' > "$expected_release"
 printf '%s\n' '{"schema_version":"1.0"}' > "$fixture/release/v1/changes.json"
@@ -35,6 +35,8 @@ printf '%s\n' '# Organization foundation design contract — not deployed' > "$f
 printf '%s\n' '{"$schema":"https://json-schema.org/draft/2020-12/schema"}' > "$fixture/managed-widget-config/v1/config.schema.json"
 printf '%s\n' '{"openapi":"3.1.0"}' > "$fixture/managed-widget-config/v1/openapi.json"
 printf '%s\n' '# Managed widget configuration static design contract only' > "$fixture/managed-widget-config/v1/README.md"
+printf '%s\n' '{"$schema":"https://json-schema.org/draft/2020-12/schema"}' > "$fixture/technical-health/v1/dashboard.schema.json"
+printf '%s\n' '# Static technical-health contract v1 — SYNTHETIC / NOT A SERVICE' > "$fixture/technical-health/v1/README.md"
 expected_missing="$fixture/responses/missing.body"
 printf '%s' 'Not found' > "$expected_missing"
 
@@ -156,6 +158,20 @@ done
 for method in POST PUT PATCH DELETE; do
   status=$(curl --max-time 5 -sS -X "$method" -o /dev/null -w '%{http_code}' "$base/organizations/v1/openapi.json")
   [ "$status" = 404 ] || { echo "$method static organization contract returned $status" >&2; exit 1; }
+done
+for health_spec in 'technical-health/v1/dashboard.schema.json|application/schema+json; charset=utf-8' 'technical-health/v1/README.md|text/markdown; charset=utf-8'; do
+  health_path=${health_spec%%|*}; health_type=${health_spec#*|}; health_headers="$fixture/responses/$(printf '%s' "$health_path" | tr '/' '-').headers"
+  curl --max-time 5 -sS -D "$health_headers" -o /dev/null "$base/$health_path"
+  require_status GET "/$health_path" 200 "$health_headers"; require_header "$health_headers" Content-Type "$health_type"; require_feed_cors "$health_headers"
+done
+for method in POST PUT PATCH DELETE; do
+  status=$(curl --max-time 5 -sS -X "$method" -o /dev/null -w '%{http_code}' "$base/technical-health/v1/dashboard.schema.json")
+  [ "$status" = 404 ] || { echo "$method static technical-health contract returned $status" >&2; exit 1; }
+done
+for spec in 'OPTIONS|technical-health/v1/dashboard.schema.json|204' 'GET|technical-health/v1/missing.json|404' 'HEAD|technical-health/v1/missing.json|404' 'OPTIONS|technical-health/v1/missing.json|404'; do
+  method=${spec%%|*}; rest=${spec#*|}; path=${rest%%|*}; expected=${rest#*|}; headers="$fixture/responses/health-$method-$(printf '%s' "$path" | tr '/' '-').headers"
+  if [ "$method" = HEAD ]; then curl --max-time 5 -sS --request HEAD --ignore-content-length -H 'Connection: close' -D "$headers" -o /dev/null "$base/$path"; else curl --max-time 5 -sS -X "$method" -D "$headers" -o /dev/null "$base/$path"; fi
+  require_status "$method" "/$path" "$expected" "$headers"
 done
 for config_spec in 'managed-widget-config/v1/config.schema.json|application/schema+json; charset=utf-8' 'managed-widget-config/v1/openapi.json|application/vnd.oai.openapi+json; charset=utf-8' 'managed-widget-config/v1/README.md|text/markdown; charset=utf-8'; do
   config_path=${config_spec%%|*}; config_type=${config_spec#*|}; config_headers="$fixture/responses/$(printf '%s' "$config_path" | tr '/' '-').headers"
@@ -296,4 +312,4 @@ require_header "$missing_options_headers" Access-Control-Allow-Origin '*'
 require_header "$missing_options_headers" Access-Control-Allow-Methods 'GET, HEAD, OPTIONS'
 require_header "$missing_options_headers" Access-Control-Allow-Headers 'Accept, If-None-Match, If-Modified-Since'
 
-echo "Caddy integration OK: release/feed/subscription/organization static MIME and CORS; organization GET/HEAD, existing-file OPTIONS, all writes and unknown routes enforce the read-only 404 boundary; no route shadowing"
+echo "Caddy integration OK: release/feed/subscription/organization/technical-health static MIME and CORS; existing-file OPTIONS, all writes and unknown routes enforce the read-only 404 boundary; no route shadowing"

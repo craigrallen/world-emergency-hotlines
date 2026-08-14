@@ -1,0 +1,8 @@
+{
+  "schema": "technical-health-aggregate/v1", "window": "2026-W32", "retention_days": 90, "boundary_deletion_days": 7, "minimum_event_count": 100,
+  "cells": [
+    {"event":"integration_loaded","integration_mode":"snapshot","major_version":"v1","count":120},
+    {"event":"artifact_fetch_result","artifact_type":"resolver","result":"network_error","major_version":"v1","count":184},
+    {"event":"resolver_execution_result","result":"empty","major_version":"v1","count":101}
+  ], "suppressed_cell_count": 7
+}

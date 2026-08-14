@@ -200,6 +200,38 @@
             }
         }
 
+        # Static privacy-safe technical-health schemas/examples only. There is
+        # no telemetry receiver, query API, persistence, monitoring, or writes.
+        handle /technical-health/v1/* {
+            route {
+                @technicalHealthOptions {
+                    method OPTIONS
+                    file {path}
+                }
+                header @technicalHealthOptions {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                }
+                respond @technicalHealthOptions 204
+                @technicalHealthWrite not method GET HEAD OPTIONS
+                respond @technicalHealthWrite "Not found" 404
+                @technicalHealthSchema path *.schema.json
+                header @technicalHealthSchema Content-Type "application/schema+json; charset=utf-8"
+                @technicalHealthMarkdown path *.md
+                header @technicalHealthMarkdown Content-Type "text/markdown; charset=utf-8"
+                @technicalHealthFile file {path}
+                header @technicalHealthFile {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                    Cache-Control "public, max-age=300, stale-while-revalidate=86400"
+                }
+                file_server @technicalHealthFile
+                respond "Not found" 404
+            }
+        }
+
         handle /feeds/* {
             route {
                 @feedOptions method OPTIONS

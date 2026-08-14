@@ -14,7 +14,7 @@ export const API_MAJOR = 1;
 export const RESOLVER_MAJOR = 1;
 export const WIDGET_MAJOR = 1;
 export const BUILD_VERSION_INPUTS = {
-  integration_generator: ['scripts/build-static-data.mjs', 'scripts/centroids.json', 'scripts/dataset-diff.mjs', 'scripts/generate-gateway-contracts.mjs', 'scripts/generate-managed-widget-config-contracts.mjs', 'scripts/generate-organization-contracts.mjs', 'repo:control-plane/model.mjs', 'repo:managed-widget-config/model.mjs', 'scripts/generate-subscription-contracts.mjs', 'scripts/metadata-coverage.mjs', 'scripts/release-feeds.mjs', 'scripts/release-integrity.mjs', 'scripts/subscription-events.mjs'],
+  integration_generator: ['scripts/build-static-data.mjs', 'scripts/centroids.json', 'scripts/dataset-diff.mjs', 'scripts/generate-gateway-contracts.mjs', 'scripts/generate-managed-widget-config-contracts.mjs', 'scripts/generate-organization-contracts.mjs', 'scripts/generate-technical-health-contracts.mjs', 'repo:control-plane/model.mjs', 'repo:managed-widget-config/model.mjs', 'repo:technical-health/model.mjs', 'scripts/generate-subscription-contracts.mjs', 'scripts/metadata-coverage.mjs', 'scripts/release-feeds.mjs', 'scripts/release-integrity.mjs', 'scripts/subscription-events.mjs'],
   resolver_code: ['src/lib/finder.js'],
   widget_code: ['public/widget/v1/hotlines-widget.js'],
 };
@@ -117,6 +117,7 @@ export function generateReleaseIntegrity({ datasetVersion }) {
     ...walkFiles(resolve(PUBLIC_ROOT, 'gateway', 'v1')),
     ...walkFiles(resolve(PUBLIC_ROOT, 'organizations', 'v1')),
     ...walkFiles(resolve(PUBLIC_ROOT, 'managed-widget-config', 'v1')),
+    ...walkFiles(resolve(PUBLIC_ROOT, 'technical-health', 'v1')),
     ...walkFiles(RELEASE_DIR).filter(({ path }) => !path.endsWith(`${sep}artifacts.json`) && !path.endsWith(`${sep}release.json`)),
     (() => { const path = resolve(PUBLIC_ROOT, 'widget', 'v1', 'hotlines-widget.js'); return { path, metadata: lstatSync(path) }; })(),
   ];
@@ -153,6 +154,7 @@ export function generateReleaseIntegrity({ datasetVersion }) {
     '/gateway/v1/README.md', '/gateway/v1/artifact-descriptor.schema.json', '/gateway/v1/error.schema.json', '/gateway/v1/health.schema.json', '/gateway/v1/key-record.schema.json', '/gateway/v1/openapi.json', '/gateway/v1/privacy.json', '/gateway/v1/security.json',
     '/organizations/v1/README.md', '/organizations/v1/fixture.synthetic.json', '/organizations/v1/model.schema.json', '/organizations/v1/openapi.json',
     '/managed-widget-config/v1/README.md', '/managed-widget-config/v1/config.schema.json', '/managed-widget-config/v1/envelope.schema.json', '/managed-widget-config/v1/fixture.synthetic.json', '/managed-widget-config/v1/keys.synthetic.json', '/managed-widget-config/v1/openapi.json',
+    '/technical-health/v1/README.md', '/technical-health/v1/aggregate-batch.schema.json', '/technical-health/v1/aggregate.synthetic.json', '/technical-health/v1/dashboard.schema.json', '/technical-health/v1/dashboard.synthetic.json',
   ];
   const payload = {
     schema_version: RELEASE_SCHEMA_VERSION,
@@ -176,7 +178,7 @@ export function generateReleaseIntegrity({ datasetVersion }) {
       path: '/release/v1/artifacts.json',
       sha256: digestFile(indexPath),
       artifact_count: artifacts.length,
-      coverage: ['/data/**', '/api/v1/**', '/widget/v1/hotlines-widget.js', '/release/v1/changes.json', '/release/v1/changes/**', '/feeds/**', '/subscriptions/v1/**', '/gateway/v1/**', '/organizations/v1/**', '/managed-widget-config/v1/**'],
+      coverage: ['/data/**', '/api/v1/**', '/widget/v1/hotlines-widget.js', '/release/v1/changes.json', '/release/v1/changes/**', '/feeds/**', '/subscriptions/v1/**', '/gateway/v1/**', '/organizations/v1/**', '/managed-widget-config/v1/**', '/technical-health/v1/**'],
       excludes: ['/release/v1/artifacts.json', '/release/v1/release.json'],
     },
     checksum_semantics: 'Unsigned SHA-256 checksums detect byte mismatch after a descriptor is obtained through a trusted channel; they do not prove publisher identity or freshness.',

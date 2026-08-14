@@ -62,8 +62,12 @@ require_page /organizations/v1/README.md 'foundation design contract — not dep
 require_page /organizations/v1/openapi.json 'future-admin/organizations/v1' "$fixture/organizations-openapi.json"
 require_page /managed-widget-config/v1/README.md 'STATIC/SYNTHETIC' "$fixture/managed-widget-config-readme.md"
 require_page /managed-widget-config/v1/openapi.json 'managed-config-api.example.invalid' "$fixture/managed-widget-config-openapi.json"
+require_page /technical-health/v1/README.md 'SYNTHETIC / NOT A SERVICE' "$fixture/technical-health-readme.md"
+require_page /technical-health/v1/dashboard.schema.json 'technical-health-dashboard/v1' "$fixture/technical-health-dashboard-schema.json"
 organization_write_status=$(curl --max-time 5 -sS -X POST -o "$fixture/organizations-write.txt" -w '%{http_code}' "$base/organizations/v1/openapi.json")
 [ "$organization_write_status" = 404 ] || { echo "POST static organization contract returned $organization_write_status" >&2; exit 1; }
+technical_health_write_status=$(curl --max-time 5 -sS -X POST -o "$fixture/technical-health-write.txt" -w '%{http_code}' "$base/technical-health/v1/aggregate.synthetic.json")
+[ "$technical_health_write_status" = 404 ] || { echo "POST static technical-health contract returned $technical_health_write_status" >&2; exit 1; }
 node - "$fixture/release.json" <<'NODE'
 const { readFileSync } = require('node:fs');
 

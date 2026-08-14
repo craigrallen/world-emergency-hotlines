@@ -78,6 +78,8 @@ Use HTTPS, validate JSON shape and allowed enum values, escape all displayed dat
 
 Resolution can remain client-side so locality, need, and channel selections are not sent to this project. Do not place sensitive values in URLs, logs, analytics, server-rendered attributes, or referers. This repository does not implement or enable integration telemetry. Any customer-controlled aggregate measurement must follow [the privacy-safe metrics contract](PRIVACY_SAFE_METRICS.md).
 
+The published `/technical-health/v1/` tree is a static contract and synthetic reference harness output, not an ingestion or monitoring endpoint. Its dashboard document can be derived locally only from a complete valid thresholded aggregate batch and release descriptor. It must not interpret missing or suppressed cells as success, and it makes no claim about hotline availability, user outcomes, website/API uptime, or an active monitored/SLA service.
+
 ## Verification and scope limitations
 
 Listings are source-backed directory records, not live availability checks, medical advice, clinical suitability, legal compliance, eligibility, or successful-contact guarantees. Verification statuses describe the recorded evidence and review method; they do not prove current operation. Geography describes recorded scope, not the user's identity or eligibility. Coverage and metadata depth vary, and numbers, hours, services, and official guidance can change. Review the cited provider or authority source at the point your production process requires.

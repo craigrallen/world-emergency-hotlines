@@ -1,0 +1,6 @@
+{
+  "schema":"technical-health-dashboard/v1","dashboard_kind":"static_reference",
+  "release":{"release_id":"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa","dataset_version":"sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb","artifact_count":42,"state":"descriptor_indexed"},
+  "aggregate":{"state":"thresholded_aggregate_present","window":"2026-W32","minimum_event_count":100,"released_cell_count":3,"suppressed_cell_count":7},
+  "interpretation":"Technical aggregate and static release evidence only; not hotline availability, uptime, user outcomes, live monitoring, or an SLA."
+}

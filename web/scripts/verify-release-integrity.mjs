@@ -120,6 +120,7 @@ if (existsSync(descriptorPath) && existsSync(indexPath)) {
       ...discoverFiles(resolve(PUBLIC_ROOT, 'gateway', 'v1')),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'organizations', 'v1')),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'managed-widget-config', 'v1')),
+      ...discoverFiles(resolve(PUBLIC_ROOT, 'technical-health', 'v1')),
       ...discoverFiles(RELEASE_DIR).filter(({ path }) => !path.endsWith(`${sep}artifacts.json`) && !path.endsWith(`${sep}release.json`)),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'widget', 'v1')).filter(({ path }) => path.endsWith(`${sep}hotlines-widget.js`)),
     ];
@@ -154,6 +155,9 @@ if (existsSync(descriptorPath) && existsSync(indexPath)) {
   }
   for (const required of ['/managed-widget-config/v1/README.md','/managed-widget-config/v1/config.schema.json','/managed-widget-config/v1/envelope.schema.json','/managed-widget-config/v1/fixture.synthetic.json','/managed-widget-config/v1/keys.synthetic.json','/managed-widget-config/v1/openapi.json']) {
     if (!descriptor.relationships?.[required]) fail(`missing managed widget configuration relationship: ${required}`);
+  }
+  for (const required of ['/technical-health/v1/README.md','/technical-health/v1/aggregate-batch.schema.json','/technical-health/v1/aggregate.synthetic.json','/technical-health/v1/dashboard.schema.json','/technical-health/v1/dashboard.synthetic.json']) {
+    if (!descriptor.relationships?.[required]) fail(`missing technical-health contract relationship: ${required}`);
   }
 }
 
