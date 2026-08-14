@@ -20,6 +20,7 @@ COPY docs/dataset-release-snapshots/ ./docs/dataset-release-snapshots/
 COPY gateway/contracts/ ./gateway/contracts/
 COPY control-plane/ ./control-plane/
 COPY managed-widget-config/ ./managed-widget-config/
+COPY technical-health/ ./technical-health/
 COPY web/ ./web/
 
 # Generate /public/data and build the static Astro site

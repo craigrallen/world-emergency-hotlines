@@ -20,6 +20,7 @@ import { generateSubscriptionContracts } from './generate-subscription-contracts
 import { generateGatewayContracts, verifyGatewayContractDrift } from './generate-gateway-contracts.mjs';
 import { generateOrganizationContracts, verifyOrganizationContractDrift } from './generate-organization-contracts.mjs';
 import { generateManagedWidgetConfigContracts, verifyManagedWidgetConfigContractDrift } from './generate-managed-widget-config-contracts.mjs';
+import { generateTechnicalHealthContracts } from './generate-technical-health-contracts.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const WEB_ROOT = resolve(__dirname, '..');
@@ -351,6 +352,7 @@ generateSubscriptionContracts();
 generateGatewayContracts();
 generateOrganizationContracts();
 generateManagedWidgetConfigContracts();
+generateTechnicalHealthContracts();
 const release = generateReleaseIntegrity({ datasetVersion: manifest.dataset_version });
 
 console.log(`  wrote ${manifestEntries.length} country shards + manifest + search-index + categories-stats + metadata-coverage`);

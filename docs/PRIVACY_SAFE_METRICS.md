@@ -1,6 +1,6 @@
 # Privacy-safe technical metrics contract
 
-This is an implementable specification for a possible customer-controlled technical-health measurement system. **Telemetry is not implemented or enabled by this repository.** This specification is not legal guidance, permission, authorization to collect data, or a claim that a managed analytics service exists. Any implementation and release process requires explicit qualified privacy and legal review.
+This is an implementable specification plus a static/local reference harness for a possible customer-controlled technical-health measurement system. **Telemetry is not implemented or enabled by this repository.** The versioned schemas, conspicuously synthetic examples, and dependency-free validator/deriver live under `technical-health/`; generated public copies live under `/technical-health/v1/`. They perform no networking or persistence and expose no ingestion or query route. This specification is not legal guidance, permission, authorization to collect data, or a claim that a managed analytics service exists. Any implementation and release process requires explicit qualified privacy and legal review.
 
 ## Allowed specification
 
@@ -27,6 +27,7 @@ Delete all boundary counters and any raw transient processing data within **7 da
   "schema": "technical-health-aggregate/v1",
   "window": "2026-W32",
   "retention_days": 90,
+  "boundary_deletion_days": 7,
   "minimum_event_count": 100,
   "cells": [
     {
@@ -78,3 +79,9 @@ Reject this object at the customer boundary because it is a centrally stored raw
 ## Interpretation boundaries
 
 These counts measure technical executions only. They do not measure people, users, clients, devices, sessions, audience, intent, distress, contact attempts, actions, successful contact, service delivery, safety, availability, or outcomes. They must not be used to rank services, infer crisis needs, evaluate individuals, or optimize crisis routing. Differences between cells can reflect implementation behavior and suppression; they do not establish human behavior or impact.
+
+## Delivered dashboard contract
+
+The v1 dashboard is deterministic static reference output derived only from a valid complete aggregate batch and a minimal valid release descriptor. It reports `thresholded_aggregate_present` and `descriptor_indexed`; these are validation facts, not an operational “healthy” state. It cannot represent missing metrics as success and contains no timestamps, customer/organization/project IDs, component or route labels, latency, geography, categories, hotlines, behavioral fields, raw records, or open metadata. The public example uses synthetic SHA-256-shaped identities and does not identify the current release, which avoids a circular release-integrity claim.
+
+The existing `/status` HTML surface remains build-time static release evidence sourced from the generated release descriptor. It links to this contract but does not display or imply collected metrics. Neither surface reports hotline availability, user outcomes, uptime, incidents, or an active monitored/support/SLA service. Public crisis information remains free and measurement must never gate it.

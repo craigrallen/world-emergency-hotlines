@@ -27,7 +27,69 @@ test('body framing is rejected, connection closes, overload and shutdown are bou
 
 test('actual generated release descriptor integrates with canonical public artifacts',()=>{const root=resolve(import.meta.dirname,'../../web/public'),releaseBytes=readFileSync(resolve(root,'release/v1/release.json')),indexBytes=readFileSync(resolve(root,'release/v1/artifacts.json')),release=JSON.parse(releaseBytes),descriptor=descriptorFromReleaseBytes(releaseBytes,indexBytes),key=createKey();assert.throws(()=>descriptorFromReleaseBytes(releaseBytes,Buffer.concat([indexBytes,Buffer.from(' ')])),/digest/);const gateway=createGateway({artifactRoot:root,artifactDescriptor:descriptor,pepper,releaseId:release.release_id,datasetVersion:release.dataset_version,keys:[record(key.raw,key.id)],origins:[]});assert.ok(gateway.server);});
 
-test('legacy envelope shape and extended trusted-release profiles are strict and non-hybrid',()=>{const root=resolve(import.meta.dirname,'../../web/public/release/v1'),extendedRelease=JSON.parse(readFileSync(resolve(root,'release.json'))),extendedIndex=JSON.parse(readFileSync(resolve(root,'artifacts.json'))),encode=value=>Buffer.from(`${JSON.stringify(value,null,2)}\n`),stable=value=>Array.isArray(value)?`[${value.map(stable).join(',')}]`:value&&typeof value==='object'?`{${Object.keys(value).sort().map(k=>`${JSON.stringify(k)}:${stable(value[k])}`).join(',')}}`:JSON.stringify(value);assert.ok(descriptorFromRelease(extendedRelease,extendedIndex));assert.ok(extendedRelease.build_version_semantics.inputs.integration_generator.includes('scripts/generate-managed-widget-config-contracts.mjs'));assert.ok(extendedRelease.build_version_semantics.inputs.integration_generator.includes('repo:managed-widget-config/model.mjs'));const release=structuredClone(extendedRelease),index=structuredClone(extendedIndex);index.artifacts=index.artifacts.filter(x=>!x.path.startsWith('/managed-widget-config/v1/'));for(const path of Object.keys(release.relationships))if(path.startsWith('/managed-widget-config/v1/'))delete release.relationships[path];release.artifact_index.coverage=release.artifact_index.coverage.filter(x=>x!=='/managed-widget-config/v1/**');release.artifact_index.artifact_count=index.artifacts.length;release.build_version_semantics.inputs.integration_generator=release.build_version_semantics.inputs.integration_generator.filter(x=>x!=='scripts/generate-managed-widget-config-contracts.mjs'&&x!=='repo:managed-widget-config/model.mjs');assert.ok(!release.build_version_semantics.inputs.integration_generator.some(x=>x.includes('managed-widget-config')));const indexBytes=encode(index);release.artifact_index.sha256=sha(indexBytes);release.release_id=sha(Buffer.from(stable({schema_version:'1.0',canonical_origin:'https://worldhotlines.org',dataset_version:release.dataset_version,build_versions:release.build_versions,compatibility:release.compatibility,artifact_index_sha256:release.artifact_index.sha256})));assert.ok(descriptorFromReleaseBytes(encode(release),indexBytes));const hybrid=structuredClone(release);hybrid.relationships['/managed-widget-config/v1/README.md']=extendedRelease.relationships['/managed-widget-config/v1/README.md'];assert.throws(()=>descriptorFromRelease(hybrid,index),/invalid/);const extraIndex=structuredClone(index);extraIndex.artifacts.push(extendedIndex.artifacts.find(x=>x.path==='/managed-widget-config/v1/README.md'));extraIndex.artifacts.sort((a,b)=>a.path.localeCompare(b.path));assert.throws(()=>descriptorFromRelease(release,extraIndex),/invalid/);});
+test('all trusted-release profiles are accepted and adjacent hybrids are rejected', () => {
+  const root = resolve(import.meta.dirname, '../../web/public/release/v1');
+  const current = {
+    release: JSON.parse(readFileSync(resolve(root, 'release.json'))),
+    index: JSON.parse(readFileSync(resolve(root, 'artifacts.json'))),
+  };
+  const encode = (value) => Buffer.from(`${JSON.stringify(value, null, 2)}\n`);
+  const stable = (value) => Array.isArray(value)
+    ? `[${value.map(stable).join(',')}]`
+    : value && typeof value === 'object'
+      ? `{${Object.keys(value).sort().map((key) => `${JSON.stringify(key)}:${stable(value[key])}`).join(',')}}`
+      : JSON.stringify(value);
+  const finalize = ({ release, index }) => {
+    release.artifact_index.artifact_count = index.artifacts.length;
+    const indexBytes = encode(index);
+    release.artifact_index.sha256 = sha(indexBytes);
+    release.release_id = sha(Buffer.from(stable({
+      schema_version: '1.0',
+      canonical_origin: 'https://worldhotlines.org',
+      dataset_version: release.dataset_version,
+      build_versions: release.build_versions,
+      compatibility: release.compatibility,
+      artifact_index_sha256: release.artifact_index.sha256,
+    })));
+    return { release, index, indexBytes };
+  };
+  const without = (source, { namespace, coverage, buildInputs }) => {
+    const release = structuredClone(source.release);
+    const index = structuredClone(source.index);
+    index.artifacts = index.artifacts.filter(({ path }) => !path.startsWith(namespace));
+    for (const path of Object.keys(release.relationships)) if (path.startsWith(namespace)) delete release.relationships[path];
+    release.artifact_index.coverage = release.artifact_index.coverage.filter((entry) => entry !== coverage);
+    release.build_version_semantics.inputs.integration_generator =
+      release.build_version_semantics.inputs.integration_generator.filter((entry) => !buildInputs.includes(entry));
+    return finalize({ release, index });
+  };
+  const profiles = [
+    ['current', finalize(structuredClone(current)), null],
+  ];
+  profiles.push(['managed', without(profiles.at(-1)[1], {
+    namespace: '/technical-health/v1/', coverage: '/technical-health/v1/**',
+    buildInputs: ['scripts/generate-technical-health-contracts.mjs', 'repo:technical-health/model.mjs'],
+  }), '/technical-health/v1/README.md']);
+  profiles.push(['organization', without(profiles.at(-1)[1], {
+    namespace: '/managed-widget-config/v1/', coverage: '/managed-widget-config/v1/**',
+    buildInputs: ['scripts/generate-managed-widget-config-contracts.mjs', 'repo:managed-widget-config/model.mjs'],
+  }), '/managed-widget-config/v1/README.md']);
+  profiles.push(['legacy', without(profiles.at(-1)[1], {
+    namespace: '/organizations/v1/', coverage: '/organizations/v1/**',
+    buildInputs: ['scripts/generate-organization-contracts.mjs', 'repo:control-plane/model.mjs'],
+  }), '/organizations/v1/README.md']);
+
+  for (const [name, profile] of profiles) {
+    assert.ok(descriptorFromReleaseBytes(encode(profile.release), profile.indexBytes), `${name} profile rejected`);
+  }
+  for (let i = 1; i < profiles.length; i++) {
+    const [name, lower, adjacentPath] = profiles[i];
+    const upper = profiles[i - 1][1];
+    const hybrid = structuredClone(lower.release);
+    hybrid.relationships[adjacentPath] = upper.release.relationships[adjacentPath];
+    assert.throws(() => descriptorFromRelease(hybrid, lower.index), /invalid/, `${name} adjacent hybrid accepted`);
+  }
+});
 
 test('trusted release validation rejects complete-envelope tampering',()=>{const root=resolve(import.meta.dirname,'../../web/public/release/v1'),baseRelease=JSON.parse(readFileSync(resolve(root,'release.json'))),baseIndex=JSON.parse(readFileSync(resolve(root,'artifacts.json'))),encode=value=>Buffer.from(`${JSON.stringify(value,null,2)}\n`),attempt=(mutateRelease=()=>{},mutateIndex=()=>{})=>{const release=structuredClone(baseRelease),index=structuredClone(baseIndex);mutateIndex(index);const indexBytes=encode(index);release.artifact_index.sha256=sha(indexBytes);mutateRelease(release,index);assert.throws(()=>descriptorFromReleaseBytes(encode(release),indexBytes));};const unrelated=baseIndex.artifacts.findIndex(e=>e.path==='/data/manifest.json');attempt(()=>{},i=>i.artifacts[unrelated].bytes++);attempt(r=>r.artifact_index.path='/evil');attempt(r=>r.artifact_index.artifact_count++);attempt(r=>r.artifact_index.coverage=[...r.artifact_index.coverage,'/evil/**']);attempt(r=>r.artifact_index.excludes=[]);attempt(r=>r.artifact_index.sha256=hash);attempt(r=>r.release_id=hash);attempt(r=>r.dataset_version=hash);attempt(r=>r.schema_version='2.0');attempt(r=>r.unknown=true);attempt(r=>r.relationships['/data/manifest.json'].bytes++);attempt(r=>delete r.relationships['/data/manifest.json']);attempt(r=>r.relationships['/unknown']={path:'/unknown',sha256:hash,bytes:1});attempt(()=>{},i=>i.artifacts.reverse());attempt(()=>{},i=>i.artifacts.push({...i.artifacts[0]}));attempt(()=>{},i=>{i.artifacts.push({path:'/unknown',sha256:hash,bytes:1});i.artifacts.sort((a,b)=>a.path.localeCompare(b.path));});const polluted=Object.assign(Object.create({evil:true}),baseRelease);assert.throws(()=>descriptorFromRelease(polluted,baseIndex));});
 

@@ -18,6 +18,10 @@ const release = JSON.parse(readFileSync(resolve(process.cwd(), 'public/release/v
       <p class="mt-3 text-fg-muted">This static page does not test the website, CDN, API paths, widget, providers, phone numbers, or network reachability after deployment. It does not report hotline availability, operating status, incidents, uptime, response time, eligibility, or successful contact.</p>
     </div>
     <section class="mt-8">
+      <h2 class="text-2xl font-semibold text-fg">Technical-health reference contract</h2>
+      <p class="mt-3 text-fg-muted">A static, synthetic <a class="text-accent hover:underline" href="/technical-health/v1/README.md">privacy-safe technical-health contract</a> defines a thresholded weekly aggregate and deterministic local dashboard document. This build does not collect those metrics. Metric absence or suppression is not shown as success, health, uptime, or availability.</p>
+    </section>
+    <section class="mt-8">
       <h2 class="text-2xl font-semibold text-fg">Inspect the evidence</h2>
       <div class="mt-4 flex flex-wrap gap-4 text-sm"><a class="text-accent hover:underline" href="/release">Release and verification guide</a><a class="text-accent hover:underline" href="/release/v1/release.json">Machine-readable descriptor</a><a class="text-accent hover:underline" href="/release/v1/artifacts.json">Checksum index</a><a class="text-accent hover:underline" href="/releases">Release changelog</a></div>
       <p class="mt-4 text-sm text-fg-muted">All public integration surfaces remain static beta with no uptime, support, or SLA commitment. If an artifact cannot be fetched or verified, integrators should use their reviewed degraded behavior and revalidate before promotion.</p>

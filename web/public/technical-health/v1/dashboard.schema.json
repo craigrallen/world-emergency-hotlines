@@ -1,0 +1,9 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema","$id":"https://worldhotlines.org/technical-health/v1/dashboard.schema.json","title":"Static technical-health dashboard document v1","type":"object","additionalProperties":false,
+  "required":["schema","dashboard_kind","release","aggregate","interpretation"],"properties":{
+    "schema":{"const":"technical-health-dashboard/v1"},"dashboard_kind":{"const":"static_reference"},
+    "release":{"type":"object","additionalProperties":false,"required":["release_id","dataset_version","artifact_count","state"],"properties":{"release_id":{"type":"string","pattern":"^sha256:[0-9a-f]{64}$"},"dataset_version":{"type":"string","pattern":"^sha256:[0-9a-f]{64}$"},"artifact_count":{"type":"integer","minimum":1},"state":{"const":"descriptor_indexed"}}},
+    "aggregate":{"type":"object","additionalProperties":false,"required":["state","window","minimum_event_count","released_cell_count","suppressed_cell_count"],"properties":{"state":{"const":"thresholded_aggregate_present"},"window":{"type":"string","pattern":"^[0-9]{4}-W(0[1-9]|[1-4][0-9]|5[0-3])$"},"minimum_event_count":{"const":100},"released_cell_count":{"type":"integer","minimum":0},"suppressed_cell_count":{"type":"integer","minimum":0}}},
+    "interpretation":{"const":"Technical aggregate and static release evidence only; not hotline availability, uptime, user outcomes, live monitoring, or an SLA."}
+  }
+}

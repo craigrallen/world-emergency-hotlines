@@ -1,0 +1,987 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://worldhotlines.org/technical-health/v1/aggregate-batch.schema.json",
+  "title": "Privacy-safe thresholded technical aggregate batch v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "window",
+    "retention_days",
+    "boundary_deletion_days",
+    "minimum_event_count",
+    "cells",
+    "suppressed_cell_count"
+  ],
+  "properties": {
+    "schema": {
+      "const": "technical-health-aggregate/v1"
+    },
+    "window": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-W(0[1-9]|[1-4][0-9]|5[0-3])$"
+    },
+    "retention_days": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 90
+    },
+    "boundary_deletion_days": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 7
+    },
+    "minimum_event_count": {
+      "const": 100
+    },
+    "suppressed_cell_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "cells": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "event",
+              "integration_mode",
+              "major_version",
+              "count"
+            ],
+            "properties": {
+              "event": {
+                "const": "integration_loaded"
+              },
+              "integration_mode": {
+                "enum": [
+                  "finder_link",
+                  "api",
+                  "widget",
+                  "snapshot"
+                ]
+              },
+              "major_version": {
+                "const": "v1"
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 100
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version",
+              "count"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "enum": [
+                  "manifest",
+                  "country",
+                  "resolver",
+                  "widget",
+                  "snapshot"
+                ]
+              },
+              "result": {
+                "enum": [
+                  "success",
+                  "http_error",
+                  "network_error",
+                  "parse_error",
+                  "empty"
+                ]
+              },
+              "major_version": {
+                "const": "v1"
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 100
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "event",
+              "result",
+              "major_version",
+              "count"
+            ],
+            "properties": {
+              "event": {
+                "const": "resolver_execution_result"
+              },
+              "result": {
+                "enum": [
+                  "success",
+                  "parse_error",
+                  "empty"
+                ]
+              },
+              "major_version": {
+                "const": "v1"
+              },
+              "count": {
+                "type": "integer",
+                "minimum": 100
+              }
+            }
+          }
+        ]
+      },
+      "allOf": [
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "integration_mode",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "integration_loaded"
+              },
+              "integration_mode": {
+                "const": "finder_link"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "integration_mode",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "integration_loaded"
+              },
+              "integration_mode": {
+                "const": "api"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "integration_mode",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "integration_loaded"
+              },
+              "integration_mode": {
+                "const": "widget"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "integration_mode",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "integration_loaded"
+              },
+              "integration_mode": {
+                "const": "snapshot"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "const": "manifest"
+              },
+              "result": {
+                "const": "success"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "const": "manifest"
+              },
+              "result": {
+                "const": "http_error"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "const": "manifest"
+              },
+              "result": {
+                "const": "network_error"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "const": "manifest"
+              },
+              "result": {
+                "const": "parse_error"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "const": "manifest"
+              },
+              "result": {
+                "const": "empty"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "const": "country"
+              },
+              "result": {
+                "const": "success"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "const": "country"
+              },
+              "result": {
+                "const": "http_error"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "const": "country"
+              },
+              "result": {
+                "const": "network_error"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "const": "country"
+              },
+              "result": {
+                "const": "parse_error"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "const": "country"
+              },
+              "result": {
+                "const": "empty"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "const": "resolver"
+              },
+              "result": {
+                "const": "success"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "const": "resolver"
+              },
+              "result": {
+                "const": "http_error"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "const": "resolver"
+              },
+              "result": {
+                "const": "network_error"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "const": "resolver"
+              },
+              "result": {
+                "const": "parse_error"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "const": "resolver"
+              },
+              "result": {
+                "const": "empty"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "const": "widget"
+              },
+              "result": {
+                "const": "success"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "const": "widget"
+              },
+              "result": {
+                "const": "http_error"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "const": "widget"
+              },
+              "result": {
+                "const": "network_error"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "const": "widget"
+              },
+              "result": {
+                "const": "parse_error"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "const": "widget"
+              },
+              "result": {
+                "const": "empty"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "const": "snapshot"
+              },
+              "result": {
+                "const": "success"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "const": "snapshot"
+              },
+              "result": {
+                "const": "http_error"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "const": "snapshot"
+              },
+              "result": {
+                "const": "network_error"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "const": "snapshot"
+              },
+              "result": {
+                "const": "parse_error"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "artifact_type",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "artifact_fetch_result"
+              },
+              "artifact_type": {
+                "const": "snapshot"
+              },
+              "result": {
+                "const": "empty"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "resolver_execution_result"
+              },
+              "result": {
+                "const": "success"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "resolver_execution_result"
+              },
+              "result": {
+                "const": "parse_error"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "type": "object",
+            "required": [
+              "event",
+              "result",
+              "major_version"
+            ],
+            "properties": {
+              "event": {
+                "const": "resolver_execution_result"
+              },
+              "result": {
+                "const": "empty"
+              },
+              "major_version": {
+                "const": "v1"
+              }
+            }
+          },
+          "minContains": 0,
+          "maxContains": 1
+        }
+      ]
+    }
+  }
+}
