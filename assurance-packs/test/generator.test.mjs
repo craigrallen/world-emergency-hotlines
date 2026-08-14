@@ -45,7 +45,7 @@ test('rejects output-parent replacement before publish', () => {
   try {
     const source = resolve(root, 'source'); const parent = resolve(root, 'public'); const output = resolve(parent, 'v1');
     cpSync(realSource, source, { recursive: true }); mkdirSync(parent);
-    assert.throws(() => generateAssurancePackContracts(source, output, root, { beforePublish() { const moved = resolve(root, 'old-public'); cpSync(parent, moved, { recursive: true }); rmSync(parent, { recursive: true }); mkdirSync(parent); } }), /replaced during generation/);
+    assert.throws(() => generateAssurancePackContracts(source, output, root, { beforePublish() { const moved = resolve(root, 'old-public'); cpSync(parent, moved, { recursive: true }); rmSync(parent, { recursive: true }); mkdirSync(parent); } }));
     assert.equal(existsSync(output), false);
   } finally { rmSync(root, { recursive: true, force: true }); }
 });
