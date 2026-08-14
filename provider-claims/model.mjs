@@ -12,10 +12,18 @@ const EVIDENCE_KINDS = new Set(['claimant_statement', 'claimant_document_referen
 const DECISIONS = new Set(['accepted_for_candidate', 'rejected', 'needs_more_evidence']);
 const TERMINAL = new Set(DECISIONS);
 const NARRATIVE_MARKERS = /\b(?:i|me|my|suicid|self[- ]?harm|abuse|victim|patient|caller|case|crisis narrative)\b/i;
+const PHONE_LIKE_RUN = /(?<!\d)\+?\d[\d(). /-]*\d(?!\d)/g;
 
 function plain(value) { return value !== null && typeof value === 'object' && !Array.isArray(value) && Object.getPrototypeOf(value) === Object.prototype; }
 function exact(value, keys, label) { assert.ok(plain(value), `${label} must be a plain object`); assert.deepEqual(Object.keys(value).sort(), [...keys].sort(), `${label} has missing or prohibited fields`); }
-function text(value, label) { assert.equal(typeof value, 'string', `${label} must be a string`); assert.match(value, SAFE_TEXT, `${label} is not bounded safe text`); assert.doesNotMatch(value, NARRATIVE_MARKERS, `${label} must not contain personal or crisis narrative`); }
+function text(value, label) {
+  assert.equal(typeof value, 'string', `${label} must be a string`);
+  const containsPhoneLikeRun = [...value.matchAll(PHONE_LIKE_RUN)]
+    .some(([candidate]) => candidate.replace(/\D/g, '').length >= 7);
+  assert.equal(containsPhoneLikeRun, false, `${label} must not contain a phone or contact number`);
+  assert.match(value, SAFE_TEXT, `${label} is not bounded safe text`);
+  assert.doesNotMatch(value, NARRATIVE_MARKERS, `${label} must not contain personal or crisis narrative`);
+}
 function synthetic(value, label) { assert.equal(typeof value, 'string'); assert.match(value, SYNTHETIC_ID, `${label} must be a synthetic .invalid identity`); }
 function syntheticUrl(value, label) { assert.equal(typeof value, 'string'); const url = new URL(value); assert.equal(url.protocol, 'https:', `${label} must use https`); assert.match(url.hostname, SYNTHETIC_ID, `${label} host must end in .invalid`); assert.equal(url.username, ''); assert.equal(url.password, ''); assert.equal(url.hash, ''); }
 

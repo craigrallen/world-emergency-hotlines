@@ -16,6 +16,37 @@ test('validates synthetic claim and independent accepted-for-candidate review', 
   assert.deepEqual(Object.keys(transitionClaim(claim, review)).sort(), ['candidate_eligible', 'claim_id', 'state']);
 });
 
+for (const [name, field, phoneLikeValue] of [
+  ['organization name with hyphenated number', 'organization_name', 'Synthetic Service 555-123-4567'],
+  ['service description with contiguous number', 'service_description', 'Synthetic support line 5551234567'],
+  ['service description with parenthesized number', 'service_description', 'Synthetic support line (555) 123 4567'],
+  ['service description with dotted number', 'service_description', 'Synthetic support line 555.123.4567'],
+  ['service description with slash-separated number', 'service_description', 'Synthetic support line 555/123/4567'],
+]) test(`rejects proposed ${name}`, () => {
+  const value = mutate(claim, (x) => { x.proposed_changes[0] = { field, proposed_value: phoneLikeValue }; });
+  assert.throws(() => validateClaimEnvelope(value), /must not contain a phone or contact number/);
+});
+
+test('rejects phone-like numbers in evidence summary', () => {
+  const value = mutate(claim, (x) => { x.claimant_evidence[0].summary = 'Synthetic document contact 555-123-4567'; });
+  assert.throws(() => validateClaimEnvelope(value), /evidence summary must not contain a phone or contact number/);
+});
+
+for (const [name, mutateReview] of [
+  ['review reason', (x) => { x.decision_basis.reason = 'Synthetic review contact 5551234567'; }],
+  ['conflict basis', (x) => { x.conflict_declaration.basis = 'Synthetic reviewer contact 555 123 4567'; }],
+]) test(`rejects phone-like numbers in ${name}`, () => {
+  const value = mutate(review, mutateReview);
+  assert.throws(() => validateReviewDecision(value, claim), /must not contain a phone or contact number/);
+});
+
+test('allows short harmless numbers in synthetic descriptions', () => {
+  for (const proposedValue of ['Synthetic service founded in 2024', 'Synthetic support for ages 12 - 18', 'Synthetic service available 24 hours 7 days']) {
+    const value = mutate(claim, (x) => { x.proposed_changes[0] = { field: 'service_description', proposed_value: proposedValue }; });
+    assert.equal(validateClaimEnvelope(value), true);
+  }
+});
+
 for (const [name, value] of [
   ['unknown field', mutate(claim, (x) => { x.metadata = {}; })],
   ['canonical-shaped stable ID', mutate(claim, (x) => { x.listing_context.synthetic_stable_id = 'weh_0123456789abcdef01234567'; })],
