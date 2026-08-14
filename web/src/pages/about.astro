@@ -40,7 +40,7 @@ const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Abou
         <strong class="text-fg">Explore the map</strong> — click any country to see all local numbers and crisis lines.
       </li>
       <li>
-        <strong class="text-fg">Country pages</strong> show hotlines grouped by category, with a "best available help"
+        <strong class="text-fg">Country pages</strong> show hotlines grouped by category, with a prioritized listing
         panel at the top and a traveller note about international dialling.
       </li>
     </ul>
@@ -79,15 +79,16 @@ const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Abou
       disconnected numbers, changed hours, scope errors, closures, or other concerns from the relevant service card.
     </p>
 
-    <h2 class="mt-8 text-2xl font-semibold text-fg" data-i18n="about.routingTitle">Best-available routing</h2>
+    <h2 class="mt-8 text-2xl font-semibold text-fg" data-i18n="about.routingTitle">Prioritized routing</h2>
     <p class="text-fg-muted">
-      On each country page, the site automatically selects the "best available help" — a verified crisis line if one
-      exists, falling back to verified mental health support, then to unverified lines if that's all we have. This is
-      surfaced prominently so that someone in distress doesn't need to scan a long list.
+      On each country page, the site selects the first source-checked or cross-referenced listing in this category
+      order: suicide crisis, mental health, domestic violence, sexual violence, child protection, then general support.
+      If none matches, it selects the first listing in the same category order, then the first dataset listing.
     </p>
     <p class="text-fg-muted mt-2">
-      The same logic applies to the search: when you type a country + category, verified lines rank higher. Filter chips
-      let you explicitly restrict results to verified or channel-specific services.
+      This deterministic ordering does not determine suitability, eligibility, live availability, or provide medical
+      advice. Search uses separate deterministic scoring; filter chips can restrict results to source-checked or
+      channel-specific services.
     </p>
 
     <h2 class="mt-8 text-2xl font-semibold text-fg" data-i18n="about.travellersTitle">Travellers & expats</h2>

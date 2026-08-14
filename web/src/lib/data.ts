@@ -83,46 +83,62 @@ export async function getCategoriesStats(): Promise<CategoriesStats> {
 
 // ---------- Freshness / trust helpers ----------
 
-const VERIFIED_SET = new Set<VerificationStatus>([
+const SOURCE_CHECKED_SET = new Set<VerificationStatus>([
   'verified_web',
   'verified_authority',
   'verified_knowledge',
-  'cross_referenced',
 ]);
+const PRIORITIZED_SET = new Set<VerificationStatus>([...SOURCE_CHECKED_SET, 'cross_referenced']);
 
 /**
  * Derives a human-readable freshness label and confidence level from a hotline.
  * Used in templates to show staleness cues without touching the canonical data.
  */
-export function getFreshnessInfo(hotline: Hotline): FreshnessInfo {
+const FRESHNESS_MONTH_MS = 1000 * 60 * 60 * 24 * 30.44;
+
+function parseVerifiedInstant(rawDate: string): Date | null {
+  const calendarDate = /^(\d{4})-(\d{2})-(\d{2})(?:$|T)/.exec(rawDate);
+  if (!calendarDate) return null;
+
+  const [, rawYear, rawMonth, rawDay] = calendarDate;
+  const year = Number(rawYear);
+  const month = Number(rawMonth);
+  const day = Number(rawDay);
+  const daysInMonth = new Date(Date.UTC(year, month, 0)).getUTCDate();
+  if (month < 1 || month > 12 || day < 1 || day > daysInMonth) return null;
+
+  const time = Date.parse(rawDate);
+  return Number.isFinite(time) ? new Date(time) : null;
+}
+
+export function getFreshnessInfo(hotline: Hotline, now: Date = new Date()): FreshnessInfo {
   const status = hotline.verification_status;
   const rawDate = hotline.last_verified ?? null;
 
-  if (!VERIFIED_SET.has(status)) {
+  if (!SOURCE_CHECKED_SET.has(status) && status !== 'cross_referenced') {
     return { label: '', level: 'unknown', dateStr: null };
   }
 
-  if (!rawDate) {
-    return { label: 'Verified', level: 'ok', dateStr: null };
+  const prefix = status === 'cross_referenced' ? 'Cross-referenced' : 'Verified';
+  if (!rawDate) return { label: prefix, level: 'ok', dateStr: null };
+
+  const unavailableLabel = status === 'cross_referenced' ? 'Date unavailable' : 'Source-check date unavailable';
+  const date = parseVerifiedInstant(rawDate);
+  if (!date || !Number.isFinite(now.getTime()) || date.getTime() > now.getTime()) {
+    return { label: unavailableLabel, level: 'unknown', dateStr: null };
   }
 
-  const date = new Date(rawDate);
-  if (isNaN(date.getTime())) {
-    return { label: 'Verified', level: 'ok', dateStr: rawDate };
-  }
+  const monthsAgo = (now.getTime() - date.getTime()) / FRESHNESS_MONTH_MS;
 
-  const now = new Date();
-  const monthsAgo = (now.getTime() - date.getTime()) / (1000 * 60 * 60 * 24 * 30.44);
-
-  const dateStr = date.toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric' });
+  const dateStr = date.toLocaleDateString('en', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
 
   if (monthsAgo < 6) {
-    return { label: `Verified ${dateStr}`, level: 'fresh', dateStr };
+    return { label: `${prefix} ${dateStr}`, level: 'fresh', dateStr };
   }
   if (monthsAgo < 18) {
-    return { label: `Verified ${dateStr}`, level: 'ok', dateStr };
+    return { label: `${prefix} ${dateStr}`, level: 'ok', dateStr };
   }
-  return { label: `Verified ${dateStr} · may need re-check`, level: 'stale', dateStr };
+  return { label: status === 'cross_referenced' ? `Cross-reference may need re-check · ${dateStr}` : `Verified ${dateStr} · may need re-check`, level: 'stale', dateStr };
 }
 
 /**
@@ -130,7 +146,7 @@ export function getFreshnessInfo(hotline: Hotline): FreshnessInfo {
  * Priority: verified crisis lines first, then verified mental health,
  * then unverified crisis, then anything.
  */
-export function getBestAvailableHelp(hotlines: Hotline[]): Hotline | null {
+export function getPrioritizedHelp(hotlines: Hotline[]): Hotline | null {
   const priorityCategories: HotlineCategory[] = [
     'suicide_crisis',
     'mental_health',
@@ -143,7 +159,7 @@ export function getBestAvailableHelp(hotlines: Hotline[]): Hotline | null {
   // Prefer verified lines in priority category order
   for (const cat of priorityCategories) {
     const found = hotlines.find(
-      (h) => h.category === cat && VERIFIED_SET.has(h.verification_status)
+      (h) => h.category === cat && PRIORITIZED_SET.has(h.verification_status)
     );
     if (found) return found;
   }

@@ -4,6 +4,7 @@ import { extname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { serializeJsonLd } from '../src/lib/json-ld.mjs';
 import { SITE_NAME, SOCIAL_IMAGE_ALT, SOCIAL_IMAGE_PATH } from '../src/lib/seo.ts';
+import { dedupeMessageContacts, normalizeMessageContact, phoneContacts } from '../src/lib/contact.ts';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const dist = join(root, 'dist');
@@ -81,6 +82,153 @@ function tags(html) {
   return found;
 }
 
+function markedDivHtml(html, marker) {
+  const markerAt = html.indexOf(marker);
+  if (markerAt < 0) return '';
+  const start = html.lastIndexOf('<div', markerAt);
+  if (start < 0) return '';
+  const divTags = /<\/?div\b[^>]*>/gi;
+  let depth = 0;
+  for (const match of html.slice(start).matchAll(divTags)) {
+    depth += match[0].startsWith('</') ? -1 : 1;
+    if (depth === 0) return html.slice(start, start + match.index + match[0].length);
+  }
+  return '';
+}
+
+const VOID_ELEMENTS = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr']);
+
+// Capture complete marked element subtrees with an element stack, so assertions cannot cross sibling boundaries.
+function markedElementSubtrees(html, elementName, markerAttribute) {
+  const subtrees = [];
+  const stack = [];
+  for (let i = 0; i < html.length; i++) {
+    if (html[i] !== '<') continue;
+    if (html.startsWith('<!--', i)) {
+      const close = html.indexOf('-->', i + 4);
+      i = close === -1 ? html.length : close + 2;
+      continue;
+    }
+    let j = i + 1, quote = '';
+    while (j < html.length) {
+      const char = html[j];
+      if (quote) { if (char === quote) quote = ''; }
+      else if (char === '"' || char === "'") quote = char;
+      else if (char === '>') break;
+      j++;
+    }
+    if (j >= html.length) break;
+    const raw = html.slice(i + 1, j);
+    if (/^\s*[!?]/.test(raw)) { i = j; continue; }
+    const closing = /^\s*\//.test(raw);
+    const name = raw.match(/^\s*\/?\s*([^\s/>]+)/)?.[1]?.toLowerCase();
+    if (!name) { i = j; continue; }
+    if (closing) {
+      let entry;
+      while ((entry = stack.pop())) {
+        if (entry.marked && entry.name === name) {
+          subtrees.push({ attrs: entry.attrs, html: html.slice(entry.contentStart, i) });
+        }
+        if (entry.name === name) break;
+      }
+    } else {
+      const parsed = tags(html.slice(i, j + 1))[0];
+      const marked = name === elementName && parsed && Object.hasOwn(parsed.attrs, markerAttribute);
+      if (!VOID_ELEMENTS.has(name) && !/\/\s*$/.test(raw)) {
+        stack.push({ name, marked, attrs: parsed?.attrs ?? {}, contentStart: j + 1 });
+      }
+    }
+    i = j;
+  }
+  return subtrees;
+}
+
+const hotlineCardDescendants = (html) => markedElementSubtrees(html, 'article', 'data-hotline-card');
+
+function verifyCategorySummaryLinks(html, categorySlug, expectedCodes, report = fail) {
+  const summaries = markedElementSubtrees(html, 'article', 'data-category-country-summary');
+  const expectedHrefs = new Set([...expectedCodes].map((code) => `/country/${code}#category-${categorySlug}`));
+  const pageHrefs = attrs(tags(html), 'a').map((anchor) => decodeHtml(anchor.href ?? ''));
+  for (const code of expectedCodes) {
+    const href = `/country/${code}#category-${categorySlug}`;
+    const summary = summaries.find((item) => item.attrs['data-country-code'] === code);
+    const ownCount = summary ? attrs(tags(summary.html), 'a').filter((anchor) => decodeHtml(anchor.href ?? '') === href).length : 0;
+    const pageCount = pageHrefs.filter((candidate) => candidate === href).length;
+    if (ownCount !== 1 || pageCount !== 1) report(`${code} summary must contain exactly one link to ${href}, with no copy outside its summary (found ${ownCount} inside, ${pageCount} page-wide)`);
+  }
+  for (const summary of summaries) {
+    const code = summary.attrs['data-country-code'];
+    for (const anchor of attrs(tags(summary.html), 'a')) {
+      const href = decodeHtml(anchor.href ?? '');
+      if (expectedHrefs.has(href) && href !== `/country/${code}#category-${categorySlug}`) report(`${code} summary contains another country's category destination ${href}`);
+    }
+  }
+  return summaries;
+}
+
+const categoryLinkFixtureCodes = new Set(['aa', 'bb']);
+const categoryLinkFixture = (firstLinks, secondLinks, outside = '') => `<main>${outside}<article data-category-country-summary data-country-code="aa">${firstLinks}</article><article data-category-country-summary data-country-code="bb">${secondLinks}</article></main>`;
+const fixtureLink = (code) => `<a href="/country/${code}#category-crisis">View</a>`;
+for (const [label, html] of [
+  ['swapped', categoryLinkFixture(fixtureLink('bb'), fixtureLink('aa'))],
+  ['missing', categoryLinkFixture('', fixtureLink('bb'))],
+  ['duplicate', categoryLinkFixture(`${fixtureLink('aa')}${fixtureLink('aa')}`, fixtureLink('bb'))],
+  ['outside', categoryLinkFixture(fixtureLink('aa'), fixtureLink('bb'), fixtureLink('aa'))],
+]) {
+  const fixtureErrors = [];
+  verifyCategorySummaryLinks(html, 'crisis', categoryLinkFixtureCodes, (message) => fixtureErrors.push(message));
+  assert.ok(fixtureErrors.length > 0, `category summary deep-link guard must reject the ${label} fixture`);
+}
+const validCategoryLinkFixtureErrors = [];
+verifyCategorySummaryLinks(categoryLinkFixture(fixtureLink('aa'), fixtureLink('bb')), 'crisis', categoryLinkFixtureCodes, (message) => validCategoryLinkFixtureErrors.push(message));
+assert.deepEqual(validCategoryLinkFixtureErrors, [], 'category summary deep-link guard must accept correctly attributed links');
+
+function verifyRecordCard(record, card, route, report = fail) {
+  const all = tags(card.html);
+  const hrefs = attrs(all, 'a').map((a) => decodeHtml(a.href ?? ''));
+  const visibleText = decodeHtml(card.html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ' ').replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, ' ').replace(/<[^>]+>/g, ' '));
+  const expectedPhones = phoneContacts(record.voice_numbers ?? [], record.short_codes ?? []);
+  const renderedPhones = all.filter((tag) => Object.hasOwn(tag.attrs, 'data-phone-contact')).map((tag) => decodeHtml(tag.attrs['data-phone-contact']));
+  const expectedRenderedPhones = expectedPhones.map((contact) => contact.uri ?? contact.value);
+  if (JSON.stringify(renderedPhones) !== JSON.stringify(expectedRenderedPhones)) report(`${route}: ${record.id} descendant phone controls do not exactly match its source record`);
+  const telHrefs = hrefs.filter((href) => href.startsWith('tel:'));
+  const expectedTelHrefs = expectedPhones.filter((contact) => contact.uri).map((contact) => `tel:${contact.uri}`);
+  if (JSON.stringify(telHrefs) !== JSON.stringify(expectedTelHrefs)) report(`${route}: ${record.id} descendant tel: hrefs do not exactly match its strict safe phone contacts`);
+  for (const { value } of expectedPhones) {
+    if (!visibleText.includes(value)) report(`${route}: ${record.id} canonical phone value is absent from its card: ${JSON.stringify(value)}`);
+  }
+  const expectedContacts = dedupeMessageContacts(record.sms_numbers ?? [], record.text_numbers ?? []);
+  const renderedContacts = all.filter((tag) => Object.hasOwn(tag.attrs, 'data-message-contact')).map((tag) => decodeHtml(tag.attrs['data-message-contact']));
+  const expectedRenderedContacts = expectedContacts.map((contact) => contact.uri ?? contact.value);
+  if (JSON.stringify(renderedContacts.toSorted()) !== JSON.stringify(expectedRenderedContacts.toSorted())) report(`${route}: ${record.id} descendant SMS/text controls do not match its source record`);
+  const smsHrefs = hrefs.filter((href) => href.startsWith('sms:'));
+  const expectedSmsHrefs = expectedContacts.filter((contact) => contact.uri).map((contact) => `sms:${contact.uri}`);
+  if (JSON.stringify(smsHrefs.toSorted()) !== JSON.stringify(expectedSmsHrefs.toSorted())) report(`${route}: ${record.id} descendant sms: hrefs do not exactly match its strict safe contacts`);
+  for (const { value, uri } of expectedContacts) {
+    if (!visibleText.includes(value)) report(`${route}: ${record.id} canonical SMS/text value is absent from its card: ${JSON.stringify(value)}`);
+    if (!uri && smsHrefs.some((href) => href.slice(4).includes(value))) report(`${route}: ${record.id} unsafe SMS/text value was placed in an href`);
+  }
+  const chatControls = all.filter((tag) => Object.hasOwn(tag.attrs, 'data-chat-contact'));
+  const renderedChatContacts = chatControls.map((tag) => decodeHtml(tag.attrs['data-chat-contact']));
+  const renderedChatHrefs = chatControls.map((tag) => decodeHtml(tag.attrs.href ?? ''));
+  const expectedChats = record.chat_url ? [record.chat_url] : [];
+  if (JSON.stringify(renderedChatContacts) !== JSON.stringify(expectedChats) || JSON.stringify(renderedChatHrefs) !== JSON.stringify(expectedChats)) report(`${route}: ${record.id} descendant chat link does not exactly match its source record`);
+}
+
+const attributionFixtureRecords = [
+  { id: 'fixture-a', sms_numbers: ['+1 202 555 0101'], text_numbers: [], chat_url: 'https://example.invalid/a' },
+  { id: 'fixture-b', sms_numbers: ['+1 202 555 0102'], text_numbers: [], chat_url: 'https://example.invalid/b' },
+];
+const swappedAttributionFixture = attributionFixtureRecords.map((record, index) => {
+  const other = attributionFixtureRecords[1 - index];
+  const uri = normalizeMessageContact(other.sms_numbers[0]);
+  return `<article data-hotline-card data-record-id="${record.id}"><a data-message-contact="${uri}" href="sms:${uri}">${other.sms_numbers[0]}</a><a data-chat-contact="${other.chat_url}" href="${other.chat_url}">Online chat</a></article>`;
+}).join('');
+const swappedAttributionErrors = [];
+const swappedAttributionCards = new Map(hotlineCardDescendants(swappedAttributionFixture).map((card) => [card.attrs['data-record-id'], card]));
+for (const record of attributionFixtureRecords) verifyRecordCard(record, swappedAttributionCards.get(record.id), 'attribution fixture', (message) => swappedAttributionErrors.push(message));
+assert.ok(swappedAttributionErrors.length >= attributionFixtureRecords.length, 'per-record attribution guard fixture must reject contacts swapped between cards');
+
 function jsonLdBlocks(html, route) {
   const blocks = [];
   for (const tag of tags(html).filter((entry) => entry.name === 'script' && entry.attrs.type?.trim().toLowerCase() === 'application/ld+json')) {
@@ -136,6 +284,9 @@ for (const path of htmlFiles) {
   const canonicalTags = attrs(all, 'link', (a) => a.rel?.trim().toLowerCase() === 'canonical');
   const canonicals = canonicalTags.map((a) => a.href?.trim()).filter(Boolean);
   const h1s = textContent(html, 'h1').filter(Boolean);
+  const ids = all.map((tag) => tag.attrs.id).filter(Boolean);
+  const duplicateIds = [...new Set(ids.filter((id, index) => ids.indexOf(id) !== index))];
+  if (duplicateIds.length) fail(`${route}: duplicate IDs found: ${duplicateIds.join(', ')}`);
   if (robotsTags.length !== 1) fail(`${route}: expected exactly one meta[name=robots], found ${robotsTags.length}`);
   else if (!validRobots) fail(`${route}: unsupported robots meta content ${JSON.stringify(robotsTags[0].content)}`);
   if (titles.length !== 1 || descriptions.length !== 1 || h1s.length !== 1) fail(`${route}: expected exactly one non-empty title, description, and H1`);
@@ -222,6 +373,164 @@ const recordsWithNeitherSourceNorWebsite = allRecords.filter((record) => {
 }).length;
 if (countryShards.size !== manifestCountries.length) fail(`loaded ${countryShards.size} country shards for ${manifestCountries.length} manifest countries`);
 if (allRecords.length !== manifest.total_hotlines) fail(`country shards contain ${allRecords.length} records but manifest total_hotlines is ${manifest.total_hotlines}`);
+
+const SOURCE_CHECKED_STATUSES = new Set(['verified_web', 'verified_authority', 'verified_knowledge']);
+const channelSet = (records) => {
+  const channels = [];
+  if (records.some((record) => record.voice_numbers?.length || record.short_codes?.length)) channels.push('Phone');
+  if (records.some((record) => record.sms_numbers?.length || record.text_numbers?.length)) channels.push('SMS/text');
+  if (records.some((record) => record.chat_url)) channels.push('Online chat');
+  if (records.some((record) => record.email)) channels.push('Email');
+  return channels;
+};
+
+for (const page of pages.values()) {
+  const categorySlug = page.route.match(/^\/category\/([a-z0-9_]+)$/)?.[1];
+  if (!categorySlug) continue;
+  if (Buffer.byteLength(page.html) >= 500_000) fail(`${page.route}: category HTML is ${Buffer.byteLength(page.html)} bytes; expected below 500000`);
+  if (!page.html.includes('Category pages summarize availability by country. Detailed records and source status are on each country page.')) fail(`${page.route}: exact country-summary handoff explanation is missing`);
+  const all = tags(page.html);
+  const expected = new Map();
+  for (const [code, records] of countryShards) {
+    const matches = records.filter((record) => record.category === categorySlug);
+    if (matches.length) expected.set(code, matches);
+  }
+  const summarySubtrees = verifyCategorySummaryLinks(page.html, categorySlug, expected.keys(), (message) => fail(`${page.route}: ${message}`));
+  const summaries = summarySubtrees.map((summary) => summary.attrs);
+  if (summaries.length !== expected.size) fail(`${page.route}: rendered ${summaries.length} summaries; expected ${expected.size}`);
+  const categoryRecordCount = [...expected.values()].reduce((sum, records) => sum + records.length, 0);
+  const categorySourceCheckedCount = [...expected.values()].flat().filter((record) => SOURCE_CHECKED_STATUSES.has(record.verification_status)).length;
+  const ariaLabels = all.filter((tag) => Object.hasOwn(tag.attrs, 'aria-label')).map((tag) => decodeHtml(tag.attrs['aria-label']));
+  if (!ariaLabels.includes(`${categorySourceCheckedCount} source checked`)) fail(`${page.route}: source-checked summary accessible label is missing`);
+  if (categorySourceCheckedCount < categoryRecordCount && !ariaLabels.includes(`${categoryRecordCount - categorySourceCheckedCount} not source checked`)) fail(`${page.route}: not-source-checked summary accessible label is missing`);
+  const seenCodes = new Set();
+  for (const summary of summaries) {
+    const code = summary['data-country-code'];
+    const records = expected.get(code);
+    if (!records || seenCodes.has(code)) { fail(`${page.route}: unexpected or duplicate country summary ${code}`); continue; }
+    seenCodes.add(code);
+    const sourceChecked = records.filter((record) => SOURCE_CHECKED_STATUSES.has(record.verification_status)).length;
+    const expectedChannels = channelSet(records);
+    if (Number(summary['data-record-count']) !== records.length) fail(`${page.route}: ${code} record count does not match generated records`);
+    if (Number(summary['data-source-checked-count']) !== sourceChecked) fail(`${page.route}: ${code} source-checked count does not match generated records`);
+    if (summary['data-channels'] !== expectedChannels.join('|')) fail(`${page.route}: ${code} channel set does not match generated records`);
+    const href = `/country/${code}#category-${categorySlug}`;
+    const target = pages.get(`/country/${code}`);
+    if (!target || !tags(target.html).some((tag) => tag.attrs.id === `category-${categorySlug}`)) fail(`${page.route}: ${href} has no matching country section`);
+  }
+  if (/(?:href=["'](?:tel:|sms:|mailto:)|data-hotline-card|data-card-cat=)/i.test(page.html)) fail(`${page.route}: category HTML exposes full contact details or hotline-card markup`);
+}
+
+for (const [code, records] of countryShards) {
+  const page = pages.get(`/country/${code}`);
+  if (!page) continue;
+  const all = tags(page.html);
+  const categoryIds = all.map((tag) => tag.attrs.id).filter((id) => id?.startsWith('category-'));
+  const expectedIds = [...new Set(records.map((record) => `category-${record.category}`))];
+  if (categoryIds.some((id) => !/^category-[a-z0-9_]+$/.test(id)) || categoryIds.length !== expectedIds.length || expectedIds.some((id) => !categoryIds.includes(id))) fail(`/country/${code}: category section IDs are unsafe, missing, or duplicated`);
+  const categoryTargets = all.filter((tag) => tag.attrs.id?.startsWith('category-'));
+  if (categoryTargets.some((tag) => !(tag.attrs.class ?? '').split(/\s+/).includes('scroll-mt-48'))) fail(`/country/${code}: every category fragment target must retain the 12rem sticky-surface scroll offset`);
+  const cards = hotlineCardDescendants(page.html);
+  const cardsById = new Map(cards.map((card) => [card.attrs['data-record-id'], card]));
+  if (cards.length !== records.length || cardsById.size !== records.length) fail(`/country/${code}: detailed hotline cards are missing or duplicated in initial HTML`);
+  const sourceCheckedCount = records.filter((record) => SOURCE_CHECKED_STATUSES.has(record.verification_status)).length;
+  const countryText = decodeHtml(page.html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ' ').replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, ' ').replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ');
+  if (sourceCheckedCount > 0 && !countryText.includes(`${sourceCheckedCount} source checked`)) fail(`/country/${code}: source-checked count label is missing or semantically inconsistent`);
+  if (sourceCheckedCount === 0 && records.length > 0 && !countryText.includes('No source-checked records')) fail(`/country/${code}: zero source-checked label is missing or semantically inconsistent`);
+  const prioritizedPanel = markedDivHtml(page.html, 'data-prioritized-listing');
+  if (prioritizedPanel) {
+    const panelTags = tags(prioritizedPanel);
+    const panel = panelTags.find((tag) => Object.hasOwn(tag.attrs, 'data-prioritized-listing'));
+    const status = decodeHtml(panel?.attrs['data-prioritized-status'] ?? '');
+    const panelText = decodeHtml(prioritizedPanel.replace(/<[^>]+>/g, ' ')).replace(/\s+/g, ' ');
+    const prioritizedRecord = records.find((record) => record.id === decodeHtml(panel?.attrs['data-prioritized-record-id'] ?? ''));
+    if (!prioritizedRecord) fail(`/country/${code}: prioritized listing does not identify exactly one source record`);
+    else {
+      const expectedPhones = phoneContacts(prioritizedRecord.voice_numbers ?? [], prioritizedRecord.short_codes ?? []).slice(0, 2);
+      const renderedPhones = panelTags.filter((tag) => Object.hasOwn(tag.attrs, 'data-phone-contact')).map((tag) => decodeHtml(tag.attrs['data-phone-contact']));
+      const expectedRendered = expectedPhones.map((contact) => contact.uri ?? contact.value);
+      const telHrefs = attrs(panelTags, 'a').map((anchor) => decodeHtml(anchor.href ?? '')).filter((href) => href.startsWith('tel:'));
+      const expectedHrefs = expectedPhones.filter((contact) => contact.uri).map((contact) => `tel:${contact.uri}`);
+      if (JSON.stringify(renderedPhones) !== JSON.stringify(expectedRendered) || JSON.stringify(telHrefs) !== JSON.stringify(expectedHrefs)) fail(`/country/${code}: prioritized phone controls do not map exactly to their identified source record`);
+      for (const { value } of expectedPhones) {
+        if (!panelText.includes(value.replace(/\s+/g, ' '))) fail(`/country/${code}: prioritized listing hides canonical phone value ${JSON.stringify(value)}`);
+      }
+    }
+    if (!['source checked', 'cross-referenced', 'not source checked'].includes(status) || !panelText.includes(`Status: ${status}`)) fail(`/country/${code}: prioritized listing needs exact explicit neutral status text`);
+    const hasEndorsementClass = /\b(?:border|bg|text|ring)-(?:success|green|emerald|lime)(?:\b|\/)/i.test(prioritizedPanel);
+    const hasCheckmark = /[✅✓✔]/.test(panelText);
+    if (hasEndorsementClass || hasCheckmark) fail(`/country/${code}: prioritized listing contains success/green/checkmark endorsement styling (${hasEndorsementClass ? 'class' : 'checkmark'})`);
+    const icon = panelTags.find((tag) => Object.hasOwn(tag.attrs, 'data-prioritized-icon'));
+    if (!icon || !/\bborder-border\b/.test(icon.attrs.class ?? '') || !/\btext-fg-muted\b/.test(icon.attrs.class ?? '') || !panelTags.some((tag) => tag.name === 'svg' && /\bh-4\b/.test(tag.attrs.class ?? ''))) fail(`/country/${code}: prioritized listing must retain its neutral information/document icon treatment`);
+  }
+  for (const record of records) {
+    const card = cardsById.get(record.id);
+    if (!card) continue;
+    const hasPhone = Boolean(record.voice_numbers?.length || record.short_codes?.length);
+    const hasSms = Boolean(record.sms_numbers?.length || record.text_numbers?.length);
+    const hasChat = Boolean(record.chat_url);
+    if (card.attrs['data-has-phone'] !== String(hasPhone) || card.attrs['data-has-sms'] !== String(hasSms) || card.attrs['data-has-chat'] !== String(hasChat)) fail(`/country/${code}: ${record.id} detailed channel state does not match its generated record`);
+    verifyRecordCard(record, card, `/country/${code}`);
+  }
+}
+
+// Literal source/output contracts catch regressions independently of the
+// normalizers used by the general card verifier above.
+for (const fixture of [
+  { code: 'bf', id: 'weh_2afbbca79ef6584f87b56a99', source: ['17', '18'], hrefs: ['tel:17', 'tel:18'] },
+  { code: 'ca', id: 'weh_7823d8cbe434550fa4bcba72', source: ['+1 (905) 688 3711'], hrefs: ['tel:+19056883711'] },
+]) {
+  const record = (countryShards.get(fixture.code) ?? []).find((entry) => entry.id === fixture.id);
+  assert.ok(record, `${fixture.code} representative phone fixture must remain in its source shard`);
+  const sourcePhones = [...(record?.voice_numbers ?? []), ...(record?.short_codes ?? [])];
+  for (const value of fixture.source) assert.ok(sourcePhones.includes(value), `${fixture.code} source record must retain ${JSON.stringify(value)}`);
+  const page = pages.get(`/country/${fixture.code}`);
+  const card = hotlineCardDescendants(page?.html ?? '').find((entry) => entry.attrs['data-record-id'] === fixture.id);
+  assert.ok(card, `${fixture.code} representative phone fixture must render in its own card`);
+  const hrefs = attrs(tags(card?.html ?? ''), 'a').map((anchor) => decodeHtml(anchor.href ?? ''));
+  for (const href of fixture.hrefs) assert.ok(hrefs.includes(href), `${fixture.code} representative phone must retain literal one-tap link ${href}`);
+}
+
+const nigeriaMalformed = { code: 'ng', id: 'weh_4ee09502e9005f48a648caf5', value: '234) 8062-106-493' };
+const nigeriaRecord = (countryShards.get(nigeriaMalformed.code) ?? []).find((entry) => entry.id === nigeriaMalformed.id);
+assert.ok(nigeriaRecord?.voice_numbers?.includes(nigeriaMalformed.value), 'Nigeria source record must retain its malformed canonical value for display');
+const nigeriaPage = pages.get('/country/ng');
+const nigeriaCard = hotlineCardDescendants(nigeriaPage?.html ?? '').find((entry) => entry.attrs['data-record-id'] === nigeriaMalformed.id);
+assert.ok(nigeriaCard, 'Nigeria malformed phone fixture must render in its own card');
+assert.ok(decodeHtml(nigeriaCard?.html ?? '').includes(nigeriaMalformed.value), 'Nigeria malformed canonical value must remain visible');
+assert.doesNotMatch(nigeriaCard?.html ?? '', /href=["']tel:/i, 'Nigeria malformed phone must remain non-actionable');
+for (const page of pages.values()) {
+  assert.doesNotMatch(page.html, /href=["']tel:(?:234\)|\(\+58|%28%2b58)/i, `${page.route}: known Nigeria/Venezuela malformed shapes must never become tel links`);
+}
+
+const norfolkRecords = countryShards.get('nf') ?? [];
+const norfolkStatuses = new Set(norfolkRecords.map((record) => record.verification_status));
+const norfolkHtml = pages.get('/country/nf')?.html ?? '';
+if (!norfolkStatuses.has('cross_referenced') || !norfolkStatuses.has('legacy_unverified')) fail('/country/nf: regression fixture must retain mixed cross-referenced and legacy records');
+if (!norfolkHtml.includes('No records have a source-checked status.') || !norfolkHtml.includes('Evidence and verification statuses vary by record.')) fail('/country/nf: mixed-status zero-source-checked notice is missing exact neutral semantics');
+if (/These records come from legacy sources/i.test(norfolkHtml)) fail('/country/nf: mixed-status notice incorrectly claims all records are legacy');
+
+for (const category of stats.categories) {
+  const categoryRecords = [...countryShards.values()].flat().filter((record) => record.category === category.slug);
+  const hasSourceChecked = categoryRecords.some((record) => SOURCE_CHECKED_STATUSES.has(record.verification_status));
+  const hasCrossReferenced = categoryRecords.some((record) => record.verification_status === 'cross_referenced');
+  if (!hasSourceChecked && hasCrossReferenced) {
+    const html = pages.get(`/category/${category.slug}`)?.html ?? '';
+    if (!html.includes('No records in this category have a source-checked status.')) fail(`/category/${category.slug}: zero-source-checked cross-referenced category needs exact neutral status copy`);
+    if (/All records in this category are unverified|These come from legacy sources/i.test(html)) fail(`/category/${category.slug}: zero-source-checked cross-referenced category misstates provenance`);
+  }
+}
+
+const criticalContrastSources = [
+  read(resolve(root, 'src/components/HotlineCard.astro')),
+  read(resolve(root, 'src/pages/country/[code].astro')),
+];
+for (const source of criticalContrastSources) {
+  for (const forbidden of ['text-fg-muted/70', 'text-[10px]', 'text-success/70']) {
+    if (source.includes(forbidden)) fail(`critical contrast surface reintroduced forbidden low-contrast class ${forbidden}`);
+  }
+}
+if (!read(resolve(root, 'src/pages/index.astro')).match(/text-xs text-fg["'][^>]*data-i18n=["']home\.tip/)) fail('home.tip must retain a sufficient opaque foreground');
 
 const directoryScopeRoutes = new Set(['/', '/about', '/data', '/countries', '/find-help', '/integrate']);
 for (const page of pages.values()) {
@@ -334,7 +643,43 @@ for (const [asset, expected] of [['social-card.png',[1200,630]],['apple-touch-ic
   if (!existsSync(path) || pngSize(path).some((n, i) => n !== expected[i])) fail(`${asset}: missing or wrong dimensions`);
 }
 const corpus = htmlFiles.map(read).join('\n');
+const usHtml = pages.get('/country/us')?.html ?? '';
+if (!usHtml.includes('839863)')) fail('/country/us: malformed canonical SMS value must remain visible as escaped text');
+if (/href=["']sms:839863(?:["'])/i.test(usHtml)) fail('/country/us: malformed canonical SMS value 839863) must not produce an sms: link');
 for (const phrase of ['works in most countries', 'even without a SIM', 'will always have up-to-date', '112 / 911']) if (corpus.toLowerCase().includes(phrase.toLowerCase())) fail(`forbidden universal YMYL claim found: ${phrase}`);
+for (const phrase of ['best verified help available', 'best available help', 'best-available routing']) if (corpus.toLowerCase().includes(phrase)) fail(`forbidden routing overstatement found: ${phrase}`);
+if (!corpus.includes('This does not determine suitability, eligibility, live availability, or provide medical advice.')) fail('prioritized listing caveat is missing from rendered country pages');
+const hotlineCardSource = read(join(root, 'src/components/HotlineCard.astro'));
+if (!hotlineCardSource.includes('Date when source information was checked; it is not a live availability check') || /title="[^"]*authoritative source/i.test(hotlineCardSource)) fail('HotlineCard freshness tooltip must use the exact neutral source-check methodology');
+const emergencyBannerSource = read(join(root, 'src/components/EmergencyBanner.astro'));
+const globalCssSource = read(join(root, 'src/styles/global.css'));
+const relativeLuminance = ([red, green, blue]) => [red, green, blue]
+  .map((channel) => channel / 255)
+  .map((channel) => channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4)
+  .reduce((sum, channel, index) => sum + channel * [0.2126, 0.7152, 0.0722][index], 0);
+const contrastRatio = (first, second) => {
+  const [lighter, darker] = [relativeLuminance(first), relativeLuminance(second)].sort((a, b) => b - a);
+  return (lighter + 0.05) / (darker + 0.05);
+};
+const bannerPalettes = [
+  ['light', [185, 28, 28], [255, 255, 255]],
+  ['dark', [153, 27, 27], [255, 255, 255]],
+  ['CTA', [255, 255, 255], [153, 27, 27]],
+];
+for (const [theme, background, foreground] of bannerPalettes) if (contrastRatio(background, foreground) < 4.5) fail(`Emergency banner ${theme} palette must meet 4.5:1 contrast`);
+if (/data-i18n="banner\.body"[^>]*opacity-/i.test(emergencyBannerSource)
+  || !/data-contrast-surface="opaque-danger"/.test(emergencyBannerSource)
+  || !/href="\/countries"[^>]*\bbg-white\b[^>]*\btext-red-800\b[^>]*\bfocus-visible:ring-white\b/.test(emergencyBannerSource)
+  || !/\.emergency-strip\s*\{[^}]*background-color:\s*rgb\(185 28 28\);[^}]*color:\s*rgb\(255 255 255\);/s.test(globalCssSource)
+  || !/:root\[data-theme='dark'\] \.emergency-strip\s*\{[^}]*background-color:\s*rgb\(153 27 27\);[^}]*color:\s*rgb\(255 255 255\);/s.test(globalCssSource)
+  || /\.emergency-strip\s*\{[^}]*\bbg-danger\b/s.test(globalCssSource)) fail('Emergency banner opaque light/dark contrast treatment regressed');
+for (const [route, page] of pages) {
+  if (route === '/404') continue;
+  const banner = tags(page.html).find((tag) => tag.attrs.id === 'emergency-banner');
+  if (banner && banner.attrs['data-contrast-surface'] !== 'opaque-danger') fail(`${route}: rendered emergency banner lacks the dark-theme contrast marker`);
+}
+const searchBoxSource = read(join(root, 'src/components/SearchBox.astro'));
+for (const key of ['search.openWorldMap', 'search.browseByCategory']) if (!new RegExp(`class="[^"]*\\btext-fg\\b[^"]*\\bunderline\\b[^"]*"[^>]*data-i18n="${key}"`).test(searchBoxSource)) fail(`homepage fallback link contrast/underline guard failed for ${key}`);
 const i18nSource = read(join(root, 'src/lib/i18n.ts'));
 if (!provenanceClaimIsSupported(i18nSource, allRecords)) {
   for (const claim of positiveBlanketProvenanceClaims(i18nSource)) fail(`localized public copy: positive blanket provenance claim is unsupported by records without sources: ${JSON.stringify(claim.slice(0, 180))}`);

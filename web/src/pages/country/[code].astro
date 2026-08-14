@@ -2,11 +2,12 @@
 import Base from '../../layouts/Base.astro';
 import HotlineCard from '../../components/HotlineCard.astro';
 import Icon from '../../components/Icon.astro';
-import { getManifest, getCountry, getBestAvailableHelp, getFreshnessInfo } from '../../lib/data';
+import { getManifest, getCountry, getPrioritizedHelp, getFreshnessInfo } from '../../lib/data';
 import { CATEGORY_META } from '../../lib/types';
 import type { Hotline, HotlineCategory } from '../../lib/types';
 import { breadcrumbJsonLd } from '../../lib/seo';
 import { SITE_URL } from '../../lib/site';
+import { phoneContacts } from '../../lib/contact';
 
 export const getStaticPaths = async () => {
   const manifest = await getManifest();
@@ -23,13 +24,18 @@ if (!country) {
   return Astro.redirect('/404');
 }
 
-const VERIFIED_SET = new Set(['verified_web', 'verified_authority', 'verified_knowledge']);
-const verifiedHotlines = country.hotlines.filter((h) => VERIFIED_SET.has(h.verification_status));
-const unverifiedCount = country.hotlines.length - verifiedHotlines.length;
+const SOURCE_CHECKED_STATUSES = new Set(['verified_web', 'verified_authority', 'verified_knowledge']);
+const sourceCheckedHotlines = country.hotlines.filter((h) => SOURCE_CHECKED_STATUSES.has(h.verification_status));
+const notSourceCheckedCount = country.hotlines.length - sourceCheckedHotlines.length;
 
-// Best available crisis/support line
-const bestHelp = getBestAvailableHelp(country.hotlines);
-const bestHelpIsVerified = bestHelp ? VERIFIED_SET.has(bestHelp.verification_status) : false;
+// Mechanically prioritized crisis/support listing
+const bestHelp = getPrioritizedHelp(country.hotlines);
+const bestHelpIsSourceChecked = bestHelp ? SOURCE_CHECKED_STATUSES.has(bestHelp.verification_status) : false;
+const bestHelpStatus = bestHelpIsSourceChecked
+  ? 'source checked'
+  : bestHelp?.verification_status === 'cross_referenced'
+    ? 'cross-referenced'
+    : 'not source checked';
 
 // Group hotlines by category for the tabbed view
 const hotlinesByCategory: Map<HotlineCategory, Hotline[]> = new Map();
@@ -62,9 +68,10 @@ const emergency = country.general_emergency ?? [];
 
 // Freshness info for best help line
 const bestHelpFreshness = bestHelp ? getFreshnessInfo(bestHelp) : null;
+const bestHelpPhones = bestHelp ? phoneContacts(bestHelp.voice_numbers, bestHelp.short_codes).slice(0, 2) : [];
 
 const title = `${country.country}: emergency numbers and crisis hotlines`;
-const description = `Find emergency numbers and crisis hotlines in ${country.country}. ${country.hotlines.length} ${country.hotlines.length === 1 ? 'hotline' : 'hotlines'} listed; ${verifiedHotlines.length} source checked.`;
+const description = `Find emergency numbers and crisis hotlines in ${country.country}. ${country.hotlines.length} ${country.hotlines.length === 1 ? 'hotline' : 'hotlines'} listed; ${sourceCheckedHotlines.length} source checked.`;
 const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Countries', path: '/countries' }, { name: country.country, path: `/country/${country.alpha2.toLowerCase()}` }], Astro.site ?? SITE_URL);
 ---
 
@@ -93,14 +100,14 @@ const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Coun
         <span class="chip">
           {country.hotlines.length} hotline{country.hotlines.length !== 1 ? 's' : ''}
         </span>
-        {verifiedHotlines.length > 0 && (
-          <span class="chip border-success/40 bg-success/10 text-success">
-            {verifiedHotlines.length} verified
+        {sourceCheckedHotlines.length > 0 && (
+          <span class="chip border-success bg-bg-elev text-fg">
+            {sourceCheckedHotlines.length} source checked
           </span>
         )}
-        {unverifiedCount > 0 && verifiedHotlines.length === 0 && (
+        {notSourceCheckedCount > 0 && sourceCheckedHotlines.length === 0 && (
           <span class="chip border-fg-muted/30 text-fg-muted">
-            Data not yet verified
+            No source-checked records
           </span>
         )}
       </div>
@@ -112,17 +119,17 @@ const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Coun
 
   <!-- Emergency numbers — always first, highest visual priority -->
   {emergency.length > 0 && (
-    <div class="mb-6 rounded-2xl border border-danger/50 bg-danger/10 p-5">
+    <div class="mb-6 rounded-2xl border-2 border-danger bg-bg-elev p-5">
       <div class="flex items-start gap-3">
-        <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-danger/15 text-danger" aria-hidden="true"><Icon name="alert" class="h-5 w-5" /></span>
+        <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-danger text-bg" aria-hidden="true"><Icon name="alert" class="h-5 w-5" /></span>
         <div>
-          <h2 class="font-semibold text-danger">Emergency numbers</h2>
+          <h2 class="font-semibold text-fg">Emergency numbers</h2>
           <p class="mt-1 text-xs text-fg-muted">Police · Fire · Ambulance</p>
           <div class="mt-2 flex flex-wrap gap-2">
             {emergency.map((n) => (
               <a
                 href={`tel:${n.replace(/\s+/g, '')}`}
-                class="inline-flex items-center gap-1.5 rounded-lg bg-danger/20 px-4 py-2 font-mono text-xl font-bold text-danger hover:bg-danger/30"
+                class="inline-flex items-center gap-1.5 rounded-lg border-2 border-danger bg-danger px-4 py-2 font-mono text-xl font-bold text-bg hover:border-fg hover:bg-fg"
               >
                 {n}
               </a>
@@ -136,20 +143,22 @@ const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Coun
     </div>
   )}
 
-  <!-- Best available help box -->
+  <!-- Prioritized listing box -->
   {bestHelp && (
-    <div class={`mb-6 rounded-2xl border p-5 ${bestHelpIsVerified ? 'border-success/40 bg-success/5' : 'border-accent/40 bg-accent/5'}`}>
+    <div data-prioritized-listing data-prioritized-record-id={bestHelp.id} data-prioritized-status={bestHelpStatus} class="mb-6 rounded-2xl border border-border bg-bg-elev/40 p-5">
       <div class="mb-3 flex items-center gap-2">
-        <span class="text-lg" aria-hidden="true">
-          {bestHelpIsVerified ? '✅' : '⚠️'}
+        <span data-prioritized-icon class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-border bg-bg text-fg-muted" aria-hidden="true">
+          <Icon name="dataset" class="h-4 w-4" />
         </span>
         <div>
-          <h2 class="text-sm font-semibold text-fg">
-            {bestHelpIsVerified ? 'Best verified help available' : 'Best available help (unverified)'}
-          </h2>
-          {!bestHelpIsVerified && (
-            <p class="text-xs text-fg-muted">Double-check this number before calling — it hasn't been independently verified.</p>
+          <h2 class="text-sm font-semibold text-fg">Prioritized listing</h2>
+          <p class="text-xs text-fg-muted">Status: {bestHelpStatus}</p>
+          {!bestHelpIsSourceChecked && bestHelp.verification_status !== 'cross_referenced' && (
+            <p class="text-xs text-fg-muted">Double-check this number before calling — it does not have a source-checked status.</p>
           )}
+          <p class="mt-1 max-w-3xl text-xs text-fg-muted">
+            Prioritized routing selects the first source-checked or cross-referenced listing in category order: suicide crisis, mental health, domestic violence, sexual violence, child protection, then general support. It then uses the first listing in that category order, or the first dataset listing. This does not determine suitability, eligibility, live availability, or provide medical advice.
+          </p>
         </div>
       </div>
       <div class="flex flex-wrap items-center justify-between gap-3">
@@ -163,26 +172,25 @@ const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Coun
             {bestHelp.hours && <span> · {bestHelp.hours}</span>}
           </p>
           {bestHelpFreshness && bestHelpFreshness.label && (
-            <p class={`mt-1 text-xs ${bestHelpFreshness.level === 'stale' ? 'text-accent' : 'text-success'}`}>
+            <p class="mt-1 text-xs text-fg-muted">
               {bestHelpFreshness.label}
             </p>
           )}
         </div>
         <div class="flex flex-wrap gap-2">
-          {[...bestHelp.voice_numbers, ...bestHelp.short_codes].slice(0, 2).map((n) => (
-            <a
-              href={`tel:${n.replace(/\s+/g, '')}`}
-              class="inline-flex items-center gap-1.5 rounded-lg bg-accent/15 px-3 py-2 font-mono text-base font-semibold text-accent hover:bg-accent/25"
-            >
-              <Icon name="phone" class="h-3.5 w-3.5" /> {n}
-            </a>
+          {bestHelpPhones.map(({ value, uri }) => (
+            uri ? <a href={`tel:${uri}`} data-phone-contact={uri} class="inline-flex items-center gap-1.5 rounded-lg border border-accent bg-bg-elev px-3 py-2 font-mono text-base font-semibold text-fg hover:bg-accent hover:text-bg">
+              <Icon name="phone" class="h-3.5 w-3.5" /> {value}
+            </a> : <span data-phone-contact={value} class="inline-flex items-center gap-1.5 rounded-lg border border-border bg-bg-elev px-3 py-2 font-mono text-base text-fg">
+              <Icon name="phone" class="h-3.5 w-3.5" /> {value}
+            </span>
           ))}
           {bestHelp.chat_url && (
             <a
               href={bestHelp.chat_url}
               target="_blank"
               rel="noopener"
-              class="inline-flex items-center gap-1.5 rounded-lg bg-accent/15 px-3 py-2 text-sm text-accent hover:bg-accent/25"
+              class="inline-flex items-center gap-1.5 rounded-lg border border-accent bg-bg-elev px-3 py-2 text-sm font-semibold text-fg hover:bg-accent hover:text-bg"
             >
               <Icon name="chat" class="h-3.5 w-3.5" /> Chat
             </a>
@@ -211,12 +219,12 @@ const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Coun
     and some free-call numbers may not connect internationally. Emergency access varies by carrier and SIM status; verify current local guidance.
   </div>
 
-  <!-- Data quality notice if all unverified -->
-  {country.hotlines.length > 0 && verifiedHotlines.length === 0 && (
+  <!-- Data quality notice when no records have a source-checked status -->
+  {country.hotlines.length > 0 && sourceCheckedHotlines.length === 0 && (
     <div class="mb-6 rounded-xl border border-accent/30 bg-accent/5 p-4 text-sm">
       <span class="mr-1 inline-flex align-middle text-accent" aria-hidden="true"><Icon name="alert" class="h-4 w-4" /></span>
-      <strong class="text-accent">Data not independently verified.</strong>
-      <span class="text-fg-muted"> These records come from legacy sources and haven't been confirmed against official provider websites. Please double-check any number before relying on it.</span>
+      <strong class="text-accent">No records have a source-checked status.</strong>
+      <span class="text-fg-muted"> Evidence and verification statuses vary by record. Review each record and double-check contact details with the provider or responsible authority when possible.</span>
     </div>
   )}
 
@@ -225,7 +233,7 @@ const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Coun
     <div class="mb-6">
       <div class="flex flex-wrap gap-2" id="cat-filter" role="group" aria-label="Filter by category">
         <button
-          class="chip cat-tab border-accent/60 bg-accent/10 text-accent"
+          class="chip cat-tab border-fg bg-fg text-bg"
           data-cat="all"
           aria-pressed="true"
         >
@@ -255,8 +263,9 @@ const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Coun
       {orderedCats.map((cat) => {
         const hotlines = hotlinesByCategory.get(cat) ?? [];
         const meta = CATEGORY_META[cat];
+        // Tailwind scroll-mt-48 (12rem) clears both sticky surfaces plus breathing room.
         return (
-          <section data-section-cat={cat}>
+          <section id={`category-${cat}`} class="scroll-mt-48" data-section-cat={cat}>
             <h2 class="mb-3 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-fg-muted">
               {meta?.icon && <span aria-hidden="true">{meta.icon}</span>}
               <a class="underline hover:text-fg" href={`/category/${cat}`}>{meta?.label ?? cat.replace(/_/g, ' ')}</a>
@@ -309,9 +318,9 @@ const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Coun
       for (const b of filterGroup.querySelectorAll('.cat-tab')) {
         const isActive = (b as HTMLElement).dataset.cat === cat;
         b.setAttribute('aria-pressed', String(isActive));
-        b.classList.toggle('border-accent/60', isActive);
-        b.classList.toggle('bg-accent/10', isActive);
-        b.classList.toggle('text-accent', isActive);
+        b.classList.toggle('border-fg', isActive);
+        b.classList.toggle('bg-fg', isActive);
+        b.classList.toggle('text-bg', isActive);
       }
 
       // Show/hide sections
