@@ -66,6 +66,10 @@ test('all trusted-release profiles are accepted and adjacent hybrids are rejecte
   const profiles = [
     ['current', finalize(structuredClone(current)), null],
   ];
+  profiles.push(['provider', without(profiles.at(-1)[1], {
+    namespace: '/reviewer-work-queue/v1/', coverage: '/reviewer-work-queue/v1/**',
+    buildInputs: ['scripts/generate-reviewer-work-queue-contracts.mjs', 'repo:reviewer-work-queue/model.mjs'],
+  }), '/reviewer-work-queue/v1/README.md']);
   profiles.push(['assurance', without(profiles.at(-1)[1], {
     namespace: '/provider-claims/v1/', coverage: '/provider-claims/v1/**',
     buildInputs: ['scripts/generate-provider-claim-contracts.mjs', 'repo:provider-claims/model.mjs'],

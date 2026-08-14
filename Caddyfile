@@ -308,6 +308,44 @@
             }
         }
 
+        # Static/synthetic reviewer queue and disposition-audit references only.
+        # There is no workbench, administration, persistence, auth, or write service.
+        handle /reviewer-work-queue/v1/* {
+            route {
+                @reviewerQueueOptions {
+                    method OPTIONS
+                    file {path}
+                }
+                header @reviewerQueueOptions {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                }
+                respond @reviewerQueueOptions 204
+                @reviewerQueueWrite not method GET HEAD OPTIONS
+                respond @reviewerQueueWrite "Not found" 404
+                @reviewerQueueSchema path *.schema.json
+                header @reviewerQueueSchema Content-Type "application/schema+json; charset=utf-8"
+                @reviewerQueueMarkdown path *.md
+                header @reviewerQueueMarkdown Content-Type "text/markdown; charset=utf-8"
+                @reviewerQueueFile file {path}
+                header @reviewerQueueFile {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                    Cache-Control "public, max-age=300, stale-while-revalidate=86400"
+                }
+                file_server @reviewerQueueFile
+                header {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Cache-Control "no-store"
+                    Content-Type "text/plain; charset=utf-8"
+                }
+                respond "Not found" 404
+            }
+        }
+
         handle /feeds/* {
             route {
                 @feedOptions method OPTIONS
