@@ -22,6 +22,7 @@ COPY gateway/src/ ./gateway/src/
 COPY control-plane/ ./control-plane/
 COPY managed-widget-config/ ./managed-widget-config/
 COPY technical-health/ ./technical-health/
+COPY provider-claims/ ./provider-claims/
 COPY assurance-packs/ ./assurance-packs/
 COPY web/ ./web/
 

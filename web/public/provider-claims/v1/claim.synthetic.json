@@ -1,0 +1,31 @@
+{
+  "schema": "provider-claim-staging-envelope/v1",
+  "claim_id": "pclm_syn_example_0001",
+  "state": "staged",
+  "listing_context": {
+    "synthetic_listing_id": "syn_listing_example_0001",
+    "synthetic_stable_id": "syn_weh_0123456789abcdef01234567",
+    "context_only": true
+  },
+  "claimant": { "identity": "claimant-one.example.invalid" },
+  "provider": { "identity": "provider-one.example.invalid" },
+  "proposed_changes": [
+    { "field": "organization_name", "proposed_value": "Synthetic Example Service" },
+    { "field": "service_url", "proposed_value": "https://service.example.invalid/about" }
+  ],
+  "claimant_evidence": [
+    {
+      "evidence_id": "pev_syn_document_0001",
+      "classification": "untrusted_claimant_evidence",
+      "kind": "claimant_document_reference",
+      "locator": "https://evidence.example.invalid/document-0001",
+      "summary": "Synthetic document supplied by claimant for independent assessment"
+    }
+  ],
+  "safety": {
+    "contains_personal_data": false,
+    "contains_crisis_narrative": false,
+    "canonical_mutation_requested": false,
+    "ranking_or_verification_requested": false
+  }
+}

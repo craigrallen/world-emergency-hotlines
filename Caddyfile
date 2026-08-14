@@ -270,6 +270,44 @@
             }
         }
 
+        # Static/synthetic provider-claim staging and independent-review
+        # contract artifacts only. There is no intake, review, admin, or write service.
+        handle /provider-claims/v1/* {
+            route {
+                @providerClaimOptions {
+                    method OPTIONS
+                    file {path}
+                }
+                header @providerClaimOptions {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                }
+                respond @providerClaimOptions 204
+                @providerClaimWrite not method GET HEAD OPTIONS
+                respond @providerClaimWrite "Not found" 404
+                @providerClaimSchema path *.schema.json
+                header @providerClaimSchema Content-Type "application/schema+json; charset=utf-8"
+                @providerClaimMarkdown path *.md
+                header @providerClaimMarkdown Content-Type "text/markdown; charset=utf-8"
+                @providerClaimFile file {path}
+                header @providerClaimFile {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                    Cache-Control "public, max-age=300, stale-while-revalidate=86400"
+                }
+                file_server @providerClaimFile
+                header {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Cache-Control "no-store"
+                    Content-Type "text/plain; charset=utf-8"
+                }
+                respond "Not found" 404
+            }
+        }
+
         handle /feeds/* {
             route {
                 @feedOptions method OPTIONS

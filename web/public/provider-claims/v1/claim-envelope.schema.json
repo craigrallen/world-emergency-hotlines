@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.invalid/provider-claims/v1/claim-envelope.schema.json",
+  "title": "Static synthetic provider claim staging envelope v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "claim_id", "state", "listing_context", "claimant", "provider", "proposed_changes", "claimant_evidence", "safety"],
+  "properties": {
+    "schema": { "const": "provider-claim-staging-envelope/v1" },
+    "claim_id": { "type": "string", "pattern": "^pclm_syn_[a-z0-9_]{8,48}$" },
+    "state": { "const": "staged" },
+    "listing_context": { "type": "object", "additionalProperties": false, "required": ["synthetic_listing_id", "synthetic_stable_id", "context_only"], "properties": { "synthetic_listing_id": { "type": "string", "pattern": "^syn_listing_[a-z0-9_]{8,48}$" }, "synthetic_stable_id": { "type": "string", "pattern": "^syn_weh_[0-9a-f]{24}$" }, "context_only": { "const": true } } },
+    "claimant": { "$ref": "#/$defs/identity" },
+    "provider": { "$ref": "#/$defs/identity" },
+    "proposed_changes": { "type": "array", "minItems": 1, "maxItems": 3, "items": { "type": "object", "additionalProperties": false, "required": ["field", "proposed_value"], "properties": { "field": { "enum": ["organization_name", "service_description", "service_url"] }, "proposed_value": { "type": "string", "minLength": 1, "maxLength": 240 } } } },
+    "claimant_evidence": { "type": "array", "minItems": 1, "maxItems": 5, "items": { "type": "object", "additionalProperties": false, "required": ["evidence_id", "classification", "kind", "locator", "summary"], "properties": { "evidence_id": { "type": "string", "pattern": "^pev_syn_[a-z0-9_]{8,48}$" }, "classification": { "const": "untrusted_claimant_evidence" }, "kind": { "enum": ["claimant_statement", "claimant_document_reference"] }, "locator": { "$ref": "#/$defs/invalidUrl" }, "summary": { "type": "string", "minLength": 1, "maxLength": 240 } } } },
+    "safety": { "type": "object", "additionalProperties": false, "required": ["contains_personal_data", "contains_crisis_narrative", "canonical_mutation_requested", "ranking_or_verification_requested"], "properties": { "contains_personal_data": { "const": false }, "contains_crisis_narrative": { "const": false }, "canonical_mutation_requested": { "const": false }, "ranking_or_verification_requested": { "const": false } } }
+  },
+  "$defs": {
+    "identity": { "type": "object", "additionalProperties": false, "required": ["identity"], "properties": { "identity": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*\\.invalid$" } } },
+    "invalidUrl": { "type": "string", "pattern": "^https://[a-z0-9][a-z0-9.-]*\\.invalid(?:/[A-Za-z0-9._~!$&'()*+,;=:@%/-]*)?(?:\\?[A-Za-z0-9._~!$&'()*+,;=:@%/?-]*)?$" }
+  },
+  "x-runtime-invariants": ["proposed fields and evidence IDs are unique", "all URLs parse as credential-free fragment-free HTTPS URLs on .invalid hosts", "bounded text rejects personal or crisis narratives", "synthetic stable IDs cannot match canonical weh_ IDs"]
+}

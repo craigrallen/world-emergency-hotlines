@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://contracts.invalid/provider-claims/v1/review-decision.schema.json",
+  "title": "Static synthetic independent provider claim review v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "review_id", "claim_id", "reviewer", "transition", "decision_basis", "conflict_declaration", "effects"],
+  "properties": {
+    "schema": { "const": "provider-claim-independent-review/v1" },
+    "review_id": { "type": "string", "pattern": "^prv_syn_[a-z0-9_]{8,48}$" },
+    "claim_id": { "type": "string", "pattern": "^pclm_syn_[a-z0-9_]{8,48}$" },
+    "reviewer": { "type": "object", "additionalProperties": false, "required": ["identity", "role"], "properties": { "identity": { "type": "string", "pattern": "^[a-z0-9][a-z0-9._-]*\\.invalid$" }, "role": { "const": "independent_reviewer" } } },
+    "transition": { "type": "object", "additionalProperties": false, "required": ["from", "via", "to"], "properties": { "from": { "const": "staged" }, "via": { "const": "under_review" }, "to": { "enum": ["accepted_for_candidate", "rejected", "needs_more_evidence"] } } },
+    "decision_basis": { "type": "object", "additionalProperties": false, "required": ["decision", "reason_code", "reason", "evidence_ids", "uncertainty"], "properties": { "decision": { "enum": ["accepted_for_candidate", "rejected", "needs_more_evidence"] }, "reason_code": { "enum": ["evidence_sufficient_for_candidate", "claim_rejected", "additional_evidence_required"] }, "reason": { "type": "string", "minLength": 1, "maxLength": 240 }, "evidence_ids": { "type": "array", "minItems": 1, "maxItems": 5, "uniqueItems": true, "items": { "type": "string", "pattern": "^pev_syn_[a-z0-9_]{8,48}$" } }, "uncertainty": { "enum": ["bounded_uncertainty_remains", "material_uncertainty", "insufficient_evidence"] } } },
+    "conflict_declaration": { "type": "object", "additionalProperties": false, "required": ["no_conflict", "not_claimant", "not_provider", "basis"], "properties": { "no_conflict": { "const": true }, "not_claimant": { "const": true }, "not_provider": { "const": true }, "basis": { "type": "string", "minLength": 1, "maxLength": 240 } } },
+    "effects": { "type": "object", "additionalProperties": false, "required": ["candidate_eligibility_only", "canonical_mutation", "verified_status", "ranking_or_search_effect", "publication"], "properties": { "candidate_eligibility_only": { "type": "boolean" }, "canonical_mutation": { "const": false }, "verified_status": { "const": false }, "ranking_or_search_effect": { "const": false }, "publication": { "const": false } } }
+  },
+  "x-runtime-invariants": ["reviewer identity differs from claimant and provider identities", "claim and cited evidence IDs bind to the staged envelope", "decision, reason code, transition target, uncertainty, and candidate eligibility are coherent: accepted_for_candidate requires bounded_uncertainty_remains, rejected requires material_uncertainty, and needs_more_evidence requires insufficient_evidence", "accepted_for_candidate never outputs canonical records or changes verification, ranking, search, or publication"]
+}
