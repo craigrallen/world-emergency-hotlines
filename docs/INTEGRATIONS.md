@@ -90,7 +90,7 @@ The published `/technical-health/v1/` tree is a static contract and synthetic re
 
 ## Verification and scope limitations
 
-Listings are source-backed directory records, not live availability checks, medical advice, clinical suitability, legal compliance, eligibility, or successful-contact guarantees. Verification statuses describe the recorded evidence and review method; they do not prove current operation. Geography describes recorded scope, not the user's identity or eligibility. Coverage and metadata depth vary, and numbers, hours, services, and official guidance can change. Review the cited provider or authority source at the point your production process requires.
+Integrations return listed directory records, with source information and source-check status shown when available; they do not perform live availability checks or provide medical advice, clinical-suitability, legal-compliance, eligibility, or successful-contact guarantees. Verification statuses describe recorded evidence and review method where present; they do not prove current operation. Geography describes recorded scope, not the user's identity or eligibility. Coverage and metadata depth vary, and numbers, hours, services, and official guidance can change. Review a cited provider or authority source at the point your production process requires when one is available.
 
 ## Testing checklist
 

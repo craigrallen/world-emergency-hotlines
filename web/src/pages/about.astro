@@ -1,13 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
+import { breadcrumbJsonLd } from '../lib/seo';
+import { SITE_URL } from '../lib/site';
+const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'About', path: '/about' }], Astro.site ?? SITE_URL);
 ---
 
-<Base title="About · Hotlines" description="How the World Emergency & Hotlines directory works: data sourcing, verification, routing, and privacy.">
+<Base title="About · Hotlines" description="How the World Emergency & Hotlines directory works: data sourcing, verification, routing, and privacy." jsonLd={breadcrumbs}>
   <article class="prose prose-invert mx-auto max-w-2xl text-fg">
     <h1 class="text-4xl font-semibold text-fg" data-i18n="about.title">About this project</h1>
     <p class="text-fg-muted">
-      World Emergency & Hotlines is a public, source-backed directory of crisis, emergency, and support services
-      across countries and territories. Coverage and verification depth vary. We think nobody should have to search in a panic.
+      World Emergency & Hotlines is a public directory of listed crisis, emergency, and support services
+      across countries and territories. Coverage, source information, and verification status vary and are shown per record. We think nobody should have to search in a panic.
     </p>
 
     <h2 class="mt-8 text-2xl font-semibold text-fg" data-i18n="about.crisisTitle">If you're in crisis right now</h2>
@@ -15,7 +18,7 @@ import Base from '../layouts/Base.astro';
       <p class="text-sm text-fg-muted">
         Call your country's emergency number. In most of Europe: <span class="font-mono text-fg">112</span>.
         US/Canada: <span class="font-mono text-fg">911</span>. UK: <span class="font-mono text-fg">999</span>.
-        Australia: <span class="font-mono text-fg">000</span>. These numbers work even without a SIM card on most networks.
+        Australia: <span class="font-mono text-fg">000</span>. Emergency numbers and access without a SIM vary by country, device, carrier, and network; verify local guidance.
       </p>
       <p class="mt-2 text-sm text-fg-muted">
         For crisis support: <a href="/category/suicide_crisis" class="text-accent hover:underline">find a crisis line →</a>
@@ -92,10 +95,10 @@ import Base from '../layouts/Base.astro';
       Most freephone/toll-free numbers require a local SIM or network connection for the country. If you're abroad:
     </p>
     <ul class="list-disc pl-6 text-fg-muted">
-      <li><span class="font-mono text-fg">112</span> reaches emergency services in most countries even without a SIM.</li>
+      <li>Use the relevant <a class="text-accent underline" href="/countries">country page</a> and verify the local emergency number and carrier or SIM requirements.</li>
       <li>Look for hotlines with online chat (💬) — these work internationally over Wi-Fi.</li>
       <li>SMS-based lines (📱) may also work internationally depending on your roaming plan.</li>
-      <li>Hotel staff and local emergency numbers will always have up-to-date local contacts.</li>
+      <li>Local authorities or accommodation staff may be able to suggest current contacts, but verify any details they provide.</li>
     </ul>
 
     <h2 class="mt-8 text-2xl font-semibold text-fg" data-i18n="about.privacyTitle">Privacy</h2>
@@ -104,6 +107,10 @@ import Base from '../layouts/Base.astro';
       No queries are logged. The emergency banner reads your browser language setting only (no server call, no location).
       We don't use tracking cookies or analytics that identify individuals.
     </p>
+
+    <h2 class="mt-8 text-2xl font-semibold text-fg">Maintainer and editorial responsibility</h2>
+    <p class="text-fg-muted">This directory is maintained through the public <a class="text-accent underline" href="https://github.com/craigrallen/world-emergency-hotlines" rel="noopener" target="_blank">craigrallen/world-emergency-hotlines GitHub project</a>. Maintainers review cited evidence and proposed changes; inclusion does not imply affiliation, endorsement, or a provider relationship. Reviews occur as maintainers process contributions and corrections, without a promised publication cadence.</p>
+    <p class="mt-2 text-fg-muted">To correct or remove a listing, use the correction form linked below and include a public source when possible. Reports of disconnected numbers, changed scope, or safety concerns can also be filed as GitHub issues. Maintainers may amend, dispute, deprecate, or remove a record after reviewing the available evidence.</p>
 
     <h2 class="mt-8 text-2xl font-semibold text-fg" data-i18n="about.openDataTitle">Public data access & contributing</h2>
     <p class="text-fg-muted">

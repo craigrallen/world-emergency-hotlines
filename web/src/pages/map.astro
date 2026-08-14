@@ -7,11 +7,14 @@ import Base from '../layouts/Base.astro';
   description="Explore emergency and crisis hotlines on a zoomable, mobile-friendly world map."
   bleed={true}
 >
+  <section class="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 lg:px-8">
+    <h1 class="text-3xl font-semibold text-fg sm:text-4xl">World map of emergency and crisis hotline listings</h1>
+    <p class="mt-2 max-w-3xl text-sm text-fg-muted">Explore dataset coverage on the map, or use the ordinary links to <a class="underline text-accent" href="/countries">browse countries</a>, <a class="underline text-accent" href="/find-help">find help step by step</a>, or <a class="underline text-accent" href="/categories">browse categories</a>. Map coverage and source checks do not confirm live availability.</p>
+  </section>
   <div class="map-shell relative w-full">
     <div
       id="hotlines-map"
       class="absolute inset-0 bg-bg"
-      role="application"
       aria-label="World map of hotlines"
     ></div>
 

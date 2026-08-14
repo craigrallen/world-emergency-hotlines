@@ -4,7 +4,11 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import EmergencyBanner from '../components/EmergencyBanner.astro';
 import { DEFAULT_LOCALE, DICTIONARIES, isRTL, t, type Locale } from '../lib/i18n';
+import { serializeJsonLd } from '../lib/json-ld.mjs';
 import { SITE_URL } from '../lib/site';
+import { SITE_NAME, SOCIAL_IMAGE_ALT, SOCIAL_IMAGE_PATH } from '../lib/seo';
+
+type JsonLdObject = Record<string, unknown>;
 
 interface Props {
   title?: string;
@@ -12,17 +16,26 @@ interface Props {
   hideBanner?: boolean;
   bleed?: boolean;
   locale?: Locale;
+  robots?: 'index,follow' | 'noindex,follow';
+  canonical?: boolean;
+  jsonLd?: JsonLdObject | JsonLdObject[];
 }
 
 const {
   title = 'World Emergency & Hotlines',
-  description = 'A source-backed global directory of emergency and crisis support services, with visible scope, provenance, and source-check dates.',
+  description = 'Emergency and crisis hotline listings across countries and territories worldwide. Coverage varies; check the relevant country page.',
   hideBanner = false,
   bleed = false,
   locale = DEFAULT_LOCALE,
+  robots = 'index,follow',
+  canonical: includeCanonical = true,
+  jsonLd,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE_URL).toString();
+const emitCanonical = includeCanonical && robots === 'index,follow';
+const socialImage = new URL(SOCIAL_IMAGE_PATH, Astro.site ?? SITE_URL).toString();
+const jsonLdItems = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
 const dir = isRTL(locale) ? 'rtl' : 'ltr';
 const bootPayload = JSON.stringify({ defaultLocale: locale, dictionaries: DICTIONARIES });
 ---
@@ -38,21 +51,33 @@ const bootPayload = JSON.stringify({ defaultLocale: locale, dictionaries: DICTIO
 
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
 
-    <link rel="canonical" href={canonical} />
+    {emitCanonical && <link rel="canonical" href={canonical} />}
     <link rel="alternate" type="application/feed+json" title="World Hotlines releases (JSON Feed)" href="/feeds/releases.json" />
     <link rel="alternate" type="application/rss+xml" title="World Hotlines releases (RSS)" href="/feeds/releases.rss" />
     <link rel="alternate" type="application/atom+xml" title="World Hotlines releases (Atom)" href="/feeds/releases.atom" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
+    <meta property="og:site_name" content={SITE_NAME} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonical} />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+    {emitCanonical && <meta property="og:url" content={canonical} />}
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content={SOCIAL_IMAGE_ALT} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:image:alt" content={SOCIAL_IMAGE_ALT} />
+    {jsonLdItems.map((item) => <script is:inline type="application/ld+json" set:html={serializeJsonLd(item)} />)}
 
     <script is:inline define:vars={{ bootPayload }}>
       const boot = JSON.parse(bootPayload);

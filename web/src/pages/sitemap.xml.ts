@@ -2,8 +2,9 @@ import type { APIRoute } from 'astro';
 
 import { getCategoriesStats, getManifest } from '../lib/data';
 import { SITE_URL } from '../lib/site';
+import { isCategoryIndexable } from '../lib/seo';
 
-const STATIC_PATHS = ['', '/about', '/find-help', '/widget', '/integrate', '/managed-api', '/release', '/releases', '/status', '/map', '/data', '/categories'];
+const STATIC_PATHS = ['', '/about', '/find-help', '/integrate', '/map', '/data', '/categories', '/countries'];
 
 function escapeXml(value: string): string {
   return value
@@ -22,9 +23,11 @@ export const GET: APIRoute = async () => {
   const [manifest, categoryStats] = await Promise.all([getManifest(), getCategoriesStats()]);
 
   const countryPaths = manifest.countries
+    .filter((country) => country.hotline_count > 0)
     .map((country) => `/country/${country.alpha2.toLowerCase()}`)
     .sort();
   const categoryPaths = categoryStats.categories
+    .filter(isCategoryIndexable)
     .map((category) => `/category/${category.slug}`)
     .sort();
 

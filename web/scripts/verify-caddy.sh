@@ -6,6 +6,8 @@ command -v curl >/dev/null 2>&1 || { echo "curl is required for the Caddy integr
 
 repo_root=$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)
 caddy_image='caddy:2.10-alpine@sha256:4c6e91c6ed0e2fa03efd5b44747b625fec79bc9cd06ac5235a779726618e530d'
+dockerfile_image=$(sed -n 's/^FROM \(caddy:[^ ]*\)$/\1/p' "$repo_root/Dockerfile")
+[ "$dockerfile_image" = "$caddy_image" ] || { echo "Caddy image drift: verifier uses $caddy_image but Dockerfile uses ${dockerfile_image:-<missing>}" >&2; exit 1; }
 fixture=$(mktemp -d "${TMPDIR:-/tmp}/weh-caddy.XXXXXX")
 container=""
 cleanup() {
@@ -14,7 +16,10 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-mkdir -p "$fixture/release/v1/changes" "$fixture/feeds" "$fixture/subscriptions/v1" "$fixture/gateway/v1" "$fixture/organizations/v1" "$fixture/managed-widget-config/v1" "$fixture/technical-health/v1" "$fixture/assurance-packs/v1" "$fixture/provider-claims/v1" "$fixture/reviewer-work-queue/v1" "$fixture/managed-api-plans/v1" "$fixture/responses"
+mkdir -p "$fixture/release/v1/changes" "$fixture/feeds" "$fixture/subscriptions/v1" "$fixture/gateway/v1" "$fixture/organizations/v1" "$fixture/managed-widget-config/v1" "$fixture/technical-health/v1" "$fixture/assurance-packs/v1" "$fixture/provider-claims/v1" "$fixture/reviewer-work-queue/v1" "$fixture/managed-api-plans/v1" "$fixture/countries" "$fixture/responses"
+printf '%s\n' '<!doctype html><title>Countries</title><h1>Countries</h1>' > "$fixture/countries/index.html"
+expected_html_404="$fixture/404.html"
+printf '%s\n' '<!doctype html><html><head><title>Page not found</title><meta name="robots" content="noindex,follow"></head><body><main data-custom-404="world-hotlines">Page not found</main></body></html>' > "$expected_html_404"
 expected_release="$fixture/release/v1/release.json"
 printf '%s\n' '{"schema_version":"1.0","release_id":"sha256:test"}' > "$expected_release"
 printf '%s\n' '{"schema_version":"1.0"}' > "$fixture/release/v1/changes.json"
@@ -377,4 +382,26 @@ require_header "$missing_options_headers" Access-Control-Allow-Origin '*'
 require_header "$missing_options_headers" Access-Control-Allow-Methods 'GET, HEAD, OPTIONS'
 require_header "$missing_options_headers" Access-Control-Allow-Headers 'Accept, If-None-Match, If-Modified-Since'
 
-echo "Caddy integration OK: release/feed/subscription/organization/technical-health/assurance-pack/provider-claim/reviewer-work-queue static MIME and CORS; existing-file OPTIONS, all writes and unknown routes enforce the read-only 404 boundary; no route shadowing"
+countries_headers="$fixture/responses/countries.headers"
+curl --max-time 5 -sS -D "$countries_headers" -o /dev/null "$base/countries"
+require_status GET /countries 200 "$countries_headers"
+require_header "$countries_headers" Content-Type 'text/html; charset=utf-8'
+
+unknown_html_path=/ordinary-page-that-does-not-exist
+unknown_html_get_headers="$fixture/responses/unknown-html-get.headers"
+unknown_html_get_body="$fixture/responses/unknown-html-get.body"
+curl --max-time 5 -sS -D "$unknown_html_get_headers" -o "$unknown_html_get_body" "$base$unknown_html_path"
+require_status GET "$unknown_html_path" 404 "$unknown_html_get_headers"
+cmp -s "$expected_html_404" "$unknown_html_get_body" || { echo "GET $unknown_html_path did not serve the custom 404 document" >&2; exit 1; }
+grep -Fq 'data-custom-404="world-hotlines"' "$unknown_html_get_body" || { echo "GET $unknown_html_path is missing the custom 404 marker" >&2; exit 1; }
+grep -Eiq '<meta[[:space:]][^>]*name="robots"[^>]*content="noindex,follow"' "$unknown_html_get_body" || { echo "GET $unknown_html_path is missing the noindex robots directive" >&2; exit 1; }
+if grep -Eiq '<link[[:space:]][^>]*rel="canonical"' "$unknown_html_get_body"; then echo "GET $unknown_html_path unexpectedly includes a canonical link" >&2; exit 1; fi
+if grep -Eiq '<meta[[:space:]][^>]*property="og:url"' "$unknown_html_get_body"; then echo "GET $unknown_html_path unexpectedly includes og:url" >&2; exit 1; fi
+
+unknown_html_head_headers="$fixture/responses/unknown-html-head.headers"
+unknown_html_head_body="$fixture/responses/unknown-html-head.body"
+curl --max-time 5 -sS --request HEAD --ignore-content-length -H 'Connection: close' -D "$unknown_html_head_headers" -o "$unknown_html_head_body" "$base$unknown_html_path"
+require_status HEAD "$unknown_html_path" 404 "$unknown_html_head_headers"
+require_empty HEAD "$unknown_html_path" "$unknown_html_head_body"
+
+echo "Caddy integration OK: /countries HTML discovery and custom noindex/canonical-free HTML 404; release/feed/subscription/organization/technical-health/assurance-pack/provider-claim/reviewer-work-queue static MIME and CORS; existing-file OPTIONS, all writes and unknown routes enforce the read-only 404 boundary; no route shadowing"

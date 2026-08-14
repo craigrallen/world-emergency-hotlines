@@ -12,58 +12,16 @@ const { locale = 'en' as Locale } = Astro.props;
 <aside id="emergency-banner" class="emergency-strip sticky top-0 z-50 shadow-lg" role="region" aria-label={t(locale, 'banner.aria')} data-i18n-aria-label="banner.aria">
   <div class="flex min-w-0 items-center gap-3">
     <Icon name="alert" class="h-5 w-5 shrink-0 animate-pulse-slow" />
-    <p class="truncate">
+    <p class="min-w-0 leading-snug">
       <strong class="font-semibold" data-i18n="banner.title">{t(locale, 'banner.title')}</strong>
-      <span id="emergency-text" class="ml-1 opacity-90" data-i18n-template="banner.body" data-i18n-args='{"number":"112 / 911"}'>
-        {t(locale, 'banner.body', { number: '112 / 911' })}
+      <span class="ml-1 opacity-90" data-i18n="banner.body">
+        {t(locale, 'banner.body')}
       </span>
     </p>
   </div>
 
-  <a href="/map" class="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-xs font-medium transition hover:bg-white/25">
+  <a href="/countries" aria-label={t(locale, 'banner.cta')} class="inline-flex shrink-0 items-center gap-1 rounded-full bg-white/15 px-2.5 py-1 text-xs font-medium transition hover:bg-white/25 sm:gap-1.5 sm:px-3">
     <span data-i18n="banner.cta">{t(locale, 'banner.cta')}</span>
     <Icon name="chevron-right" class="h-3.5 w-3.5" />
   </a>
 </aside>
-
-<script>
-  const FALLBACK: Record<string, { number: string }> = {
-    'en-US': { number: '911' },
-    'en-CA': { number: '911' },
-    'en-GB': { number: '999' },
-    'en-AU': { number: '000' },
-    'en-NZ': { number: '111' },
-    'en-IN': { number: '112' },
-    'en-IE': { number: '112' },
-    de: { number: '112' },
-    fr: { number: '112' },
-    es: { number: '112 / 911' },
-    it: { number: '112' },
-    ja: { number: '110 / 119' },
-    zh: { number: '110 / 120' },
-  };
-
-  function pickEmergencyNumber() {
-    const raw = (navigator.language || 'en').toLowerCase();
-    const tag = raw;
-    const lang = raw.split('-')[0];
-    return FALLBACK[tag] ?? FALLBACK[lang] ?? null;
-  }
-
-  function updateEmergencyBanner() {
-    const text = document.getElementById('emergency-text');
-    const hit = pickEmergencyNumber();
-    if (!text) return;
-    text.setAttribute('data-i18n-args', JSON.stringify({ number: hit?.number ?? '112 / 911' }));
-    window.dispatchEvent(new CustomEvent('weh:locale-changed', { detail: document.documentElement.lang || 'en' }));
-  }
-
-  window.addEventListener('DOMContentLoaded', updateEmergencyBanner);
-  window.addEventListener('weh:locale-changed', () => {
-    const text = document.getElementById('emergency-text');
-    const hit = pickEmergencyNumber();
-    if (text && window.__WEH__?.t) {
-      text.textContent = window.__WEH__.t('banner.body', { number: hit?.number ?? '112 / 911' });
-    }
-  });
-</script>

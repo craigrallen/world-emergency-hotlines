@@ -60,6 +60,12 @@
   a, button, input, select {
     transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
   }
+
+  .prose a,
+  p > a[class~='text-accent'] {
+    text-decoration-line: underline;
+    text-underline-offset: 0.16em;
+  }
 }
 
 @layer components {

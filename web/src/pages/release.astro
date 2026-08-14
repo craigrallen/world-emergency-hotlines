@@ -6,7 +6,7 @@ import Base from '../layouts/Base.astro';
 const release = JSON.parse(readFileSync(resolve(process.cwd(), 'public/release/v1/release.json'), 'utf8'));
 ---
 
-<Base title="Release integrity · World Emergency & Hotlines" description="Verify the unsigned checksums and version identities of World Hotlines static integration artifacts.">
+<Base title="Release integrity · World Emergency & Hotlines" description="Verify the unsigned checksums and version identities of World Hotlines static integration artifacts." robots="noindex,follow">
   <nav class="mb-6 text-xs text-fg-muted" aria-label="Breadcrumb"><a href="/" class="hover:text-fg">Home</a> › Release integrity</nav>
   <article class="mx-auto max-w-4xl">
     <p class="text-sm font-semibold uppercase tracking-wider text-accent">Unsigned release checksums</p>
