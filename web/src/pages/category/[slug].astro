@@ -1,6 +1,5 @@
 ---
 import Base from '../../layouts/Base.astro';
-import HotlineCard from '../../components/HotlineCard.astro';
 import Icon from '../../components/Icon.astro';
 import { getByCategory, getCategoriesStats } from '../../lib/data';
 import { CATEGORY_META } from '../../lib/types';
@@ -54,12 +53,23 @@ function flagEmoji(cc: string): string {
   return String.fromCodePoint(cc.charCodeAt(0) + A, cc.charCodeAt(1) + A);
 }
 
+const SOURCE_CHECKED_STATUSES = new Set(['verified_web', 'verified_authority', 'verified_knowledge']);
+
+function availableChannels(hotlines: typeof results[number]['hotlines']): string[] {
+  const channels: string[] = [];
+  if (hotlines.some((h) => h.voice_numbers.length > 0 || h.short_codes.length > 0)) channels.push('Phone');
+  if (hotlines.some((h) => h.sms_numbers.length > 0 || h.text_numbers.length > 0)) channels.push('SMS/text');
+  if (hotlines.some((h) => Boolean(h.chat_url))) channels.push('Online chat');
+  if (hotlines.some((h) => Boolean(h.email))) channels.push('Email');
+  return channels;
+}
+
 const totalHotlines = results.reduce((sum, e) => sum + e.hotlines.length, 0);
 const totalVerified = results.reduce(
   (sum, e) =>
     sum +
     e.hotlines.filter((h) =>
-      ['verified_web', 'verified_authority', 'verified_knowledge'].includes(h.verification_status)
+      SOURCE_CHECKED_STATUSES.has(h.verification_status)
     ).length,
   0
 );
@@ -106,25 +116,29 @@ const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Cate
         <span class="text-3xl font-semibold text-fg">{results.length}</span>
         <span class="text-xs text-fg-muted">{countryWord}</span>
       </div>
-      <div class="card flex flex-col p-4 text-center">
+      <div class="card flex flex-col p-4 text-center" aria-label={`${totalVerified} source checked`}>
         <span class="text-3xl font-semibold text-success">{totalVerified}</span>
-        <span class="text-xs text-fg-muted">verified</span>
+        <span class="text-xs text-fg-muted">source checked</span>
       </div>
       {totalVerified < totalHotlines && (
-        <div class="card flex flex-col p-4 text-center">
+        <div class="card flex flex-col p-4 text-center" aria-label={`${totalHotlines - totalVerified} not source checked`}>
           <span class="text-3xl font-semibold text-fg-muted">{totalHotlines - totalVerified}</span>
-          <span class="text-xs text-fg-muted">unverified</span>
+          <span class="text-xs text-fg-muted">not source checked</span>
         </div>
       )}
     </div>
   </div>
 
+  <p class="mb-6 max-w-3xl text-sm text-fg-muted">
+    Category pages summarize availability by country. Detailed records and source status are on each country page.
+  </p>
+
   <!-- Verification note if many unverified -->
   {totalVerified === 0 && (
     <div class="mb-6 rounded-xl border border-accent/30 bg-accent/5 p-4 text-sm">
       <span class="mr-1" aria-hidden="true">⚠️</span>
-      <strong class="text-accent">All records in this category are unverified.</strong>
-      <span class="text-fg-muted"> These come from legacy sources. Please double-check any number against the organisation's official website before calling.</span>
+      <strong class="text-fg">No records in this category have a source-checked status.</strong>
+      <span class="text-fg-muted"> Verification statuses and source evidence vary by listing. Review each detailed record and double-check contact details with the provider or responsible authority when possible.</span>
     </div>
   )}
 
@@ -133,7 +147,7 @@ const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Cate
     <div class="mb-6">
       <div class="flex flex-wrap gap-2" id="region-filter" role="group" aria-label="Filter by region">
         <button
-          class="chip region-tab border-accent/60 bg-accent/10 text-accent"
+          class="chip region-tab border-fg bg-fg text-bg"
           data-region="all"
           aria-pressed="true"
         >
@@ -164,35 +178,22 @@ const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Cate
           <div class="space-y-6">
             {entries.map(({ country, hotlines }) => {
               const flag = flagEmoji(country.alpha2);
-              const verifiedInCountry = hotlines.filter((h) =>
-                ['verified_web', 'verified_authority', 'verified_knowledge'].includes(h.verification_status)
-              ).length;
+              const sourceCheckedInCountry = hotlines.filter((h) => SOURCE_CHECKED_STATUSES.has(h.verification_status)).length;
+              const channels = availableChannels(hotlines);
               return (
-                <div>
-                  <div class="mb-3 flex items-center gap-2">
-                    <span aria-hidden="true">{flag}</span>
-                    <a
-                      href={`/country/${country.alpha2.toLowerCase()}`}
-                      class="font-semibold text-fg hover:text-accent"
-                    >
-                      {country.country}
-                    </a>
-                    <span class="text-xs text-fg-muted">·</span>
-                    <span class="text-xs text-fg-muted">
-                      {hotlines.length} {hotlines.length === 1 ? 'hotline' : 'hotlines'}
-                    </span>
-                    {verifiedInCountry > 0 && (
-                      <span class="chip border-success/40 bg-success/10 text-success text-[10px]">
-                        {verifiedInCountry} verified
-                      </span>
-                    )}
+                <article class="card p-5" data-category-country-summary data-country-code={country.alpha2.toLowerCase()} data-record-count={hotlines.length} data-source-checked-count={sourceCheckedInCountry} data-channels={channels.join('|')}>
+                  <div class="flex items-start gap-3">
+                    <span class="text-2xl" aria-hidden="true">{flag}</span>
+                    <div class="min-w-0 flex-1">
+                      <h3 class="font-semibold text-fg">{country.country}</h3>
+                      <p class="mt-1 text-xs text-fg-muted">{hotlines.length} {hotlines.length === 1 ? 'record' : 'records'} · {sourceCheckedInCountry} source checked</p>
+                      <p class="mt-2 text-xs text-fg-muted"><span class="font-medium text-fg">Available channels:</span> {channels.length > 0 ? channels.join(', ') : 'None listed'}</p>
+                      <a href={`/country/${country.alpha2.toLowerCase()}#category-${slug}`} class="mt-4 inline-flex items-center gap-1 font-semibold text-fg underline decoration-accent underline-offset-4 hover:text-accent">
+                        View {label.toLowerCase()} records in {country.country} <span aria-hidden="true">→</span>
+                      </a>
+                    </div>
                   </div>
-                  <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                    {hotlines.map((h) => (
-                      <HotlineCard hotline={h} country={country.country} />
-                    ))}
-                  </div>
-                </div>
+                </article>
               );
             })}
           </div>
@@ -239,9 +240,9 @@ const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Cate
       for (const b of filterGroup.querySelectorAll('.region-tab')) {
         const isActive = (b as HTMLElement).dataset.region === region;
         b.setAttribute('aria-pressed', String(isActive));
-        b.classList.toggle('border-accent/60', isActive);
-        b.classList.toggle('bg-accent/10', isActive);
-        b.classList.toggle('text-accent', isActive);
+        b.classList.toggle('border-fg', isActive);
+        b.classList.toggle('bg-fg', isActive);
+        b.classList.toggle('text-bg', isActive);
       }
 
       for (const section of container.querySelectorAll('[data-region-section]')) {
