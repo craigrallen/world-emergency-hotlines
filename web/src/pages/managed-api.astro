@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Managed API plans · World Emergency & Hotlines" description="A proposed, not-live managed API free-tier contract; current static crisis information remains free and keyless.">
+  <nav class="mb-6 flex items-center gap-2 text-xs text-fg-muted" aria-label="Breadcrumb"><a href="/" class="hover:text-fg">Home</a><span aria-hidden="true">›</span><span class="text-fg">Managed API plans</span></nav>
+  <article class="mx-auto max-w-4xl">
+    <header>
+      <p class="text-sm font-semibold uppercase tracking-wider text-accent">Proposed design · not live</p>
+      <h1 class="mt-2 text-4xl font-semibold text-fg sm:text-5xl">Developer Free — planned</h1>
+      <p class="mt-4 max-w-3xl text-lg text-fg-muted">A future managed API could include <strong>100,000 managed request units per UTC calendar month</strong> for USD 0, with no card required. The managed API is not live and no signup is available.</p>
+    </header>
+
+    <aside class="mt-8 rounded-xl border border-amber-400/60 bg-amber-400/10 p-5">
+      <h2 class="text-xl font-semibold text-fg">Nothing is being sold or activated here</h2>
+      <p class="mt-2 text-sm text-fg-muted">There is no checkout, billing, customer or contact collection, production key issuance, managed counter store, telemetry, DPA, SLA, uptime promise, support-response promise, or deployed managed route.</p>
+    </aside>
+
+    <section class="mt-10 grid gap-4 sm:grid-cols-3" aria-label="Planned tiers">
+      <div class="card p-5"><h2 class="text-xl font-semibold text-fg">Developer Free — planned</h2><p class="mt-3 text-sm text-fg-muted">100,000 units/month. No payment method. Small commercial and non-commercial integrations permitted, subject to permission and licensing. Best-effort/community support only; no SLA.</p><p class="mt-3 text-sm text-fg-muted">Hard stop with 429 at the allowance until the next UTC month. No automatic overage charge, paid conversion, or surprise bill.</p></div>
+      <div class="card p-5"><h2 class="text-xl font-semibold text-fg">Growth — planned</h2><p class="mt-3 text-sm text-fg-muted">A future base subscription, included calls, and transparent metered overage. Prices, included volume, and rates are not published/TBD. Any charge requires explicit opt-in; free users never auto-convert.</p></div>
+      <div class="card p-5"><h2 class="text-xl font-semibold text-fg">Enterprise — planned</h2><p class="mt-3 text-sm text-fg-muted">Potential custom volume, SLA/support, procurement, and security options. Exact price is not published.</p></div>
+    </section>
+
+    <section class="mt-10"><h2 class="text-2xl font-semibold text-fg">Current crisis information stays free</h2><p class="mt-3 text-fg-muted">The existing site, static API v1, feeds, widget, and data remain free, keyless, and unmetered. They will not be degraded or paywalled. Use the <a class="text-accent hover:underline" href="/integrate">current integration guide</a> or open the <a class="text-accent hover:underline" href="/api/v1/manifest.json">static API manifest</a>.</p></section>
+
+    <section class="mt-10"><h2 class="text-2xl font-semibold text-fg">What one proposed unit means</h2><p class="mt-3 text-fg-muted">One unit is an authenticated, authorized managed-artifact GET or HEAD attempt, including 200/304 responses and attempts rejected only by the monthly allowance. Health, exact OPTIONS, authentication failures, forbidden requests, unknown or query-bearing routes, and all free static surfaces use zero units. Short-term rate limiting is separate.</p></section>
+
+    <section class="mt-10"><h2 class="text-2xl font-semibold text-fg">Privacy boundary</h2><p class="mt-3 text-fg-muted">A future monthly counter may retain only account-level aggregate technical units for a UTC month. It must not retain URLs, queries, raw paths, country/category/hotline/crisis intent, user behavior, IP/referrer, contact data, authorization or raw keys, or distress analytics.</p><a class="mt-4 inline-block text-accent hover:underline" href="/managed-api-plans/v1/README.md">Read the versioned synthetic contract →</a></section>
+
+    <section class="mt-10"><h2 class="text-2xl font-semibold text-fg">One ordered, replay-safe planning boundary</h2><p class="mt-3 text-fg-muted">The static model has one transition-producing operation. It takes only the exact authoritative store-read generation, UTC month, and usage state, a trusted instant, and the request classification. In-month metered attempts derive one full-state transition; the first metered attempt in a later month atomically changes month and records unit 1. Allowance-rejected attempts advance generation while preserving the 100,000 cap. Zero-unit classes never transition, including at rollover. A future store must full-state-CAS the derived expected state to its exact derived next state, rejecting stale, concurrent, or replayed transitions. The model accepts no caller-selected next state. This is a design contract only; no counter store, CAS helper, billing system, or managed API is deployed.</p></section>
+
+    <aside class="mt-10 rounded-xl border border-border bg-bg-elev p-5"><h2 class="text-xl font-semibold text-fg">Permission and licensing</h2><p class="mt-2 text-sm text-fg-muted">Public access does not grant reuse rights. This repository currently has no license; integration teams must confirm permission before production commercial or non-commercial reuse.</p></aside>
+  </article>
+</Base>

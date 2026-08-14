@@ -130,6 +130,7 @@ const expectedUrls = [
   '/find-help',
   '/widget',
   '/integrate',
+  '/managed-api',
   '/release',
   '/releases',
   '/status',

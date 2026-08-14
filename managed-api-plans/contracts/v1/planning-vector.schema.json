@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://worldhotlines.org/managed-api-plans/v1/planning-vector.schema.json",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema", "vectors"],
+  "properties": {
+    "schema": { "const": "managed-api-planning-vectors/v1" },
+    "vectors": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/vector" } }
+  },
+  "$defs": {
+    "generation": { "type": "integer", "minimum": 0, "maximum": 9007199254740991 },
+    "usage": { "type": "integer", "minimum": 0, "maximum": 100000 },
+    "month": { "type": "string", "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$" },
+    "state": { "type": "object", "additionalProperties": false, "required": ["generation", "utc_month", "used_units"], "properties": { "generation": { "$ref": "#/$defs/generation" }, "utc_month": { "$ref": "#/$defs/month" }, "used_units": { "$ref": "#/$defs/usage" } } },
+    "transition": { "type": "object", "additionalProperties": false, "required": ["expected_state", "next_state"], "properties": { "expected_state": { "$ref": "#/$defs/state" }, "next_state": { "$ref": "#/$defs/state" } } },
+    "request": { "type": "object", "additionalProperties": false, "required": ["method", "route_class", "authenticated", "authorized"], "properties": { "method": { "enum": ["GET", "HEAD", "OPTIONS", "POST"] }, "route_class": { "enum": ["managed_artifact", "health", "unknown", "query_bearing", "free_static"] }, "authenticated": { "type": "boolean" }, "authorized": { "type": "boolean" } } },
+    "result": { "type": "object", "additionalProperties": false, "required": ["units", "decision", "transition"], "properties": { "units": { "enum": [0, 1] }, "decision": { "enum": ["allow", "reject_429", "not_metered"] }, "transition": { "oneOf": [{ "$ref": "#/$defs/transition" }, { "type": "null" }] } } },
+    "vector": { "type": "object", "additionalProperties": false, "required": ["name", "authoritative_state", "instant", "request"], "oneOf": [{ "required": ["expected"], "properties": { "expected": true } }, { "required": ["expected_error"], "properties": { "expected_error": true } }], "properties": { "name": { "type": "string", "minLength": 1 }, "authoritative_state": { "$ref": "#/$defs/state" }, "instant": { "type": "string", "format": "date-time" }, "request": { "$ref": "#/$defs/request" }, "expected": { "$ref": "#/$defs/result" }, "expected_error": { "enum": ["instant UTC month must not precede state UTC month", "generation overflow"] } } }
+  }
+}

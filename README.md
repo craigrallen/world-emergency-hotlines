@@ -25,12 +25,17 @@ Public site: <https://worldhotlines.org>
 | `docs/plans/2026-04-22-v2-data-expansion-roadmap.md` | Concrete implementation roadmap for safe schema-v2 data expansion and promotion |
 | `docs/OPERATIONS.md` | Privacy-safe public intake, read-only source monitoring, and the verification reviewer workbench |
 | `docs/INTEGRATIONS.md` | Integration decision guide, v1 examples, limitations, and production checklist |
+| `managed-api-plans/` | Static, synthetic managed-API plan contract with one ordered authoritative metering planner; no service, store, CAS helper, or billing is deployed |
 | `docs/RELEASES.md` / `docs/releases.json` | Contract and machine-readable source for factual public release milestones |
 | `docs/dataset-releases.json` / `docs/dataset-release-snapshots/` | Trusted-base CI unchanged-prefix checks, a self-consistent hash chain, and complete metadata-only snapshots |
 | `docs/PRIVACY_SAFE_METRICS.md` | Static privacy-safe aggregate/dashboard contract; telemetry remains unimplemented |
 | `docs/PACKAGING.md` | Current public-beta versus not-offered capability matrix |
 | `docs/DESIGN_PARTNER_PILOT.md` | Internal/reviewable bounded pilot brief |
 | `README.md` | This file |
+
+## Proposed managed API design
+
+The managed API plan is a non-offer design only; every current static crisis-information surface remains free, keyless, and unmetered. Its single transition-producing operation takes only an exact authoritative store-read `{generation, utc_month, used_units}` state, a trusted instant, and the exact request classification. It derives one full-state CAS transition: same-month requests increment usage and generation (or preserve the 100,000 cap while advancing generation for 429), and the first metered request in a later month atomically rolls forward with `used_units: 1`. Zero-unit requests never transition. No caller-selected next state is accepted, and no managed API, counter store, CAS helper, signup, or billing system is deployed. See [`managed-api-plans/contracts/v1/README.md`](managed-api-plans/contracts/v1/README.md).
 
 ## Scope
 

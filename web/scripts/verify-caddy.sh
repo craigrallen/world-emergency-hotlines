@@ -14,7 +14,7 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-mkdir -p "$fixture/release/v1/changes" "$fixture/feeds" "$fixture/subscriptions/v1" "$fixture/gateway/v1" "$fixture/organizations/v1" "$fixture/managed-widget-config/v1" "$fixture/technical-health/v1" "$fixture/assurance-packs/v1" "$fixture/provider-claims/v1" "$fixture/reviewer-work-queue/v1" "$fixture/responses"
+mkdir -p "$fixture/release/v1/changes" "$fixture/feeds" "$fixture/subscriptions/v1" "$fixture/gateway/v1" "$fixture/organizations/v1" "$fixture/managed-widget-config/v1" "$fixture/technical-health/v1" "$fixture/assurance-packs/v1" "$fixture/provider-claims/v1" "$fixture/reviewer-work-queue/v1" "$fixture/managed-api-plans/v1" "$fixture/responses"
 expected_release="$fixture/release/v1/release.json"
 printf '%s\n' '{"schema_version":"1.0","release_id":"sha256:test"}' > "$expected_release"
 printf '%s\n' '{"schema_version":"1.0"}' > "$fixture/release/v1/changes.json"
@@ -43,6 +43,8 @@ printf '%s\n' '{"$schema":"https://json-schema.org/draft/2020-12/schema"}' > "$f
 printf '%s\n' '# Provider claim staging and independent review v1 — STATIC/SYNTHETIC CONTRACT, NOT AN INTAKE SERVICE' > "$fixture/provider-claims/v1/README.md"
 printf '%s\n' '{"$schema":"https://json-schema.org/draft/2020-12/schema"}' > "$fixture/reviewer-work-queue/v1/queue.schema.json"
 printf '%s\n' '# Reviewer work queue v1 — STATIC/SYNTHETIC CONTRACT, NOT A WORKBENCH' > "$fixture/reviewer-work-queue/v1/README.md"
+printf '%s\n' '{"$schema":"https://json-schema.org/draft/2020-12/schema"}' > "$fixture/managed-api-plans/v1/plan-catalog.schema.json"
+printf '%s\n' '# Managed API plans v1 — PROPOSED STATIC/SYNTHETIC DESIGN, NOT AN OFFER' > "$fixture/managed-api-plans/v1/README.md"
 expected_missing="$fixture/responses/missing.body"
 printf '%s' 'Not found' > "$expected_missing"
 
@@ -207,6 +209,21 @@ for spec in 'OPTIONS|provider-claims/v1/claim-envelope.schema.json|204' 'GET|pro
   if [ "$method" = HEAD ]; then curl --max-time 5 -sS --request HEAD --ignore-content-length -H 'Connection: close' -D "$headers" -o /dev/null "$base/$path"; else curl --max-time 5 -sS -X "$method" -D "$headers" -o /dev/null "$base/$path"; fi
   require_status "$method" "/$path" "$expected" "$headers"
 done
+for plan_spec in 'managed-api-plans/v1/plan-catalog.schema.json|application/schema+json; charset=utf-8' 'managed-api-plans/v1/README.md|text/markdown; charset=utf-8'; do
+  path=${plan_spec%%|*}; expected=${plan_spec#*|}
+  actual=$(curl --max-time 5 -sS -I "$base/$path" | tr -d '\r' | sed -n 's/^[Cc]ontent-[Tt]ype: //p')
+  [ "$actual" = "$expected" ] || { echo "$path MIME: expected $expected, got $actual" >&2; exit 1; }
+done
+for spec in 'OPTIONS|managed-api-plans/v1/plan-catalog.schema.json|204' 'GET|managed-api-plans/v1/missing.json|404' 'HEAD|managed-api-plans/v1/missing.json|404' 'POST|managed-api-plans/v1/catalog.synthetic.json|404'; do
+  method=${spec%%|*}; rest=${spec#*|}; path=${rest%%|*}; expected=${rest##*|}
+  if [ "$method" = HEAD ]; then
+    status=$(curl --max-time 5 -sS -I -o /dev/null -w '%{http_code}' "$base/$path")
+  else
+    status=$(curl --max-time 5 -sS -X "$method" -o /dev/null -w '%{http_code}' "$base/$path")
+  fi
+  [ "$status" = "$expected" ] || { echo "$method $path: expected $expected, got $status" >&2; exit 1; }
+done
+
 for queue_spec in 'reviewer-work-queue/v1/queue.schema.json|application/schema+json; charset=utf-8' 'reviewer-work-queue/v1/README.md|text/markdown; charset=utf-8'; do
   queue_path=${queue_spec%%|*}; queue_type=${queue_spec#*|}; queue_headers="$fixture/responses/$(printf '%s' "$queue_path" | tr '/' '-').headers"
   curl --max-time 5 -sS -D "$queue_headers" -o /dev/null "$base/$queue_path"

@@ -14,6 +14,8 @@ The [provider claim staging and independent review v1 contract](https://worldhot
 
 The [reviewer work queue and disposition audit v1 contract](https://worldhotlines.org/reviewer-work-queue/v1/README.md) is a single-item static synthetic reference that pins and validates exact claim, queue, and review bytes. Its explicit administrative sequence is not priority, risk, urgency, geography, crisis intent, provider prominence, or ranking. Its three-event hash chain and committed head let the release-pinned static snapshot detect history tampering; arbitrary mutable logs are not thereby inherently append-only. It provides no live workbench, admin, accounts, auth, persistence, writes, telemetry, automatic acceptance, or promotion bypass.
 
+The [managed API plans v1 contract](https://worldhotlines.org/managed-api-plans/v1/README.md) is a static, synthetic freemium/pay-as-you-grow design only. It proposes a useful free managed allowance and future explicitly opted-in paid volume while keeping every current static crisis-information surface free and keyless. One ordered planner takes only the exact authoritative store-read generation/month/usage state, a trusted instant, and the request classification; it derives the sole full-state CAS transition, including an atomic rollover with the first metered unit already recorded. Zero-unit requests do not mutate. There is no caller-selected next state and no deployed signup, billing, customer collection, production key issuance, telemetry, counter store/CAS, monthly counter, SLA, or managed route.
+
 ## Choose a surface
 
 | Need | Use | Trade-off |
