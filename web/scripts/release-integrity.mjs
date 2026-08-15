@@ -17,6 +17,7 @@ export const BUILD_VERSION_INPUTS = {
   integration_generator: ['scripts/api-records-transform.mjs', 'scripts/build-static-data.mjs', 'scripts/centroids.json', 'scripts/dataset-diff.mjs', 'scripts/generate-assurance-pack-contracts.mjs', 'scripts/generate-deprecation-proposal-contracts.mjs', 'scripts/generate-evidence-backed-coverage-contracts.mjs', 'scripts/generate-gateway-contracts.mjs', 'scripts/generate-managed-api-plan-contracts.mjs', 'scripts/generate-managed-widget-config-contracts.mjs', 'scripts/generate-organization-contracts.mjs', 'scripts/generate-provider-claim-contracts.mjs', 'scripts/generate-reviewer-work-queue-contracts.mjs', 'scripts/generate-technical-health-contracts.mjs', 'repo:assurance-packs/model.mjs', 'repo:control-plane/model.mjs', 'repo:deprecation-proposals/model.mjs', 'repo:evidence-backed-coverage/model.mjs', 'repo:managed-api-plans/model.mjs', 'repo:managed-widget-config/model.mjs', 'repo:provider-claims/model.mjs', 'repo:reviewer-work-queue/model.mjs', 'repo:technical-health/model.mjs', 'scripts/generate-subscription-contracts.mjs', 'scripts/metadata-coverage.mjs', 'scripts/release-feeds.mjs', 'scripts/release-integrity.mjs', 'scripts/subscription-events.mjs'],
   resolver_code: ['src/lib/finder.js'],
   widget_code: ['public/widget/v1/hotlines-widget.js'],
+  offline_shell: ['scripts/generate-pwa-assets.mjs', 'src/layouts/Base.astro', 'public/favicon-192x192.png', 'public/favicon.svg', 'repo:Caddyfile'],
 };
 
 export function sha256(bytes) {
@@ -110,6 +111,7 @@ export function releaseIdentityPayload({ dataset_version, build_versions, compat
 export function generateReleaseIntegrity({ datasetVersion }) {
   mkdirSync(RELEASE_DIR, { recursive: true });
   const artifactFiles = [
+    ...['manifest.webmanifest', 'offline.html', 'pwa-register.js', 'service-worker.js', 'pwa-icon-512.png'].map((name) => { const path = resolve(PUBLIC_ROOT, name); return { path, metadata: lstatSync(path) }; }),
     ...walkFiles(resolve(PUBLIC_ROOT, 'data')),
     ...walkFiles(resolve(PUBLIC_ROOT, 'api', 'v1')),
     ...walkFiles(resolve(PUBLIC_ROOT, 'feeds')),
@@ -189,7 +191,7 @@ export function generateReleaseIntegrity({ datasetVersion }) {
       path: '/release/v1/artifacts.json',
       sha256: digestFile(indexPath),
       artifact_count: artifacts.length,
-      coverage: ['/data/**', '/api/v1/**', '/widget/v1/hotlines-widget.js', '/release/v1/changes.json', '/release/v1/changes/**', '/feeds/**', '/subscriptions/v1/**', '/gateway/v1/**', '/organizations/v1/**', '/managed-widget-config/v1/**', '/technical-health/v1/**', '/assurance-packs/v1/**', '/provider-claims/v1/**', '/reviewer-work-queue/v1/**', '/managed-api-plans/v1/**', '/deprecation-proposals/v1/**', '/evidence-backed-coverage/v1/**'],
+      coverage: ['/manifest.webmanifest', '/offline.html', '/pwa-register.js', '/service-worker.js', '/pwa-icon-512.png', '/data/**', '/api/v1/**', '/widget/v1/hotlines-widget.js', '/release/v1/changes.json', '/release/v1/changes/**', '/feeds/**', '/subscriptions/v1/**', '/gateway/v1/**', '/organizations/v1/**', '/managed-widget-config/v1/**', '/technical-health/v1/**', '/assurance-packs/v1/**', '/provider-claims/v1/**', '/reviewer-work-queue/v1/**', '/managed-api-plans/v1/**', '/deprecation-proposals/v1/**', '/evidence-backed-coverage/v1/**'],
       excludes: ['/release/v1/artifacts.json', '/release/v1/release.json'],
     },
     checksum_semantics: 'Unsigned SHA-256 checksums detect byte mismatch after a descriptor is obtained through a trusted channel; they do not prove publisher identity or freshness.',

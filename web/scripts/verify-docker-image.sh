@@ -57,6 +57,16 @@ require_page /release/v1/changes/latest.json '"total_changes"' "$fixture/latest.
 require_page /feeds/releases.json 'https://jsonfeed.org/version/1.1' "$fixture/feed.json"
 require_page /feeds/releases.rss '<rss version="2.0"' "$fixture/feed.rss"
 require_page /feeds/releases.atom '<feed xmlns="http://www.w3.org/2005/Atom">' "$fixture/feed.atom"
+require_page /manifest.webmanifest '"/pwa-icon-512.png"' "$fixture/manifest.webmanifest"
+require_page /service-worker.js "cache.match('/offline.html')" "$fixture/service-worker.js"
+require_page /offline.html 'limited offline shell' "$fixture/offline.html"
+worker_cache=$(curl --max-time 5 -sS -I "$base/service-worker.js" | tr -d '\r' | sed -n 's/^[Cc]ache-[Cc]ontrol: //p' | tail -n 1)
+[ "$worker_cache" = 'no-cache' ] || { echo "production service worker Cache-Control was '$worker_cache', expected no-cache" >&2; exit 1; }
+manifest_type=$(curl --max-time 5 -sS -I "$base/manifest.webmanifest" | tr -d '\r' | sed -n 's/^[Cc]ontent-[Tt]ype: //p' | tail -n 1)
+[ "$manifest_type" = 'application/manifest+json; charset=utf-8' ] || { echo "production manifest MIME was '$manifest_type'" >&2; exit 1; }
+icon_status=$(curl --max-time 5 -sS -o "$fixture/pwa-icon-512.png" -w '%{http_code}' "$base/pwa-icon-512.png")
+[ "$icon_status" = 200 ] || { echo "production 512px PWA icon returned $icon_status" >&2; exit 1; }
+node -e 'const fs=require("node:fs"),b=fs.readFileSync(process.argv[1]); if(b.readUInt32BE(16)!==512||b.readUInt32BE(20)!==512) process.exit(1)' "$fixture/pwa-icon-512.png" || { echo 'production PWA icon is not 512x512 PNG' >&2; exit 1; }
 require_page /gateway/v1/README.md 'Foundation contract—not deployed' "$fixture/gateway-readme.md"
 require_page /gateway/v1/openapi.json '0.1.0-foundation' "$fixture/gateway-openapi.json"
 require_page /organizations/v1/README.md 'foundation design contract — not deployed' "$fixture/organizations-readme.md"

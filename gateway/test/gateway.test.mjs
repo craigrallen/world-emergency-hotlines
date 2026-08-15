@@ -63,6 +63,16 @@ test('all trusted-release profiles are accepted and adjacent hybrids are rejecte
       release.build_version_semantics.inputs.integration_generator.filter((entry) => !buildInputs.includes(entry));
     return finalize({ release, index });
   };
+  const pwaPaths = ['/manifest.webmanifest', '/offline.html', '/pwa-register.js', '/service-worker.js', '/pwa-icon-512.png'];
+  const asPrePwa = (source) => {
+    const release = structuredClone(source.release);
+    const index = structuredClone(source.index);
+    index.artifacts = index.artifacts.filter(({ path }) => !pwaPaths.includes(path));
+    release.artifact_index.coverage = release.artifact_index.coverage.filter((path) => !pwaPaths.includes(path));
+    delete release.build_versions.offline_shell;
+    delete release.build_version_semantics.inputs.offline_shell;
+    return finalize({ release, index });
+  };
   const profiles = [
     ['current', finalize(structuredClone(current)), null],
   ];
@@ -105,6 +115,12 @@ test('all trusted-release profiles are accepted and adjacent hybrids are rejecte
 
   for (const [name, profile] of profiles) {
     assert.ok(descriptorFromReleaseBytes(encode(profile.release), profile.indexBytes), `${name} profile rejected`);
+    const prePwa = asPrePwa(profile);
+    assert.ok(prePwa.index.artifacts.every(({ path }) => !pwaPaths.includes(path)), `${name} pre-PWA index retained a PWA artifact`);
+    assert.ok(prePwa.release.artifact_index.coverage.every((path) => !pwaPaths.includes(path)), `${name} pre-PWA coverage retained a PWA path`);
+    assert.equal(Object.hasOwn(prePwa.release.build_versions, 'offline_shell'), false, `${name} pre-PWA build versions retained offline_shell`);
+    assert.equal(Object.hasOwn(prePwa.release.build_version_semantics.inputs, 'offline_shell'), false, `${name} pre-PWA build inputs retained offline_shell`);
+    assert.ok(descriptorFromReleaseBytes(encode(prePwa.release), prePwa.indexBytes), `${name} true pre-PWA profile rejected`);
   }
   for (let i = 1; i < profiles.length; i++) {
     const [name, lower, adjacentPath] = profiles[i];

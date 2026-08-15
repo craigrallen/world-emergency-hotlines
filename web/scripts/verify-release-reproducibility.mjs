@@ -74,6 +74,7 @@ try {
   cpSync(resolve(webRoot, '..', 'managed-api-plans'), resolve(cleanCopy, 'managed-api-plans'), { recursive: true });
   cpSync(resolve(webRoot, '..', 'deprecation-proposals'), resolve(cleanCopy, 'deprecation-proposals'), { recursive: true });
   cpSync(resolve(webRoot, '..', 'evidence-backed-coverage'), resolve(cleanCopy, 'evidence-backed-coverage'), { recursive: true });
+  cpSync(resolve(webRoot, '..', 'Caddyfile'), resolve(cleanCopy, 'Caddyfile'));
   const managedRoots = managed.map((entry) => resolve(publicRoot, entry));
   cpSync(webRoot, cleanWeb, { recursive: true, filter: (source) => !['node_modules', 'dist', '.astro'].includes(source.split(/[\\/]/).at(-1)) && !managedRoots.some((root) => source === root || source.startsWith(`${root}${sep}`)) });
   cpSync(resolve(webRoot, '..', 'hotlines.json'), resolve(cleanCopy, 'hotlines.json'));
@@ -86,6 +87,20 @@ try {
   const candidate = (id, interrupt) => spawnSync('npm', ['run', 'release:dataset:candidate', '--', '--id', id, '--date', '2026-08-13', '--title', `Candidate ${id}`, '--summary', 'Exercises the recoverable deterministic candidate command in an isolated clean copy.'], { cwd: cleanWeb, encoding: 'utf8', env: { ...process.env, ...(interrupt ? { WEH_CANDIDATE_INTERRUPT: interrupt } : {}) } });
   for (const absent of managed) assert.equal(lstatOrNull(resolve(cleanWeb, 'public', absent)), null, `clean fixture unexpectedly contains public/${absent}`);
   build(epoch, cleanWeb);
+  const offlineIdentity = digestInputs(BUILD_VERSION_INPUTS.offline_shell, cleanWeb);
+  for (const [label, copiedSource] of [
+    ['PWA generator', resolve(cleanWeb, 'scripts/generate-pwa-assets.mjs')],
+    ['base layout registration/status', resolve(cleanWeb, 'src/layouts/Base.astro')],
+    ['192px precached favicon', resolve(cleanWeb, 'public/favicon-192x192.png')],
+    ['SVG precached favicon', resolve(cleanWeb, 'public/favicon.svg')],
+    ['Caddy PWA policy', resolve(cleanCopy, 'Caddyfile')],
+  ]) {
+    const copiedSourceBytes = readFileSync(copiedSource);
+    writeFileSync(copiedSource, Buffer.concat([copiedSourceBytes, Buffer.from('\n# isolated offline identity mutation\n')]));
+    assert.notEqual(digestInputs(BUILD_VERSION_INPUTS.offline_shell, cleanWeb), offlineIdentity, `${label} change did not change offline shell identity`);
+    writeFileSync(copiedSource, copiedSourceBytes);
+    assert.equal(digestInputs(BUILD_VERSION_INPUTS.offline_shell, cleanWeb), offlineIdentity, `restored ${label} did not reproduce offline shell identity`);
+  }
   for (const created of ['data', 'api/v1', 'release/v1', 'feeds', 'subscriptions/v1', 'organizations/v1', 'managed-widget-config/v1', 'technical-health/v1', 'assurance-packs/v1', 'provider-claims/v1', 'reviewer-work-queue/v1', 'managed-api-plans/v1', 'deprecation-proposals/v1', 'evidence-backed-coverage/v1']) assert.ok(lstatSync(resolve(cleanWeb, 'public', created)).isDirectory(), `clean build did not create public/${created}`);
   const beforeSourceMutations = JSON.parse(readFileSync(resolve(cleanWeb, 'public/release/v1/release.json'), 'utf8'));
   const beforeApiRecords = readFileSync(resolve(cleanWeb, 'public/api/v1/records.json'));

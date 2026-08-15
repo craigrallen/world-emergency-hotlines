@@ -17,6 +17,9 @@ cleanup() {
 trap cleanup EXIT INT TERM
 
 mkdir -p "$fixture/release/v1/changes" "$fixture/feeds" "$fixture/subscriptions/v1" "$fixture/gateway/v1" "$fixture/organizations/v1" "$fixture/managed-widget-config/v1" "$fixture/technical-health/v1" "$fixture/assurance-packs/v1" "$fixture/provider-claims/v1" "$fixture/reviewer-work-queue/v1" "$fixture/managed-api-plans/v1" "$fixture/deprecation-proposals/v1" "$fixture/evidence-backed-coverage/v1" "$fixture/countries" "$fixture/responses"
+printf '%s\n' '/* service worker fixture */' > "$fixture/service-worker.js"
+printf '%s\n' '{"name":"PWA fixture"}' > "$fixture/manifest.webmanifest"
+printf '%s\n' '<!doctype html><title>Offline fixture</title>' > "$fixture/offline.html"
 printf '%s\n' '<!doctype html><title>Countries</title><h1>Countries</h1>' > "$fixture/countries/index.html"
 expected_html_404="$fixture/404.html"
 printf '%s\n' '<!doctype html><html><head><title>Page not found</title><meta name="robots" content="noindex,follow"></head><body><main data-custom-404="world-hotlines">Page not found</main></body></html>' > "$expected_html_404"
@@ -100,6 +103,20 @@ require_empty() {
   bytes=$(wc -c < "$body" | tr -d ' ')
   [ "$bytes" = 0 ] || { echo "$method $path returned $bytes response body bytes, expected 0" >&2; exit 1; }
 }
+
+for spec in 'GET|service-worker.js|no-cache|text/javascript; charset=utf-8' 'HEAD|service-worker.js|no-cache|text/javascript; charset=utf-8' 'GET|manifest.webmanifest|-|application/manifest+json; charset=utf-8' 'HEAD|manifest.webmanifest|-|application/manifest+json; charset=utf-8'; do
+  method=${spec%%|*}; rest=${spec#*|}; path=${rest%%|*}; rest=${rest#*|}; expected_cache=${rest%%|*}; expected_type=${rest#*|}
+  headers="$fixture/responses/pwa-$method-$path.headers"; body="$fixture/responses/pwa-$method-$path.body"
+  if [ "$method" = HEAD ]; then
+    curl --max-time 5 -sS --request HEAD --ignore-content-length -H 'Connection: close' -D "$headers" -o "$body" "$base/$path"
+    require_empty HEAD "/$path" "$body"
+  else
+    curl --max-time 5 -sS -D "$headers" -o "$body" "$base/$path"
+  fi
+  require_status "$method" "/$path" 200 "$headers"
+  if [ "$expected_cache" = - ]; then require_no_header "$headers" Cache-Control; else require_header "$headers" Cache-Control "$expected_cache"; fi
+  require_header "$headers" Content-Type "$expected_type"
+done
 
 require_release_headers() {
   headers=$1
@@ -425,4 +442,4 @@ for spec in 'GET|evidence-backed-coverage/v1/assessment.schema.json|200' 'HEAD|e
   [ "$actual" = "$expected" ] || { echo "$method /$path returned $actual, expected $expected" >&2; exit 1; }
 done
 
-echo "Caddy integration OK: /countries HTML discovery and custom noindex/canonical-free HTML 404; release/feed/subscription/organization/technical-health/assurance-pack/provider-claim/reviewer-work-queue/deprecation-proposal/evidence-backed-coverage static MIME and CORS; existing-file OPTIONS, all writes and unknown routes enforce the read-only 404 boundary; no route shadowing"
+echo "Caddy integration OK: PWA GET/HEAD effective worker no-cache and manifest MIME; /countries HTML discovery and custom noindex/canonical-free HTML 404; release/feed/static contract MIME and CORS; read-only and unknown-route boundaries; no route shadowing"
