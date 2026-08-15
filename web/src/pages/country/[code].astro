@@ -8,6 +8,7 @@ import type { Hotline, HotlineCategory } from '../../lib/types';
 import { breadcrumbJsonLd } from '../../lib/seo';
 import { SITE_URL } from '../../lib/site';
 import { phoneContacts } from '../../lib/contact';
+import { generalEmergencyContact } from '../../lib/general-emergency.mjs';
 
 export const getStaticPaths = async () => {
   const manifest = await getManifest();
@@ -65,6 +66,9 @@ function flagEmoji(cc: string): string {
 
 const flag = flagEmoji(country.alpha2);
 const emergency = country.general_emergency ?? [];
+// Top-level emergency values are actionable only when the canonical display is
+// already one complete, unambiguous numeric dial string.
+const emergencyContacts = emergency.map(generalEmergencyContact);
 
 // Freshness info for best help line
 const bestHelpFreshness = bestHelp ? getFreshnessInfo(bestHelp) : null;
@@ -119,20 +123,23 @@ const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Coun
 
   <!-- Emergency numbers — always first, highest visual priority -->
   {emergency.length > 0 && (
-    <div class="mb-6 rounded-2xl border-2 border-danger bg-bg-elev p-5">
+    <div data-general-emergency-listing data-country-code={country.alpha2} class="mb-6 rounded-2xl border-2 border-danger bg-bg-elev p-5">
       <div class="flex items-start gap-3">
         <span class="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-danger text-bg" aria-hidden="true"><Icon name="alert" class="h-5 w-5" /></span>
         <div>
           <h2 class="font-semibold text-fg">Emergency numbers</h2>
           <p class="mt-1 text-xs text-fg-muted">Police · Fire · Ambulance</p>
           <div class="mt-2 flex flex-wrap gap-2">
-            {emergency.map((n) => (
-              <a
-                href={`tel:${n.replace(/\s+/g, '')}`}
+            {emergencyContacts.map(({ value, uri }) => (
+              uri ? <a
+                href={`tel:${uri}`}
+                data-phone-contact={uri}
+                data-general-emergency-contact={value}
                 class="inline-flex items-center gap-1.5 rounded-lg border-2 border-danger bg-danger px-4 py-2 font-mono text-xl font-bold text-bg hover:border-fg hover:bg-fg"
-              >
-                {n}
-              </a>
+              >{value}</a> : <span
+                data-general-emergency-contact={value}
+                class="inline-flex items-center gap-1.5 rounded-lg border-2 border-danger bg-danger px-4 py-2 font-mono text-xl font-bold text-bg"
+              >{value}</span>
             ))}
           </div>
           {country.notes && (

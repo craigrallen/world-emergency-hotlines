@@ -3,6 +3,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { extname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { serializeJsonLd } from '../src/lib/json-ld.mjs';
+import { generalEmergencyContact } from '../src/lib/general-emergency.mjs';
 import { SITE_NAME, SOCIAL_IMAGE_ALT, SOCIAL_IMAGE_PATH } from '../src/lib/seo.ts';
 import { dedupeMessageContacts, normalizeMessageContact, phoneContacts } from '../src/lib/contact.ts';
 
@@ -12,6 +13,11 @@ const site = 'https://worldhotlines.org';
 const errors = [];
 const fail = (message) => errors.push(message);
 const read = (path) => readFileSync(path, 'utf8');
+const SENSITIVE_ATTRIBUTES = new Set(['href', 'data-phone-contact', 'data-message-contact', 'data-general-emergency-contact',
+  'data-record-id', 'data-prioritized-record-id', 'data-country-code', 'data-hotline-card', 'data-prioritized-listing',
+  'data-general-emergency-listing', 'data-category-country-summary']);
+const MAX_SCANNED_TAGS = 100_000;
+const MAX_START_TAG_CHARS = 16_384;
 
 function positiveBlanketProvenanceClaims(source) {
   const text = String(source)
@@ -53,7 +59,7 @@ function files(dir) {
 }
 
 // A small quote-aware start-tag scanner avoids regex parsing of attributes.
-function tags(html) {
+function tags(html, report = fail) {
   const found = [];
   for (let i = 0; i < html.length; i++) {
     if (html[i] !== '<' || html[i + 1] === '/' || html[i + 1] === '!' || html[i + 1] === '?') continue;
@@ -65,14 +71,22 @@ function tags(html) {
       else if (char === '>') break;
       j++;
     }
+    if (j - i > MAX_START_TAG_CHARS) { report('generated output contains an oversized start tag'); break; }
     const raw = html.slice(i + 1, j);
     const name = raw.match(/^\s*([^\s/>]+)/)?.[1]?.toLowerCase();
     if (!name) continue;
     const attrs = {};
     const rest = raw.slice(raw.indexOf(name) + name.length);
     const attrRe = /([^\s=/>]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+)))?/g;
-    for (const match of rest.matchAll(attrRe)) attrs[match[1].toLowerCase()] = match[2] ?? match[3] ?? match[4] ?? '';
+    const duplicates = [];
+    for (const match of rest.matchAll(attrRe)) {
+      const attribute = match[1].toLowerCase();
+      if (SENSITIVE_ATTRIBUTES.has(attribute) && Object.hasOwn(attrs, attribute)) duplicates.push(attribute);
+      else attrs[attribute] = match[2] ?? match[3] ?? match[4] ?? '';
+    }
+    if (duplicates.length) report(`generated output contains duplicate security-sensitive attribute(s): ${[...new Set(duplicates)].join(', ')}`);
     found.push({ name, attrs, start: i, end: j + 1 });
+    if (found.length >= MAX_SCANNED_TAGS) { report('generated output exceeds the deterministic tag scan bound'); break; }
     if (name === 'script') {
       const close = html.toLowerCase().indexOf('</script>', j + 1);
       if (close !== -1) { i = close + 8; continue; }
@@ -81,6 +95,23 @@ function tags(html) {
   }
   return found;
 }
+
+for (const fixture of [
+  '<a href="tel:911" HREF="tel:911">911</a>',
+  '<a href="tel:911" href="tel:112">911</a>',
+  '<a data-phone-contact="911" DATA-PHONE-CONTACT="&#57;&#49;&#49;">911</a>',
+  '<div data-country-code="US" data-country-code="CA"></div>',
+  '<div data-general-emergency-listing DATA-GENERAL-EMERGENCY-LISTING></div>',
+  '<article data-hotline-card data-hotline-card data-record-id="one" DATA-RECORD-ID="two"></article>',
+  '<div data-prioritized-listing data-prioritized-listing data-prioritized-record-id="one" data-prioritized-record-id="one"></div>',
+]) {
+  const fixtureErrors = [];
+  tags(fixture, (message) => fixtureErrors.push(message));
+  assert.ok(fixtureErrors.length, `duplicate-sensitive-attribute scanner must reject ${fixture}`);
+}
+const uniqueSensitiveFixtureErrors = [];
+tags('<article data-hotline-card data-record-id="one"><a href="tel:911" data-phone-contact="911">911</a></article>', (message) => uniqueSensitiveFixtureErrors.push(message));
+assert.deepEqual(uniqueSensitiveFixtureErrors, [], 'duplicate-sensitive-attribute scanner must accept unique attributes');
 
 function markedDivHtml(html, marker) {
   const markerAt = html.indexOf(marker);
@@ -97,6 +128,194 @@ function markedDivHtml(html, marker) {
 }
 
 const VOID_ELEMENTS = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr']);
+const OPTIONAL_END_ELEMENTS = new Set(['li', 'dt', 'dd', 'p', 'rt', 'rp', 'optgroup', 'option', 'thead', 'tbody', 'tfoot', 'tr', 'td', 'th']);
+const P_CLOSING_STARTS = new Set(['address', 'article', 'aside', 'blockquote', 'details', 'dialog', 'div', 'dl', 'fieldset', 'figcaption',
+  'figure', 'footer', 'form', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'header', 'hgroup', 'hr', 'main', 'menu', 'nav', 'ol', 'p',
+  'pre', 'search', 'section', 'table', 'ul']);
+const IMPLIED_END_ON_START = new Map([
+  ['li', new Set(['li'])],
+  ['dt', new Set(['dt', 'dd'])], ['dd', new Set(['dt', 'dd'])],
+  ['rt', new Set(['rt', 'rp'])], ['rp', new Set(['rt', 'rp'])],
+  ['optgroup', new Set(['option', 'optgroup'])], ['option', new Set(['option'])],
+  ['thead', new Set(['td', 'th', 'tr', 'thead', 'tbody', 'tfoot'])],
+  ['tbody', new Set(['td', 'th', 'tr', 'thead', 'tbody', 'tfoot'])],
+  ['tfoot', new Set(['td', 'th', 'tr', 'thead', 'tbody', 'tfoot'])],
+  ['tr', new Set(['td', 'th', 'tr'])],
+  ['td', new Set(['td', 'th'])], ['th', new Set(['td', 'th'])],
+]);
+const IMPLIED_END_ON_END = new Map([
+  ['ul', new Set(['li'])], ['ol', new Set(['li'])], ['menu', new Set(['li'])],
+  ['dl', new Set(['dt', 'dd'])],
+  ['ruby', new Set(['rt', 'rp'])],
+  ['optgroup', new Set(['option'])], ['select', new Set(['option', 'optgroup'])],
+  ['tr', new Set(['td', 'th'])],
+  ['thead', new Set(['td', 'th', 'tr'])], ['tbody', new Set(['td', 'th', 'tr'])], ['tfoot', new Set(['td', 'th', 'tr'])],
+  ['table', new Set(['td', 'th', 'tr', 'thead', 'tbody', 'tfoot'])],
+]);
+const P_CLOSING_ENDS = new Set(['address', 'article', 'aside', 'blockquote', 'body', 'details', 'dialog', 'div', 'fieldset', 'figcaption',
+  'figure', 'footer', 'form', 'header', 'hgroup', 'main', 'nav', 'section']);
+const ATTRIBUTION_MARKERS = [
+  ['hotline', 'data-hotline-card', 'data-record-id'],
+  ['prioritized', 'data-prioritized-listing', 'data-prioritized-record-id'],
+  ['general', 'data-general-emergency-listing', 'data-country-code'],
+];
+
+// Independently retain attribution-container identity and ancestry. This scan is
+// bounded by tags(), and deliberately does not alter legacy subtree extraction.
+function attributionHierarchy(html, report = fail) {
+  const scanned = tags(html, report);
+  const stack = [], containers = [], contactElements = [];
+  const starts = new Map(scanned.map((tag) => [tag.start, tag]));
+  for (let i = 0; i < html.length;) {
+    const open = html.indexOf('<', i);
+    if (open < 0) break;
+    if (html.startsWith('<!--', open)) {
+      const close = html.indexOf('-->', open + 4);
+      if (close < 0) { report('generated output contains an unterminated comment'); break; }
+      i = close + 3; continue;
+    }
+    let end = open + 1, quote = '';
+    while (end < html.length) {
+      const char = html[end];
+      if (quote) { if (char === quote) quote = ''; }
+      else if (char === '"' || char === "'") quote = char;
+      else if (char === '>') break;
+      end++;
+    }
+    if (end >= html.length) { report('generated output contains an unterminated tag'); break; }
+    const raw = html.slice(open + 1, end);
+    if (/^\s*[!?]/.test(raw)) { i = end + 1; continue; }
+    const closing = /^\s*\//.test(raw);
+    const name = raw.match(/^\s*\/?\s*([^\s/>]+)/)?.[1]?.toLowerCase();
+    if (!name) { i = end + 1; continue; }
+    const impliedNames = closing
+      ? new Set([...(IMPLIED_END_ON_END.get(name) ?? []), ...(P_CLOSING_ENDS.has(name) ? ['p'] : [])])
+      : new Set([...(IMPLIED_END_ON_START.get(name) ?? []), ...(P_CLOSING_STARTS.has(name) ? ['p'] : [])]);
+    while (stack.length && impliedNames.has(stack.at(-1).name)) {
+      if (stack.at(-1).critical) {
+        report(`generated output cannot implicitly close attribution-critical <${stack.at(-1).name}> at <${closing ? '/' : ''}${name}>`);
+        break;
+      }
+      stack.pop();
+    }
+    if (closing) {
+      if (!stack.length || stack.at(-1).name !== name) report(`generated output contains malformed overlapping element structure at </${name}>`);
+      else stack.pop();
+    } else {
+      const tag = starts.get(open);
+      if (!tag) { i = end + 1; continue; }
+      const markers = ATTRIBUTION_MARKERS.filter(([, marker]) => Object.hasOwn(tag.attrs, marker));
+      if (markers.length > 1) report(`generated output attribution element has multiple container markers: ${markers.map(([, marker]) => marker).join(', ')}`);
+      const ancestors = stack.map((entry) => entry.container).filter(Boolean);
+      let container = null;
+      if (markers.length === 1) {
+        const [kind, marker, identityAttribute] = markers[0];
+        container = { kind, marker, identity: decodeHtml(tag.attrs[identityAttribute] ?? ''), tag, ancestors };
+        containers.push(container);
+      }
+      const href = decodeHtml(tag.attrs.href ?? '');
+      const contactMarked = ['data-phone-contact', 'data-message-contact', 'data-general-emergency-contact'].some((marker) => Object.hasOwn(tag.attrs, marker));
+      const contactCritical = (tag.name === 'a' && /^(?:tel|sms):/i.test(href)) || contactMarked;
+      if (contactCritical) {
+        contactElements.push({ tag, ancestors: container ? [...ancestors, container] : ancestors });
+      }
+      if (!VOID_ELEMENTS.has(name) && !/\/\s*$/.test(raw)) stack.push({ name, container, critical: Boolean(container || contactCritical) });
+      if (name === 'script') {
+        const close = html.toLowerCase().indexOf('</script>', end + 1);
+        if (close < 0) { report('generated output contains an unclosed script element'); break; }
+        stack.pop(); i = close + 9; continue;
+      }
+    }
+    i = end + 1;
+  }
+  while (stack.length && OPTIONAL_END_ELEMENTS.has(stack.at(-1).name) && !stack.at(-1).critical) stack.pop();
+  if (stack.length) report('generated output contains unclosed element structure');
+  return { containers, contactElements };
+}
+
+for (const [label, fixture] of [
+  ['list-items', '<ul><li>one<li>two</ul>'],
+  ['definition-list', '<dl><dt>term<dd>definition<dt>next<dd>next definition</dl>'],
+  ['paragraph-before-block', '<main><p>intro<section>details</section></main>'],
+  ['select-options', '<select><optgroup label="one"><option>1<option>2<optgroup label="two"><option>3</select>'],
+  ['table-cells', '<table><thead><tr><th>A<th>B<tbody><tr><td>1<td>2<tfoot><tr><td>F<td>G</table>'],
+  ['ruby-annotations', '<ruby>base<rt>reading<rp>(<rt>next<rp>)</ruby>'],
+]) {
+  const fixtureErrors = [];
+  attributionHierarchy(fixture, (message) => fixtureErrors.push(message));
+  assert.deepEqual(fixtureErrors, [], `hierarchy scanner must accept valid omitted end tags in ${label}`);
+}
+for (const [label, fixture] of [
+  ['hotline-list-crossing', '<ul><li data-hotline-card data-record-id="one">one<li>two</ul>'],
+  ['prioritized-definition-crossing', '<dl><dt data-prioritized-listing data-prioritized-record-id="one">term<dd>definition</dl>'],
+  ['general-paragraph-crossing', '<div><p data-general-emergency-listing data-country-code="us">911<section>details</section></div>'],
+  ['contact-option-crossing', '<select><option data-phone-contact="911">911<option>112</select>'],
+  ['hotline-table-crossing', '<table><tbody><tr><td data-hotline-card data-record-id="one">911<td>112</table>'],
+  ['general-ruby-crossing', '<ruby><rt data-general-emergency-listing data-country-code="us">911<rp>(</ruby>'],
+]) {
+  const fixtureErrors = [];
+  attributionHierarchy(fixture, (message) => fixtureErrors.push(message));
+  assert.ok(fixtureErrors.length, `hierarchy scanner must reject attribution-critical omitted-end crossing in ${label}`);
+}
+
+function verifyGeneralEmergencyHierarchy(html, countryCode, report = fail) {
+  const hierarchyErrors = [];
+  const hierarchy = attributionHierarchy(html, (message) => hierarchyErrors.push(message));
+  for (const message of hierarchyErrors) report(message);
+  const panels = hierarchy.containers.filter(({ kind }) => kind === 'general');
+  if (panels.length > 1) report('general-emergency attribution marker/ID must be unique per country page');
+  const panel = panels.length === 1 ? panels[0] : null;
+  if (panel && (panel.identity.toLowerCase() !== countryCode || panel.ancestors.length)) report('general-emergency panel must exactly identify its country and have no attributed ancestor');
+  if (panel && hierarchy.containers.some((container) => container !== panel && container.ancestors.includes(panel))) report('no attribution container may be nested inside the general-emergency panel');
+  for (const contact of hierarchy.contactElements) {
+    const inPanel = panel && contact.ancestors.length === 1 && contact.ancestors[0] === panel;
+    const hasGeneralMarker = Object.hasOwn(contact.tag.attrs, 'data-general-emergency-contact');
+    if (hasGeneralMarker && !inPanel) report('general-emergency contact marker must have the exact country panel as its sole attributed ancestor');
+    if (inPanel && !hasGeneralMarker) report('every actionable or generic-marked contact in the general-emergency panel needs its exact general-emergency marker');
+    if (hasGeneralMarker && contact.tag.name === 'a') {
+      const href = decodeHtml(contact.tag.attrs.href ?? '');
+      const general = decodeHtml(contact.tag.attrs['data-general-emergency-contact']);
+      const phone = decodeHtml(contact.tag.attrs['data-phone-contact'] ?? '');
+      if (href !== `tel:${general}` || phone !== general) report('actionable general-emergency contact must exactly match its tel destination and phone marker');
+    }
+  }
+  return hierarchy;
+}
+
+function generalEmergencyCandidates(html, report = fail) {
+  return tags(html, report).filter((tag) => {
+    const href = decodeHtml(tag.attrs.href ?? '');
+    return /^(?:tel|sms):/i.test(href)
+      || ['data-phone-contact', 'data-message-contact', 'data-general-emergency-contact'].some((marker) => Object.hasOwn(tag.attrs, marker));
+  });
+}
+
+const generalFixture = (inner) => `<main><div data-general-emergency-listing data-country-code="us">${inner}</div></main>`;
+const generalLinkFixture = '<a href="tel:911" data-general-emergency-contact="911" data-phone-contact="911">911</a>';
+const validGeneralFixtureErrors = [];
+verifyGeneralEmergencyHierarchy(generalFixture(generalLinkFixture), 'us', (message) => validGeneralFixtureErrors.push(message));
+assert.deepEqual(validGeneralFixtureErrors, [], 'general-emergency hierarchy scanner must accept exact panel ancestry');
+for (const [label, fixture] of [
+  ['panel-inside-card', `<article data-hotline-card data-record-id="r">${generalFixture(generalLinkFixture)}</article>`],
+  ['panel-inside-prioritized', `<div data-prioritized-listing data-prioritized-record-id="r">${generalFixture(generalLinkFixture)}</div>`],
+  ['card-inside-panel', generalFixture(`<article data-hotline-card data-record-id="r">${generalLinkFixture}</article>`)],
+  ['prioritized-inside-panel', generalFixture(`<div data-prioritized-listing data-prioritized-record-id="r">${generalLinkFixture}</div>`)],
+  ['nested-general-panel', generalFixture(generalFixture(generalLinkFixture))],
+  ['multiple-panels', `${generalFixture(generalLinkFixture)}${generalFixture('')}`],
+  ['multiple-markers', `<div data-general-emergency-listing data-country-code="us" data-hotline-card data-record-id="r">${generalLinkFixture}</div>`],
+  ['sibling-overlap', `<div data-general-emergency-listing data-country-code="us"><article data-hotline-card data-record-id="r">${generalLinkFixture}</div></article>`],
+  ['extra-generic-tel', generalFixture(`${generalLinkFixture}<a href="tel:112" data-phone-contact="112">112</a>`) ],
+  ['missing-marker', generalFixture('<a href="tel:911" data-phone-contact="911">911</a>')],
+  ['mismatched-marker', generalFixture('<a href="tel:911" data-phone-contact="911" data-general-emergency-contact="112">911</a>')],
+  ['marker-outside-panel', `${generalFixture(generalLinkFixture)}<span data-general-emergency-contact="112">112</span>`],
+  ['marker-in-card', `${generalFixture(generalLinkFixture)}<article data-hotline-card data-record-id="r"><span data-general-emergency-contact="112">112</span></article>`],
+]) {
+  const fixtureErrors = [];
+  verifyGeneralEmergencyHierarchy(fixture, 'us', (message) => fixtureErrors.push(message));
+  assert.ok(fixtureErrors.length, `general-emergency hierarchy scanner must reject ${label}`);
+}
+assert.equal(generalEmergencyCandidates(generalFixture(`${generalLinkFixture}<span data-general-emergency-contact="112">112</span>`)).length, 2,
+  'general-emergency source verifier must enumerate an extra marker span');
 
 // Capture complete marked element subtrees with an element stack, so assertions cannot cross sibling boundaries.
 function markedElementSubtrees(html, elementName, markerAttribute) {
@@ -257,6 +476,28 @@ function decodeHtml(value) {
     return { amp: '&', apos: "'", gt: '>', lt: '<', quot: '"' }[named.toLowerCase()] ?? entity;
   });
 }
+function strictGeneralEmergencyContact(value) {
+  if (typeof value !== 'string') return { value, uri: null };
+  let offset = 0;
+  if (value[0] === '+') offset = 1;
+  const digitCount = value.length - offset;
+  if (digitCount < 2 || digitCount > 15) return { value, uri: null };
+  for (let index = offset; index < value.length; index += 1) {
+    const code = value.charCodeAt(index);
+    if (code < 48 || code > 57) return { value, uri: null };
+  }
+  return { value, uri: value };
+}
+for (const [value, uri] of [
+  ['1', null], ['+1', null], ['12', '12'], ['+12', '+12'],
+  ['123456789012345', '123456789012345'], ['+123456789012345', '+123456789012345'],
+  ['1234567890123456', null], ['+1234567890123456', null],
+  ['911', '911'], ['+112', '+112'], ['351 351', null], ['320-2223', null],
+  ['911 or 112', null], ['call 911', null], ['***', null], ['', null],
+]) {
+  assert.deepEqual(generalEmergencyContact(value), { value, uri }, `production general-emergency predicate fixture ${JSON.stringify(value)}`);
+  assert.deepEqual(strictGeneralEmergencyContact(value), { value, uri }, `independent general-emergency predicate fixture ${JSON.stringify(value)}`);
+}
 function textContent(html, tag) {
   return [...html.matchAll(new RegExp(`<${tag}\\b[^>]*>([\\s\\S]*?)<\\/${tag}>`, 'gi'))].map((m) => decodeHtml(m[1].replace(/<[^>]+>/g, '')).trim());
 }
@@ -353,6 +594,7 @@ const eligibleCountries = manifestCountries.filter((country) => country.hotline_
 const eligibleCountryRoutes = new Set(eligibleCountries.map((country) => `/country/${country.alpha2.toLowerCase()}`));
 if (manifest.total_countries !== manifestCountries.length) fail(`manifest total_countries ${manifest.total_countries} does not match its ${manifestCountries.length} country records`);
 const countryShards = new Map();
+const countryMetadata = new Map();
 const allRecords = [];
 for (const country of manifestCountries) {
   const code = country.alpha2.toLowerCase();
@@ -361,6 +603,7 @@ for (const country of manifestCountries) {
   const shard = JSON.parse(read(shardPath));
   const records = Array.isArray(shard.hotlines) ? shard.hotlines : [];
   countryShards.set(code, records);
+  countryMetadata.set(code, shard);
   allRecords.push(...records);
   if (shard.alpha2 !== country.alpha2 || records.length !== country.hotline_count) fail(`${country.alpha2}: country shard identity/count does not match manifest (${records.length} records versus ${country.hotline_count})`);
 }
@@ -425,6 +668,29 @@ for (const [code, records] of countryShards) {
   const page = pages.get(`/country/${code}`);
   if (!page) continue;
   const all = tags(page.html);
+  verifyGeneralEmergencyHierarchy(page.html, code, (message) => fail(`/country/${code}: ${message}`));
+  const generalPanels = markedElementSubtrees(page.html, 'div', 'data-general-emergency-listing');
+  const generalValues = countryMetadata.get(code)?.general_emergency ?? [];
+  if (generalPanels.length !== (generalValues.length ? 1 : 0)) fail(`/country/${code}: general-emergency panel count does not match its country shard`);
+  if (generalPanels.length === 1) {
+    const panel = generalPanels[0];
+    const controls = generalEmergencyCandidates(panel.html, (message) => fail(`/country/${code}: ${message}`));
+    const renderedValues = controls.map((tag) => decodeHtml(tag.attrs['data-general-emergency-contact']));
+    const expectedContacts = generalValues.map(strictGeneralEmergencyContact);
+    if (decodeHtml(panel.attrs['data-country-code'] ?? '').toLowerCase() !== code) fail(`/country/${code}: general-emergency attribution does not exactly identify its route country`);
+    if (JSON.stringify(renderedValues) !== JSON.stringify(generalValues)) fail(`/country/${code}: general-emergency controls do not preserve the exact ordered source values`);
+    const hrefs = controls.filter((tag) => tag.name === 'a').map((tag) => decodeHtml(tag.attrs.href ?? ''));
+    const expectedHrefs = expectedContacts.filter(({ uri }) => uri).map(({ uri }) => `tel:${uri}`);
+    if (JSON.stringify(hrefs) !== JSON.stringify(expectedHrefs)) fail(`/country/${code}: general-emergency actionable links do not exactly match strict normalization`);
+    for (let index = 0; index < expectedContacts.length; index++) {
+      const { value, uri } = expectedContacts[index];
+      const control = controls[index];
+      const visible = decodeHtml(control ? panel.html.slice(control.end, panel.html.indexOf(`</${control.name}>`, control.end)) : '').replace(/<[^>]+>/g, '').trim();
+      if (visible !== value) fail(`/country/${code}: general-emergency control does not show exact source value ${JSON.stringify(value)}`);
+      if (uri && (control?.name !== 'a' || decodeHtml(control.attrs['data-phone-contact'] ?? '') !== uri)) fail(`/country/${code}: safe general-emergency contact lacks its exact marker`);
+      if (!uri && (control?.name === 'a' || Object.hasOwn(control?.attrs ?? {}, 'data-phone-contact'))) fail(`/country/${code}: unsafe general-emergency value became actionable`);
+    }
+  }
   const categoryIds = all.map((tag) => tag.attrs.id).filter((id) => id?.startsWith('category-'));
   const expectedIds = [...new Set(records.map((record) => `category-${record.category}`))];
   if (categoryIds.some((id) => !/^category-[a-z0-9_]+$/.test(id)) || categoryIds.length !== expectedIds.length || expectedIds.some((id) => !categoryIds.includes(id))) fail(`/country/${code}: category section IDs are unsafe, missing, or duplicated`);
@@ -472,6 +738,28 @@ for (const [code, records] of countryShards) {
     if (card.attrs['data-has-phone'] !== String(hasPhone) || card.attrs['data-has-sms'] !== String(hasSms) || card.attrs['data-has-chat'] !== String(hasChat)) fail(`/country/${code}: ${record.id} detailed channel state does not match its generated record`);
     verifyRecordCard(record, card, `/country/${code}`);
   }
+}
+
+for (const page of pages.values()) {
+  for (const anchor of attrs(tags(page.html), 'a')) {
+    const href = decodeHtml(anchor.href ?? '');
+    if (/^tel:/i.test(href) && !/^tel:\+?[0-9]{2,15}$/.test(href)) fail(`${page.route}: generated output exposes unsafe telephone URI ${JSON.stringify(href)}`);
+    if (/^sms:/i.test(href) && !/^sms:\+?[0-9]{3,15}$/.test(href)) fail(`${page.route}: generated output exposes unsafe SMS URI ${JSON.stringify(href)}`);
+  }
+}
+
+for (const fixture of [
+  { code: 'us', safe: ['911'], unsafe: [] },
+  { code: 'dj', safe: [], unsafe: ['351 351'] },
+  { code: 'fm', safe: [], unsafe: ['320-2223'] },
+  { code: 'mh', safe: [], unsafe: ['625-8666'] },
+]) {
+  const source = countryMetadata.get(fixture.code)?.general_emergency ?? [];
+  for (const value of [...fixture.safe, ...fixture.unsafe]) assert.ok(source.includes(value), `${fixture.code} general-emergency fixture must retain ${JSON.stringify(value)} in canonical-derived output`);
+  const panel = markedElementSubtrees(pages.get(`/country/${fixture.code}`)?.html ?? '', 'div', 'data-general-emergency-listing')[0];
+  const controls = tags(panel?.html ?? '').filter((tag) => Object.hasOwn(tag.attrs, 'data-general-emergency-contact'));
+  for (const value of fixture.safe) assert.ok(controls.some((tag) => decodeHtml(tag.attrs['data-general-emergency-contact']) === value && tag.attrs.href === `tel:${value}`), `${fixture.code} safe general-emergency fixture must be actionable`);
+  for (const value of fixture.unsafe) assert.ok(controls.some((tag) => decodeHtml(tag.attrs['data-general-emergency-contact']) === value && tag.name !== 'a' && !tag.attrs.href), `${fixture.code} compound general-emergency fixture must remain exact plain text`);
 }
 
 // Literal source/output contracts catch regressions independently of the
