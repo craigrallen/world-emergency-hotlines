@@ -68,7 +68,7 @@ test('all trusted-release profiles are accepted and adjacent hybrids are rejecte
   ];
   profiles.push(['evidence', without(profiles.at(-1)[1], {
     namespace: '/evidence-backed-coverage/v1/', coverage: '/evidence-backed-coverage/v1/**',
-    buildInputs: ['scripts/generate-evidence-backed-coverage-contracts.mjs', 'repo:evidence-backed-coverage/model.mjs'],
+    buildInputs: ['scripts/api-records-transform.mjs', 'scripts/generate-evidence-backed-coverage-contracts.mjs', 'repo:evidence-backed-coverage/model.mjs'],
   }), '/evidence-backed-coverage/v1/README.md']);
   profiles.push(['plan', without(profiles.at(-1)[1], {
     namespace: '/deprecation-proposals/v1/', coverage: '/deprecation-proposals/v1/**',

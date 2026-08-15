@@ -88,8 +88,10 @@ try {
   build(epoch, cleanWeb);
   for (const created of ['data', 'api/v1', 'release/v1', 'feeds', 'subscriptions/v1', 'organizations/v1', 'managed-widget-config/v1', 'technical-health/v1', 'assurance-packs/v1', 'provider-claims/v1', 'reviewer-work-queue/v1', 'managed-api-plans/v1', 'deprecation-proposals/v1', 'evidence-backed-coverage/v1']) assert.ok(lstatSync(resolve(cleanWeb, 'public', created)).isDirectory(), `clean build did not create public/${created}`);
   const beforeSourceMutations = JSON.parse(readFileSync(resolve(cleanWeb, 'public/release/v1/release.json'), 'utf8'));
+  const beforeApiRecords = readFileSync(resolve(cleanWeb, 'public/api/v1/records.json'));
   const beforeManagedPlanArtifacts = files(resolve(cleanWeb, 'public/managed-api-plans/v1'));
   for (const [label, copiedSource] of [
+    ['API records transform', resolve(cleanWeb, 'scripts/api-records-transform.mjs')],
     ['control-plane model', resolve(cleanCopy, 'control-plane/model.mjs')],
     ['managed API plan generator', resolve(cleanWeb, 'scripts/generate-managed-api-plan-contracts.mjs')],
     ['managed API plan model', resolve(cleanCopy, 'managed-api-plans/model.mjs')],
@@ -98,6 +100,7 @@ try {
     writeFileSync(copiedSource, Buffer.concat([copiedSourceBytes, Buffer.from('\n// isolated release identity mutation\n')]));
     build(epoch, cleanWeb);
     const afterSourceMutation = JSON.parse(readFileSync(resolve(cleanWeb, 'public/release/v1/release.json'), 'utf8'));
+    assert.deepEqual(readFileSync(resolve(cleanWeb, 'public/api/v1/records.json')), beforeApiRecords, `${label} mutation unexpectedly changed generated API record bytes`);
     assert.deepEqual(files(resolve(cleanWeb, 'public/managed-api-plans/v1')), beforeManagedPlanArtifacts, `${label} mutation unexpectedly changed managed API plan artifact bytes`);
     assert.notEqual(afterSourceMutation.build_versions.integration_generator, beforeSourceMutations.build_versions.integration_generator, `${label} change did not change integration generator identity`);
     assert.notEqual(afterSourceMutation.release_id, beforeSourceMutations.release_id, `${label} change did not change release identity`);
