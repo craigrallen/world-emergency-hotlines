@@ -286,6 +286,10 @@ exit 0
         self.assertEqual(len(gates),1)
         self.assertNotIn("docker://",gates[0]); self.assertNotRegex(gates[0],r"curl[^\n]*\|")
         self.assertIn("sha256sum --check --strict",gates[0])
+        direct_run='          "$RUNNER_TEMP/actionlint" -color\n'
+        path_handoff='          printf \'%s\\n\' "$RUNNER_TEMP" >> "$GITHUB_PATH"\n'
+        self.assertIn(direct_run,gates[0]); self.assertIn(path_handoff,gates[0])
+        self.assertLess(gates[0].index(direct_run),gates[0].index(path_handoff))
         executable=shutil.which("actionlint")
         if executable is None:
             if os.environ.get("CI"): self.fail("actionlint must be available in the CI validation gate")

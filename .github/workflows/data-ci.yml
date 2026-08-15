@@ -44,6 +44,7 @@ jobs:
           tar --extract --gzip --file "$archive" --directory "$source_dir" --strip-components=1
           go -C "$source_dir" build -trimpath -o "$RUNNER_TEMP/actionlint" ./cmd/actionlint
           "$RUNNER_TEMP/actionlint" -color
+          printf '%s\n' "$RUNNER_TEMP" >> "$GITHUB_PATH"
 
       - name: Parse hotlines.json
         run: python -c "import json; json.load(open('hotlines.json', encoding='utf-8'))"
