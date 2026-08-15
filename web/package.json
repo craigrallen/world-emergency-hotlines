@@ -32,7 +32,7 @@
     "verify:provider-claims": "node scripts/verify-provider-claim-contracts.mjs && node --test ../provider-claims/test/*.test.mjs",
     "verify:reviewer-work-queue": "node scripts/verify-reviewer-work-queue-contracts.mjs && node --test ../reviewer-work-queue/test/*.test.mjs",
     "verify:managed-api-plans": "node scripts/verify-managed-api-plan-contracts.mjs && node --test ../managed-api-plans/test/*.test.mjs",
-    "verify:deprecation-proposals": "node scripts/verify-deprecation-proposal-contracts.mjs && node --test ../deprecation-proposals/test/*.test.mjs",
+    "verify:deprecation-proposals": "SOURCE_DATE_EPOCH=1786579200 node scripts/build-static-data.mjs && node scripts/verify-deprecation-proposal-contracts.mjs && node --test ../deprecation-proposals/test/*.test.mjs",
     "verify:subscriptions": "SOURCE_DATE_EPOCH=1786579200 node scripts/build-static-data.mjs && node scripts/verify-subscription-contracts.mjs",
     "verify:release": "SOURCE_DATE_EPOCH=1786579200 node scripts/build-static-data.mjs && node scripts/verify-release-feeds.mjs && node scripts/verify-release-reproducibility.mjs && node scripts/verify-release-integrity.mjs && npm run verify:feeds:artifacts",
     "verify:feeds:unit": "node scripts/verify-release-feeds.mjs && node scripts/verify-dataset-append-only.mjs",
