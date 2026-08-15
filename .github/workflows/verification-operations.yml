@@ -65,13 +65,13 @@ jobs:
             --as-of "$REPORT_AS_OF" --output prior/source-snapshot.json
           retrieval_status=$?
           if [ "$retrieval_status" -eq 0 ]; then
-            echo "available=true" >> "$GITHUB_OUTPUT"
+            printf '%s\n' "available=true" "history_state=HISTORY_FOUND" >> "$GITHUB_OUTPUT"
             echo "reason=authenticated compatible prior snapshot" >> "$GITHUB_OUTPUT"
             echo "Prior snapshot: authenticated compatible history enabled." >> "$GITHUB_STEP_SUMMARY"
           elif [ "$retrieval_status" -eq 4 ]; then
-            echo "available=false" >> "$GITHUB_OUTPUT"
+            printf '%s\n' "available=false" "history_state=CONFIRMED_NO_HISTORY" >> "$GITHUB_OUTPUT"
             echo "reason=no compatible prior snapshot after bounded fallback" >> "$GITHUB_OUTPUT"
-            echo "Prior snapshot: unavailable after exhausting bounded history." >> "$GITHUB_STEP_SUMMARY"
+            echo "Prior snapshot: authenticated bounded enumeration confirmed no compatible older snapshot." >> "$GITHUB_STEP_SUMMARY"
           else
             echo "Prior snapshot retrieval failed locally." >> "$GITHUB_STEP_SUMMARY"
             exit 3

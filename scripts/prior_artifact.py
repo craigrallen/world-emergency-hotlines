@@ -6,6 +6,7 @@ import argparse
 import datetime as dt
 import json
 import hashlib
+import io
 from pathlib import Path
 from zipfile import BadZipFile, ZipFile
 
@@ -18,18 +19,24 @@ except ModuleNotFoundError:
     import source_monitor
 
 MAX_FILE_BYTES = 1_000_000
+# Manual verification ZIPs contain one <=1 MiB snapshot plus one <=1 MiB
+# manifest, so 3 MiB leaves format overhead without permitting a large input.
+MAX_SOURCE_ZIP_BYTES = 3 * MAX_FILE_BYTES
 PAYLOAD_NAMES = {"monitor-state.json", "source-monitor-state.json", "source-snapshot.json"}
 MANIFEST_NAME = "artifact-manifest.json"
 EXPECTED = PAYLOAD_NAMES | {MANIFEST_NAME}
 SOURCE_MANIFEST_NAME = "source-snapshot-manifest.json"
 
 
+def _json(payload: bytes, label: str):
+    return monitor_delta.json_bytes(payload, label)
+
+
 def source_snapshot_manifest(snapshot_path: Path, run_as_of: dt.date) -> bytes:
-    payload = snapshot_path.read_bytes()
-    if len(payload) > MAX_FILE_BYTES:
-        raise ValueError("source snapshot oversized")
-    snapshot = json.loads(payload)
-    source_monitor.validate_current_snapshot(snapshot, source_monitor.CANONICAL.read_bytes())
+    payload = monitor_delta.read_bounded_regular(snapshot_path, MAX_FILE_BYTES, "source snapshot")
+    snapshot = _json(payload, "source snapshot")
+    canonical = monitor_delta.read_bounded_regular(source_monitor.CANONICAL, 8_000_000, "canonical input")
+    source_monitor.validate_current_snapshot(snapshot, canonical)
     if snapshot["as_of"] != run_as_of.isoformat():
         raise ValueError("source snapshot run date mismatch")
     return (json.dumps({"schema_version": "1.0", "run_as_of": run_as_of.isoformat(),
@@ -39,10 +46,9 @@ def source_snapshot_manifest(snapshot_path: Path, run_as_of: dt.date) -> bytes:
 
 def extract_authenticated_source_snapshot(archive_path: Path, as_of: dt.date) -> bytes:
     """Extract a manifest-bound historical snapshot from a manual-run artifact."""
-    if archive_path.stat().st_size > 100_000_000:
-        raise ValueError("artifact ZIP oversized")
+    archive_payload = monitor_delta.read_bounded_regular(archive_path, MAX_SOURCE_ZIP_BYTES, "artifact ZIP")
     try:
-        with ZipFile(archive_path) as archive:
+        with ZipFile(io.BytesIO(archive_payload)) as archive:
             files = [item for item in archive.infolist() if not item.is_dir()]
             matches = {name: [item for item in files if item.filename == name]
                        for name in ("source-snapshot.json", SOURCE_MANIFEST_NAME)}
@@ -59,7 +65,7 @@ def extract_authenticated_source_snapshot(archive_path: Path, as_of: dt.date) ->
                     raise ValueError("artifact extraction size inconsistent")
     except BadZipFile as exc:
         raise ValueError("malformed artifact ZIP") from exc
-    manifest = json.loads(payloads[SOURCE_MANIFEST_NAME])
+    manifest = _json(payloads[SOURCE_MANIFEST_NAME], "source snapshot manifest")
     if (not isinstance(manifest, dict)
             or set(manifest) != {"schema_version", "run_as_of", "members"}
             or manifest.get("schema_version") != "1.0"
@@ -68,16 +74,15 @@ def extract_authenticated_source_snapshot(archive_path: Path, as_of: dt.date) ->
     run_date = dt.date.fromisoformat(manifest["run_as_of"])
     if run_date > as_of or manifest["run_as_of"] != run_date.isoformat():
         raise ValueError("artifact run date invalid")
-    snapshot = json.loads(payloads["source-snapshot.json"])
+    snapshot = _json(payloads["source-snapshot.json"], "source snapshot")
     source_monitor.validate_authenticated_previous_snapshot(snapshot, run_date, snapshot.get("as_of"))
     return payloads["source-snapshot.json"]
 
 
 def extract_candidate(archive_path: Path, as_of: dt.date, canonical_path: Path) -> dict[str, bytes]:
-    if archive_path.stat().st_size > 3 * MAX_FILE_BYTES:
-        raise ValueError("artifact ZIP oversized")
+    archive_payload = monitor_delta.read_bounded_regular(archive_path, 3 * MAX_FILE_BYTES, "artifact ZIP")
     try:
-        with ZipFile(archive_path) as archive:
+        with ZipFile(io.BytesIO(archive_payload)) as archive:
             files = [item for item in archive.infolist() if not item.is_dir()]
             names = [Path(item.filename).name for item in files]
             if (len(files) != len(EXPECTED) or set(names) != EXPECTED or len(names) != len(set(names))
@@ -92,7 +97,7 @@ def extract_candidate(archive_path: Path, as_of: dt.date, canonical_path: Path) 
                 if len(payload) > MAX_FILE_BYTES or len(payload) != item.file_size:
                     raise ValueError("artifact extraction size inconsistent")
                 payloads[name] = payload
-        manifest = json.loads(payloads[MANIFEST_NAME])
+        manifest = _json(payloads[MANIFEST_NAME], "artifact manifest")
         expected_manifest_keys = {"schema_version", "run_as_of", "state_as_of", "members"}
         if not isinstance(manifest, dict) or set(manifest) != expected_manifest_keys or manifest["schema_version"] != "2.0":
             raise ValueError("artifact publication manifest invalid")
@@ -104,14 +109,14 @@ def extract_candidate(archive_path: Path, as_of: dt.date, canonical_path: Path) 
                 raise ValueError("artifact publication manifest member hash mismatch")
     except BadZipFile as exc:
         raise ValueError("malformed artifact ZIP") from exc
-    monitor = json.loads(payloads["monitor-state.json"])
+    monitor = _json(payloads["monitor-state.json"], "public monitor state")
     monitor_delta.validate_baseline(monitor, "public-seo")
-    source_state = json.loads(payloads["source-monitor-state.json"])
+    source_state = _json(payloads["source-monitor-state.json"], "source monitor state")
     monitor_delta.validate_baseline(source_state, "source-monitor")
     run_date=dt.date.fromisoformat(manifest["run_as_of"])
     if run_date > as_of or manifest["run_as_of"] != run_date.isoformat():
         raise ValueError("artifact run date invalid")
-    snapshot=json.loads(payloads["source-snapshot.json"])
+    snapshot=_json(payloads["source-snapshot.json"], "source snapshot")
     state_dates=manifest["state_as_of"]
     if not isinstance(state_dates,dict) or set(state_dates) != {"public-seo","source-monitor"}:
         raise ValueError("artifact state dates invalid")
@@ -130,16 +135,6 @@ def extract_candidate(archive_path: Path, as_of: dt.date, canonical_path: Path) 
         source_monitor.validate_authenticated_previous_snapshot(
             snapshot, run_date, source_state["latest"]["as_of"])
     return {name: payloads[name] for name in PAYLOAD_NAMES}
-
-
-def select_newest_compatible(candidates, as_of: dt.date, canonical_path: Path):
-    """Select the first valid candidate; conclusions are informational, not filters."""
-    for run_id, conclusion, archive_path in candidates:
-        try:
-            return run_id, conclusion, extract_candidate(archive_path, as_of, canonical_path)
-        except (OSError, KeyError, TypeError, ValueError, json.JSONDecodeError):
-            continue
-    return None
 
 
 def main(argv=None) -> int:

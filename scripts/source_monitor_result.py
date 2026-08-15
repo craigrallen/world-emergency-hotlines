@@ -10,11 +10,11 @@ from pathlib import Path
 
 try:
     from scripts.artifact_io import coordinated_write, guard_paths
-    from scripts.monitor_delta import validate_result
+    from scripts.monitor_delta import json_bytes, read_bounded_regular, validate_result
     from scripts.source_monitor import CANONICAL, eligible_records, load_snapshot, rotating_selection, validate_current_snapshot, validate_previous
 except ModuleNotFoundError:
     from artifact_io import coordinated_write, guard_paths
-    from monitor_delta import validate_result
+    from monitor_delta import json_bytes, read_bounded_regular, validate_result
     from source_monitor import CANONICAL, eligible_records, load_snapshot, rotating_selection, validate_current_snapshot, validate_previous
 
 
@@ -66,7 +66,10 @@ def main(argv=None):
         snapshot=load_snapshot(args.snapshot); previous=load_snapshot(args.previous) if args.previous else None
         if previous is not None and previous.get("schema_version") == "3.0-empty-baseline":
             previous=None
-        report=build(snapshot,previous,CANONICAL.read_bytes())
+        canonical_raw=read_bounded_regular(CANONICAL,8_000_000,"canonical input")
+        # Decode here so invalid UTF-8 is an expected local/schema failure.
+        json_bytes(canonical_raw,"canonical input")
+        report=build(snapshot,previous,canonical_raw)
         coordinated_write([(args.output,(json.dumps(report,sort_keys=True,indent=2)+"\n").encode())])
     except (OSError,TypeError,KeyError,ValueError,json.JSONDecodeError) as exc:
         print("source result unavailable: "+str(exc)[:200]); return 2

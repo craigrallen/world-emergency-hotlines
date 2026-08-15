@@ -64,7 +64,7 @@ class PriorArtifactTests(unittest.TestCase):
                 "--as-of","2026-08-15","--canonical",str(canonical)]),3)
             self.assertFalse(fresh.exists())
 
-    def test_malformed_multiple_and_oversized_candidates_are_skipped(self):
+    def test_malformed_multiple_and_oversized_candidates_are_rejected(self):
         with tempfile.TemporaryDirectory() as folder:
             root=Path(folder); canonical,payloads=self.fixture(root)
             malformed=root/"malformed.zip"; malformed.write_bytes(b"not zip")
@@ -81,7 +81,7 @@ class PriorArtifactTests(unittest.TestCase):
         text=(ROOT/".github/workflows/seo-monitor.yml").read_text()
         self.assertIn("scripts/seo_orchestrator.py retrieve",text)
         self.assertNotIn("actions/artifacts/${artifact_id}/zip",text)
-        self.assertIn("no valid completed artifact",text)
+        self.assertIn("authenticated bounded enumeration confirmed no compatible older artifact",text)
         self.assertIn("scripts/seo_workflow_summary.py",text)
 
     def test_mixed_observation_dates_are_rejected(self):
@@ -101,6 +101,28 @@ class PriorArtifactTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError,"member hash mismatch"):
                 prior.extract_candidate(archive,dt.date(2026,8,15),canonical)
 
+    def test_unknown_authenticated_versions_are_fatal(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root=Path(folder); canonical,payloads=self.fixture(root)
+            archive=root/"unknown-publication.zip"
+            values=dict(payloads)
+            manifest={"schema_version":"3.0","run_as_of":"2026-08-14",
+                "state_as_of":{"public-seo":"2026-08-14","source-monitor":"2026-08-14"},
+                "members":{name:"sha256:"+hashlib.sha256(payload).hexdigest()
+                           for name,payload in sorted(values.items())}}
+            values[prior.MANIFEST_NAME]=json.dumps(manifest).encode(); self.write_zip(archive,values.items())
+            with self.assertRaisesRegex(ValueError,"publication manifest invalid"):
+                prior.extract_candidate(archive,dt.date(2026,8,15),canonical)
+
+            source_archive=root/"unknown-source.zip"; snapshot=payloads["source-snapshot.json"]
+            source_manifest={"schema_version":"2.0","run_as_of":"2026-08-14","members":{
+                "source-snapshot.json":"sha256:"+hashlib.sha256(snapshot).hexdigest()}}
+            with ZipFile(source_archive,"w") as zipped:
+                zipped.writestr("source-snapshot.json",snapshot)
+                zipped.writestr(prior.SOURCE_MANIFEST_NAME,json.dumps(source_manifest))
+            with self.assertRaisesRegex(ValueError,"member manifest invalid"):
+                prior.extract_authenticated_source_snapshot(source_archive,dt.date(2026,8,15))
+
     def test_failed_regression_artifact_drives_continuing_then_recovery(self):
         issue=[{"code":"broken","subject":"/","detail":"fixture"}]
         healthy={"schema_version":"1.0","monitor":"public-seo","as_of":"2026-08-11","status":"ok","issues":[],"metrics":{}}
@@ -117,20 +139,5 @@ class PriorArtifactTests(unittest.TestCase):
         self.assertEqual(delta.outcome_exit_code("continuing"),0)
         self.assertEqual(delta.classify(recovery,state(continuing)),"recovered")
         self.assertEqual(delta.outcome_exit_code("recovered"),0)
-
-    def test_malformed_and_incomplete_newest_candidates_fall_back_to_valid_older(self):
-        with tempfile.TemporaryDirectory() as folder:
-            root=Path(folder); canonical,payloads=self.fixture(root)
-            valid=root/"older.zip"; malformed=root/"newest.zip"; incomplete=root/"middle.zip"
-            self.write_zip(valid,payloads.items()); malformed.write_bytes(b"not a zip")
-            self.write_zip(incomplete,[("monitor-state.json",payloads["monitor-state.json"])])
-            selected=prior.select_newest_compatible([
-                (30,"success",malformed),(20,"cancelled",incomplete),(10,"failure",valid)
-            ],dt.date(2026,8,15),canonical)
-            self.assertIsNotNone(selected)
-            run_id,conclusion,payload=selected
-            self.assertEqual((run_id,conclusion),(10,"failure"))
-            self.assertEqual(set(payload),prior.PAYLOAD_NAMES)
-
 
 if __name__=="__main__": unittest.main()

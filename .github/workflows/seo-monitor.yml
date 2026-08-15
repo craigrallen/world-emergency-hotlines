@@ -23,6 +23,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Retrieve strict prior compact artifact
+        id: prior
         env:
           GH_TOKEN: ${{ github.token }}
           DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
@@ -43,10 +44,12 @@ jobs:
             test ! -e prior/source-monitor-state.json
             test ! -e prior/source-snapshot.json
             test ! -e prior/artifact-manifest.json
-            printf '%s\n' "Prior baseline: no valid completed artifact; bounded history unavailable, monitoring continues with no prior." >> "$GITHUB_STEP_SUMMARY"
+            echo "history_state=CONFIRMED_NO_HISTORY" >> "$GITHUB_OUTPUT"
+            printf '%s\n' "Prior baseline: authenticated bounded enumeration confirmed no compatible older artifact; monitoring continues with no prior." >> "$GITHUB_STEP_SUMMARY"
           elif [ "$retrieval_status" -ne 0 ]; then
             exit "$retrieval_status"
           elif printf '%s' "$selection" | jq -e '.selected != null' >/dev/null; then
+            echo "history_state=HISTORY_FOUND" >> "$GITHUB_OUTPUT"
             printf '%s\n' "Prior baseline: selected newest fully validated compatible completed run." >> "$GITHUB_STEP_SUMMARY"
           else
             exit 3

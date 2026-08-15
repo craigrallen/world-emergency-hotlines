@@ -23,8 +23,10 @@ from pathlib import Path
 from typing import Callable
 
 try:
+    from scripts import monitor_delta
     from scripts.artifact_io import coordinated_write, guard_paths
 except ModuleNotFoundError:
+    import monitor_delta
     from artifact_io import coordinated_write, guard_paths
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -348,9 +350,17 @@ def validate_population(value: object) -> set[str]:
 
 
 def load_snapshot(path: Path) -> dict:
-    if path.stat().st_size > MAX_SNAPSHOT_BYTES:
-        raise ValueError("previous snapshot exceeds byte limit")
-    return json.loads(path.read_text(encoding="utf-8"))
+    return monitor_delta.json_bytes(
+        monitor_delta.read_bounded_regular(path, MAX_SNAPSHOT_BYTES, "source snapshot"),
+        "source snapshot")
+
+
+def load_canonical(path: Path) -> tuple[bytes, dict]:
+    raw = monitor_delta.read_bounded_regular(path, 8_000_000, "canonical input")
+    value = monitor_delta.json_bytes(raw, "canonical input")
+    if not isinstance(value, dict):
+        raise ValueError("canonical input must be an object")
+    return raw, value
 
 
 def eligible_records(data: dict) -> tuple[list[tuple], Counter]:
@@ -783,8 +793,7 @@ def main(argv=None, fetcher=None) -> int:
     if args.validate_previous_only:
         if not args.previous:
             parser.error("--validate-previous-only requires --previous")
-        raw = args.input.read_bytes()
-        data = json.loads(raw)
+        raw, data = load_canonical(args.input)
         ids = {row.get("id") for country in data.get("countries", []) for row in country.get("hotlines", [])}
         eligible, _ = eligible_records(data)
         current_keys = {(row[0], row[3]) for row in eligible}
@@ -810,12 +819,12 @@ def main(argv=None, fetcher=None) -> int:
         inputs.append(CANONICAL)
     inputs += [args.previous] if args.previous else []
     guard_outputs(args.json_output, args.markdown_output, inputs)
-    raw = args.input.read_bytes()
+    raw, data = load_canonical(args.input)
     previous = load_snapshot(args.previous) if args.previous else None
     if previous is not None and previous.get("schema_version") == "3.0-empty-baseline":
         validate_previous(previous,canonical_hash(raw),as_of,set(),set())
         previous=None
-    report = build(json.loads(raw), raw, as_of, args.limit, previous, fetch if fetcher is None else fetcher)
+    report = build(data, raw, as_of, args.limit, previous, fetch if fetcher is None else fetcher)
     json_payload = (json.dumps(report, ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode()
     if len(json_payload) > MAX_SNAPSHOT_BYTES:
         raise SystemExit("source snapshot exceeds byte limit")

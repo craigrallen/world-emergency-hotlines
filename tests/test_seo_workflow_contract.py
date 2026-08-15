@@ -7,6 +7,7 @@ import unittest
 import tempfile
 import importlib.util
 import datetime as dt
+from unittest import mock
 from pathlib import Path
 from zipfile import ZipFile
 from scripts import source_monitor
@@ -97,7 +98,7 @@ case "$*" in
 esac
 exit 0
 """); python.chmod(0o755)
-            env={**os.environ,"PATH":str(bindir)+os.pathsep+os.environ["PATH"],"GITHUB_REPOSITORY":"owner/repo","DEFAULT_BRANCH":"main","CURRENT_RUN_ID":"10","GITHUB_STEP_SUMMARY":str(temp/"summary"),"CALLS":str(temp/"calls")}
+            env={**os.environ,"PATH":str(bindir)+os.pathsep+os.environ["PATH"],"GITHUB_REPOSITORY":"owner/repo","DEFAULT_BRANCH":"main","CURRENT_RUN_ID":"10","GITHUB_OUTPUT":str(temp/"github-output"),"GITHUB_STEP_SUMMARY":str(temp/"summary"),"CALLS":str(temp/"calls")}
             completed=subprocess.run(["bash"],input=script,cwd=temp,env={**env,"RETRIEVAL_STATUS":"4","FAKE_GH_STATUS":"1"},text=True,capture_output=True)
             self.assertEqual(completed.returncode,0,completed.stdout+completed.stderr)
             calls=(temp/"calls").read_text()
@@ -157,12 +158,15 @@ exit 0
         def run(run_id, conclusion, event, stamp):
             return {"id":run_id,"status":"completed","conclusion":conclusion,"event":event,
                     "created_at":stamp,"updated_at":stamp}
-        runs={"workflow_runs":[run(7,"success","workflow_dispatch","2026-08-14T10:00:00Z"),
+        runs={"total_count":4,"workflow_runs":[run(11,"success","schedule","2026-08-16T10:00:00Z"),
             run(9,"failure","workflow_dispatch","2026-08-14T12:00:00Z"),
-            run(5,"success","schedule","2026-08-13T10:00:00Z"),
-            run(11,"success","schedule","2026-08-16T10:00:00Z")]}
+            run(7,"success","workflow_dispatch","2026-08-14T10:00:00Z"),
+            run(5,"success","schedule","2026-08-13T10:00:00Z")]}
         self.assertEqual(helper.select_runs(runs,10,__import__("datetime").date(2026,8,15)),[7,5])
-        with self.assertRaises(ValueError): helper.select_runs({"workflow_runs":"bad"},10,__import__("datetime").date(2026,8,15))
+        with self.assertRaises(ValueError): helper.select_runs({"total_count":0,"workflow_runs":"bad"},10,__import__("datetime").date(2026,8,15))
+        for bad in ({"workflow_runs":[]},{"total_count":True,"workflow_runs":[]},
+                    {"total_count":1,"workflow_runs":[]},{"total_count":0,"workflow_runs":[],"extra":1}):
+            with self.assertRaises(ValueError): helper.select_runs(bad,10,__import__("datetime").date(2026,8,15))
         artifact={"total_count":1,"artifacts":[{"id":3,"name":"verification-operations-2026-08-14",
             "size_in_bytes":10,"created_at":"2026-08-14T12:00:00Z","expired":False,"digest":"sha256:"+"a"*64}]}
         self.assertEqual(helper.select_artifact(artifact)["id"],3)
@@ -187,13 +191,15 @@ exit 0
                 zipped.writestr("source-snapshot.json",snapshot_payload)
                 zipped.writestr("source-snapshot-manifest.json",member_manifest)
             digest=__import__("hashlib").sha256(archive.read_bytes()).hexdigest()
-            runs=temp/"runs.json"; runs.write_text(json.dumps({"workflow_runs":[
+            runs=temp/"runs.json"; runs.write_text(json.dumps({"total_count":2,"workflow_runs":[
                 {"id":8,"status":"completed","conclusion":"success","event":"workflow_dispatch","created_at":"2026-08-14T12:00:00Z","updated_at":"2026-08-14T12:00:00Z"},
                 {"id":7,"status":"completed","conclusion":"success","event":"schedule","created_at":"2026-08-13T12:00:00Z","updated_at":"2026-08-13T12:00:00Z"}]}))
             artifacts=temp/"artifacts.json"; artifacts.write_text(json.dumps({"total_count":1,"artifacts":[{
                 "id":3,"name":"verification-operations-2026-08-14","size_in_bytes":archive.stat().st_size,"created_at":"2026-08-14T12:00:00Z",
                 "expired":False,"digest":"sha256:"+digest}]}))
-            malformed_artifacts=temp/"malformed-artifacts.json"; malformed_artifacts.write_text(json.dumps({"total_count":2,"artifacts":[]}))
+            malformed_artifacts=temp/"malformed-artifacts.json"; malformed_artifacts.write_text(json.dumps({"total_count":1,"artifacts":[{
+                "id":2,"name":"unrelated-artifact","size_in_bytes":0,"created_at":"2026-08-14T12:00:00Z",
+                "expired":False,"digest":"sha256:"+"0"*64}]}))
             bindir=temp/"bin"; bindir.mkdir(); fake=bindir/"gh"
             fake.write_text("#!/bin/bash\nset -e\nendpoint=${!#}\nprintf '%s\\n' \"$endpoint\" >> \"$FAKE_CALLS\"\ncase \"$endpoint\" in *'/runs?'*) cat \"$FAKE_RUNS\";; *'/runs/8/artifacts?'*) cat \"$FAKE_BAD_ARTIFACTS\";; *'/artifacts?per_page=100') cat \"$FAKE_ARTIFACTS\";; *'/zip') cat \"$FAKE_ZIP\";; *) exit 65;; esac\n")
             fake.chmod(0o755); github_output=temp/"output"; summary=temp/"summary"
@@ -206,7 +212,7 @@ exit 0
             self.assertEqual(completed.returncode,0,completed.stdout+completed.stderr)
             self.assertIn("available=true",github_output.read_text())
             calls=(temp/"gh-calls").read_text(); self.assertIn("/runs/8/artifacts",calls); self.assertIn("/runs/7/artifacts",calls)
-            # Remote API failure and malformed JSON exhaust history safely.
+            # Remote API failure and malformed JSON are fatal and publish no fallback state.
             fake.write_text("#!/bin/bash\nexit 70\n"); fake.chmod(0o755)
             for payload in (None,b"{malformed"):
                 if payload is not None: runs.write_bytes(payload); fake.write_text("#!/bin/bash\ncat \"$FAKE_RUNS\"\n"); fake.chmod(0o755)
@@ -214,7 +220,51 @@ exit 0
                     if path.is_dir(): shutil.rmtree(path)
                     elif path.exists(): path.unlink()
                 completed=subprocess.run(["bash"],input=block,cwd=temp,env=env,text=True,capture_output=True)
-                self.assertEqual(completed.returncode,0); self.assertIn("available=false",github_output.read_text())
+                self.assertEqual(completed.returncode,3)
+                self.assertTrue(not github_output.exists() or "available=false" not in github_output.read_text())
+                self.assertFalse((temp/"prior/source-snapshot.json").exists())
+
+    def test_manual_retrieval_skips_same_day_and_exhausts_malformed_history_safely(self):
+        spec=importlib.util.spec_from_file_location("manual_prior_history",ROOT/"scripts/manual_prior_history.py")
+        helper=importlib.util.module_from_spec(spec); spec.loader.exec_module(helper)
+        with tempfile.TemporaryDirectory() as folder:
+            temp=Path(folder); raw=(ROOT/"hotlines.json").read_bytes(); data=json.loads(raw)
+            def archive(day,name):
+                snapshot=source_monitor.build(data,raw,__import__("datetime").date.fromisoformat(day),1,None,
+                    lambda url:{"outcome":"ok","http_status":200,"final_url":url,"text":"","truncated":False})
+                payload=json.dumps(snapshot).encode(); path=temp/name
+                manifest=json.dumps({"schema_version":"1.0","run_as_of":day,"members":{
+                    "source-snapshot.json":"sha256:"+__import__("hashlib").sha256(payload).hexdigest()}})
+                with ZipFile(path,"w") as zipped:
+                    zipped.writestr("source-snapshot.json",payload); zipped.writestr("source-snapshot-manifest.json",manifest)
+                return path
+            same=archive("2026-08-15","same.zip"); older=archive("2026-08-14","older.zip")
+            def run_rows(ids):
+                rows=[]
+                for run_id in ids:
+                    stamp=f"2026-08-{15 if run_id == 30 else 14}T10:00:00Z"
+                    rows.append({"id":run_id,"status":"completed","conclusion":"success","event":"schedule","created_at":stamp,"updated_at":stamp})
+                return {"total_count":len(rows),"workflow_runs":rows}
+            artifacts={30:{"total_count":1,"artifacts":[{"id":300,"name":"verification-operations-2026-08-15","size_in_bytes":same.stat().st_size,"created_at":"2026-08-15T10:00:00Z","expired":False,"digest":"sha256:"+__import__("hashlib").sha256(same.read_bytes()).hexdigest()}]},
+                       20:{"total_count":1,"artifacts":[{"id":200,"name":"verification-operations-2026-08-14","size_in_bytes":older.stat().st_size,"created_at":"2026-08-14T10:00:00Z","expired":False,"digest":"sha256:"+__import__("hashlib").sha256(older.read_bytes()).hexdigest()}]}}
+            calls=[]
+            def gh(path):
+                if "/runs?" in path: return run_rows(current_ids)
+                run_id=int(path.split("/runs/")[1].split("/")[0]); return artifacts[run_id]
+            def download(repository,metadata,destination):
+                calls.append(metadata["id"]); destination.write_bytes((same if metadata["id"] == 300 else older).read_bytes())
+            current_ids=[30,20]; output=temp/"selected.json"
+            with mock.patch.object(helper.seo_orchestrator,"_gh_json",side_effect=gh), mock.patch.object(helper.seo_orchestrator,"_gh_download",side_effect=download):
+                self.assertEqual(helper.retrieve("owner/repo","verification-operations.yml","main",40,__import__("datetime").date(2026,8,15),output),20)
+                self.assertEqual(json.loads(output.read_text())["as_of"],"2026-08-14"); self.assertEqual(calls,[300,200])
+                output.unlink(); calls.clear(); current_ids=[30]
+                self.assertIsNone(helper.retrieve("owner/repo","verification-operations.yml","main",40,__import__("datetime").date(2026,8,15),output))
+                self.assertFalse(output.exists()); self.assertEqual(calls,[300])
+                calls.clear(); current_ids=[20,30]
+                artifacts[20]={"total_count":1,"artifacts":[]}
+                with self.assertRaises(ValueError):
+                    helper.retrieve("owner/repo","verification-operations.yml","main",40,__import__("datetime").date(2026,8,15),output)
+                self.assertFalse(output.exists()); self.assertEqual(calls,[])
     def test_monitor_test_command_includes_every_monitoring_boundary_module(self):
         scripts=json.loads((ROOT/"web/package.json").read_text())["scripts"]
         command=scripts["test:monitor:seo"]

@@ -5,6 +5,8 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import json
+import os
+import stat
 from pathlib import Path
 
 try:
@@ -84,10 +86,38 @@ def validate_result(value: dict) -> dict:
     return {**value, "issues": issues, "metrics": metrics}
 
 
+def read_bounded_regular(path: Path, limit: int, label: str = "input") -> bytes:
+    """Read an exact, stable regular file without following a hostile symlink."""
+    if type(limit) is not int or limit < 0:
+        raise ValueError("invalid input size limit")
+    flags = os.O_RDONLY | getattr(os, "O_CLOEXEC", 0) | getattr(os, "O_NOFOLLOW", 0)
+    descriptor = os.open(path, flags)
+    try:
+        before = os.fstat(descriptor)
+        if not stat.S_ISREG(before.st_mode) or before.st_size > limit:
+            raise ValueError(f"{label} missing, unsafe, or oversized")
+        with os.fdopen(descriptor, "rb", closefd=False) as stream:
+            payload = stream.read(limit + 1)
+        after = os.fstat(descriptor)
+        identity = lambda value: (value.st_dev, value.st_ino, value.st_size, value.st_mtime_ns)
+        if len(payload) > limit or len(payload) != before.st_size or identity(before) != identity(after):
+            raise ValueError(f"{label} changed or exceeded size limit while reading")
+        return payload
+    finally:
+        os.close(descriptor)
+
+
+def json_bytes(payload: bytes, label: str = "JSON input"):
+    try:
+        return json.loads(payload.decode("utf-8"))
+    except UnicodeDecodeError as exc:
+        raise ValueError(f"{label} is not valid UTF-8") from exc
+    except RecursionError as exc:
+        raise ValueError(f"{label} JSON nesting too deep") from exc
+
+
 def load_bounded(path: Path) -> dict:
-    if path.stat().st_size > MAX_INPUT_BYTES:
-        raise ValueError("artifact exceeds size limit")
-    return json.loads(path.read_text(encoding="utf-8"))
+    return json_bytes(read_bounded_regular(path, MAX_INPUT_BYTES, "artifact"), "artifact")
 
 
 def validate_baseline(value: dict, monitor: str) -> dict:
