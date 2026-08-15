@@ -7,8 +7,6 @@ on:
         description: "Deterministic report date (YYYY-MM-DD); defaults to UTC run date"
         required: false
         type: string
-  schedule:
-    - cron: "17 6 * * 1"
 
 permissions:
   contents: read
@@ -16,6 +14,7 @@ permissions:
 jobs:
   freshness:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Checkout
@@ -38,11 +37,13 @@ jobs:
           fi
 
       - name: Build read-only freshness reports
+        env:
+          REPORT_AS_OF: ${{ steps.report-date.outputs.as_of }}
         run: |
           mkdir -p freshness-output
           before=$(sha256sum hotlines.json | cut -d' ' -f1)
           python scripts/freshness_report.py \
-            --as-of "${{ steps.report-date.outputs.as_of }}" \
+            --as-of "$REPORT_AS_OF" \
             --stale-days 90 \
             --review-limit 250 \
             --report freshness-output/freshness-review.md \
@@ -59,4 +60,4 @@ jobs:
           name: freshness-review-${{ steps.report-date.outputs.as_of }}
           path: freshness-output/
           if-no-files-found: error
-          retention-days: 30
+          retention-days: 90

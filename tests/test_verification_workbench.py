@@ -5,6 +5,7 @@ import tempfile
 import unittest
 import copy
 from pathlib import Path
+from scripts import source_monitor as sm
 
 ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location("verification_workbench", ROOT / "scripts/verification_workbench.py")
@@ -13,16 +14,15 @@ wb = importlib.util.module_from_spec(spec); spec.loader.exec_module(wb)
 
 class WorkbenchTests(unittest.TestCase):
     def setUp(self):
-        self.data = {"countries": [{"country": "X", "alpha-2": "XX", "hotlines": [{"id": "weh_critical", "name": "Emergency", "category": "emergency", "last_verified": "2026-01-01"}, {"id": "weh_other", "name": "Other", "category": "general_support"}]}]}
+        self.data = {"countries": [{"country": "X", "alpha-2": "XX", "hotlines": [{"id": "weh_critical", "name": "Emergency", "category": "emergency", "sources":["https://example.org/"], "last_verified": "2026-01-01"}, {"id": "weh_other", "name": "Other", "category": "general_support"}]}]}
         self.raw = json.dumps(self.data).encode(); self.ver = wb.version(self.raw); self.day = dt.date(2026, 8, 13)
 
     def freshness(self):
         return wb.build_freshness_report(self.data, self.day, 90, 1, self.ver)
 
     def monitor(self):
-        return {"schema_version": "2.0", "as_of": "2026-08-13", "checked_at": "2026-08-13", "canonical_hash": self.ver,
-                "url_limit": 1, "observations": [{"record_id": "weh_critical", "country": "X", "name": "Emergency", "source_url": "https://example.org/", "final_url": "https://example.org/", "outcome": "fetch_failure", "http_status": None, "contact_present": None, "content_fingerprint": None, "changes": ["fetch_failure"], "truncated": False, "checked_at": "2026-08-13", "as_of": "2026-08-13", "triage_state": "review_prompt", "redirected": False, "error": "OSError"}],
-                "summary": {"eligible": 1, "selected": 1, "ok": 0, "failure": 1, "blocked": 0, "new": 0, "changed": 1, "skipped_ineligible": 0, "skipped_reasons": {}, "degraded": True}, "policy": {"meaning": "x", "mutation": "x"}}
+        return sm.build(self.data,self.raw,self.day,1,None,
+            lambda url:{"outcome":"fetch_failure","http_status":None,"final_url":url,"text":"","truncated":False,"error":"OSError"})
 
     def candidates(self):
         common = {"country": "X", "alpha-2": "XX", "source_artifact": "preview.json", "safety_flags": [], "requires_human_review": True}
@@ -82,6 +82,20 @@ class WorkbenchTests(unittest.TestCase):
         forged = self.freshness(); forged["stale_after_days"] = 0
         with self.assertRaisesRegex(ValueError, "stale_after_days"):
             wb.build(self.data, self.raw, self.day, forged)
+
+    def test_source_snapshot_is_bound_to_canonical_population_selection_and_labels(self):
+        original=self.monitor()
+        for mutate in (
+            lambda x:x["observations"][0].update(source_url="https://forged.example/"),
+            lambda x:x["observations"][0].update(country="Forged"),
+            lambda x:x["policy"].update(cursor=x["policy"]["cursor"]+1),
+            lambda x:x["policy"].update(critical_cohort=0),
+        ):
+            bad=copy.deepcopy(original); mutate(bad)
+            with self.assertRaises(ValueError): wb.build(self.data,self.raw,self.day,self.freshness(),bad)
+        drift=json.dumps({**self.data,"extra":"byte drift"}).encode(); drift_data=json.loads(drift)
+        with self.assertRaises(ValueError): wb.build(drift_data,drift,self.day,
+            wb.build_freshness_report(drift_data,self.day,90,1,wb.version(drift)),original)
 
     def test_candidate_additive_contract_rejects_forgery(self):
         cases = []

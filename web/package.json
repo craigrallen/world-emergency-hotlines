@@ -40,7 +40,9 @@
     "release:dataset:candidate": "node scripts/release-dataset-candidate.mjs",
     "verify:caddy": "sh scripts/verify-caddy.sh",
     "verify:all": "npm run verify:data && npm run verify:search && npm run verify:discovery && npm run verify:seo && npm run verify:trust && npm run verify:finder && npm run verify:api && npm run verify:widget && npm run verify:integration && npm run verify:gateway && npm run verify:organizations && npm run verify:managed-widget-config && npm run verify:technical-health && npm run verify:assurance-packs && npm run verify:provider-claims && npm run verify:reviewer-work-queue && npm run verify:managed-api-plans && npm run verify:release",
-    "typecheck": "astro check"
+    "typecheck": "astro check",
+    "monitor:seo:public": "python3 ../scripts/public_seo_monitor.py",
+    "test:monitor:seo": "cd .. && python3 -m unittest tests.test_monitor_delta tests.test_public_seo_monitor tests.test_search_console_monitor tests.test_source_monitor tests.test_source_monitor_result tests.test_prior_artifact tests.test_seo_orchestrator tests.test_seo_workflow_contract tests.test_verification_workbench"
   },
   "dependencies": {
     "astro": "^7.2.1",

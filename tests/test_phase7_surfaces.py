@@ -23,8 +23,10 @@ class Phase7SurfaceTests(unittest.TestCase):
 
     def test_workflow_is_read_only_default_branch_prior_artifact_flow(self):
         workflow = (ROOT / ".github/workflows/verification-operations.yml").read_text()
-        for text in ("schedule:", "workflow_dispatch:", "actions: read", "status=success", "default_branch", "source-snapshot.json", "--previous", "available=false", "GITHUB_STEP_SUMMARY"):
+        for text in ("workflow_dispatch:", "actions: read", "manual_prior_history.py retrieve", "default_branch", "source-snapshot.json", "--previous", "available=false", "GITHUB_STEP_SUMMARY"):
             self.assertIn(text, workflow)
+        self.assertNotIn("schedule:", workflow)
+        self.assertIn("schedule:", (ROOT / ".github/workflows/seo-monitor.yml").read_text())
         for forbidden in ("pull_request:", "issues: write", "pull-requests: write", "gh issue create", "gh pr create"):
             self.assertNotIn(forbidden, workflow)
 
