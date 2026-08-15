@@ -4,7 +4,8 @@ import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   createLatestGenerationGate, createTravelerSelectionSnapshot, getTravelerCountryChoices, loadTravelerData,
-  reconstructTravelerCountries, resolveTravelerHelp,
+  reconstructTravelerCountries, resolveTravelerHelp, safeTravelerUrl, selectTravelerContacts,
+  TRAVELER_CARD_CONTACT_LIMIT,
   TRAVELER_MANIFEST_URL, TRAVELER_RECORDS_URL,
 } from '../src/lib/traveler.js';
 import { dedupeMessageContacts, phoneContacts } from '../src/lib/contact.ts';
@@ -33,6 +34,45 @@ assert.match(page, /uri \? `<a class="\$\{classes\}" href="sms:/);
 assert.match(page, /not callable/);
 assert.match(page, /not messageable/);
 assert.match(page, />Factual source</);
+assert.match(page, />Official website</);
+assert.match(page, /const website = safeTravelerUrl\(h\.website\)/);
+assert.match(page, /website \? `<a[\s\S]*?>Official website<\/a>` : ''/);
+assert.doesNotMatch(page, /(?:h\.website|source).*Official website/);
+
+assert.equal(TRAVELER_CARD_CONTACT_LIMIT, 2, 'Traveler card contact limit changed without review');
+const malformedBeforeCallable = phoneContacts(
+  ['13HEALTH', '450-HELP', 'varies', '---', '3016326701'],
+  [],
+);
+assert.deepEqual(selectTravelerContacts(malformedBeforeCallable), [
+  { value: '3016326701', uri: '3016326701' },
+  { value: '13HEALTH', uri: null },
+], 'a valid active phone destination was hidden behind malformed display values');
+assert.deepEqual(selectTravelerContacts([
+  { value: 'bad one', uri: null },
+  { value: '111', uri: '111' },
+  { value: 'bad two', uri: null },
+  { value: '222', uri: '222' },
+], 4).map(({ value }) => value), ['111', '222', 'bad one', 'bad two'], 'Traveler contact prioritization is not stable within usability groups');
+assert.throws(() => selectTravelerContacts([], -1), /non-negative safe integer/);
+
+assert.equal(safeTravelerUrl('https://help.example/path'), 'https://help.example/path');
+assert.equal(safeTravelerUrl('http://help.example/path'), 'http://help.example/path');
+for (const unsafe of ['javascript:alert(1)', 'data:text/html,unsafe', 'ftp://help.example', '/relative']) {
+  assert.equal(safeTravelerUrl(unsafe), null, `unsafe Traveler URL scheme survived: ${unsafe}`);
+}
+const websiteOnlyCountry = {
+  country: 'Webland',
+  alpha2: 'WW',
+  hotlines: [{
+    id: 'website-only', name: 'Website-only service', category: 'mental_health', country_code: 'WW',
+    verification_status: 'verified_authority', geography: null, voice_numbers: [], short_codes: [],
+    sms_numbers: [], text_numbers: [], chat_url: null, website: 'https://official.example/help', sources: ['https://evidence.example/record'],
+  }],
+};
+const websiteOnlyResult = resolveTravelerHelp({ currentCountry: websiteOnlyCountry, category: 'mental_health', channel: 'any' });
+assert.deepEqual(websiteOnlyResult.primary.results.map(({ id }) => id), ['website-only'], 'channel any dropped a website-only Traveler record');
+assert.notEqual(safeTravelerUrl(websiteOnlyCountry.hotlines[0].website), safeTravelerUrl(websiteOnlyCountry.hotlines[0].sources[0]), 'contact website and factual source were conflated');
 
 const travelerPhones = phoneContacts(
   ['+1 800-123-4567', '(02) 1234-5678', '13HEALTH', '450-HELP', 'varies', '', '---', '234) 8062-106-493'],

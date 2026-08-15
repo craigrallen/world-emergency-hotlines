@@ -2,11 +2,32 @@ import { resolveGuidedHelp } from './finder.js';
 
 export const TRAVELER_MANIFEST_URL = '/data/manifest.json';
 export const TRAVELER_RECORDS_URL = '/api/v1/records.json';
+// Keep cards compact while ensuring validated destinations outrank display-only values.
+export const TRAVELER_CARD_CONTACT_LIMIT = 2;
 
 const NO_CROSS_BORDER_REASON = 'No usable current-country support record was found after the finder’s documented fallbacks. No regional or global hotline is shown because the released data does not establish cross-border access or eligibility.';
 
 function normalizeCode(value) {
   return String(value ?? '').trim().toUpperCase();
+}
+
+/** Stable-partition normalized contacts by usability, then apply the card limit. */
+export function selectTravelerContacts(contacts, limit = TRAVELER_CARD_CONTACT_LIMIT) {
+  if (!Array.isArray(contacts)) throw new TypeError('Traveler contacts must be an array.');
+  if (!Number.isSafeInteger(limit) || limit < 0) throw new TypeError('Traveler contact limit must be a non-negative safe integer.');
+  const usable = contacts.filter(({ uri }) => typeof uri === 'string' && uri.length > 0);
+  const displayOnly = contacts.filter(({ uri }) => typeof uri !== 'string' || uri.length === 0);
+  return [...usable, ...displayOnly].slice(0, limit);
+}
+
+/** Accept only absolute HTTP(S) destinations for outbound Traveler actions. */
+export function safeTravelerUrl(value) {
+  try {
+    const url = new URL(String(value));
+    return ['https:', 'http:'].includes(url.protocol) ? url.toString() : null;
+  } catch {
+    return null;
+  }
 }
 
 /** Creates monotonically increasing request generations for guarding async UI work. */
