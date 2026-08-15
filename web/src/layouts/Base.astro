@@ -61,6 +61,8 @@ const bootPayload = JSON.stringify({ defaultLocale: locale, dictionaries: DICTIO
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <script is:inline src="/pwa-register.js" defer></script>
 
     <meta property="og:site_name" content={SITE_NAME} />
     <meta property="og:title" content={title} />
@@ -198,5 +200,8 @@ const bootPayload = JSON.stringify({ defaultLocale: locale, dictionaries: DICTIO
     </main>
 
     <Footer locale={locale} />
+    <div data-offline-status role="status" aria-live="polite" hidden class="fixed bottom-4 left-1/2 z-50 w-[min(42rem,calc(100%-2rem))] -translate-x-1/2 rounded-xl border border-amber-400/60 bg-bg-elev px-4 py-3 text-sm text-fg shadow-lg">
+      <span data-offline-message></span> <a href="/offline.html" class="font-medium text-accent underline">Offline limitations</a>
+    </div>
   </body>
 </html>

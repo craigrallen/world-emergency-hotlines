@@ -113,6 +113,7 @@ if (existsSync(descriptorPath) && existsSync(indexPath)) {
   let discovered;
   try {
     discovered = [
+      ...['manifest.webmanifest', 'offline.html', 'pwa-register.js', 'service-worker.js', 'pwa-icon-512.png'].map((name) => { const path = resolve(PUBLIC_ROOT, name); return { path, metadata: lstatSync(path) }; }),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'data')),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'api', 'v1')),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'feeds')),

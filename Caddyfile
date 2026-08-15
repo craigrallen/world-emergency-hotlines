@@ -32,6 +32,13 @@
     @assets path /_astro/*
     header @assets Cache-Control "public, max-age=31536000, immutable"
 
+    # Service-worker updates must reach the network; its finite shell owns its
+    # own strictly versioned cache. The manifest may be revalidated normally.
+    @serviceWorker path /service-worker.js
+    header @serviceWorker Cache-Control "no-cache"
+    @webManifest path /manifest.webmanifest
+    header @webManifest Content-Type "application/manifest+json; charset=utf-8"
+
     # Data shards — moderate cache, SWR so a redeploy refreshes quickly
     @data path /data/*
     header @data Cache-Control "public, max-age=300, stale-while-revalidate=86400"
@@ -506,7 +513,10 @@
     }
 
     # Static media
-    @media path *.css *.js *.svg *.png *.ico *.webp *.woff2
+    @media {
+        path *.css *.js *.svg *.png *.ico *.webp *.woff2
+        not path /service-worker.js
+    }
     header @media Cache-Control "public, max-age=3600, stale-while-revalidate=86400"
 
     # HTML pages — short cache

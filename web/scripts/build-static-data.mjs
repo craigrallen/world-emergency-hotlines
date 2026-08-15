@@ -28,6 +28,7 @@ import { generateReviewerWorkQueueContracts } from './generate-reviewer-work-que
 import { generateManagedApiPlanContracts } from './generate-managed-api-plan-contracts.mjs';
 import { generateDeprecationProposalContracts } from './generate-deprecation-proposal-contracts.mjs';
 import { generateEvidenceBackedCoverageContracts } from './generate-evidence-backed-coverage-contracts.mjs';
+import { assertPwaAssetParity } from './generate-pwa-assets.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const WEB_ROOT = resolve(__dirname, '..');
@@ -328,6 +329,7 @@ writeFileSync(resolve(API_DIR, 'records.json'), JSON.stringify({
   records: recordsById,
 }));
 writeFileSync(resolve(API_DIR, 'resolver.js'), readFileSync(resolve(WEB_ROOT, 'src', 'lib', 'finder.js'), 'utf-8'));
+assertPwaAssetParity({ webRoot: WEB_ROOT, datasetVersion: manifest.dataset_version, sourceLastUpdated: canonical.source_last_updated });
 generateReleaseFeeds({ currentDataset: { $schema_version: canonical.schema_version, countries: canonical.countries }, datasetVersion: manifest.dataset_version });
 generateSubscriptionContracts();
 generateGatewayContracts();

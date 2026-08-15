@@ -46,6 +46,11 @@ jobs:
       - name: Build and verify all static contracts
         run: npm run verify:all
 
+      - name: Reject generated PWA changes
+        working-directory: .
+        run: |
+          test -z "$(git status --porcelain --untracked-files=all -- web/public/manifest.webmanifest web/public/offline.html web/public/pwa-register.js web/public/service-worker.js web/public/pwa-icon-512.png)"
+
       - name: Reject generated contract changes
         working-directory: .
         run: |

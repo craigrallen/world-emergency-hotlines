@@ -7,11 +7,18 @@ possible future SSR phase that was never wired up. The canonical data lives
 at the repo root — this package **consumes** `hotlines.json` /
 `information.json`, it does not own them.
 
+## Offline/PWA readiness
+
+Browsers with web app manifest and service-worker support can install the site over HTTPS. This first offline slice is deliberately only a readiness shell: a finite five-file allowlist contains the offline explanation, manifest, and local icons. Every same-origin GET navigation remains network-first and uses the fixed explanation only when the network rejects, including country, category, finder, map, and query-bearing page URLs. Requested pages and query-derived URLs are never cached; non-navigation hotline data, static API, widget, and search requests remain untouched.
+
+The fallback shows its deterministic shell identity, canonical dataset identity prefix, and canonical source date. Those labels identify build inputs; they do not establish hotline freshness, completeness, reachability, or availability. Worker updates bypass the HTTP cache, activate a strictly versioned shell, and delete older project shell caches. Unsupported browsers and install failures continue as the normal online site. The implementation requests no geolocation and sends no analytics or offline-status reports.
+
 ## Quickstart
 
 ```bash
 cd web
 npm install
+npm run generate:pwa     # explicitly refreshes the five tracked PWA outputs after controlling-source changes
 npm run data:build       # generates public/data/ shards from the canonical JSON
 npm run verify:all       # runs data/contact-link, search, and discovery checks
 npm run verify:feeds     # deterministic diff/registry and JSON Feed/RSS/Atom contracts
@@ -19,7 +26,7 @@ npm run release:dataset:candidate -- --id <slug> --date <YYYY-MM-DD> --title <ti
 npm run dev              # http://localhost:4321
 ```
 
-`npm run build` runs `data:build` first, then `astro build`, producing a static
+PWA generation is intentionally explicit: normal data/build/verification commands byte-compare all five tracked outputs and fail with a regeneration command instead of silently repairing drift. `npm run build` runs `data:build` first, then `astro build`, producing a static
 site in `dist/`. Use `verify:data` for generated data and contact-link checks,
 `verify:search` for SearchBox behavior, `verify:discovery` for discovery routes,
 or `verify:all` to run all verification scripts in order. The repo-root
