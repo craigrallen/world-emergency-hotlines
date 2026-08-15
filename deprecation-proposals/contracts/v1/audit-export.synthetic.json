@@ -1,0 +1,60 @@
+{
+  "schema": "deprecation-proposal-audit-export/v1",
+  "export_id": "dpa_syn_closed_export_v1",
+  "closed": true,
+  "canonical_sha256": "sha256:e893c9f6b0afcc57832054547002c826e80b5387e544b4cf6909afc9424dde3a",
+  "assessed_release_sha256": "sha256:811078abc4b5a91208d99e4f8ae385394c0b02a2b5a5ccf3110cb68870da5a04",
+  "release_id": "sha256:da1a06c5b11b20fc76afa269c324ab869293cdd67d232cf62f05724dc1fc124a",
+  "artifact_index_sha256": "sha256:9964bddf9dbb99cd09f4be234619bf52b1dcc7eeec309f0874b45bc42db0156c",
+  "proposals": [
+    {
+      "proposal_id": "dpr_syn_without_replacement",
+      "proposal_sha256": "sha256:8273c1cdbbb69944e99bda5d74c7b1321205b014ebb3cd1c48aef252c5eb0428",
+      "stable_id": "weh_6540247c54375be69435801c",
+      "replacement_stable_id": null,
+      "state": "held_pending_independent_approval",
+      "approval_status": "not_requested"
+    },
+    {
+      "proposal_id": "dpr_syn_with_replacement",
+      "proposal_sha256": "sha256:8425d72e004477daeeaa4d98b179451c85bde966f42a5ce3d88749ece573a9a1",
+      "stable_id": "weh_6f878a831e4c5a6b987b043b",
+      "replacement_stable_id": "weh_8ded356ba0c858828bc850ab",
+      "state": "held_pending_independent_approval",
+      "approval_status": "not_requested"
+    }
+  ],
+  "events": [
+    {
+      "event_id": "dpae_syn_held_event_01",
+      "sequence": 1,
+      "proposal_id": "dpr_syn_without_replacement",
+      "action": "held_for_independent_approval",
+      "workflow_disposition_head_sha256": "sha256:dd4c91a8586e6fa318eedca375c03b449adb406512025a360f84d9d18df55b36",
+      "previous_event_sha256": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "event_sha256": "sha256:edf5ea94d6d9f74f6a31dbe9fcd560af0d4423dac7419ca2f618f01882c80a3b"
+    },
+    {
+      "event_id": "dpae_syn_held_event_02",
+      "sequence": 2,
+      "proposal_id": "dpr_syn_with_replacement",
+      "action": "held_for_independent_approval",
+      "workflow_disposition_head_sha256": "sha256:f5cca8782313006e510f8c6b36c68000cb7ca5b239015f15b7d96f248172b1fe",
+      "previous_event_sha256": "sha256:edf5ea94d6d9f74f6a31dbe9fcd560af0d4423dac7419ca2f618f01882c80a3b",
+      "event_sha256": "sha256:db7f138e7469178e6afe38fde352ec9811a755b5ffbfad11b35dfadebb9d1931"
+    }
+  ],
+  "event_head_sha256": "sha256:db7f138e7469178e6afe38fde352ec9811a755b5ffbfad11b35dfadebb9d1931",
+  "redactions": {
+    "phone_or_contact_values": "excluded",
+    "source_locator_values": "excluded"
+  },
+  "effects": {
+    "canonical_mutation": false,
+    "verified_status": false,
+    "ranking_or_search_effect": false,
+    "publication": false
+  },
+  "expected_proposal_count": 2,
+  "expected_event_count": 2
+}

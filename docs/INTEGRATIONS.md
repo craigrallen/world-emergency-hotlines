@@ -16,6 +16,8 @@ The [reviewer work queue and disposition audit v1 contract](https://worldhotline
 
 The [managed API plans v1 contract](https://worldhotlines.org/managed-api-plans/v1/README.md) is a static, synthetic freemium/pay-as-you-grow design only. It proposes a useful free managed allowance and future explicitly opted-in paid volume while keeping every current static crisis-information surface free and keyless. One ordered planner takes only the exact authoritative store-read generation/month/usage state, a trusted instant, and the request classification; it derives the sole full-state CAS transition, including an atomic rollover with the first metered unit already recorded. Zero-unit requests do not mutate. There is no caller-selected next state and no deployed signup, billing, customer collection, production key issuance, telemetry, counter store/CAS, monthly counter, SLA, or managed route.
 
+The [deprecation/replacement proposal and audit-export v1 contract](https://worldhotlines.org/deprecation-proposals/v1/README.md) is a static synthetic reference only. It binds existing stable IDs and exact canonical/release/artifact identities, retains independent review, uncertainty, conflict state, and optional distinct replacement intent, and exports a closed byte-pinned hash-chained audit without contact values or source locators. It cannot delete, reassign IDs, verify, rank, search, publish, mutate canonical data, or bypass candidate, approval, dry-run, and explicit `--apply` gates. There is no live intake, workbench, auth, persistence, outreach, telemetry, billing, SLA, DPA, security, or commercial service; public crisis information remains free.
+
 ## Choose a surface
 
 | Need | Use | Trade-off |

@@ -25,6 +25,7 @@ import { generateAssurancePackContracts } from './generate-assurance-pack-contra
 import { generateProviderClaimContracts } from './generate-provider-claim-contracts.mjs';
 import { generateReviewerWorkQueueContracts } from './generate-reviewer-work-queue-contracts.mjs';
 import { generateManagedApiPlanContracts } from './generate-managed-api-plan-contracts.mjs';
+import { generateDeprecationProposalContracts } from './generate-deprecation-proposal-contracts.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const WEB_ROOT = resolve(__dirname, '..');
@@ -365,6 +366,7 @@ generateAssurancePackContracts();
 generateProviderClaimContracts();
 generateReviewerWorkQueueContracts();
 generateManagedApiPlanContracts();
+generateDeprecationProposalContracts();
 const release = generateReleaseIntegrity({ datasetVersion: manifest.dataset_version });
 
 console.log(`  wrote ${manifestEntries.length} country shards + manifest + search-index + categories-stats + metadata-coverage`);

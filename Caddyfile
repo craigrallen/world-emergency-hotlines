@@ -378,6 +378,38 @@
             }
         }
 
+        # Static synthetic deprecation proposals and closed audit export only.
+        # No intake, mutation, approval bypass, or write service is deployed.
+        handle /deprecation-proposals/v1/* {
+            route {
+                @deprecationOptions {
+                    method OPTIONS
+                    file {path}
+                }
+                header @deprecationOptions {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                }
+                respond @deprecationOptions 204
+                @deprecationWrite not method GET HEAD OPTIONS
+                respond @deprecationWrite "Not found" 404
+                @deprecationSchema path *.schema.json
+                header @deprecationSchema Content-Type "application/schema+json; charset=utf-8"
+                @deprecationMarkdown path *.md
+                header @deprecationMarkdown Content-Type "text/markdown; charset=utf-8"
+                @deprecationFile file {path}
+                header @deprecationFile {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                    Cache-Control "public, max-age=300, stale-while-revalidate=86400"
+                }
+                file_server @deprecationFile
+                respond "Not found" 404
+            }
+        }
+
         handle /feeds/* {
             route {
                 @feedOptions method OPTIONS

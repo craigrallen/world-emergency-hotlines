@@ -1,0 +1,11 @@
+{
+  "schema": "deprecation-synthetic-review-checkpoint/v1",
+  "checkpoint_id": "drc_syn_with_0001",
+  "reviewer_identity": "reviewer-with.example.invalid",
+  "review_id": "prv_syn_with_0001",
+  "decision": "needs_more_evidence",
+  "conflict_state": "no_conflict",
+  "reviewed_on": "2026-08-14",
+  "disposition_event_head_sha256": "sha256:f5cca8782313006e510f8c6b36c68000cb7ca5b239015f15b7d96f248172b1fe",
+  "authority": "synthetic_review_date_binding_only"
+}

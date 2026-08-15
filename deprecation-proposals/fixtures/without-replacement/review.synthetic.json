@@ -1,0 +1,36 @@
+{
+  "schema": "provider-claim-independent-review/v1",
+  "review_id": "prv_syn_without_0001",
+  "claim_id": "pclm_syn_without_0001",
+  "reviewer": {
+    "identity": "reviewer-without.example.invalid",
+    "role": "independent_reviewer"
+  },
+  "transition": {
+    "from": "staged",
+    "via": "under_review",
+    "to": "needs_more_evidence"
+  },
+  "decision_basis": {
+    "decision": "needs_more_evidence",
+    "reason_code": "additional_evidence_required",
+    "reason": "Lifecycle assertion remains untrusted and cannot authorize deprecation",
+    "evidence_ids": [
+      "pev_syn_without_0001"
+    ],
+    "uncertainty": "insufficient_evidence"
+  },
+  "conflict_declaration": {
+    "no_conflict": true,
+    "not_claimant": true,
+    "not_provider": true,
+    "basis": "Synthetic reviewer is distinct from claimant and provider"
+  },
+  "effects": {
+    "candidate_eligibility_only": false,
+    "canonical_mutation": false,
+    "verified_status": false,
+    "ranking_or_search_effect": false,
+    "publication": false
+  }
+}

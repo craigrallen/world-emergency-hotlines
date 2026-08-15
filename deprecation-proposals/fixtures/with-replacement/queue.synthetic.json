@@ -1,0 +1,25 @@
+{
+  "schema": "reviewer-work-queue/v1",
+  "queue_id": "rwq_syn_with_0001",
+  "queueing_actor": "coordinator-with.example.invalid",
+  "ordering": {
+    "method": "administrative_sequence",
+    "meaning": "explicit_non_priority_non_ranking_order"
+  },
+  "items": [
+    {
+      "item_id": "rwi_syn_with_0001",
+      "administrative_sequence": 1,
+      "claim_id": "pclm_syn_with_0001",
+      "claim_pin": "sha256:f5207db579314ac26e5d062d906e27ccdd4fad39a2d6b50ee88bc04f997a0600",
+      "assigned_reviewer": "reviewer-with.example.invalid",
+      "state": "disposed"
+    }
+  ],
+  "effects": {
+    "canonical_mutation": false,
+    "verified_status": false,
+    "ranking_or_search_effect": false,
+    "publication": false
+  }
+}

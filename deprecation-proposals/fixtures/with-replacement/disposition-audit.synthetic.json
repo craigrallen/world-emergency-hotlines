@@ -1,0 +1,60 @@
+{
+  "schema": "reviewer-disposition-audit/v1",
+  "audit_id": "rwa_syn_with_0001",
+  "queue_id": "rwq_syn_with_0001",
+  "queue_pin": "sha256:888bf1b354b32bf6c939645e83e9756ab3c424a0637c38db120a38a8e4d5c79a",
+  "append_only": true,
+  "events": [
+    {
+      "event_id": "rwe_syn_with_event_01",
+      "sequence": 1,
+      "item_id": "rwi_syn_with_0001",
+      "claim_id": "pclm_syn_with_0001",
+      "actor": "coordinator-with.example.invalid",
+      "action": "queued",
+      "from": "not_queued",
+      "to": "queued",
+      "previous_event_sha256": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "event_sha256": "sha256:f446984539f7075cf0e4f64b9bdd6a02fa116661fabb59aa9ce15e7c1eb00c3a"
+    },
+    {
+      "event_id": "rwe_syn_with_event_02",
+      "sequence": 2,
+      "item_id": "rwi_syn_with_0001",
+      "claim_id": "pclm_syn_with_0001",
+      "actor": "reviewer-with.example.invalid",
+      "action": "assigned",
+      "from": "queued",
+      "to": "assigned",
+      "previous_event_sha256": "sha256:f446984539f7075cf0e4f64b9bdd6a02fa116661fabb59aa9ce15e7c1eb00c3a",
+      "event_sha256": "sha256:3f90a7a621a3723db76cf3d3bac1ed3d7fac32a098fdf0217d0b41817aa6feee"
+    },
+    {
+      "event_id": "rwe_syn_with_event_03",
+      "sequence": 3,
+      "item_id": "rwi_syn_with_0001",
+      "claim_id": "pclm_syn_with_0001",
+      "actor": "reviewer-with.example.invalid",
+      "action": "disposed",
+      "from": "assigned",
+      "to": "disposed",
+      "previous_event_sha256": "sha256:3f90a7a621a3723db76cf3d3bac1ed3d7fac32a098fdf0217d0b41817aa6feee",
+      "event_sha256": "sha256:f5cca8782313006e510f8c6b36c68000cb7ca5b239015f15b7d96f248172b1fe"
+    }
+  ],
+  "event_head_sha256": "sha256:f5cca8782313006e510f8c6b36c68000cb7ca5b239015f15b7d96f248172b1fe",
+  "terminal_disposition": {
+    "item_id": "rwi_syn_with_0001",
+    "claim_id": "pclm_syn_with_0001",
+    "review_id": "prv_syn_with_0001",
+    "review_pin": "sha256:729d74fec13a2a2cf710926f97ce06cdc0136671eb6025906a9a2ab4f7ed5449",
+    "decision": "needs_more_evidence",
+    "candidate_eligible": false
+  },
+  "effects": {
+    "canonical_mutation": false,
+    "verified_status": false,
+    "ranking_or_search_effect": false,
+    "publication": false
+  }
+}
