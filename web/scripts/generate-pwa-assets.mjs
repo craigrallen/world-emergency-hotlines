@@ -3,7 +3,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 export const PWA_OUTPUTS = ['manifest.webmanifest', 'offline.html', 'pwa-register.js', 'service-worker.js', 'pwa-icon-512.png'];
-export const PWA_CONTROL_INPUTS = ['scripts/generate-pwa-assets.mjs', 'src/layouts/Base.astro', 'repo:Caddyfile'];
+export const PWA_CONTROL_INPUTS = ['scripts/generate-pwa-assets.mjs', 'src/layouts/Base.astro', 'public/favicon-192x192.png', 'public/favicon.svg', 'repo:Caddyfile'];
 
 const stableJson = (value) => `${JSON.stringify(value, null, 2)}\n`;
 const shortVersion = (value) => value.replace(/^sha256:/, '').slice(0, 12);

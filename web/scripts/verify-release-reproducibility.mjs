@@ -91,6 +91,8 @@ try {
   for (const [label, copiedSource] of [
     ['PWA generator', resolve(cleanWeb, 'scripts/generate-pwa-assets.mjs')],
     ['base layout registration/status', resolve(cleanWeb, 'src/layouts/Base.astro')],
+    ['192px precached favicon', resolve(cleanWeb, 'public/favicon-192x192.png')],
+    ['SVG precached favicon', resolve(cleanWeb, 'public/favicon.svg')],
     ['Caddy PWA policy', resolve(cleanCopy, 'Caddyfile')],
   ]) {
     const copiedSourceBytes = readFileSync(copiedSource);

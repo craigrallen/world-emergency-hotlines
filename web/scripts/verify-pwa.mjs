@@ -1,5 +1,7 @@
 import { createHash } from 'node:crypto';
-import { existsSync, readFileSync } from 'node:fs';
+import assert from 'node:assert/strict';
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import vm from 'node:vm';
@@ -87,6 +89,37 @@ if (iconBytes) {
 for (const input of PWA_CONTROL_INPUTS) {
   const path = input.startsWith('repo:') ? resolve(REPO_ROOT, input.slice(5)) : resolve(WEB_ROOT, input);
   if (!existsSync(path)) fail(`missing offline-shell controlling source: ${input}`);
+}
+
+const identityFixture = mkdtempSync(resolve(tmpdir(), 'weh-pwa-identity-'));
+try {
+  const fixtureWeb = resolve(identityFixture, 'web');
+  mkdirSync(fixtureWeb);
+  for (const input of PWA_CONTROL_INPUTS) {
+    const repoInput = input.startsWith('repo:');
+    const relative = repoInput ? input.slice('repo:'.length) : input;
+    const source = resolve(repoInput ? REPO_ROOT : WEB_ROOT, relative);
+    const target = resolve(repoInput ? identityFixture : fixtureWeb, relative);
+    mkdirSync(resolve(target, '..'), { recursive: true });
+    cpSync(source, target);
+  }
+  const fixtureOptions = { webRoot: fixtureWeb, datasetVersion: `sha256:${datasetHash}`, sourceLastUpdated: canonical.last_updated };
+  const baselineWorker = generatePwaAssetBytes(fixtureOptions).get('service-worker.js');
+  const cacheName = (bytes) => bytes.toString('utf8').match(/^const CACHE_NAME = (.+);$/m)?.[1];
+  for (const input of ['public/favicon-192x192.png', 'public/favicon.svg']) {
+    const path = resolve(fixtureWeb, input);
+    const original = readFileSync(path);
+    writeFileSync(path, Buffer.concat([original, Buffer.from('\nidentity-test')]));
+    const mutatedWorker = generatePwaAssetBytes(fixtureOptions).get('service-worker.js');
+    assert.notDeepEqual(mutatedWorker, baselineWorker, `${input} mutation did not change generated service-worker bytes`);
+    assert.notEqual(cacheName(mutatedWorker), cacheName(baselineWorker), `${input} mutation did not change generated cache identity`);
+    writeFileSync(path, original);
+    assert.deepEqual(generatePwaAssetBytes(fixtureOptions).get('service-worker.js'), baselineWorker, `${input} restoration did not reproduce exact service-worker bytes`);
+  }
+} catch (error) {
+  fail(`offline-shell favicon identity test failed: ${error.stack ?? error.message}`);
+} finally {
+  rmSync(identityFixture, { recursive: true, force: true });
 }
 
 const layout = safeRead(resolve(WEB_ROOT, 'src/layouts/Base.astro'), 'src/layouts/Base.astro')?.toString('utf8') ?? '';
