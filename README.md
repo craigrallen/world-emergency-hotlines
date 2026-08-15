@@ -18,10 +18,10 @@ Public site: <https://worldhotlines.org>
 | `scripts/integrate_child_helpline_international.py` | Converts the Child Helpline International source artifact into a non-canonical schema-v2 preview + integration report while preserving existing richer canonical records |
 | `tests/test_web_verified_directory_preview.py` | Regression checks that the supplemental preview stays schema-v2, non-canonical, and cannot downgrade protected rich records |
 | `tests/test_child_helpline_international_source.py` | Regression checks for the Child Helpline International source artifact, preview safety contract, and sample parsing fidelity |
-| `tests/test_canonical_promotion_safety.py` | Phase-0 safety-contract checks for non-canonical previews, protected-country promotion rules, and explicit `--apply` requirements for canonical writes |
+| `tests/test_canonical_promotion_safety.py` | Phase-0 safety-contract checks for non-canonical previews, protected-country promotion rules, and explicit `--apply` requirements in the promotion flow |
 | `COVERAGE.md` | Per-country coverage status: verified, legacy, or missing |
-| `VERIFICATION_LOG.md` | Running log of which sources were used to verify which numbers |
 | `docs/data-flow.md` | Canonical vs preview/review artifact roles and write-permission contract |
+| `docs/SEO_AUTHORITY_AND_EDITORIAL_METHODOLOGY.md` | Safety-first editorial, metadata, correction, and legitimate authority-building policy |
 | `docs/plans/2026-04-22-v2-data-expansion-roadmap.md` | Concrete implementation roadmap for safe schema-v2 data expansion and promotion |
 | `docs/OPERATIONS.md` | Privacy-safe public intake, read-only source monitoring, and the verification reviewer workbench |
 | `docs/INTEGRATIONS.md` | Integration decision guide, v1 examples, limitations, and production checklist |
@@ -52,13 +52,15 @@ For each country we aim to record, at minimum:
 
 Every hotline record carries a `verification_status` so consumers can see how much confidence to place in it.
 
-- **`verified_web`** — Number was opened on the provider's official website and matched on `last_verified`.
-- **`verified_authority`** — Matched against a government body, national health ministry, WHO, IFRC, or similar.
-- **`verified_knowledge`** — Stated from authoritative training knowledge (Claude's knowledge cutoff is end of May 2025). Stable for long-running institutions (Samaritans, 911, 112, Lifeline) but should be re-confirmed on the web before a final publication.
-- **`cross_referenced`** — Found in one or more third-party directories (e.g. helplines.world, Find A Helpline, Child Helpline International) but not yet checked against the provider's own site. Currently the largest single tier — see [Current state](#current-state-2026-08-12).
+- **`verified_web`** — The number was confirmed against the provider's official website on `last_verified`.
+- **`verified_authority`** — The number was confirmed against a named authoritative body/source, such as a government body, national health ministry, WHO, or IFRC.
+- **`verified_knowledge`** — The number was asserted from prior training knowledge and was not reconfirmed on the public web. This is not provider, authority, or web verification.
+- **`cross_referenced`** — The record originated from a third-party public directory (e.g. helplines.world, Find A Helpline, or Child Helpline International). Moderate trust reflects presumed directory diligence; this status is not provider or authority verification. Currently the largest single tier — see [Current state](#current-state-2026-08-12).
 - **`legacy_unverified`** — Carried over from an earlier source dataset without independent check. Treat as a lead, not a fact.
 - **`disputed`** — Sources disagree; see the record's `notes` field. No records currently carry this status.
 - **`deprecated`** — Service has closed or the number is no longer in use. No records currently carry this status.
+
+Only `verified_web`, `verified_authority`, and `verified_knowledge` are number-verification claims, and they apply only to the number. They do not verify category, hours, languages, cost, target audience, notes, website, sources, non-number contact channels, eligibility, geography, availability, or broader scope; each requires separate field-level evidence. The other statuses retain the distinct meanings above: record origin for `cross_referenced`, record inheritance for `legacy_unverified`, conflicting record values for `disputed`, and service/contact lifecycle for `deprecated`.
 
 ## Session progress (2026-04-22)
 
@@ -80,7 +82,7 @@ Every hotline record carries a `verification_status` so consumers can see how mu
 
 ### State at the end of this session (2026-04-22, historical)
 
-The counts below describe the dataset as it stood at the end of the 2026-04-22 session, immediately after this pass. They are kept for provenance; the dataset has grown substantially since then — see [Current state (2026-08-12)](#current-state-2026-08-12) below for today's numbers.
+The counts below describe the dataset as it stood at the end of the 2026-04-22 session, immediately after this pass. They are kept for provenance; the dataset has grown substantially since then — see [Current state (2026-08-12)](#current-state-2026-08-12) below for the 2026-08-12 snapshot.
 
 - **250 countries / territories** in `hotlines.json`.
 - **1,952 hotline records**:
@@ -102,7 +104,7 @@ The counts below describe the dataset as it stood at the end of the 2026-04-22 s
 
 ## Current state (2026-08-12)
 
-The dataset has grown substantially since the 2026-04-22 session through additional merge/integration passes (Find A Helpline, Wikipedia crisis lines, Child Helpline International, government travel-advisory emergency numbers, and others — see `scripts/` and `sources/`). As of today, `hotlines.json` (schema v2.0) contains:
+The dataset has grown substantially since the 2026-04-22 session through additional merge/integration passes (Find A Helpline, Wikipedia crisis lines, Child Helpline International, government travel-advisory emergency numbers, and others — see `scripts/` and `sources/`). As of 2026-08-12, `hotlines.json` (schema v2.0) contains:
 
 - **250 countries / territories**, of which **4** genuinely have zero hotline records (uninhabited territories — see [COVERAGE.md](COVERAGE.md)).
 - **3,255 hotline records** across **30 categories**.
@@ -122,7 +124,7 @@ See [COVERAGE.md](COVERAGE.md) for the full per-status breakdown and current gap
 
 ## Current gaps / next work
 
-These are the gaps visible in the dataset today, not a committed schedule:
+These are the gaps visible in the 2026-08-12 dataset snapshot, not a committed schedule:
 
 1. **863 `legacy_unverified` records** carry only minimal metadata and haven't been independently checked — candidates for enrichment via Befrienders Worldwide, IASP, or Find A Helpline.
 2. **951 `cross_referenced` records** come from third-party directories without a recorded provider-site observation — candidates for read-only `scripts/source_monitor.py` review followed by the separate candidate/approval process. A source observation alone never promotes a record.
@@ -139,14 +141,8 @@ If you are adding or applying data, read those two docs first. They define what 
 
 ## How to use this dataset responsibly
 
-If you're building anything that routes people to a crisis line — an app, a website, a chatbot — **verify each number against the provider's official website on the day you publish**. Crisis line numbers change; operating hours change; services close. This dataset is a starting point, not a final source of truth.
+If you're building anything that routes people to a crisis line — an app, a website, a chatbot — **on the day you publish, confirm each number against either the provider's official website or the applicable named government or other authoritative source**. Crisis line numbers change; operating hours change; services close. This dataset is a starting point, not a final source of truth.
 
-If you or someone you know is in crisis right now and you don't know which number to call, the universal options are:
+If someone needs emergency help, use verified local emergency information for the person's current jurisdiction; do not assume any number works everywhere.
 
-- **European Union and many others**: `112`
-- **North America**: `911`
-- **UK**: `999` (or `112`)
-- **Australia**: `000` (or `112` from mobile)
-- **Online** (global): https://findahelpline.com
-
-A global umbrella of suicide crisis services is maintained by [Befrienders Worldwide](https://www.befrienders.org/) and [IASP](https://www.iasp.info/resources/Crisis_Centres/).
+[Find A Helpline](https://findahelpline.com) and [Befrienders Worldwide](https://www.befrienders.org/) are third-party directory/research examples. Their inclusion does not imply endorsement, current availability, affiliation, or partnership.
