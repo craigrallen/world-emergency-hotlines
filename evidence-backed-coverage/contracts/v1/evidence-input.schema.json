@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://worldhotlines.org/evidence-backed-coverage/v1/evidence-input.schema.json",
+  "title": "Evidence-backed coverage input v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "assessment_id", "dataset_sha256", "release", "footprint", "source_evidence_artifact", "required_review_decision", "review_decision_artifact"],
+  "properties": {
+    "schema": { "const": "evidence-backed-coverage-input/v1" },
+    "assessment_id": { "$ref": "#/$defs/id" },
+    "dataset_sha256": { "$ref": "#/$defs/sha" },
+    "release": { "$ref": "#/$defs/release" },
+    "footprint": { "$ref": "#/$defs/footprint" },
+    "source_evidence_artifact": { "$ref": "#/$defs/sourceArtifact" },
+    "required_review_decision": { "const": "accepted" },
+    "review_decision_artifact": { "$ref": "#/$defs/reviewArtifact" }
+  },
+  "$defs": {
+    "sha": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "id": { "type": "string", "pattern": "^ebc_syn_[a-z0-9_]{6,40}$" },
+    "record": { "type": "string", "pattern": "^weh_[0-9a-f]{24}$" },
+    "identity": { "type": "string", "pattern": "^[a-z0-9][a-z0-9.-]*\\.invalid$" },
+    "artifactBase": { "type": "object", "additionalProperties": false, "required": ["path", "sha256", "bytes"], "properties": { "path": { "type": "string" }, "sha256": { "$ref": "#/$defs/sha" }, "bytes": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 } } },
+    "recordsArtifact": { "allOf": [{ "$ref": "#/$defs/artifactBase" }, { "type": "object", "properties": { "path": { "const": "/api/v1/records.json" } } }] },
+    "sourceArtifact": { "allOf": [{ "$ref": "#/$defs/artifactBase" }, { "type": "object", "properties": { "path": { "const": "/synthetic/source-evidence.json" } } }] },
+    "reviewArtifact": { "allOf": [{ "$ref": "#/$defs/artifactBase" }, { "type": "object", "properties": { "path": { "const": "/synthetic/review-decision.json" } } }] },
+    "release": { "type": "object", "additionalProperties": false, "required": ["release_id", "release_sha256", "artifact_index_sha256", "records_artifact"], "properties": { "release_id": { "$ref": "#/$defs/sha" }, "release_sha256": { "$ref": "#/$defs/sha" }, "artifact_index_sha256": { "$ref": "#/$defs/sha" }, "records_artifact": { "$ref": "#/$defs/recordsArtifact" } } },
+    "footprint": { "type": "object", "additionalProperties": false, "required": ["record_ids", "record_count"], "properties": { "record_ids": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/record" } }, "record_count": { "type": "integer", "minimum": 1, "maximum": 9007199254740991 } } },
+    "rowDigest": { "type": "object", "additionalProperties": false, "required": ["evidence_id", "sha256"], "properties": { "evidence_id": { "$ref": "#/$defs/id" }, "sha256": { "$ref": "#/$defs/sha" } } },
+    "review": { "type": "object", "additionalProperties": false, "required": ["review_id", "reviewer_identity", "claimant_identity", "decision", "reviewed_on", "source_evidence_artifact", "evidence_row_digests", "conflict_of_interest"], "properties": { "review_id": { "$ref": "#/$defs/id" }, "reviewer_identity": { "$ref": "#/$defs/identity" }, "claimant_identity": { "$ref": "#/$defs/identity" }, "decision": { "const": "accepted" }, "reviewed_on": { "type": "string", "format": "date" }, "source_evidence_artifact": { "$ref": "#/$defs/sourceArtifact" }, "evidence_row_digests": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/rowDigest" } }, "conflict_of_interest": { "const": false } } }
+  },
+  "x-runtime-invariants": ["Artifact hashes and byte counts are recomputed from accepted exact bytes", "The accepted review pins the complete source artifact and canonical bytes of every evidence row", "Every footprint record has one reviewed terminal assertion in every dimension", "The complete records artifact equals the shared production transformation"]
+}

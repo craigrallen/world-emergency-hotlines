@@ -410,6 +410,37 @@
             }
         }
 
+        # Static synthetic recorded-scope assessment only; never live availability.
+        handle /evidence-backed-coverage/v1/* {
+            route {
+                @evidenceCoverageOptions {
+                    method OPTIONS
+                    file {path}
+                }
+                header @evidenceCoverageOptions {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                }
+                respond @evidenceCoverageOptions 204
+                @evidenceCoverageWrite not method GET HEAD OPTIONS
+                respond @evidenceCoverageWrite "Not found" 404
+                @evidenceCoverageSchema path *.schema.json
+                header @evidenceCoverageSchema Content-Type "application/schema+json; charset=utf-8"
+                @evidenceCoverageMarkdown path *.md
+                header @evidenceCoverageMarkdown Content-Type "text/markdown; charset=utf-8"
+                @evidenceCoverageFile file {path}
+                header @evidenceCoverageFile {
+                    Access-Control-Allow-Origin "*"
+                    Access-Control-Allow-Methods "GET, HEAD, OPTIONS"
+                    Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
+                    Cache-Control "public, max-age=300, stale-while-revalidate=86400"
+                }
+                file_server @evidenceCoverageFile
+                respond "Not found" 404
+            }
+        }
+
         handle /feeds/* {
             route {
                 @feedOptions method OPTIONS

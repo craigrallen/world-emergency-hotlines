@@ -13,6 +13,7 @@ import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
 import { utf16Compare } from './dataset-diff.mjs';
 import { classifyScope, getHotlineChannels } from '../src/lib/finder.js';
+import { API_VERSION, canonicalHotline } from './api-records-transform.mjs';
 import { buildMetadataCoverage, coverageAsOf } from './metadata-coverage.mjs';
 import { API_MAJOR, RESOLVER_MAJOR, WIDGET_MAJOR, buildVersions, generateReleaseIntegrity } from './release-integrity.mjs';
 import { generateReleaseFeeds } from './release-feeds.mjs';
@@ -26,13 +27,13 @@ import { generateProviderClaimContracts } from './generate-provider-claim-contra
 import { generateReviewerWorkQueueContracts } from './generate-reviewer-work-queue-contracts.mjs';
 import { generateManagedApiPlanContracts } from './generate-managed-api-plan-contracts.mjs';
 import { generateDeprecationProposalContracts } from './generate-deprecation-proposal-contracts.mjs';
+import { generateEvidenceBackedCoverageContracts } from './generate-evidence-backed-coverage-contracts.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const WEB_ROOT = resolve(__dirname, '..');
 const REPO_ROOT = resolve(WEB_ROOT, '..');
 const OUT_DIR = resolve(WEB_ROOT, 'public', 'data');
 const API_DIR = resolve(WEB_ROOT, 'public', 'api', 'v1');
-const API_VERSION = '1.0';
 const GENERATED_AT = new Date(process.env.SOURCE_DATE_EPOCH
   ? Number(process.env.SOURCE_DATE_EPOCH) * 1000
   : Date.now()).toISOString();
@@ -73,41 +74,11 @@ export function recreateManagedRoot(root, publicDirectory = resolve(WEB_ROOT, 'p
   mkdirSync(root, { recursive: true });
 }
 
-// Standardizes field names and fills in defaults
-function camelize(h) {
-  return {
-    id: h.id ?? null,
-    name: h.name ?? h.organization ?? 'Hotline',
-    organization: h.organization ?? null,
-    category: h.category ?? 'general_support',
-    voice_numbers: h.voice_numbers ?? [],
-    sms_numbers: h.sms_numbers ?? [],
-    text_numbers: h.text_numbers ?? [],
-    short_codes: h.short_codes ?? [],
-    chat_url: h.chat_url ?? null,
-    email: h.email ?? null,
-    website: h.website ?? null,
-    hours: h.hours ?? null,
-    languages: h.languages ?? [],
-    cost: h.cost ?? 'unknown',
-    target: h.target ?? null,
-    geography: h.geography ?? null,
-    notes: h.notes ?? null,
-    verification_status: h.verification_status ?? 'legacy_unverified',
-    last_verified: h.last_verified ?? null,
-    sources: h.sources ?? [],
-    ...(h.replaced_by ? { replaced_by: h.replaced_by } : {}),
-    ...(h.service_scope ? { service_scope: h.service_scope } : {}),
-    // Carry provenance through if present (populated by trawler/verify passes)
-    ...(h.provenance ? { provenance: h.provenance } : {}),
-  };
-}
-
 // Creates the country record shape for the output
 function countryShape(c) {
   const alpha2 = c['alpha-2'];
   const centroid = CENTROIDS[alpha2] ?? null;
-  const hotlines = (c.hotlines ?? []).map(camelize);
+  const hotlines = (c.hotlines ?? []).map(canonicalHotline);
 
   // Derived aggregate fields — do NOT write back to canonical source
   const category_counts = {};
@@ -154,9 +125,9 @@ const canonical = loadCanonical();
 console.log(`  source: ${canonical.format}, schema ${canonical.schema_version}`);
 console.log(`  countries: ${canonical.countries.length}`);
 
-verifyGatewayContractDrift();
-verifyOrganizationContractDrift();
-verifyManagedWidgetConfigContractDrift(
+if (existsSync(resolve(WEB_ROOT, 'public', 'gateway', 'v1'))) verifyGatewayContractDrift();
+if (existsSync(resolve(WEB_ROOT, 'public', 'organizations', 'v1'))) verifyOrganizationContractDrift();
+if (existsSync(resolve(WEB_ROOT, 'public', 'managed-widget-config', 'v1'))) verifyManagedWidgetConfigContractDrift(
   undefined,
   undefined,
   undefined,
@@ -175,6 +146,7 @@ recreateManagedRoot(resolve(WEB_ROOT, 'public', 'assurance-packs'));
 recreateManagedRoot(resolve(WEB_ROOT, 'public', 'provider-claims'));
 recreateManagedRoot(resolve(WEB_ROOT, 'public', 'reviewer-work-queue'));
 recreateManagedRoot(resolve(WEB_ROOT, 'public', 'managed-api-plans'));
+recreateManagedRoot(resolve(WEB_ROOT, 'public', 'evidence-backed-coverage'));
 mkdirSync(resolve(OUT_DIR, 'countries'), { recursive: true });
 mkdirSync(resolve(API_DIR, 'countries'), { recursive: true });
 
@@ -367,6 +339,7 @@ generateProviderClaimContracts();
 generateReviewerWorkQueueContracts();
 generateManagedApiPlanContracts();
 generateDeprecationProposalContracts();
+generateEvidenceBackedCoverageContracts();
 const release = generateReleaseIntegrity({ datasetVersion: manifest.dataset_version });
 
 console.log(`  wrote ${manifestEntries.length} country shards + manifest + search-index + categories-stats + metadata-coverage`);

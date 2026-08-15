@@ -66,6 +66,10 @@ test('all trusted-release profiles are accepted and adjacent hybrids are rejecte
   const profiles = [
     ['current', finalize(structuredClone(current)), null],
   ];
+  profiles.push(['evidence', without(profiles.at(-1)[1], {
+    namespace: '/evidence-backed-coverage/v1/', coverage: '/evidence-backed-coverage/v1/**',
+    buildInputs: ['scripts/api-records-transform.mjs', 'scripts/generate-evidence-backed-coverage-contracts.mjs', 'repo:evidence-backed-coverage/model.mjs'],
+  }), '/evidence-backed-coverage/v1/README.md']);
   profiles.push(['plan', without(profiles.at(-1)[1], {
     namespace: '/deprecation-proposals/v1/', coverage: '/deprecation-proposals/v1/**',
     buildInputs: ['scripts/generate-deprecation-proposal-contracts.mjs', 'repo:deprecation-proposals/model.mjs'],
