@@ -29,6 +29,22 @@ jobs:
         with:
           node-version: 22
 
+      - name: Validate GitHub Actions workflows
+        env:
+          ACTIONLINT_VERSION: 1.7.12
+          ACTIONLINT_SHA256: 454800bd4f854592bcfe79b161f71d56e35940eb7016e48a26dd356adc9d400a
+        run: |
+          set -euo pipefail
+          archive="$RUNNER_TEMP/actionlint.tar.gz"
+          source_dir="$RUNNER_TEMP/actionlint-source"
+          curl --fail --silent --show-error --location \
+            "https://github.com/rhysd/actionlint/archive/refs/tags/v${ACTIONLINT_VERSION}.tar.gz" --output "$archive"
+          printf '%s  %s\n' "$ACTIONLINT_SHA256" "$archive" | sha256sum --check --strict
+          mkdir "$source_dir"
+          tar --extract --gzip --file "$archive" --directory "$source_dir" --strip-components=1
+          go -C "$source_dir" build -trimpath -o "$RUNNER_TEMP/actionlint" ./cmd/actionlint
+          "$RUNNER_TEMP/actionlint" -color
+
       - name: Parse hotlines.json
         run: python -c "import json; json.load(open('hotlines.json', encoding='utf-8'))"
 

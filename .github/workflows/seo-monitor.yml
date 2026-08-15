@@ -1,0 +1,129 @@
+name: Sustainable SEO Monitoring
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "41 7 * * 1"
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: seo-monitor-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Retrieve strict prior compact artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+          CURRENT_RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          mkdir -p prior output
+          as_of=$(date -u +%F)
+          set +e
+          selection=$(python scripts/seo_orchestrator.py retrieve --repository "$GITHUB_REPOSITORY" --workflow seo-monitor.yml \
+            --branch "$DEFAULT_BRANCH" --current-run "$CURRENT_RUN_ID" \
+            --output-dir prior --as-of "$as_of" --canonical hotlines.json)
+          retrieval_status=$?
+          set -e
+          if [ "$retrieval_status" -eq 4 ]; then
+            rm -f prior/monitor-state.json prior/source-monitor-state.json prior/source-snapshot.json prior/artifact-manifest.json
+            test ! -e prior/monitor-state.json
+            test ! -e prior/source-monitor-state.json
+            test ! -e prior/source-snapshot.json
+            test ! -e prior/artifact-manifest.json
+            printf '%s\n' "Prior baseline: no valid completed artifact; bounded history unavailable, monitoring continues with no prior." >> "$GITHUB_STEP_SUMMARY"
+          elif [ "$retrieval_status" -ne 0 ]; then
+            exit "$retrieval_status"
+          elif printf '%s' "$selection" | jq -e '.selected != null' >/dev/null; then
+            printf '%s\n' "Prior baseline: selected newest fully validated compatible completed run." >> "$GITHUB_STEP_SUMMARY"
+          else
+            exit 3
+          fi
+      - name: Run bounded read-only monitors
+        id: run
+        run: |
+          set -euo pipefail
+          as_of=$(date -u +%F)
+          before=$(sha256sum hotlines.json | cut -d' ' -f1)
+          set +e
+          python scripts/freshness_report.py --as-of "$as_of" --stale-days 90 --review-limit 250 --json-report output/freshness.json --report output/freshness.md
+          freshness_status=$?
+          source_previous=()
+          if [ -f prior/source-snapshot.json ]; then source_previous=(--previous prior/source-snapshot.json); fi
+          python scripts/source_monitor.py --as-of "$as_of" --limit 25 ${source_previous[@]+"${source_previous[@]}"} --json-output output/source-snapshot-current.json --markdown-output output/source-report.md
+          source_status=$?
+          python scripts/source_monitor_result.py --snapshot output/source-snapshot-current.json ${source_previous[@]+"${source_previous[@]}"} --output output/source-monitor-result.json
+          source_result_status=$?
+          python scripts/verification_workbench.py --as-of "$as_of" --freshness output/freshness.json --source-monitor output/source-snapshot-current.json --json-output output/workbench.json --markdown-output output/workbench.md
+          workbench_status=$?
+          python scripts/public_seo_monitor.py --as-of "$as_of" --json-output output/public-seo.json --markdown-output output/public-seo.md
+          public_status=$?
+          previous=()
+          source_state_previous=()
+          source_snapshot=()
+          source_snapshot_previous=()
+          if [ -f prior/monitor-state.json ]; then previous=(--public-previous prior/monitor-state.json); fi
+          if [ -f prior/source-monitor-state.json ]; then source_state_previous=(--source-previous prior/source-monitor-state.json); fi
+          if [ -f output/source-snapshot-current.json ]; then source_snapshot=(--source-snapshot output/source-snapshot-current.json); fi
+          if [ -f prior/source-snapshot.json ]; then source_snapshot_previous=(--source-previous-snapshot prior/source-snapshot.json); fi
+          python scripts/seo_orchestrator.py finalize --public-result output/public-seo.json --source-result output/source-monitor-result.json \
+            --canonical hotlines.json \
+            ${previous[@]+"${previous[@]}"} ${source_state_previous[@]+"${source_state_previous[@]}"} \
+            ${source_snapshot[@]+"${source_snapshot[@]}"} ${source_snapshot_previous[@]+"${source_snapshot_previous[@]}"} \
+            --as-of "$as_of" --output-dir output
+          orchestration_status=$?
+          set -e
+          after=$(sha256sum hotlines.json | cut -d' ' -f1)
+          test "$before" = "$after"
+          test "$freshness_status" -eq 0
+          test "$source_status" -ne 2
+          test "$source_result_status" -ne 2
+          test "$workbench_status" -eq 0
+          test "$public_status" -ne 2
+          exit "$orchestration_status"
+      - name: Publish bounded summary
+        if: always()
+        run: |
+          if [ -f output/publication-manifest.json ]; then
+            summary_results=()
+            if [ -f output/public-seo.json ]; then summary_results+=(--result output/public-seo.json); fi
+            if [ -f output/source-monitor-result.json ]; then summary_results+=(--result output/source-monitor-result.json); fi
+            python scripts/seo_workflow_summary.py --manifest output/publication-manifest.json ${summary_results[@]+"${summary_results[@]}"} >> "$GITHUB_STEP_SUMMARY"
+          else
+            printf '%s\n' "## Monitor outcomes" "" "- Combined: \`unavailable\`" >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: seo-monitor-state
+          path: |
+            output/monitor-state.json
+            output/source-monitor-state.json
+            output/source-snapshot.json
+            output/artifact-manifest.json
+          if-no-files-found: error
+          retention-days: 90
+      - uses: actions/upload-artifact@v6
+        if: always()
+        with:
+          name: seo-monitor-reports-${{ github.run_id }}
+          path: |
+            output/*.md
+            output/freshness.json
+            output/public-seo.json
+            output/source-monitor-result.json
+            output/publication-manifest.json
+          if-no-files-found: warn
+          retention-days: 90

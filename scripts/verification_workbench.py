@@ -24,7 +24,7 @@ from scripts.lib.promotion import (SAFE_CANDIDATE_TYPES, SAFE_FIELD_ACTIONS, LIS
                                    SCALAR_FILL_FIELDS, MERGE_FIELD_ACTIONS, additive_general_emergency_actions,
                                    compute_additive_hotline_field_actions, normalize_text)
 from scripts.lib.safety import country_has_protected_hotlines, validate_promotion_candidate
-from scripts.source_monitor import validate_previous as validate_monitor_snapshot
+from scripts.source_monitor import population_for, validate_current_snapshot
 
 CANONICAL = ROOT / "hotlines.json"
 HASH_RE = re.compile(r"sha256:[0-9a-f]{64}\Z")
@@ -180,15 +180,15 @@ def validate_freshness(artifact: dict, canonical_version: str, ids: dict[str, tu
         raise ValueError("freshness artifact does not match canonical recomputation")
 
 
-def validate_monitor(artifact: dict, canonical_version: str, ids: set[str], as_of: dt.date) -> None:
-    required = {"schema_version", "canonical_hash", "as_of", "checked_at", "url_limit", "observations", "summary", "policy"}
-    if not isinstance(artifact, dict) or set(artifact) != required or artifact.get("schema_version") != "2.0":
+def validate_monitor(artifact: dict, canonical_raw: bytes, canonical_version: str, ids: set[str], as_of: dt.date) -> None:
+    required = {"schema_version", "canonical_hash", "as_of", "checked_at", "url_limit", "observations", "summary", "policy", "population", "metadata"}
+    if not isinstance(artifact, dict) or set(artifact) != required or artifact.get("schema_version") != "3.0":
         raise ValueError("source monitor schema invalid")
     _bound_hash(artifact, "source monitor", canonical_version)
     if _date(artifact.get("as_of"), "source monitor as_of") != as_of or artifact.get("checked_at") != artifact.get("as_of"):
         raise ValueError("source monitor as_of mismatch")
     try:
-        validate_monitor_snapshot(artifact, canonical_version, as_of, ids)
+        validate_current_snapshot(artifact, canonical_raw)
     except ValueError as exc:
         raise ValueError(f"source monitor invalid: {exc}") from exc
     if not isinstance(artifact.get("observations"), list) or not isinstance(artifact.get("url_limit"), int):
@@ -355,7 +355,7 @@ def build(data: dict, raw: bytes, as_of: dt.date, freshness: dict, monitor: dict
     canonical_version = version(raw)
     validate_freshness(freshness, canonical_version, ids, as_of)
     if monitor is not None:
-        validate_monitor(monitor, canonical_version, set(ids), as_of)
+        validate_monitor(monitor, raw, canonical_version, set(ids), as_of)
     candidate_rows = []
     candidate_digest = None
     decisions: dict[str, str] = {}
