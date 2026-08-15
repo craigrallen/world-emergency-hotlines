@@ -4,7 +4,7 @@ import { getCategoriesStats, getManifest } from '../lib/data';
 import { SITE_URL } from '../lib/site';
 import { isCategoryIndexable } from '../lib/seo';
 
-const STATIC_PATHS = ['', '/about', '/find-help', '/integrate', '/map', '/data', '/categories', '/countries'];
+const STATIC_PATHS = ['', '/about', '/find-help', '/traveler', '/integrate', '/map', '/data', '/categories', '/countries'];
 
 function escapeXml(value: string): string {
   return value
