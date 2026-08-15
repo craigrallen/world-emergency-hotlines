@@ -1,0 +1,155 @@
+{
+  "schema": "evidence-backed-coverage-assessment/v1",
+  "kind": "static_synthetic_reference",
+  "assessment_id": "ebc_syn_recorded_scope_01",
+  "dataset_sha256": "sha256:e893c9f6b0afcc57832054547002c826e80b5387e544b4cf6909afc9424dde3a",
+  "release": {
+    "release_id": "sha256:da1a06c5b11b20fc76afa269c324ab869293cdd67d232cf62f05724dc1fc124a",
+    "release_sha256": "sha256:811078abc4b5a91208d99e4f8ae385394c0b02a2b5a5ccf3110cb68870da5a04",
+    "artifact_index_sha256": "sha256:9964bddf9dbb99cd09f4be234619bf52b1dcc7eeec309f0874b45bc42db0156c",
+    "records_artifact": {
+      "path": "/api/v1/records.json",
+      "sha256": "sha256:7097b12b5268249373eec40ec73897d34f9f7f4d429a83c21ba44d353f57f550",
+      "bytes": 2722795
+    }
+  },
+  "footprint": {
+    "record_ids": [
+      "weh_7539ec4b00fd54f5ae729d71",
+      "weh_c3f7a20baee453f8ba87d0d3"
+    ],
+    "record_count": 2
+  },
+  "review": {
+    "review_id": "ebc_syn_review_accepted_01",
+    "reviewer_identity": "independent-reviewer.example.invalid",
+    "claimant_identity": "synthetic-claimant.example.invalid",
+    "decision": "accepted",
+    "reviewed_on": "2026-08-11",
+    "source_evidence_artifact": {
+      "path": "/synthetic/source-evidence.json",
+      "sha256": "sha256:45b8b5ecf5c42ae7d38e18633f8326be900366dc47fc138a861cca965a4c4ae4",
+      "bytes": 9302
+    },
+    "evidence_row_digests": [
+      {
+        "evidence_id": "ebc_syn_channels_se_01",
+        "sha256": "sha256:a5a0df5fdd600472a7f27444c8ae290c7f3fd5ef744c176c3fe46134996c6449"
+      },
+      {
+        "evidence_id": "ebc_syn_channels_se_02",
+        "sha256": "sha256:f00518c93483c88cc446c749c41720977157a20337eaa8548d1c82b8cd1a5723"
+      },
+      {
+        "evidence_id": "ebc_syn_field_se_01",
+        "sha256": "sha256:8f4266e4cf4eeff52fae713d280a2bd7c19084dfb00e9363c8ca481865c12c49"
+      },
+      {
+        "evidence_id": "ebc_syn_field_se_02",
+        "sha256": "sha256:29a269bf74cb5c1451133474018cd748ce0af50b4001a07621d9471ee45077dd"
+      },
+      {
+        "evidence_id": "ebc_syn_geography_se_01",
+        "sha256": "sha256:ef169a50d5c69300b61927ee9f9d79a1a55f18ee948c3c0fe872b77cc7479a5d"
+      },
+      {
+        "evidence_id": "ebc_syn_geography_se_02",
+        "sha256": "sha256:97b6137c48ff01f36fe06ab09ec2b45dc17dd102896b12eefdbad7c4b3b1a081"
+      },
+      {
+        "evidence_id": "ebc_syn_hours_se_01",
+        "sha256": "sha256:0202e07b8b2f0f89064119555fba9e05619edca4982838a11ee66627a73c75e3"
+      },
+      {
+        "evidence_id": "ebc_syn_hours_se_02",
+        "sha256": "sha256:402fadc85fb822b68c12ba07aecc584f3caeaf9f33f38aa6cf0394c186dbcadb"
+      },
+      {
+        "evidence_id": "ebc_syn_languages_se_01",
+        "sha256": "sha256:d45c209ad21d71a00666cfe6312cf50def8e6e31c993a47602c79490fe76a120"
+      },
+      {
+        "evidence_id": "ebc_syn_languages_se_02",
+        "sha256": "sha256:6c0b91ce9704984949095cca59da41a568326d685e505fcdc6902c37f66309a2"
+      },
+      {
+        "evidence_id": "ebc_syn_recorded_date_se_01",
+        "sha256": "sha256:f700125feb020a9aa2d3035f29a61a7530d57514fcbba3fa2baf871a466b4755"
+      },
+      {
+        "evidence_id": "ebc_syn_recorded_date_se_02",
+        "sha256": "sha256:62433632731655d2f51317c3b99f2932e36ab004ea49883b352ca0e4e4ec33fa"
+      }
+    ],
+    "conflict_of_interest": false
+  },
+  "dimensions": [
+    {
+      "name": "channels",
+      "numerator": 2,
+      "denominator": 2,
+      "unknown_count": 0,
+      "not_observed_count": 0,
+      "not_assessed_count": 0,
+      "coverage_state": "observed"
+    },
+    {
+      "name": "documented_geography",
+      "numerator": 2,
+      "denominator": 2,
+      "unknown_count": 0,
+      "not_observed_count": 0,
+      "not_assessed_count": 0,
+      "coverage_state": "observed"
+    },
+    {
+      "name": "documented_hours",
+      "numerator": 1,
+      "denominator": 2,
+      "unknown_count": 1,
+      "not_observed_count": 0,
+      "not_assessed_count": 0,
+      "coverage_state": "unknown"
+    },
+    {
+      "name": "documented_languages",
+      "numerator": 1,
+      "denominator": 1,
+      "unknown_count": 0,
+      "not_observed_count": 0,
+      "not_assessed_count": 1,
+      "coverage_state": "observed"
+    },
+    {
+      "name": "field_evidence",
+      "numerator": 0,
+      "denominator": 2,
+      "unknown_count": 0,
+      "not_observed_count": 2,
+      "not_assessed_count": 0,
+      "coverage_state": "not_observed"
+    },
+    {
+      "name": "recorded_verification_date",
+      "numerator": 1,
+      "denominator": 2,
+      "unknown_count": 0,
+      "not_observed_count": 1,
+      "not_assessed_count": 0,
+      "coverage_state": "not_observed"
+    }
+  ],
+  "limitations": [
+    "Retained structured observations support reviewed assertions on the recorded check date; human-reviewed interpretations are not mechanically byte-derived facts.",
+    "Recorded evidence does not prove real-time availability, answering, eligibility, capacity, safety, outcomes, or universal geographic coverage.",
+    "The recorded verification date dimension reports literal field presence only and makes no freshness or recency inference.",
+    "This static synthetic assessment has no canonical-write, ranking, recommendation, comparison, intake, telemetry, outreach, commercial, pricing, billing, SLA, DPA, or security authority.",
+    "Provider or claimant assertions are untrusted and cannot self-validate."
+  ],
+  "effects": {
+    "canonical_mutation": false,
+    "ranking_or_search_effect": false,
+    "publication_authority": false,
+    "commercial_activation": false
+  }
+}

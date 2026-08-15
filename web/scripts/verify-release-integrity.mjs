@@ -126,6 +126,7 @@ if (existsSync(descriptorPath) && existsSync(indexPath)) {
       ...discoverFiles(resolve(PUBLIC_ROOT, 'reviewer-work-queue', 'v1')),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'managed-api-plans', 'v1')),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'deprecation-proposals', 'v1')),
+      ...discoverFiles(resolve(PUBLIC_ROOT, 'evidence-backed-coverage', 'v1')),
       ...discoverFiles(RELEASE_DIR).filter(({ path }) => !path.endsWith(`${sep}artifacts.json`) && !path.endsWith(`${sep}release.json`)),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'widget', 'v1')).filter(({ path }) => path.endsWith(`${sep}hotlines-widget.js`)),
     ];
@@ -175,6 +176,9 @@ if (existsSync(descriptorPath) && existsSync(indexPath)) {
   }
   for (const required of ['/deprecation-proposals/v1/README.md','/deprecation-proposals/v1/audit-export.schema.json','/deprecation-proposals/v1/audit-export.synthetic.json','/deprecation-proposals/v1/proposal.schema.json','/deprecation-proposals/v1/proposal-with-replacement.synthetic.json','/deprecation-proposals/v1/proposal-without-replacement.synthetic.json','/deprecation-proposals/v1/review-checkpoint.schema.json']) {
     if (!descriptor.relationships?.[required]) fail(`missing deprecation-proposal contract relationship: ${required}`);
+  }
+  for (const required of ['/evidence-backed-coverage/v1/README.md','/evidence-backed-coverage/v1/assessment.schema.json','/evidence-backed-coverage/v1/assessment.synthetic.json','/evidence-backed-coverage/v1/evidence-input.schema.json']) {
+    if (!descriptor.relationships?.[required]) fail(`missing evidence-backed coverage relationship: ${required}`);
   }
 }
 

@@ -1,0 +1,67 @@
+{
+  "schema": "evidence-backed-coverage-review-decision/v1",
+  "synthetic_notice": "CONSPICUOUSLY SYNTHETIC INDEPENDENT REVIEW ONLY",
+  "review": {
+    "review_id": "ebc_syn_review_accepted_01",
+    "reviewer_identity": "independent-reviewer.example.invalid",
+    "claimant_identity": "synthetic-claimant.example.invalid",
+    "decision": "accepted",
+    "reviewed_on": "2026-08-11",
+    "source_evidence_artifact": {
+      "path": "/synthetic/source-evidence.json",
+      "sha256": "sha256:45b8b5ecf5c42ae7d38e18633f8326be900366dc47fc138a861cca965a4c4ae4",
+      "bytes": 9302
+    },
+    "evidence_row_digests": [
+      {
+        "evidence_id": "ebc_syn_channels_se_01",
+        "sha256": "sha256:a5a0df5fdd600472a7f27444c8ae290c7f3fd5ef744c176c3fe46134996c6449"
+      },
+      {
+        "evidence_id": "ebc_syn_channels_se_02",
+        "sha256": "sha256:f00518c93483c88cc446c749c41720977157a20337eaa8548d1c82b8cd1a5723"
+      },
+      {
+        "evidence_id": "ebc_syn_field_se_01",
+        "sha256": "sha256:8f4266e4cf4eeff52fae713d280a2bd7c19084dfb00e9363c8ca481865c12c49"
+      },
+      {
+        "evidence_id": "ebc_syn_field_se_02",
+        "sha256": "sha256:29a269bf74cb5c1451133474018cd748ce0af50b4001a07621d9471ee45077dd"
+      },
+      {
+        "evidence_id": "ebc_syn_geography_se_01",
+        "sha256": "sha256:ef169a50d5c69300b61927ee9f9d79a1a55f18ee948c3c0fe872b77cc7479a5d"
+      },
+      {
+        "evidence_id": "ebc_syn_geography_se_02",
+        "sha256": "sha256:97b6137c48ff01f36fe06ab09ec2b45dc17dd102896b12eefdbad7c4b3b1a081"
+      },
+      {
+        "evidence_id": "ebc_syn_hours_se_01",
+        "sha256": "sha256:0202e07b8b2f0f89064119555fba9e05619edca4982838a11ee66627a73c75e3"
+      },
+      {
+        "evidence_id": "ebc_syn_hours_se_02",
+        "sha256": "sha256:402fadc85fb822b68c12ba07aecc584f3caeaf9f33f38aa6cf0394c186dbcadb"
+      },
+      {
+        "evidence_id": "ebc_syn_languages_se_01",
+        "sha256": "sha256:d45c209ad21d71a00666cfe6312cf50def8e6e31c993a47602c79490fe76a120"
+      },
+      {
+        "evidence_id": "ebc_syn_languages_se_02",
+        "sha256": "sha256:6c0b91ce9704984949095cca59da41a568326d685e505fcdc6902c37f66309a2"
+      },
+      {
+        "evidence_id": "ebc_syn_recorded_date_se_01",
+        "sha256": "sha256:f700125feb020a9aa2d3035f29a61a7530d57514fcbba3fa2baf871a466b4755"
+      },
+      {
+        "evidence_id": "ebc_syn_recorded_date_se_02",
+        "sha256": "sha256:62433632731655d2f51317c3b99f2932e36ab004ea49883b352ca0e4e4ec33fa"
+      }
+    ],
+    "conflict_of_interest": false
+  }
+}

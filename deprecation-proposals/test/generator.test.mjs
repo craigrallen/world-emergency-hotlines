@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   cpSync, existsSync, lstatSync, mkdirSync, mkdtempSync, readFileSync, readdirSync,
-  rmSync, symlinkSync, writeFileSync,
+  renameSync, rmSync, symlinkSync, unlinkSync, writeFileSync,
 } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { relative, resolve } from 'node:path';
@@ -23,11 +23,12 @@ function workspace({ output = true } = {}) {
   return root;
 }
 
-function verify(root) {
+function verify(root, hooks) {
   return generateDeprecationProposalContracts({
     source: resolve(root, 'source'),
     output: resolve(root, 'public/deprecation-proposals/v1'),
     managedRoot: root,
+    hooks,
   });
 }
 
@@ -47,7 +48,7 @@ function snapshot(root) {
 }
 
 function assertNoStages(root) {
-  assert.equal(Object.keys(snapshot(root)).some((name) => name.includes('.v1-stage-')), false);
+  assert.equal(Object.keys(snapshot(root)).some((name) => name.includes('v1.stage-')), false);
 }
 
 test('exact tracked source and output are a strictly read-only no-op', () => {
@@ -60,13 +61,64 @@ test('exact tracked source and output are a strictly read-only no-op', () => {
   } finally { rmSync(root, { recursive: true }); }
 });
 
-test('absent tracked output fails closed and remains absent without a stage', () => {
+test('absent managed output atomically regenerates exact source bytes', () => {
   const root = workspace({ output: false });
   try {
-    const before = snapshot(root);
-    assert.throws(() => verify(root), /output is absent/);
+    assert.deepEqual(verify(root), { published: true, reason: 'regenerated_from_absent_output' });
+    for (const name of FILES) assert.deepEqual(readFileSync(resolve(root, 'public/deprecation-proposals/v1', name)), readFileSync(resolve(root, 'source', name)));
+    assertNoStages(root);
+  } finally { rmSync(root, { recursive: true }); }
+});
+
+test('failure after partial staged writes leaves no output or owned stage', () => {
+  const root = workspace({ output: false });
+  try {
+    assert.throws(() => verify(root, { afterStageWrite({ index }) { if (index === 1) throw new Error('injected interruption'); } }), /injected interruption/);
     assert.equal(existsSync(resolve(root, 'public/deprecation-proposals/v1')), false);
-    assert.deepEqual(snapshot(root), before);
+    assert.equal(existsSync(resolve(root, 'public/deprecation-proposals/.deprecation-proposals.lock')), false);
+    assertNoStages(root);
+  } finally { rmSync(root, { recursive: true }); }
+});
+
+test('exclusive lock rejects a concurrent writer without partial output', () => {
+  const root = workspace({ output: false });
+  try {
+    const lock = resolve(root, 'public/deprecation-proposals/.deprecation-proposals.lock');
+    writeFileSync(lock, 'other writer\n');
+    assert.throws(() => verify(root), /EEXIST/);
+    assert.equal(readFileSync(lock, 'utf8'), 'other writer\n');
+    assert.equal(existsSync(resolve(root, 'public/deprecation-proposals/v1')), false);
+    assertNoStages(root);
+  } finally { rmSync(root, { recursive: true }); }
+});
+
+test('replaced lock fails closed and cleanup preserves replacement', () => {
+  const root = workspace({ output: false });
+  try {
+    const lock = resolve(root, 'public/deprecation-proposals/.deprecation-proposals.lock');
+    assert.throws(() => verify(root, { beforeRename() { unlinkSync(lock); writeFileSync(lock, 'replacement\n'); } }), /publication lock replaced/);
+    assert.equal(readFileSync(lock, 'utf8'), 'replacement\n');
+    assert.equal(existsSync(resolve(root, 'public/deprecation-proposals/v1')), false);
+    assertNoStages(root);
+  } finally { rmSync(root, { recursive: true }); }
+});
+
+test('replaced stage fails closed and cleanup preserves replacement stage', () => {
+  const root = workspace({ output: false });
+  try {
+    let replacement;
+    assert.throws(() => verify(root, { beforePublish({ stage }) { const owned = `${stage}-owned`; renameSync(stage, owned); mkdirSync(stage); writeFileSync(resolve(stage, 'replacement'), 'other writer\n'); rmSync(owned, { recursive: true }); replacement = stage; } }), /stage replaced/);
+    assert.equal(readFileSync(resolve(replacement, 'replacement'), 'utf8'), 'other writer\n');
+    assert.equal(existsSync(resolve(root, 'public/deprecation-proposals/v1')), false);
+    rmSync(replacement, { recursive: true });
+  } finally { rmSync(root, { recursive: true }); }
+});
+
+test('staged byte mutation after parity validation fails without publication', () => {
+  const root = workspace({ output: false });
+  try {
+    assert.throws(() => verify(root, { beforePublish({ stage }) { writeFileSync(resolve(stage, FILES[0]), 'changed staged bytes\n'); } }), /changed before publication/);
+    assert.equal(existsSync(resolve(root, 'public/deprecation-proposals/v1')), false);
     assertNoStages(root);
   } finally { rmSync(root, { recursive: true }); }
 });

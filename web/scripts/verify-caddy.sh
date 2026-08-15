@@ -16,7 +16,7 @@ cleanup() {
 }
 trap cleanup EXIT INT TERM
 
-mkdir -p "$fixture/release/v1/changes" "$fixture/feeds" "$fixture/subscriptions/v1" "$fixture/gateway/v1" "$fixture/organizations/v1" "$fixture/managed-widget-config/v1" "$fixture/technical-health/v1" "$fixture/assurance-packs/v1" "$fixture/provider-claims/v1" "$fixture/reviewer-work-queue/v1" "$fixture/managed-api-plans/v1" "$fixture/deprecation-proposals/v1" "$fixture/countries" "$fixture/responses"
+mkdir -p "$fixture/release/v1/changes" "$fixture/feeds" "$fixture/subscriptions/v1" "$fixture/gateway/v1" "$fixture/organizations/v1" "$fixture/managed-widget-config/v1" "$fixture/technical-health/v1" "$fixture/assurance-packs/v1" "$fixture/provider-claims/v1" "$fixture/reviewer-work-queue/v1" "$fixture/managed-api-plans/v1" "$fixture/deprecation-proposals/v1" "$fixture/evidence-backed-coverage/v1" "$fixture/countries" "$fixture/responses"
 printf '%s\n' '<!doctype html><title>Countries</title><h1>Countries</h1>' > "$fixture/countries/index.html"
 expected_html_404="$fixture/404.html"
 printf '%s\n' '<!doctype html><html><head><title>Page not found</title><meta name="robots" content="noindex,follow"></head><body><main data-custom-404="world-hotlines">Page not found</main></body></html>' > "$expected_html_404"
@@ -52,6 +52,8 @@ printf '%s\n' '{"$schema":"https://json-schema.org/draft/2020-12/schema"}' > "$f
 printf '%s\n' '# Managed API plans v1 — PROPOSED STATIC/SYNTHETIC DESIGN, NOT AN OFFER' > "$fixture/managed-api-plans/v1/README.md"
 printf '%s\n' '{"$schema":"https://json-schema.org/draft/2020-12/schema"}' > "$fixture/deprecation-proposals/v1/proposal.schema.json"
 printf '%s\n' '# Deprecation proposal and audit export v1 — STATIC AND SYNTHETIC' > "$fixture/deprecation-proposals/v1/README.md"
+printf '%s\n' '{"$schema":"https://json-schema.org/draft/2020-12/schema"}' > "$fixture/evidence-backed-coverage/v1/assessment.schema.json"
+printf '%s\n' '# Evidence-backed coverage assessment v1 — STATIC/SYNTHETIC CONTRACT, NOT A SERVICE' > "$fixture/evidence-backed-coverage/v1/README.md"
 expected_missing="$fixture/responses/missing.body"
 printf '%s' 'Not found' > "$expected_missing"
 
@@ -417,4 +419,10 @@ curl --max-time 5 -sS --request HEAD --ignore-content-length -H 'Connection: clo
 require_status HEAD "$unknown_html_path" 404 "$unknown_html_head_headers"
 require_empty HEAD "$unknown_html_path" "$unknown_html_head_body"
 
-echo "Caddy integration OK: /countries HTML discovery and custom noindex/canonical-free HTML 404; release/feed/subscription/organization/technical-health/assurance-pack/provider-claim/reviewer-work-queue/deprecation-proposal static MIME and CORS; existing-file OPTIONS, all writes and unknown routes enforce the read-only 404 boundary; no route shadowing"
+for spec in 'GET|evidence-backed-coverage/v1/assessment.schema.json|200' 'HEAD|evidence-backed-coverage/v1/README.md|200' 'OPTIONS|evidence-backed-coverage/v1/assessment.schema.json|204' 'GET|evidence-backed-coverage/v1/missing.json|404' 'HEAD|evidence-backed-coverage/v1/missing.json|404' 'OPTIONS|evidence-backed-coverage/v1/missing.json|404' 'POST|evidence-backed-coverage/v1/assessment.schema.json|404'; do
+  method=${spec%%|*}; rest=${spec#*|}; path=${rest%%|*}; expected=${rest#*|}
+  if [ "$method" = HEAD ]; then actual=$(curl --max-time 5 -sS -I -o /dev/null -w '%{http_code}' "$base/$path"); else actual=$(curl --max-time 5 -sS -X "$method" -o /dev/null -w '%{http_code}' "$base/$path"); fi
+  [ "$actual" = "$expected" ] || { echo "$method /$path returned $actual, expected $expected" >&2; exit 1; }
+done
+
+echo "Caddy integration OK: /countries HTML discovery and custom noindex/canonical-free HTML 404; release/feed/subscription/organization/technical-health/assurance-pack/provider-claim/reviewer-work-queue/deprecation-proposal/evidence-backed-coverage static MIME and CORS; existing-file OPTIONS, all writes and unknown routes enforce the read-only 404 boundary; no route shadowing"

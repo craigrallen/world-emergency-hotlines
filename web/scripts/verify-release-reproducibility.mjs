@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { cpSync, lstatSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, renameSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { dirname, relative, resolve } from 'node:path';
+import { dirname, relative, resolve, sep } from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { BUILD_VERSION_INPUTS, digestInputs, generateReleaseIntegrity } from './release-integrity.mjs';
@@ -10,7 +10,7 @@ import { discoverFiles, readDiscoveredFile } from './verify-release-integrity.mj
 
 const webRoot = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const publicRoot = resolve(webRoot, 'public');
-const managed = ['data', 'api/v1', 'release', 'feeds', 'subscriptions/v1', 'gateway/v1', 'organizations/v1', 'managed-widget-config/v1', 'technical-health/v1', 'assurance-packs/v1', 'provider-claims/v1', 'reviewer-work-queue/v1', 'managed-api-plans/v1', 'deprecation-proposals/v1'];
+const managed = ['data', 'api/v1', 'release', 'feeds', 'subscriptions/v1', 'gateway/v1', 'organizations/v1', 'managed-widget-config/v1', 'technical-health/v1', 'assurance-packs/v1', 'provider-claims/v1', 'reviewer-work-queue/v1', 'managed-api-plans/v1', 'deprecation-proposals/v1', 'evidence-backed-coverage/v1'];
 const epoch = '1786579200';
 
 function build(buildEpoch = epoch, root = webRoot) {
@@ -73,7 +73,9 @@ try {
   cpSync(resolve(webRoot, '..', 'reviewer-work-queue'), resolve(cleanCopy, 'reviewer-work-queue'), { recursive: true });
   cpSync(resolve(webRoot, '..', 'managed-api-plans'), resolve(cleanCopy, 'managed-api-plans'), { recursive: true });
   cpSync(resolve(webRoot, '..', 'deprecation-proposals'), resolve(cleanCopy, 'deprecation-proposals'), { recursive: true });
-  cpSync(webRoot, cleanWeb, { recursive: true, filter: (source) => !['node_modules', 'dist', '.astro'].includes(source.split(/[\\/]/).at(-1)) && !source.includes(`${resolve(webRoot, 'public', 'data')}`) && !source.includes(`${resolve(webRoot, 'public', 'api')}`) && !source.includes(`${resolve(webRoot, 'public', 'release')}`) && !source.includes(`${resolve(webRoot, 'public', 'feeds')}`) && !source.includes(`${resolve(webRoot, 'public', 'subscriptions')}`) && !source.includes(`${resolve(webRoot, 'public', 'assurance-packs')}`) && !source.includes(`${resolve(webRoot, 'public', 'provider-claims')}`) && !source.includes(`${resolve(webRoot, 'public', 'reviewer-work-queue')}`) });
+  cpSync(resolve(webRoot, '..', 'evidence-backed-coverage'), resolve(cleanCopy, 'evidence-backed-coverage'), { recursive: true });
+  const managedRoots = managed.map((entry) => resolve(publicRoot, entry));
+  cpSync(webRoot, cleanWeb, { recursive: true, filter: (source) => !['node_modules', 'dist', '.astro'].includes(source.split(/[\\/]/).at(-1)) && !managedRoots.some((root) => source === root || source.startsWith(`${root}${sep}`)) });
   cpSync(resolve(webRoot, '..', 'hotlines.json'), resolve(cleanCopy, 'hotlines.json'));
   mkdirSync(resolve(cleanCopy, 'docs'));
   cpSync(resolve(webRoot, '..', 'docs/releases.json'), resolve(cleanCopy, 'docs/releases.json'));
@@ -82,9 +84,9 @@ try {
   const fixtureDatasetPath = resolve(cleanCopy, 'hotlines.json');
   const mutateDataset = (token) => { const data = JSON.parse(readFileSync(fixtureDatasetPath)); data.countries[0].notes = `deterministic fixture ${token}`; writeFileSync(fixtureDatasetPath, `${JSON.stringify(data, null, 2)}\n`); };
   const candidate = (id, interrupt) => spawnSync('npm', ['run', 'release:dataset:candidate', '--', '--id', id, '--date', '2026-08-13', '--title', `Candidate ${id}`, '--summary', 'Exercises the recoverable deterministic candidate command in an isolated clean copy.'], { cwd: cleanWeb, encoding: 'utf8', env: { ...process.env, ...(interrupt ? { WEH_CANDIDATE_INTERRUPT: interrupt } : {}) } });
-  for (const absent of ['data', 'api', 'release', 'feeds', 'subscriptions']) assert.equal(lstatOrNull(resolve(cleanWeb, 'public', absent)), null, `clean fixture unexpectedly contains public/${absent}`);
+  for (const absent of managed) assert.equal(lstatOrNull(resolve(cleanWeb, 'public', absent)), null, `clean fixture unexpectedly contains public/${absent}`);
   build(epoch, cleanWeb);
-  for (const created of ['data', 'api/v1', 'release/v1', 'feeds', 'subscriptions/v1', 'organizations/v1', 'managed-widget-config/v1', 'technical-health/v1', 'assurance-packs/v1', 'provider-claims/v1', 'reviewer-work-queue/v1', 'managed-api-plans/v1', 'deprecation-proposals/v1']) assert.ok(lstatSync(resolve(cleanWeb, 'public', created)).isDirectory(), `clean build did not create public/${created}`);
+  for (const created of ['data', 'api/v1', 'release/v1', 'feeds', 'subscriptions/v1', 'organizations/v1', 'managed-widget-config/v1', 'technical-health/v1', 'assurance-packs/v1', 'provider-claims/v1', 'reviewer-work-queue/v1', 'managed-api-plans/v1', 'deprecation-proposals/v1', 'evidence-backed-coverage/v1']) assert.ok(lstatSync(resolve(cleanWeb, 'public', created)).isDirectory(), `clean build did not create public/${created}`);
   const beforeSourceMutations = JSON.parse(readFileSync(resolve(cleanWeb, 'public/release/v1/release.json'), 'utf8'));
   const beforeManagedPlanArtifacts = files(resolve(cleanWeb, 'public/managed-api-plans/v1'));
   for (const [label, copiedSource] of [

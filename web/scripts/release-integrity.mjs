@@ -14,7 +14,7 @@ export const API_MAJOR = 1;
 export const RESOLVER_MAJOR = 1;
 export const WIDGET_MAJOR = 1;
 export const BUILD_VERSION_INPUTS = {
-  integration_generator: ['scripts/build-static-data.mjs', 'scripts/centroids.json', 'scripts/dataset-diff.mjs', 'scripts/generate-assurance-pack-contracts.mjs', 'scripts/generate-deprecation-proposal-contracts.mjs', 'scripts/generate-gateway-contracts.mjs', 'scripts/generate-managed-api-plan-contracts.mjs', 'scripts/generate-managed-widget-config-contracts.mjs', 'scripts/generate-organization-contracts.mjs', 'scripts/generate-provider-claim-contracts.mjs', 'scripts/generate-reviewer-work-queue-contracts.mjs', 'scripts/generate-technical-health-contracts.mjs', 'repo:assurance-packs/model.mjs', 'repo:control-plane/model.mjs', 'repo:deprecation-proposals/model.mjs', 'repo:managed-api-plans/model.mjs', 'repo:managed-widget-config/model.mjs', 'repo:provider-claims/model.mjs', 'repo:reviewer-work-queue/model.mjs', 'repo:technical-health/model.mjs', 'scripts/generate-subscription-contracts.mjs', 'scripts/metadata-coverage.mjs', 'scripts/release-feeds.mjs', 'scripts/release-integrity.mjs', 'scripts/subscription-events.mjs'],
+  integration_generator: ['scripts/build-static-data.mjs', 'scripts/centroids.json', 'scripts/dataset-diff.mjs', 'scripts/generate-assurance-pack-contracts.mjs', 'scripts/generate-deprecation-proposal-contracts.mjs', 'scripts/generate-evidence-backed-coverage-contracts.mjs', 'scripts/generate-gateway-contracts.mjs', 'scripts/generate-managed-api-plan-contracts.mjs', 'scripts/generate-managed-widget-config-contracts.mjs', 'scripts/generate-organization-contracts.mjs', 'scripts/generate-provider-claim-contracts.mjs', 'scripts/generate-reviewer-work-queue-contracts.mjs', 'scripts/generate-technical-health-contracts.mjs', 'repo:assurance-packs/model.mjs', 'repo:control-plane/model.mjs', 'repo:deprecation-proposals/model.mjs', 'repo:evidence-backed-coverage/model.mjs', 'repo:managed-api-plans/model.mjs', 'repo:managed-widget-config/model.mjs', 'repo:provider-claims/model.mjs', 'repo:reviewer-work-queue/model.mjs', 'repo:technical-health/model.mjs', 'scripts/generate-subscription-contracts.mjs', 'scripts/metadata-coverage.mjs', 'scripts/release-feeds.mjs', 'scripts/release-integrity.mjs', 'scripts/subscription-events.mjs'],
   resolver_code: ['src/lib/finder.js'],
   widget_code: ['public/widget/v1/hotlines-widget.js'],
 };
@@ -123,6 +123,7 @@ export function generateReleaseIntegrity({ datasetVersion }) {
     ...walkFiles(resolve(PUBLIC_ROOT, 'reviewer-work-queue', 'v1')),
     ...walkFiles(resolve(PUBLIC_ROOT, 'managed-api-plans', 'v1')),
     ...walkFiles(resolve(PUBLIC_ROOT, 'deprecation-proposals', 'v1')),
+    ...walkFiles(resolve(PUBLIC_ROOT, 'evidence-backed-coverage', 'v1')),
     ...walkFiles(RELEASE_DIR).filter(({ path }) => !path.endsWith(`${sep}artifacts.json`) && !path.endsWith(`${sep}release.json`)),
     (() => { const path = resolve(PUBLIC_ROOT, 'widget', 'v1', 'hotlines-widget.js'); return { path, metadata: lstatSync(path) }; })(),
   ];
@@ -164,6 +165,7 @@ export function generateReleaseIntegrity({ datasetVersion }) {
     '/provider-claims/v1/README.md', '/provider-claims/v1/claim-envelope.schema.json', '/provider-claims/v1/claim.synthetic.json', '/provider-claims/v1/review-decision.schema.json', '/provider-claims/v1/review.synthetic.json',
     '/reviewer-work-queue/v1/README.md', '/reviewer-work-queue/v1/disposition-audit.schema.json', '/reviewer-work-queue/v1/disposition-audit.synthetic.json', '/reviewer-work-queue/v1/queue.schema.json', '/reviewer-work-queue/v1/queue.synthetic.json',
     '/deprecation-proposals/v1/README.md', '/deprecation-proposals/v1/audit-export.schema.json', '/deprecation-proposals/v1/audit-export.synthetic.json', '/deprecation-proposals/v1/proposal.schema.json', '/deprecation-proposals/v1/proposal-with-replacement.synthetic.json', '/deprecation-proposals/v1/proposal-without-replacement.synthetic.json', '/deprecation-proposals/v1/review-checkpoint.schema.json',
+    '/evidence-backed-coverage/v1/README.md', '/evidence-backed-coverage/v1/assessment.schema.json', '/evidence-backed-coverage/v1/assessment.synthetic.json', '/evidence-backed-coverage/v1/evidence-input.schema.json',
   ];
   const payload = {
     schema_version: RELEASE_SCHEMA_VERSION,
@@ -187,7 +189,7 @@ export function generateReleaseIntegrity({ datasetVersion }) {
       path: '/release/v1/artifacts.json',
       sha256: digestFile(indexPath),
       artifact_count: artifacts.length,
-      coverage: ['/data/**', '/api/v1/**', '/widget/v1/hotlines-widget.js', '/release/v1/changes.json', '/release/v1/changes/**', '/feeds/**', '/subscriptions/v1/**', '/gateway/v1/**', '/organizations/v1/**', '/managed-widget-config/v1/**', '/technical-health/v1/**', '/assurance-packs/v1/**', '/provider-claims/v1/**', '/reviewer-work-queue/v1/**', '/managed-api-plans/v1/**', '/deprecation-proposals/v1/**'],
+      coverage: ['/data/**', '/api/v1/**', '/widget/v1/hotlines-widget.js', '/release/v1/changes.json', '/release/v1/changes/**', '/feeds/**', '/subscriptions/v1/**', '/gateway/v1/**', '/organizations/v1/**', '/managed-widget-config/v1/**', '/technical-health/v1/**', '/assurance-packs/v1/**', '/provider-claims/v1/**', '/reviewer-work-queue/v1/**', '/managed-api-plans/v1/**', '/deprecation-proposals/v1/**', '/evidence-backed-coverage/v1/**'],
       excludes: ['/release/v1/artifacts.json', '/release/v1/release.json'],
     },
     checksum_semantics: 'Unsigned SHA-256 checksums detect byte mismatch after a descriptor is obtained through a trusted channel; they do not prove publisher identity or freshness.',

@@ -49,7 +49,7 @@ jobs:
       - name: Reject generated contract changes
         working-directory: .
         run: |
-          test -z "$(git status --porcelain --untracked-files=all -- web/public/gateway/v1 web/public/organizations/v1 web/public/managed-widget-config/v1 web/public/technical-health/v1 web/public/assurance-packs/v1 web/public/provider-claims/v1 web/public/reviewer-work-queue/v1 web/public/managed-api-plans/v1 web/public/deprecation-proposals/v1)"
+          test -z "$(git status --porcelain --untracked-files=all -- web/public/gateway/v1 web/public/organizations/v1 web/public/managed-widget-config/v1 web/public/technical-health/v1 web/public/assurance-packs/v1 web/public/provider-claims/v1 web/public/reviewer-work-queue/v1 web/public/managed-api-plans/v1 web/public/deprecation-proposals/v1 web/public/evidence-backed-coverage/v1)"
 
       - name: Typecheck
         run: npm run typecheck

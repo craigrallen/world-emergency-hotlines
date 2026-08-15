@@ -1,0 +1,33 @@
+{
+  "schema": "evidence-backed-coverage-input/v1",
+  "assessment_id": "ebc_syn_recorded_scope_01",
+  "dataset_sha256": "sha256:e893c9f6b0afcc57832054547002c826e80b5387e544b4cf6909afc9424dde3a",
+  "release": {
+    "release_id": "sha256:da1a06c5b11b20fc76afa269c324ab869293cdd67d232cf62f05724dc1fc124a",
+    "release_sha256": "sha256:811078abc4b5a91208d99e4f8ae385394c0b02a2b5a5ccf3110cb68870da5a04",
+    "artifact_index_sha256": "sha256:9964bddf9dbb99cd09f4be234619bf52b1dcc7eeec309f0874b45bc42db0156c",
+    "records_artifact": {
+      "path": "/api/v1/records.json",
+      "sha256": "sha256:7097b12b5268249373eec40ec73897d34f9f7f4d429a83c21ba44d353f57f550",
+      "bytes": 2722795
+    }
+  },
+  "footprint": {
+    "record_ids": [
+      "weh_7539ec4b00fd54f5ae729d71",
+      "weh_c3f7a20baee453f8ba87d0d3"
+    ],
+    "record_count": 2
+  },
+  "source_evidence_artifact": {
+    "path": "/synthetic/source-evidence.json",
+    "sha256": "sha256:45b8b5ecf5c42ae7d38e18633f8326be900366dc47fc138a861cca965a4c4ae4",
+    "bytes": 9302
+  },
+  "required_review_decision": "accepted",
+  "review_decision_artifact": {
+    "path": "/synthetic/review-decision.json",
+    "sha256": "sha256:23146956bfe8410db86c94c954d127b596ec036ab041104e741d30a907e2ee77",
+    "bytes": 2559
+  }
+}

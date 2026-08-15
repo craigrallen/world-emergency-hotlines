@@ -4,10 +4,16 @@ import {
   existsSync,
   fstatSync,
   lstatSync,
+  mkdirSync,
   openSync,
   readFileSync,
   readdirSync,
+  renameSync,
+  rmSync,
+  unlinkSync,
+  writeFileSync,
 } from 'node:fs';
+import { randomUUID } from 'node:crypto';
 import { relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -87,7 +93,61 @@ export function generateDeprecationProposalContracts(options = {}) {
   components(parent, managedRoot);
   const parentIdentity = lstatSync(parent);
   if (parentIdentity.isSymbolicLink() || !parentIdentity.isDirectory()) throw new Error('output parent must be a real directory');
-  if (!existsSync(output)) throw new Error('tracked deprecation-proposal output is absent');
+  if (!existsSync(output)) {
+    if (constants.O_NOFOLLOW === undefined) throw new Error('O_NOFOLLOW support is required');
+    const lock = resolve(parent, '.deprecation-proposals.lock');
+    const stage = `${output}.stage-${process.pid}-${randomUUID()}`;
+    components(lock, managedRoot);
+    components(stage, managedRoot);
+    let lockFd;
+    let lockIdentity;
+    let stageIdentity;
+    try {
+      lockFd = openSync(lock, constants.O_WRONLY | constants.O_CREAT | constants.O_EXCL | constants.O_NOFOLLOW, 0o600);
+      lockIdentity = fstatSync(lockFd);
+      writeFileSync(lockFd, `${process.pid}\n`);
+      if (existsSync(output)) throw new Error('deprecation-proposal output appeared during generation');
+      mkdirSync(stage, { mode: 0o755 });
+      stageIdentity = lstatSync(stage);
+      if (stageIdentity.isSymbolicLink() || !stageIdentity.isDirectory()) throw new Error('unsafe deprecation-proposal stage');
+      for (const [index, name] of FILES.entries()) {
+        const fd = openSync(resolve(stage, name), constants.O_WRONLY | constants.O_CREAT | constants.O_EXCL | constants.O_NOFOLLOW, 0o644);
+        try { writeFileSync(fd, sourceState.bytes.get(name)); } finally { closeSync(fd); }
+        options.hooks?.afterStageWrite?.({ index, name, stage, output, lock });
+      }
+      const stagedState = inspect(stage, managedRoot);
+      if (!equal(stagedState, sourceState)) throw new Error('staged deprecation-proposal output differs from source');
+      options.hooks?.beforePublish?.({ stage, output, lock });
+      const currentParent = lstatSync(parent);
+      if (currentParent.isSymbolicLink() || currentParent.dev !== parentIdentity.dev || currentParent.ino !== parentIdentity.ino) throw new Error('output parent replaced before publication');
+      const currentStage = lstatSync(stage);
+      if (currentStage.isSymbolicLink() || currentStage.dev !== stageIdentity.dev || currentStage.ino !== stageIdentity.ino) throw new Error('deprecation-proposal stage replaced');
+      if (!equal(inspect(source, managedRoot), sourceState)) throw new Error('deprecation-proposal source changed before publication');
+      if (!equal(inspect(stage, managedRoot), sourceState)) throw new Error('staged deprecation-proposal output changed before publication');
+      if (existsSync(output)) throw new Error('deprecation-proposal output appeared during generation');
+      options.hooks?.beforeRename?.({ stage, output, lock });
+      const lockPathIdentity = lstatSync(lock);
+      const heldLockIdentity = fstatSync(lockFd);
+      if (lockPathIdentity.isSymbolicLink() || lockPathIdentity.dev !== lockIdentity.dev || lockPathIdentity.ino !== lockIdentity.ino || heldLockIdentity.dev !== lockIdentity.dev || heldLockIdentity.ino !== lockIdentity.ino) throw new Error('deprecation-proposal publication lock replaced');
+      renameSync(stage, output);
+      stageIdentity = undefined;
+      return Object.freeze({ published: true, reason: 'regenerated_from_absent_output' });
+    } catch (error) {
+      if (stageIdentity && existsSync(stage)) {
+        const currentStage = lstatSync(stage);
+        if (!currentStage.isSymbolicLink() && currentStage.dev === stageIdentity.dev && currentStage.ino === stageIdentity.ino) rmSync(stage, { recursive: true });
+      }
+      throw error;
+    } finally {
+      if (lockFd !== undefined) {
+        closeSync(lockFd);
+        if (existsSync(lock)) {
+          const currentLock = lstatSync(lock);
+          if (!currentLock.isSymbolicLink() && currentLock.dev === lockIdentity.dev && currentLock.ino === lockIdentity.ino) unlinkSync(lock);
+        }
+      }
+    }
+  }
   const outputState = inspect(output, managedRoot);
   const currentParent = lstatSync(parent);
   if (currentParent.isSymbolicLink() || currentParent.dev !== parentIdentity.dev || currentParent.ino !== parentIdentity.ino) {
