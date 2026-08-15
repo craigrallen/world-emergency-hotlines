@@ -1,0 +1,45 @@
+---
+import Base from '../../layouts/Base.astro';
+import { breadcrumbJsonLd } from '../../lib/seo';
+import { SITE_URL } from '../../lib/site';
+
+const guides = [
+  {
+    href: '/guides/emergency-numbers-vs-crisis-hotlines',
+    title: 'Emergency numbers and crisis hotlines: what’s the difference?',
+    description: 'Understand when to use an emergency number and when to contact a crisis-support service.',
+  },
+  {
+    href: '/guides/find-crisis-support-while-travelling-abroad',
+    title: 'How to find crisis support while travelling abroad',
+    description: 'Find location-appropriate emergency and crisis-support information while outside your home country.',
+  },
+  {
+    href: '/guides/what-hotline-verification-labels-mean',
+    title: 'What hotline verification labels do—and do not—mean',
+    description: 'Understand the evidence labels shown on directory records and the limits of what they establish.',
+  },
+];
+const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Guides', path: '/guides' }], Astro.site ?? SITE_URL);
+---
+
+<Base title="Guides to emergency numbers and crisis support" description="Practical World Hotlines guides to finding local support and understanding emergency numbers, crisis hotlines, and directory evidence labels." jsonLd={breadcrumbs}>
+  <nav class="mb-6 flex items-center gap-2 text-xs text-fg-muted" aria-label="Breadcrumb">
+    <a href="/" class="hover:text-fg">Home</a><span aria-hidden="true">›</span><span class="text-fg" aria-current="page">Guides</span>
+  </nav>
+  <header class="max-w-3xl">
+    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-accent">World Hotlines</p>
+    <h1 class="mt-3 text-4xl font-semibold tracking-tight text-fg sm:text-5xl">Guides</h1>
+    <p class="mt-4 text-lg leading-8 text-fg-muted">Practical orientation for finding the right kind of local support and understanding the evidence shown in this directory.</p>
+  </header>
+  <div class="mt-10 grid gap-5 md:grid-cols-3">
+    {guides.map((guide) => (
+      <a href={guide.href} class="card group flex flex-col p-6 hover:-translate-y-0.5 hover:border-accent/60">
+        <h2 class="text-lg font-semibold leading-snug text-fg group-hover:text-accent">{guide.title}</h2>
+        <p class="mt-3 flex-1 text-sm leading-6 text-fg-muted">{guide.description}</p>
+        <span class="mt-5 text-sm font-medium text-accent">Read guide →</span>
+      </a>
+    ))}
+  </div>
+  <p class="mt-10 max-w-3xl border-t border-border pt-6 text-sm leading-6 text-fg-muted">These guides provide general orientation, not medical, clinical, or legal advice. Service scope and availability vary; check the relevant provider or responsible local authority.</p>
+</Base>

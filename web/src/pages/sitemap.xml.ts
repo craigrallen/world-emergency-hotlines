@@ -4,7 +4,12 @@ import { getCategoriesStats, getManifest } from '../lib/data';
 import { SITE_URL } from '../lib/site';
 import { isCategoryIndexable } from '../lib/seo';
 
-const STATIC_PATHS = ['', '/about', '/find-help', '/traveler', '/integrate', '/map', '/data', '/categories', '/countries'];
+const STATIC_PATHS = [
+  '', '/about', '/find-help', '/traveler', '/integrate', '/map', '/data', '/categories', '/countries', '/guides',
+  '/guides/emergency-numbers-vs-crisis-hotlines',
+  '/guides/find-crisis-support-while-travelling-abroad',
+  '/guides/what-hotline-verification-labels-mean',
+];
 
 function escapeXml(value: string): string {
   return value

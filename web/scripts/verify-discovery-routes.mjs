@@ -135,6 +135,10 @@ const expectedUrls = [
   '/data',
   '/categories',
   '/countries',
+  '/guides',
+  '/guides/emergency-numbers-vs-crisis-hotlines',
+  '/guides/find-crisis-support-while-travelling-abroad',
+  '/guides/what-hotline-verification-labels-mean',
   ...countries.filter((country) => country.hotline_count > 0).map((country) => `/country/${country.alpha2.toLowerCase()}`).sort(),
   ...categories.filter(isCategoryIndexable).map((category) => `/category/${category.slug}`).sort(),
 ].map(absoluteUrl);
