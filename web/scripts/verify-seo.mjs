@@ -920,7 +920,7 @@ for (const [route, headline] of guideArticles) {
   const visibleHeadline = page.html.match(/<h1\b[^>]*>([^<]+)<\/h1>/i)?.[1];
   if (article.headline !== headline || article.headline !== visibleHeadline) fail(`${route}: Article.headline must equal the visible H1`);
   if (article.description !== page.description) fail(`${route}: Article.description must equal the meta description`);
-  if (article.datePublished !== '2026-08-16' || article.dateModified !== '2026-08-16') fail(`${route}: Article dates must equal 2026-08-16`);
+  if (article.datePublished !== '2026-08-15' || article.dateModified !== '2026-08-15') fail(`${route}: Article dates must equal 2026-08-15`);
   if (article.url !== canonicalPath(route)) fail(`${route}: Article.url must equal the page canonical`);
   if (JSON.stringify(article.isPartOf) !== JSON.stringify({ '@type': 'WebSite', name: SITE_NAME, url: canonicalPath('/') })) fail(`${route}: Article.isPartOf must identify the canonical WebSite`);
   if ('author' in article || 'publisher' in article) fail(`${route}: Article must not claim an author or publisher`);
