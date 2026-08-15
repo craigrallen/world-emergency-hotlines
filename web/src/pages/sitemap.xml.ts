@@ -5,7 +5,7 @@ import { SITE_URL } from '../lib/site';
 import { isCategoryIndexable } from '../lib/seo';
 
 const STATIC_PATHS = [
-  '', '/about', '/find-help', '/integrate', '/map', '/data', '/categories', '/countries', '/guides',
+  '', '/about', '/find-help', '/traveler', '/integrate', '/map', '/data', '/categories', '/countries', '/guides',
   '/guides/emergency-numbers-vs-crisis-hotlines',
   '/guides/find-crisis-support-while-travelling-abroad',
   '/guides/what-hotline-verification-labels-mean',

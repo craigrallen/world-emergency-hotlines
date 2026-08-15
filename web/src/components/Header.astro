@@ -13,6 +13,7 @@ const { locale = 'en' as Locale } = Astro.props;
 const nav: Array<{ href: string; key: string; icon: Parameters<typeof Icon>[0]['name'] }> = [
   { href: '/', key: 'nav.home', icon: 'brand' },
   { href: '/find-help', key: 'Find help', icon: 'search' },
+  { href: '/traveler', key: 'Traveler mode', icon: 'globe' },
   { href: '/countries', key: 'Countries', icon: 'globe' },
   { href: '/categories', key: 'nav.categories', icon: 'shield' },
   { href: '/guides', key: 'Guides', icon: 'heart' },

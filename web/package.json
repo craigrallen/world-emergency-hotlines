@@ -22,7 +22,7 @@
     "verify:seo:dist": "node scripts/verify-seo.mjs && npm run verify:seo-images",
     "verify:seo": "npm run build && npm run verify:seo:dist",
     "verify:trust": "node scripts/verify-trust-foundation.mjs",
-    "verify:finder": "node scripts/verify-guided-finder.mjs",
+    "verify:finder": "node scripts/verify-guided-finder.mjs && node scripts/verify-traveler.mjs",
     "verify:api": "node scripts/verify-static-api.mjs",
     "verify:widget": "node scripts/verify-widget.mjs && node scripts/verify-widget-runtime.mjs",
     "verify:integration": "node scripts/verify-integration-readiness.mjs && node scripts/verify-subscription-contracts.mjs",

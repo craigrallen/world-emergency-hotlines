@@ -129,6 +129,7 @@ const expectedUrls = [
   '',
   '/about',
   '/find-help',
+  '/traveler',
   '/integrate',
   '/map',
   '/data',
