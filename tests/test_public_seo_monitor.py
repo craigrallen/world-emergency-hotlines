@@ -34,7 +34,7 @@ def html(route,noindex=False,category=False,country=False):
             f'<meta name="twitter:image:alt" content="{alt}">')
     metadata=common+('<meta name="robots" content="noindex,follow">' if noindex else f'<meta name="robots" content="index,follow"><link rel="canonical" href="{url}"><meta property="og:url" content="{url}">{scripts}')
     extra=""
-    if country: extra='<a href="#record">jump</a><article id="record" class="scroll-mt-24" data-hotline-card data-record-id="weh_1"><a href="tel:+123" data-phone-contact="+123">123</a></article>'
+    if country: extra='<div data-general-emergency-listing data-country-code="US"><a href="tel:911" data-phone-contact="911" data-general-emergency-contact="911">911</a></div><a href="#record">jump</a><article id="record" class="scroll-mt-24" data-hotline-card data-record-id="weh_1"><a href="tel:+123" data-phone-contact="+123">123</a></article>'
     if category: extra='<div class="country-summary">summary</div>'
     return f"<html><head>{metadata}</head><body><h1>Route heading</h1>{extra}</body></html>".encode()
 
@@ -70,6 +70,138 @@ class PublicSeoTests(unittest.TestCase):
     def test_valid_deterministic_fixture(self):
         first=seo.run("2026-08-15",fixtures()); second=seo.run("2026-08-15",fixtures())
         self.assertEqual(first,second); self.assertEqual(first["status"],"ok")
+
+    def test_observed_scale_pages_remain_within_finite_collection_bounds(self):
+        # Generated at the largest observed production scale (the US page).
+        anchors=b'<a href="/country/us">route</a>'*1_057
+        tokens=[f"c{i}".encode() for i in range(31_436)]
+        classes=b"".join(b'<div class="'+b" ".join(tokens[i:i+75])+b'"></div>' for i in range(0,len(tokens),75))
+        raw=html("/country/us",country=True)+anchors+classes
+        self.assertLess(len(raw),seo.MAX_BYTES)
+        report=seo.run("2026-08-15",fixtures({"country":raw}))
+        self.assertNotIn("html_collection_overflow",{item["code"] for item in report["issues"]})
+
+    def test_response_anchor_and_class_caps_accept_exactly_and_reject_one_over(self):
+        class Response:
+            fp=None
+            def __init__(self,size): self.remaining=size
+            def read(self,size=-1):
+                amount=min(self.remaining,size); self.remaining-=amount; return b"x"*amount
+        exact=seo._read_bounded(Response(seo.MAX_BYTES),10**20,seo.MAX_BYTES)
+        over=seo._read_bounded(Response(seo.MAX_BYTES+1),10**20,seo.MAX_BYTES)
+        self.assertEqual((len(exact[0]),exact[1]),(seo.MAX_BYTES,False))
+        self.assertEqual((len(over[0]),over[1]),(seo.MAX_BYTES,True))
+        image_exact=seo._read_bounded(Response(seo.MAX_IMAGE_BYTES),10**20,seo.MAX_IMAGE_BYTES)
+        image_over=seo._read_bounded(Response(seo.MAX_IMAGE_BYTES+1),10**20,seo.MAX_IMAGE_BYTES)
+        self.assertEqual((len(image_exact[0]),image_exact[1]),(seo.MAX_IMAGE_BYTES,False))
+        self.assertEqual((len(image_over[0]),image_over[1]),(seo.MAX_IMAGE_BYTES,True))
+        with self.assertRaises(ValueError): seo._read_bounded(Response(1),10**20,seo.MAX_BYTES+1)
+        for maximum,fragment,collection,label in (
+                (seo.MAX_PARSED_ANCHORS,b'<a href="/x">x</a>',"links","anchors"),
+                (seo.MAX_PARSED_CLASSES,b'<i class="x"></i>',"classes","classes")):
+            parser=seo.PageParser(); parser.feed((fragment*maximum).decode())
+            self.assertEqual(len(getattr(parser,collection)),maximum); self.assertNotIn(label,parser.overflows)
+            parser=seo.PageParser(); parser.feed((fragment*(maximum+1)).decode())
+            self.assertEqual(len(getattr(parser,collection)),maximum); self.assertIn(label,parser.overflows)
+
+    def test_sitemap_xml_media_types_and_route_coverage(self):
+        base=fixtures()
+        accepted=("text/xml","TEXT/XML; Charset=UTF-8","application/xml; charset=\"utf-8\"","Application/XML ; CHARSET=utf-8",
+                  "application/xml;\tcharset=utf-8", "application/xml\t;\tcharset\t=\tutf-8",
+                  "\tapplication/xml\t; charset =\tutf-8\t", 'application/xml; profile="a;b"',
+                  'text/xml; profile="a\\\"b\\\\c"; version=one')
+        for content_type in accepted:
+            def fetch(url,deadline=None,content_type=content_type):
+                value=base(url,deadline)
+                if url.endswith("/sitemap.xml"): value["content_type"]=content_type
+                return value
+            report=seo.run("2026-08-15",fetch)
+            self.assertEqual(report["status"],"ok"); self.assertEqual(report["metrics"]["sitemap_urls"],3)
+            self.assertNotIn("sitemap_missing_route",{item["code"] for item in report["issues"]})
+        for content_type in ("","text/html","application/json","application/sitemap+xml","not a/type",
+                             "text/xml; charset","text/xml;",'text/xml; charset="unterminated',
+                             'text/xml; charset=utf-8; charset=utf-8',
+                             'text/xml; charset=utf-8; CHARSET=us-ascii',
+                             'text/xml; profile="bad\\q"', 'text/xml; profile="bad\\"',
+                             'text/xml; profile="ok"garbage', 'text/xml;;charset=utf-8',
+                             'text/xml; profile="line\nbreak"', 'text/xml; profile="tab\tvalue"',
+                             'text/xml; profile="vertical\vtab"', 'text/xml; profile="form\ffeed"',
+                             'text/xml; profile="carriage\rreturn"', 'text/xml; profile="control\x00value"',
+                             'text/xml; profile="delete\x7fvalue"', 'text/xml; profile="control\x85value"'):
+            def fetch(url,deadline=None,content_type=content_type):
+                value=base(url,deadline)
+                if url.endswith("/sitemap.xml"): value["content_type"]=content_type
+                return value
+            codes={item["code"] for item in seo.run("2026-08-15",fetch)["issues"]}
+            self.assertIn("sitemap_content_type",codes); self.assertNotIn("sitemap_missing_route",codes)
+        prefix='application/xml; profile="'
+        exact=prefix+"a"*(seo.MAX_CONTENT_TYPE_CHARS-len(prefix)-1)+'"'
+        self.assertEqual(len(exact),seo.MAX_CONTENT_TYPE_CHARS)
+        self.assertTrue(seo._sitemap_mime(exact)); self.assertFalse(seo._sitemap_mime(exact[:-1]+'a"'))
+
+    def test_fetch_rejects_oversized_malformed_and_duplicate_content_type(self):
+        class Response:
+            status=200; fp=None
+            def __init__(self,headers): self.headers=headers
+            def getheaders(self): return self.headers
+            def getheader(self,name,default=None):
+                values=[v for k,v in self.headers if k.casefold()==name.casefold()]
+                return values[0] if values else default
+            def read(self,size=-1): return b"ok"
+        class Connection:
+            def __init__(self,response,*args): self.response=response
+            def request(self,*args,**kwargs): pass
+            def getresponse(self): return self.response
+            def close(self): pass
+        def fetch(headers):
+            response=Response(headers)
+            return seo.fetch_resource(seo.ORIGIN+"/sitemap.xml",resolver=lambda *a,**k:[(None,None,None,None,("8.8.8.8",443))],
+                connection_factory=lambda *args:Connection(response))
+        exact="application/xml"+" "*(seo.MAX_CONTENT_TYPE_CHARS-len("application/xml"))
+        self.assertEqual(fetch([("Content-Type",exact)])["content_type"],exact.strip())
+        for headers in ([('Content-Type',exact+'x')], [('Content-Type','application/xml'),('content-type','text/html')],
+                        [('Content-Type',None)], []):
+            self.assertFalse(seo._sitemap_mime(fetch(headers)["content_type"]))
+
+    def test_fetch_applies_image_transport_cap_before_page_allowance(self):
+        class Response:
+            status=200; fp=None
+            def __init__(self,size): self.remaining=size; self.consumed=0
+            def getheaders(self): return [("Content-Type","image/png")]
+            def getheader(self,name,default=None): return "image/png" if name=="Content-Type" else default
+            def read(self,size=-1):
+                amount=min(self.remaining,size); self.remaining-=amount; self.consumed+=amount; return b"x"*amount
+        response=Response(seo.MAX_BYTES)
+        class Connection:
+            def __init__(self,*args): pass
+            def request(self,*args,**kwargs): pass
+            def getresponse(self): return response
+            def close(self): pass
+        result=seo.fetch_resource(seo.ORIGIN+seo.ROUTES["image"],resolver=lambda *a,**k:[(None,None,None,None,("8.8.8.8",443))],connection_factory=Connection)
+        self.assertTrue(result["truncated"]); self.assertEqual(len(result["body"]),seo.MAX_IMAGE_BYTES)
+        self.assertEqual(response.consumed,seo.MAX_IMAGE_BYTES+1)
+        self.assertGreater(response.remaining,0)
+
+    def test_duplicate_security_sensitive_attributes_are_rejected_before_collapse(self):
+        valid=html("/country/us",country=True)
+        cases=[
+            (b'data-country-code="US"',b'data-country-code="US" DATA-COUNTRY-CODE="US"'),
+            (b'data-country-code="US"',b'data-country-code="US" data-country-code="CA"'),
+            (b'data-phone-contact="911"',b'data-phone-contact="911" DATA-PHONE-CONTACT="&#57;&#49;&#49;"'),
+            (b'data-phone-contact="911"',b'data-phone-contact="911" data-message-contact="911" DATA-MESSAGE-CONTACT="112"'),
+            (b'data-general-emergency-listing',b'data-general-emergency-listing DATA-GENERAL-EMERGENCY-LISTING'),
+            (b'data-record-id="weh_1"',b'data-record-id="weh_1" data-record-id="other"'),
+            (b'data-record-id="weh_1"',b'data-prioritized-record-id="one" DATA-PRIORITIZED-RECORD-ID="two" data-record-id="weh_1"'),
+            (b'href="tel:911"',b'href="tel:911" HREF="tel:112"'),
+        ]
+        for old,new in cases:
+            codes={x["code"] for x in seo.run("2026-08-15",fixtures({"country":valid.replace(old,new,1)}))["issues"]}
+            self.assertIn("html_collection_overflow",codes)
+
+    def test_invalid_sitemap_reports_root_cause_without_missing_route_cascade(self):
+        report=seo.run("2026-08-15",fixtures({"sitemap":b"<bad>"}))
+        codes={item["code"] for item in report["issues"]}
+        self.assertIn("sitemap_xml",codes); self.assertNotIn("sitemap_missing_route",codes)
 
     def test_x_robots_normalization_applicability_conflicts_and_bounds(self):
         sitemap={seo.ORIGIN+p for p in ("/","/country/us","/category/emergency")}
@@ -161,6 +293,159 @@ class PublicSeoTests(unittest.TestCase):
             report=seo.run("2026-08-15",fixtures({"country":prefix+fragment}))
             self.assertIn("contact_attribution",{x["code"] for x in report["issues"]})
 
+    def test_country_general_emergency_attribution_contract(self):
+        valid=html("/country/us",country=True)
+        self.assertNotIn("contact_attribution",{x["code"] for x in seo.run("2026-08-15",fixtures({"country":valid}))["issues"]})
+        replacements=[
+            (b'data-general-emergency-listing data-country-code="US"',b''),
+            (b'data-country-code="US"',b'data-country-code=""'),
+            (b'data-country-code="US"',b'data-country-code="USA"'),
+            (b'data-country-code="US"',b'data-country-code="CA"'),
+            (b'data-phone-contact="911"',b''),
+            (b'data-phone-contact="911"',b'data-phone-contact="112"'),
+            (b'data-general-emergency-contact="911"',b''),
+            (b'data-general-emergency-contact="911"',b'data-general-emergency-contact=""'),
+            (b'data-general-emergency-contact="911"',b'data-general-emergency-contact="112"'),
+            (b'data-general-emergency-contact="911"',b'data-general-emergency-contact="&#57;11"'),
+            (b'data-general-emergency-contact="911"',b'data-general-emergency-contact="911" data-general-emergency-contact="911"'),
+            (b'>911</a></div>',b'>112</a></div>'),
+            (b'<div data-general-emergency-listing',b'<article data-hotline-card data-record-id="nested"><div data-general-emergency-listing'),
+            (b'<div data-general-emergency-listing',b'<div data-prioritized-listing data-prioritized-record-id="nested"><div data-general-emergency-listing'),
+            (b'data-general-emergency-listing data-country-code="US"',b'data-general-emergency-listing data-hotline-card data-record-id="nested" data-country-code="US"'),
+        ]
+        for old,new in replacements:
+            raw=valid.replace(old,new,1)
+            if b'<article data-hotline-card data-record-id="nested">' in raw: raw += b'</article>'
+            if b'<div data-prioritized-listing data-prioritized-record-id="nested">' in raw: raw += b'</div>'
+            self.assertIn("contact_attribution",{x["code"] for x in seo.run("2026-08-15",fixtures({"country":raw}))["issues"]})
+        multiple=valid.replace(b'</body>',b'<div data-general-emergency-listing data-country-code="US"></div></body>')
+        self.assertIn("contact_attribution",{x["code"] for x in seo.run("2026-08-15",fixtures({"country":multiple}))["issues"]})
+        duplicate=valid.replace(b'</a></div>',b'</a><a href="tel:911" data-phone-contact="911">911</a></div>',1)
+        self.assertIn("contact_attribution",{x["code"] for x in seo.run("2026-08-15",fixtures({"country":duplicate}))["issues"]})
+        for misplaced in (
+            b'<article data-hotline-card data-record-id="x"><a href="tel:112" data-phone-contact="112" data-general-emergency-contact="112">112</a></article>',
+            b'<div data-prioritized-listing data-prioritized-record-id="x"><a href="tel:112" data-phone-contact="112" data-general-emergency-contact="112">112</a></div>',
+            b'<a href="tel:112" data-phone-contact="112" data-general-emergency-contact="112">112</a>',
+        ):
+            self.assertIn("contact_attribution",{x["code"] for x in seo.run("2026-08-15",fixtures({"country":valid+misplaced}))["issues"]})
+        non_country=html("/")+b'<div data-general-emergency-listing data-country-code="US"><a href="tel:911" data-phone-contact="911">911</a></div>'
+        self.assertIn("contact_attribution",{x["code"] for x in seo.run("2026-08-15",fixtures({"home":non_country}))["issues"]})
+
+    def test_raw_contact_attributes_reject_character_references_before_decoding(self):
+        base=html("/country/us",country=True)
+        href_cases=(
+            '<article data-hotline-card data-record-id="x"><a href="tel&#58;123" data-phone-contact="123">x</a></article>',
+            "<article data-hotline-card data-record-id=x><a HREF='tel&#x3A;123' DATA-PHONE-CONTACT=123>x</a></article>",
+            '<article data-hotline-card data-record-id=x><a href=tel&colon;123 data-phone-contact=123>x</a></article>',
+            '<article data-hotline-card data-record-id=x><a href="tel:&#43;123" data-phone-contact="+123">x</a></article>',
+            '<article data-hotline-card data-record-id=x><a href=tel:12&#51 data-phone-contact=123>x</a></article>',
+            '<article data-hotline-card data-record-id=x><a href="sms:12&#51;" data-message-contact="123">x</a></article>',
+        )
+        for fragment in href_cases:
+            with self.subTest(fragment=fragment):
+                codes={x["code"] for x in seo.inspect_html("country","/country/us",base+fragment.encode(),{seo.ORIGIN+"/country/us"})}
+                self.assertIn("unsafe_contact_uri",codes)
+        marker_cases=(
+            '<article data-hotline-card data-record-id=x><a href="tel:123" data-phone-contact="12&#51;">x</a></article>',
+            '<article data-hotline-card data-record-id=x><a href=tel:+123 data-phone-contact=&#43;123>x</a></article>',
+            '<article data-hotline-card data-record-id=x><a href=sms:123 DATA-MESSAGE-CONTACT=12&#51>x</a></article>',
+        )
+        for fragment in marker_cases:
+            codes={x["code"] for x in seo.inspect_html("country","/country/us",base+fragment.encode(),{seo.ORIGIN+"/country/us"})}
+            self.assertIn("contact_attribution",codes)
+        encoded_general=base.replace(b'data-general-emergency-contact="911"',b'data-general-emergency-contact="9&#49;1"')
+        self.assertIn("contact_attribution",{x["code"] for x in seo.inspect_html("country","/country/us",encoded_general,{seo.ORIGIN+"/country/us"})})
+        decoy=base+b'<article data-hotline-card data-record-id=x><a title="> &#58;" href="tel:123" data-phone-contact="123">x</a></article>'
+        codes={x["code"] for x in seo.inspect_html("country","/country/us",decoy,{seo.ORIGIN+"/country/us"})}
+        self.assertNotIn("unsafe_contact_uri",codes)
+        ordinary=html("/")+b'<a href="https://example.test/?a=1&amp;b=2">ordinary</a>'
+        self.assertNotIn("unsafe_contact_uri",{x["code"] for x in seo.inspect_html("home","/",ordinary,{seo.ORIGIN+"/"})})
+
+    def test_void_elements_and_malformed_closes_cannot_forge_attribution(self):
+        valid=html("/country/us",country=True)
+        open_panel=b'<div data-general-emergency-listing data-country-code="US">'
+        fragments=(
+            valid.replace(open_panel,b'<img data-general-emergency-listing data-country-code="US">').replace(b'</a></div>',b'</a></img>',1),
+            valid.replace(open_panel,b'<input data-general-emergency-listing data-country-code="US">').replace(b'</a></div>',b'</a>',1),
+            valid.replace(open_panel,b'<meta data-general-emergency-listing data-country-code="US">').replace(b'</a></div>',b'</a>',1),
+            valid.replace(open_panel,b'<br data-general-emergency-listing data-country-code="US">').replace(b'</a></div>',b'</a>',1),
+            valid+b'<img data-phone-contact="911"><input data-message-contact="911"><meta data-prioritized-listing data-prioritized-record-id="fake"><br data-general-emergency-contact="911">',
+            valid+b'<div data-hotline-card data-record-id="fake"/><a href="tel:123" data-phone-contact="123">x</a>',
+        )
+        for raw in fragments:
+            self.assertIn("contact_attribution",{x["code"] for x in seo.inspect_html("country","/country/us",raw,{seo.ORIGIN+"/country/us"})})
+        nested=valid.replace(b'>911</a></div>',b'><img data-hotline-card data-record-id="fake">911</a></div>',1)
+        self.assertIn("contact_attribution",{x["code"] for x in seo.inspect_html("country","/country/us",nested,{seo.ORIGIN+"/country/us"})})
+        stray=valid+b'</img></input></meta></br></unknown><article data-hotline-card data-record-id="ok"><a href="tel:123" data-phone-contact="123">x</a></article>'
+        codes={x["code"] for x in seo.inspect_html("country","/country/us",stray,{seo.ORIGIN+"/country/us"})}
+        self.assertNotIn("contact_attribution",codes)
+        self.assertNotIn("html_collection_overflow",codes)
+        self.assertNotIn("contact_attribution",{x["code"] for x in seo.inspect_html("country","/country/us",valid,{seo.ORIGIN+"/country/us"})})
+
+    def test_attribution_critical_malformed_html_has_one_root_issue(self):
+        fragments=(
+            '<article data-hotline-card data-record-id="x"><a href="tel:123" data-phone-contact="123">x</a>',
+            '<div data-prioritized-listing data-prioritized-record-id="x"><a href="sms:123" data-message-contact="123">x</a>',
+            '<div data-general-emergency-listing data-country-code="US"><a href="tel:911" data-phone-contact="911" data-general-emergency-contact="911">911</a>',
+            '<article data-hotline-card data-record-id="x"><a href="tel:123" data-phone-contact="123">x</article>',
+            '<article data-hotline-card data-record-id="x"><span data-phone-contact="123">x',
+            '<article data-hotline-card data-record-id="x"><div></article></div>',
+            '<div><article data-hotline-card data-record-id="x"></div></article>',
+            '<article data-hotline-card data-record-id="x"><div data-prioritized-listing data-prioritized-record-id="y"></article></div>',
+            '<div data-prioritized-listing data-prioritized-record-id="x"><article data-hotline-card data-record-id="y"></div></article>',
+            '<article data-hotline-card data-record-id="x"></section></article>',
+        )
+        for fragment in fragments:
+            with self.subTest(fragment=fragment):
+                raw=html("/")+fragment.encode()
+                found=[x for x in seo.inspect_html("home","/",raw,{seo.ORIGIN+"/"})
+                       if x["code"] == "contact_attribution"]
+                self.assertEqual(found,[seo.issue("contact_attribution","/","malformed HTML makes contact attribution structure untrustworthy")])
+        ordinary=html("/")+b'<ul><li>one<li>two</ul><p>one<div>two</div><article data-hotline-card data-record-id="x"><p>optional</article>'
+        self.assertNotIn("contact_attribution",{x["code"] for x in seo.inspect_html("home","/",ordinary,{seo.ORIGIN+"/"})})
+
+    def test_depth_overflow_preserves_tracked_ancestry_without_cascade(self):
+        card='<article data-hotline-card data-record-id="x">'
+        contact='<a href="tel:123" data-phone-contact="123">x</a>'
+        exact=seo.PageParser(); exact.feed(card+'<div>'*(seo.MAX_HTML_DEPTH-2)+contact+'</div>'*(seo.MAX_HTML_DEPTH-2)+'</article>'); exact.close()
+        self.assertNotIn("depth",exact.overflows)
+        cases=(
+            card+'<div>'*(seo.MAX_HTML_DEPTH-1)+'<article></article>'+contact+'</div>'*(seo.MAX_HTML_DEPTH-1)+'</article>',
+            card+'<div>'*(seo.MAX_HTML_DEPTH-1)+'<section><article></article></section>'+contact+'</div>'*(seo.MAX_HTML_DEPTH-1)+'</article>',
+            card+'<div>'*(seo.MAX_HTML_DEPTH-1)+'<br><i />'+contact+'</div>'*(seo.MAX_HTML_DEPTH-1)+'</article>'+'<article data-hotline-card data-record-id="y">'+contact+'</article>',
+        )
+        for fragment in cases:
+            with self.subTest(fragment=fragment[-120:]):
+                issues=seo.inspect_html("home","/",html("/")+fragment.encode(),{seo.ORIGIN+"/"})
+                self.assertIn("html_collection_overflow",{x["code"] for x in issues})
+                self.assertNotIn("contact_attribution",{x["code"] for x in issues})
+
+    def test_parser_close_is_idempotent_and_preserves_closed_jsonld(self):
+        parser=seo.PageParser(); parser.feed('<script type="application/ld+json">{"@type":"WebSite"}</script>')
+        parser.close(); first=(list(parser.jsonld),set(parser.overflows)); parser.close()
+        self.assertEqual((parser.jsonld,parser.overflows),first)
+
+    def test_contact_uri_and_marker_digit_boundaries(self):
+        base=html("/country/us",country=True)
+        cases=(("tel",1,False),("tel",2,True),("tel",15,True),("tel",16,False),
+               ("sms",2,False),("sms",3,True),("sms",15,True),("sms",16,False))
+        for scheme,count,accepted in cases:
+            marker="data-phone-contact" if scheme == "tel" else "data-message-contact"
+            container='data-hotline-card data-record-id="bounds"'
+            for plus in ("","+"):
+                value=plus+("1"*count)
+                variants=(
+                    f'<article {container}><a href="{scheme}:{value}" {marker}="{value}">x</a></article>',
+                    f'<article {container}><a href="{scheme}:{value}" {marker}="1{value[1:] if plus else value[1:]}">x</a></article>',
+                )
+                uri_codes={x["code"] for x in seo.inspect_html("country","/country/us",base+variants[0].encode(),{seo.ORIGIN+"/country/us"})}
+                self.assertEqual("unsafe_contact_uri" not in uri_codes,accepted,(scheme,count,plus,"uri"))
+                self.assertEqual("contact_attribution" not in uri_codes,accepted,(scheme,count,plus,"marker"))
+                marker_value=("9" if not plus else "+9")+("1"*(count-1))
+                marker_html=f'<article {container}><a href="{scheme}:{value}" {marker}="{marker_value}">x</a></article>'
+                marker_codes={x["code"] for x in seo.inspect_html("country","/country/us",base+marker_html.encode(),{seo.ORIGIN+"/country/us"})}
+                self.assertIn("contact_attribution",marker_codes,(scheme,count,plus,"marker"))
+
     def test_html_semantic_failures_and_category_boundaries(self):
         cases=[("home",b"<meta name='robots' content='index'>","canonical_mismatch"),
                ("noindex",b'<meta name="robots" content="noindex"><link rel="canonical" href="https://worldhotlines.org/status">',"noindex_url_metadata"),
@@ -242,6 +527,23 @@ class PublicSeoTests(unittest.TestCase):
             return value
         self.assertIn("response_oversized",{x["code"] for x in seo.run("2026-08-15",truncated)["issues"]})
 
+    def test_social_image_transport_cap_does_not_cascade_validation(self):
+        base=png(production=True)
+        payload_size=seo.MAX_IMAGE_BYTES-len(base)-12
+        exact=base[:-12]+chunk(b"tEXt",b"x"*payload_size)+base[-12:]
+        self.assertEqual(len(exact),seo.MAX_IMAGE_BYTES); self.assertTrue(seo.valid_social_png(exact))
+        exact_report=seo.run("2026-08-15",fixtures({"image":exact}))
+        self.assertNotIn("response_oversized",{x["code"] for x in exact_report["issues"]})
+        self.assertNotIn("social_image_invalid",{x["code"] for x in exact_report["issues"]})
+        normal=fixtures()
+        def one_over(url,deadline=None):
+            response=normal(url,deadline)
+            if url.endswith("/social-card.png"):
+                response["body"]=exact[:-1]; response["truncated"]=True
+            return response
+        codes={x["code"] for x in seo.run("2026-08-15",one_over)["issues"]}
+        self.assertIn("response_oversized",codes); self.assertNotIn("social_image_invalid",codes)
+
     def test_social_png_complete_structure_and_exact_dimensions(self):
         valid=png(production=True)
         self.assertTrue(seo.valid_social_png(valid))
@@ -257,7 +559,7 @@ class PublicSeoTests(unittest.TestCase):
             "nonterminal_iend":valid+chunk(b"tEXt",b"x"),
             "bad_crc":valid[:ihdr_end-1]+bytes([valid[ihdr_end-1]^1])+valid[ihdr_end:],
             "wrong_dimensions":png(600,300),
-            "oversized_declaration":seo.PNG_SIGNATURE+struct.pack(">I",seo.MAX_BYTES)+b"IDAT",
+            "oversized_declaration":seo.PNG_SIGNATURE+struct.pack(">I",seo.MAX_IMAGE_BYTES)+b"IDAT",
             "trailing_bytes":valid+b"x",
             "invalid_ihdr":seo.PNG_SIGNATURE+chunk(b"IHDR",struct.pack(">IIBBBBB",1200,630,4,6,1,1,2))+chunk(b"IDAT",b"x")+chunk(b"IEND"),
             "unknown_critical":valid[:-12]+chunk(b"ABCD",b"x")+chunk(b"IEND"),

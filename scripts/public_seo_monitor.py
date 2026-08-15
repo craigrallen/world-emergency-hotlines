@@ -34,27 +34,37 @@ HOST = "worldhotlines.org"
 ROUTES = {"home": "/", "robots": "/robots.txt", "sitemap": "/sitemap.xml",
           "country": "/country/us", "category": "/category/emergency",
           "noindex": "/status", "image": "/social-card.png"}
-MAX_BYTES = 512_000
+# Production pages can legitimately exceed 1.5 MB. Keep transport hostile-input
+# handling bounded at 2.5 MiB, with headroom over the observed deployment.
+MAX_BYTES = 2_621_440
+MAX_IMAGE_BYTES = 512_000
 MAX_SITEMAP_URLS = 2_000
 MAX_REDIRECTS = 3
 MAX_X_ROBOTS_HEADERS = 16
 MAX_X_ROBOTS_BYTES = 4096
 MAX_ROBOTS_RECORDS = 1000
-MAX_PARSED_ANCHORS = 256
+MAX_PARSED_ANCHORS = 2_048
 MAX_PARSED_META = 64
 MAX_PARSED_JSONLD = 16
 MAX_PARSED_SCRIPTS = 32
 MAX_PARSED_IDS = 256
-MAX_PARSED_CLASSES = 256
+# The largest observed page (US) renders about 1,057 anchors and 31,436 class
+# tokens. These ceilings retain finite hostile-input handling with headroom.
+MAX_PARSED_CLASSES = 40_000
 MAX_PARSED_TEXT = 16
 MAX_ISSUE_CANDIDATES = 1_000
 MAX_HTML_DEPTH = 128
 MAX_CAPTURE_CHARS = 16_384
 MAX_ATTRIBUTE_CHARS = 2_048
+MAX_CONTENT_TYPE_CHARS = 200
 MAX_JSON_BYTES = 64_000
 MAX_MARKDOWN_BYTES = 48_000
 MAX_SITEMAP_ELEMENTS = 6_000
 MAX_SITEMAP_DEPTH = 8
+HTML_VOID_ELEMENTS=frozenset({"area","base","br","col","embed","hr","img","input","link","meta","param","source","track","wbr"})
+HTML_OPTIONAL_END_ELEMENTS=frozenset({"li","dt","dd","p","rt","rp","optgroup","option","thead","tbody","tfoot","tr","td","th"})
+RAW_CONTACT_ATTRIBUTES=frozenset({"href","data-phone-contact","data-message-contact","data-general-emergency-contact"})
+CHARACTER_REFERENCE=re.compile(r"&(?:#[0-9]+;?|#x[0-9a-f]+;?|[a-z][a-z0-9]+;?)",re.I)
 MAX_SITEMAP_ATTRIBUTES = 8
 MAX_SITEMAP_FIELD_BYTES = 4_096
 MAX_SITEMAP_TEXT_BYTES = 256_000
@@ -110,7 +120,8 @@ def fetch_resource(url: str, *, resolver=socket.getaddrinfo, connection_factory=
                     if redirect_count == MAX_REDIRECTS: raise ValueError("redirect_limit")
                     target = validate_origin_url(urllib.parse.urljoin(identity, location))
                     resolved = sm.resolve_public(target, resolver, deadline); current = target; continue
-                body, truncated = sm._read_bounded(response, deadline)
+                cap = MAX_IMAGE_BYTES if parsed.path == ROUTES["image"] else MAX_BYTES
+                body, truncated = _read_bounded(response, deadline, cap)
                 header_values=[]; header_bytes=0; header_error=None
                 for key,value in (response.getheaders() if hasattr(response,"getheaders") else []):
                     if key.casefold() != "x-robots-tag": continue
@@ -119,8 +130,16 @@ def fetch_resource(url: str, *, resolver=socket.getaddrinfo, connection_factory=
                     if len(header_values) >= MAX_X_ROBOTS_HEADERS or header_bytes > MAX_X_ROBOTS_BYTES:
                         header_error="x_robots_tag_oversized"; break
                     header_values.append(value)
+                content_types=[value for key,value in (response.getheaders() if hasattr(response,"getheaders") else [])
+                               if isinstance(key,str) and key.casefold() == "content-type"]
+                if not content_types:
+                    fallback=response.getheader("Content-Type", "")
+                    content_types=[] if fallback in (None,"") else [fallback]
+                content_type=(content_types[0].strip().lower() if len(content_types) == 1
+                              and isinstance(content_types[0],str) and len(content_types[0]) <= MAX_CONTENT_TYPE_CHARS
+                              else "!invalid-content-type!")
                 return {"status": status, "final_url": identity, "body": body, "truncated": truncated,
-                        "content_type": response.getheader("Content-Type", "").strip().lower()[:200],
+                        "content_type": content_type,
                         "x_robots_tag": header_values, "x_robots_tag_error": header_error,
                         "redirect_count": redirect_count, "redirected": redirect_count > 0}
             finally: connection.close()
@@ -131,12 +150,60 @@ def fetch_resource(url: str, *, resolver=socket.getaddrinfo, connection_factory=
     raise AssertionError("redirect loop")
 
 
+def _read_bounded(response, deadline, cap):
+    """Read at most an approved positive route cap plus one overflow sentinel."""
+    if cap not in {MAX_BYTES,MAX_IMAGE_BYTES}: raise ValueError("invalid_response_cap")
+    chunks=[]; length=0
+    while length <= cap:
+        if response.fp and getattr(response.fp,"raw",None) and getattr(response.fp.raw,"_sock",None):
+            response.fp.raw._sock.settimeout(sm._remaining(deadline))
+        chunk=response.read(min(64 * 1024,cap+1-length))
+        if not chunk: break
+        chunks.append(chunk); length += len(chunk)
+    raw=b"".join(chunks)
+    return raw[:cap],len(raw)>cap
+
+
+def _scan_raw_attributes(raw_tag):
+    """Return bounded, undecoded attributes from one quote-aware start tag."""
+    length=len(raw_tag); index=1; attributes=[]; malformed=False
+    while index < length and not raw_tag[index].isspace() and raw_tag[index] not in "/>": index += 1
+    while index < length:
+        while index < length and raw_tag[index].isspace(): index += 1
+        if index >= length or raw_tag[index] == ">" or raw_tag.startswith("/>",index): break
+        start=index
+        while index < length and not raw_tag[index].isspace() and raw_tag[index] not in "=/>": index += 1
+        if index == start:
+            malformed=True; index += 1; continue
+        name=raw_tag[start:index].casefold()
+        while index < length and raw_tag[index].isspace(): index += 1
+        value=None
+        if index < length and raw_tag[index] == "=":
+            index += 1
+            while index < length and raw_tag[index].isspace(): index += 1
+            if index < length and raw_tag[index] in "\"'":
+                quote=raw_tag[index]; index += 1; start=index
+                while index < length and raw_tag[index] != quote: index += 1
+                value=raw_tag[start:index]
+                if index < length: index += 1
+                else: malformed=True
+            else:
+                start=index
+                while index < length and not raw_tag[index].isspace() and raw_tag[index] != ">": index += 1
+                value=raw_tag[start:index]
+                if not value: malformed=True
+        attributes.append((name,value))
+    return attributes,malformed
+
+
 class PageParser(HTMLParser):
     def __init__(self):
         super().__init__(); self.canonicals=[]; self.robots=[]; self.metadata={}; self.jsonld=[]
         self.titles=[]; self.h1s=[]; self.ids=set(); self.links=[]; self.classes=[]
         self._json=False; self._parts=[]; self._part_chars=0; self._stack=[]; self._text_capture=[]
-        self._depth=0; self.scripts=0; self.overflows=set()
+        self._depth=0; self._overflow_depth=0; self._closed=False; self.scripts=0; self.overflows=set()
+        self.general_emergency_containers=[]
+        self.general_emergency_markers=[]; self._active_link_text=[]
         self._meta_count=0
     def _append(self, collection, value, maximum, name):
         if len(collection) < maximum: collection.append(value)
@@ -147,24 +214,47 @@ class PageParser(HTMLParser):
             self.overflows.add("attributes"); return value[:MAX_ATTRIBUTE_CHARS]
         return value
     def handle_starttag(self, tag, attrs):
-        raw_tag=(self.get_starttag_text() or "")[:MAX_ATTRIBUTE_CHARS]
-        unsafe_decoded_href=False
-        if tag == "a":
-            match=re.search(r'''(?is)\bhref\s*=\s*(["'])(.*?)\1''',raw_tag)
-            if match:
-                for numeric in re.findall(r"&#(?:x([0-9a-f]+)|([0-9]+));?",match.group(2),re.I):
-                    point=int(numeric[0],16) if numeric[0] else int(numeric[1],10)
-                    if point > 0x10ffff or not chr(point).isprintable() or unicodedata.category(chr(point))[0] in {"C","Z"}:
-                        unsafe_decoded_href=True
+        full_raw_tag=self.get_starttag_text() or ""
+        if len(full_raw_tag) > MAX_ATTRIBUTE_CHARS: self.overflows.add("attributes")
+        raw_attributes,raw_malformed=_scan_raw_attributes(full_raw_tag[:MAX_ATTRIBUTE_CHARS])
+        if raw_malformed: self.overflows.add("malformed_attributes")
+        raw_encoded={name for name,value in raw_attributes
+                     if name in RAW_CONTACT_ATTRIBUTES and value is not None and CHARACTER_REFERENCE.search(value)}
+        sensitive={"href","data-phone-contact","data-message-contact","data-general-emergency-contact",
+                   "data-record-id","data-prioritized-record-id","data-country-code","data-hotline-card",
+                   "data-prioritized-listing","data-general-emergency-listing","data-category-country-summary"}
+        seen=set()
+        for key,_value in attrs:
+            normalized=key.casefold() if isinstance(key,str) else None
+            if normalized in sensitive and normalized in seen: self.overflows.add("duplicate_sensitive_attributes")
+            if normalized in sensitive: seen.add(normalized)
         values = {key:self._bounded(value) for key,value in attrs if key is not None}
+        for name in raw_encoded: values["_encoded_"+name]="1"
         rel = set((values.get("rel") or "").casefold().split())
         containers=[]
         if "data-hotline-card" in values: containers.append(("card", values.get("data-record-id", "")))
         if "data-prioritized-listing" in values: containers.append(("prioritized", values.get("data-prioritized-record-id", "")))
         inherited=list(self._stack[-1][1]) if self._stack else []
-        self._depth += 1
-        if len(self._stack) < MAX_HTML_DEPTH: self._stack.append((tag, inherited + containers))
-        else: self.overflows.add("depth")
+        is_void=tag in HTML_VOID_ELEMENTS
+        attributed_marker=any(name in values for name in ("data-hotline-card","data-prioritized-listing","data-general-emergency-listing",
+                                                            "data-phone-contact","data-message-contact","data-general-emergency-contact"))
+        contact_anchor=tag == "a" and ((values.get("href") or "").strip().casefold().startswith(("tel:","sms:"))
+                                       or attributed_marker)
+        critical=bool(containers or attributed_marker or contact_anchor)
+        if is_void and attributed_marker: self.overflows.add("void_attribution_marker")
+        if "data-general-emergency-listing" in values and not is_void:
+            containers.append(("general_emergency", values.get("data-country-code", "")))
+            self._append(self.general_emergency_containers,
+                         (values.get("data-country-code", ""), inherited, len(containers)),
+                         MAX_PARSED_ANCHORS,"general_emergency_containers")
+        if not is_void:
+            if self._overflow_depth:
+                self._overflow_depth += 1
+            elif len(self._stack) < MAX_HTML_DEPTH:
+                self._stack.append((tag, inherited + containers, critical))
+            else:
+                self.overflows.add("depth"); self._overflow_depth=1
+            self._depth=len(self._stack)
         if values.get("id"):
             if len(self.ids) < MAX_PARSED_IDS: self.ids.add(values["id"])
             else: self.overflows.add("ids")
@@ -183,9 +273,16 @@ class PageParser(HTMLParser):
                 self.metadata.setdefault(key,[]).append(values.get("content", "")); self._meta_count += 1
             elif key: self.overflows.add("meta")
         if tag == "a" and values.get("href"):
-            safe_attrs={key:values[key] for key in ("data-phone-contact","data-message-contact","data-record-id","data-prioritized-record-id") if key in values}
-            if unsafe_decoded_href: safe_attrs["_unsafe_href_decode"]="1"
-            self._append(self.links,(values["href"],safe_attrs,inherited+containers),MAX_PARSED_ANCHORS,"anchors")
+            retained=("data-phone-contact","data-message-contact","data-general-emergency-contact","data-record-id",
+                      "data-prioritized-record-id","data-country-code","_encoded_href","_encoded_data-phone-contact",
+                      "_encoded_data-message-contact","_encoded_data-general-emergency-contact")
+            safe_attrs={key:values[key] for key in retained if key in values}
+            text=[]
+            before=len(self.links)
+            self._append(self.links,(values["href"],safe_attrs,inherited+containers,text),MAX_PARSED_ANCHORS,"anchors")
+            if len(self.links) > before: self._active_link_text.append((self._depth,text))
+        if "data-general-emergency-contact" in values:
+            self._append(self.general_emergency_markers,(tag,values.get("data-general-emergency-contact",""),inherited+containers),MAX_PARSED_ANCHORS,"general_emergency_markers")
         if tag == "script":
             self.scripts += 1
             if self.scripts > MAX_PARSED_SCRIPTS: self.overflows.add("scripts")
@@ -194,6 +291,10 @@ class PageParser(HTMLParser):
             if len(self._text_capture) < MAX_PARSED_TEXT: self._text_capture.append((tag,[]))
             else: self.overflows.add("text")
     def handle_data(self, data):
+        for _depth,parts in self._active_link_text:
+            retained=sum(map(len,parts)); remaining=MAX_CAPTURE_CHARS-retained
+            if remaining > 0: parts.append(data[:remaining])
+            if len(data) > remaining: self.overflows.add("text")
         if self._json:
             remaining=MAX_CAPTURE_CHARS-self._part_chars
             if remaining > 0: self._parts.append(data[:remaining]); self._part_chars += min(len(data),remaining)
@@ -203,17 +304,39 @@ class PageParser(HTMLParser):
             if remaining > 0: parts.append(data[:remaining])
             if len(data) > remaining: self.overflows.add("text")
     def handle_endtag(self, tag):
+        if tag in HTML_VOID_ELEMENTS:
+            return
         if tag == "script" and self._json:
             self._append(self.jsonld,"".join(self._parts),MAX_PARSED_JSONLD,"jsonld"); self._json=False
         if self._text_capture and self._text_capture[-1][0] == tag:
             value="".join(self._text_capture.pop()[1]).strip()
             self._append(self.titles if tag == "title" else self.h1s,value,MAX_PARSED_TEXT,"text")
+        if self._overflow_depth:
+            self._overflow_depth -= 1
+            return
+        match=None
         for index in range(len(self._stack)-1,-1,-1):
             if self._stack[index][0] == tag:
-                del self._stack[index:]; break
-        self._depth=max(0,self._depth-1)
+                match=index; break
+        if match is None:
+            if any(frame[2] for frame in self._stack): self.overflows.add("attribution_structure")
+        else:
+            crossed=self._stack[match+1:]
+            if (any(frame[2] for frame in crossed)
+                    or (self._stack[match][2] and any(frame[0] not in HTML_OPTIONAL_END_ELEMENTS for frame in crossed))):
+                self.overflows.add("attribution_structure")
+            removed_depth=match+1
+            self._active_link_text=[item for item in self._active_link_text if item[0] < removed_depth]
+            del self._stack[match:]
+        self._depth=len(self._stack)
     def handle_startendtag(self, tag, attrs):
-        self.handle_starttag(tag, attrs); self.handle_endtag(tag)
+        self.handle_starttag(tag, attrs)
+        if tag not in HTML_VOID_ELEMENTS: self.handle_endtag(tag)
+    def close(self):
+        if self._closed: return
+        super().close()
+        if any(frame[2] for frame in self._stack): self.overflows.add("attribution_structure")
+        self._closed=True
 
 
 def issue(code, subject, detail): return {"code": code[:80], "subject": subject[:300], "detail": detail[:200]}
@@ -247,6 +370,48 @@ def cap_candidates(candidates, subject):
 
 def _mime(value, media_type):
     return bool(re.fullmatch(re.escape(media_type)+r"(?:\s*;\s*charset\s*=\s*(?:utf-8|\"utf-8\"))?",value,re.I))
+
+
+def _sitemap_mime(value):
+    """Parse a bounded Content-Type and accept only the two XML media types."""
+    if not isinstance(value,str) or not value or len(value) > MAX_CONTENT_TYPE_CHARS: return False
+    if any(unicodedata.category(char) == "Cc" and char != "\t" for char in value): return False
+    token_chars=frozenset("!#$%&'*+-.^_`|~0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
+    length=len(value); index=0
+    def whitespace(position):
+        while position < length and value[position] in " \t": position += 1
+        return position
+    index=whitespace(index); start=index
+    while index < length and value[index] not in " \t;": index += 1
+    if value[start:index].casefold() not in {"application/xml","text/xml"}: return False
+    index=whitespace(index); names=set()
+    while index < length:
+        if value[index] != ";": return False
+        index=whitespace(index+1); start=index
+        while index < length and value[index] in token_chars: index += 1
+        name=value[start:index].casefold()
+        if not name or name in names: return False
+        names.add(name); index=whitespace(index)
+        if index >= length or value[index] != "=": return False
+        index=whitespace(index+1)
+        if index < length and value[index] == '"':
+            index += 1
+            while index < length and value[index] != '"':
+                char=value[index]
+                if char == "\\":
+                    index += 1
+                    if index >= length or value[index] not in {'"',"\\"}: return False
+                elif ord(char) < 32 or ord(char) == 127: return False
+                index += 1
+            if index >= length: return False
+            index += 1
+        else:
+            start=index
+            while index < length and value[index] in token_chars: index += 1
+            if index == start: return False
+        index=whitespace(index)
+        if index < length and value[index] != ";": return False
+    return True
 
 
 def _jsonld_problems(name, route, blocks):
@@ -313,7 +478,7 @@ def robots_directives(values):
 
 def inspect_html(name, route, raw, sitemap_urls, header_values=(), header_error=None):
     problems=IssueCandidates(route); parser=PageParser()
-    try: parser.feed(raw.decode("utf-8"))
+    try: parser.feed(raw.decode("utf-8")); parser.close()
     except (UnicodeDecodeError, ValueError): return [issue("html_invalid", route, "response is not valid UTF-8 HTML")]
     expected=ORIGIN+route
     noindex=name == "noindex"
@@ -344,11 +509,11 @@ def inspect_html(name, route, raw, sitemap_urls, header_values=(), header_error=
         problems.append(issue("x_robots_tag_directive",route,"indexable route has an applicable blocking directive"))
     if noindex:
         if parser.canonicals or parser.metadata.get("og:url",[]): problems.append(issue("noindex_url_metadata", route, "noindex route must omit canonical and og:url"))
-        if expected in sitemap_urls: problems.append(issue("noindex_in_sitemap", route, "noindex route appears in sitemap"))
+        if sitemap_urls is not None and expected in sitemap_urls: problems.append(issue("noindex_in_sitemap", route, "noindex route appears in sitemap"))
     else:
         if parser.canonicals != [expected]: problems.append(issue("canonical_mismatch", route, "canonical must exactly match route URL"))
         if parser.metadata.get("og:url",[]) != [expected]: problems.append(issue("og_url_mismatch", route, "og:url must exactly match route URL"))
-        if expected not in sitemap_urls: problems.append(issue("sitemap_missing_route", route, "indexable route absent from sitemap"))
+        if sitemap_urls is not None and expected not in sitemap_urls: problems.append(issue("sitemap_missing_route", route, "indexable route absent from sitemap"))
     required={"og:title","og:description","og:type","og:image","og:image:width","og:image:height","og:image:type","og:image:alt",
               "twitter:card","twitter:title","twitter:description","twitter:image","twitter:image:alt"}
     for key in sorted(required):
@@ -376,31 +541,74 @@ def inspect_html(name, route, raw, sitemap_urls, header_values=(), header_error=
         if b"hotline-card" in folded or re.search(br'href\s*=\s*["\'](?:tel|sms):', folded):
             problems.append(issue("category_contact_leak", route, "category contains hotline-card or contact URI"))
     if name == "country":
-        fragment_links=[href for href,_,_ in parser.links if href.startswith("#")]
+        fragment_links=[href for href,_,_,_ in parser.links if href.startswith("#")]
         if not fragment_links or any(href[1:] not in parser.ids for href in fragment_links):
             problems.append(issue("country_fragment", route, "country fragment target is absent"))
         if not any(token in raw for token in (b"scroll-mt-", b"scroll-margin")):
             problems.append(issue("country_scroll_offset", route, "fragment targets lack scroll offset"))
+    attribution_untrusted=bool({"attribution_structure","depth"}.intersection(parser.overflows))
+    def attribution_problem(detail):
+        if not attribution_untrusted: problems.append(issue("contact_attribution",route,detail))
+    if "attribution_structure" in parser.overflows:
+        problems.append(issue("contact_attribution",route,"malformed HTML makes contact attribution structure untrustworthy"))
+    country_match=re.fullmatch(r"/country/([a-z]{2})",route,re.I)
+    if country_match:
+        expected_country=country_match.group(1).casefold()
+        if len(parser.general_emergency_containers) != 1:
+            attribution_problem("country route must have exactly one general-emergency attribution container")
+        for identity,inherited,declared_count in parser.general_emergency_containers:
+            if (not re.fullmatch(r"[A-Za-z]{2}",identity or "") or identity.casefold() != expected_country
+                    or inherited or declared_count != 1):
+                attribution_problem("general-emergency attribution must be unnested and match the route country")
+    elif parser.general_emergency_containers:
+        attribution_problem("general-emergency attribution is only valid on country routes")
+    if "duplicate_sensitive_attributes" in parser.overflows:
+        attribution_problem("duplicate security-sensitive attributes make contact attribution ambiguous")
+    if "void_attribution_marker" in parser.overflows:
+        attribution_problem("HTML void elements cannot be contact or attribution containers")
+    for _tag,marker,containers in parser.general_emergency_markers:
+        if not marker or len(containers) != 1 or containers[0][0] != "general_emergency":
+            attribution_problem("general-emergency marker must be nonempty and belong only to the country emergency panel")
     seen_contacts=set()
-    for href, attrs, containers in parser.links:
+    for href, attrs, containers, visible_parts in parser.links:
         stripped=href.strip(); prefix=stripped.split(":",1)[0].casefold() if ":" in stripped else ""
+        if attrs.get("data-phone-contact") is not None and not re.fullmatch(r"\+?[0-9]{2,15}",attrs["data-phone-contact"]):
+            attribution_problem("phone contact marker violates the strict digit contract")
+        if attrs.get("data-message-contact") is not None and not re.fullmatch(r"\+?[0-9]{3,15}",attrs["data-message-contact"]):
+            attribution_problem("message contact marker violates the strict digit contract")
+        if attrs.get("data-general-emergency-contact") is not None and prefix != "tel":
+            attribution_problem("general-emergency marker is only valid on a strict tel contact")
         if prefix in {"tel","sms"}:
             scheme,value=stripped.split(":",1); normalized_scheme=scheme.casefold()
             marker="data-phone-contact" if normalized_scheme == "tel" else "data-message-contact"
-            forbidden=(attrs.get("_unsafe_href_decode") == "1" or href != stripped
+            minimum=2 if normalized_scheme == "tel" else 3
+            forbidden=(attrs.get("_encoded_href") == "1" or href != stripped
                        or any(not char.isprintable() or unicodedata.category(char)[0] in {"C","Z"} for char in href))
-            if forbidden or not re.fullmatch(r"(?:tel|sms):\+?[0-9]+",href):
+            if forbidden or not re.fullmatch(rf"{normalized_scheme}:\+?[0-9]{{{minimum},15}}",href):
                 problems.append(issue("unsafe_contact_uri", route, "contact URI is not canonical lowercase syntax"))
-            if attrs.get(marker) != value: problems.append(issue("contact_attribution", route, "contact marker does not match URI"))
+            if (attrs.get(marker) != value or attrs.get("_encoded_"+marker) == "1"
+                    or not re.fullmatch(rf"\+?[0-9]{{{minimum},15}}",attrs.get(marker,""))):
+                attribution_problem("contact marker does not match the strict URI value")
             if len(containers) != 1 or not containers[0][1]:
-                problems.append(issue("contact_attribution", route, "contact must have exactly one enclosing attributed listing"))
+                attribution_problem("contact must have exactly one enclosing attributed listing")
             elif ((attrs.get("data-record-id") is not None and attrs.get("data-record-id") != containers[0][1])
-                  or (attrs.get("data-prioritized-record-id") is not None and attrs.get("data-prioritized-record-id") != containers[0][1])):
-                problems.append(issue("contact_attribution", route, "contact claims a conflicting record"))
+                  or (attrs.get("data-prioritized-record-id") is not None and attrs.get("data-prioritized-record-id") != containers[0][1])
+                  or (attrs.get("data-country-code") is not None and attrs.get("data-country-code").casefold() != containers[0][1].casefold())):
+                attribution_problem("contact claims a conflicting record")
+            general_marker=attrs.get("data-general-emergency-contact")
+            in_general=len(containers) == 1 and containers[0][0] == "general_emergency"
+            if in_general:
+                if (normalized_scheme != "tel" or general_marker != value or general_marker != attrs.get("data-phone-contact")
+                        or general_marker != "".join(visible_parts)
+                        or attrs.get("_encoded_data-general-emergency-contact") == "1"):
+                    attribution_problem("actionable general-emergency contact must exactly bind its visible value, markers, and tel destination")
+            elif general_marker is not None:
+                attribution_problem("general-emergency marker is forbidden outside its country emergency panel")
             identity=(containers[0] if len(containers)==1 else None, normalized_scheme, value)
-            if identity in seen_contacts: problems.append(issue("contact_attribution", route, "duplicate contact link in attributed listing"))
+            if identity in seen_contacts: attribution_problem("duplicate contact link in attributed listing")
             seen_contacts.add(identity)
     for name in sorted(parser.overflows):
+        if name == "attribution_structure": continue
         problems.append(issue("html_collection_overflow",route,f"{name} collection exceeded bound"))
     return problems
 
@@ -500,12 +708,12 @@ def inspect_robots(raw):
 
 def valid_social_png(raw):
     """Validate the complete bounded PNG container without inflating image data."""
-    if not isinstance(raw,bytes) or len(raw) > MAX_BYTES or not raw.startswith(PNG_SIGNATURE): return False
+    if not isinstance(raw,bytes) or len(raw) > MAX_IMAGE_BYTES or not raw.startswith(PNG_SIGNATURE): return False
     offset=8; chunks=0; saw_ihdr=False; saw_plte=False; saw_idat=False; idat_bytes=0; idat_ended=False
     while offset < len(raw):
         if len(raw)-offset < 12: return False
         length=struct.unpack_from(">I",raw,offset)[0]
-        if length > MAX_BYTES-12 or length > len(raw)-offset-12: return False
+        if length > MAX_IMAGE_BYTES-12 or length > len(raw)-offset-12: return False
         kind=raw[offset+4:offset+8]; data_start=offset+8; data_end=data_start+length; crc_end=data_end+4
         if not re.fullmatch(rb"[A-Za-z]{4}",kind) or kind[2] & 0x20: return False
         if zlib.crc32(kind+raw[data_start:data_end]) & 0xffffffff != struct.unpack_from(">I",raw,data_end)[0]: return False
@@ -523,7 +731,7 @@ def valid_social_png(raw):
         elif kind == b"IDAT":
             if idat_ended or length == 0: return False
             saw_idat=True; idat_bytes += length
-            if idat_bytes > MAX_BYTES: return False
+            if idat_bytes > MAX_IMAGE_BYTES: return False
         elif kind == b"IEND":
             return bool(saw_ihdr and saw_idat and length == 0 and crc_end == len(raw))
         else:
@@ -546,12 +754,14 @@ def run(as_of, fetcher=fetch_resource):
         elif response.get("redirect_count", int(bool(response.get("redirected")))) > 0:
             problems.append(issue("redirect", path, "route redirected"))
         elif response["final_url"] != fixed_url(path): problems.append(issue("redirect", path, "route redirected"))
-    sitemap_urls=set()
+    sitemap_urls=None
     if not responses["sitemap"].get("error") and not responses["sitemap"]["truncated"]:
-        if responses["sitemap"].get("status") == 200 and responses["sitemap"].get("content_type") not in {"application/xml","text/xml","application/sitemap+xml"}:
+        content_type=responses["sitemap"].get("content_type","")
+        if responses["sitemap"].get("status") == 200 and not _sitemap_mime(content_type):
             problems.append(issue("sitemap_content_type", "/sitemap.xml", "successful sitemap response must be XML"))
-        else:
-            sitemap_urls, found=inspect_sitemap(responses["sitemap"]["body"]); problems.extend(found)
+        elif responses["sitemap"].get("status") == 200:
+            parsed_urls, found=inspect_sitemap(responses["sitemap"]["body"]); problems.extend(found)
+            if not found: sitemap_urls=parsed_urls
     if responses["robots"].get("status")==200 and not _mime(responses["robots"].get("content_type",""),"text/plain"):
         problems.append(issue("robots_content_type","/robots.txt","expected text/plain with optional UTF-8 charset"))
     if responses["robots"].get("status")==200 and not responses["robots"].get("truncated"):
@@ -564,12 +774,12 @@ def run(as_of, fetcher=fetch_resource):
             else: problems.extend(inspect_html(name, ROUTES[name], response["body"], sitemap_urls,
                 response.get("x_robots_tag",()),response.get("x_robots_tag_error")))
     image=responses["image"]
-    if image.get("status") == 200 and (image["content_type"] != "image/png" or not valid_social_png(image["body"])):
+    if image.get("status") == 200 and not image.get("truncated") and (image["content_type"] != "image/png" or not valid_social_png(image["body"])):
         problems.append(issue("social_image_invalid", ROUTES["image"], "expected a structurally valid 1200x630 RGB/RGBA PNG"))
     problems=bounded_issues(cap_candidates(problems,"public-seo"))
     unavailable=any(row["code"]=="fetch_unavailable" for row in problems)
     return validate_result({"schema_version":"1.0","monitor":"public-seo","as_of":as_of,"status":"unavailable" if unavailable else ("regression" if problems else "ok"),
-            "issues":problems,"metrics":{"routes":len(ROUTES),"sitemap_urls":len(sitemap_urls),"checks_failed":len(problems)}})
+            "issues":problems,"metrics":{"routes":len(ROUTES),"sitemap_urls":len(sitemap_urls or ()),"checks_failed":len(problems)}})
 
 
 def markdown(report):
