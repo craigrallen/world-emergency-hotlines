@@ -1,0 +1,37 @@
+{
+  "schema": "provider-claim-staging-envelope/v1",
+  "claim_id": "pclm_syn_without_0001",
+  "state": "staged",
+  "listing_context": {
+    "synthetic_listing_id": "syn_listing_without_0001",
+    "synthetic_stable_id": "syn_weh_6540247c54375be69435801c",
+    "context_only": true
+  },
+  "claimant": {
+    "identity": "claimant-without.example.invalid"
+  },
+  "provider": {
+    "identity": "provider-without.example.invalid"
+  },
+  "proposed_changes": [
+    {
+      "field": "service_description",
+      "proposed_value": "Untrusted lifecycle evidence requests deprecation without replacement"
+    }
+  ],
+  "claimant_evidence": [
+    {
+      "evidence_id": "pev_syn_without_0001",
+      "classification": "untrusted_claimant_evidence",
+      "kind": "claimant_document_reference",
+      "locator": "https://evidence-without.example.invalid/lifecycle/deprecation-reference",
+      "summary": "Synthetic untrusted lifecycle document reference"
+    }
+  ],
+  "safety": {
+    "contains_personal_data": false,
+    "contains_crisis_narrative": false,
+    "canonical_mutation_requested": false,
+    "ranking_or_verification_requested": false
+  }
+}

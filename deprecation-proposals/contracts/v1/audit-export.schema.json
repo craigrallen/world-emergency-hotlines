@@ -1,0 +1,205 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://worldhotlines.org/deprecation-proposals/v1/audit-export.schema.json",
+  "title": "Closed synthetic held-proposal audit export v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "export_id",
+    "closed",
+    "expected_proposal_count",
+    "expected_event_count",
+    "canonical_sha256",
+    "assessed_release_sha256",
+    "release_id",
+    "artifact_index_sha256",
+    "proposals",
+    "events",
+    "event_head_sha256",
+    "redactions",
+    "effects"
+  ],
+  "properties": {
+    "schema": {
+      "const": "deprecation-proposal-audit-export/v1"
+    },
+    "export_id": {
+      "type": "string",
+      "pattern": "^dpa_syn_[a-z0-9_]{8,48}$"
+    },
+    "closed": {
+      "const": true
+    },
+    "canonical_sha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "assessed_release_sha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "release_id": {
+      "$ref": "#/$defs/sha"
+    },
+    "artifact_index_sha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "proposals": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "proposal_id",
+          "proposal_sha256",
+          "stable_id",
+          "replacement_stable_id",
+          "state",
+          "approval_status"
+        ],
+        "properties": {
+          "proposal_id": {
+            "type": "string",
+            "pattern": "^dpr_syn_[a-z0-9_]{8,48}$"
+          },
+          "proposal_sha256": {
+            "$ref": "#/$defs/sha"
+          },
+          "stable_id": {
+            "$ref": "#/$defs/stable"
+          },
+          "replacement_stable_id": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/stable"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "state": {
+            "const": "held_pending_independent_approval"
+          },
+          "approval_status": {
+            "const": "not_requested"
+          }
+        }
+      },
+      "uniqueItems": true
+    },
+    "events": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "event_id",
+          "sequence",
+          "proposal_id",
+          "action",
+          "workflow_disposition_head_sha256",
+          "previous_event_sha256",
+          "event_sha256"
+        ],
+        "properties": {
+          "event_id": {
+            "type": "string",
+            "pattern": "^dpae_syn_[a-z0-9_]{8,48}$"
+          },
+          "sequence": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "proposal_id": {
+            "type": "string",
+            "pattern": "^dpr_syn_[a-z0-9_]{8,48}$"
+          },
+          "action": {
+            "const": "held_for_independent_approval"
+          },
+          "workflow_disposition_head_sha256": {
+            "$ref": "#/$defs/sha"
+          },
+          "previous_event_sha256": {
+            "$ref": "#/$defs/sha"
+          },
+          "event_sha256": {
+            "$ref": "#/$defs/sha"
+          }
+        }
+      },
+      "uniqueItems": true
+    },
+    "event_head_sha256": {
+      "$ref": "#/$defs/sha"
+    },
+    "redactions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "phone_or_contact_values",
+        "source_locator_values"
+      ],
+      "properties": {
+        "phone_or_contact_values": {
+          "const": "excluded"
+        },
+        "source_locator_values": {
+          "const": "excluded"
+        }
+      }
+    },
+    "effects": {
+      "$ref": "#/$defs/effects"
+    },
+    "expected_proposal_count": {
+      "const": 2
+    },
+    "expected_event_count": {
+      "const": 2
+    }
+  },
+  "$defs": {
+    "sha": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "stable": {
+      "type": "string",
+      "pattern": "^weh_[0-9a-f]{24}$"
+    },
+    "effects": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "canonical_mutation",
+        "verified_status",
+        "ranking_or_search_effect",
+        "publication"
+      ],
+      "properties": {
+        "canonical_mutation": {
+          "const": false
+        },
+        "verified_status": {
+          "const": false
+        },
+        "ranking_or_search_effect": {
+          "const": false
+        },
+        "publication": {
+          "const": false
+        }
+      }
+    }
+  },
+  "x-runtime-invariants": [
+    "Closed synthetic v1 accepts exactly two known proposals and two known events with exact byte pins and final head",
+    "Runtime keyed uniqueness covers proposal IDs, target IDs, evidence IDs, and event IDs",
+    "SHA-256 detects byte mismatch but does not authenticate a publisher"
+  ]
+}

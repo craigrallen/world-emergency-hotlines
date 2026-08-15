@@ -1,0 +1,60 @@
+{
+  "schema": "reviewer-disposition-audit/v1",
+  "audit_id": "rwa_syn_without_0001",
+  "queue_id": "rwq_syn_without_0001",
+  "queue_pin": "sha256:9141255e9791c3757d368ad498fc492e21ac7a359459e60cb312d21b20d50ab5",
+  "append_only": true,
+  "events": [
+    {
+      "event_id": "rwe_syn_without_event_01",
+      "sequence": 1,
+      "item_id": "rwi_syn_without_0001",
+      "claim_id": "pclm_syn_without_0001",
+      "actor": "coordinator-without.example.invalid",
+      "action": "queued",
+      "from": "not_queued",
+      "to": "queued",
+      "previous_event_sha256": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "event_sha256": "sha256:9de2bc150b72d1c546597713a48f63d7584a463f54d55a508a34a815f4b33640"
+    },
+    {
+      "event_id": "rwe_syn_without_event_02",
+      "sequence": 2,
+      "item_id": "rwi_syn_without_0001",
+      "claim_id": "pclm_syn_without_0001",
+      "actor": "reviewer-without.example.invalid",
+      "action": "assigned",
+      "from": "queued",
+      "to": "assigned",
+      "previous_event_sha256": "sha256:9de2bc150b72d1c546597713a48f63d7584a463f54d55a508a34a815f4b33640",
+      "event_sha256": "sha256:0f8cc94985bd30c4c993adcfc38765b6374017dc37506095d64ae8f954164e7f"
+    },
+    {
+      "event_id": "rwe_syn_without_event_03",
+      "sequence": 3,
+      "item_id": "rwi_syn_without_0001",
+      "claim_id": "pclm_syn_without_0001",
+      "actor": "reviewer-without.example.invalid",
+      "action": "disposed",
+      "from": "assigned",
+      "to": "disposed",
+      "previous_event_sha256": "sha256:0f8cc94985bd30c4c993adcfc38765b6374017dc37506095d64ae8f954164e7f",
+      "event_sha256": "sha256:dd4c91a8586e6fa318eedca375c03b449adb406512025a360f84d9d18df55b36"
+    }
+  ],
+  "event_head_sha256": "sha256:dd4c91a8586e6fa318eedca375c03b449adb406512025a360f84d9d18df55b36",
+  "terminal_disposition": {
+    "item_id": "rwi_syn_without_0001",
+    "claim_id": "pclm_syn_without_0001",
+    "review_id": "prv_syn_without_0001",
+    "review_pin": "sha256:40566713b234b5585d045083832b32c19f96ff6f4a9f5cdff7829d5766d06693",
+    "decision": "needs_more_evidence",
+    "candidate_eligible": false
+  },
+  "effects": {
+    "canonical_mutation": false,
+    "verified_status": false,
+    "ranking_or_search_effect": false,
+    "publication": false
+  }
+}

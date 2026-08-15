@@ -125,6 +125,7 @@ if (existsSync(descriptorPath) && existsSync(indexPath)) {
       ...discoverFiles(resolve(PUBLIC_ROOT, 'provider-claims', 'v1')),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'reviewer-work-queue', 'v1')),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'managed-api-plans', 'v1')),
+      ...discoverFiles(resolve(PUBLIC_ROOT, 'deprecation-proposals', 'v1')),
       ...discoverFiles(RELEASE_DIR).filter(({ path }) => !path.endsWith(`${sep}artifacts.json`) && !path.endsWith(`${sep}release.json`)),
       ...discoverFiles(resolve(PUBLIC_ROOT, 'widget', 'v1')).filter(({ path }) => path.endsWith(`${sep}hotlines-widget.js`)),
     ];
@@ -171,6 +172,9 @@ if (existsSync(descriptorPath) && existsSync(indexPath)) {
   }
   for (const required of ['/reviewer-work-queue/v1/README.md','/reviewer-work-queue/v1/disposition-audit.schema.json','/reviewer-work-queue/v1/disposition-audit.synthetic.json','/reviewer-work-queue/v1/queue.schema.json','/reviewer-work-queue/v1/queue.synthetic.json']) {
     if (!descriptor.relationships?.[required]) fail(`missing reviewer-work-queue contract relationship: ${required}`);
+  }
+  for (const required of ['/deprecation-proposals/v1/README.md','/deprecation-proposals/v1/audit-export.schema.json','/deprecation-proposals/v1/audit-export.synthetic.json','/deprecation-proposals/v1/proposal.schema.json','/deprecation-proposals/v1/proposal-with-replacement.synthetic.json','/deprecation-proposals/v1/proposal-without-replacement.synthetic.json','/deprecation-proposals/v1/review-checkpoint.schema.json']) {
+    if (!descriptor.relationships?.[required]) fail(`missing deprecation-proposal contract relationship: ${required}`);
   }
 }
 

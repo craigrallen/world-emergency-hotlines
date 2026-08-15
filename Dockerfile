@@ -26,6 +26,7 @@ COPY provider-claims/ ./provider-claims/
 COPY reviewer-work-queue/ ./reviewer-work-queue/
 COPY managed-api-plans/ ./managed-api-plans/
 COPY assurance-packs/ ./assurance-packs/
+COPY deprecation-proposals/ ./deprecation-proposals/
 COPY web/ ./web/
 
 # Generate /public/data and build the static Astro site

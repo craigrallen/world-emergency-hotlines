@@ -1,0 +1,77 @@
+{
+  "schema": "deprecation-replacement-proposal/v1",
+  "kind": "deprecation",
+  "state": "held_pending_independent_approval",
+  "approval": {
+    "required": true,
+    "status": "not_requested",
+    "approver_identity": null,
+    "candidate_eligible": false
+  },
+  "uncertainty": "material_uncertainty",
+  "effects": {
+    "canonical_mutation": false,
+    "verified_status": false,
+    "ranking_or_search_effect": false,
+    "publication": false
+  },
+  "proposal_id": "dpr_syn_with_replacement",
+  "target": {
+    "stable_id": "weh_6f878a831e4c5a6b987b043b",
+    "canonical_sha256": "sha256:e893c9f6b0afcc57832054547002c826e80b5387e544b4cf6909afc9424dde3a",
+    "assessed_release_sha256": "sha256:811078abc4b5a91208d99e4f8ae385394c0b02a2b5a5ccf3110cb68870da5a04",
+    "release_id": "sha256:da1a06c5b11b20fc76afa269c324ab869293cdd67d232cf62f05724dc1fc124a",
+    "dataset_version": "sha256:e893c9f6b0afcc57832054547002c826e80b5387e544b4cf6909afc9424dde3a",
+    "artifact_index_path": "/release/v1/artifacts.json",
+    "artifact_index_sha256": "sha256:9964bddf9dbb99cd09f4be234619bf52b1dcc7eeec309f0874b45bc42db0156c",
+    "records_artifact": {
+      "path": "/api/v1/records.json",
+      "sha256": "sha256:7097b12b5268249373eec40ec73897d34f9f7f4d429a83c21ba44d353f57f550",
+      "bytes": 2722795
+    },
+    "canonical_status": "verified_authority"
+  },
+  "intent": {
+    "transition": {
+      "from": "verified_authority",
+      "to": "deprecated"
+    },
+    "effective_date": "2026-09-01",
+    "replacement_stable_id": "weh_8ded356ba0c858828bc850ab"
+  },
+  "evidence": [
+    {
+      "evidence_id": "dpe_syn_with_reference",
+      "claim_evidence_id": "pev_syn_with_0001",
+      "classification": "untrusted_claimant_evidence_reference",
+      "kind": "claimant_document_reference",
+      "locator_sha256": "sha256:bd9fd2500b471fa2acc48d9b2dbb178b75888f32a6de0008724907f6dd9b3962",
+      "summary": "Synthetic untrusted lifecycle evidence reference"
+    }
+  ],
+  "workflow": {
+    "claim_id": "pclm_syn_with_0001",
+    "claim_pin": "sha256:f5207db579314ac26e5d062d906e27ccdd4fad39a2d6b50ee88bc04f997a0600",
+    "claimant_identity": "claimant-with.example.invalid",
+    "provider_identity": "provider-with.example.invalid",
+    "claim_evidence_ids": [
+      "pev_syn_with_0001"
+    ],
+    "queue_id": "rwq_syn_with_0001",
+    "queue_pin": "sha256:888bf1b354b32bf6c939645e83e9756ab3c424a0637c38db120a38a8e4d5c79a",
+    "queue_item_id": "rwi_syn_with_0001",
+    "assigned_reviewer": "reviewer-with.example.invalid",
+    "review_id": "prv_syn_with_0001",
+    "review_pin": "sha256:729d74fec13a2a2cf710926f97ce06cdc0136671eb6025906a9a2ab4f7ed5449",
+    "decision": "needs_more_evidence",
+    "conflict_state": "no_conflict",
+    "disposition_audit_id": "rwa_syn_with_0001",
+    "disposition_audit_pin": "sha256:b5d618aff248c84c4fc0c85a6e4f03adbdec420a47ec2e8d96e2de53308ab654",
+    "disposition_event_head_sha256": "sha256:f5cca8782313006e510f8c6b36c68000cb7ca5b239015f15b7d96f248172b1fe",
+    "review_checkpoint_id": "drc_syn_with_0001",
+    "review_checkpoint_pin": "sha256:d3a7baaad11bab3a84b21e23c739e72518a0761af0402bcacbb349e8c3335b8c",
+    "reviewed_on": "2026-08-14",
+    "lifecycle_evidence_authority": "untrusted_evidence_only_not_deprecation_authority"
+  },
+  "reviewed_on": "2026-08-14"
+}
