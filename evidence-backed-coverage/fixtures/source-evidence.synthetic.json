@@ -48,7 +48,7 @@
       "retained_observation": {
         "record_id": "weh_7539ec4b00fd54f5ae729d71",
         "dimension": "documented_hours",
-        "literal_observation": "indeterminate",
+        "literal_observation": "absent",
         "observed_on": "2026-08-09"
       }
     },
@@ -68,7 +68,7 @@
       "retained_observation": {
         "record_id": "weh_7539ec4b00fd54f5ae729d71",
         "dimension": "documented_languages",
-        "literal_observation": "not_reviewed",
+        "literal_observation": "absent",
         "observed_on": "2026-08-09"
       }
     },
@@ -88,7 +88,7 @@
       "retained_observation": {
         "record_id": "weh_7539ec4b00fd54f5ae729d71",
         "dimension": "field_evidence",
-        "literal_observation": "absent",
+        "literal_observation": "present",
         "observed_on": "2026-08-08"
       }
     },
@@ -98,7 +98,7 @@
       "retained_observation": {
         "record_id": "weh_c3f7a20baee453f8ba87d0d3",
         "dimension": "field_evidence",
-        "literal_observation": "absent",
+        "literal_observation": "present",
         "observed_on": "2026-08-08"
       }
     },
@@ -174,10 +174,10 @@
       "dimension": "documented_hours",
       "source_kind": "canonical_source",
       "source_id": "ebc_syn_retained_05",
-      "source_reference_sha256": "sha256:6f4728818d8cc33d654512cdaa420a34376abffcde016705902c3973ad15dda3",
+      "source_reference_sha256": "sha256:8896f32b9191762b593f06452cec87c5d06e46f07b98674110dab174204604b3",
       "observed_on": "2026-08-09",
       "assertion_kind": "reviewed_assertion",
-      "state": "unknown"
+      "state": "not_observed"
     },
     {
       "evidence_id": "ebc_syn_hours_se_02",
@@ -196,10 +196,10 @@
       "dimension": "documented_languages",
       "source_kind": "provider_assertion",
       "source_id": "ebc_syn_retained_07",
-      "source_reference_sha256": "sha256:a695bd3ef0b1b2effa5b4a97bab6e054b489b795260501c1dd18f73d41acc9bf",
+      "source_reference_sha256": "sha256:f35f6d00b0ec2bf474d47108682251a705f842cd57dac23e02acc5c809cb7d3c",
       "observed_on": "2026-08-09",
       "assertion_kind": "reviewed_assertion",
-      "state": "not_assessed"
+      "state": "not_observed"
     },
     {
       "evidence_id": "ebc_syn_languages_se_02",
@@ -218,10 +218,10 @@
       "dimension": "field_evidence",
       "source_kind": "canonical_source",
       "source_id": "ebc_syn_retained_09",
-      "source_reference_sha256": "sha256:60b465bc100c2f73002fe766505933f6731d801aad45be4ce3b65b7c16bb3848",
+      "source_reference_sha256": "sha256:f4bc7ffba9c96ae8ce831ca336ffc82ea1565b834d27c5edb6cd5cd0bfd67cd7",
       "observed_on": "2026-08-08",
       "assertion_kind": "reviewed_assertion",
-      "state": "not_observed"
+      "state": "observed"
     },
     {
       "evidence_id": "ebc_syn_field_se_02",
@@ -229,10 +229,10 @@
       "dimension": "field_evidence",
       "source_kind": "canonical_source",
       "source_id": "ebc_syn_retained_10",
-      "source_reference_sha256": "sha256:31b9e049fd89ae679ab8e93c5e05c5f45cf2bc163012b1eae00d967fc104500f",
+      "source_reference_sha256": "sha256:3897a754cd7d542a736cec36b507553ac01a001dcee9c84a1bf7920a60f0859c",
       "observed_on": "2026-08-08",
       "assertion_kind": "reviewed_assertion",
-      "state": "not_observed"
+      "state": "observed"
     },
     {
       "evidence_id": "ebc_syn_recorded_date_se_01",

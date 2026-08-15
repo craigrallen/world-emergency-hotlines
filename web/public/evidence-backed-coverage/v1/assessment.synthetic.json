@@ -28,8 +28,8 @@
     "reviewed_on": "2026-08-11",
     "source_evidence_artifact": {
       "path": "/synthetic/source-evidence.json",
-      "sha256": "sha256:45b8b5ecf5c42ae7d38e18633f8326be900366dc47fc138a861cca965a4c4ae4",
-      "bytes": 9302
+      "sha256": "sha256:3a8a360b621928697c23d6e02f1593cbfae4e1c416509a943fe70ca7a908af5c",
+      "bytes": 9288
     },
     "evidence_row_digests": [
       {
@@ -42,11 +42,11 @@
       },
       {
         "evidence_id": "ebc_syn_field_se_01",
-        "sha256": "sha256:8f4266e4cf4eeff52fae713d280a2bd7c19084dfb00e9363c8ca481865c12c49"
+        "sha256": "sha256:f24bae8dd40d5fc28583674fbe7da24c6d92bdbcaf65ef6d215742dc8e398a89"
       },
       {
         "evidence_id": "ebc_syn_field_se_02",
-        "sha256": "sha256:29a269bf74cb5c1451133474018cd748ce0af50b4001a07621d9471ee45077dd"
+        "sha256": "sha256:1e57c0211aeb0fe14c2eb6fae71f8b4d29f35e782465e9b307377ef4b34464d5"
       },
       {
         "evidence_id": "ebc_syn_geography_se_01",
@@ -58,7 +58,7 @@
       },
       {
         "evidence_id": "ebc_syn_hours_se_01",
-        "sha256": "sha256:0202e07b8b2f0f89064119555fba9e05619edca4982838a11ee66627a73c75e3"
+        "sha256": "sha256:21cadb65d2f8ea4d75e1a7ef885382e441ec7db8d369fc70b5838e2be6f2c70f"
       },
       {
         "evidence_id": "ebc_syn_hours_se_02",
@@ -66,7 +66,7 @@
       },
       {
         "evidence_id": "ebc_syn_languages_se_01",
-        "sha256": "sha256:d45c209ad21d71a00666cfe6312cf50def8e6e31c993a47602c79490fe76a120"
+        "sha256": "sha256:2dbdfc5654afbd4f3ab7808590ca13e488f0ab90817f33a7bfce038e3603e256"
       },
       {
         "evidence_id": "ebc_syn_languages_se_02",
@@ -106,28 +106,28 @@
       "name": "documented_hours",
       "numerator": 1,
       "denominator": 2,
-      "unknown_count": 1,
-      "not_observed_count": 0,
+      "unknown_count": 0,
+      "not_observed_count": 1,
       "not_assessed_count": 0,
-      "coverage_state": "unknown"
+      "coverage_state": "mixed"
     },
     {
       "name": "documented_languages",
       "numerator": 1,
-      "denominator": 1,
+      "denominator": 2,
       "unknown_count": 0,
-      "not_observed_count": 0,
-      "not_assessed_count": 1,
-      "coverage_state": "observed"
+      "not_observed_count": 1,
+      "not_assessed_count": 0,
+      "coverage_state": "mixed"
     },
     {
       "name": "field_evidence",
-      "numerator": 0,
+      "numerator": 2,
       "denominator": 2,
       "unknown_count": 0,
-      "not_observed_count": 2,
+      "not_observed_count": 0,
       "not_assessed_count": 0,
-      "coverage_state": "not_observed"
+      "coverage_state": "observed"
     },
     {
       "name": "recorded_verification_date",
@@ -136,13 +136,13 @@
       "unknown_count": 0,
       "not_observed_count": 1,
       "not_assessed_count": 0,
-      "coverage_state": "not_observed"
+      "coverage_state": "mixed"
     }
   ],
   "limitations": [
-    "Retained structured observations support reviewed assertions on the recorded check date; human-reviewed interpretations are not mechanically byte-derived facts.",
+    "Every terminal observation is independently derived from exact released-record field/value bytes; retained descriptions and review digests cannot override that derivation.",
     "Recorded evidence does not prove real-time availability, answering, eligibility, capacity, safety, outcomes, or universal geographic coverage.",
-    "The recorded verification date dimension reports literal field presence only and makes no freshness or recency inference.",
+    "Field evidence and recorded verification date report bounded literal field/value presence only and make no trust, confirmation, freshness, or recency inference.",
     "This static synthetic assessment has no canonical-write, ranking, recommendation, comparison, intake, telemetry, outreach, commercial, pricing, billing, SLA, DPA, or security authority.",
     "Provider or claimant assertions are untrusted and cannot self-validate."
   ],

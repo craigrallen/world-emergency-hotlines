@@ -21,7 +21,7 @@
       ],
       "items": false
     },
-    "limitations": { "const": ["Retained structured observations support reviewed assertions on the recorded check date; human-reviewed interpretations are not mechanically byte-derived facts.", "Recorded evidence does not prove real-time availability, answering, eligibility, capacity, safety, outcomes, or universal geographic coverage.", "The recorded verification date dimension reports literal field presence only and makes no freshness or recency inference.", "This static synthetic assessment has no canonical-write, ranking, recommendation, comparison, intake, telemetry, outreach, commercial, pricing, billing, SLA, DPA, or security authority.", "Provider or claimant assertions are untrusted and cannot self-validate."] },
+    "limitations": { "const": ["Every terminal observation is independently derived from exact released-record field/value bytes; retained descriptions and review digests cannot override that derivation.", "Recorded evidence does not prove real-time availability, answering, eligibility, capacity, safety, outcomes, or universal geographic coverage.", "Field evidence and recorded verification date report bounded literal field/value presence only and make no trust, confirmation, freshness, or recency inference.", "This static synthetic assessment has no canonical-write, ranking, recommendation, comparison, intake, telemetry, outreach, commercial, pricing, billing, SLA, DPA, or security authority.", "Provider or claimant assertions are untrusted and cannot self-validate."] },
     "effects": { "type": "object", "additionalProperties": false, "required": ["canonical_mutation", "ranking_or_search_effect", "publication_authority", "commercial_activation"], "properties": { "canonical_mutation": { "const": false }, "ranking_or_search_effect": { "const": false }, "publication_authority": { "const": false }, "commercial_activation": { "const": false } } }
   },
   "$defs": {
@@ -29,7 +29,7 @@
     "dimension": {
       "type": "object", "additionalProperties": false,
       "required": ["name", "numerator", "denominator", "unknown_count", "not_observed_count", "not_assessed_count", "coverage_state"],
-      "properties": { "name": { "type": "string" }, "numerator": { "$ref": "#/$defs/count" }, "denominator": { "$ref": "#/$defs/count" }, "unknown_count": { "$ref": "#/$defs/count" }, "not_observed_count": { "$ref": "#/$defs/count" }, "not_assessed_count": { "$ref": "#/$defs/count" }, "coverage_state": { "enum": ["observed", "not_observed", "unknown", "not_assessed"] } },
+      "properties": { "name": { "type": "string" }, "numerator": { "$ref": "#/$defs/count" }, "denominator": { "$ref": "#/$defs/count" }, "unknown_count": { "$ref": "#/$defs/count" }, "not_observed_count": { "$ref": "#/$defs/count" }, "not_assessed_count": { "$ref": "#/$defs/count" }, "coverage_state": { "enum": ["observed", "not_observed", "unknown", "not_assessed", "partially_assessed", "mixed"] } },
       "oneOf": [
         { "$ref": "#/$defs/o2" }, { "$ref": "#/$defs/o1a1" },
         { "$ref": "#/$defs/u2" }, { "$ref": "#/$defs/u1o1" }, { "$ref": "#/$defs/u1n1" }, { "$ref": "#/$defs/u1a1" },
@@ -37,14 +37,14 @@
       ]
     },
     "o2": { "type": "object", "properties": { "numerator": {"const":2}, "denominator":{"const":2}, "unknown_count":{"const":0}, "not_observed_count":{"const":0}, "not_assessed_count":{"const":0}, "coverage_state":{"const":"observed"} } },
-    "o1a1": { "type": "object", "properties": { "numerator":{"const":1}, "denominator":{"const":1}, "unknown_count":{"const":0}, "not_observed_count":{"const":0}, "not_assessed_count":{"const":1}, "coverage_state":{"const":"observed"} } },
+    "o1a1": { "type": "object", "properties": { "numerator":{"const":1}, "denominator":{"const":1}, "unknown_count":{"const":0}, "not_observed_count":{"const":0}, "not_assessed_count":{"const":1}, "coverage_state":{"const":"partially_assessed"} } },
     "u2": { "type": "object", "properties": { "numerator":{"const":0}, "denominator":{"const":2}, "unknown_count":{"const":2}, "not_observed_count":{"const":0}, "not_assessed_count":{"const":0}, "coverage_state":{"const":"unknown"} } },
     "u1o1": { "type": "object", "properties": { "numerator":{"const":1}, "denominator":{"const":2}, "unknown_count":{"const":1}, "not_observed_count":{"const":0}, "not_assessed_count":{"const":0}, "coverage_state":{"const":"unknown"} } },
     "u1n1": { "type": "object", "properties": { "numerator":{"const":0}, "denominator":{"const":2}, "unknown_count":{"const":1}, "not_observed_count":{"const":1}, "not_assessed_count":{"const":0}, "coverage_state":{"const":"unknown"} } },
-    "u1a1": { "type": "object", "properties": { "numerator":{"const":0}, "denominator":{"const":1}, "unknown_count":{"const":1}, "not_observed_count":{"const":0}, "not_assessed_count":{"const":1}, "coverage_state":{"const":"unknown"} } },
+    "u1a1": { "type": "object", "properties": { "numerator":{"const":0}, "denominator":{"const":1}, "unknown_count":{"const":1}, "not_observed_count":{"const":0}, "not_assessed_count":{"const":1}, "coverage_state":{"const":"partially_assessed"} } },
     "n2": { "type": "object", "properties": { "numerator":{"const":0}, "denominator":{"const":2}, "unknown_count":{"const":0}, "not_observed_count":{"const":2}, "not_assessed_count":{"const":0}, "coverage_state":{"const":"not_observed"} } },
-    "n1o1": { "type": "object", "properties": { "numerator":{"const":1}, "denominator":{"const":2}, "unknown_count":{"const":0}, "not_observed_count":{"const":1}, "not_assessed_count":{"const":0}, "coverage_state":{"const":"not_observed"} } },
-    "n1a1": { "type": "object", "properties": { "numerator":{"const":0}, "denominator":{"const":1}, "unknown_count":{"const":0}, "not_observed_count":{"const":1}, "not_assessed_count":{"const":1}, "coverage_state":{"const":"not_observed"} } },
+    "n1o1": { "type": "object", "properties": { "numerator":{"const":1}, "denominator":{"const":2}, "unknown_count":{"const":0}, "not_observed_count":{"const":1}, "not_assessed_count":{"const":0}, "coverage_state":{"const":"mixed"} } },
+    "n1a1": { "type": "object", "properties": { "numerator":{"const":0}, "denominator":{"const":1}, "unknown_count":{"const":0}, "not_observed_count":{"const":1}, "not_assessed_count":{"const":1}, "coverage_state":{"const":"partially_assessed"} } },
     "a2": { "type": "object", "properties": { "numerator":{"const":0}, "denominator":{"const":0}, "unknown_count":{"const":0}, "not_observed_count":{"const":0}, "not_assessed_count":{"const":2}, "coverage_state":{"const":"not_assessed"} } },
     "channels": { "allOf": [{ "$ref": "#/$defs/dimension" }, { "type": "object", "properties": { "name": { "const": "channels" } } }] },
     "geography": { "allOf": [{ "$ref": "#/$defs/dimension" }, { "type": "object", "properties": { "name": { "const": "documented_geography" } } }] },
@@ -53,5 +53,5 @@
     "field": { "allOf": [{ "$ref": "#/$defs/dimension" }, { "type": "object", "properties": { "name": { "const": "field_evidence" } } }] },
     "recordedDate": { "allOf": [{ "$ref": "#/$defs/dimension" }, { "type": "object", "properties": { "name": { "const": "recorded_verification_date" } } }] }
   },
-  "x-runtime-invariants": ["The standard Draft 2020-12 oneOf representation exhaustively encodes every valid state/count partition for this fixed two-record artifact", "Runtime additionally proves accepted review and exact artifact bytes"]
+  "x-runtime-invariants": ["The standard Draft 2020-12 oneOf representation exhaustively encodes every valid state/count partition for this fixed two-record artifact: observed and not_observed require a fully assessed unanimous footprint; unknown requires a fully assessed footprint with an indeterminate outcome; mixed requires fully assessed observed and not-observed outcomes; partially_assessed requires both assessed and unassessed rows; not_assessed requires zero assessed rows", "Runtime additionally proves accepted review and exact artifact bytes"]
 }
