@@ -853,7 +853,7 @@ for (const [label, actual] of [['/countries links', countryIndexLinks], ['sitema
 }
 if (!pages.get('/map')?.html.match(/<h1\b/i)) fail('/map: H1 missing');
 
-const rootTypes = new Set(['WebSite', 'Organization', 'BreadcrumbList', 'Dataset']);
+const rootTypes = new Set(['WebSite', 'Organization', 'BreadcrumbList', 'Dataset', 'Article']);
 const nestedTypes = new Set(['Organization', 'ListItem', 'DataDownload']);
 function schemaTypes(value) { return Array.isArray(value?.['@type']) ? value['@type'] : [value?.['@type']]; }
 function validSiteUrl(raw, route, label, { mustEqualCanonical = false } = {}) {
@@ -899,8 +899,32 @@ function requireBreadcrumb(route) {
     }
   });
 }
-for (const route of ['/countries', '/categories', '/about', '/data']) requireBreadcrumb(route);
+for (const route of [
+  '/countries', '/categories', '/about', '/data', '/guides',
+  '/guides/emergency-numbers-vs-crisis-hotlines',
+  '/guides/find-crisis-support-while-travelling-abroad',
+  '/guides/what-hotline-verification-labels-mean',
+]) requireBreadcrumb(route);
 for (const page of pages.values()) if (page.indexable && (/^\/country\/[^/]+$/.test(page.route) || /^\/category\/[^/]+$/.test(page.route))) requireBreadcrumb(page.route);
+
+const guideArticles = new Map([
+  ['/guides/emergency-numbers-vs-crisis-hotlines', 'Emergency numbers and crisis hotlines: what’s the difference?'],
+  ['/guides/find-crisis-support-while-travelling-abroad', 'How to find crisis support while travelling abroad'],
+  ['/guides/what-hotline-verification-labels-mean', 'What hotline verification labels do—and do not—mean'],
+]);
+for (const [route, headline] of guideArticles) {
+  const page = pages.get(route);
+  const articles = page?.jsonLd.map(({ value }) => value).filter((value) => value['@type'] === 'Article') ?? [];
+  const article = articles[0];
+  if (articles.length !== 1) { fail(`${route}: expected exactly one Article`); continue; }
+  const visibleHeadline = page.html.match(/<h1\b[^>]*>([^<]+)<\/h1>/i)?.[1];
+  if (article.headline !== headline || article.headline !== visibleHeadline) fail(`${route}: Article.headline must equal the visible H1`);
+  if (article.description !== page.description) fail(`${route}: Article.description must equal the meta description`);
+  if (article.datePublished !== '2026-08-16' || article.dateModified !== '2026-08-16') fail(`${route}: Article dates must equal 2026-08-16`);
+  if (article.url !== canonicalPath(route)) fail(`${route}: Article.url must equal the page canonical`);
+  if (JSON.stringify(article.isPartOf) !== JSON.stringify({ '@type': 'WebSite', name: SITE_NAME, url: canonicalPath('/') })) fail(`${route}: Article.isPartOf must identify the canonical WebSite`);
+  if ('author' in article || 'publisher' in article) fail(`${route}: Article must not claim an author or publisher`);
+}
 
 const homeValues = pages.get('/')?.jsonLd.map(({ value }) => value) ?? [];
 if (homeValues.filter((value) => value['@type'] === 'WebSite').length !== 1 || homeValues.filter((value) => value['@type'] === 'Organization').length !== 1) fail('/: requires exactly one WebSite and one maintainer/publisher Organization');

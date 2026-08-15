@@ -1,0 +1,70 @@
+---
+import Guide from '../../layouts/Guide.astro';
+---
+
+<Guide title="What hotline verification labels do—and do not—mean" description="Learn what World Hotlines verification labels describe, what they do not prove, and how to assess source dates and conflicting information." researched="15 August 2026">
+  <p>A “verified” label can sound broader than the evidence behind it. On World Hotlines, a verification status describes the source used to check a listed telephone number. It is not a promise that the line is open, answered immediately, suitable for everyone, or able to provide a particular outcome.</p>
+  <p>Understanding that boundary helps you use the directory without treating a source check as a live-service guarantee.</p>
+
+  <h2>Verification is tied to evidence</h2>
+  <p>Each hotline record can include a status, a source, and a date associated with checking the evidence. The status tells you what kind of evidence supported the listed number when it was reviewed.</p>
+  <p>The evidence can come from several places:</p>
+  <ul><li>the provider’s own official website;</li><li>a government or other recognized authority;</li><li>a third-party public directory;</li><li>an earlier dataset without a completed independent check; or</li><li>another explicitly described reference state.</li></ul>
+  <p>The strength and scope of those observations differ. The site therefore keeps the labels separate rather than reducing them to a star rating or overall provider score.</p>
+
+  <h2><code>verified_web</code></h2>
+  <p><code>verified_web</code> means that the telephone number was confirmed against the provider’s official website on the recorded date.</p>
+  <p>It does not automatically confirm:</p>
+  <ul><li>that the line is currently answering;</li><li>opening hours;</li><li>eligibility;</li><li>supported languages;</li><li>geographic scope;</li><li>cost;</li><li>confidentiality practices;</li><li>SMS, chat, email, or other non-number channels; or</li><li>the quality or suitability of the service.</li></ul>
+  <p>Those details need their own field-level evidence.</p>
+
+  <h2><code>verified_authority</code></h2>
+  <p><code>verified_authority</code> means that the telephone number was confirmed against a named authoritative source, such as a responsible government body or public authority.</p>
+  <p>This does not mean the provider confirmed the number directly. It also does not establish live availability or the other service details listed above unless the relevant field has separate supporting evidence.</p>
+
+  <h2><code>cross_referenced</code></h2>
+  <p><code>cross_referenced</code> means that a record originated from a third-party public directory. It is not provider or authority verification.</p>
+  <p>A third-party listing can be useful evidence, but it may be incomplete, old, or based on another source. World Hotlines does not turn the existence of a directory entry into a claim that the provider reviewed, endorsed, or partnered with this project.</p>
+
+  <h2><code>legacy_unverified</code></h2>
+  <p><code>legacy_unverified</code> identifies an inherited record that has not received an independent evidence check under the current process.</p>
+  <p>Treat it as a lead to confirm against the provider or responsible authority before relying on it. The label is not proof that the number is wrong; it makes the unresolved evidence status visible.</p>
+
+  <h2><code>verified_knowledge</code></h2>
+  <p><code>verified_knowledge</code> indicates that the number was asserted from prior reference or training knowledge and was not reconfirmed on the public web.</p>
+  <p>It should not be used as support for new factual claims about hours, audience, channels, geographic scope, eligibility, or availability. The project’s editorial policy treats this as distinct from provider, authority, or web verification.</p>
+
+  <h2><code>disputed</code></h2>
+  <p><code>disputed</code> means that material sources conflict.</p>
+  <p>A disputed record should not be presented with confident routing or promotional language. Read the notes and sources carefully. When the conflict could affect someone’s safety, the record requires review rather than an automated guess about which source is correct.</p>
+
+  <h2><code>deprecated</code></h2>
+  <p><code>deprecated</code> means that evidence indicates the service closed or the contact is no longer in use.</p>
+  <p>The record may remain visible to preserve history and replacement information, but it should not be presented as a current contact.</p>
+
+  <h2>What does the checked date mean?</h2>
+  <p>A checked date records when the cited evidence supported the listed number. It does not mean that somebody called the service on that date, that the service answered, or that it has operated continuously since then.</p>
+  <p>A recent date is not a real-time availability signal. An older date is a reason to check current provider information, but age alone does not prove that the number is invalid.</p>
+  <p>Page-build and dataset-release dates are also different from evidence-check dates. Rebuilding the website should not make an old evidence check look new.</p>
+
+  <h2>Why not use a single trust score?</h2>
+  <p>A single score would hide important differences.</p>
+  <p>A provider’s telephone number could be visible on its official website while its opening hours remain unknown. A government source could list a service without establishing its current chat availability. A third-party directory could describe supported languages that the provider’s own page does not confirm.</p>
+  <p>Combining those observations into one number would imply a level of comparison and certainty that the evidence does not support. World Hotlines therefore presents source status, dates, and relevant fields separately.</p>
+
+  <h2>How to assess a listing</h2>
+  <p>When the details matter, use this sequence:</p>
+  <ol><li>Confirm that the listing applies to the country or local area where help is needed.</li><li>Check that the contact channel matches your intended action: telephone, SMS, chat, or email.</li><li>Read the verification status and checked date.</li><li>Open the cited provider or authority source where available.</li><li>Confirm audience, hours, language, cost, and service area separately.</li><li>If sources conflict, do not combine or infer a convenient answer.</li><li>Report incorrect or outdated information without including private crisis details.</li></ol>
+  <p>If someone needs an urgent public emergency response, use the emergency number published by the responsible authority for the country they are in. Directory verification labels do not decide whether a situation is an emergency.</p>
+
+  <h2>Transparency without endorsement</h2>
+  <p>World Hotlines names providers and sources only to attribute directory records. Inclusion does not mean that a provider or source endorses, reviews, licenses, approves, or partners with the project.</p>
+  <p>Similarly, a verification label is not a recommendation, clinical assessment, provider ranking, or statement that one service is better than another.</p>
+
+  <h2>Learn more</h2>
+  <ul><li><a href="/about">How this directory works</a></li><li><a href="/data">Download and inspect the public data</a></li><li><a href="/status">View project and dataset status</a></li><li><a href="/countries">Browse contacts by country or territory</a></li></ul>
+
+  <h2>Sources and scope</h2>
+  <ul><li>World Hotlines, <a href="/about">About this project</a>.</li><li>World Hotlines, <code>docs/SEO_AUTHORITY_AND_EDITORIAL_METHODOLOGY.md</code>, adopted editorial policy, accessed 15 August 2026.</li><li>World Hotlines schema and data-flow documentation, used for the project’s exact status and publication boundaries.</li></ul>
+  <p>This article explains World Hotlines terminology. It does not establish the status of any provider or guarantee that a listed service is reachable.</p>
+</Guide>
