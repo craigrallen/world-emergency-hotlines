@@ -183,7 +183,7 @@ test('identical-byte replacement after stage inspection is rejected with replace
       const bytes = readFileSync(target);
       unlinkSync(target);
       writeFileSync(target, bytes);
-    } }, tracked.io), /changed before pinning/);
+    } }, tracked.io), /changed before publication/);
     assert.equal(existsSync(resolve(root, 'public/deprecation-proposals/v1')), false);
     assert.equal(existsSync(stage), false);
     assert.equal(existsSync(resolve(root, 'public/deprecation-proposals/.deprecation-proposals.lock')), false);

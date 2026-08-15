@@ -214,8 +214,8 @@ export function generateDeprecationProposalContracts(options = {}) {
       }
       const stagedState = inspect(stage, managedRoot);
       if (!equal(stagedState, sourceState)) throw new Error('staged deprecation-proposal output differs from source');
-      options.hooks?.afterStageInspection?.({ stage, output, lock });
       heldStage = holdFiles(stagedState, stage, managedRoot, io);
+      options.hooks?.afterStageInspection?.({ stage, output, lock });
       options.hooks?.beforePublish?.({ stage, output, lock });
       const currentParent = lstatSync(parent);
       if (currentParent.isSymbolicLink() || currentParent.dev !== parentIdentity.dev || currentParent.ino !== parentIdentity.ino) throw new Error('output parent replaced before publication');
