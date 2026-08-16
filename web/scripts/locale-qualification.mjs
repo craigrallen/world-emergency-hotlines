@@ -1,6 +1,22 @@
 const EXPECTED_SCOPE = 'selected_static_ui_keys_only';
 const NON_ENGLISH_STATUS = 'not_independently_human_reviewed';
 
+// Conservative shared denylist. Callers must remove the repository's required
+// negative disclosures before applying these affirmative-claim patterns.
+export const AFFIRMATIVE_TRANSLATION_REVIEW_PATTERNS = Object.freeze([
+  /\bindependently[\s_-]+human[\s_-]+(?:reviewed|approved)\b/iu,
+  /\bprofessionally[\s_-]+translated\b/iu,
+  /\bqualified[\s_-]+translation\b/iu,
+  /\bcertified[\s_-]+translation\b/iu,
+]);
+
+export function containsAffirmativeTranslationReviewClaim(value) {
+  const withoutRequiredNegativeClaims = value.normalize('NFKC')
+    .replace(/\bnot(?:[\s_-]+been)?[\s_-]+independently[\s_-]+human[\s_-]+reviewed(?:[\s_-]+or[\s_-]+qualified)?\b/giu, '')
+    .replace(/\bnot[\s_-]+formally[\s_-]+certified\b/giu, '');
+  return AFFIRMATIVE_TRANSLATION_REVIEW_PATTERNS.some((pattern) => pattern.test(withoutRequiredNegativeClaims));
+}
+
 function quotedValues(block) {
   return [...block.matchAll(/['"]([^'"]+)['"]/g)].map((match) => match[1]);
 }
@@ -52,11 +68,9 @@ export function verifyLocaleQualification({ manifest, i18nSource, languageSwitch
   if (/safety- or licensing-sensitive copy without the required review[^.]*falls back to English/i.test(statusPageSource)) {
     fail('status route must not claim review-gated fallback that runtime does not implement');
   }
-  const disclosureWithoutNegativeStatus = statusPageSource
-    .replaceAll('Licensing-sensitive keys deliberately remain English pending qualified translation and legal review', '')
-    .replaceAll('not been independently human-reviewed or qualified', '')
-    .replaceAll('not independently human-reviewed or qualified', '');
-  if (/\b(?:independently human-reviewed|qualified translation|professionally translated|certified translation)\b/i.test(disclosureWithoutNegativeStatus)) {
+  const disclosureWithoutPolicyDescription = statusPageSource
+    .replaceAll('Licensing-sensitive keys deliberately remain English pending qualified translation and legal review', '');
+  if (containsAffirmativeTranslationReviewClaim(disclosureWithoutPolicyDescription)) {
     fail('status route contains an unsupported affirmative translation-review claim');
   }
   if (!/['"]\/language-status['"]/.test(sitemapSource)) fail('language status route must be listed in sitemap source');

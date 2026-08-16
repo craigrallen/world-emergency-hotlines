@@ -76,10 +76,17 @@ test('fails closed on key, locale, override, and classification-policy drift', (
   assert.throws(() => generate({ manifest: mutate(input.manifest, (x) => x.locales.pop()) }), /manifest locales/);
   assert.notEqual(encodePack(generate({ i18nSource: input.i18nSource.replace("const ES: Partial<Dict> = {", "const ES: Partial<Dict> = {\n  'meta.siteTitle': 'Synthetic title',") })), encodePack(committed));
   assert.throws(() => generate({ classificationPolicy: mutate(input.classificationPolicy, (x) => x.canonicalKeySha256 = '0'.repeat(64)) }), /exact canonical key inventory/);
+  assert.throws(() => generate({ classificationPolicy: mutate(input.classificationPolicy, (x) => x.canonicalKeyValueSha256 = '0'.repeat(64)) }), /exact canonical English key\/value inventory/);
   assert.throws(() => generate({ classificationPolicy: mutate(input.classificationPolicy, (x) => x.ordinaryUiKeys.pop()) }), /missing canonical key/);
   assert.throws(() => generate({ classificationPolicy: mutate(input.classificationPolicy, (x) => x.ordinaryUiKeys.push(x.ordinaryUiKeys[0])) }), /unique arrays/);
   assert.throws(() => generate({ classificationPolicy: mutate(input.classificationPolicy, (x) => x.legalSensitiveKeys.push('banner.body')) }), /overlaps/);
   assert.throws(() => generate({ classificationPolicy: mutate(input.classificationPolicy, (x) => x.ordinaryUiKeys.push('unknown.key')) }), /unknown key/);
+});
+
+test('fails closed on a value-only English source change with an identical key inventory', () => {
+  const changedSource = input.i18nSource.replace("'World Emergency & Hotlines'", "'Repurposed English source'");
+  assert.deepEqual(Object.keys(parseCanonicalDictionaries(changedSource).english), Object.keys(parseCanonicalDictionaries(input.i18nSource).english));
+  assert.throws(() => generate({ i18nSource: changedSource }), /exact canonical English key\/value inventory/);
 });
 
 test('fails closed on every locale-status semantic invariant', () => {
@@ -135,18 +142,22 @@ test('contains only static UI inventory and no forbidden claims or contact-shape
   assert.deepEqual(reviewPackSafetyErrors(committed), []);
   for (const [change, error] of [
     [(x) => x.entries[0].locales[1].value = 'professionally translated', 'affirmative human-review claim'],
+    [(x) => x.entries[0].locales[1].value = 'independently human-reviewed', 'affirmative human-review claim'],
+    [(x) => x.entries[0].locales[1].value = 'certified translation', 'affirmative human-review claim'],
     [(x) => x.entries[0].locales[1].reviewerDecision.notes = 'reviewer@example.invalid', 'email leakage'],
     [(x) => x.entries[0].locales[1].value = 'https：//provider.example.invalid', 'URI leakage'],
     [(x) => x.entries[0].locales[1].value = '+1 555 123 4567', 'phone-shaped leakage'],
     [(x) => x.entries[0].locales[1].value = 'Contact: ＋４６ ８ １２３ ４５ ６７', 'phone-shaped leakage'],
     [(x) => x.entries[0].locales[1].value = 'Call ９１１', 'phone-shaped leakage'],
     [(x) => x.entries[0].locales[1].value = 'SMS: 112', 'phone-shaped leakage'],
+    [(x) => x.entries[0].locales[1].value = '911', 'phone-shaped leakage'],
+    [(x) => x.entries[0].locales[1].value = '１１２', 'phone-shaped leakage'],
     [(x) => x.entries[0].locales[1].value = 'provider id: abc-123', 'provider-identifying data'],
     [(x) => x.canonicalProviderDataIncluded = true, 'canonical provider data inclusion'],
     [(x) => x.valueSource = 'mixed', 'source provenance contract'],
     [(x) => x.qualificationEffect = true, 'qualification or authority effect'],
   ]) assert.ok(reviewPackSafetyErrors(mutate(committed, change)).includes(error));
-  for (const value of ['Copyright 2026', 'Version 2.0.1', 'Showing 12 results', 'Updated 2026-08-16']) {
+  for (const value of ['Copyright 2026', 'Version 2.0.1', 'Version 9.11', 'Showing 12 results', 'Showing 112 results', '112 results', 'Updated 2026-08-16', 'Updated 1911-09-11']) {
     assert.deepEqual(reviewPackSafetyErrors(mutate(committed, (x) => x.entries[0].locales[1].value = value)), []);
   }
 });

@@ -1,6 +1,7 @@
 import ts from 'typescript';
 import { createHash } from 'node:crypto';
 import vm from 'node:vm';
+import { containsAffirmativeTranslationReviewClaim } from './locale-qualification.mjs';
 
 export const PACK_SCHEMA = 'internal-multilingual-ui-review-pack/v1';
 export const CLASSIFICATIONS = Object.freeze(['safety_facing', 'legal_sensitive', 'ordinary_ui']);
@@ -170,6 +171,10 @@ export function generateReviewPack({ i18nSource, manifest, classificationPolicy 
   if (classificationPolicy.schema !== 'static-ui-safety-classification/v1') throw new Error('unsupported classification policy');
   const keyDigest = createHash('sha256').update(`${keys.join('\n')}\n`).digest('hex');
   if (classificationPolicy.canonicalKeySha256 !== keyDigest) throw new Error('classification policy does not cover the exact canonical key inventory');
+  // JSON encodes the ordered tuple array without delimiter ambiguity and keeps
+  // value-only source changes coupled to an explicit policy update.
+  const sourceDigest = createHash('sha256').update(JSON.stringify(keys.map((key) => [key, parsed.english[key]]))).digest('hex');
+  if (classificationPolicy.canonicalKeyValueSha256 !== sourceDigest) throw new Error('classification policy does not cover the exact canonical English key/value inventory');
   const lists = {
     safety_facing: classificationPolicy.safetyFacingKeys,
     legal_sensitive: classificationPolicy.legalSensitiveKeys,
@@ -278,15 +283,16 @@ export function reviewPackSafetyErrors(pack) {
   const errors = [];
   const normalized = values.map((value) => value.normalize('NFKC'));
   const scan = (label, pattern) => { if (normalized.some((value) => pattern.test(value))) errors.push(label); };
-  scan('affirmative human-review claim', /independently[\s_-]+human[\s_-]+approved|professionally translated|qualified translation/iu);
+  if (normalized.some(containsAffirmativeTranslationReviewClaim)) errors.push('affirmative human-review claim');
   scan('email leakage', /[\p{L}\p{N}.!#$%&'*+/=?^_`{|}~-]+@[\p{L}\p{N}-]+(?:\.[\p{L}\p{N}-]+)+/iu);
   scan('URI leakage', /(?:https?|ftp|mailto|tel|sms|data|javascript)\s*[:：]/iu);
   const phoneCandidates = normalized.map((value) => value
     .replace(/\b\p{Nd}{4}-\p{Nd}{1,2}-\p{Nd}{1,2}\b/gu, '')
     .replace(/\bcopyright\s*\p{Nd}{4}\b/giu, '')
     .replace(/\b(?:version|v)\s*\p{Nd}+(?:\.\p{Nd}+)*\b/giu, '')
-    .replace(/\b(?:showing|count|total)\s*\p{Nd}+\b/giu, ''));
-  if (phoneCandidates.some((value) => /(?:\+\s*)?\p{Nd}(?:[\p{Nd}\s().-]*\p{Nd}){6,}|(?:call|dial|phone|telephone|hotline|emergency|contact|text|sms|number)\s*(?:[:：-]\s*)?(?:\+\s*)?\p{Nd}(?:[\p{Nd}\s().-]*\p{Nd}){2,5}/iu.test(value))) errors.push('phone-shaped leakage');
+    .replace(/(?<!\p{L})(?:showing|count|total)\s*\p{Nd}+(?:\s+results?)?(?!\p{L})/giu, '')
+    .replace(/(?<![\p{L}\p{N}])\p{Nd}+\s+results?(?!\p{L})/giu, ''));
+  if (phoneCandidates.some((value) => /(?:\+\s*)?\p{Nd}(?:[\p{Nd}\s().-]*\p{Nd}){6,}|(?:call|dial|phone|telephone|hotline|emergency|contact|text|sms|number)\s*(?:[:：-]\s*)?(?:\+\s*)?\p{Nd}(?:[\p{Nd}\s().-]*\p{Nd}){2,5}|(?<![\p{L}\p{N}])(?:911|112)(?![\p{L}\p{N}])/iu.test(value))) errors.push('phone-shaped leakage');
   scan('provider-identifying data', /(?:provider|service|organisation|organization)\s*(?:id|identifier|record)\s*[:#]/iu);
   if (pack.canonicalProviderDataIncluded !== false) errors.push('canonical provider data inclusion');
   if (pack.valueSource !== 'static_ui_runtime_dictionaries_only' || JSON.stringify(pack.excludedSourceClasses) !== JSON.stringify(['canonical_provider_data', 'hotline_records', 'provider_contacts', 'provider_evidence'])) errors.push('source provenance contract');

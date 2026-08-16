@@ -27,7 +27,9 @@ test('fails closed on an unsupported human-review claim', () => {
   assert.ok(check({ manifest }).some((error) => error.includes('must remain explicitly')));
 });
 test('fails closed on a contradictory public qualification claim', () => {
-  assert.ok(check({ statusPageSource: `${valid.statusPageSource} Spanish is independently human-reviewed.` }).some((error) => error.includes('unsupported affirmative')));
+  for (const claim of ['independently human-reviewed', 'independently human-approved', 'professionally translated', 'qualified translation', 'certified translation']) {
+    assert.ok(check({ statusPageSource: `${valid.statusPageSource} Spanish is ${claim}.` }).some((error) => error.includes('unsupported affirmative')), claim);
+  }
 });
 test('rejects the old review-gated fallback overclaim', () => {
   assert.ok(check({ statusPageSource: `${valid.statusPageSource} Safety- or licensing-sensitive copy without the required review falls back to English.` }).some((error) => error.includes('review-gated fallback')));

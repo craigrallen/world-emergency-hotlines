@@ -6,7 +6,8 @@ internal review and is not copied into `web/public` or the built site.
 
 `review-pack.json` is generated from `web/src/lib/i18n.ts`,
 `web/src/lib/locale-status.json`, and the closed safety policy in
-`safety-classification.json`. Its values are allowlisted by construction from
+`safety-classification.json`. Its ordered canonical key inventory and exact
+English key/value tuples are digest-bound, and its values are allowlisted by construction from
 the static UI runtime dictionaries only; canonical provider data, hotline
 records, provider contacts, and provider evidence are excluded source classes.
 Leakage scans are defense in depth, not provenance evidence. English is the source/master. A
