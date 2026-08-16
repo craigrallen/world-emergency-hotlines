@@ -42,7 +42,9 @@ export function verifyLocaleQualification({ manifest, i18nSource, languageSwitch
 
   if (!/data-translation-status-link[^>]*href="\/language-status"/.test(languageSwitcherSource)) fail('language selector must directly discover the translation status route');
   if (!/href="\/language-status"[^>]*data-translation-status-link|data-translation-status-link[^>]*href="\/language-status"/.test(footerSource)) fail('shared footer must discover the translation status route');
-  if (!/data-translation-disclosure/.test(statusPageSource) || !/data-canonical-provider-data-translated="false"/.test(statusPageSource)) fail('status route must expose a machine-checkable disclosure boundary');
+  const disclosureTag = statusPageSource.match(/<section\b[^>]*\bdata-translation-disclosure\b[^>]*>/i)?.[0] ?? '';
+  if (!disclosureTag || !/\bdata-canonical-provider-data-translated="false"/.test(disclosureTag)) fail('status route must expose a machine-checkable disclosure boundary');
+  if (!/\blang="en"/.test(disclosureTag) || !/\bdir="ltr"/.test(disclosureTag)) fail('untranslated status disclosure must define an English/LTR language boundary');
   if (/<\/?main(?:\s|>)/i.test(statusPageSource)) fail('status route must not define a main landmark because Base already provides one');
   for (const phrase of ['selected site chrome', 'source-record language', 'Missing interface keys fall back to English', 'Licensing-sensitive keys deliberately remain English pending qualified translation and legal review', 'Existing non-English UI, including safety-facing chrome, has not been independently human-reviewed or qualified and may contain errors', 'verify the number']) {
     if (!statusPageSource.includes(phrase)) fail(`status route missing required disclosure: ${phrase}`);
