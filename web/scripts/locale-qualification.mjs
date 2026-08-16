@@ -8,6 +8,20 @@ export const AFFIRMATIVE_TRANSLATION_REVIEW_PATTERNS = Object.freeze([
   /\bprofessionally[\s_-]+translated\b/iu,
   /\bqualified[\s_-]+translation\b/iu,
   /\bcertified[\s_-]+translation\b/iu,
+  /\btraducci[oó]n[\s_-]+certificada\b/iu,
+  /\brevisad[oa][\s_-]+independientemente[\s_-]+por[\s_-]+humanos\b/iu,
+  /\btraduction[\s_-]+certifi[eé]e\b/iu,
+  /\br[eé]vis[eé][\s_-]+(?:de[\s_-]+mani[eè]re[\s_-]+)?ind[eé]pendante[\s_-]+par[\s_-]+des[\s_-]+humains\b/iu,
+  /\bzertifizierte[\s_-]+[uü]bersetzung\b/iu,
+  /\bunabh[aä]ngig[\s_-]+von[\s_-]+menschen[\s_-]+[uü]berpr[uü]ft\b/iu,
+  /\btradu[cç][aã]o[\s_-]+certificada\b/iu,
+  /\brevisad[oa][\s_-]+independentemente[\s_-]+por[\s_-]+humanos\b/iu,
+  /(?:ترجمة\s+معتمدة|تمت\s+مراجعته\s+بشكل\s+مستقل\s+من\s+قبل\s+البشر)/u,
+  /(?:प्रमाणित\s+अनुवाद|स्वतंत्र\s+रूप\s+से\s+मानव[‐-―-]समीक्षित)/u,
+  /(?:认证翻译|经过独立人工审核)/u,
+  /(?:認定翻訳|独立した人間によるレビュー済み)/u,
+  /\bсертифицированный[\s_-]+перевод\b/iu,
+  /\bнезависимо[\s_-]+проверено[\s_-]+человеком\b/iu,
 ]);
 
 export function containsAffirmativeTranslationReviewClaim(value) {

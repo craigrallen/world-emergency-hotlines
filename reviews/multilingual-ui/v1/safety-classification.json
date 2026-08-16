@@ -2,6 +2,7 @@
   "schema": "static-ui-safety-classification/v1",
   "canonicalKeySha256": "c298b4a2c276180df5b61487c68c029a6c5b6ea074898b8ca486c6288170b5b5",
   "canonicalKeyValueSha256": "220beff3bb1b0ecc0d85a4f56b5992397a3b0771867ab874ad9bd85dcac6561a",
+  "runtimeLocaleKeyValueStateSha256": "7e3338252d7a790c142f84b90fbd2a9bd34963788fbb3b9fc65bd407303b03ee",
   "safetyFacingKeys": [
     "meta.siteDescription", "common.reportError", "common.verified", "common.unverified", "common.hotlines",
     "footer.notice",

@@ -168,6 +168,9 @@ export function generateReviewPack({ i18nSource, manifest, classificationPolicy 
   const manifestLocales = manifest.locales.map(({ locale }) => locale);
   if (JSON.stringify(parsed.locales) !== JSON.stringify(manifestLocales)) throw new Error('manifest locales must exactly match canonical locale order');
   const keys = Object.keys(parsed.english);
+  const policyKeys = ['schema', 'canonicalKeySha256', 'canonicalKeyValueSha256', 'runtimeLocaleKeyValueStateSha256', 'safetyFacingKeys', 'legalSensitiveKeys', 'ordinaryUiKeys'];
+  if (!classificationPolicy || typeof classificationPolicy !== 'object' || Array.isArray(classificationPolicy)
+    || JSON.stringify(Object.keys(classificationPolicy)) !== JSON.stringify(policyKeys)) throw new Error('classification policy must be closed and ordered');
   if (classificationPolicy.schema !== 'static-ui-safety-classification/v1') throw new Error('unsupported classification policy');
   const keyDigest = createHash('sha256').update(`${keys.join('\n')}\n`).digest('hex');
   if (classificationPolicy.canonicalKeySha256 !== keyDigest) throw new Error('classification policy does not cover the exact canonical key inventory');
@@ -175,6 +178,14 @@ export function generateReviewPack({ i18nSource, manifest, classificationPolicy 
   // value-only source changes coupled to an explicit policy update.
   const sourceDigest = createHash('sha256').update(JSON.stringify(keys.map((key) => [key, parsed.english[key]]))).digest('hex');
   if (classificationPolicy.canonicalKeyValueSha256 !== sourceDigest) throw new Error('classification policy does not cover the exact canonical English key/value inventory');
+  const runtime = evaluateCanonicalRuntime(i18nSource, manifest);
+  if (JSON.stringify(Array.from(runtime.LOCALES)) !== JSON.stringify(parsed.locales)) throw new Error('runtime locale inventory differs from canonical source');
+  const runtimeInventory = parsed.locales.flatMap((locale) => keys.map((key) => {
+    const overridden = locale === 'en' || Array.from(runtime.__RUNTIME_OVERRIDE_KEYS__[locale]).includes(key);
+    return [locale, key, runtime.DICTIONARIES[locale][key], locale === 'en' ? 'source_master' : overridden ? 'locale_override' : 'english_fallback'];
+  }));
+  const runtimeDigest = createHash('sha256').update(JSON.stringify(runtimeInventory)).digest('hex');
+  if (classificationPolicy.runtimeLocaleKeyValueStateSha256 !== runtimeDigest) throw new Error('classification policy does not cover the exact ordered runtime locale/key/effective-value/override-state inventory');
   const lists = {
     safety_facing: classificationPolicy.safetyFacingKeys,
     legal_sensitive: classificationPolicy.legalSensitiveKeys,
@@ -286,13 +297,15 @@ export function reviewPackSafetyErrors(pack) {
   if (normalized.some(containsAffirmativeTranslationReviewClaim)) errors.push('affirmative human-review claim');
   scan('email leakage', /[\p{L}\p{N}.!#$%&'*+/=?^_`{|}~-]+@[\p{L}\p{N}-]+(?:\.[\p{L}\p{N}-]+)+/iu);
   scan('URI leakage', /(?:https?|ftp|mailto|tel|sms|data|javascript)\s*[:：]/iu);
+  // These are the complete, explicit benign numeric contexts. Everything else
+  // fails closed when it contains a standalone 3–6 digit decimal run.
   const phoneCandidates = normalized.map((value) => value
     .replace(/\b\p{Nd}{4}-\p{Nd}{1,2}-\p{Nd}{1,2}\b/gu, '')
     .replace(/\bcopyright\s*\p{Nd}{4}\b/giu, '')
     .replace(/\b(?:version|v)\s*\p{Nd}+(?:\.\p{Nd}+)*\b/giu, '')
     .replace(/(?<!\p{L})(?:showing|count|total)\s*\p{Nd}+(?:\s+results?)?(?!\p{L})/giu, '')
     .replace(/(?<![\p{L}\p{N}])\p{Nd}+\s+results?(?!\p{L})/giu, ''));
-  if (phoneCandidates.some((value) => /(?:\+\s*)?\p{Nd}(?:[\p{Nd}\s().-]*\p{Nd}){6,}|(?:call|dial|phone|telephone|hotline|emergency|contact|text|sms|number)\s*(?:[:：-]\s*)?(?:\+\s*)?\p{Nd}(?:[\p{Nd}\s().-]*\p{Nd}){2,5}|(?<![\p{L}\p{N}])\p{Nd}{3}(?![\p{L}\p{N}])/iu.test(value))) errors.push('phone-shaped leakage');
+  if (phoneCandidates.some((value) => /(?:\+\s*)?\p{Nd}(?:[\p{Nd}\s().-]*\p{Nd}){6,}|(?<!\p{Nd})\p{Nd}{3,6}(?!\p{Nd})/u.test(value))) errors.push('phone-shaped leakage');
   scan('provider-identifying data', /(?:provider|service|organisation|organization)\s*(?:id|identifier|record)\s*[:#]/iu);
   if (pack.canonicalProviderDataIncluded !== false) errors.push('canonical provider data inclusion');
   if (pack.valueSource !== 'static_ui_runtime_dictionaries_only' || JSON.stringify(pack.excludedSourceClasses) !== JSON.stringify(['canonical_provider_data', 'hotline_records', 'provider_contacts', 'provider_evidence'])) errors.push('source provenance contract');

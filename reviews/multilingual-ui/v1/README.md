@@ -6,8 +6,9 @@ internal review and is not copied into `web/public` or the built site.
 
 `review-pack.json` is generated from `web/src/lib/i18n.ts`,
 `web/src/lib/locale-status.json`, and the closed safety policy in
-`safety-classification.json`. Its ordered canonical key inventory and exact
-English key/value tuples are digest-bound, and its values are allowlisted by construction from
+`safety-classification.json`. Its ordered canonical key inventory, exact
+English key/value tuples, and exact ordered runtime locale/key/effective-value/override-state
+inventory are digest-bound, and its values are allowlisted by construction from
 the static UI runtime dictionaries only; canonical provider data, hotline
 records, provider contacts, and provider evidence are excluded source classes.
 Leakage scans are defense in depth, not provenance evidence. English is the source/master. A
@@ -52,9 +53,11 @@ uniqueness, source parity, classifications, and runtime override presence;
 schema validation is not an independent substitute. The tests adversarially cover
 key and locale drift, English parity, override/fallback truth, classification
 drift, ordering/reproducibility, fail-closed placeholders, forbidden claims,
-and contact-shaped leakage, including any standalone three-digit decimal token
-after explicit benign-context removal. Changing the canonical key inventory requires an
-explicit review of the safety policy and its key-inventory digest.
+and contact-shaped leakage, including any standalone three-through-six-digit
+Unicode decimal run after explicit removal of dates, copyright years, versions,
+and result counts. Seven-or-more-digit phone shapes remain independently rejected.
+Changing any runtime locale value, key, order, or override state requires an
+explicit review of the safety policy and its inventory digest.
 
 `reviews/` is excluded from the Docker build context. The non-publication
 verifier rejects internal pack paths and markers in `web/dist`; the deployment

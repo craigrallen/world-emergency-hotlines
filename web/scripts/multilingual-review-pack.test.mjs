@@ -74,7 +74,7 @@ test('rejects TypeScript parse and transpile diagnostics explicitly', () => {
 test('fails closed on key, locale, override, and classification-policy drift', () => {
   assert.throws(() => generate({ i18nSource: input.i18nSource.replace("  'meta.siteTitle':", "  'new.key': 'x',\n  'meta.siteTitle':") }), /exact canonical key inventory/);
   assert.throws(() => generate({ manifest: mutate(input.manifest, (x) => x.locales.pop()) }), /manifest locales/);
-  assert.notEqual(encodePack(generate({ i18nSource: input.i18nSource.replace("const ES: Partial<Dict> = {", "const ES: Partial<Dict> = {\n  'meta.siteTitle': 'Synthetic title',") })), encodePack(committed));
+  assert.throws(() => generate({ i18nSource: input.i18nSource.replace("const ES: Partial<Dict> = {", "const ES: Partial<Dict> = {\n  'meta.siteTitle': 'Synthetic title',") }), /exact ordered runtime locale\/key\/effective-value\/override-state inventory/);
   assert.throws(() => generate({ classificationPolicy: mutate(input.classificationPolicy, (x) => x.canonicalKeySha256 = '0'.repeat(64)) }), /exact canonical key inventory/);
   assert.throws(() => generate({ classificationPolicy: mutate(input.classificationPolicy, (x) => x.canonicalKeyValueSha256 = '0'.repeat(64)) }), /exact canonical English key\/value inventory/);
   assert.throws(() => generate({ classificationPolicy: mutate(input.classificationPolicy, (x) => x.ordinaryUiKeys.pop()) }), /missing canonical key/);
@@ -87,6 +87,15 @@ test('fails closed on a value-only English source change with an identical key i
   const changedSource = input.i18nSource.replace("'World Emergency & Hotlines'", "'Repurposed English source'");
   assert.deepEqual(Object.keys(parseCanonicalDictionaries(changedSource).english), Object.keys(parseCanonicalDictionaries(input.i18nSource).english));
   assert.throws(() => generate({ i18nSource: changedSource }), /exact canonical English key\/value inventory/);
+});
+
+test('fails closed on a non-English value-only source change with unchanged keys', () => {
+  const changedSource = input.i18nSource.replace("'Inicio'", "'Portada'");
+  const before = parseCanonicalDictionaries(input.i18nSource);
+  const after = parseCanonicalDictionaries(changedSource);
+  assert.deepEqual(after.locales, before.locales);
+  assert.deepEqual(Object.keys(after.overrides.es), Object.keys(before.overrides.es));
+  assert.throws(() => generate({ i18nSource: changedSource }), /exact ordered runtime locale\/key\/effective-value\/override-state inventory/);
 });
 
 test('fails closed on every locale-status semantic invariant', () => {
@@ -144,13 +153,19 @@ test('contains only static UI inventory and no forbidden claims or contact-shape
     [(x) => x.entries[0].locales[1].value = 'professionally translated', 'affirmative human-review claim'],
     [(x) => x.entries[0].locales[1].value = 'independently human-reviewed', 'affirmative human-review claim'],
     [(x) => x.entries[0].locales[1].value = 'certified translation', 'affirmative human-review claim'],
+    [(x) => x.entries[0].locales[1].value = 'traducción certificada', 'affirmative human-review claim'],
+    [(x) => x.entries[0].locales[5].value = 'ترجمة معتمدة', 'affirmative human-review claim'],
+    [(x) => x.entries[0].locales[7].value = '经过独立人工审核', 'affirmative human-review claim'],
     [(x) => x.entries[0].locales[1].reviewerDecision.notes = 'reviewer@example.invalid', 'email leakage'],
     [(x) => x.entries[0].locales[1].value = 'https：//provider.example.invalid', 'URI leakage'],
     [(x) => x.entries[0].locales[1].value = '+1 555 123 4567', 'phone-shaped leakage'],
     [(x) => x.entries[0].locales[1].value = 'Contact: ＋４６ ８ １２３ ４５ ６７', 'phone-shaped leakage'],
     [(x) => x.entries[0].locales[1].value = 'Call ９１１', 'phone-shaped leakage'],
     [(x) => x.entries[0].locales[1].value = 'SMS: 112', 'phone-shaped leakage'],
-    ...['999', '000', '110', '119', '９９９', '０００', '１１０', '１１９'].map((value) => [
+    [(x) => x.entries[0].locales[1].value = 'Llame al 1234', 'phone-shaped leakage'],
+    [(x) => x.entries[0].locales[5].value = 'اتصل على ١٢٣٤٥', 'phone-shaped leakage'],
+    [(x) => x.entries[0].locales[7].value = '请拨打１２３４５６', 'phone-shaped leakage'],
+    ...['999', '1234', '12345', '123456', '000', '110', '119', '９９９', '１２３４', '１２３４５６', '０００', '１１０', '１１９'].map((value) => [
       (x) => x.entries[0].locales[1].value = value,
       'phone-shaped leakage',
     ]),
@@ -159,7 +174,7 @@ test('contains only static UI inventory and no forbidden claims or contact-shape
     [(x) => x.valueSource = 'mixed', 'source provenance contract'],
     [(x) => x.qualificationEffect = true, 'qualification or authority effect'],
   ]) assert.ok(reviewPackSafetyErrors(mutate(committed, change)).includes(error));
-  for (const value of ['Copyright 2026', 'Version 2.0.1', 'Version 9.11', 'Showing 12 results', 'Showing 112 results', '112 results', 'Updated 2026-08-16', 'Updated 1911-09-11']) {
+  for (const value of ['Copyright 2026', 'Version 2.0.1', 'Version 2026', 'Version 9.11', 'Showing 12 results', 'Showing 112 results', '112 results', '123456 results', 'Updated 2026-08-16', 'Updated 1911-09-11']) {
     assert.deepEqual(reviewPackSafetyErrors(mutate(committed, (x) => x.entries[0].locales[1].value = value)), []);
   }
 });
