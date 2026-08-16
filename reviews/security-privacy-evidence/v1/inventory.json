@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0",
+  "internal_only_marker": "internal-security-privacy-evidence-only/v1",
+  "scope": "repository_internal_deterministic_regression_evidence",
+  "disclaimer": "This inventory is factual repository regression evidence only. It does not claim security or privacy compliance, certification, completed threat modeling, penetration testing, external assessment, cryptographic assurance beyond the cited static contracts, uptime, hotline availability, legal compliance, or operational performance.",
+  "status_vocabulary": [
+    "verified_static",
+    "manual",
+    "not_assessed",
+    "held"
+  ],
+  "sources": {
+    ".dockerignore": "sha256:bfd224b1027dc27e57d4da2b6a41991f26001a60cfe0983f81dfb54e9dcac5b0",
+    ".github/workflows/web-ci.yml": "sha256:5b44191fe832614cc5eff96478ae1945daa48a40b4c55802173b83d3c6e7e0ce",
+    "Caddyfile": "sha256:01bbd54a9e3c7c50cfc7d4f0f2f7728ca965a8f0ee06883682013d4a8dfd97d1",
+    "Dockerfile": "sha256:cde8258e1ed807ad91795d52e0c6253d008a47639f25e43a651e567e26b9994e",
+    "gateway/contracts/v1/privacy.json": "sha256:9efba46c957fa03dbcffe01297d030a2a0fca1038e19f676789c80c15d508628",
+    "gateway/contracts/v1/security.json": "sha256:fdd37e90f7a93865aa83c23d6ec6bcbc55bd042952dfd508370b9bd33d0b9a4f",
+    "gateway/fixtures/keys.synthetic.json": "sha256:1a691358e355ee22ad045a2aa0bb6a7c72f31dd02cd95ad2af9c084958a2c069",
+    "gateway/src/artifacts.mjs": "sha256:3627838149e982e908e1a98720011df3c880a0c779aa7b1d91842b6c95d1abbb",
+    "gateway/src/gateway.mjs": "sha256:cadc43f2a741bb4badedb0db286a39352eafad59bc3646dd01341ef16fe4cca6",
+    "gateway/src/security.mjs": "sha256:19d40052a8dc49181f66358147cff18478d0bbd2b15e5d4e291fd501702e81bd",
+    "gateway/test/gateway.test.mjs": "sha256:7a5762901d49f84a7cdb4fb38b862b32ed542dcbf8f79c08d950bee45b4c5234",
+    "hotlines.json": "sha256:e893c9f6b0afcc57832054547002c826e80b5387e544b4cf6909afc9424dde3a",
+    "reviews/accessibility-evidence/v1/README.md": "sha256:c577c353813b72cadf75b9c0d9018653958018c03594bd8f7a48f489d39d7439",
+    "reviews/multilingual-ui/v1/README.md": "sha256:87afcf694a12e50ea7cd015c873ac518b3e30aa4d2c83302937395eb17a0ac6d",
+    "web/package.json": "sha256:ff20d01cf2a53428bfae497d6a6a1c3e77e8c3121214455784dec59114870272",
+    "web/scripts/build-static-data.mjs": "sha256:8cc22700e63fa27eb0bad784fb3c528d79facd982d1022da6985d6541194bfef",
+    "web/scripts/print-security-privacy-evidence-sources.mjs": "sha256:f1f3b28c4a56979b2bc1feca71737eb75cd03ce56bd7c6922c250f34ab2d0145",
+    "web/scripts/release-integrity.mjs": "sha256:64f09f67a861248a7c6ead2acdecc655392e7766010a44134d09fc92943511df",
+    "web/scripts/security-privacy-evidence-lib.mjs": "sha256:8c676170165b7a50adf76e2fbe45d52471710367ff27e113861ba9fdaaedc5da",
+    "web/scripts/security-privacy-evidence.test.mjs": "sha256:24f59efd6b7885ff748de39db4c9ab15aa6ba1124bfc0218785456a729eda32d",
+    "web/scripts/verify-contact-links.mjs": "sha256:718ef385722919a18bcf16a5a929870d29203912bff007730ab41320d143e641",
+    "web/scripts/verify-docker-image.sh": "sha256:73c8d4c3dc0bffb382a8d50bbbd8f9050f2e7adb57877cff3832833982c40d97",
+    "web/scripts/verify-internal-nonpublication.mjs": "sha256:97842d4d3d81651fedf42c9806801b04327d001ca23e1ffd2c0efbfa497f52a7",
+    "web/scripts/verify-release-integrity.mjs": "sha256:6c3413d93559e9f5d6663bd0f1519ae83a35aaaf81cbdf910b7864c2ebe9fb05",
+    "web/scripts/verify-release-reproducibility.mjs": "sha256:a51527be77c2a0f011e1d683db0d9828746afb4935b98b6382c385a3ae62c7f9",
+    "web/scripts/verify-security-privacy-evidence.mjs": "sha256:10597689cc2b3b2ae8219fe69dbde47f079f1c967b0e0cb0a5ae7f205d48d658",
+    "web/scripts/verify-static-data.mjs": "sha256:445f111e54ab3cd79961bd838d13dbc83d56528be420fc636bdd0919dacde5e4",
+    "web/src/lib/contact.ts": "sha256:d0f8f73e6f5b581e42dea00bef2340d9b54d3aa8aac29f9f97ffd61f06f01258"
+  },
+  "checks": [
+    { "id": "web_verify_data", "command": "npm run verify:data" },
+    { "id": "web_verify_caddy", "command": "npm run verify:caddy" },
+    { "id": "web_verify_docker_image", "command": "sh web/scripts/verify-docker-image.sh" },
+    { "id": "web_verify_gateway", "command": "npm run verify:gateway" },
+    { "id": "web_verify_internal_nonpublication", "command": "npm run verify:internal-nonpublication:dist" },
+    { "id": "web_verify_release", "command": "npm run verify:release" },
+    { "id": "web_verify_security_privacy_evidence", "command": "npm run verify:security-privacy-evidence:dist" }
+  ],
+  "categories": [
+    {
+      "id": "data_flow_privacy_boundaries",
+      "assertions": [
+        { "id": "static_dataset_consumer", "status": "verified_static", "statement": "The cited build reads canonical repository data to generate static public artifacts; this inventory does not assert behavior outside that build path.", "evidence": ["hotlines.json", "web/scripts/build-static-data.mjs", "web/scripts/verify-static-data.mjs"], "checks": ["web_verify_data"] },
+        { "id": "declared_gateway_privacy_contract", "status": "verified_static", "statement": "The synthetic managed gateway contract declares its bounded privacy fields and is tested as a repository contract, not as a deployed-service observation.", "evidence": ["gateway/contracts/v1/privacy.json", "gateway/test/gateway.test.mjs"], "checks": ["web_verify_gateway"] }
+      ]
+    },
+    {
+      "id": "static_delivery_read_only_routes",
+      "assertions": [
+        { "id": "static_image_delivery", "status": "verified_static", "statement": "The production Dockerfile copies the Astro build output into served /srv and separately installs the repository Caddyfile in the final image; the cited Caddy configuration constrains the represented static route methods.", "evidence": ["Dockerfile", "Caddyfile", "web/scripts/verify-docker-image.sh"], "checks": ["web_verify_caddy", "web_verify_docker_image"] }
+      ]
+    },
+    {
+      "id": "input_output_link_safety",
+      "assertions": [
+        { "id": "contact_link_contract", "status": "verified_static", "statement": "Repository checks validate the currently implemented contact-link transformation and generated-link contract for the bound bytes.", "evidence": ["web/src/lib/contact.ts", "web/scripts/verify-contact-links.mjs"], "checks": ["web_verify_data"] },
+        { "id": "gateway_request_contract", "status": "verified_static", "statement": "The synthetic gateway implementation and tests enforce the cited request, route, and credential-verification contract in its tested local model.", "evidence": ["gateway/contracts/v1/security.json", "gateway/src/gateway.mjs", "gateway/src/security.mjs", "gateway/test/gateway.test.mjs"], "checks": ["web_verify_gateway"] }
+      ]
+    },
+    {
+      "id": "release_artifact_integrity",
+      "assertions": [
+        { "id": "release_file_identity_checks", "status": "verified_static", "statement": "Release verification checks finite generated artifact identities and rejects covered symlinks for the cited implementation; this is not a general filesystem or cryptographic assurance.", "evidence": ["web/scripts/release-integrity.mjs", "web/scripts/verify-release-integrity.mjs", "web/scripts/verify-release-reproducibility.mjs"], "checks": ["web_verify_release"] },
+        { "id": "gateway_artifact_pinning", "status": "verified_static", "statement": "The synthetic gateway artifact reader implements the bound descriptor, regular-file, size, digest, and no-follow checks exercised by its tests.", "evidence": ["gateway/src/artifacts.mjs", "gateway/test/gateway.test.mjs"], "checks": ["web_verify_gateway"] }
+      ]
+    },
+    {
+      "id": "canonical_mutation_gates",
+      "assertions": [
+        { "id": "canonical_build_read_boundary", "status": "verified_static", "statement": "The cited web build and verifier treat hotlines.json as a fixed input and bind its current raw bytes in this inventory; they do not establish all repository mutation governance.", "evidence": ["hotlines.json", "web/scripts/build-static-data.mjs", "web/scripts/verify-static-data.mjs"], "checks": ["web_verify_data", "web_verify_security_privacy_evidence"] }
+      ]
+    },
+    {
+      "id": "synthetic_managed_contract_boundaries",
+      "assertions": [
+        { "id": "synthetic_credentials_only", "status": "verified_static", "statement": "The managed gateway fixture and tests use synthetic key records and explicitly exercise separation from the production-mode contract; this is not evidence about live credentials or routes.", "evidence": ["gateway/fixtures/keys.synthetic.json", "gateway/src/security.mjs", "gateway/test/gateway.test.mjs"], "checks": ["web_verify_gateway"] }
+      ]
+    },
+    {
+      "id": "ci_build_image_nonpublication",
+      "assertions": [
+        { "id": "required_web_ci_wiring", "status": "verified_static", "statement": "The bound Web CI workflow invokes verify:all, whose package script includes the internal inventory verification path.", "evidence": [".github/workflows/web-ci.yml", "web/package.json", "web/scripts/security-privacy-evidence-lib.mjs", "web/scripts/security-privacy-evidence.test.mjs", "web/scripts/verify-security-privacy-evidence.mjs"], "checks": ["web_verify_security_privacy_evidence"] },
+        { "id": "internal_artifact_exclusion", "status": "verified_static", "statement": "The complete reviews tree is excluded from Docker build context; web/dist is scanned for listed stable markers and exact complete artifact hashes, while the final served root /srv is scanned for listed paths and markers and representative routes. Modified marker-stripped copies and OS files outside /srv are not claimed as covered.", "evidence": [".dockerignore", "Dockerfile", "web/scripts/verify-internal-nonpublication.mjs", "web/scripts/verify-docker-image.sh"], "checks": ["web_verify_internal_nonpublication", "web_verify_security_privacy_evidence", "web_verify_docker_image"] }
+      ]
+    },
+    {
+      "id": "known_manual_unassessed_limitations",
+      "assertions": [
+        { "id": "runtime_infrastructure_review", "status": "not_assessed", "statement": "Runtime infrastructure configuration and behavior beyond the cited repository Docker and Caddy bytes are not assessed by this inventory.", "evidence": ["Dockerfile", "Caddyfile"], "checks": [] },
+        { "id": "penetration_and_external_assessment", "status": "not_assessed", "statement": "Penetration testing and independent external security or privacy assessment are not represented by the cited internal evidence conventions.", "evidence": ["reviews/accessibility-evidence/v1/README.md", "reviews/multilingual-ui/v1/README.md"], "checks": [] },
+        { "id": "operational_and_provider_practices", "status": "held", "statement": "Operational response, retention outside these static contracts, subprocessors, and third-party provider practices are held outside this bounded repository artifact.", "evidence": ["gateway/contracts/v1/privacy.json", "reviews/multilingual-ui/v1/README.md"], "checks": [] },
+        { "id": "manual_release_review", "status": "manual", "statement": "Interpreting a source-bound inventory change and deciding whether its narrow wording still matches implementation remains a manual reviewer task.", "evidence": ["web/scripts/verify-release-reproducibility.mjs", "reviews/accessibility-evidence/v1/README.md"], "checks": [] }
+      ]
+    }
+  ]
+}
