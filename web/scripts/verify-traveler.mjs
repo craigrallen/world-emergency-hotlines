@@ -3,10 +3,10 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  createLatestGenerationGate, createTravelerSelectionSnapshot, getTravelerCountryChoices, loadTravelerData,
-  reconstructTravelerCountries, resolveTravelerHelp, safeTravelerUrl, selectTravelerContacts,
+  createLatestGenerationGate, createTravelerPrintReadinessController, createTravelerSelectionSnapshot, getTravelerCountryChoices, getTravelerReleaseContext, loadTravelerData,
+  reconstructTravelerCountries, resolveTravelerHelp, safeTravelerUrl, scrollTravelerOutputBestEffort, selectTravelerContacts,
   TRAVELER_CARD_CONTACT_LIMIT,
-  TRAVELER_MANIFEST_URL, TRAVELER_RECORDS_URL,
+  TRAVELER_MANIFEST_URL, TRAVELER_RECORDS_API_VERSION, TRAVELER_RECORDS_URL,
 } from '../src/lib/traveler.js';
 import { dedupeMessageContacts, phoneContacts } from '../src/lib/contact.ts';
 
@@ -38,6 +38,27 @@ assert.match(page, />Official website</);
 assert.match(page, /const website = safeTravelerUrl\(h\.website\)/);
 assert.match(page, /website \? `<a[\s\S]*?>Official website<\/a>` : ''/);
 assert.doesNotMatch(page, /(?:h\.website|source).*Official website/);
+assert.match(page, /id="traveler-print-action" class="mt-5 hidden"/);
+assert.match(page, /id="traveler-print-button" type="button"/);
+assert.match(page, /printButton\.addEventListener\('click', \(\) => window\.print\(\)\)/);
+assert.equal((page.match(/window\.print\(\)/g) || []).length, 1, 'print action must only invoke window.print() once');
+assert.match(page, /@media print/);
+assert.doesNotMatch(page, /visibility:\s*(?:hidden|visible)/);
+assert.match(page, /body > a, body > aside, body > header, body > footer,[^\n]*\.traveler-screen-only \{ display: none !important/);
+assert.equal((page.match(/traveler-screen-only/g) || []).length, 5, 'Traveler screen-only siblings are not explicitly excluded from print');
+assert.match(page, /\.traveler-print-root \{ display: none !important; \}/);
+assert.match(page, /\.traveler-print-root\[data-print-ready="true"\] \{ position: static !important; display: block !important/);
+assert.match(page, /break-inside: avoid/);
+assert.doesNotMatch(page, /\.traveler-print-root > div > div[^}]*break-inside/);
+assert.match(page, /a\[href\^="http"\]::after/);
+assert.match(page, /#traveler-print-action, \.traveler-screen-limitations \{ display: none !important; \}/);
+assert.match(page, /static directory snapshot of the already-loaded result and may become stale/i);
+assert.match(page, /does not prove answerability, availability, eligibility, endorsement, or cross-border reach/i);
+assert.match(page, /https:\/\/worldhotlines\.org\/traveler/);
+assert.match(page, />current Traveler Mode page<\/a>/);
+assert.doesNotMatch(page, />https:\/\/worldhotlines\.org\/traveler<\/a>/);
+assert.doesNotMatch(page, /generated_at/i);
+assert.doesNotMatch(page, /offline country pack|low-bandwidth download/i);
 
 assert.equal(TRAVELER_CARD_CONTACT_LIMIT, 2, 'Traveler card contact limit changed without review');
 const malformedBeforeCallable = phoneContacts(
@@ -106,20 +127,38 @@ assert.match(page, /aria-describedby="traveler-home-help traveler-home-error"/);
 assert.match(page, /id="traveler-home-error" role="alert"/);
 assert.match(page, /setAttribute\('aria-invalid', 'true'\)/);
 assert.match(page, /setAttribute\('aria-invalid', 'false'\)/);
-assert.match(page, /const selection = createTravelerSelectionSnapshot\([\s\S]*?const generation = requestGate\.begin\(\);[\s\S]*?clearOutput\(\);/);
+assert.match(page, /event\.preventDefault\(\);[\s\S]*?printReadiness\.invalidate\(\);[\s\S]*?clearOutput\(\);[\s\S]*?if \(!form\.reportValidity\(\)\) return;/);
+assert.match(page, /if \(homeSelect\.value && homeSelect\.value === currentSelect\.value\)[\s\S]*?return; \}[\s\S]*?const channel/);
+assert.match(page, /const generation = printReadiness\.begin\(\{[\s\S]*?categoryLabel:[\s\S]*?channelLabel:/);
+assert.match(page, /printHeading\.innerHTML =[\s\S]*?printPayload\.categoryLabel[\s\S]*?printPayload\.channelLabel[\s\S]*?printPayload\.selection\.locality/);
 assert.match(page, /form\.addEventListener\('input', invalidateTravelerResults\)/);
 assert.match(page, /form\.addEventListener\('change', invalidateTravelerResults\)/);
-assert.match(page, /function invalidateTravelerResults\(\) \{ requestGate\.begin\(\); clearOutput\(\); \}/);
+assert.match(page, /function invalidateTravelerResults\(\) \{ printReadiness\.invalidate\(\); clearOutput\(\); \}/);
+assert.match(page, /function clearPrintReadinessArtifacts\(\) \{ output\.removeAttribute\('data-print-ready'\); printAction\.classList\.add\('hidden'\); printHeading\.innerHTML = ''; printLimitations\.innerHTML = ''; \}/);
+assert.doesNotMatch(page, /id="traveler-output"[^>]*data-print-ready/, 'print readiness must not exist before submission');
+assert.match(page, /printReadiness\.publish\(generation, releaseContext\)[\s\S]*?output\.setAttribute\('data-print-ready', 'true'\)/);
+assert.match(page, /function clearOutput\(\)[\s\S]*?clearPrintReadinessArtifacts\(\)/);
 assert.match(page, /homeSelect\.addEventListener\('change',[\s\S]*?clearHomeError\(\)/);
 assert.match(page, /currentSelect\.addEventListener\('change',[\s\S]*?clearHomeError\(\)/);
 assert.match(page, /currentCode: selection\.currentCode, homeCode: selection\.homeCode/);
 assert.match(page, /category: selection\.category, channel: selection\.channel, locality: selection\.locality/);
 assert.doesNotMatch(page, /resolveTravelerHelp\(\{[^}]*category: categorySelect\.value/);
-assert.match(page, /onManifest: \(country(?:: Country)?\) => requestGate\.run\(generation/);
-assert.match(page, /requestGate\.run\(generation, \(\) => output\.scrollIntoView/);
+assert.match(page, /onManifest: \(country(?:: Country)?\) => printReadiness\.run\(generation/);
+const submitHandlerStart = page.indexOf("form.addEventListener('submit'");
+const dataRenderTryStart = page.indexOf('    try {', submitHandlerStart);
+const dataRenderCatchStart = page.indexOf('    } catch (error)', dataRenderTryStart);
+const dataRenderTry = page.slice(dataRenderTryStart, dataRenderCatchStart);
+assert.doesNotMatch(dataRenderTry, /scrollIntoView/, 'non-critical scrolling is still classified as data/render work');
+assert.match(page, /catch \(error\)[\s\S]*?printReadiness\.fail\(generation\);[\s\S]*?clearPrintReadinessArtifacts\(\);[\s\S]*?primary\.innerHTML = '';[\s\S]*?homeOutput\.innerHTML = '';[\s\S]*?return;[\s\S]*?scrollTravelerOutputBestEffort\(\(\) => output\.scrollIntoView/);
 assert.doesNotMatch(page, /canonical evidence/i);
 assert.equal(TRAVELER_MANIFEST_URL, '/data/manifest.json');
 assert.equal(TRAVELER_RECORDS_URL, '/api/v1/records.json');
+assert.equal(TRAVELER_RECORDS_API_VERSION, '1.0');
+
+let scrollAttempts = 0;
+assert.equal(scrollTravelerOutputBestEffort(() => { scrollAttempts += 1; throw new Error('scroll unavailable'); }), false);
+assert.equal(scrollAttempts, 1, 'best-effort scroll did not make exactly one attempt');
+assert.equal(scrollTravelerOutputBestEffort(() => { scrollAttempts += 1; }), true);
 
 const mutableSelection = { currentCode: 'aa', homeCode: 'bb', category: 'mental_health', channel: 'text', locality: ' Exact City ' };
 const capturedSelection = createTravelerSelectionSnapshot(mutableSelection);
@@ -133,12 +172,32 @@ assert.equal(Object.isFrozen(capturedSelection), true, 'traveler selection snaps
 assert.throws(() => { capturedSelection.category = 'general_support'; }, TypeError);
 
 const hotline = (id, category, extra = {}) => ({ id, name: id, organization: null, category, country_code: 'AA', verification_status: 'verified_authority', last_verified: '2026-01-02', geography: null, voice_numbers: ['100'], short_codes: [], sms_numbers: [], text_numbers: [], chat_url: null, sources: ['https://example.test/fact'], ...extra });
-const manifest = { schema_version: '2.0', countries: [
+const manifest = {
+  schema_version: '2.0',
+  dataset_version: `sha256:${'a'.repeat(64)}`,
+  source_last_updated: '2026-01-02',
+  generated_at: '2099-12-31T23:59:59.999Z',
+  countries: [
   { alpha2: 'AA', name: 'Currentland', general_emergency: ['112'] },
   { alpha2: 'BB', name: 'Homeland', general_emergency: ['911'] },
   { alpha2: 'CC', name: 'Foreignland', general_emergency: ['999'] },
 ] };
-const recordsArtifact = { api_version: '1.0', records: {
+const expectedReleaseContext = { datasetVersion: `sha256:${'a'.repeat(64)}`, sourceLastUpdated: '2026-01-02', schemaVersion: '2.0' };
+assert.deepEqual(getTravelerReleaseContext(manifest), expectedReleaseContext);
+assert.equal(Object.isFrozen(getTravelerReleaseContext(manifest)), true);
+const unknownDateContext = getTravelerReleaseContext({ ...manifest, source_last_updated: null });
+assert.deepEqual(unknownDateContext, { ...expectedReleaseContext, sourceLastUpdated: null });
+assert.equal(Object.isFrozen(unknownDateContext), true);
+for (const badManifest of [
+  {},
+  { ...manifest, dataset_version: '' },
+  { ...manifest, dataset_version: 'sha256:abc' },
+  { ...manifest, source_last_updated: '' },
+  { ...manifest, source_last_updated: '2026-02-30' },
+  { ...manifest, schema_version: '' },
+  { ...manifest, schema_version: 'version two' },
+]) assert.throws(() => getTravelerReleaseContext(badManifest), /static manifest/i);
+const recordsArtifact = { api_version: '1.0', dataset_version: manifest.dataset_version, records: {
   current: hotline('current', 'mental_health'),
   old: hotline('old', 'mental_health', { verification_status: 'deprecated' }),
   localText: hotline('local-text', 'mental_health', { geography: 'Exact City', voice_numbers: [], sms_numbers: ['123'] }),
@@ -184,11 +243,32 @@ const loaded = await loadTravelerData({ fetchImpl: mockFetch, currentCode: 'aa',
   emergencyBeforeRecords = calls.length === 1 && country.country === 'Currentland' && country.general_emergency[0] === '112';
 } });
 assert.equal(emergencyBeforeRecords, true, 'emergency metadata was not available before the records request');
+assert.deepEqual(loaded.releaseContext, expectedReleaseContext, 'loaded manifest release context was not preserved');
 assert.deepEqual(calls.map(({ url }) => url), [TRAVELER_MANIFEST_URL, TRAVELER_RECORDS_URL]);
 assert.ok(calls.every(({ options }) => options.credentials === 'omit' && options.referrerPolicy === 'no-referrer'));
 assert.deepEqual(loaded.currentCountry.hotlines.map(({ id }) => id), ['current', 'old', 'local-text', 'national-text']);
 assert.deepEqual(loaded.homeCountry.hotlines.map(({ id }) => id), ['home']);
 assert.ok(!loaded.currentCountry.hotlines.some(({ id }) => id === 'foreign'), 'foreign record entered current-country reconstruction');
+
+for (const [label, artifact] of [
+  ['stale records', { ...recordsArtifact, dataset_version: `sha256:${'b'.repeat(64)}` }],
+  ['newer records', { ...recordsArtifact, dataset_version: `sha256:${'c'.repeat(64)}` }],
+  ['missing records identity', { api_version: '1.0', records: recordsArtifact.records }],
+  ['malformed records identity', { ...recordsArtifact, dataset_version: 'sha256:bad' }],
+  ['wrong static API version', { ...recordsArtifact, api_version: '1.1' }],
+]) {
+  let emergencyFromHybrid = null;
+  let mismatchedResult;
+  await assert.rejects(async () => {
+    mismatchedResult = await loadTravelerData({
+      currentCode: 'AA',
+      onManifest(country) { emergencyFromHybrid = [...country.general_emergency]; },
+      fetchImpl: async (url) => ({ ok: true, json: async () => structuredClone(url === TRAVELER_MANIFEST_URL ? manifest : artifact) }),
+    });
+  }, /support-record artifact|dataset versions do not match/i, `${label} did not fail closed`);
+  assert.equal(mismatchedResult, undefined, `${label} returned a reconstructed result`);
+  assert.deepEqual(emergencyFromHybrid, ['112'], `${label} removed already-published emergency metadata`);
+}
 
 let manifestPublished = false;
 const failureCalls = [];
@@ -202,6 +282,21 @@ await assert.rejects(loadTravelerData({
 }), /Static support records returned 503/);
 assert.equal(manifestPublished, true, 'records failure hid manifest emergency metadata');
 assert.deepEqual(failureCalls, [TRAVELER_MANIFEST_URL, TRAVELER_RECORDS_URL]);
+
+for (const badSourceLastUpdated of ['', '2026-02-30']) {
+  const malformedCalls = [];
+  let emergencyFromMalformedContext = null;
+  await assert.rejects(loadTravelerData({
+    currentCode: 'AA',
+    onManifest(country) { emergencyFromMalformedContext = [...country.general_emergency]; },
+    fetchImpl: async (url) => {
+      malformedCalls.push(url);
+      return { ok: true, json: async () => ({ ...manifest, source_last_updated: badSourceLastUpdated }) };
+    },
+  }), /invalid source-update date/i);
+  assert.deepEqual(emergencyFromMalformedContext, ['112'], 'print-context validation suppressed valid emergency metadata');
+  assert.deepEqual(malformedCalls, [TRAVELER_MANIFEST_URL], 'records were requested after fail-closed print-context validation');
+}
 
 const same = reconstructTravelerCountries(manifest, recordsArtifact, 'AA', 'AA');
 assert.equal(same.homeCountry, null, 'same home/current country was not collapsed');
@@ -231,6 +326,55 @@ function deferred() {
   const promise = new Promise((resolveValue, rejectValue) => { resolvePromise = resolveValue; rejectPromise = rejectValue; });
   return { promise, resolve: resolvePromise, reject: rejectPromise };
 }
+
+const readiness = createTravelerPrintReadinessController();
+assert.deepEqual(readiness.getState(), { generation: 0, ready: false, payload: null });
+const submitted = { selection: capturedSelection, categoryLabel: 'Mental health', channelLabel: 'Text / SMS' };
+const readinessGeneration = readiness.begin(submitted);
+submitted.categoryLabel = 'Mutated label';
+mutableSelection.locality = 'Mutated again';
+assert.equal(readiness.getState().ready, false);
+const published = readiness.publish(readinessGeneration, unknownDateContext);
+assert.equal(published.ready, true, 'successful current generation did not enable print readiness');
+assert.equal(published.payload.categoryLabel, 'Mental health', 'submitted label was not captured immutably');
+assert.equal(published.payload.selection.locality, 'Exact City', 'submitted selection was not captured immutably');
+assert.equal(published.payload.releaseContext.sourceLastUpdated, null);
+assert.equal(Object.isFrozen(published.payload), true);
+assert.equal(Object.isFrozen(published.payload.selection), true);
+assert.equal(Object.isFrozen(published.payload.releaseContext), true);
+readiness.invalidate();
+assert.deepEqual(readiness.getState().ready, false, 'input mutation did not clear print readiness');
+assert.equal(readiness.getState().payload, null);
+const validationGeneration = readiness.begin(submitted);
+readiness.fail(validationGeneration);
+assert.equal(readiness.getState().ready, false, 'validation/error failure did not clear print readiness');
+assert.equal(readiness.getState().payload, null);
+const staleGeneration = readiness.begin(submitted);
+const currentGeneration = readiness.begin({ ...submitted, categoryLabel: 'Current label' });
+assert.equal(readiness.publish(staleGeneration, expectedReleaseContext), false, 'stale completion published print readiness');
+assert.equal(readiness.getState().ready, false);
+assert.equal(readiness.publish(currentGeneration, expectedReleaseContext).ready, true, 'latest completion did not publish readiness');
+
+const deferredReadiness = createTravelerPrintReadinessController();
+const olderPrintable = deferred();
+const newerPrintable = deferred();
+async function completePrintable(generation, pendingContext) {
+  try {
+    return deferredReadiness.publish(generation, await pendingContext.promise);
+  } catch {
+    deferredReadiness.fail(generation);
+    return false;
+  }
+}
+const olderPrintGeneration = deferredReadiness.begin(submitted);
+const olderPrintCompletion = completePrintable(olderPrintGeneration, olderPrintable);
+const newerPrintGeneration = deferredReadiness.begin({ ...submitted, categoryLabel: 'Newest label' });
+const newerPrintCompletion = completePrintable(newerPrintGeneration, newerPrintable);
+newerPrintable.resolve(expectedReleaseContext);
+assert.equal((await newerPrintCompletion).ready, true, 'deferred latest success did not enable readiness');
+olderPrintable.resolve(unknownDateContext);
+assert.equal(await olderPrintCompletion, false, 'deferred stale completion re-enabled readiness');
+assert.equal(deferredReadiness.getState().payload.categoryLabel, 'Newest label');
 
 const gate = createLatestGenerationGate();
 const firstManifest = deferred();

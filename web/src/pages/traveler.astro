@@ -13,22 +13,22 @@ const categories = ['suicide_crisis', 'mental_health', 'domestic_violence', 'sex
 ---
 
 <Base title="Traveler Mode — World Emergency & Hotlines" description="Manually choose a current country and optionally a distinct home country to find recorded crisis support without location detection or saved selections.">
-  <nav class="mb-6 flex items-center gap-2 text-xs text-fg-muted" aria-label="Breadcrumb"><a href="/" class="hover:text-fg">Home</a><span aria-hidden="true">›</span><span class="text-fg">Traveler Mode</span></nav>
+  <nav class="traveler-screen-only mb-6 flex items-center gap-2 text-xs text-fg-muted" aria-label="Breadcrumb"><a href="/" class="hover:text-fg">Home</a><span aria-hidden="true">›</span><span class="text-fg">Traveler Mode</span></nav>
   <div class="mx-auto max-w-4xl">
-    <header class="max-w-3xl">
+    <header class="traveler-screen-only max-w-3xl">
       <p class="text-xs uppercase tracking-[0.2em] text-accent">Manual location · private by design</p>
       <h1 class="mt-3 text-4xl font-semibold text-fg sm:text-5xl">Traveler Mode</h1>
       <p class="mt-4 text-base text-fg-muted">Manually choose where you are now. You can optionally choose a different home country. This tool uses no geolocation or IP inference. It downloads fixed static dataset files; selections stay in your browser and are not encoded into requested paths or queries, or saved.</p>
     </header>
 
-    <aside class="mt-8 rounded-2xl border-2 border-danger/60 bg-danger/10 p-5" aria-labelledby="traveler-emergency-heading">
+    <aside class="traveler-screen-only mt-8 rounded-2xl border-2 border-danger/60 bg-danger/10 p-5" aria-labelledby="traveler-emergency-heading">
       <div class="flex gap-3"><Icon name="alert" class="mt-0.5 h-5 w-5 shrink-0 text-danger" /><div>
         <h2 id="traveler-emergency-heading" class="font-semibold text-danger">Immediate danger: current-country emergency services come first</h2>
         <p class="mt-1 text-sm text-fg-muted">Use the current-country emergency numbers displayed with results. Home-country and fallback listings do not replace local emergency services. The directory does not monitor requests or confirm current availability, answerability, eligibility, completeness, endorsement, or service quality.</p>
       </div></div>
     </aside>
 
-    <form id="traveler-form" class="mt-8 grid gap-5 rounded-3xl border border-border bg-bg-elev/40 p-6 sm:grid-cols-2" aria-describedby="traveler-privacy">
+    <form id="traveler-form" class="traveler-screen-only mt-8 grid gap-5 rounded-3xl border border-border bg-bg-elev/40 p-6 sm:grid-cols-2" aria-describedby="traveler-privacy">
       <label class="block text-sm text-fg"><span class="mb-2 block font-semibold">1. Current country <span class="text-danger">(required)</span></span><select id="traveler-current" required class="w-full rounded-xl border border-border bg-bg px-3 py-3 text-fg"><option value="">Choose where you are now</option>{currentCountries.map((country) => <option value={country.alpha2.toLowerCase()}>{country.country}</option>)}</select></label>
       <label class="block text-sm text-fg"><span class="mb-2 block font-semibold">2. Home country <span class="font-normal text-fg-muted">(optional; countries with recorded support listings)</span></span><select id="traveler-home" aria-describedby="traveler-home-help traveler-home-error" aria-invalid="false" class="w-full rounded-xl border border-border bg-bg px-3 py-3 text-fg"><option value="">No home-country section</option>{homeCountries.map((country) => <option value={country.alpha2.toLowerCase()}>{country.country}</option>)}</select><span id="traveler-home-help" class="mt-2 block text-xs text-fg-muted">Home-country choices are limited to countries with recorded support listings.</span><span id="traveler-home-error" role="alert" class="mt-2 hidden text-xs text-danger">Choose a different home country, or leave it blank.</span></label>
       <label class="block text-sm text-fg"><span class="mb-2 block font-semibold">3. City or county <span class="font-normal text-fg-muted">(optional)</span></span><input id="traveler-locality" type="text" maxlength="100" autocomplete="off" placeholder="Only exact recorded coverage is matched" class="w-full rounded-xl border border-border bg-bg px-3 py-3 text-fg placeholder:text-fg-muted" /><span class="mt-2 block text-xs text-fg-muted">No locality is inferred.</span></label>
@@ -37,14 +37,38 @@ const categories = ['suicide_crisis', 'mental_health', 'domestic_violence', 'sex
       <div class="sm:col-span-2"><button type="submit" class="btn-primary w-full justify-center sm:w-auto"><Icon name="search" class="h-4 w-4" />Find recorded help</button><p id="traveler-privacy" class="mt-3 text-xs text-fg-muted">Fixed static dataset files are downloaded. Current country, home country, category, channel, and locality selections stay in this browser: they are not encoded into requested paths or queries, sent to telemetry, written to browser history or storage, or added to an outbound referrer automatically.</p></div>
     </form>
 
-    <section id="traveler-output" class="mt-8 hidden" aria-live="polite"><div id="traveler-emergency"></div><div id="traveler-record-error" class="mt-5"></div><div id="traveler-primary" class="mt-5"></div><div id="traveler-home-output" class="mt-8"></div><p class="mt-6 text-xs text-fg-muted">Scope and fallback labels describe recorded data, not availability or access. Cross-border calling, short-code reachability, language, charges, and eligibility may differ. Review the factual source where possible. Public access is free; no repository license exists today, so access does not itself grant reuse rights.</p></section>
+    <section id="traveler-output" class="traveler-print-root mt-8 hidden" aria-live="polite">
+      <div id="traveler-print-heading" class="hidden"></div>
+      <div id="traveler-emergency"></div><div id="traveler-record-error" class="mt-5"></div><div id="traveler-primary" class="mt-5"></div><div id="traveler-home-output" class="mt-8"></div>
+      <div id="traveler-print-limitations" class="mt-6 hidden text-xs text-fg-muted"></div>
+      <p class="traveler-screen-limitations mt-6 text-xs text-fg-muted">Scope and fallback labels describe recorded data, not availability or access. Cross-border calling, short-code reachability, language, charges, and eligibility may differ. Review the factual source where possible. Public access is free; no repository license exists today, so access does not itself grant reuse rights.</p>
+      <div id="traveler-print-action" class="mt-5 hidden"><button id="traveler-print-button" type="button" class="btn-secondary">Print crisis card</button><p class="mt-2 text-xs text-fg-muted">Opens your browser’s print view for this already-loaded static result.</p></div>
+    </section>
   </div>
 </Base>
+
+<style is:global>
+  @media print {
+    @page { margin: 12mm; }
+    html, body { min-height: 0 !important; height: auto !important; background: #fff !important; }
+    body > a, body > aside, body > header, body > footer, body > [data-offline-status], .traveler-screen-only { display: none !important; }
+    #main { display: block !important; width: auto !important; max-width: none !important; min-height: 0 !important; margin: 0 !important; padding: 0 !important; background: #fff !important; }
+    .traveler-print-root { display: none !important; }
+    .traveler-print-root[data-print-ready="true"] { position: static !important; display: block !important; width: auto !important; margin: 0 !important; color: #000 !important; background: #fff !important; font-size: 10pt; }
+    #traveler-print-heading, #traveler-print-limitations { display: block !important; }
+    #traveler-print-action, .traveler-screen-limitations { display: none !important; }
+    #traveler-print-heading, #traveler-print-limitations, #traveler-emergency > div, .traveler-print-root article { break-inside: avoid; page-break-inside: avoid; }
+    .traveler-print-root * { color: #000 !important; background: #fff !important; border-color: #000 !important; box-shadow: none !important; text-shadow: none !important; }
+    .traveler-print-root a[href^="http"]::after { content: " (" attr(href) ")"; overflow-wrap: anywhere; font-weight: normal; }
+    .traveler-print-root .grid { display: block !important; }
+    .traveler-print-root article { margin: 0 0 8pt; padding: 8pt !important; border: 1px solid #000 !important; }
+  }
+</style>
 
 <script>
   import { dedupeMessageContacts, phoneContacts } from '../lib/contact';
   import { getHotlineChannels } from '../lib/finder.js';
-  import { createLatestGenerationGate, createTravelerSelectionSnapshot, loadTravelerData, resolveTravelerHelp, safeTravelerUrl, selectTravelerContacts } from '../lib/traveler.js';
+  import { createTravelerPrintReadinessController, createTravelerSelectionSnapshot, loadTravelerData, resolveTravelerHelp, safeTravelerUrl, scrollTravelerOutputBestEffort, selectTravelerContacts } from '../lib/traveler.js';
   type Hotline = Record<string, any>;
   type Country = { country: string; alpha2: string; general_emergency?: string[]; hotlines: Hotline[] };
   const form = document.getElementById('traveler-form') as HTMLFormElement;
@@ -58,7 +82,11 @@ const categories = ['suicide_crisis', 'mental_health', 'domestic_violence', 'sex
   const recordError = document.getElementById('traveler-record-error') as HTMLElement;
   const primary = document.getElementById('traveler-primary') as HTMLElement;
   const homeOutput = document.getElementById('traveler-home-output') as HTMLElement;
-  const requestGate = createLatestGenerationGate();
+  const printHeading = document.getElementById('traveler-print-heading') as HTMLElement;
+  const printLimitations = document.getElementById('traveler-print-limitations') as HTMLElement;
+  const printAction = document.getElementById('traveler-print-action') as HTMLElement;
+  const printButton = document.getElementById('traveler-print-button') as HTMLButtonElement;
+  const printReadiness = createTravelerPrintReadinessController();
   const esc = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char] || char);
   const phonePill = ({ value, uri }: { value: string; uri: string | null }, emergencyStyle = false) => {
     const classes = emergencyStyle ? 'rounded-lg bg-danger/20 px-4 py-2 font-mono text-xl font-bold text-danger' : 'rounded-lg bg-accent/10 px-3 py-2 font-mono text-sm text-accent';
@@ -82,31 +110,55 @@ const categories = ['suicide_crisis', 'mental_health', 'domestic_violence', 'sex
   }
   function section(title: string, resolved: any, note = '') { return `<div class="rounded-2xl border border-accent/40 bg-accent/5 p-5"><p class="text-xs uppercase tracking-wider text-accent">${resolved.fallback ? 'Fallback used' : 'Recorded match'} · ${esc(resolved.scope)} scope</p><h2 class="mt-1 text-xl font-semibold text-fg">${esc(title)}</h2><p class="mt-2 text-sm text-fg-muted">${esc(resolved.reason)}</p>${note ? `<p class="mt-2 text-sm font-medium text-fg">${esc(note)}</p>` : ''}</div><div class="mt-5 grid gap-4 sm:grid-cols-2">${resolved.results.length ? resolved.results.slice(0,12).map((h: Hotline) => card(h)).join('') : '<p class="sm:col-span-2 text-sm text-fg-muted">No recorded service could be resolved.</p>'}</div>`; }
   function clearHomeError() { homeError.classList.add('hidden'); homeSelect.setAttribute('aria-invalid', 'false'); }
-  function clearOutput() { output.classList.add('hidden'); emergency.innerHTML = ''; recordError.innerHTML = ''; primary.innerHTML = ''; homeOutput.innerHTML = ''; }
-  function invalidateTravelerResults() { requestGate.begin(); clearOutput(); }
+  function clearPrintReadinessArtifacts() { output.removeAttribute('data-print-ready'); printAction.classList.add('hidden'); printHeading.innerHTML = ''; printLimitations.innerHTML = ''; }
+  function clearOutput() { output.classList.add('hidden'); clearPrintReadinessArtifacts(); emergency.innerHTML = ''; recordError.innerHTML = ''; primary.innerHTML = ''; homeOutput.innerHTML = ''; }
+  function invalidateTravelerResults() { printReadiness.invalidate(); clearOutput(); }
   form.addEventListener('input', invalidateTravelerResults);
   form.addEventListener('change', invalidateTravelerResults);
   homeSelect.addEventListener('change', () => { if (!homeSelect.value || homeSelect.value !== currentSelect.value) clearHomeError(); });
   currentSelect.addEventListener('change', () => { if (!homeSelect.value || homeSelect.value !== currentSelect.value) clearHomeError(); });
+  printButton.addEventListener('click', () => window.print());
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     clearHomeError();
+    printReadiness.invalidate();
+    clearOutput();
     if (!form.reportValidity()) return;
     if (homeSelect.value && homeSelect.value === currentSelect.value) { homeError.classList.remove('hidden'); homeSelect.setAttribute('aria-invalid', 'true'); homeSelect.focus(); return; }
     const channel = (form.querySelector('input[name="traveler-channel"]:checked') as HTMLInputElement)?.value || 'any';
     const selection = createTravelerSelectionSnapshot({ currentCode: currentSelect.value, homeCode: homeSelect.value, category: categorySelect.value, channel, locality: localityInput.value });
-    const generation = requestGate.begin();
-    clearOutput();
+    const generation = printReadiness.begin({
+      selection,
+      categoryLabel: categorySelect.selectedOptions[0]?.textContent?.trim() || selection.category,
+      channelLabel: ({ any: 'Any', phone: 'Phone', text: 'Text / SMS', chat: 'Online chat' } as Record<string, string>)[selection.channel] || selection.channel,
+    });
     output.classList.remove('hidden'); primary.innerHTML = '<p class="text-sm text-fg-muted">Loading static country records…</p>';
     try {
-      const { currentCountry, homeCountry } = await loadTravelerData({ fetchImpl: fetch, currentCode: selection.currentCode, homeCode: selection.homeCode, onManifest: (country: Country) => requestGate.run(generation, () => renderEmergency(country)) });
-      if (!requestGate.isLatest(generation)) return;
+      const { currentCountry, homeCountry, releaseContext } = await loadTravelerData({ fetchImpl: fetch, currentCode: selection.currentCode, homeCode: selection.homeCode, onManifest: (country: Country) => printReadiness.run(generation, () => renderEmergency(country)) });
+      if (!printReadiness.isLatest(generation)) return;
       const resolved = resolveTravelerHelp({ currentCountry, homeCountry, category: selection.category, channel: selection.channel, locality: selection.locality });
-      requestGate.run(generation, () => {
+      printReadiness.run(generation, () => {
+        const pendingPayload = printReadiness.getState().payload as null | { selection: typeof selection; categoryLabel: string; channelLabel: string };
+        if (!pendingPayload) throw new Error('Traveler print state was invalidated.');
+        const printPayload = { ...pendingPayload, releaseContext } as { selection: typeof selection; categoryLabel: string; channelLabel: string; releaseContext: typeof releaseContext };
+        printHeading.innerHTML = `<h1 class="text-2xl font-bold">Traveler Mode crisis card</h1><dl class="mt-3 grid gap-1 text-sm"><div><dt class="inline font-semibold">Current country:</dt> <dd class="inline">${esc(currentCountry.country)} (${esc(currentCountry.alpha2)})</dd></div><div><dt class="inline font-semibold">Selected need:</dt> <dd class="inline">${esc(printPayload.categoryLabel)}</dd></div><div><dt class="inline font-semibold">Selected channel:</dt> <dd class="inline">${esc(printPayload.channelLabel)}</dd></div>${printPayload.selection.locality ? `<div><dt class="inline font-semibold">Selected locality:</dt> <dd class="inline">${esc(printPayload.selection.locality)}</dd></div>` : ''}</dl>`;
         primary.innerHTML = section(`Help for where you are now: ${currentCountry.country}`, resolved.primary);
-        if (resolved.home && homeCountry) homeOutput.innerHTML = section(`Separate home-country listings: ${homeCountry.country}`, resolved.home, 'These records may not accept calls from abroad and do not replace current-country emergency services.');
+        if (resolved.home && homeCountry) homeOutput.innerHTML = section(`Secondary — home-country listings (not local): ${homeCountry.country}`, resolved.home, 'These records may not accept calls from abroad and do not replace current-country emergency services.');
+        printLimitations.innerHTML = `<h2 class="font-semibold">Release context and limitations</h2><p class="mt-1">Dataset version: <span class="font-mono">${esc(printPayload.releaseContext.datasetVersion)}</span><br>Source last updated: ${esc(printPayload.releaseContext.sourceLastUpdated ?? 'not recorded')}<br>Schema version: ${esc(printPayload.releaseContext.schemaVersion)}</p><p class="mt-2">This browser print view is a static directory snapshot of the already-loaded result and may become stale. It does not prove answerability, availability, eligibility, endorsement, or cross-border reach. Check the <a href="https://worldhotlines.org/traveler">current Traveler Mode page</a> for the current published version.</p>`;
+        printAction.classList.remove('hidden');
+        if (!printReadiness.publish(generation, releaseContext)) return;
+        output.setAttribute('data-print-ready', 'true');
       });
-      requestGate.run(generation, () => output.scrollIntoView({ behavior: 'smooth', block: 'start' }));
-    } catch (error) { requestGate.run(generation, () => { recordError.innerHTML = `<div class="rounded-2xl border border-danger/50 p-5"><h2 class="font-semibold text-danger">Support records could not be loaded</h2><p class="mt-2 text-sm text-fg-muted">Emergency-number information above remains available if the manifest loaded. ${esc(error instanceof Error ? error.message : 'Unknown error')}</p></div>`; primary.innerHTML = ''; }); }
+    } catch (error) {
+      printReadiness.fail(generation);
+      printReadiness.run(generation, () => {
+        clearPrintReadinessArtifacts();
+        recordError.innerHTML = `<div class="rounded-2xl border border-danger/50 p-5"><h2 class="font-semibold text-danger">Support records could not be loaded</h2><p class="mt-2 text-sm text-fg-muted">Emergency-number information above remains available if the manifest loaded. ${esc(error instanceof Error ? error.message : 'Unknown error')}</p></div>`;
+        primary.innerHTML = '';
+        homeOutput.innerHTML = '';
+      });
+      return;
+    }
+    printReadiness.run(generation, () => scrollTravelerOutputBestEffort(() => output.scrollIntoView({ behavior: 'smooth', block: 'start' })));
   });
 </script>
