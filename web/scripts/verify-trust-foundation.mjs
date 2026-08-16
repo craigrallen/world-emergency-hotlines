@@ -96,7 +96,7 @@ assert.deepEqual(messageFixture, [
   { kind: 'Text', value: '+44 20 1234 5678', uri: '+442012345678' },
 ], 'message contacts deduplicate within and across arrays while preserving first-seen display values and distinct contacts');
 
-const reviewedRoutingTitles = {
+const routingTitles = {
   en: 'Prioritized routing',
   es: 'Enrutamiento priorizado',
   fr: 'Acheminement priorisé',
@@ -108,8 +108,8 @@ const reviewedRoutingTitles = {
   ja: '優先順位に基づく案内',
   ru: 'Приоритетная маршрутизация',
 };
-assert.deepEqual([...LOCALES], Object.keys(reviewedRoutingTitles), 'every supported locale must have a reviewed routing-title contract');
-for (const locale of LOCALES) assert.equal(DICTIONARIES[locale]['about.routingTitle'], reviewedRoutingTitles[locale], `${locale} routing title must retain reviewed neutral semantics`);
+assert.deepEqual([...LOCALES], Object.keys(routingTitles), 'every supported locale must have a routing-title contract');
+for (const locale of LOCALES) assert.equal(DICTIONARIES[locale]['about.routingTitle'], routingTitles[locale], `${locale} routing title must retain neutral semantics`);
 
 assert.equal(normalizeSiteUrl(undefined), DEFAULT_SITE_URL);
 assert.equal(normalizeSiteUrl('not a url'), DEFAULT_SITE_URL);

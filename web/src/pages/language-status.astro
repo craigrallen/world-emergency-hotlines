@@ -1,0 +1,32 @@
+---
+import Base from '../layouts/Base.astro';
+import { LOCALE_LABELS, LOCALE_STATUS, type Locale } from '../lib/i18n';
+---
+
+<Base title="Language and translation status" description="Scope, fallback behavior, and review status for languages offered by World Emergency & Hotlines.">
+  <main data-translation-disclosure data-canonical-provider-data-translated="false" class="mx-auto max-w-4xl">
+    <p class="text-sm font-semibold uppercase tracking-wider text-accent">Language status</p>
+    <h1 class="mt-2 text-4xl font-semibold text-fg sm:text-5xl">Language and translation status</h1>
+    <div class="mt-6 space-y-4 text-fg-muted">
+      <p>English is the source/master locale for the site interface. This describes the working source, not a formal linguistic certification.</p>
+      <p>Only selected site chrome and static interface keys are translated. Provider names, hotline records, phone and contact details, evidence, and other canonical data stay in the source-record language and are not translated by the language selector.</p>
+      <p>Missing interface text, and safety- or licensing-sensitive copy without the required review, falls back to English. Non-English interface translations have not been independently human-reviewed or qualified.</p>
+      <p>Translations can contain errors. For critical information, verify the number, service area, eligibility, and availability locally with the cited provider or responsible authority.</p>
+    </div>
+
+    <h2 class="mt-10 text-2xl font-semibold text-fg">Locales offered</h2>
+    <div class="mt-4 overflow-x-auto rounded-2xl border border-border">
+      <table class="w-full text-left text-sm">
+        <thead class="bg-bg-elev text-fg"><tr><th class="px-4 py-3">Locale</th><th class="px-4 py-3">Interface status</th></tr></thead>
+        <tbody>
+          {LOCALE_STATUS.locales.map((entry) => (
+            <tr class="border-t border-border">
+              <th scope="row" class="px-4 py-3 font-medium text-fg">{LOCALE_LABELS[entry.locale as Locale]} <span class="font-normal text-fg-muted">({entry.locale})</span></th>
+              <td class="px-4 py-3 text-fg-muted">{entry.role === 'source_master' ? 'Source/master UI locale; not formally certified' : 'Selected static UI keys; not independently human-reviewed or qualified'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </main>
+</Base>

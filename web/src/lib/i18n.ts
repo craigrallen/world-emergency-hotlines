@@ -12,6 +12,7 @@ export const LOCALES = [
 ] as const;
 
 export type Locale = (typeof LOCALES)[number];
+export const LOCALE_STATUS = localeStatusManifest;
 export const DEFAULT_LOCALE: Locale = 'en';
 export const RTL_LOCALES = new Set<Locale>(['ar']);
 
@@ -1077,3 +1078,4 @@ export function t(locale: Locale, key: string, vars: Record<string, string | num
 export function localeOptions() {
   return LOCALES.map((locale) => ({ value: locale, label: LOCALE_LABELS[locale] }));
 }
+import localeStatusManifest from './locale-status.json' with { type: 'json' };
