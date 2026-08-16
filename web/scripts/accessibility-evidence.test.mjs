@@ -3,7 +3,7 @@ import { mkdtempSync, mkdirSync, copyFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { resolve } from 'node:path';
 import test from 'node:test';
-import { assertControlInventory, assertDocumentNames, assertExpectedFieldset, assertFormControlInventory, assertNamedLinks, assertWidgetStylesheet, boundaryPaths, constructWidget, loadBuiltWidget, parseHtmlDocument, rejectDuplicateJsonMembers } from './accessibility-evidence-lib.mjs';
+import { assertControlInventory, assertDocumentNames, assertExpectedFieldset, assertFormControlInventory, assertNamedLinks, assertTableBodyRowHeaders, assertThemeChoices, assertWidgetStylesheet, boundaryPaths, constructWidget, loadBuiltWidget, parseHtmlDocument, rejectDuplicateJsonMembers } from './accessibility-evidence-lib.mjs';
 import { assertInternalNonpublication } from './verify-internal-nonpublication.mjs';
 
 const repo = resolve(import.meta.dirname, '../..');
@@ -46,6 +46,20 @@ test('named skip-link helper accepts text and explicit accessible names', () => 
   const doc = parseHtmlDocument(html('<a href="#main">Skip</a><a href="#main" aria-label="Skip navigation"></a>'));
   assert.doesNotThrow(() => assertNamedLinks(doc, '#main', 'fixture'));
 });
+test('theme choices reject duplicate or invalid values even when three buttons are rendered', () => {
+  const doc = parseHtmlDocument(html('<button data-theme-value="light">Light</button><button data-theme-value="light">Dark</button><button data-theme-value="invalid">System</button>'));
+  assert.throws(() => assertThemeChoices(doc, 'fixture'), /exactly light, dark, system/);
+});
+test('theme choices require the exact rendered light, dark, system order', () => {
+  const doc = parseHtmlDocument(html('<button data-theme-value="light">Light</button><button data-theme-value="dark">Dark</button><button data-theme-value="system">System</button>'));
+  assert.doesNotThrow(() => assertThemeChoices(doc, 'fixture'));
+});
+test('every table-body row must have exactly one nonempty scoped row header', () => {
+  const missing = parseHtmlDocument(html('<table><tbody><tr><th scope="row">English</th><td>Ready</td></tr><tr><td>French</td><td>Ready</td></tr></tbody></table>'));
+  assert.throws(() => assertTableBodyRowHeaders(missing, 'fixture'), /row 2 must contain exactly one/);
+  const empty = parseHtmlDocument(html('<table><tbody><tr><th scope="row"> </th><td>Ready</td></tr></tbody></table>'));
+  assert.throws(() => assertTableBodyRowHeaders(empty, 'fixture'), /empty th/);
+});
 test('CSS assertion rejects focus-visible and dark preference strings found only in comments', () => {
   assert.throws(() => assertWidgetStylesheet('/* button:focus-visible{outline:1px solid} @media(prefers-color-scheme:dark){:host{color:white}} */'), /focus-visible/);
 });
@@ -74,6 +88,12 @@ test('dead/comment widget strings cannot substitute for constructed structure', 
 test('VM registry rejects wrong and duplicate custom-element registrations', () => {
   assert.throws(() => constructWidget(`class X extends HTMLElement { renderShell(){} } customElements.define('wrong-widget',X)`), /exactly one world-emergency-hotlines/);
   assert.throws(() => constructWidget(`class X extends HTMLElement {} customElements.define('world-emergency-hotlines',X); customElements.define('world-emergency-hotlines',X)`), /duplicate custom element registration/);
+});
+test('widget construction and renderShell execution fail within the bounded VM timeout', () => {
+  const nonterminatingConstructor = `class X extends HTMLElement { constructor(){ super(); while (true) {} } renderShell(){} } customElements.define('world-emergency-hotlines',X)`;
+  assert.throws(() => constructWidget(nonterminatingConstructor, { timeout: 20 }), /Script execution timed out after 20ms/);
+  const nonterminatingRender = `class X extends HTMLElement { renderShell(){ while (true) {} } } customElements.define('world-emergency-hotlines',X)`;
+  assert.throws(() => constructWidget(nonterminatingRender, { timeout: 20 }), /Script execution timed out after 20ms/);
 });
 
 function widgetCopyFixture() {

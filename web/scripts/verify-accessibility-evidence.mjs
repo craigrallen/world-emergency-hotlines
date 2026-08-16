@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { INTERNAL_MARKER, SOURCE_BOUNDARY, assertControlInventory, assertDocumentNames, assertExpectedFieldset, assertFormControlInventory, assertNamedLinks, assertWidgetStylesheet, boundaryEvidence, constructWidget, loadBuiltWidget, parseHtmlDocument, parseStrictJson } from './accessibility-evidence-lib.mjs';
+import { INTERNAL_MARKER, SOURCE_BOUNDARY, assertControlInventory, assertDocumentNames, assertExpectedFieldset, assertFormControlInventory, assertNamedLinks, assertTableBodyRowHeaders, assertThemeChoices, assertWidgetStylesheet, boundaryEvidence, constructWidget, loadBuiltWidget, parseHtmlDocument, parseStrictJson } from './accessibility-evidence-lib.mjs';
 
 const repo = resolve(import.meta.dirname, '../..');
 const manifestPath = resolve(repo, 'reviews/accessibility-evidence/v1/baseline.json');
@@ -49,7 +49,7 @@ function common(doc, route) {
   assert.equal(doc.find('html').length, 1); const html = doc.attrs(doc.find('html')[0]);
   assert.match(html.lang, /^[a-z]{2}(?:-[A-Z]{2})?$/); assert.ok(['ltr', 'rtl'].includes(html.dir));
   assert.equal(doc.find('main', { id: 'main' }).length, 1, `${route}: one main`); assertNamedLinks(doc, '#main', route);
-  assert.equal(doc.find('h1').length, 1, `${route}: one h1`); assert.equal(doc.find('button').filter((node) => doc.attrs(node)['data-theme-value']).length, 3);
+  assert.equal(doc.find('h1').length, 1, `${route}: one h1`); assertThemeChoices(doc, route);
 }
 const docs = Object.fromEntries(manifest.surfaces.map((surface) => [surface.id, artifact(surface)]));
 for (const surface of manifest.surfaces) common(docs[surface.id], surface.route);
@@ -66,7 +66,7 @@ assertFormControlInventory(docs.traveler_mode, 'traveler-form', [
 ]);
 assert.equal(docs.guided_finder.find('section', { id: 'finder-output' })[0] && docs.guided_finder.attrs(docs.guided_finder.find('section', { id: 'finder-output' })[0])['aria-live'], 'polite');
 for (const id of ['traveler-output', 'traveler-download-status']) assert.equal(docs.traveler_mode.attrs(docs.traveler_mode.nodes.find((node) => docs.traveler_mode.attrs(node).id === id))['aria-live'], 'polite');
-assert.ok(docs.language_status.find('th', { scope: 'row' }).length); const disclosure = docs.language_status.nodes.find((node) => 'data-translation-disclosure' in docs.language_status.attrs(node));
+assertTableBodyRowHeaders(docs.language_status, '/language-status'); const disclosure = docs.language_status.nodes.find((node) => 'data-translation-disclosure' in docs.language_status.attrs(node));
 assert.equal(docs.language_status.attrs(disclosure).dir, 'ltr'); assert.equal(docs.language_status.attrs(disclosure).lang, 'en');
 assert.equal(docs.basic_widget.find('world-emergency-hotlines').length, 1); assert.equal(docs.basic_widget.find('script', { src: '/widget/v1/hotlines-widget.js' }).length, 1);
 

@@ -132,6 +132,25 @@ export function assertDocumentNames(doc, label) {
 }
 export { ancestor };
 
+export function assertThemeChoices(doc, label = 'document') {
+  const values = doc.find('button')
+    .filter((node) => doc.attrs(node)['data-theme-value'] !== undefined)
+    .map((node) => doc.attrs(node)['data-theme-value']);
+  assert.deepEqual(values, ['light', 'dark', 'system'], `${label}: theme choices must be exactly light, dark, system in rendered order`);
+}
+
+export function assertTableBodyRowHeaders(doc, label = 'table') {
+  const bodies = doc.find('tbody');
+  assert.equal(bodies.length, 1, `${label}: expected exactly one table body`);
+  const rows = doc.find('tr').filter((node) => isDescendantOf(node, bodies[0]));
+  assert.ok(rows.length, `${label}: expected table-body rows`);
+  for (const [index, row] of rows.entries()) {
+    const headers = doc.find('th', { scope: 'row' }).filter((node) => isDescendantOf(node, row));
+    assert.equal(headers.length, 1, `${label}: table-body row ${index + 1} must contain exactly one th[scope="row"]`);
+    assert.ok(doc.text(headers[0]), `${label}: table-body row ${index + 1} has an empty th[scope="row"]`);
+  }
+}
+
 export function assertFormControlInventory(doc, formId, expected) {
   const forms = doc.find('form', { id: formId });
   assert.equal(forms.length, 1, `${formId}: expected exactly one form`);
@@ -200,7 +219,7 @@ export function loadBuiltWidget(publicPath, builtPath) {
   return builtBytes.toString('utf8');
 }
 
-export function constructWidget(source) {
+export function constructWidget(source, { timeout = 1_000 } = {}) {
   let Widget; const registrations = [];
   class NodeStub {
     constructor(tagName = '#shadow-root', textValue = '') { this.tagName = tagName; this.nodeName = tagName; this.attrs = {}; this._value = textValue; this.textContent = textValue; this.childNodes = []; this.childElementCount = 0; }
@@ -234,10 +253,17 @@ export function constructWidget(source) {
     Option: class Option extends NodeStub { constructor(label, value) { super('option', label); this.value = value; } },
     CustomEvent: class CustomEvent {}, fetch: async () => new Promise(() => {}),
   };
-  vm.runInNewContext(source, context, { filename: 'hotlines-widget.js', timeout: 1_000 });
+  const sandbox = vm.createContext(context);
+  vm.runInContext(source, sandbox, { filename: 'hotlines-widget.js', timeout });
   assert.deepEqual(registrations, ['world-emergency-hotlines'], 'widget source must register exactly one world-emergency-hotlines custom element');
   assert.ok(Widget, 'widget source did not register its custom element');
-  const widget = new Widget(); widget.getAttribute = () => null; widget.renderShell();
+  sandbox.__Widget = Widget;
+  vm.runInContext(`
+    globalThis.__widget = new globalThis.__Widget();
+    globalThis.__widget.getAttribute = () => null;
+    globalThis.__widget.renderShell();
+  `, sandbox, { filename: 'hotlines-widget-construction.js', timeout });
+  const widget = sandbox.__widget;
   const nodes = [];
   const visit = (node, parent = null) => { if (node.tagName !== '#text') { node.parentElement = parent; nodes.push(node); parent = node; } for (const child of node.childNodes) visit(child, parent); };
   visit(widget.shadowRoot);
