@@ -150,8 +150,10 @@ test('contains only static UI inventory and no forbidden claims or contact-shape
     [(x) => x.entries[0].locales[1].value = 'Contact: ＋４６ ８ １２３ ４５ ６７', 'phone-shaped leakage'],
     [(x) => x.entries[0].locales[1].value = 'Call ９１１', 'phone-shaped leakage'],
     [(x) => x.entries[0].locales[1].value = 'SMS: 112', 'phone-shaped leakage'],
-    [(x) => x.entries[0].locales[1].value = '911', 'phone-shaped leakage'],
-    [(x) => x.entries[0].locales[1].value = '１１２', 'phone-shaped leakage'],
+    ...['999', '000', '110', '119', '９９９', '０００', '１１０', '１１９'].map((value) => [
+      (x) => x.entries[0].locales[1].value = value,
+      'phone-shaped leakage',
+    ]),
     [(x) => x.entries[0].locales[1].value = 'provider id: abc-123', 'provider-identifying data'],
     [(x) => x.canonicalProviderDataIncluded = true, 'canonical provider data inclusion'],
     [(x) => x.valueSource = 'mixed', 'source provenance contract'],

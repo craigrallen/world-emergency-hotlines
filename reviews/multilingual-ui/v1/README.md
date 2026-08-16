@@ -52,7 +52,8 @@ uniqueness, source parity, classifications, and runtime override presence;
 schema validation is not an independent substitute. The tests adversarially cover
 key and locale drift, English parity, override/fallback truth, classification
 drift, ordering/reproducibility, fail-closed placeholders, forbidden claims,
-and contact-shaped leakage. Changing the canonical key inventory requires an
+and contact-shaped leakage, including any standalone three-digit decimal token
+after explicit benign-context removal. Changing the canonical key inventory requires an
 explicit review of the safety policy and its key-inventory digest.
 
 `reviews/` is excluded from the Docker build context. The non-publication

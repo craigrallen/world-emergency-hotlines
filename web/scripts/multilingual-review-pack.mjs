@@ -292,7 +292,7 @@ export function reviewPackSafetyErrors(pack) {
     .replace(/\b(?:version|v)\s*\p{Nd}+(?:\.\p{Nd}+)*\b/giu, '')
     .replace(/(?<!\p{L})(?:showing|count|total)\s*\p{Nd}+(?:\s+results?)?(?!\p{L})/giu, '')
     .replace(/(?<![\p{L}\p{N}])\p{Nd}+\s+results?(?!\p{L})/giu, ''));
-  if (phoneCandidates.some((value) => /(?:\+\s*)?\p{Nd}(?:[\p{Nd}\s().-]*\p{Nd}){6,}|(?:call|dial|phone|telephone|hotline|emergency|contact|text|sms|number)\s*(?:[:：-]\s*)?(?:\+\s*)?\p{Nd}(?:[\p{Nd}\s().-]*\p{Nd}){2,5}|(?<![\p{L}\p{N}])(?:911|112)(?![\p{L}\p{N}])/iu.test(value))) errors.push('phone-shaped leakage');
+  if (phoneCandidates.some((value) => /(?:\+\s*)?\p{Nd}(?:[\p{Nd}\s().-]*\p{Nd}){6,}|(?:call|dial|phone|telephone|hotline|emergency|contact|text|sms|number)\s*(?:[:：-]\s*)?(?:\+\s*)?\p{Nd}(?:[\p{Nd}\s().-]*\p{Nd}){2,5}|(?<![\p{L}\p{N}])\p{Nd}{3}(?![\p{L}\p{N}])/iu.test(value))) errors.push('phone-shaped leakage');
   scan('provider-identifying data', /(?:provider|service|organisation|organization)\s*(?:id|identifier|record)\s*[:#]/iu);
   if (pack.canonicalProviderDataIncluded !== false) errors.push('canonical provider data inclusion');
   if (pack.valueSource !== 'static_ui_runtime_dictionaries_only' || JSON.stringify(pack.excludedSourceClasses) !== JSON.stringify(['canonical_provider_data', 'hotline_records', 'provider_contacts', 'provider_evidence'])) errors.push('source provenance contract');
