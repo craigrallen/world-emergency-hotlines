@@ -44,10 +44,14 @@ export function verifyLocaleQualification({ manifest, i18nSource, languageSwitch
   if (!/href="\/language-status"[^>]*data-translation-status-link|data-translation-status-link[^>]*href="\/language-status"/.test(footerSource)) fail('shared footer must discover the translation status route');
   if (!/data-translation-disclosure/.test(statusPageSource) || !/data-canonical-provider-data-translated="false"/.test(statusPageSource)) fail('status route must expose a machine-checkable disclosure boundary');
   if (/<\/?main(?:\s|>)/i.test(statusPageSource)) fail('status route must not define a main landmark because Base already provides one');
-  for (const phrase of ['selected site chrome', 'source-record language', 'falls back to English', 'not been independently human-reviewed or qualified', 'verify the number']) {
+  for (const phrase of ['selected site chrome', 'source-record language', 'Missing interface keys fall back to English', 'Licensing-sensitive keys deliberately remain English pending qualified translation and legal review', 'Existing non-English UI, including safety-facing chrome, has not been independently human-reviewed or qualified and may contain errors', 'verify the number']) {
     if (!statusPageSource.includes(phrase)) fail(`status route missing required disclosure: ${phrase}`);
   }
+  if (/safety- or licensing-sensitive copy without the required review[^.]*falls back to English/i.test(statusPageSource)) {
+    fail('status route must not claim review-gated fallback that runtime does not implement');
+  }
   const disclosureWithoutNegativeStatus = statusPageSource
+    .replaceAll('Licensing-sensitive keys deliberately remain English pending qualified translation and legal review', '')
     .replaceAll('not been independently human-reviewed or qualified', '')
     .replaceAll('not independently human-reviewed or qualified', '');
   if (/\b(?:independently human-reviewed|qualified translation|professionally translated|certified translation)\b/i.test(disclosureWithoutNegativeStatus)) {

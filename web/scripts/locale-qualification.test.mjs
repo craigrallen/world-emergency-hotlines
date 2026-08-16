@@ -14,7 +14,7 @@ const valid = {
   i18nSource: `export const LOCALES = ['en', 'es'] as const;\nexport const DICTIONARIES: Record<string, object> = {\n  en: EN,\n  es: ES,\n};`,
   languageSwitcherSource: '<a data-translation-status-link href="/language-status">status</a>',
   footerSource: '<a href="/language-status" data-translation-status-link>status</a>',
-  statusPageSource: '<section data-translation-disclosure data-canonical-provider-data-translated="false">selected site chrome source-record language falls back to English not been independently human-reviewed or qualified verify the number</section>',
+  statusPageSource: '<section data-translation-disclosure data-canonical-provider-data-translated="false">selected site chrome source-record language Missing interface keys fall back to English Licensing-sensitive keys deliberately remain English pending qualified translation and legal review Existing non-English UI, including safety-facing chrome, has not been independently human-reviewed or qualified and may contain errors verify the number</section>',
   sitemapSource: `const paths = ['/language-status'];`,
   providerSources: ['<h3>{hotline.name}</h3>'],
 };
@@ -28,6 +28,9 @@ test('fails closed on an unsupported human-review claim', () => {
 });
 test('fails closed on a contradictory public qualification claim', () => {
   assert.ok(check({ statusPageSource: `${valid.statusPageSource} Spanish is independently human-reviewed.` }).some((error) => error.includes('unsupported affirmative')));
+});
+test('rejects the old review-gated fallback overclaim', () => {
+  assert.ok(check({ statusPageSource: `${valid.statusPageSource} Safety- or licensing-sensitive copy without the required review falls back to English.` }).some((error) => error.includes('review-gated fallback')));
 });
 test('fails on locale, dictionary, or status drift', () => {
   assert.ok(check({ i18nSource: valid.i18nSource.replace("  es: ES,", '') }).some((error) => error.includes('must match exactly')));
