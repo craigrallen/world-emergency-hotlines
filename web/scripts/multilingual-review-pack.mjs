@@ -307,6 +307,36 @@ export function generateCanonicalReviewPackSchema(i18nSource) {
 
 export const encodeSchema = (schema) => `${JSON.stringify(schema, null, 2)}\n`;
 
+function decimalInteger(value) {
+  let result = 0;
+  for (const character of value) {
+    const codePoint = character.codePointAt(0);
+    if (!/\p{Nd}/u.test(character)) return null;
+    let decimalRunStart = codePoint;
+    while (decimalRunStart > 0 && /\p{Nd}/u.test(String.fromCodePoint(decimalRunStart - 1))) decimalRunStart -= 1;
+    // Every Unicode Nd run contains one or more consecutive zero-to-nine sets.
+    result = (result * 10) + ((codePoint - decimalRunStart) % 10);
+  }
+  return result;
+}
+
+function isValidGregorianDate(yearText, monthText, dayText) {
+  const year = decimalInteger(yearText);
+  const month = decimalInteger(monthText);
+  const day = decimalInteger(dayText);
+  if (year === null || month === null || day === null || year < 1 || month < 1 || month > 12 || day < 1) return false;
+  const leap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+  const days = [31, leap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  return day <= days[month - 1];
+}
+
+function removeStaticUiDates(value) {
+  return value.replace(
+    /(?<![\p{L}\p{N}])Updated\s+(\p{Nd}{4})-(\p{Nd}{1,2})-(\p{Nd}{1,2})(?![\p{L}\p{N}])/giu,
+    (match, year, month, day) => isValidGregorianDate(year, month, day) ? '' : match,
+  );
+}
+
 export function reviewPackSafetyErrors(pack) {
   const values = [];
   const collect = (value) => {
@@ -323,8 +353,7 @@ export function reviewPackSafetyErrors(pack) {
   scan('URI leakage', /(?:https?|ftp|mailto|tel|sms|data|javascript)\s*[:：]/iu);
   // These are the complete, explicit benign numeric contexts. Everything else
   // fails closed when it contains a standalone 3–6 digit decimal run.
-  const phoneCandidates = normalized.map((value) => value
-    .replace(/(?<![\p{L}\p{N}])\p{Nd}{4}-\p{Nd}{1,2}-\p{Nd}{1,2}(?![\p{L}\p{N}])/gu, '')
+  const phoneCandidates = normalized.map((value) => removeStaticUiDates(value)
     .replace(/(?<![\p{L}\p{N}])copyright\s*\p{Nd}{4}(?![\p{L}\p{N}])/giu, '')
     .replace(/(?<![\p{L}\p{N}])(?:version|v)\s*\p{Nd}+(?:\.\p{Nd}+)*(?![\p{L}\p{N}])/giu, '')
     .replace(/(?<![\p{L}\p{N}])(?:showing|count|total)\s*\p{Nd}+(?:\s+results?(?![\p{L}\p{N}])|(?!\s+results?))(?![\p{L}\p{N}])/giu, '')

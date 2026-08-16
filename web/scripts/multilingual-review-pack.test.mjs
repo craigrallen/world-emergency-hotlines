@@ -215,12 +215,18 @@ test('contains only static UI inventory and no forbidden claims or contact-shape
     'Showing 12 results', 'Showing ١١٢ results', 'Showing １１２ results',
     'Count ١١٢ results', 'Total １１２ results',
     '112 results', '١١٢ results', '１１２ results', '123456 results',
-    'Updated 2026-08-16', 'Updated ٢٠٢٦-٠٨-١٦', 'Updated ２０２６-０８-１６', 'Updated 1911-09-11',
+    'Updated 2026-08-16', 'Updated ٢٠٢٦-٠٨-١٦', 'Updated ۲۰۲۶-۰۸-۱۶',
+    'Updated २०२६-०८-१६', 'Updated ２０２６-０８-１６', 'Updated 1911-09-11',
+    'Updated 2024-02-29', 'Updated ٢٠٠٠-٠٢-٢٩', 'Updated २०२४-२-२९',
   ]) {
     assert.deepEqual(reviewPackSafetyErrors(mutate(committed, (x) => x.entries[0].locales[1].value = value)), []);
   }
   for (const value of [
-    'x2026-08-16', '2026-08-16١',
+    '1234-56-78', 'Updated 1234-56-78', 'Updated 2026-02-30', 'Updated 2023-02-29',
+    'Updated ٢٠٢٦-٠٢-٣٠', 'Updated ۲۰۲۶-۰۲-۳۰', 'Updated २०२६-०२-३०', 'Updated ２０２６-０２-３０',
+    '2026-08-16', '٢٠٢٦-٠٨-١٦', '२०२६-०८-१६',
+    'xUpdated 2026-08-16', 'Updated 2026-08-16x', 'x2026-08-16', '2026-08-16١',
+    'Call Updated 2026-08-16 911', 'Updated 2026-08-16-911',
     'xCopyright 2026', 'Copyright ٢٠٢٦x',
     'xVersion 2026', '١Version ２０２６', 'Version ２０２６x',
     'xShowing112 results', 'Count ١١٢ results١', 'Total １１２x',
