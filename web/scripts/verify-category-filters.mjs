@@ -7,6 +7,7 @@ import {
   availableCategoryFilterValues,
   categoryFilterRecord,
   categoryFilterSummary,
+  categorySummaryChannelLabels,
   filterCategoryRecords,
   filterCategorySummaries,
   getUsableContactChannels,
@@ -43,6 +44,38 @@ assert.deepEqual(filterCategoryRecords(records, { evidence: ['cross_referenced']
 assert.deepEqual(filterCategoryRecords(records, { evidence: ['other_evidence'], channels: ['chat'] }), [], 'a combined filter may deterministically produce zero results');
 assert.deepEqual(getUsableContactChannels(canonicalOrder[0]), { phone: false, text: false, chat: false, website: false }, 'unsafe/display-only contacts must not count as usable');
 assert.deepEqual(getUsableContactChannels(canonicalOrder[1]), { phone: true, text: false, chat: true, website: false });
+
+const aggregateChannelHotlines = [
+  hotline('website-only', 'legacy_unverified', { website: 'https://example.org/help' }),
+  hotline('safe-phone-text-chat', 'verified_web', {
+    voice_numbers: ['112'],
+    sms_numbers: ['741741'],
+    chat_url: 'https://example.org/chat',
+  }),
+  hotline('malformed-values', 'cross_referenced', {
+    voice_numbers: ['not callable'],
+    short_codes: ['call 911'],
+    sms_numbers: ['text HELP'],
+    text_numbers: ['javascript:alert(1)'],
+    chat_url: 'javascript:alert(1)',
+    website: ' example.org ',
+  }),
+];
+assert.deepEqual(
+  categorySummaryChannelLabels(categoryFilterSummary('aggregate-channels', aggregateChannelHotlines)),
+  ['Phone', 'SMS/text', 'Online chat', 'Website'],
+  'aggregate channel labels must use safe record metadata in deterministic canonical order',
+);
+assert.deepEqual(
+  categorySummaryChannelLabels(categoryFilterSummary('website-only', [aggregateChannelHotlines[0]])),
+  ['Website'],
+  'a safe website-only record must display Website rather than None listed',
+);
+assert.deepEqual(
+  categorySummaryChannelLabels(categoryFilterSummary('malformed-only', [aggregateChannelHotlines[2]])),
+  [],
+  'malformed website, chat, phone, and text values must not appear in aggregate labels',
+);
 
 const summaries = [
   categoryFilterSummary('alpha', [canonicalOrder[0], canonicalOrder[1]]),
@@ -91,6 +124,7 @@ for (const contract of [
   'data-category-filter-reset',
   'filterCategorySummaries',
   'availableCategoryFilterValues',
+  'categorySummaryChannelLabels',
   'Filters describe indexed evidence and usable contact fields only.',
   'A weaker evidence status does not mean a service is unsafe.',
 ]) assert.ok(pageSource.includes(contract), `category page is missing contract: ${contract}`);

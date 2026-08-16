@@ -8,6 +8,12 @@ export const SOURCE_CHECKED_STATUSES = new Set([
 
 export const EVIDENCE_FILTERS = ['source_checked', 'cross_referenced', 'other_evidence'];
 export const CHANNEL_FILTERS = ['phone', 'text', 'chat', 'website'];
+export const CHANNEL_LABELS = {
+  phone: 'Phone',
+  text: 'SMS/text',
+  chat: 'Online chat',
+  website: 'Website',
+};
 
 export function evidenceClass(status) {
   if (SOURCE_CHECKED_STATUSES.has(status)) return 'source_checked';
@@ -44,6 +50,12 @@ export function filterCategoryRecords(records, filters = {}) {
 
 export function categoryFilterSummary(id, hotlines) {
   return { id: String(id), records: hotlines.map(categoryFilterRecord) };
+}
+
+/** Derive aggregate display labels from the same safe per-record metadata used by filters. */
+export function categorySummaryChannelLabels(summary) {
+  const available = new Set(summary.records.flatMap((record) => record.channels));
+  return CHANNEL_FILTERS.filter((channel) => available.has(channel)).map((channel) => CHANNEL_LABELS[channel]);
 }
 
 export function filterCategorySummaries(summaries, filters = {}) {

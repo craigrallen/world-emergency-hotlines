@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
 import { getByCategory, getCategoriesStats } from '../../lib/data';
-import { availableCategoryFilterValues, categoryFilterSummary, SOURCE_CHECKED_STATUSES } from '../../lib/category-filters.js';
+import { availableCategoryFilterValues, categoryFilterSummary, categorySummaryChannelLabels, SOURCE_CHECKED_STATUSES } from '../../lib/category-filters.js';
 import { CATEGORY_META } from '../../lib/types';
 import { breadcrumbJsonLd, isCategoryIndexable } from '../../lib/seo';
 import { SITE_URL } from '../../lib/site';
@@ -52,15 +52,6 @@ function flagEmoji(cc: string): string {
   if (!/^[A-Z]{2}$/.test(cc)) return '🏳️';
   const A = 127397;
   return String.fromCodePoint(cc.charCodeAt(0) + A, cc.charCodeAt(1) + A);
-}
-
-function availableChannels(hotlines: typeof results[number]['hotlines']): string[] {
-  const channels: string[] = [];
-  if (hotlines.some((h) => h.voice_numbers.length > 0 || h.short_codes.length > 0)) channels.push('Phone');
-  if (hotlines.some((h) => h.sms_numbers.length > 0 || h.text_numbers.length > 0)) channels.push('SMS/text');
-  if (hotlines.some((h) => Boolean(h.chat_url))) channels.push('Online chat');
-  if (hotlines.some((h) => Boolean(h.email))) channels.push('Email');
-  return channels;
 }
 
 const totalHotlines = results.reduce((sum, e) => sum + e.hotlines.length, 0);
@@ -247,7 +238,7 @@ const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Cate
               const flag = flagEmoji(country.alpha2);
               const sourceCheckedInCountry = hotlines.filter((h) => SOURCE_CHECKED_STATUSES.has(h.verification_status)).length;
               const summary = categoryFilterSummary(country.alpha2.toLowerCase(), hotlines) as FilterSummary;
-              const channels = availableChannels(hotlines);
+              const channels = categorySummaryChannelLabels(summary);
               return (
                 <article class="card p-5" data-category-country-summary data-country-code={country.alpha2.toLowerCase()} data-record-count={hotlines.length} data-source-checked-count={sourceCheckedInCountry} data-channels={channels.join('|')} data-filter-records={JSON.stringify(summary.records.map(({ evidence, channels }) => ({ evidence, channels })))}>
                   <div class="flex items-start gap-3">
