@@ -6,6 +6,7 @@ import { serializeJsonLd } from '../src/lib/json-ld.mjs';
 import { generalEmergencyContact } from '../src/lib/general-emergency.mjs';
 import { SITE_NAME, SOCIAL_IMAGE_ALT, SOCIAL_IMAGE_PATH } from '../src/lib/seo.ts';
 import { dedupeMessageContacts, normalizeMessageContact, phoneContacts } from '../src/lib/contact.ts';
+import { categoryFilterSummary, categorySummaryChannelLabels } from '../src/lib/category-filters.js';
 
 const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const dist = join(root, 'dist');
@@ -618,15 +619,6 @@ if (countryShards.size !== manifestCountries.length) fail(`loaded ${countryShard
 if (allRecords.length !== manifest.total_hotlines) fail(`country shards contain ${allRecords.length} records but manifest total_hotlines is ${manifest.total_hotlines}`);
 
 const SOURCE_CHECKED_STATUSES = new Set(['verified_web', 'verified_authority', 'verified_knowledge']);
-const channelSet = (records) => {
-  const channels = [];
-  if (records.some((record) => record.voice_numbers?.length || record.short_codes?.length)) channels.push('Phone');
-  if (records.some((record) => record.sms_numbers?.length || record.text_numbers?.length)) channels.push('SMS/text');
-  if (records.some((record) => record.chat_url)) channels.push('Online chat');
-  if (records.some((record) => record.email)) channels.push('Email');
-  return channels;
-};
-
 for (const page of pages.values()) {
   const categorySlug = page.route.match(/^\/category\/([a-z0-9_]+)$/)?.[1];
   if (!categorySlug) continue;
@@ -653,7 +645,7 @@ for (const page of pages.values()) {
     if (!records || seenCodes.has(code)) { fail(`${page.route}: unexpected or duplicate country summary ${code}`); continue; }
     seenCodes.add(code);
     const sourceChecked = records.filter((record) => SOURCE_CHECKED_STATUSES.has(record.verification_status)).length;
-    const expectedChannels = channelSet(records);
+    const expectedChannels = categorySummaryChannelLabels(categoryFilterSummary(code, records));
     if (Number(summary['data-record-count']) !== records.length) fail(`${page.route}: ${code} record count does not match generated records`);
     if (Number(summary['data-source-checked-count']) !== sourceChecked) fail(`${page.route}: ${code} source-checked count does not match generated records`);
     if (summary['data-channels'] !== expectedChannels.join('|')) fail(`${page.route}: ${code} channel set does not match generated records`);
