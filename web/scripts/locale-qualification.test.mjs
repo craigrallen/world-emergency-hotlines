@@ -14,7 +14,7 @@ const valid = {
   i18nSource: `export const LOCALES = ['en', 'es'] as const;\nexport const DICTIONARIES: Record<string, object> = {\n  en: EN,\n  es: ES,\n};`,
   languageSwitcherSource: '<a data-translation-status-link href="/language-status">status</a>',
   footerSource: '<a href="/language-status" data-translation-status-link>status</a>',
-  statusPageSource: '<main data-translation-disclosure data-canonical-provider-data-translated="false">selected site chrome source-record language falls back to English not been independently human-reviewed or qualified verify the number</main>',
+  statusPageSource: '<section data-translation-disclosure data-canonical-provider-data-translated="false">selected site chrome source-record language falls back to English not been independently human-reviewed or qualified verify the number</section>',
   sitemapSource: `const paths = ['/language-status'];`,
   providerSources: ['<h3>{hotline.name}</h3>'],
 };
@@ -34,6 +34,9 @@ test('fails on locale, dictionary, or status drift', () => {
 });
 test('fails when disclosure or selector discovery disappears', () => {
   assert.ok(check({ languageSwitcherSource: '<select></select>', statusPageSource: '' }).length >= 2);
+});
+test('fails when the status route reintroduces Base\'s main landmark', () => {
+  assert.ok(check({ statusPageSource: valid.statusPageSource.replaceAll('section', 'main') }).some((error) => error.includes('must not define a main landmark')));
 });
 test('fails on a provider translation label or hook', () => {
   assert.ok(check({ providerSources: ['<article data-provider-translated="true">', 'translateCanonical(record)'] }).some((error) => error.includes('provider rendering')));

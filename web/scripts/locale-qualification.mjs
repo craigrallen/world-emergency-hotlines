@@ -43,6 +43,7 @@ export function verifyLocaleQualification({ manifest, i18nSource, languageSwitch
   if (!/data-translation-status-link[^>]*href="\/language-status"/.test(languageSwitcherSource)) fail('language selector must directly discover the translation status route');
   if (!/href="\/language-status"[^>]*data-translation-status-link|data-translation-status-link[^>]*href="\/language-status"/.test(footerSource)) fail('shared footer must discover the translation status route');
   if (!/data-translation-disclosure/.test(statusPageSource) || !/data-canonical-provider-data-translated="false"/.test(statusPageSource)) fail('status route must expose a machine-checkable disclosure boundary');
+  if (/<\/?main(?:\s|>)/i.test(statusPageSource)) fail('status route must not define a main landmark because Base already provides one');
   for (const phrase of ['selected site chrome', 'source-record language', 'falls back to English', 'not been independently human-reviewed or qualified', 'verify the number']) {
     if (!statusPageSource.includes(phrase)) fail(`status route missing required disclosure: ${phrase}`);
   }
