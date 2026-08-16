@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { INTERNAL_MARKER, SOURCE_BOUNDARY, assertControlInventory, assertDocumentNames, assertExpectedFieldset, assertFormControlInventory, assertNamedLinks, assertTableBodyRowHeaders, assertThemeChoices, assertWidgetStylesheet, boundaryEvidence, constructWidget, loadBuiltWidget, parseHtmlDocument, parseStrictJson } from './accessibility-evidence-lib.mjs';
+import { INTERNAL_MARKER, SOURCE_BOUNDARY, assertControlInventory, assertDescendantControlInventory, assertDocumentNames, assertExpectedFieldset, assertFormControlInventory, assertNamedLinks, assertTableBodyRowHeaders, assertThemeChoices, assertUniqueElementAttributes, assertWidgetStylesheet, boundaryEvidence, constructWidget, loadBuiltWidget, parseHtmlDocument, parseStrictJson } from './accessibility-evidence-lib.mjs';
 
 const repo = resolve(import.meta.dirname, '../..');
 const manifestPath = resolve(repo, 'reviews/accessibility-evidence/v1/baseline.json');
@@ -79,7 +79,9 @@ assertControlInventory(built.doc, widgetForm, [
   { tag: 'select', id: 'weh-country' }, { tag: 'input', id: 'weh-locality' }, { tag: 'select', id: 'weh-need' },
   ...['any', 'phone', 'text', 'chat'].map((value) => ({ tag: 'input', type: 'radio', name: 'weh-channel', value })), { tag: 'button', type: 'submit' },
 ], 'widget form');
-assertExpectedFieldset(built.doc, widgetForm, 'widget form');
-assert.equal(built.doc.find('div', { role: 'status', 'aria-live': 'polite' }).length, 1); assert.equal(built.doc.find('div', { tabindex: '-1' }).length, 1);
+const channelFieldset = assertExpectedFieldset(built.doc, widgetForm, 'widget form');
+assertDescendantControlInventory(built.doc, channelFieldset, ['any', 'phone', 'text', 'chat'].map((value) => ({ tag: 'input', type: 'radio', name: 'weh-channel', value })), 'widget channel fieldset');
+assertUniqueElementAttributes(built.doc, 'div', 'weh-status', { role: 'status', 'aria-live': 'polite' }, 'widget status');
+assertUniqueElementAttributes(built.doc, 'div', 'weh-output', { tabindex: '-1' }, 'widget output');
 assertWidgetStylesheet(built.stylesheet);
 console.log(`Accessibility evidence OK: ${manifest.surfaces.length} surfaces, complete finite source boundary, parse5 artifacts, and VM-constructed widget structure verified`);

@@ -179,6 +179,25 @@ export function assertExpectedFieldset(doc, form, label = 'form') {
   const firstElement = children(fieldsets[0]).find((node) => node.tagName);
   assert.equal(firstElement?.tagName, 'legend', `${label}: fieldset first effective child is not a direct legend`);
   assert.ok(doc.text(firstElement), `${label}: fieldset legend is empty`);
+  return fieldsets[0];
+}
+
+export function assertDescendantControlInventory(doc, parent, expected, label = 'container') {
+  assert.ok(parent, `${label}: expected container`);
+  const controls = doc.nodes.filter((node) => ['input', 'select', 'textarea', 'button'].includes(node.tagName) && isDescendantOf(node, parent));
+  const actual = controls.map((node) => {
+    const a = doc.attrs(node); const item = { tag: node.tagName };
+    for (const key of ['id', 'type', 'name', 'value']) if (a[key] !== undefined) item[key] = a[key];
+    return item;
+  });
+  assert.deepEqual(actual, expected, `${label}: descendant native control inventory changed`);
+}
+
+export function assertUniqueElementAttributes(doc, tag, id, expected, label = id) {
+  const nodes = doc.find(tag, { id });
+  assert.equal(nodes.length, 1, `${label}: expected exactly one ${tag}#${id}`);
+  const actual = doc.attrs(nodes[0]);
+  for (const [name, value] of Object.entries(expected)) assert.equal(actual[name], value, `${label}: ${name} changed`);
 }
 
 export function assertNamedLinks(doc, href, label = 'document') {

@@ -3,7 +3,7 @@ import { mkdtempSync, mkdirSync, copyFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { resolve } from 'node:path';
 import test from 'node:test';
-import { assertControlInventory, assertDocumentNames, assertExpectedFieldset, assertFormControlInventory, assertNamedLinks, assertTableBodyRowHeaders, assertThemeChoices, assertWidgetStylesheet, boundaryPaths, constructWidget, loadBuiltWidget, parseHtmlDocument, rejectDuplicateJsonMembers } from './accessibility-evidence-lib.mjs';
+import { assertControlInventory, assertDescendantControlInventory, assertDocumentNames, assertExpectedFieldset, assertFormControlInventory, assertNamedLinks, assertTableBodyRowHeaders, assertThemeChoices, assertUniqueElementAttributes, assertWidgetStylesheet, boundaryPaths, constructWidget, loadBuiltWidget, parseHtmlDocument, rejectDuplicateJsonMembers } from './accessibility-evidence-lib.mjs';
 import { assertInternalNonpublication } from './verify-internal-nonpublication.mjs';
 
 const repo = resolve(import.meta.dirname, '../..');
@@ -37,6 +37,20 @@ test('an empty widget form and fieldset cannot satisfy the expected structure', 
 test('fieldset helper accepts one expected fieldset with a direct first nonempty legend', () => {
   const doc = parseHtmlDocument(html('<form><fieldset>\n<legend>Preferred channel</legend><div></div></fieldset></form>'));
   assert.doesNotThrow(() => assertExpectedFieldset(doc, doc.find('form')[0], 'widget form'));
+});
+test('widget channel radios outside the validated fieldset are rejected', () => {
+  const radios = ['any', 'phone', 'text', 'chat'].map((value) => `<label>${value}<input type="radio" name="weh-channel" value="${value}"></label>`).join('');
+  const doc = parseHtmlDocument(html(`<form><fieldset><legend>Preferred channel</legend></fieldset>${radios}</form>`));
+  const fieldset = assertExpectedFieldset(doc, doc.find('form')[0], 'widget form');
+  assert.throws(() => assertDescendantControlInventory(doc, fieldset, ['any', 'phone', 'text', 'chat'].map((value) => ({ tag: 'input', type: 'radio', name: 'weh-channel', value })), 'widget channel fieldset'), /descendant native control inventory changed/);
+});
+test('widget output semantics are bound to exactly one #weh-output node', () => {
+  const doc = parseHtmlDocument(html('<div id="weh-output"></div><div tabindex="-1"></div>'));
+  assert.throws(() => assertUniqueElementAttributes(doc, 'div', 'weh-output', { tabindex: '-1' }, 'widget output'), /tabindex changed/);
+});
+test('widget live status semantics are bound to exactly one #weh-status node', () => {
+  const doc = parseHtmlDocument(html('<div id="weh-status"></div><div role="status" aria-live="polite"></div>'));
+  assert.throws(() => assertUniqueElementAttributes(doc, 'div', 'weh-status', { role: 'status', 'aria-live': 'polite' }, 'widget status'), /role changed/);
 });
 test('skip links matching #main must all have nonempty accessible names', () => {
   const doc = parseHtmlDocument(html('<a href="#main">Skip</a><a href="#main" aria-label=" "></a><main id="main"></main>'));
