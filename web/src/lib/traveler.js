@@ -1,8 +1,14 @@
+import { dedupeMessageContacts, phoneContacts } from './contact.ts';
 import { resolveGuidedHelp } from './finder.js';
 
 export const TRAVELER_MANIFEST_URL = '/data/manifest.json';
 export const TRAVELER_RECORDS_URL = '/api/v1/records.json';
+export const TRAVELER_CARD_MANIFEST_URL = '/api/v1/manifest.json';
+export const TRAVELER_CARD_BUNDLE_URL = '/api/v1/traveler-cards.json.gz';
 export const TRAVELER_RECORDS_API_VERSION = '1.0';
+export const TRAVELER_CARD_BUNDLE_MAX_BYTES = 180 * 1024;
+export const TRAVELER_CARD_BUNDLE_MAX_DECOMPRESSED_BYTES = 1024 * 1024;
+export const TRAVELER_CARD_BROWSER_COMPATIBILITY_MESSAGE = 'Country-card downloads require a browser with built-in gzip decompression support. Use a current browser or the regular Traveler Mode search below.';
 // Keep cards compact while ensuring validated destinations outrank display-only values.
 export const TRAVELER_CARD_CONTACT_LIMIT = 2;
 
@@ -95,6 +101,32 @@ export function createTravelerPrintReadinessController() {
   };
 }
 
+/** Owns one downloadable object URL and prevents stale/blank publication. */
+export function createTravelerDownloadController({ createObjectURL, revokeObjectURL }) {
+  let generation = 0;
+  let url = null;
+  const revoke = () => {
+    if (url) revokeObjectURL(url);
+    url = null;
+  };
+  return {
+    begin() { generation += 1; revoke(); return generation; },
+    invalidate() { generation += 1; revoke(); },
+    isLatest(candidate) { return candidate === generation; },
+    publish(candidate, blob) {
+      if (candidate !== generation || !blob || typeof blob.size !== 'number' || blob.size <= 0) return null;
+      revoke();
+      url = createObjectURL(blob);
+      return url;
+    },
+    release(candidate) {
+      if (candidate !== generation) return false;
+      revoke();
+      return true;
+    },
+  };
+}
+
 /** Captures the complete traveler selection before asynchronous work begins. */
 export function createTravelerSelectionSnapshot({ currentCode, homeCode = '', category, channel = 'any', locality = '' }) {
   return Object.freeze({
@@ -111,7 +143,7 @@ export function getTravelerReleaseContext(manifest) {
   if (!manifest || typeof manifest !== 'object' || Array.isArray(manifest)) {
     throw new Error('The static manifest has an invalid release context.');
   }
-  const { dataset_version: datasetVersion, source_last_updated: sourceLastUpdated, schema_version: schemaVersion } = manifest;
+  const { dataset_version: datasetVersion, source_last_updated: sourceLastUpdated, schema_version: schemaVersion, generated_at: generatedAt } = manifest;
   if (typeof datasetVersion !== 'string' || !/^sha256:[a-f0-9]{64}$/.test(datasetVersion)) {
     throw new Error('The static manifest has an invalid dataset version.');
   }
@@ -126,7 +158,65 @@ export function getTravelerReleaseContext(manifest) {
   if (typeof schemaVersion !== 'string' || !/^\d+\.\d+(?:\.\d+)?$/.test(schemaVersion)) {
     throw new Error('The static manifest has an invalid schema version.');
   }
-  return Object.freeze({ datasetVersion, sourceLastUpdated, schemaVersion });
+  if (typeof generatedAt !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/.test(generatedAt) || Number.isNaN(Date.parse(generatedAt))) {
+    throw new Error('The static manifest has an invalid generation date.');
+  }
+  return Object.freeze({ datasetVersion, sourceLastUpdated, schemaVersion, generatedAt });
+}
+
+function safeCardText(value, fallback = '') {
+  const cleaned = String(value ?? '').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F\u202A-\u202E\u2066-\u2069]/g, '').replace(/\s+/g, ' ').trim();
+  return (cleaned || fallback).slice(0, 500);
+}
+
+// JavaScript relational string comparison is locale-independent UTF-16 code-unit order.
+function utf16Compare(left, right) {
+  return left < right ? -1 : left > right ? 1 : 0;
+}
+
+/** Produces a deterministic, link-free UTF-8 country card from parity-checked data. */
+export function serializeTravelerCountryCard({ country, releaseContext, apiVersion = TRAVELER_RECORDS_API_VERSION }) {
+  if (!country?.country || !/^[A-Z]{2}$/.test(country?.alpha2) || !releaseContext?.datasetVersion) {
+    throw new Error('A validated country and release context are required for download.');
+  }
+  const phoneLabel = ({ value, uri }) => {
+    const display = safeCardText(value);
+    return display ? (uri ? `Call ${display}` : `Phone ${display} (not callable)`) : '';
+  };
+  const messageLabel = ({ kind, value, uri }) => {
+    const displayKind = safeCardText(kind);
+    const displayValue = safeCardText(value);
+    return displayKind && displayValue ? `${displayKind} ${displayValue}${uri ? '' : ' (not messageable)'}` : '';
+  };
+  const emergency = phoneContacts(country.general_emergency || [], []).map(phoneLabel).filter(Boolean);
+  const records = (country.hotlines || []).filter((record) => record?.verification_status !== 'deprecated').slice().sort((a, b) => utf16Compare(safeCardText(a.id), safeCardText(b.id)));
+  const lines = [
+    `EMERGENCY — ${safeCardText(country.country)} (${country.alpha2})`,
+    emergency.length ? `Recorded general emergency contacts: ${emergency.join(', ')}` : 'No general emergency number is recorded in this directory.',
+    'If there is immediate danger, check and follow current local emergency guidance.',
+    '',
+    'RECORDED SUPPORT LISTINGS',
+  ];
+  if (!records.length) lines.push('No support listings are recorded for this country.');
+  for (const record of records) {
+    const phones = phoneContacts(record.voice_numbers || [], record.short_codes || []).map(phoneLabel).filter(Boolean);
+    const messages = dedupeMessageContacts(record.sms_numbers || [], record.text_numbers || []).map(messageLabel).filter(Boolean);
+    const contacts = [...phones, ...messages];
+    lines.push(`${safeCardText(record.name, 'Unnamed service')} — ${contacts.length ? contacts.join('; ') : 'No phone or text contact recorded'} [record ${safeCardText(record.id, 'not stated')}; source checked ${safeCardText(record.last_verified, 'not recorded')}; verification ${safeCardText(record.verification_status, 'not stated').replace(/_/g, ' ')}]`);
+  }
+  lines.push(
+    '',
+    'DATASET AND LIMITATIONS',
+    `Canonical dataset version: ${safeCardText(releaseContext.datasetVersion)}`,
+    `Static API version: ${safeCardText(apiVersion)}`,
+    `Schema version: ${safeCardText(releaseContext.schemaVersion)}`,
+    `Artifact generation date: ${safeCardText(releaseContext.generatedAt)}`,
+    `Canonical source date: ${safeCardText(releaseContext.sourceLastUpdated, 'not recorded')}`,
+    'Provenance: generated static artifacts derived from the project canonical dataset; record source-check dates and verification labels are shown above.',
+    'Limitations: this is a snapshot, not live information, and it may become stale. Source verification does not prove answering or availability. Eligibility may vary. Check current local emergency guidance.',
+    '',
+  );
+  return lines.join('\n');
 }
 
 /** Requires the independently cached records artifact to identify the same static release. */
@@ -214,8 +304,138 @@ async function fetchJson(fetchImpl, url, label) {
   }
 }
 
-/** Loads two fixed static artifacts in a deterministic sequence. */
-export async function loadTravelerData({ fetchImpl = fetch, currentCode, homeCode = '', onManifest }) {
+async function readBoundedTravelerCardBody(response) {
+  const body = response?.body;
+  if (!body || typeof body.getReader !== 'function') throw new Error('Static country-card bundle has no readable bounded body.');
+  let reader;
+  try {
+    reader = body.getReader();
+  } catch {
+    throw new Error('Static country-card bundle has no readable bounded body.');
+  }
+  const chunks = [];
+  let total = 0;
+  const cancelBestEffort = (reason) => {
+    try {
+      const cancellation = reader.cancel(reason);
+      cancellation?.catch?.(() => {});
+    } catch { /* The stable caller-facing error remains authoritative. */ }
+  };
+  try {
+    while (true) {
+      const result = await reader.read();
+      if (!result || typeof result !== 'object' || typeof result.done !== 'boolean') throw new Error('invalid body read');
+      if (result.done) break;
+      if (!(result.value instanceof Uint8Array)) throw new Error('invalid body chunk');
+      total += result.value.byteLength;
+      if (total > TRAVELER_CARD_BUNDLE_MAX_BYTES) {
+        cancelBestEffort('byte-size ceiling exceeded');
+        throw new Error('Static country-card bundle exceeds its byte-size ceiling.');
+      }
+      chunks.push(result.value);
+    }
+  } catch (error) {
+    if (error instanceof Error && /byte-size ceiling/.test(error.message)) throw error;
+    cancelBestEffort('invalid country-card body');
+    throw new Error('Static country-card bundle body could not be read.');
+  }
+  const bytes = new Uint8Array(total);
+  let offset = 0;
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset);
+    offset += chunk.byteLength;
+  }
+  return bytes;
+}
+
+function createTravelerCardDecompressionStream(bytes) {
+  return new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
+}
+
+/** Reports whether the browser can consume the fixed gzip card artifact. */
+export function supportsTravelerCardDownload(decompressionStream = globalThis.DecompressionStream) {
+  return typeof decompressionStream === 'function';
+}
+
+/** Fails synchronously so callers can stop before issuing either fixed request. */
+export function assertTravelerCardDownloadSupport(decompressionStream = globalThis.DecompressionStream) {
+  if (!supportsTravelerCardDownload(decompressionStream)) throw new Error(TRAVELER_CARD_BROWSER_COMPATIBILITY_MESSAGE);
+}
+
+/** Decompresses only up to the reviewed JSON-byte ceiling before decoding or parsing. */
+export async function decompressTravelerCardBundle(bytes, createStream = createTravelerCardDecompressionStream) {
+  assertTravelerCardDownloadSupport();
+  let reader;
+  try {
+    const stream = createStream(bytes);
+    reader = stream?.getReader?.();
+    if (!reader) throw new Error('invalid decompression stream');
+    const chunks = [];
+    let total = 0;
+    while (true) {
+      const result = await reader.read();
+      if (!result || typeof result !== 'object' || typeof result.done !== 'boolean') throw new Error('invalid decompression read');
+      if (result.done) break;
+      if (!(result.value instanceof Uint8Array)) throw new Error('invalid decompression chunk');
+      total += result.value.byteLength;
+      if (total > TRAVELER_CARD_BUNDLE_MAX_DECOMPRESSED_BYTES) {
+        try { reader.cancel('decompressed byte-size ceiling exceeded')?.catch?.(() => {}); } catch { /* Stable parse error remains authoritative. */ }
+        throw new Error('decompressed byte-size ceiling exceeded');
+      }
+      chunks.push(result.value);
+    }
+    const decompressed = new Uint8Array(total);
+    let offset = 0;
+    for (const chunk of chunks) {
+      decompressed.set(chunk, offset);
+      offset += chunk.byteLength;
+    }
+    return JSON.parse(new TextDecoder().decode(decompressed));
+  } catch {
+    try { reader?.cancel?.('invalid country-card decompression')?.catch?.(() => {}); } catch { /* Stable parse error remains authoritative. */ }
+    throw new Error('Static country-card bundle could not be parsed.');
+  }
+}
+
+/** Validates that the independently cached card bundle is exactly the manifest release. */
+export function validateTravelerCardBundleIdentity(bundle, manifest) {
+  if (!bundle || typeof bundle !== 'object' || Array.isArray(bundle) || !bundle.cards || typeof bundle.cards !== 'object' || Array.isArray(bundle.cards)) {
+    throw new Error('The static country-card bundle has an invalid shape.');
+  }
+  for (const field of ['api_version', 'dataset_version', 'schema_version', 'generated_at', 'source_last_updated']) {
+    if (bundle[field] !== manifest?.[field]) throw new Error(`The API manifest and country-card bundle ${field.replaceAll('_', ' ')} values do not match.`);
+  }
+  getTravelerReleaseContext(bundle);
+  return bundle;
+}
+
+/** Loads only two bounded fixed URLs; the manual country selection is applied after both responses. */
+export async function loadTravelerCountryCard({ fetchImpl = fetch, countryCode, decodeBundle = decompressTravelerCardBundle, requireSupport = assertTravelerCardDownloadSupport }) {
+  requireSupport();
+  const manifest = await fetchJson(fetchImpl, TRAVELER_CARD_MANIFEST_URL, 'Static API manifest');
+  const releaseContext = getTravelerReleaseContext(manifest);
+  const response = await fetchImpl(TRAVELER_CARD_BUNDLE_URL, { credentials: 'omit', referrerPolicy: 'no-referrer' });
+  if (!response?.ok) throw new Error(`Static country-card bundle returned ${response?.status ?? 'an invalid response'}.`);
+  const lengthHeader = response.headers?.get?.('content-length');
+  if (typeof lengthHeader === 'string' && /^\d+$/.test(lengthHeader.trim()) && Number(lengthHeader) > TRAVELER_CARD_BUNDLE_MAX_BYTES) {
+    throw new Error('Static country-card bundle exceeds its byte-size ceiling.');
+  }
+  const compressedBytes = await readBoundedTravelerCardBody(response);
+  const bundle = validateTravelerCardBundleIdentity(await decodeBundle(compressedBytes), manifest);
+  const code = normalizeCode(countryCode);
+  const country = manifest.countries?.find((entry) => normalizeCode(entry?.alpha2) === code);
+  const content = bundle.cards[code];
+  if (!country || typeof content !== 'string' || !content.startsWith('EMERGENCY') || !content.trim()) {
+    throw new Error('The selected country card is not in the static bundle.');
+  }
+  return { content, country: { alpha2: code, country: country.name }, releaseContext };
+}
+
+/**
+ * Loads two fixed static artifacts in a deterministic sequence.
+ * @param {{ fetchImpl?: typeof fetch, currentCode: string, homeCode?: string, onManifest?: ((country: any) => any) | null }} options
+ */
+export async function loadTravelerData({ fetchImpl = fetch, currentCode, homeCode = '', onManifest = null }) {
   const manifest = await fetchJson(fetchImpl, TRAVELER_MANIFEST_URL, 'Static manifest');
   const emergencyCountry = getTravelerEmergencyMetadata(manifest, currentCode);
   if (onManifest) await onManifest(emergencyCountry);

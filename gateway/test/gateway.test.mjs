@@ -53,11 +53,11 @@ test('all trusted-release profiles are accepted and adjacent hybrids are rejecte
     })));
     return { release, index, indexBytes };
   };
-  const without = (source, { namespace, coverage, buildInputs }) => {
+  const without = (source, { namespace, coverage, buildInputs, artifacts = [] }) => {
     const release = structuredClone(source.release);
     const index = structuredClone(source.index);
-    index.artifacts = index.artifacts.filter(({ path }) => !path.startsWith(namespace));
-    for (const path of Object.keys(release.relationships)) if (path.startsWith(namespace)) delete release.relationships[path];
+    index.artifacts = index.artifacts.filter(({ path }) => !path.startsWith(namespace) && !artifacts.includes(path));
+    for (const path of Object.keys(release.relationships)) if (path.startsWith(namespace) || artifacts.includes(path)) delete release.relationships[path];
     release.artifact_index.coverage = release.artifact_index.coverage.filter((entry) => entry !== coverage);
     release.build_version_semantics.inputs.integration_generator =
       release.build_version_semantics.inputs.integration_generator.filter((entry) => !buildInputs.includes(entry));
@@ -78,7 +78,8 @@ test('all trusted-release profiles are accepted and adjacent hybrids are rejecte
   ];
   profiles.push(['evidence', without(profiles.at(-1)[1], {
     namespace: '/evidence-backed-coverage/v1/', coverage: '/evidence-backed-coverage/v1/**',
-    buildInputs: ['scripts/api-records-transform.mjs', 'scripts/generate-evidence-backed-coverage-contracts.mjs', 'repo:evidence-backed-coverage/model.mjs'],
+    artifacts: ['/api/v1/traveler-cards.json.gz'],
+    buildInputs: ['scripts/api-records-transform.mjs', 'src/lib/traveler.js', 'scripts/generate-evidence-backed-coverage-contracts.mjs', 'repo:evidence-backed-coverage/model.mjs'],
   }), '/evidence-backed-coverage/v1/README.md']);
   profiles.push(['plan', without(profiles.at(-1)[1], {
     namespace: '/deprecation-proposals/v1/', coverage: '/deprecation-proposals/v1/**',
@@ -129,6 +130,9 @@ test('all trusted-release profiles are accepted and adjacent hybrids are rejecte
     hybrid.relationships[adjacentPath] = upper.release.relationships[adjacentPath];
     assert.throws(() => descriptorFromRelease(hybrid, lower.index), /invalid/, `${name} adjacent hybrid accepted`);
   }
+  const travelerHybrid = structuredClone(profiles[1][1].release);
+  travelerHybrid.relationships['/api/v1/traveler-cards.json.gz'] = current.release.relationships['/api/v1/traveler-cards.json.gz'];
+  assert.throws(() => descriptorFromRelease(travelerHybrid, profiles[1][1].index), /invalid/, 'traveler-card adjacent hybrid accepted');
 });
 
 test('trusted release validation rejects complete-envelope tampering',()=>{const root=resolve(import.meta.dirname,'../../web/public/release/v1'),baseRelease=JSON.parse(readFileSync(resolve(root,'release.json'))),baseIndex=JSON.parse(readFileSync(resolve(root,'artifacts.json'))),encode=value=>Buffer.from(`${JSON.stringify(value,null,2)}\n`),attempt=(mutateRelease=()=>{},mutateIndex=()=>{})=>{const release=structuredClone(baseRelease),index=structuredClone(baseIndex);mutateIndex(index);const indexBytes=encode(index);release.artifact_index.sha256=sha(indexBytes);mutateRelease(release,index);assert.throws(()=>descriptorFromReleaseBytes(encode(release),indexBytes));};const unrelated=baseIndex.artifacts.findIndex(e=>e.path==='/data/manifest.json');attempt(()=>{},i=>i.artifacts[unrelated].bytes++);attempt(r=>r.artifact_index.path='/evil');attempt(r=>r.artifact_index.artifact_count++);attempt(r=>r.artifact_index.coverage=[...r.artifact_index.coverage,'/evil/**']);attempt(r=>r.artifact_index.excludes=[]);attempt(r=>r.artifact_index.sha256=hash);attempt(r=>r.release_id=hash);attempt(r=>r.dataset_version=hash);attempt(r=>r.schema_version='2.0');attempt(r=>r.unknown=true);attempt(r=>r.relationships['/data/manifest.json'].bytes++);attempt(r=>delete r.relationships['/data/manifest.json']);attempt(r=>r.relationships['/unknown']={path:'/unknown',sha256:hash,bytes:1});attempt(()=>{},i=>i.artifacts.reverse());attempt(()=>{},i=>i.artifacts.push({...i.artifacts[0]}));attempt(()=>{},i=>{i.artifacts.push({path:'/unknown',sha256:hash,bytes:1});i.artifacts.sort((a,b)=>a.path.localeCompare(b.path));});const polluted=Object.assign(Object.create({evil:true}),baseRelease);assert.throws(()=>descriptorFromRelease(polluted,baseIndex));});
