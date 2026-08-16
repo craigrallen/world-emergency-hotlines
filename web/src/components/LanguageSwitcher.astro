@@ -4,16 +4,19 @@ import { localeOptions } from '../lib/i18n';
 const options = localeOptions();
 ---
 
-<label class="inline-flex items-center gap-2 rounded-full border border-border/70 bg-bg-elev/70 px-3 py-2 text-sm text-fg-muted">
-  <span class="text-xs font-semibold uppercase tracking-[0.18em]" data-i18n="common.language">Language</span>
-  <select id="locale-switcher" class="min-w-[8.5rem] bg-transparent text-sm text-fg focus:outline-none" data-i18n-aria-label="header.languageSwitcher" aria-label="Switch language">
-    {
-      options.map((option) => (
-        <option value={option.value}>{option.label}</option>
-      ))
-    }
-  </select>
-</label>
+<div class="flex flex-col items-end gap-1">
+  <label class="inline-flex items-center gap-2 rounded-full border border-border/70 bg-bg-elev/70 px-3 py-2 text-sm text-fg-muted">
+    <span class="text-xs font-semibold uppercase tracking-[0.18em]" data-i18n="common.language">Language</span>
+    <select id="locale-switcher" class="min-w-[8.5rem] bg-transparent text-sm text-fg focus:outline-none" data-i18n-aria-label="header.languageSwitcher" aria-label="Switch language" aria-describedby="translation-status-link">
+      {
+        options.map((option) => (
+          <option value={option.value}>{option.label}</option>
+        ))
+      }
+    </select>
+  </label>
+  <a id="translation-status-link" data-translation-status-link href="/language-status" class="text-xs text-fg-muted underline hover:text-fg">Translation status</a>
+</div>
 
 <script>
   const select = document.getElementById('locale-switcher') as HTMLSelectElement | null;

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "sourceLocale": "en",
+  "fallbackLocale": "en",
+  "translatedScope": "selected_static_ui_keys_only",
+  "canonicalProviderDataTranslated": false,
+  "localVerificationRequired": true,
+  "locales": [
+    { "locale": "en", "role": "source_master", "reviewStatus": "source_master_not_formally_certified" },
+    { "locale": "es", "role": "ui_translation", "reviewStatus": "not_independently_human_reviewed" },
+    { "locale": "fr", "role": "ui_translation", "reviewStatus": "not_independently_human_reviewed" },
+    { "locale": "de", "role": "ui_translation", "reviewStatus": "not_independently_human_reviewed" },
+    { "locale": "pt-BR", "role": "ui_translation", "reviewStatus": "not_independently_human_reviewed" },
+    { "locale": "ar", "role": "ui_translation", "reviewStatus": "not_independently_human_reviewed" },
+    { "locale": "hi", "role": "ui_translation", "reviewStatus": "not_independently_human_reviewed" },
+    { "locale": "zh-CN", "role": "ui_translation", "reviewStatus": "not_independently_human_reviewed" },
+    { "locale": "ja", "role": "ui_translation", "reviewStatus": "not_independently_human_reviewed" },
+    { "locale": "ru", "role": "ui_translation", "reviewStatus": "not_independently_human_reviewed" }
+  ]
+}

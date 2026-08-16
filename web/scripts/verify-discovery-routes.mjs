@@ -136,6 +136,7 @@ const expectedUrls = [
   '/categories',
   '/countries',
   '/guides',
+  '/language-status',
   '/guides/emergency-numbers-vs-crisis-hotlines',
   '/guides/find-crisis-support-while-travelling-abroad',
   '/guides/what-hotline-verification-labels-mean',
