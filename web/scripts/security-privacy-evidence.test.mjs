@@ -28,6 +28,14 @@ test('whole-index snapshot rejects an unrelated concurrent restage during source
   let mutated = false;
   assert.throws(() => sourceMap(root, ['source.txt'], { afterRead: () => { if (mutated) return; mutated = true; writeFileSync(resolve(root, 'unrelated.txt'), 'after\n'); execFileSync('git', ['-C', root, 'add', '--', 'unrelated.txt']); } }), /Git index changed during evidence operation/);
 });
+test('whole-index snapshot rejects an inventory restage after inventory read and before validation', () => {
+  const root = copiedRepo(); execFileSync('git', ['init', '-q', root]); execFileSync('git', ['-C', root, 'add', '--', '.']);
+  let restaged = false;
+  assert.throws(() => loadInventory(root, { afterRead: ({ path }) => {
+    if (restaged || path !== INVENTORY_PATH) return;
+    restaged = true; const unrelated = resolve(root, 'README.md'); writeFileSync(unrelated, `${readFileSync(unrelated, 'utf8')}\n`); execFileSync('git', ['-C', root, 'add', '--', 'README.md']);
+  } }), /Git index changed during evidence operation/);
+});
 test('strict JSON rejects duplicate members, malformed syntax, BOM, and trailing bytes', () => {
   assert.throws(() => parseStrictJson('{"x":1,"x":2}'), /duplicate member/); assert.throws(() => parseStrictJson('{'), /expected object key|invalid/);
   assert.throws(() => parseStrictJson(Buffer.from([0xef, 0xbb, 0xbf, 0x7b, 0x7d])), /BOM/); assert.throws(() => parseStrictJson(Buffer.from('{}x')), /trailing input/);

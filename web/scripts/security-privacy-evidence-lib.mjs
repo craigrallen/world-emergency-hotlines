@@ -139,5 +139,5 @@ export function validateInventory(inventory, repo, options = {}) {
   return withStableGitIndex(repo, options, () => validateInventoryOperation(inventory, repo, options));
 }
 
-export function loadInventory(repo, options = {}) { const file = readTrackedRegularFile(repo, INVENTORY_PATH, options); const inventory = parseStrictJson(file.bytes); validateInventory(inventory, repo, options); assert.ok(file.bytes.length > 0 && file.bytes.at(-1) === 0x0a, 'inventory must end with one LF'); return inventory; }
+export function loadInventory(repo, options = {}) { return withStableGitIndex(repo, options, () => { const file = readTrackedRegularFile(repo, INVENTORY_PATH, options); const inventory = parseStrictJson(file.bytes); validateInventoryOperation(inventory, repo, options); assert.ok(file.bytes.length > 0 && file.bytes.at(-1) === 0x0a, 'inventory must end with one LF'); return inventory; }); }
 export function sourceMap(repo, paths, options = {}) { return withStableGitIndex(repo, options, () => { const identities = new Map(); return Object.fromEntries([...paths].sort().map((path) => { const file = readTrackedRegularFile(repo, path, options); assert.ok(!identities.has(file.identity), `duplicate canonical file identity: ${path} aliases ${identities.get(file.identity)}`); identities.set(file.identity, path); return [path, sha256(file.bytes)]; })); }); }
