@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.1",
+  "internal_only_marker": "internal-accessibility-evidence-only/v1",
+  "scope": "internal_deterministic_regression_evidence",
+  "review_boundary": {
+    "trees": ["web/src", "web/scripts"],
+    "files": ["hotlines.json", "web/public/widget/v1/hotlines-widget.js", "web/astro.config.mjs", "web/postcss.config.mjs", "web/tailwind.config.mjs", "web/tsconfig.json", "web/package.json", "web/package-lock.json"]
+  },
+  "disclaimer": "This baseline is factual regression evidence only. It does not claim WCAG conformance, certification, VPAT or ACR status, exhaustive assistive-technology coverage, legal compliance, or external assessor review.",
+  "sources": {"file_count":130,"digest":"sha256:6dfd48f8774dbbfb6b018481bd4c3b0505e7a8cab8960bda487e0adcece9769c"},
+  "surfaces": [
+    {"id":"guided_finder","route":"/find-help","artifact":"web/dist/find-help/index.html","method":"parse5_built_html_structure","assertions":["static_document_language_and_direction","static_main_and_skip_link","static_form_accessible_name_references","native_form_elements_present","static_polite_live_region","three_theme_choice_buttons"],"manual":{"keyboard_interaction":"pending","focus_order_and_visibility":"pending","screen_reader_output":"not_assessed","contrast_zoom_and_reflow":"not_assessed","computed_rtl_behavior":"not_assessed"}},
+    {"id":"traveler_mode","route":"/traveler","artifact":"web/dist/traveler/index.html","method":"parse5_built_html_structure","assertions":["static_document_language_and_direction","static_main_and_skip_link","static_form_accessible_name_references","native_form_elements_present","two_static_polite_live_regions","three_theme_choice_buttons"],"manual":{"keyboard_interaction":"pending","focus_order_and_visibility":"pending","screen_reader_output":"not_assessed","contrast_zoom_and_reflow":"not_assessed","computed_rtl_behavior":"not_assessed","print_dialog_accessibility":"not_assessed"}},
+    {"id":"basic_widget","route":"/widget","artifact":"web/dist/widget/index.html","secondary_artifact":"/widget/v1/hotlines-widget.js","method":"parse5_built_html_and_vm_constructed_widget_structure","assertions":["static_document_language_and_direction","static_main_and_skip_link","static_embed_element_and_script_reference","constructor_requests_open_shadow_root","render_shell_constructs_named_section_form_controls_and_first_legend","render_shell_constructs_polite_status","render_shell_sets_output_negative_tabindex","stylesheet_contains_focus_visible_rule","stylesheet_contains_dark_preference_rule"],"manual":{"keyboard_interaction":"pending","shadow_focus_order_and_visibility":"pending","screen_reader_shadow_dom_output":"not_assessed","contrast_zoom_and_reflow":"not_assessed","computed_styles_and_dark_theme":"not_assessed","host_page_integration_variants":"not_assessed"}},
+    {"id":"language_status","route":"/language-status","artifact":"web/dist/language-status/index.html","method":"parse5_built_html_structure","assertions":["static_document_language_and_direction","static_main_and_skip_link","static_row_header_cells","static_ltr_english_translation_disclosure","three_theme_choice_buttons"],"manual":{"keyboard_interaction":"pending","focus_order_and_visibility":"pending","screen_reader_table_output":"not_assessed","translated_ui_quality":"not_assessed","contrast_zoom_and_reflow":"not_assessed","computed_rtl_behavior":"not_assessed"}}
+  ]
+}
