@@ -338,6 +338,7 @@ const apiManifest = {
   ],
   countries: apiCountries.sort((a, b) => utf16Compare(a.name, b.name)),
 };
+apiManifest.traveler_card_build_version = apiManifest.build_versions.integration_generator;
 writeFileSync(resolve(API_DIR, 'manifest.json'), JSON.stringify(apiManifest, null, 2));
 writeFileSync(resolve(API_DIR, 'records.json'), JSON.stringify({
   api_version: API_VERSION,
@@ -346,6 +347,7 @@ writeFileSync(resolve(API_DIR, 'records.json'), JSON.stringify({
 }));
 const travelerCardJson = Buffer.from(JSON.stringify({
   api_version: API_VERSION,
+  traveler_card_build_version: apiManifest.traveler_card_build_version,
   dataset_version: manifest.dataset_version,
   schema_version: manifest.schema_version,
   generated_at: manifest.generated_at,

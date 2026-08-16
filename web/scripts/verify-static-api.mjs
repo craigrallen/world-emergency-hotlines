@@ -26,6 +26,7 @@ if (errors.length === 0) {
   if (typeof manifest.generated_at !== 'string' || Number.isNaN(Date.parse(manifest.generated_at))) fail('generated_at must remain an ISO timestamp string in API v1');
   if (typeof manifest.schema_version !== 'string' || manifest.source_last_updated !== dataManifest.source_last_updated) fail('API manifest release metadata differs from the data manifest');
   if (manifest.endpoints?.traveler_cards !== 'traveler-cards.json.gz') fail('API manifest lacks the fixed traveler-card endpoint');
+  if (manifest.traveler_card_build_version !== manifest.build_versions?.integration_generator) fail('API manifest traveler-card build identity is not bound to the finite integration generator identity');
   if (manifest.contract !== 'static-read-only') fail(`unexpected contract: ${manifest.contract}`);
   if (manifest.dataset_version !== dataManifest.dataset_version) fail('API/data dataset versions differ');
   if (recordIndex.dataset_version !== manifest.dataset_version) fail('record index dataset version differs');

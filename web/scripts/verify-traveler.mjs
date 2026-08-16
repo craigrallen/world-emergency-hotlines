@@ -295,8 +295,18 @@ assert.ok(generatedCardBytes.byteLength <= TRAVELER_CARD_BUNDLE_MAX_BYTES);
 assert.ok(gunzipSync(generatedCardBytes).byteLength <= TRAVELER_CARD_BUNDLE_MAX_DECOMPRESSED_BYTES);
 assert.ok(generatedCardBytes.byteLength < readFileSync(resolve(WEB_ROOT, 'public/data/manifest.json')).byteLength);
 assert.equal(generatedApiManifest.endpoints.traveler_cards, 'traveler-cards.json.gz');
+assert.equal(generatedApiManifest.traveler_card_build_version, generatedApiManifest.build_versions.integration_generator);
+assert.equal(generatedCardBundle.traveler_card_build_version, generatedApiManifest.traveler_card_build_version);
 assert.deepEqual(getTravelerReleaseContext(generatedApiManifest), getTravelerReleaseContext(generatedCardBundle));
 validateTravelerCardBundleIdentity(generatedCardBundle, generatedApiManifest);
+for (const mismatch of [
+  { bundle: { ...generatedCardBundle, traveler_card_build_version: `sha256:${'0'.repeat(64)}` }, manifest: generatedApiManifest },
+  { bundle: generatedCardBundle, manifest: { ...generatedApiManifest, traveler_card_build_version: `sha256:${'0'.repeat(64)}` } },
+]) assert.throws(() => validateTravelerCardBundleIdentity(mismatch.bundle, mismatch.manifest), /build version/);
+assert.throws(() => validateTravelerCardBundleIdentity(
+  { ...generatedCardBundle, traveler_card_build_version: undefined },
+  { ...generatedApiManifest, traveler_card_build_version: undefined },
+), /invalid country-card build version/);
 assert.deepEqual(Object.keys(generatedCardBundle.cards).sort(), generatedApiManifest.countries.map(({ alpha2 }) => alpha2).sort());
 for (const content of Object.values(generatedCardBundle.cards)) {
   assert.equal(content.indexOf('EMERGENCY'), 0);

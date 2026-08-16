@@ -402,7 +402,11 @@ export function validateTravelerCardBundleIdentity(bundle, manifest) {
   if (!bundle || typeof bundle !== 'object' || Array.isArray(bundle) || !bundle.cards || typeof bundle.cards !== 'object' || Array.isArray(bundle.cards)) {
     throw new Error('The static country-card bundle has an invalid shape.');
   }
-  for (const field of ['api_version', 'dataset_version', 'schema_version', 'generated_at', 'source_last_updated']) {
+  if (!/^sha256:[a-f0-9]{64}$/.test(manifest?.traveler_card_build_version)
+      || manifest.traveler_card_build_version !== manifest?.build_versions?.integration_generator) {
+    throw new Error('The API manifest has an invalid country-card build version.');
+  }
+  for (const field of ['api_version', 'traveler_card_build_version', 'dataset_version', 'schema_version', 'generated_at', 'source_last_updated']) {
     if (bundle[field] !== manifest?.[field]) throw new Error(`The API manifest and country-card bundle ${field.replaceAll('_', ' ')} values do not match.`);
   }
   getTravelerReleaseContext(bundle);
