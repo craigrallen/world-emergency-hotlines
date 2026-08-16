@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { verifyLocaleQualification } from './locale-qualification.mjs';
+import { containsAffirmativeTranslationReviewClaim, verifyLocaleQualification } from './locale-qualification.mjs';
 
 const valid = {
   manifest: {
@@ -29,6 +29,13 @@ test('fails closed on an unsupported human-review claim', () => {
 test('fails closed on a contradictory public qualification claim', () => {
   for (const claim of ['independently human-reviewed', 'independently human-approved', 'professionally translated', 'qualified translation', 'certified translation']) {
     assert.ok(check({ statusPageSource: `${valid.statusPageSource} Spanish is ${claim}.` }).some((error) => error.includes('unsupported affirmative')), claim);
+  }
+});
+test('Russian affirmative-review phrases use Unicode letter boundaries', () => {
+  for (const phrase of ['сертифицированный перевод', 'независимо проверено человеком']) {
+    assert.equal(containsAffirmativeTranslationReviewClaim(phrase), true, phrase);
+    assert.equal(containsAffirmativeTranslationReviewClaim(`а${phrase}`), false, `leading embedded letter: ${phrase}`);
+    assert.equal(containsAffirmativeTranslationReviewClaim(`${phrase}я`), false, `trailing embedded letter: ${phrase}`);
   }
 });
 test('rejects the old review-gated fallback overclaim', () => {

@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import test from 'node:test';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -16,6 +17,18 @@ const schema = JSON.parse(read('reviews/multilingual-ui/v1/review-pack.schema.js
 const committed = JSON.parse(read('reviews/multilingual-ui/v1/review-pack.json'));
 const generate = (change = {}) => generateReviewPack({ ...input, ...change });
 const mutate = (value, fn) => { const copy = structuredClone(value); fn(copy); return copy; };
+const policyWithRecomputedRuntimeDigest = (i18nSource) => {
+  const policy = structuredClone(input.classificationPolicy);
+  const parsed = parseCanonicalDictionaries(i18nSource);
+  const runtime = evaluateCanonicalRuntime(i18nSource, input.manifest);
+  const keys = Object.keys(parsed.english);
+  const inventory = parsed.locales.flatMap((locale) => keys.map((key) => {
+    const overridden = locale === 'en' || Array.from(runtime.__RUNTIME_OVERRIDE_KEYS__[locale]).includes(key);
+    return [locale, key, runtime.DICTIONARIES[locale][key], locale === 'en' ? 'source_master' : overridden ? 'locale_override' : 'english_fallback'];
+  }));
+  policy.runtimeLocaleKeyValueStateSha256 = createHash('sha256').update(JSON.stringify(inventory)).digest('hex');
+  return policy;
+};
 
 test('generated pack is schema-valid, exact, ordered, and reproducible', () => {
   const actual = generate();
@@ -96,6 +109,28 @@ test('fails closed on a non-English value-only source change with unchanged keys
   assert.deepEqual(after.locales, before.locales);
   assert.deepEqual(Object.keys(after.overrides.es), Object.keys(before.overrides.es));
   assert.throws(() => generate({ i18nSource: changedSource }), /exact ordered runtime locale\/key\/effective-value\/override-state inventory/);
+});
+
+test('runtime parity fails before policy digest acceptance on transformed overrides and synthesized keys', () => {
+  const transformedOverride = input.i18nSource.replace(
+    'const translateSet = (overrides: Partial<Dict>): Dict => ({ ...EN, ...overrides } as Dict);',
+    "const translateSet = (overrides: Partial<Dict>): Dict => ({ ...EN, ...overrides, 'nav.home': `${overrides['nav.home']}!` } as Dict);",
+  );
+  assert.notEqual(transformedOverride, input.i18nSource);
+  assert.throws(() => generate({
+    i18nSource: transformedOverride,
+    classificationPolicy: policyWithRecomputedRuntimeDigest(transformedOverride),
+  }), /runtime dictionary parity: effective value differs/);
+
+  const synthesizedKey = input.i18nSource.replace(
+    'const translateSet = (overrides: Partial<Dict>): Dict => ({ ...EN, ...overrides } as Dict);',
+    "const translateSet = (overrides: Partial<Dict>): Dict => ({ ...EN, ...overrides, 'runtime.only': 'synthetic' } as Dict);",
+  );
+  assert.notEqual(synthesizedKey, input.i18nSource);
+  assert.throws(() => generate({
+    i18nSource: synthesizedKey,
+    classificationPolicy: policyWithRecomputedRuntimeDigest(synthesizedKey),
+  }), /runtime dictionary parity: key inventory\/order differs/);
 });
 
 test('fails closed on every locale-status semantic invariant', () => {

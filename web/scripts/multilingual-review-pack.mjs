@@ -131,6 +131,30 @@ export function evaluateCanonicalRuntime(source, localeStatusManifest = {}) {
   return runtime;
 }
 
+function assertRuntimeDictionaryParity(parsed, runtime) {
+  const runtimeLocales = Array.from(runtime.LOCALES);
+  if (JSON.stringify(runtimeLocales) !== JSON.stringify(parsed.locales)
+    || JSON.stringify(Object.keys(runtime.DICTIONARIES)) !== JSON.stringify(parsed.locales)) {
+    throw new Error('runtime dictionary parity: locale inventory/order differs from parsed source');
+  }
+  const keys = Object.keys(parsed.english);
+  for (const locale of parsed.locales) {
+    const expectedValues = { ...parsed.english, ...parsed.overrides[locale] };
+    const runtimeValues = runtime.DICTIONARIES[locale];
+    if (JSON.stringify(Object.keys(runtimeValues)) !== JSON.stringify(keys)) {
+      throw new Error(`runtime dictionary parity: key inventory/order differs for ${locale}`);
+    }
+    for (const key of keys) {
+      if (runtimeValues[key] !== expectedValues[key]) {
+        throw new Error(`runtime dictionary parity: effective value differs for ${locale}.${key}`);
+      }
+    }
+    if (locale !== 'en' && JSON.stringify(Array.from(runtime.__RUNTIME_OVERRIDE_KEYS__[locale])) !== JSON.stringify(Object.keys(parsed.overrides[locale]))) {
+      throw new Error(`runtime dictionary parity: override key inventory/state differs for ${locale}`);
+    }
+  }
+}
+
 function validateManifest(manifest) {
   const topLevelKeys = ['schemaVersion', 'sourceLocale', 'fallbackLocale', 'translatedScope', 'canonicalProviderDataTranslated', 'localVerificationRequired', 'locales'];
   if (!manifest || typeof manifest !== 'object' || Array.isArray(manifest)
@@ -179,7 +203,7 @@ export function generateReviewPack({ i18nSource, manifest, classificationPolicy 
   const sourceDigest = createHash('sha256').update(JSON.stringify(keys.map((key) => [key, parsed.english[key]]))).digest('hex');
   if (classificationPolicy.canonicalKeyValueSha256 !== sourceDigest) throw new Error('classification policy does not cover the exact canonical English key/value inventory');
   const runtime = evaluateCanonicalRuntime(i18nSource, manifest);
-  if (JSON.stringify(Array.from(runtime.LOCALES)) !== JSON.stringify(parsed.locales)) throw new Error('runtime locale inventory differs from canonical source');
+  assertRuntimeDictionaryParity(parsed, runtime);
   const runtimeInventory = parsed.locales.flatMap((locale) => keys.map((key) => {
     const overridden = locale === 'en' || Array.from(runtime.__RUNTIME_OVERRIDE_KEYS__[locale]).includes(key);
     return [locale, key, runtime.DICTIONARIES[locale][key], locale === 'en' ? 'source_master' : overridden ? 'locale_override' : 'english_fallback'];
