@@ -1,12 +1,15 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import { gunzipSync } from 'node:zlib';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  createLatestGenerationGate, createTravelerPrintReadinessController, createTravelerSelectionSnapshot, getTravelerCountryChoices, getTravelerReleaseContext, loadTravelerData,
+  assertTravelerCardDownloadSupport, createLatestGenerationGate, createTravelerDownloadController, createTravelerPrintReadinessController, createTravelerSelectionSnapshot, decompressTravelerCardBundle, getTravelerCountryChoices, getTravelerReleaseContext, loadTravelerCountryCard, loadTravelerData,
   reconstructTravelerCountries, resolveTravelerHelp, safeTravelerUrl, scrollTravelerOutputBestEffort, selectTravelerContacts,
-  TRAVELER_CARD_CONTACT_LIMIT,
-  TRAVELER_MANIFEST_URL, TRAVELER_RECORDS_API_VERSION, TRAVELER_RECORDS_URL,
+  serializeTravelerCountryCard,
+  supportsTravelerCardDownload, TRAVELER_CARD_BROWSER_COMPATIBILITY_MESSAGE, TRAVELER_CARD_CONTACT_LIMIT,
+  TRAVELER_CARD_BUNDLE_MAX_BYTES, TRAVELER_CARD_BUNDLE_MAX_DECOMPRESSED_BYTES, TRAVELER_CARD_BUNDLE_URL, TRAVELER_CARD_MANIFEST_URL,
+  TRAVELER_MANIFEST_URL, TRAVELER_RECORDS_API_VERSION, TRAVELER_RECORDS_URL, validateTravelerCardBundleIdentity,
 } from '../src/lib/traveler.js';
 import { dedupeMessageContacts, phoneContacts } from '../src/lib/contact.ts';
 
@@ -45,7 +48,7 @@ assert.equal((page.match(/window\.print\(\)/g) || []).length, 1, 'print action m
 assert.match(page, /@media print/);
 assert.doesNotMatch(page, /visibility:\s*(?:hidden|visible)/);
 assert.match(page, /body > a, body > aside, body > header, body > footer,[^\n]*\.traveler-screen-only \{ display: none !important/);
-assert.equal((page.match(/traveler-screen-only/g) || []).length, 5, 'Traveler screen-only siblings are not explicitly excluded from print');
+assert.equal((page.match(/traveler-screen-only/g) || []).length, 6, 'Traveler screen-only siblings are not explicitly excluded from print');
 assert.match(page, /\.traveler-print-root \{ display: none !important; \}/);
 assert.match(page, /\.traveler-print-root\[data-print-ready="true"\] \{ position: static !important; display: block !important/);
 assert.match(page, /break-inside: avoid/);
@@ -58,7 +61,23 @@ assert.match(page, /https:\/\/worldhotlines\.org\/traveler/);
 assert.match(page, />current Traveler Mode page<\/a>/);
 assert.doesNotMatch(page, />https:\/\/worldhotlines\.org\/traveler<\/a>/);
 assert.doesNotMatch(page, /generated_at/i);
-assert.doesNotMatch(page, /offline country pack|low-bandwidth download/i);
+assert.match(page, /id="traveler-download-form"/);
+assert.match(page, /id="traveler-download-country" required/);
+assert.match(page, /id="traveler-download-submit" type="submit" aria-describedby="traveler-download-status"/);
+assert.match(page, /if \(!supportsTravelerCardDownload\(\)\)/);
+assert.match(page, /downloadCountry\.disabled = true/);
+assert.match(page, /downloadSubmit\.disabled = true/);
+assert.match(page, /downloadForm\.setAttribute\('aria-disabled', 'true'\)/);
+assert.match(page, /downloadStatus\.textContent = TRAVELER_CARD_BROWSER_COMPATIBILITY_MESSAGE/);
+assert.doesNotMatch(page, /traveler-download-form[\s\S]{0,500}(?:category|channel|locality)/i);
+assert.match(page, /No crisis need or selection is placed in a URL, request path, browser history, storage, telemetry, or QR code/i);
+assert.match(page, /Source verification does not prove answering or availability; eligibility may vary\. Check current local emergency guidance\./i);
+assert.match(page, /new Blob\(\[content\], \{ type: 'text\/plain;charset=utf-8' \}\)/);
+assert.match(page, /loadTravelerCountryCard\(\{ fetchImpl: fetch, countryCode \}\)/);
+assert.doesNotMatch(page, /loadTravelerData\(\{ fetchImpl: fetch, currentCode: countryCode \}\)/);
+assert.match(page, /downloadReadiness\.publish\(generation/);
+assert.match(page, /URL\.revokeObjectURL/);
+assert.match(page, /setTimeout\(\(\) => \{ if \(downloadReadiness\.release\(generation\)\)/);
 
 assert.equal(TRAVELER_CARD_CONTACT_LIMIT, 2, 'Traveler card contact limit changed without review');
 const malformedBeforeCallable = phoneContacts(
@@ -154,6 +173,14 @@ assert.doesNotMatch(page, /canonical evidence/i);
 assert.equal(TRAVELER_MANIFEST_URL, '/data/manifest.json');
 assert.equal(TRAVELER_RECORDS_URL, '/api/v1/records.json');
 assert.equal(TRAVELER_RECORDS_API_VERSION, '1.0');
+assert.equal(TRAVELER_CARD_MANIFEST_URL, '/api/v1/manifest.json');
+assert.equal(TRAVELER_CARD_BUNDLE_URL, '/api/v1/traveler-cards.json.gz');
+assert.equal(TRAVELER_CARD_BUNDLE_MAX_BYTES, 180 * 1024);
+assert.equal(TRAVELER_CARD_BUNDLE_MAX_DECOMPRESSED_BYTES, 1024 * 1024);
+assert.match(TRAVELER_CARD_BROWSER_COMPATIBILITY_MESSAGE, /built-in gzip decompression support/i);
+assert.equal(supportsTravelerCardDownload(null), false);
+assert.equal(supportsTravelerCardDownload(class SyntheticDecompressionStream {}), true);
+assert.throws(() => assertTravelerCardDownloadSupport(null), /current browser|gzip decompression support/i);
 
 let scrollAttempts = 0;
 assert.equal(scrollTravelerOutputBestEffort(() => { scrollAttempts += 1; throw new Error('scroll unavailable'); }), false);
@@ -182,7 +209,7 @@ const manifest = {
   { alpha2: 'BB', name: 'Homeland', general_emergency: ['911'] },
   { alpha2: 'CC', name: 'Foreignland', general_emergency: ['999'] },
 ] };
-const expectedReleaseContext = { datasetVersion: `sha256:${'a'.repeat(64)}`, sourceLastUpdated: '2026-01-02', schemaVersion: '2.0' };
+const expectedReleaseContext = { datasetVersion: `sha256:${'a'.repeat(64)}`, sourceLastUpdated: '2026-01-02', schemaVersion: '2.0', generatedAt: '2099-12-31T23:59:59.999Z' };
 assert.deepEqual(getTravelerReleaseContext(manifest), expectedReleaseContext);
 assert.equal(Object.isFrozen(getTravelerReleaseContext(manifest)), true);
 const unknownDateContext = getTravelerReleaseContext({ ...manifest, source_last_updated: null });
@@ -196,6 +223,8 @@ for (const badManifest of [
   { ...manifest, source_last_updated: '2026-02-30' },
   { ...manifest, schema_version: '' },
   { ...manifest, schema_version: 'version two' },
+  { ...manifest, generated_at: '' },
+  { ...manifest, generated_at: 'not-a-date' },
 ]) assert.throws(() => getTravelerReleaseContext(badManifest), /static manifest/i);
 const recordsArtifact = { api_version: '1.0', dataset_version: manifest.dataset_version, records: {
   current: hotline('current', 'mental_health'),
@@ -206,8 +235,161 @@ const recordsArtifact = { api_version: '1.0', dataset_version: manifest.dataset_
   foreign: hotline('foreign', 'mental_health', { country_code: 'CC' }),
 } };
 
+const serializedCard = serializeTravelerCountryCard({
+  country: {
+    country: 'Currentland\u202e', alpha2: 'AA', general_emergency: ['112', '13HEALTH', 'bad\u0000number', '12) 34'],
+    hotlines: [
+      hotline('z-record', 'mental_health', { name: 'Zulu\nservice', voice_numbers: ['100'], sms_numbers: ['123', '450-HELP'], text_numbers: ['123', '12) 34'], sources: ['javascript:unsafe'] }),
+      hotline('punctuation_record', 'mental_health', { name: 'Underscore service' }),
+      hotline('a-record', 'mental_health', { name: '<Alpha>', voice_numbers: ['450-HELP'], text_numbers: ['456'] }),
+      hotline('punctuation-record', 'mental_health', { name: 'Hyphen service' }),
+      hotline('old-record', 'mental_health', { verification_status: 'deprecated' }),
+    ],
+  },
+  releaseContext: expectedReleaseContext,
+});
+assert.equal(serializedCard.indexOf('EMERGENCY'), 0, 'downloaded card does not put emergency information first');
+assert.deepEqual(
+  [...serializedCard.matchAll(/\[record ([^;]+);/g)].map((match) => match[1]),
+  ['a-record', 'punctuation-record', 'punctuation_record', 'z-record'],
+  'downloaded records are not in exact locale-independent UTF-16 code-unit order',
+);
+assert.doesNotMatch(serializedCard, /old-record|javascript:|\u202e|\u0000/);
+assert.match(serializedCard, /^EMERGENCY[^\n]*\nRecorded general emergency contacts: Call 112, Phone 13HEALTH \(not callable\), Phone badnumber \(not callable\), Phone 12\) 34 \(not callable\)/);
+assert.match(serializedCard, /<Alpha> — Phone 450-HELP \(not callable\); Text 456/);
+assert.match(serializedCard, /Zulu service — Call 100; SMS\/text 123; SMS 450-HELP \(not messageable\); Text 12\) 34 \(not messageable\)/);
+assert.match(serializedCard, /Canonical dataset version: sha256:[a-f0-9]{64}/);
+assert.match(serializedCard, /Static API version: 1\.0/);
+assert.match(serializedCard, /Artifact generation date: 2099-12-31T23:59:59\.999Z/);
+assert.match(serializedCard, /Canonical source date: 2026-01-02/);
+assert.match(serializedCard, /Provenance: generated static artifacts derived from the project canonical dataset/);
+assert.match(serializedCard, /this is a snapshot, not live information, and it may become stale/i);
+assert.match(serializedCard, /Source verification does not prove answering or availability\. Eligibility may vary\. Check current local emergency guidance\./);
+assert.doesNotMatch(serializedCard, /https?:\/\//, 'low-bandwidth card unexpectedly serialized a URL');
+assert.throws(() => serializeTravelerCountryCard({ country: null, releaseContext: expectedReleaseContext }), /validated country/);
+
+const createdUrls = [];
+const revokedUrls = [];
+const downloadController = createTravelerDownloadController({
+  createObjectURL(blob) { const url = `blob:test-${createdUrls.length + 1}`; createdUrls.push({ url, size: blob.size }); return url; },
+  revokeObjectURL(url) { revokedUrls.push(url); },
+});
+const firstDownload = downloadController.begin();
+assert.equal(downloadController.publish(firstDownload, new Blob([])), null, 'blank download became ready');
+const secondDownload = downloadController.begin();
+assert.equal(downloadController.publish(firstDownload, new Blob(['stale'])), null, 'stale download became ready');
+assert.equal(downloadController.publish(secondDownload, new Blob(['ready'])), 'blob:test-1');
+const thirdDownload = downloadController.begin();
+assert.deepEqual(revokedUrls, ['blob:test-1'], 'superseded object URL was not revoked');
+assert.equal(downloadController.publish(thirdDownload, new Blob(['new'])), 'blob:test-2');
+assert.equal(downloadController.release(thirdDownload), true);
+assert.deepEqual(revokedUrls, ['blob:test-1', 'blob:test-2'], 'consumed object URL was not revoked');
+assert.equal(downloadController.release(secondDownload), false, 'stale release affected current readiness');
+
 const generatedManifest = JSON.parse(readFileSync(resolve(WEB_ROOT, 'public/data/manifest.json'), 'utf8'));
+const generatedApiManifest = JSON.parse(readFileSync(resolve(WEB_ROOT, 'public/api/v1/manifest.json'), 'utf8'));
 const generatedRecords = JSON.parse(readFileSync(resolve(WEB_ROOT, 'public/api/v1/records.json'), 'utf8'));
+const generatedCardBytes = readFileSync(resolve(WEB_ROOT, 'public/api/v1/traveler-cards.json.gz'));
+const generatedCardBundle = JSON.parse(gunzipSync(generatedCardBytes));
+assert.ok(generatedCardBytes.byteLength <= TRAVELER_CARD_BUNDLE_MAX_BYTES);
+assert.ok(gunzipSync(generatedCardBytes).byteLength <= TRAVELER_CARD_BUNDLE_MAX_DECOMPRESSED_BYTES);
+assert.ok(generatedCardBytes.byteLength < readFileSync(resolve(WEB_ROOT, 'public/data/manifest.json')).byteLength);
+assert.equal(generatedApiManifest.endpoints.traveler_cards, 'traveler-cards.json.gz');
+assert.equal(generatedApiManifest.traveler_card_build_version, generatedApiManifest.build_versions.integration_generator);
+assert.equal(generatedCardBundle.traveler_card_build_version, generatedApiManifest.traveler_card_build_version);
+assert.deepEqual(getTravelerReleaseContext(generatedApiManifest), getTravelerReleaseContext(generatedCardBundle));
+validateTravelerCardBundleIdentity(generatedCardBundle, generatedApiManifest);
+for (const mismatch of [
+  { bundle: { ...generatedCardBundle, traveler_card_build_version: `sha256:${'0'.repeat(64)}` }, manifest: generatedApiManifest },
+  { bundle: generatedCardBundle, manifest: { ...generatedApiManifest, traveler_card_build_version: `sha256:${'0'.repeat(64)}` } },
+]) assert.throws(() => validateTravelerCardBundleIdentity(mismatch.bundle, mismatch.manifest), /build version/);
+assert.throws(() => validateTravelerCardBundleIdentity(
+  { ...generatedCardBundle, traveler_card_build_version: undefined },
+  { ...generatedApiManifest, traveler_card_build_version: undefined },
+), /invalid country-card build version/);
+assert.deepEqual(Object.keys(generatedCardBundle.cards).sort(), generatedApiManifest.countries.map(({ alpha2 }) => alpha2).sort());
+for (const content of Object.values(generatedCardBundle.cards)) {
+  assert.equal(content.indexOf('EMERGENCY'), 0);
+  assert.doesNotMatch(content, /https?:\/\//);
+  for (const expected of [`Canonical dataset version: ${generatedApiManifest.dataset_version}`, `Static API version: ${generatedApiManifest.api_version}`, `Schema version: ${generatedApiManifest.schema_version}`, `Artifact generation date: ${generatedApiManifest.generated_at}`, `Canonical source date: ${generatedApiManifest.source_last_updated}`]) assert.ok(content.includes(expected));
+}
+const cardCalls = [];
+const cardBody = (chunks, onCancel = () => {}) => new ReadableStream({
+  start(controller) { for (const chunk of chunks) controller.enqueue(chunk); controller.close(); },
+  cancel(reason) { onCancel(reason); },
+});
+const mockCardResponse = { ok: true, headers: { get: () => String(generatedCardBytes.byteLength) }, body: cardBody([generatedCardBytes]) };
+let unsupportedCardRequests = 0;
+await assert.rejects(loadTravelerCountryCard({
+  countryCode: 'US',
+  fetchImpl: async () => { unsupportedCardRequests += 1; throw new Error('unsupported browser made a request'); },
+  requireSupport: () => assertTravelerCardDownloadSupport(null),
+}), /gzip decompression support/i);
+assert.equal(unsupportedCardRequests, 0, 'unsupported browser requested a fixed artifact before capability failure');
+const loadedCard = await loadTravelerCountryCard({
+  countryCode: 'US',
+  fetchImpl: async (url, options) => { cardCalls.push({ url, options }); return url === TRAVELER_CARD_MANIFEST_URL ? { ok: true, json: async () => structuredClone(generatedApiManifest) } : mockCardResponse; },
+  decodeBundle: async (bytes) => { assert.equal(Buffer.from(bytes).equals(generatedCardBytes), true); return structuredClone(generatedCardBundle); },
+});
+assert.deepEqual(cardCalls.map(({ url }) => url), [TRAVELER_CARD_MANIFEST_URL, TRAVELER_CARD_BUNDLE_URL]);
+assert.ok(cardCalls.every(({ options }) => options.credentials === 'omit' && options.referrerPolicy === 'no-referrer'));
+assert.doesNotMatch(JSON.stringify(cardCalls), /(?:US|us)/);
+assert.equal(loadedCard.content, generatedCardBundle.cards.US);
+await assert.rejects(loadTravelerCountryCard({ countryCode: 'CA', fetchImpl: async (url) => url === TRAVELER_CARD_MANIFEST_URL ? { ok: true, json: async () => generatedApiManifest } : { ...mockCardResponse, body: cardBody([generatedCardBytes]) }, decodeBundle: async () => ({ ...generatedCardBundle, dataset_version: `sha256:${'0'.repeat(64)}` }) }), /do not match/);
+await assert.rejects(loadTravelerCountryCard({ countryCode: 'CA', fetchImpl: async (url) => url === TRAVELER_CARD_MANIFEST_URL ? { ok: true, json: async () => generatedApiManifest } : { ...mockCardResponse, headers: { get: () => String(TRAVELER_CARD_BUNDLE_MAX_BYTES + 1) } }, decodeBundle: async () => generatedCardBundle }), /byte-size ceiling/);
+const noLengthLoaded = await loadTravelerCountryCard({
+  countryCode: 'CA',
+  fetchImpl: async (url) => url === TRAVELER_CARD_MANIFEST_URL ? { ok: true, json: async () => generatedApiManifest } : { ok: true, headers: { get: () => null }, body: cardBody([generatedCardBytes.subarray(0, 7), generatedCardBytes.subarray(7)]) },
+  decodeBundle: async (bytes) => { assert.equal(Buffer.from(bytes).equals(generatedCardBytes), true); return structuredClone(generatedCardBundle); },
+});
+assert.equal(noLengthLoaded.content, generatedCardBundle.cards.CA, 'missing Content-Length rejected a bounded body');
+let oversizedBodyCancelled = false;
+const oversizedChunks = [new Uint8Array(TRAVELER_CARD_BUNDLE_MAX_BYTES), new Uint8Array(1)];
+let oversizedChunkIndex = 0;
+const oversizedBody = { getReader: () => ({
+  read: async () => oversizedChunkIndex < oversizedChunks.length ? { done: false, value: oversizedChunks[oversizedChunkIndex++] } : { done: true },
+  cancel: async () => { oversizedBodyCancelled = true; },
+}) };
+await assert.rejects(loadTravelerCountryCard({
+  countryCode: 'CA',
+  fetchImpl: async (url) => url === TRAVELER_CARD_MANIFEST_URL ? { ok: true, json: async () => generatedApiManifest } : { ok: true, headers: { get: () => null }, body: oversizedBody },
+  decodeBundle: async () => { throw new Error('oversized bytes reached decoder'); },
+}), /byte-size ceiling/);
+assert.equal(oversizedBodyCancelled, true, 'oversized chunked body was not cancelled');
+const encoder = new TextEncoder();
+const boundedJson = encoder.encode(JSON.stringify({ ok: true }));
+assert.deepEqual(await decompressTravelerCardBundle(new Uint8Array(), () => cardBody([boundedJson])), { ok: true }, 'bounded decompression stream did not parse');
+let decompressionCancelled = false;
+let parseCalled = false;
+const oversizedDecompressedChunks = [
+  new Uint8Array(TRAVELER_CARD_BUNDLE_MAX_DECOMPRESSED_BYTES),
+  new Uint8Array(1),
+];
+let oversizedDecompressedChunkIndex = 0;
+const oversizedDecompressionStream = { getReader: () => ({
+  read: async () => oversizedDecompressedChunkIndex < oversizedDecompressedChunks.length
+    ? { done: false, value: oversizedDecompressedChunks[oversizedDecompressedChunkIndex++] }
+    : { done: true },
+  cancel: async () => { decompressionCancelled = true; },
+}) };
+const originalParse = JSON.parse;
+JSON.parse = (...args) => { parseCalled = true; return originalParse(...args); };
+try {
+  await assert.rejects(
+    decompressTravelerCardBundle(new Uint8Array(), () => oversizedDecompressionStream),
+    /could not be parsed/,
+  );
+} finally {
+  JSON.parse = originalParse;
+}
+assert.equal(decompressionCancelled, true, 'oversized decompression stream was not cancelled');
+assert.equal(parseCalled, false, 'oversized decompressed bytes reached JSON parsing');
+await assert.rejects(
+  decompressTravelerCardBundle(new Uint8Array(), () => cardBody([encoder.encode('{malformed')])),
+  /could not be parsed/,
+);
+await assert.rejects(loadTravelerCountryCard({ countryCode: 'CA', fetchImpl: async (url) => url === TRAVELER_CARD_MANIFEST_URL ? { ok: true, json: async () => generatedApiManifest } : { ok: true, headers: { get: () => null }, body: null } }), /no readable bounded body/);
+await assert.rejects(loadTravelerCountryCard({ countryCode: 'CA', fetchImpl: async (url) => url === TRAVELER_CARD_MANIFEST_URL ? { ok: true, json: async () => generatedApiManifest } : { ok: true, headers: { get: () => null }, body: { getReader: () => ({ read: async () => ({ done: false, value: 'not bytes' }), cancel: async () => {} }) } } }), /body could not be read/);
 assert.equal(generatedManifest.schema_version, '2.0');
 assert.ok(Array.isArray(generatedManifest.countries) && generatedManifest.countries.length > 0);
 assert.equal(generatedRecords.api_version, '1.0');

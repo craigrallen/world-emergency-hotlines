@@ -11,6 +11,7 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync, lstatSync, realpath
 import { dirname, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
+import { gzipSync } from 'node:zlib';
 import { utf16Compare } from './dataset-diff.mjs';
 import { classifyScope, getHotlineChannels } from '../src/lib/finder.js';
 import { API_VERSION, canonicalHotline } from './api-records-transform.mjs';
@@ -29,6 +30,7 @@ import { generateManagedApiPlanContracts } from './generate-managed-api-plan-con
 import { generateDeprecationProposalContracts } from './generate-deprecation-proposal-contracts.mjs';
 import { generateEvidenceBackedCoverageContracts } from './generate-evidence-backed-coverage-contracts.mjs';
 import { assertPwaAssetParity } from './generate-pwa-assets.mjs';
+import { serializeTravelerCountryCard, TRAVELER_CARD_BUNDLE_MAX_BYTES, TRAVELER_CARD_BUNDLE_MAX_DECOMPRESSED_BYTES } from '../src/lib/traveler.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const WEB_ROOT = resolve(__dirname, '..');
@@ -155,6 +157,7 @@ const manifestEntries = [];
 const searchDocs = [];
 const apiCountries = [];
 const recordsById = {};
+const travelerCards = {};
 let totalHotlines = 0;
 
 // Global category stats accumulator
@@ -182,6 +185,16 @@ for (const raw of canonical.countries) {
     hotlines: apiHotlines,
   };
   writeFileSync(resolve(API_DIR, 'countries', `${c.alpha2.toLowerCase()}.json`), JSON.stringify(apiCountry, null, 2));
+  travelerCards[c.alpha2] = serializeTravelerCountryCard({
+    country: apiCountry,
+    releaseContext: {
+      datasetVersion: c.dataset_version,
+      schemaVersion: canonical.schema_version,
+      generatedAt: GENERATED_AT,
+      sourceLastUpdated: canonical.source_last_updated,
+    },
+    apiVersion: API_VERSION,
+  });
   apiCountries.push({
     alpha2: c.alpha2,
     name: c.country,
@@ -298,12 +311,15 @@ const apiManifest = {
   build_versions: buildVersions(),
   dataset_version: manifest.dataset_version,
   generated_at: manifest.generated_at,
+  schema_version: manifest.schema_version,
+  source_last_updated: manifest.source_last_updated,
   contract: 'static-read-only',
   total_countries: manifest.total_countries,
   total_records: manifest.total_hotlines,
   endpoints: {
     manifest: 'manifest.json',
     records: 'records.json',
+    traveler_cards: 'traveler-cards.json.gz',
     country: 'countries/{alpha2}.json',
     resolver_module: 'resolver.js',
     release_descriptor: '../../release/v1/release.json',
@@ -322,12 +338,30 @@ const apiManifest = {
   ],
   countries: apiCountries.sort((a, b) => utf16Compare(a.name, b.name)),
 };
+apiManifest.traveler_card_build_version = apiManifest.build_versions.integration_generator;
 writeFileSync(resolve(API_DIR, 'manifest.json'), JSON.stringify(apiManifest, null, 2));
 writeFileSync(resolve(API_DIR, 'records.json'), JSON.stringify({
   api_version: API_VERSION,
   dataset_version: manifest.dataset_version,
   records: recordsById,
 }));
+const travelerCardJson = Buffer.from(JSON.stringify({
+  api_version: API_VERSION,
+  traveler_card_build_version: apiManifest.traveler_card_build_version,
+  dataset_version: manifest.dataset_version,
+  schema_version: manifest.schema_version,
+  generated_at: manifest.generated_at,
+  source_last_updated: manifest.source_last_updated,
+  cards: Object.fromEntries(Object.entries(travelerCards).sort(([a], [b]) => utf16Compare(a, b))),
+}));
+if (travelerCardJson.byteLength > TRAVELER_CARD_BUNDLE_MAX_DECOMPRESSED_BYTES) {
+  throw new Error(`traveler card bundle JSON ${travelerCardJson.byteLength} bytes exceeds ${TRAVELER_CARD_BUNDLE_MAX_DECOMPRESSED_BYTES}-byte ceiling`);
+}
+const travelerCardBundle = gzipSync(travelerCardJson, { level: 9, mtime: 0 });
+if (travelerCardBundle.byteLength > TRAVELER_CARD_BUNDLE_MAX_BYTES) {
+  throw new Error(`traveler card bundle ${travelerCardBundle.byteLength} bytes exceeds ${TRAVELER_CARD_BUNDLE_MAX_BYTES}-byte ceiling`);
+}
+writeFileSync(resolve(API_DIR, 'traveler-cards.json.gz'), travelerCardBundle);
 writeFileSync(resolve(API_DIR, 'resolver.js'), readFileSync(resolve(WEB_ROOT, 'src', 'lib', 'finder.js'), 'utf-8'));
 assertPwaAssetParity({ webRoot: WEB_ROOT, datasetVersion: manifest.dataset_version, sourceLastUpdated: canonical.source_last_updated });
 generateReleaseFeeds({ currentDataset: { $schema_version: canonical.schema_version, countries: canonical.countries }, datasetVersion: manifest.dataset_version });

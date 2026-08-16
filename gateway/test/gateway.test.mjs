@@ -53,11 +53,11 @@ test('all trusted-release profiles are accepted and adjacent hybrids are rejecte
     })));
     return { release, index, indexBytes };
   };
-  const without = (source, { namespace, coverage, buildInputs }) => {
+  const without = (source, { namespace, coverage, buildInputs, artifacts = [] }) => {
     const release = structuredClone(source.release);
     const index = structuredClone(source.index);
-    index.artifacts = index.artifacts.filter(({ path }) => !path.startsWith(namespace));
-    for (const path of Object.keys(release.relationships)) if (path.startsWith(namespace)) delete release.relationships[path];
+    index.artifacts = index.artifacts.filter(({ path }) => !path.startsWith(namespace) && !artifacts.includes(path));
+    for (const path of Object.keys(release.relationships)) if (path.startsWith(namespace) || artifacts.includes(path)) delete release.relationships[path];
     release.artifact_index.coverage = release.artifact_index.coverage.filter((entry) => entry !== coverage);
     release.build_version_semantics.inputs.integration_generator =
       release.build_version_semantics.inputs.integration_generator.filter((entry) => !buildInputs.includes(entry));
@@ -78,7 +78,8 @@ test('all trusted-release profiles are accepted and adjacent hybrids are rejecte
   ];
   profiles.push(['evidence', without(profiles.at(-1)[1], {
     namespace: '/evidence-backed-coverage/v1/', coverage: '/evidence-backed-coverage/v1/**',
-    buildInputs: ['scripts/api-records-transform.mjs', 'scripts/generate-evidence-backed-coverage-contracts.mjs', 'repo:evidence-backed-coverage/model.mjs'],
+    artifacts: ['/api/v1/traveler-cards.json.gz'],
+    buildInputs: ['scripts/api-records-transform.mjs', 'src/lib/traveler.js', 'src/lib/contact.ts', 'scripts/generate-evidence-backed-coverage-contracts.mjs', 'repo:evidence-backed-coverage/model.mjs'],
   }), '/evidence-backed-coverage/v1/README.md']);
   profiles.push(['plan', without(profiles.at(-1)[1], {
     namespace: '/deprecation-proposals/v1/', coverage: '/deprecation-proposals/v1/**',
@@ -128,6 +129,14 @@ test('all trusted-release profiles are accepted and adjacent hybrids are rejecte
     const hybrid = structuredClone(lower.release);
     hybrid.relationships[adjacentPath] = upper.release.relationships[adjacentPath];
     assert.throws(() => descriptorFromRelease(hybrid, lower.index), /invalid/, `${name} adjacent hybrid accepted`);
+  }
+  const travelerHybrid = structuredClone(profiles[1][1].release);
+  travelerHybrid.relationships['/api/v1/traveler-cards.json.gz'] = current.release.relationships['/api/v1/traveler-cards.json.gz'];
+  assert.throws(() => descriptorFromRelease(travelerHybrid, profiles[1][1].index), /invalid/, 'traveler-card adjacent hybrid accepted');
+  for (const currentOnlyInput of ['src/lib/traveler.js', 'src/lib/contact.ts']) {
+    const inputHybrid = structuredClone(profiles[1][1].release);
+    inputHybrid.build_version_semantics.inputs.integration_generator.push(currentOnlyInput);
+    assert.throws(() => descriptorFromRelease(inputHybrid, profiles[1][1].index), /invalid/, `${currentOnlyInput} adjacent hybrid accepted`);
   }
 });
 

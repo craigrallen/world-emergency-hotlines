@@ -19,6 +19,7 @@ export const BUILD_VERSION_INPUTS = {
   widget_code: ['public/widget/v1/hotlines-widget.js'],
   offline_shell: ['scripts/generate-pwa-assets.mjs', 'src/layouts/Base.astro', 'public/favicon-192x192.png', 'public/favicon.svg', 'repo:Caddyfile'],
 };
+BUILD_VERSION_INPUTS.integration_generator.push('src/lib/traveler.js', 'src/lib/contact.ts');
 
 export function sha256(bytes) {
   return createHash('sha256').update(bytes).digest('hex');
@@ -153,7 +154,7 @@ export function generateReleaseIntegrity({ datasetVersion }) {
     '/subscriptions/v1/fixture-modified.json', '/subscriptions/v1/fixture-country-metadata.json',
   ];
   const relationshipPaths = [
-    '/data/manifest.json', '/api/v1/manifest.json', '/api/v1/records.json',
+    '/data/manifest.json', '/api/v1/manifest.json', '/api/v1/records.json', '/api/v1/traveler-cards.json.gz',
     '/api/v1/resolver.js', '/widget/v1/hotlines-widget.js',
     '/data/metadata-coverage.json', '/data/categories-stats.json', '/data/search-index.json',
     '/release/v1/changes.json', '/release/v1/changes/latest.json',

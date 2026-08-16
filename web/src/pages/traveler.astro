@@ -28,6 +28,19 @@ const categories = ['suicide_crisis', 'mental_health', 'domestic_violence', 'sex
       </div></div>
     </aside>
 
+    <section class="traveler-screen-only mt-8 rounded-3xl border border-border bg-bg-elev/40 p-6" aria-labelledby="country-card-heading">
+      <p class="text-xs uppercase tracking-[0.2em] text-accent">Low-bandwidth · plain text</p>
+      <h2 id="country-card-heading" class="mt-2 text-2xl font-semibold text-fg">Download a country card</h2>
+      <p class="mt-2 max-w-3xl text-sm text-fg-muted">Manually select one country to create a small static text snapshot. No crisis need or selection is placed in a URL, request path, browser history, storage, telemetry, or QR code.</p>
+      <form id="traveler-download-form" class="mt-5 flex flex-col gap-3 sm:flex-row sm:items-end">
+        <label class="block flex-1 text-sm text-fg"><span class="mb-2 block font-semibold">Country <span class="text-danger">(required)</span></span><select id="traveler-download-country" required class="w-full rounded-xl border border-border bg-bg px-3 py-3 text-fg"><option value="">Choose a country</option>{currentCountries.map((country) => <option value={country.alpha2.toLowerCase()}>{country.country}</option>)}</select></label>
+        <button id="traveler-download-submit" type="submit" aria-describedby="traveler-download-status" class="btn-primary justify-center">Prepare text card</button>
+      </form>
+      <div id="traveler-download-status" class="mt-4 text-sm text-fg-muted" aria-live="polite"></div>
+      <a id="traveler-download-link" class="btn-secondary mt-3 hidden" download>Download country card (.txt)</a>
+      <p class="mt-4 text-xs text-fg-muted">The card starts with recorded emergency information. It includes canonical dataset identity, artifact and source dates, provenance, and snapshot limitations. Source verification does not prove answering or availability; eligibility may vary. Check current local emergency guidance.</p>
+    </section>
+
     <form id="traveler-form" class="traveler-screen-only mt-8 grid gap-5 rounded-3xl border border-border bg-bg-elev/40 p-6 sm:grid-cols-2" aria-describedby="traveler-privacy">
       <label class="block text-sm text-fg"><span class="mb-2 block font-semibold">1. Current country <span class="text-danger">(required)</span></span><select id="traveler-current" required class="w-full rounded-xl border border-border bg-bg px-3 py-3 text-fg"><option value="">Choose where you are now</option>{currentCountries.map((country) => <option value={country.alpha2.toLowerCase()}>{country.country}</option>)}</select></label>
       <label class="block text-sm text-fg"><span class="mb-2 block font-semibold">2. Home country <span class="font-normal text-fg-muted">(optional; countries with recorded support listings)</span></span><select id="traveler-home" aria-describedby="traveler-home-help traveler-home-error" aria-invalid="false" class="w-full rounded-xl border border-border bg-bg px-3 py-3 text-fg"><option value="">No home-country section</option>{homeCountries.map((country) => <option value={country.alpha2.toLowerCase()}>{country.country}</option>)}</select><span id="traveler-home-help" class="mt-2 block text-xs text-fg-muted">Home-country choices are limited to countries with recorded support listings.</span><span id="traveler-home-error" role="alert" class="mt-2 hidden text-xs text-danger">Choose a different home country, or leave it blank.</span></label>
@@ -68,7 +81,7 @@ const categories = ['suicide_crisis', 'mental_health', 'domestic_violence', 'sex
 <script>
   import { dedupeMessageContacts, phoneContacts } from '../lib/contact';
   import { getHotlineChannels } from '../lib/finder.js';
-  import { createTravelerPrintReadinessController, createTravelerSelectionSnapshot, loadTravelerData, resolveTravelerHelp, safeTravelerUrl, scrollTravelerOutputBestEffort, selectTravelerContacts } from '../lib/traveler.js';
+  import { createTravelerDownloadController, createTravelerPrintReadinessController, createTravelerSelectionSnapshot, loadTravelerCountryCard, loadTravelerData, resolveTravelerHelp, safeTravelerUrl, scrollTravelerOutputBestEffort, selectTravelerContacts, supportsTravelerCardDownload, TRAVELER_CARD_BROWSER_COMPATIBILITY_MESSAGE } from '../lib/traveler.js';
   type Hotline = Record<string, any>;
   type Country = { country: string; alpha2: string; general_emergency?: string[]; hotlines: Hotline[] };
   const form = document.getElementById('traveler-form') as HTMLFormElement;
@@ -87,6 +100,19 @@ const categories = ['suicide_crisis', 'mental_health', 'domestic_violence', 'sex
   const printAction = document.getElementById('traveler-print-action') as HTMLElement;
   const printButton = document.getElementById('traveler-print-button') as HTMLButtonElement;
   const printReadiness = createTravelerPrintReadinessController();
+  const downloadForm = document.getElementById('traveler-download-form') as HTMLFormElement;
+  const downloadCountry = document.getElementById('traveler-download-country') as HTMLSelectElement;
+  const downloadSubmit = document.getElementById('traveler-download-submit') as HTMLButtonElement;
+  const downloadStatus = document.getElementById('traveler-download-status') as HTMLElement;
+  const downloadLink = document.getElementById('traveler-download-link') as HTMLAnchorElement;
+  const downloadReadiness = createTravelerDownloadController({ createObjectURL: (blob: Blob) => URL.createObjectURL(blob), revokeObjectURL: (url: string) => URL.revokeObjectURL(url) });
+  if (!supportsTravelerCardDownload()) {
+    downloadCountry.disabled = true;
+    downloadSubmit.disabled = true;
+    downloadForm.setAttribute('aria-disabled', 'true');
+    downloadForm.setAttribute('aria-describedby', 'traveler-download-status');
+    downloadStatus.textContent = TRAVELER_CARD_BROWSER_COMPATIBILITY_MESSAGE;
+  }
   const esc = (value: unknown) => String(value ?? '').replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char] || char);
   const phonePill = ({ value, uri }: { value: string; uri: string | null }, emergencyStyle = false) => {
     const classes = emergencyStyle ? 'rounded-lg bg-danger/20 px-4 py-2 font-mono text-xl font-bold text-danger' : 'rounded-lg bg-accent/10 px-3 py-2 font-mono text-sm text-accent';
@@ -118,6 +144,32 @@ const categories = ['suicide_crisis', 'mental_health', 'domestic_violence', 'sex
   homeSelect.addEventListener('change', () => { if (!homeSelect.value || homeSelect.value !== currentSelect.value) clearHomeError(); });
   currentSelect.addEventListener('change', () => { if (!homeSelect.value || homeSelect.value !== currentSelect.value) clearHomeError(); });
   printButton.addEventListener('click', () => window.print());
+  function clearDownload() { downloadReadiness.invalidate(); downloadLink.removeAttribute('href'); downloadLink.classList.add('hidden'); downloadStatus.textContent = ''; }
+  downloadCountry.addEventListener('change', clearDownload);
+  downloadLink.addEventListener('click', () => { const generation = Number(downloadLink.dataset.generation); setTimeout(() => { if (downloadReadiness.release(generation)) { downloadLink.removeAttribute('href'); downloadLink.classList.add('hidden'); downloadStatus.textContent = 'Download prepared. Prepare it again if another copy is needed.'; } }, 0); });
+  downloadForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    clearDownload();
+    if (!downloadForm.reportValidity()) return;
+    const countryCode = downloadCountry.value.toUpperCase();
+    const generation = downloadReadiness.begin();
+    downloadStatus.textContent = 'Loading fixed static country records…';
+    try {
+      const { content, country } = await loadTravelerCountryCard({ fetchImpl: fetch, countryCode });
+      if (!downloadReadiness.isLatest(generation)) return;
+      const href = downloadReadiness.publish(generation, new Blob([content], { type: 'text/plain;charset=utf-8' }));
+      if (!href) return;
+      downloadLink.href = href;
+      downloadLink.download = `world-emergency-hotlines-${country.alpha2.toLowerCase()}-country-card.txt`;
+      downloadLink.dataset.generation = String(generation);
+      downloadLink.classList.remove('hidden');
+      downloadStatus.textContent = `Static country card ready for ${country.country}.`;
+    } catch (error) {
+      if (!downloadReadiness.isLatest(generation)) return;
+      downloadReadiness.invalidate();
+      downloadStatus.textContent = `Country card could not be prepared. ${error instanceof Error ? error.message : 'Unknown error'}`;
+    }
+  });
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     clearHomeError();

@@ -53,6 +53,8 @@
                 Access-Control-Allow-Headers "Accept, If-None-Match, If-Modified-Since"
                 Cache-Control "public, max-age=300, stale-while-revalidate=86400"
             }
+            @apiWrite not method GET HEAD
+            respond @apiWrite "Not found" 404
             @apiResolver path /api/v1/resolver.js
             header @apiResolver Content-Type "text/javascript; charset=utf-8"
             file_server {
