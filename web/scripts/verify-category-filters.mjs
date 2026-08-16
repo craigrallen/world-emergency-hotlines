@@ -12,6 +12,7 @@ import {
   filterCategorySummaries,
   getUsableContactChannels,
 } from '../src/lib/category-filters.js';
+import { isSafeEmailAddress } from '../src/lib/contact.ts';
 
 const WEB_ROOT = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const pageSource = readFileSync(resolve(WEB_ROOT, 'src/pages/category/[slug].astro'), 'utf8');
@@ -25,6 +26,7 @@ const hotline = (id, verification_status, extra = {}) => ({
   text_numbers: [],
   chat_url: null,
   website: null,
+  email: null,
   ...extra,
 });
 
@@ -52,6 +54,7 @@ const aggregateChannelHotlines = [
     sms_numbers: ['741741'],
     chat_url: 'https://example.org/chat',
   }),
+  hotline('safe-email-only', 'verified_web', { email: 'support@example.org' }),
   hotline('malformed-values', 'cross_referenced', {
     voice_numbers: ['not callable'],
     short_codes: ['call 911'],
@@ -59,11 +62,12 @@ const aggregateChannelHotlines = [
     text_numbers: ['javascript:alert(1)'],
     chat_url: 'javascript:alert(1)',
     website: ' example.org ',
+    email: 'mailto:support@example.org',
   }),
 ];
 assert.deepEqual(
   categorySummaryChannelLabels(categoryFilterSummary('aggregate-channels', aggregateChannelHotlines)),
-  ['Phone', 'SMS/text', 'Online chat', 'Website'],
+  ['Phone', 'SMS/text', 'Online chat', 'Website', 'Email'],
   'aggregate channel labels must use safe record metadata in deterministic canonical order',
 );
 assert.deepEqual(
@@ -72,10 +76,21 @@ assert.deepEqual(
   'a safe website-only record must display Website rather than None listed',
 );
 assert.deepEqual(
-  categorySummaryChannelLabels(categoryFilterSummary('malformed-only', [aggregateChannelHotlines[2]])),
-  [],
-  'malformed website, chat, phone, and text values must not appear in aggregate labels',
+  categorySummaryChannelLabels(categoryFilterSummary('safe-email-only', [aggregateChannelHotlines[2]])),
+  ['Email'],
+  'a safe email-only record must display Email without creating an email filter',
 );
+assert.deepEqual(
+  categorySummaryChannelLabels(categoryFilterSummary('malformed-only', [aggregateChannelHotlines[3]])),
+  [],
+  'malformed website, chat, phone, text, and email values must not appear in aggregate labels',
+);
+assert.equal(isSafeEmailAddress('support@example.org'), true);
+for (const unsafeEmail of ['mailto:support@example.org', 'https://example.org', 'support @example.org', 'support@example.org\nBcc:victim@example.org', 'support@example']) {
+  assert.equal(isSafeEmailAddress(unsafeEmail), false, `unsafe email must be rejected: ${JSON.stringify(unsafeEmail)}`);
+}
+assert.equal(records.some((record) => record.channels.includes('email')), false, 'email must never enter per-record filter metadata');
+assert.equal(availableCategoryFilterValues([categoryFilterSummary('email-only', [aggregateChannelHotlines[2]])]).channels.includes('email'), false, 'email must never become an available channel filter');
 
 const summaries = [
   categoryFilterSummary('alpha', [canonicalOrder[0], canonicalOrder[1]]),

@@ -1,4 +1,4 @@
-import { dedupeMessageContacts, isSafeHttpUrl, phoneContacts } from './contact.ts';
+import { dedupeMessageContacts, isSafeEmailAddress, isSafeHttpUrl, phoneContacts } from './contact.ts';
 
 export const SOURCE_CHECKED_STATUSES = new Set([
   'verified_web',
@@ -13,6 +13,11 @@ export const CHANNEL_LABELS = {
   text: 'SMS/text',
   chat: 'Online chat',
   website: 'Website',
+};
+export const DISPLAY_CHANNELS = ['phone', 'text', 'chat', 'website', 'email'];
+export const DISPLAY_CHANNEL_LABELS = {
+  ...CHANNEL_LABELS,
+  email: 'Email',
 };
 
 export function evidenceClass(status) {
@@ -30,12 +35,21 @@ export function getUsableContactChannels(hotline) {
   };
 }
 
+export function getDisplayContactChannels(hotline) {
+  return {
+    ...getUsableContactChannels(hotline),
+    email: isSafeEmailAddress(hotline?.email),
+  };
+}
+
 export function categoryFilterRecord(hotline) {
-  const channels = getUsableContactChannels(hotline);
+  const filterChannels = getUsableContactChannels(hotline);
+  const displayChannels = getDisplayContactChannels(hotline);
   return {
     id: String(hotline?.id ?? ''),
     evidence: evidenceClass(hotline?.verification_status),
-    channels: CHANNEL_FILTERS.filter((channel) => channels[channel]),
+    channels: CHANNEL_FILTERS.filter((channel) => filterChannels[channel]),
+    displayChannels: DISPLAY_CHANNELS.filter((channel) => displayChannels[channel]),
   };
 }
 
@@ -52,10 +66,10 @@ export function categoryFilterSummary(id, hotlines) {
   return { id: String(id), records: hotlines.map(categoryFilterRecord) };
 }
 
-/** Derive aggregate display labels from the same safe per-record metadata used by filters. */
+/** Derive aggregate labels from safe display metadata without expanding filter semantics. */
 export function categorySummaryChannelLabels(summary) {
-  const available = new Set(summary.records.flatMap((record) => record.channels));
-  return CHANNEL_FILTERS.filter((channel) => available.has(channel)).map((channel) => CHANNEL_LABELS[channel]);
+  const available = new Set(summary.records.flatMap((record) => record.displayChannels));
+  return DISPLAY_CHANNELS.filter((channel) => available.has(channel)).map((channel) => DISPLAY_CHANNEL_LABELS[channel]);
 }
 
 export function filterCategorySummaries(summaries, filters = {}) {

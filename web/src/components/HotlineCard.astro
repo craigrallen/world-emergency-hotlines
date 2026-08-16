@@ -3,7 +3,7 @@ import type { Hotline } from '../lib/types';
 import { VERIFICATION_LABELS } from '../lib/types';
 import { getFreshnessInfo } from '../lib/data';
 import { buildHotlineIssueUrl } from '../lib/issues.js';
-import { dedupeMessageContacts, phoneContacts } from '../lib/contact';
+import { dedupeMessageContacts, isSafeEmailAddress, phoneContacts } from '../lib/contact';
 import Icon from './Icon.astro';
 
 interface Props {
@@ -41,7 +41,7 @@ const numbers = phoneContacts(hotline.voice_numbers, hotline.short_codes);
 const hasSms = hotline.sms_numbers.length > 0 || hotline.text_numbers.length > 0;
 const messageContacts = dedupeMessageContacts(hotline.sms_numbers, hotline.text_numbers);
 const hasChat = !!hotline.chat_url;
-const hasEmail = !!hotline.email;
+const hasEmail = isSafeEmailAddress(hotline.email);
 const freshness = getFreshnessInfo(hotline);
 const freshnessColour = 'text-fg-muted';
 const sources = hotline.sources?.filter(Boolean).slice(0, 2) ?? [];

@@ -43,6 +43,21 @@ export function isSafeHttpUrl(raw: unknown): boolean {
   }
 }
 
+/** Accept only a simple mailbox address that is safe to append to a mailto: URI. */
+export function isSafeEmailAddress(raw: unknown): boolean {
+  if (typeof raw !== 'string' || raw.length === 0 || raw.length > 254 || raw.trim() !== raw) return false;
+  if (/[\s\u0000-\u001f\u007f]/.test(raw) || raw.includes('..')) return false;
+  const match = raw.match(/^([A-Za-z0-9](?:[A-Za-z0-9._%+-]{0,62}[A-Za-z0-9])?)@(.+)$/);
+  if (!match || match[1].length > 64) return false;
+  const labels = match[2].split('.');
+  if (labels.length < 2 || !/^[A-Za-z]{2,63}$/.test(labels.at(-1) ?? '')) return false;
+  return labels.every((label) => (
+    label.length > 0
+    && label.length <= 63
+    && /^[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?$/.test(label)
+  ));
+}
+
 /** Preserve canonical display values while allowing only strict, unambiguous phone destinations. */
 export function phoneContacts(voiceNumbers: readonly string[], shortCodes: readonly string[]): PhoneContact[] {
   return [...voiceNumbers, ...shortCodes]
