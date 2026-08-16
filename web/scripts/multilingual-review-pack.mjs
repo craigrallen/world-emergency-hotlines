@@ -261,6 +261,12 @@ export function generateReviewPack({ i18nSource, manifest, classificationPolicy 
 
 export const encodePack = (pack) => `${JSON.stringify(pack, null, 2)}\n`;
 
+export function assertCanonicalPackBytes(raw, expected) {
+  if (!Buffer.isBuffer(raw)) throw new TypeError('review pack must be provided as exact bytes');
+  const canonical = Buffer.from(encodePack(expected), 'utf8');
+  if (!raw.equals(canonical)) throw new Error('review pack is stale or differs from its canonical sources');
+}
+
 export function generateReviewPackSchema({ keys, locales }) {
   if (!Array.isArray(keys) || keys.length === 0 || keys.some((key) => typeof key !== 'string' || key.length === 0) || new Set(keys).size !== keys.length) {
     throw new Error('schema keys must be a non-empty unique string array');

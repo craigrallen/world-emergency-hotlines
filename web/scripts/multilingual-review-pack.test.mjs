@@ -4,7 +4,7 @@ import test from 'node:test';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import Ajv2020 from 'ajv/dist/2020.js';
-import { encodePack, encodeSchema, evaluateCanonicalRuntime, generateCanonicalReviewPackSchema, generateReviewPack, parseCanonicalDictionaries, reviewPackSafetyErrors } from './multilingual-review-pack.mjs';
+import { assertCanonicalPackBytes, encodePack, encodeSchema, evaluateCanonicalRuntime, generateCanonicalReviewPackSchema, generateReviewPack, parseCanonicalDictionaries, reviewPackSafetyErrors } from './multilingual-review-pack.mjs';
 
 const repo = resolve(import.meta.dirname, '../..');
 const read = (path) => readFileSync(resolve(repo, path), 'utf8');
@@ -38,6 +38,29 @@ test('generated pack is schema-valid, exact, ordered, and reproducible', () => {
   assert.equal(encodePack(actual), encodePack(generate()));
   assert.deepEqual(actual.entries.map(({ key }) => key), Object.keys(parseCanonicalDictionaries(input.i18nSource).english));
   for (const entry of actual.entries) assert.deepEqual(entry.locales.map(({ locale }) => locale), actual.locales);
+});
+
+test('raw canonical parity rejects duplicate JSON members before parsing', () => {
+  const expected = generate();
+  const canonical = encodePack(expected);
+  const duplicate = Buffer.from(canonical.replace('{\n', '{\n  "schema": "discarded duplicate",\n'), 'utf8');
+  assert.deepEqual(JSON.parse(duplicate.toString('utf8')), expected);
+  assert.throws(() => assertCanonicalPackBytes(duplicate, expected), /stale or differs from its canonical sources/);
+});
+
+test('raw canonical parity rejects malformed bytes before replacement decoding', () => {
+  const expected = { value: '\uFFFD' };
+  const canonical = Buffer.from(encodePack(expected), 'utf8');
+  const replacementOffset = canonical.indexOf(Buffer.from('\uFFFD', 'utf8'));
+  assert.notEqual(replacementOffset, -1);
+  const malformed = Buffer.concat([
+    canonical.subarray(0, replacementOffset),
+    Buffer.from([0xff]),
+    canonical.subarray(replacementOffset + Buffer.byteLength('\uFFFD', 'utf8')),
+  ]);
+  assert.deepEqual(JSON.parse(malformed.toString('utf8')), expected);
+  assert.throws(() => assertCanonicalPackBytes(malformed, expected), /stale or differs from its canonical sources/);
+  assert.throws(() => assertCanonicalPackBytes(malformed.toString('utf8'), expected), /must be provided as exact bytes/);
 });
 
 test('schema key prefix is exactly regenerated from the canonical finite inventory', () => {
