@@ -30,6 +30,16 @@ export function safeTravelerUrl(value) {
   }
 }
 
+/** Runs non-critical scrolling without allowing browser quirks to fail a successful result. */
+export function scrollTravelerOutputBestEffort(scroll) {
+  try {
+    scroll();
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 /** Creates monotonically increasing request generations for guarding async UI work. */
 export function createLatestGenerationGate() {
   let latest = 0;
@@ -44,6 +54,46 @@ export function createLatestGenerationGate() {
   };
 }
 
+/** Owns the printable result lifecycle without depending on the DOM. */
+export function createTravelerPrintReadinessController() {
+  let generation = 0;
+  let state = Object.freeze({ generation, ready: false, payload: null });
+  const notReady = () => (state = Object.freeze({ generation, ready: false, payload: null }));
+  return {
+    getState() { return state; },
+    invalidate() { generation += 1; return notReady(); },
+    begin({ selection, categoryLabel, channelLabel }) {
+      generation += 1;
+      const submitted = Object.freeze({
+        selection: Object.freeze({ ...selection }),
+        categoryLabel: String(categoryLabel ?? ''),
+        channelLabel: String(channelLabel ?? ''),
+      });
+      state = Object.freeze({ generation, ready: false, payload: submitted });
+      return generation;
+    },
+    isLatest(candidate) { return candidate === generation; },
+    run(candidate, callback) {
+      if (candidate !== generation) return false;
+      callback();
+      return true;
+    },
+    publish(candidate, releaseContext) {
+      if (candidate !== generation) return false;
+      const payload = Object.freeze({
+        ...state.payload,
+        releaseContext: Object.freeze({ ...releaseContext }),
+      });
+      state = Object.freeze({ generation, ready: true, payload });
+      return state;
+    },
+    fail(candidate) {
+      if (candidate !== generation) return false;
+      return notReady();
+    },
+  };
+}
+
 /** Captures the complete traveler selection before asynchronous work begins. */
 export function createTravelerSelectionSnapshot({ currentCode, homeCode = '', category, channel = 'any', locality = '' }) {
   return Object.freeze({
@@ -53,6 +103,29 @@ export function createTravelerSelectionSnapshot({ currentCode, homeCode = '', ca
     channel: String(channel || 'any'),
     locality: String(locality ?? '').trim(),
   });
+}
+
+/** Extracts deterministic release metadata suitable for displaying with a static result. */
+export function getTravelerReleaseContext(manifest) {
+  if (!manifest || typeof manifest !== 'object' || Array.isArray(manifest)) {
+    throw new Error('The static manifest has an invalid release context.');
+  }
+  const { dataset_version: datasetVersion, source_last_updated: sourceLastUpdated, schema_version: schemaVersion } = manifest;
+  if (typeof datasetVersion !== 'string' || !/^sha256:[a-f0-9]{64}$/.test(datasetVersion)) {
+    throw new Error('The static manifest has an invalid dataset version.');
+  }
+  if (sourceLastUpdated !== null) {
+    const parsedSourceDate = typeof sourceLastUpdated === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(sourceLastUpdated)
+      ? new Date(`${sourceLastUpdated}T00:00:00.000Z`)
+      : null;
+    if (!parsedSourceDate || Number.isNaN(parsedSourceDate.getTime()) || parsedSourceDate.toISOString().slice(0, 10) !== sourceLastUpdated) {
+      throw new Error('The static manifest has an invalid source-update date.');
+    }
+  }
+  if (typeof schemaVersion !== 'string' || !/^\d+\.\d+(?:\.\d+)?$/.test(schemaVersion)) {
+    throw new Error('The static manifest has an invalid schema version.');
+  }
+  return Object.freeze({ datasetVersion, sourceLastUpdated, schemaVersion });
 }
 
 function manifestCountry(entry) {
@@ -128,8 +201,9 @@ export async function loadTravelerData({ fetchImpl = fetch, currentCode, homeCod
   const manifest = await fetchJson(fetchImpl, TRAVELER_MANIFEST_URL, 'Static manifest');
   const emergencyCountry = getTravelerEmergencyMetadata(manifest, currentCode);
   if (onManifest) await onManifest(emergencyCountry);
+  const releaseContext = getTravelerReleaseContext(manifest);
   const recordsArtifact = await fetchJson(fetchImpl, TRAVELER_RECORDS_URL, 'Static support records');
-  return reconstructTravelerCountries(manifest, recordsArtifact, currentCode, homeCode);
+  return { ...reconstructTravelerCountries(manifest, recordsArtifact, currentCode, homeCode), releaseContext };
 }
 
 /** @param {{ currentCountry: any, homeCountry?: any | null, category?: string, channel?: string, locality?: string }} options */
