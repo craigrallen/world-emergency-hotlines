@@ -32,6 +32,17 @@ export interface PhoneContact {
   uri: string | null;
 }
 
+/** Test absolute HTTP(S) destinations without transforming their canonical bytes. */
+export function isSafeHttpUrl(raw: unknown): boolean {
+  if (typeof raw !== 'string' || raw.trim() !== raw || raw.length === 0) return false;
+  try {
+    const url = new URL(raw);
+    return url.protocol === 'https:' || url.protocol === 'http:';
+  } catch {
+    return false;
+  }
+}
+
 /** Preserve canonical display values while allowing only strict, unambiguous phone destinations. */
 export function phoneContacts(voiceNumbers: readonly string[], shortCodes: readonly string[]): PhoneContact[] {
   return [...voiceNumbers, ...shortCodes]

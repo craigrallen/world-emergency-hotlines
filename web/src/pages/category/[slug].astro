@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Icon from '../../components/Icon.astro';
 import { getByCategory, getCategoriesStats } from '../../lib/data';
+import { availableCategoryFilterValues, categoryFilterSummary, SOURCE_CHECKED_STATUSES } from '../../lib/category-filters.js';
 import { CATEGORY_META } from '../../lib/types';
 import { breadcrumbJsonLd, isCategoryIndexable } from '../../lib/seo';
 import { SITE_URL } from '../../lib/site';
@@ -53,8 +54,6 @@ function flagEmoji(cc: string): string {
   return String.fromCodePoint(cc.charCodeAt(0) + A, cc.charCodeAt(1) + A);
 }
 
-const SOURCE_CHECKED_STATUSES = new Set(['verified_web', 'verified_authority', 'verified_knowledge']);
-
 function availableChannels(hotlines: typeof results[number]['hotlines']): string[] {
   const channels: string[] = [];
   if (hotlines.some((h) => h.voice_numbers.length > 0 || h.short_codes.length > 0)) channels.push('Phone');
@@ -73,6 +72,30 @@ const totalVerified = results.reduce(
     ).length,
   0
 );
+const filterSummaries = results.map(({ country, hotlines }) => categoryFilterSummary(country.alpha2.toLowerCase(), hotlines));
+const availableFilterValues = availableCategoryFilterValues(filterSummaries);
+const showEvidenceFilters = availableFilterValues.evidence.length > 0;
+const showChannelFilters = availableFilterValues.channels.length > 0;
+
+const evidenceLabels: Record<string, string> = {
+  source_checked: 'Source checked',
+  cross_referenced: 'Cross-referenced',
+  other_evidence: 'Other evidence status',
+};
+const channelLabels: Record<string, string> = {
+  phone: 'Callable phone',
+  text: 'Messageable SMS/text',
+  chat: 'Online chat',
+  website: 'Website',
+};
+interface FilterRecord {
+  evidence: string;
+  channels: string[];
+}
+interface FilterSummary {
+  id: string;
+  records: FilterRecord[];
+}
 
 const label = meta?.label ?? slug.replace(/_/g, ' ');
 const icon = meta?.icon ?? '🌐';
@@ -142,10 +165,45 @@ const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Cate
     </div>
   )}
 
-  <!-- Region filter (client-side) -->
-  {orderedRegions.length > 1 && (
-    <div class="mb-6">
-      <div class="flex flex-wrap gap-2" id="region-filter" role="group" aria-label="Filter by region">
+  {(showEvidenceFilters || showChannelFilters || orderedRegions.length > 1) && (
+    <aside class="mb-8 rounded-2xl border border-border bg-bg-elev/40 p-5" aria-labelledby="category-filter-heading" data-category-filters hidden>
+      <h2 id="category-filter-heading" class="text-lg font-semibold text-fg">Narrow these country summaries</h2>
+      <p class="mt-2 max-w-4xl text-sm text-fg-muted">
+        Filters describe indexed evidence and usable contact fields only. They do not establish suitability, eligibility, whether a service will answer, or real-time availability. A weaker evidence status does not mean a service is unsafe.
+      </p>
+
+      {showEvidenceFilters && (
+        <fieldset class="mt-4">
+          <legend class="text-sm font-semibold text-fg">Evidence status</legend>
+          <div class="mt-2 flex flex-wrap gap-3">
+            {availableFilterValues.evidence.map((value) => (
+              <label class="chip cursor-pointer border-border bg-bg text-sm text-fg hover:border-accent/50">
+                <input type="checkbox" value={value} data-filter-evidence class="accent-accent" />
+                {evidenceLabels[value]}
+              </label>
+            ))}
+          </div>
+        </fieldset>
+      )}
+
+      {showChannelFilters && (
+        <fieldset class="mt-4">
+          <legend class="text-sm font-semibold text-fg">Usable contact channel</legend>
+          <div class="mt-2 flex flex-wrap gap-3">
+            {availableFilterValues.channels.map((value) => (
+              <label class="chip cursor-pointer border-border bg-bg text-sm text-fg hover:border-accent/50">
+                <input type="checkbox" value={value} data-filter-channel class="accent-accent" />
+                {channelLabels[value]}
+              </label>
+            ))}
+          </div>
+        </fieldset>
+      )}
+
+      {orderedRegions.length > 1 && (
+        <div class="mt-4">
+          <p class="text-sm font-semibold text-fg">Region</p>
+          <div class="mt-2 flex flex-wrap gap-2" id="region-filter" role="group" aria-label="Filter by region">
         <button
           class="chip region-tab border-fg bg-fg text-bg"
           data-region="all"
@@ -162,8 +220,17 @@ const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Cate
             {region} ({byRegion.get(region)?.length ?? 0})
           </button>
         ))}
+          </div>
+        </div>
+      )}
+
+      <div class="mt-4 flex flex-wrap items-center gap-3 border-t border-border pt-4">
+        <p id="category-filter-status" class="text-sm text-fg-muted" role="status" aria-live="polite" aria-atomic="true">
+          Showing all {results.length} country {results.length === 1 ? 'summary' : 'summaries'}.
+        </p>
+        <button id="category-filter-reset" type="button" class="btn-ghost hidden text-sm">Reset filters</button>
       </div>
-    </div>
+    </aside>
   )}
 
   <!-- Countries grouped by region -->
@@ -179,9 +246,10 @@ const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Cate
             {entries.map(({ country, hotlines }) => {
               const flag = flagEmoji(country.alpha2);
               const sourceCheckedInCountry = hotlines.filter((h) => SOURCE_CHECKED_STATUSES.has(h.verification_status)).length;
+              const summary = categoryFilterSummary(country.alpha2.toLowerCase(), hotlines) as FilterSummary;
               const channels = availableChannels(hotlines);
               return (
-                <article class="card p-5" data-category-country-summary data-country-code={country.alpha2.toLowerCase()} data-record-count={hotlines.length} data-source-checked-count={sourceCheckedInCountry} data-channels={channels.join('|')}>
+                <article class="card p-5" data-category-country-summary data-country-code={country.alpha2.toLowerCase()} data-record-count={hotlines.length} data-source-checked-count={sourceCheckedInCountry} data-channels={channels.join('|')} data-filter-records={JSON.stringify(summary.records.map(({ evidence, channels }) => ({ evidence, channels })))}>
                   <div class="flex items-start gap-3">
                     <span class="text-2xl" aria-hidden="true">{flag}</span>
                     <div class="min-w-0 flex-1">
@@ -200,6 +268,12 @@ const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Cate
         </section>
       );
     })}
+  </div>
+
+  <div id="category-filter-empty" class="hidden rounded-2xl border border-border bg-bg-elev/40 p-8 text-center">
+    <h2 class="text-xl font-semibold text-fg">No country summaries match these filters</h2>
+    <p class="mt-2 text-sm text-fg-muted">Try another evidence status or contact channel, or show every country summary again.</p>
+    <button type="button" class="btn-primary mt-4" data-category-filter-reset>Show all summaries</button>
   </div>
 
   {results.length === 0 && (
@@ -227,28 +301,84 @@ const breadcrumbs = breadcrumbJsonLd([{ name: 'Home', path: '/' }, { name: 'Cate
 </Base>
 
 <script>
-  // Client-side region filter
-  const filterGroup = document.getElementById('region-filter');
-  const container = document.getElementById('regions-container');
+  import { filterCategorySummaries } from '../../lib/category-filters.js';
 
-  if (filterGroup && container) {
-    filterGroup.addEventListener('click', (e) => {
+  const filters = document.querySelector<HTMLElement>('[data-category-filters]');
+  const regionFilter = document.getElementById('region-filter');
+  const container = document.getElementById('regions-container');
+  const status = document.getElementById('category-filter-status');
+  const empty = document.getElementById('category-filter-empty');
+  const reset = document.getElementById('category-filter-reset');
+
+  if (filters && container && status && empty && reset) {
+    const cards = [...container.querySelectorAll<HTMLElement>('[data-category-country-summary]')];
+    let activeRegion = 'all';
+
+    const selected = (selector: string) => [...filters.querySelectorAll<HTMLInputElement>(`${selector}:checked`)].map((input) => input.value);
+    const summaries = cards.map((card, index) => ({
+      id: String(index),
+      records: JSON.parse(card.dataset.filterRecords ?? '[]'),
+    }));
+
+    const applyFilters = () => {
+      const evidence = selected('[data-filter-evidence]');
+      const channels = selected('[data-filter-channel]');
+      const matchingIds = new Set(filterCategorySummaries(summaries, { evidence, channels }).map((summary: { id: string }) => summary.id));
+      let visibleCount = 0;
+
+      cards.forEach((card, index) => {
+        const regionSection = card.closest<HTMLElement>('[data-region-section]');
+        const regionMatches = activeRegion === 'all' || regionSection?.dataset.regionSection === activeRegion;
+        const visible = regionMatches && matchingIds.has(String(index));
+        card.hidden = !visible;
+        if (visible) visibleCount += 1;
+      });
+
+      for (const section of container.querySelectorAll<HTMLElement>('[data-region-section]')) {
+        section.hidden = !section.querySelector('[data-category-country-summary]:not([hidden])');
+      }
+
+      const narrowed = evidence.length > 0 || channels.length > 0 || activeRegion !== 'all';
+      status.textContent = narrowed
+        ? `Showing ${visibleCount} of ${cards.length} country summaries.`
+        : `Showing all ${cards.length} country summaries.`;
+      reset.classList.toggle('hidden', !narrowed || visibleCount === 0);
+      container.classList.toggle('hidden', visibleCount === 0);
+      empty.classList.toggle('hidden', visibleCount !== 0);
+    };
+
+    const resetFilters = () => {
+      for (const input of filters.querySelectorAll<HTMLInputElement>('input[type="checkbox"]')) input.checked = false;
+      activeRegion = 'all';
+      for (const button of filters.querySelectorAll<HTMLElement>('.region-tab')) {
+        const active = button.dataset.region === 'all';
+        button.setAttribute('aria-pressed', String(active));
+        button.classList.toggle('border-fg', active);
+        button.classList.toggle('bg-fg', active);
+        button.classList.toggle('text-bg', active);
+      }
+      applyFilters();
+    };
+
+    filters.addEventListener('change', applyFilters);
+    reset.addEventListener('click', resetFilters);
+    empty.querySelector('[data-category-filter-reset]')?.addEventListener('click', resetFilters);
+
+    regionFilter?.addEventListener('click', (e) => {
       const btn = (e.target as HTMLElement).closest('[data-region]') as HTMLButtonElement | null;
       if (!btn) return;
-      const region = btn.dataset.region;
+      activeRegion = btn.dataset.region ?? 'all';
 
-      for (const b of filterGroup.querySelectorAll('.region-tab')) {
-        const isActive = (b as HTMLElement).dataset.region === region;
+      for (const b of regionFilter.querySelectorAll('.region-tab')) {
+        const isActive = (b as HTMLElement).dataset.region === activeRegion;
         b.setAttribute('aria-pressed', String(isActive));
         b.classList.toggle('border-fg', isActive);
         b.classList.toggle('bg-fg', isActive);
         b.classList.toggle('text-bg', isActive);
       }
-
-      for (const section of container.querySelectorAll('[data-region-section]')) {
-        const sectionRegion = (section as HTMLElement).dataset.regionSection;
-        (section as HTMLElement).hidden = region !== 'all' && sectionRegion !== region;
-      }
+      applyFilters();
     });
+
+    filters.hidden = false;
   }
 </script>
