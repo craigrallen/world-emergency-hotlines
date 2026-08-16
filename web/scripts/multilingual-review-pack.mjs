@@ -324,11 +324,11 @@ export function reviewPackSafetyErrors(pack) {
   // These are the complete, explicit benign numeric contexts. Everything else
   // fails closed when it contains a standalone 3–6 digit decimal run.
   const phoneCandidates = normalized.map((value) => value
-    .replace(/\b\p{Nd}{4}-\p{Nd}{1,2}-\p{Nd}{1,2}\b/gu, '')
-    .replace(/\bcopyright\s*\p{Nd}{4}\b/giu, '')
-    .replace(/\b(?:version|v)\s*\p{Nd}+(?:\.\p{Nd}+)*\b/giu, '')
-    .replace(/(?<!\p{L})(?:showing|count|total)\s*\p{Nd}+(?:\s+results?)?(?!\p{L})/giu, '')
-    .replace(/(?<![\p{L}\p{N}])\p{Nd}+\s+results?(?!\p{L})/giu, ''));
+    .replace(/(?<![\p{L}\p{N}])\p{Nd}{4}-\p{Nd}{1,2}-\p{Nd}{1,2}(?![\p{L}\p{N}])/gu, '')
+    .replace(/(?<![\p{L}\p{N}])copyright\s*\p{Nd}{4}(?![\p{L}\p{N}])/giu, '')
+    .replace(/(?<![\p{L}\p{N}])(?:version|v)\s*\p{Nd}+(?:\.\p{Nd}+)*(?![\p{L}\p{N}])/giu, '')
+    .replace(/(?<![\p{L}\p{N}])(?:showing|count|total)\s*\p{Nd}+(?:\s+results?(?![\p{L}\p{N}])|(?!\s+results?))(?![\p{L}\p{N}])/giu, '')
+    .replace(/(?<![\p{L}\p{N}])\p{Nd}+\s+results?(?![\p{L}\p{N}])/giu, ''));
   if (phoneCandidates.some((value) => /(?:\+\s*)?\p{Nd}(?:[\p{Nd}\s().-]*\p{Nd}){6,}|(?<!\p{Nd})\p{Nd}{3,6}(?!\p{Nd})/u.test(value))) errors.push('phone-shaped leakage');
   scan('provider-identifying data', /(?:provider|service|organisation|organization)\s*(?:id|identifier|record)\s*[:#]/iu);
   if (pack.canonicalProviderDataIncluded !== false) errors.push('canonical provider data inclusion');

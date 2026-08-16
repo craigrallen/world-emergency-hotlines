@@ -209,8 +209,24 @@ test('contains only static UI inventory and no forbidden claims or contact-shape
     [(x) => x.valueSource = 'mixed', 'source provenance contract'],
     [(x) => x.qualificationEffect = true, 'qualification or authority effect'],
   ]) assert.ok(reviewPackSafetyErrors(mutate(committed, change)).includes(error));
-  for (const value of ['Copyright 2026', 'Version 2.0.1', 'Version 2026', 'Version 9.11', 'Showing 12 results', 'Showing 112 results', '112 results', '123456 results', 'Updated 2026-08-16', 'Updated 1911-09-11']) {
+  for (const value of [
+    'Copyright 2026', 'Copyright ٢٠٢٦', 'Copyright ２０２６',
+    'Version 2.0.1', 'Version ٢.٠.١', 'Version ２.０.１', 'Version 2026', 'Version 9.11',
+    'Showing 12 results', 'Showing ١١٢ results', 'Showing １１２ results',
+    'Count ١١٢ results', 'Total １１２ results',
+    '112 results', '١١٢ results', '１１２ results', '123456 results',
+    'Updated 2026-08-16', 'Updated ٢٠٢٦-٠٨-١٦', 'Updated ２０２６-０８-１６', 'Updated 1911-09-11',
+  ]) {
     assert.deepEqual(reviewPackSafetyErrors(mutate(committed, (x) => x.entries[0].locales[1].value = value)), []);
+  }
+  for (const value of [
+    'x2026-08-16', '2026-08-16١',
+    'xCopyright 2026', 'Copyright ٢٠٢٦x',
+    'xVersion 2026', '١Version ２０２６', 'Version ２０２６x',
+    'xShowing112 results', 'Count ١١٢ results١', 'Total １１２x',
+    'x112 results', '١١٢ results١',
+  ]) {
+    assert.ok(reviewPackSafetyErrors(mutate(committed, (x) => x.entries[0].locales[1].value = value)).includes('phone-shaped leakage'), value);
   }
 });
 
