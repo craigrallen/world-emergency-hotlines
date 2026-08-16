@@ -67,8 +67,10 @@ function assertWebCiContract(workflow) {
   const web = nextJob < 0 ? afterWeb : afterWeb.slice(0, nextJob + 1);
   assert.equal((web.match(/^    steps:\s*$/gm) ?? []).length, 1, 'Web CI jobs.web must contain exactly one steps list');
   assert.equal((web.match(/^    if\s*:/gm) ?? []).length, 0, 'Web CI jobs.web must not have a job-level condition');
-  const exactStep = /^      - name: Build and verify all static contracts\r?\n        run: npm run verify:all\s*$/gm;
-  assert.equal((web.match(exactStep) ?? []).length, 1, 'Web CI jobs.web must contain the exact active verify:all step contract');
+  const stepStarts = [...web.matchAll(/^      - /gm)].map(({ index }) => index);
+  const namedSteps = stepStarts.map((start, index) => web.slice(start, stepStarts[index + 1] ?? web.length).trimEnd()).filter((step) => step.startsWith('      - name: Build and verify all static contracts\n') || step.startsWith('      - name: Build and verify all static contracts\r\n'));
+  const expectedStep = '      - name: Build and verify all static contracts\n        run: npm run verify:all';
+  assert.deepEqual(namedSteps.map((step) => step.replaceAll('\r\n', '\n')), [expectedStep], 'Web CI jobs.web must contain the exact active verify:all step contract');
   assert.equal((workflow.match(/^\s*run:\s*npm run verify:all\s*$/gm) ?? []).length, 1, 'Web CI must run npm run verify:all exactly once');
 }
 
@@ -141,3 +143,4 @@ export function validateInventory(inventory, repo, options = {}) {
 
 export function loadInventory(repo, options = {}) { return withStableGitIndex(repo, options, () => { const file = readTrackedRegularFile(repo, INVENTORY_PATH, options); const inventory = parseStrictJson(file.bytes); validateInventoryOperation(inventory, repo, options); assert.ok(file.bytes.length > 0 && file.bytes.at(-1) === 0x0a, 'inventory must end with one LF'); return inventory; }); }
 export function sourceMap(repo, paths, options = {}) { return withStableGitIndex(repo, options, () => { const identities = new Map(); return Object.fromEntries([...paths].sort().map((path) => { const file = readTrackedRegularFile(repo, path, options); assert.ok(!identities.has(file.identity), `duplicate canonical file identity: ${path} aliases ${identities.get(file.identity)}`); identities.set(file.identity, path); return [path, sha256(file.bytes)]; })); }); }
+export function loadInventorySourceMap(repo, options = {}) { return withStableGitIndex(repo, options, () => { const file = readTrackedRegularFile(repo, INVENTORY_PATH, options); const inventory = parseStrictJson(file.bytes); assert.ok(file.bytes.length > 0 && file.bytes.at(-1) === 0x0a, 'inventory must end with one LF'); options.afterInventoryRead?.({ inventory }); validateInventoryOperation(inventory, repo, { ...options, verifyHashes: false }); const identities = new Map(); return Object.fromEntries(Object.keys(inventory.sources).sort().map((path) => { const source = readTrackedRegularFile(repo, path, options); assert.ok(!identities.has(source.identity), `duplicate canonical file identity: ${path} aliases ${identities.get(source.identity)}`); identities.set(source.identity, path); return [path, sha256(source.bytes)]; })); }); }

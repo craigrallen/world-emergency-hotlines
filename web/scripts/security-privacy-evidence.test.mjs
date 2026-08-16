@@ -4,7 +4,7 @@ import { copyFileSync, cpSync, linkSync, mkdirSync, mkdtempSync, readFileSync, r
 import { tmpdir } from 'node:os';
 import { resolve } from 'node:path';
 import test, { afterEach } from 'node:test';
-import { INVENTORY_PATH, loadInventory, parseStrictJson, sourceMap, validateInventory } from './security-privacy-evidence-lib.mjs';
+import { INVENTORY_PATH, loadInventory, loadInventorySourceMap, parseStrictJson, sourceMap, validateInventory } from './security-privacy-evidence-lib.mjs';
 import { assertInternalNonpublication, forbiddenInternalEvidence } from './verify-internal-nonpublication.mjs';
 
 const repo = resolve(import.meta.dirname, '../..');
@@ -34,6 +34,14 @@ test('whole-index snapshot rejects an inventory restage after inventory read and
   assert.throws(() => loadInventory(root, { afterRead: ({ path }) => {
     if (restaged || path !== INVENTORY_PATH) return;
     restaged = true; const unrelated = resolve(root, 'README.md'); writeFileSync(unrelated, `${readFileSync(unrelated, 'utf8')}\n`); execFileSync('git', ['-C', root, 'add', '--', 'README.md']);
+  } }), /Git index changed during evidence operation/);
+});
+test('updater operation rejects an inventory index restage after reading its inventory bytes', () => {
+  const root = copiedRepo(); execFileSync('git', ['init', '-q', root]); execFileSync('git', ['-C', root, 'add', '--', '.']);
+  assert.throws(() => loadInventorySourceMap(root, { afterInventoryRead: () => {
+    const changed = Buffer.from(readFileSync(resolve(root, INVENTORY_PATH), 'utf8').replace('"schema_version": "1.0"', '"schema_version": "9.9"'));
+    const oid = execFileSync('git', ['-C', root, 'hash-object', '-w', '--stdin'], { input: changed, encoding: 'utf8' }).trim();
+    execFileSync('git', ['-C', root, 'update-index', '--cacheinfo', '100644', oid, INVENTORY_PATH]);
   } }), /Git index changed during evidence operation/);
 });
 test('strict JSON rejects duplicate members, malformed syntax, BOM, and trailing bytes', () => {
@@ -80,6 +88,8 @@ test('deterministic ancestor replacement after the descriptor read fails closed'
 test('CI, verify:all, and every public security/privacy wrapper are inspected', () => {
   const mutations = [
     ['.github/workflows/web-ci.yml', (text) => text.replace('run: npm run verify:all', 'run: npm run typecheck')],
+    ['.github/workflows/web-ci.yml', (text) => text.replace('        run: npm run verify:all', '        run: npm run verify:all\n        if: false')],
+    ['.github/workflows/web-ci.yml', (text) => text.replace('        run: npm run verify:all', '        run: npm run verify:all\n        continue-on-error: true')],
     ['.github/workflows/web-ci.yml', (text) => text.replace('      - name: Build and verify all static contracts\n        run: npm run verify:all', '      - name: Build and verify all static contracts\n        run: npm run typecheck\n\n      - name: Disabled unrelated command\n        if: false\n        run: npm run verify:all')],
     ['.github/workflows/web-ci.yml', (text) => text.replace('      - name: Build and verify all static contracts\n        run: npm run verify:all', '      - name: Build and verify all static contracts\n        run: npm run typecheck\n\n  unrelated:\n    if: false\n    runs-on: ubuntu-latest\n    steps:\n      - name: Unrelated command\n        run: npm run verify:all')],
     ['.github/workflows/web-ci.yml', (text) => text.replace('  web:\n', '  web:\n    if: false\n')],
