@@ -87,6 +87,11 @@ web/
     data/           generated — do not commit (see .gitignore)
 ```
 
+The tracked, internal-only multilingual UI review handoff is under
+`../reviews/multilingual-ui/v1/`. `npm run verify:locales` proves it remains an
+exact, non-qualifying export of the finite dictionaries and locale-status
+manifest; `npm run generate:multilingual-review-pack` regenerates it.
+
 ## ML
 
 None of the ML features (natural-language search, auto-translate, a

@@ -1,6 +1,36 @@
 const EXPECTED_SCOPE = 'selected_static_ui_keys_only';
 const NON_ENGLISH_STATUS = 'not_independently_human_reviewed';
 
+// Conservative shared denylist. Callers must remove the repository's required
+// negative disclosures before applying these affirmative-claim patterns.
+export const AFFIRMATIVE_TRANSLATION_REVIEW_PATTERNS = Object.freeze([
+  /\bindependently[\s_-]+human[\s_-]+(?:reviewed|approved)\b/iu,
+  /\bprofessionally[\s_-]+translated\b/iu,
+  /\bqualified[\s_-]+translation\b/iu,
+  /\bcertified[\s_-]+translation\b/iu,
+  /(?<!\p{L})traducci[oó]n[\s_-]+certificada(?!\p{L})/iu,
+  /(?<!\p{L})revisad[oa][\s_-]+independientemente[\s_-]+por[\s_-]+humanos(?!\p{L})/iu,
+  /(?<!\p{L})traduction[\s_-]+certifi[eé]e(?!\p{L})/iu,
+  /(?<!\p{L})r[eé]vis[eé][\s_-]+(?:de[\s_-]+mani[eè]re[\s_-]+)?ind[eé]pendante[\s_-]+par[\s_-]+des[\s_-]+humains(?!\p{L})/iu,
+  /(?<!\p{L})zertifizierte[\s_-]+[uü]bersetzung(?!\p{L})/iu,
+  /(?<!\p{L})unabh[aä]ngig[\s_-]+von[\s_-]+menschen[\s_-]+[uü]berpr[uü]ft(?!\p{L})/iu,
+  /(?<!\p{L})tradu[cç][aã]o[\s_-]+certificada(?!\p{L})/iu,
+  /(?<!\p{L})revisad[oa][\s_-]+independentemente[\s_-]+por[\s_-]+humanos(?!\p{L})/iu,
+  /(?:ترجمة\s+معتمدة|تمت\s+مراجعته\s+بشكل\s+مستقل\s+من\s+قبل\s+البشر)/u,
+  /(?:प्रमाणित\s+अनुवाद|स्वतंत्र\s+रूप\s+से\s+मानव[‐-―-]समीक्षित)/u,
+  /(?:认证翻译|经过独立人工审核)/u,
+  /(?:認定翻訳|独立した人間によるレビュー済み)/u,
+  /(?<!\p{L})сертифицированный[\s_-]+перевод(?!\p{L})/iu,
+  /(?<!\p{L})независимо[\s_-]+проверено[\s_-]+человеком(?!\p{L})/iu,
+]);
+
+export function containsAffirmativeTranslationReviewClaim(value) {
+  const withoutRequiredNegativeClaims = value.normalize('NFKC')
+    .replace(/\bnot(?:[\s_-]+been)?[\s_-]+independently[\s_-]+human[\s_-]+reviewed(?:[\s_-]+or[\s_-]+qualified)?\b/giu, '')
+    .replace(/\bnot[\s_-]+formally[\s_-]+certified\b/giu, '');
+  return AFFIRMATIVE_TRANSLATION_REVIEW_PATTERNS.some((pattern) => pattern.test(withoutRequiredNegativeClaims));
+}
+
 function quotedValues(block) {
   return [...block.matchAll(/['"]([^'"]+)['"]/g)].map((match) => match[1]);
 }
@@ -52,11 +82,9 @@ export function verifyLocaleQualification({ manifest, i18nSource, languageSwitch
   if (/safety- or licensing-sensitive copy without the required review[^.]*falls back to English/i.test(statusPageSource)) {
     fail('status route must not claim review-gated fallback that runtime does not implement');
   }
-  const disclosureWithoutNegativeStatus = statusPageSource
-    .replaceAll('Licensing-sensitive keys deliberately remain English pending qualified translation and legal review', '')
-    .replaceAll('not been independently human-reviewed or qualified', '')
-    .replaceAll('not independently human-reviewed or qualified', '');
-  if (/\b(?:independently human-reviewed|qualified translation|professionally translated|certified translation)\b/i.test(disclosureWithoutNegativeStatus)) {
+  const disclosureWithoutPolicyDescription = statusPageSource
+    .replaceAll('Licensing-sensitive keys deliberately remain English pending qualified translation and legal review', '');
+  if (containsAffirmativeTranslationReviewClaim(disclosureWithoutPolicyDescription)) {
     fail('status route contains an unsupported affirmative translation-review claim');
   }
   if (!/['"]\/language-status['"]/.test(sitemapSource)) fail('language status route must be listed in sitemap source');

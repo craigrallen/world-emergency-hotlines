@@ -2,6 +2,7 @@
 .git
 .github
 REPORTS
+reviews
 sources
 world-emergency-hotlines.bundle
 setup-github.ps1

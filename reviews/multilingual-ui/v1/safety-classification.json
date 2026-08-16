@@ -1,0 +1,45 @@
+{
+  "schema": "static-ui-safety-classification/v1",
+  "canonicalKeySha256": "c298b4a2c276180df5b61487c68c029a6c5b6ea074898b8ca486c6288170b5b5",
+  "canonicalKeyValueSha256": "220beff3bb1b0ecc0d85a4f56b5992397a3b0771867ab874ad9bd85dcac6561a",
+  "runtimeLocaleKeyValueStateSha256": "7e3338252d7a790c142f84b90fbd2a9bd34963788fbb3b9fc65bd407303b03ee",
+  "safetyFacingKeys": [
+    "meta.siteDescription", "common.reportError", "common.verified", "common.unverified", "common.hotlines",
+    "footer.notice",
+    "banner.aria", "banner.title", "banner.body", "banner.cta",
+    "home.stats", "home.heroBody", "home.verifiedTitle", "home.verifiedBody", "home.privateTitle", "home.privateBody",
+    "search.verifiedOnly", "search.onlineChat", "search.smsText", "search.filterCrisis", "search.filterChild", "search.filterSafety", "search.filterMental",
+    "search.openWorldMapBody", "search.browseByCategoryBody", "search.travelling", "search.travellingBody",
+    "categories.totalVerified", "categories.howVerificationWorks", "data.canonical", "map.legendVerified", "map.legendLegacy", "map.legendEmpty", "map.immediateEmergency",
+    "about.body", "about.crisisTitle", "about.useTitle", "about.verificationTitle", "about.routingTitle", "about.travellersTitle", "about.privacyTitle",
+    "country.emergencyNumbers", "country.policeFireAmbulance", "country.bestVerified", "country.bestUnverified",
+    "country.doubleCheck", "country.noHotlines", "country.travellerNote", "country.travellerBody",
+    "category.emergency", "category.suicide_crisis", "category.mental_health", "category.child_protection",
+    "category.youth", "category.domestic_violence", "category.sexual_violence", "category.lgbtqia",
+    "category.substance_use", "category.elder_abuse", "category.veterans", "category.human_trafficking",
+    "category.disaster", "category.missing_persons", "category.bereavement", "category.eating_disorders",
+    "category.gambling", "category.self_harm", "category.perinatal", "category.disability", "category.stalking",
+    "category.male_victims", "category.refugee_migrant", "category.general_support", "category.legal_aid",
+    "category.animal_welfare", "category.human_rights", "category.financial_aid", "category.housing"
+  ],
+  "legalSensitiveKeys": [
+    "home.openDataBody", "data.body", "data.usage", "about.openDataTitle"
+  ],
+  "ordinaryUiKeys": [
+    "meta.siteTitle",
+    "common.skipToContent", "common.all", "common.close", "common.search", "common.openMap", "common.download", "common.methodology", "common.downloadData", "common.country", "common.countries", "common.language", "common.theme", "common.system", "common.light", "common.dark",
+    "nav.home", "nav.categories", "nav.map", "nav.data", "nav.about",
+    "header.directory", "header.themeToggle", "header.languageSwitcher",
+    "theme.label", "theme.light", "theme.dark", "theme.system",
+    "footer.github", "footer.support", "footer.supportAria",
+    "home.heroTitle", "home.tip", "home.mapCta", "home.howItWorks", "home.browse", "home.allCategories", "home.openDataTitle",
+    "search.placeholder", "search.inputLabel", "search.noExactMatch", "search.openWorldMap", "search.browseByCategory",
+    "categories.title", "categories.body", "categories.totalHotlines", "categories.totalCategories", "categories.footer", "categories.rawData",
+    "data.title", "data.lastBuilt", "data.staticFiles", "data.structure",
+    "map.title", "map.loading", "map.legend", "map.closePanel",
+    "about.title",
+    "notFound.title", "notFound.body", "notFound.home", "notFound.map",
+    "categoryFilter.allRegions", "categoryFilter.filterByRegion",
+    "country.viewOnMap"
+  ]
+}

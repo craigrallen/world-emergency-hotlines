@@ -1,0 +1,1623 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://hotlines.world/internal/contracts/multilingual-ui-review-pack/v1",
+  "$defs": {
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reviewerIdentity",
+        "reviewedAt",
+        "evidenceAt",
+        "notes"
+      ],
+      "properties": {
+        "status": {
+          "const": "pending_not_reviewed"
+        },
+        "reviewerIdentity": {
+          "type": "null"
+        },
+        "reviewedAt": {
+          "type": "null"
+        },
+        "evidenceAt": {
+          "type": "null"
+        },
+        "notes": {
+          "type": "null"
+        }
+      }
+    },
+    "cell": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "locale",
+        "value",
+        "valueState",
+        "manifestReviewStatus",
+        "reviewerDecision"
+      ],
+      "properties": {
+        "locale": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "valueState": {
+          "enum": [
+            "source_master",
+            "locale_override",
+            "english_fallback"
+          ]
+        },
+        "manifestReviewStatus": {
+          "enum": [
+            "source_master_not_formally_certified",
+            "not_independently_human_reviewed"
+          ]
+        },
+        "reviewerDecision": {
+          "$ref": "#/$defs/decision"
+        }
+      }
+    },
+    "sourceCell": {
+      "$ref": "#/$defs/cell",
+      "type": "object",
+      "properties": {
+        "locale": {
+          "const": "en"
+        },
+        "valueState": {
+          "const": "source_master"
+        },
+        "manifestReviewStatus": {
+          "const": "source_master_not_formally_certified"
+        }
+      }
+    },
+    "translatedCell": {
+      "$ref": "#/$defs/cell",
+      "type": "object",
+      "properties": {
+        "valueState": {
+          "enum": [
+            "locale_override",
+            "english_fallback"
+          ]
+        },
+        "manifestReviewStatus": {
+          "const": "not_independently_human_reviewed"
+        }
+      }
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "key",
+        "classification",
+        "sourceEnglish",
+        "locales"
+      ],
+      "properties": {
+        "key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "classification": {
+          "enum": [
+            "safety_facing",
+            "legal_sensitive",
+            "ordinary_ui"
+          ]
+        },
+        "sourceEnglish": {
+          "type": "string"
+        },
+        "locales": {
+          "type": "array",
+          "minItems": 10,
+          "maxItems": 10,
+          "items": false,
+          "prefixItems": [
+            {
+              "$ref": "#/$defs/sourceCell"
+            },
+            {
+              "$ref": "#/$defs/translatedCell",
+              "type": "object",
+              "properties": {
+                "locale": {
+                  "const": "es"
+                }
+              }
+            },
+            {
+              "$ref": "#/$defs/translatedCell",
+              "type": "object",
+              "properties": {
+                "locale": {
+                  "const": "fr"
+                }
+              }
+            },
+            {
+              "$ref": "#/$defs/translatedCell",
+              "type": "object",
+              "properties": {
+                "locale": {
+                  "const": "de"
+                }
+              }
+            },
+            {
+              "$ref": "#/$defs/translatedCell",
+              "type": "object",
+              "properties": {
+                "locale": {
+                  "const": "pt-BR"
+                }
+              }
+            },
+            {
+              "$ref": "#/$defs/translatedCell",
+              "type": "object",
+              "properties": {
+                "locale": {
+                  "const": "ar"
+                }
+              }
+            },
+            {
+              "$ref": "#/$defs/translatedCell",
+              "type": "object",
+              "properties": {
+                "locale": {
+                  "const": "hi"
+                }
+              }
+            },
+            {
+              "$ref": "#/$defs/translatedCell",
+              "type": "object",
+              "properties": {
+                "locale": {
+                  "const": "zh-CN"
+                }
+              }
+            },
+            {
+              "$ref": "#/$defs/translatedCell",
+              "type": "object",
+              "properties": {
+                "locale": {
+                  "const": "ja"
+                }
+              }
+            },
+            {
+              "$ref": "#/$defs/translatedCell",
+              "type": "object",
+              "properties": {
+                "locale": {
+                  "const": "ru"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "internalOnly",
+    "authoritative",
+    "qualificationEffect",
+    "scope",
+    "sourceLocale",
+    "fallbackLocale",
+    "canonicalProviderDataIncluded",
+    "valueSource",
+    "excludedSourceClasses",
+    "localeCount",
+    "keyCount",
+    "locales",
+    "entries"
+  ],
+  "properties": {
+    "schema": {
+      "const": "internal-multilingual-ui-review-pack/v1"
+    },
+    "internalOnly": {
+      "const": true
+    },
+    "authoritative": {
+      "const": false
+    },
+    "qualificationEffect": {
+      "const": false
+    },
+    "scope": {
+      "const": "finite_static_ui_strings_only"
+    },
+    "sourceLocale": {
+      "const": "en"
+    },
+    "fallbackLocale": {
+      "const": "en"
+    },
+    "canonicalProviderDataIncluded": {
+      "const": false
+    },
+    "valueSource": {
+      "const": "static_ui_runtime_dictionaries_only"
+    },
+    "excludedSourceClasses": {
+      "const": [
+        "canonical_provider_data",
+        "hotline_records",
+        "provider_contacts",
+        "provider_evidence"
+      ]
+    },
+    "localeCount": {
+      "const": 10
+    },
+    "keyCount": {
+      "const": 147
+    },
+    "locales": {
+      "const": [
+        "en",
+        "es",
+        "fr",
+        "de",
+        "pt-BR",
+        "ar",
+        "hi",
+        "zh-CN",
+        "ja",
+        "ru"
+      ]
+    },
+    "entries": {
+      "type": "array",
+      "minItems": 147,
+      "maxItems": 147,
+      "items": false,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "meta.siteTitle"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "meta.siteDescription"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "common.skipToContent"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "common.all"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "common.close"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "common.search"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "common.openMap"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "common.download"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "common.methodology"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "common.reportError"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "common.downloadData"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "common.verified"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "common.unverified"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "common.country"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "common.countries"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "common.hotlines"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "common.language"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "common.theme"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "common.system"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "common.light"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "common.dark"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "nav.home"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "nav.categories"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "nav.map"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "nav.data"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "nav.about"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "header.directory"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "header.themeToggle"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "header.languageSwitcher"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "theme.label"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "theme.light"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "theme.dark"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "theme.system"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "footer.notice"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "footer.github"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "footer.support"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "footer.supportAria"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "banner.aria"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "banner.title"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "banner.body"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "banner.cta"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "home.stats"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "home.heroTitle"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "home.heroBody"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "home.tip"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "home.mapCta"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "home.howItWorks"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "home.browse"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "home.allCategories"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "home.verifiedTitle"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "home.verifiedBody"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "home.privateTitle"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "home.privateBody"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "home.openDataTitle"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "home.openDataBody"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "search.placeholder"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "search.inputLabel"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "search.verifiedOnly"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "search.onlineChat"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "search.smsText"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "search.filterCrisis"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "search.filterChild"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "search.filterSafety"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "search.filterMental"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "search.noExactMatch"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "search.openWorldMap"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "search.openWorldMapBody"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "search.browseByCategory"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "search.browseByCategoryBody"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "search.travelling"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "search.travellingBody"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "categories.title"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "categories.body"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "categories.totalHotlines"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "categories.totalVerified"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "categories.totalCategories"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "categories.footer"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "categories.rawData"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "categories.howVerificationWorks"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "data.title"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "data.body"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "data.lastBuilt"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "data.staticFiles"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "data.structure"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "data.canonical"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "data.usage"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "map.title"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "map.loading"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "map.legend"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "map.legendVerified"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "map.legendLegacy"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "map.legendEmpty"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "map.closePanel"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "map.immediateEmergency"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "about.title"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "about.body"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "about.crisisTitle"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "about.useTitle"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "about.verificationTitle"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "about.routingTitle"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "about.travellersTitle"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "about.privacyTitle"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "about.openDataTitle"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "notFound.title"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "notFound.body"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "notFound.home"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "notFound.map"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "categoryFilter.allRegions"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "categoryFilter.filterByRegion"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "country.viewOnMap"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "country.emergencyNumbers"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "country.policeFireAmbulance"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "country.bestVerified"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "country.bestUnverified"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "country.doubleCheck"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "country.noHotlines"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "country.travellerNote"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "country.travellerBody"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.emergency"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.suicide_crisis"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.mental_health"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.child_protection"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.youth"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.domestic_violence"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.sexual_violence"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.lgbtqia"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.substance_use"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.elder_abuse"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.veterans"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.human_trafficking"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.disaster"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.missing_persons"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.bereavement"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.eating_disorders"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.gambling"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.self_harm"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.perinatal"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.disability"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.stalking"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.male_victims"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.refugee_migrant"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.general_support"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.legal_aid"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.animal_welfare"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.human_rights"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.financial_aid"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/entry",
+          "type": "object",
+          "properties": {
+            "key": {
+              "const": "category.housing"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
