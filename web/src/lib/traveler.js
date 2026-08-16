@@ -2,6 +2,7 @@ import { resolveGuidedHelp } from './finder.js';
 
 export const TRAVELER_MANIFEST_URL = '/data/manifest.json';
 export const TRAVELER_RECORDS_URL = '/api/v1/records.json';
+export const TRAVELER_RECORDS_API_VERSION = '1.0';
 // Keep cards compact while ensuring validated destinations outrank display-only values.
 export const TRAVELER_CARD_CONTACT_LIMIT = 2;
 
@@ -128,6 +129,23 @@ export function getTravelerReleaseContext(manifest) {
   return Object.freeze({ datasetVersion, sourceLastUpdated, schemaVersion });
 }
 
+/** Requires the independently cached records artifact to identify the same static release. */
+export function validateTravelerRecordsIdentity(recordsArtifact, releaseContext) {
+  if (!recordsArtifact || typeof recordsArtifact !== 'object' || Array.isArray(recordsArtifact)) {
+    throw new Error('The static support-record artifact has an invalid identity.');
+  }
+  if (recordsArtifact.api_version !== TRAVELER_RECORDS_API_VERSION) {
+    throw new Error('The static support-record artifact has an invalid API version.');
+  }
+  if (typeof recordsArtifact.dataset_version !== 'string' || !/^sha256:[a-f0-9]{64}$/.test(recordsArtifact.dataset_version)) {
+    throw new Error('The static support-record artifact has an invalid dataset version.');
+  }
+  if (recordsArtifact.dataset_version !== releaseContext?.datasetVersion) {
+    throw new Error('The static manifest and support-record artifact dataset versions do not match.');
+  }
+  return recordsArtifact;
+}
+
 function manifestCountry(entry) {
   if (!entry || typeof entry !== 'object' || !/^[A-Z]{2}$/.test(entry.alpha2) || typeof entry.name !== 'string' || !Array.isArray(entry.general_emergency)) {
     throw new Error('The static manifest has an invalid country entry.');
@@ -203,6 +221,7 @@ export async function loadTravelerData({ fetchImpl = fetch, currentCode, homeCod
   if (onManifest) await onManifest(emergencyCountry);
   const releaseContext = getTravelerReleaseContext(manifest);
   const recordsArtifact = await fetchJson(fetchImpl, TRAVELER_RECORDS_URL, 'Static support records');
+  validateTravelerRecordsIdentity(recordsArtifact, releaseContext);
   return { ...reconstructTravelerCountries(manifest, recordsArtifact, currentCode, homeCode), releaseContext };
 }
 

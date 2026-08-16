@@ -6,7 +6,7 @@ import {
   createLatestGenerationGate, createTravelerPrintReadinessController, createTravelerSelectionSnapshot, getTravelerCountryChoices, getTravelerReleaseContext, loadTravelerData,
   reconstructTravelerCountries, resolveTravelerHelp, safeTravelerUrl, scrollTravelerOutputBestEffort, selectTravelerContacts,
   TRAVELER_CARD_CONTACT_LIMIT,
-  TRAVELER_MANIFEST_URL, TRAVELER_RECORDS_URL,
+  TRAVELER_MANIFEST_URL, TRAVELER_RECORDS_API_VERSION, TRAVELER_RECORDS_URL,
 } from '../src/lib/traveler.js';
 import { dedupeMessageContacts, phoneContacts } from '../src/lib/contact.ts';
 
@@ -46,7 +46,8 @@ assert.match(page, /@media print/);
 assert.doesNotMatch(page, /visibility:\s*(?:hidden|visible)/);
 assert.match(page, /body > a, body > aside, body > header, body > footer,[^\n]*\.traveler-screen-only \{ display: none !important/);
 assert.equal((page.match(/traveler-screen-only/g) || []).length, 5, 'Traveler screen-only siblings are not explicitly excluded from print');
-assert.match(page, /\.traveler-print-root \{ position: static !important; display: block !important/);
+assert.match(page, /\.traveler-print-root \{ display: none !important; \}/);
+assert.match(page, /\.traveler-print-root\[data-print-ready="true"\] \{ position: static !important; display: block !important/);
 assert.match(page, /break-inside: avoid/);
 assert.doesNotMatch(page, /\.traveler-print-root > div > div[^}]*break-inside/);
 assert.match(page, /a\[href\^="http"\]::after/);
@@ -133,7 +134,9 @@ assert.match(page, /printHeading\.innerHTML =[\s\S]*?printPayload\.categoryLabel
 assert.match(page, /form\.addEventListener\('input', invalidateTravelerResults\)/);
 assert.match(page, /form\.addEventListener\('change', invalidateTravelerResults\)/);
 assert.match(page, /function invalidateTravelerResults\(\) \{ printReadiness\.invalidate\(\); clearOutput\(\); \}/);
-assert.match(page, /function clearPrintReadinessArtifacts\(\) \{ printAction\.classList\.add\('hidden'\); printHeading\.innerHTML = ''; printLimitations\.innerHTML = ''; \}/);
+assert.match(page, /function clearPrintReadinessArtifacts\(\) \{ output\.removeAttribute\('data-print-ready'\); printAction\.classList\.add\('hidden'\); printHeading\.innerHTML = ''; printLimitations\.innerHTML = ''; \}/);
+assert.doesNotMatch(page, /id="traveler-output"[^>]*data-print-ready/, 'print readiness must not exist before submission');
+assert.match(page, /printReadiness\.publish\(generation, releaseContext\)[\s\S]*?output\.setAttribute\('data-print-ready', 'true'\)/);
 assert.match(page, /function clearOutput\(\)[\s\S]*?clearPrintReadinessArtifacts\(\)/);
 assert.match(page, /homeSelect\.addEventListener\('change',[\s\S]*?clearHomeError\(\)/);
 assert.match(page, /currentSelect\.addEventListener\('change',[\s\S]*?clearHomeError\(\)/);
@@ -150,6 +153,7 @@ assert.match(page, /catch \(error\)[\s\S]*?printReadiness\.fail\(generation\);[\
 assert.doesNotMatch(page, /canonical evidence/i);
 assert.equal(TRAVELER_MANIFEST_URL, '/data/manifest.json');
 assert.equal(TRAVELER_RECORDS_URL, '/api/v1/records.json');
+assert.equal(TRAVELER_RECORDS_API_VERSION, '1.0');
 
 let scrollAttempts = 0;
 assert.equal(scrollTravelerOutputBestEffort(() => { scrollAttempts += 1; throw new Error('scroll unavailable'); }), false);
@@ -193,7 +197,7 @@ for (const badManifest of [
   { ...manifest, schema_version: '' },
   { ...manifest, schema_version: 'version two' },
 ]) assert.throws(() => getTravelerReleaseContext(badManifest), /static manifest/i);
-const recordsArtifact = { api_version: '1.0', records: {
+const recordsArtifact = { api_version: '1.0', dataset_version: manifest.dataset_version, records: {
   current: hotline('current', 'mental_health'),
   old: hotline('old', 'mental_health', { verification_status: 'deprecated' }),
   localText: hotline('local-text', 'mental_health', { geography: 'Exact City', voice_numbers: [], sms_numbers: ['123'] }),
@@ -245,6 +249,26 @@ assert.ok(calls.every(({ options }) => options.credentials === 'omit' && options
 assert.deepEqual(loaded.currentCountry.hotlines.map(({ id }) => id), ['current', 'old', 'local-text', 'national-text']);
 assert.deepEqual(loaded.homeCountry.hotlines.map(({ id }) => id), ['home']);
 assert.ok(!loaded.currentCountry.hotlines.some(({ id }) => id === 'foreign'), 'foreign record entered current-country reconstruction');
+
+for (const [label, artifact] of [
+  ['stale records', { ...recordsArtifact, dataset_version: `sha256:${'b'.repeat(64)}` }],
+  ['newer records', { ...recordsArtifact, dataset_version: `sha256:${'c'.repeat(64)}` }],
+  ['missing records identity', { api_version: '1.0', records: recordsArtifact.records }],
+  ['malformed records identity', { ...recordsArtifact, dataset_version: 'sha256:bad' }],
+  ['wrong static API version', { ...recordsArtifact, api_version: '1.1' }],
+]) {
+  let emergencyFromHybrid = null;
+  let mismatchedResult;
+  await assert.rejects(async () => {
+    mismatchedResult = await loadTravelerData({
+      currentCode: 'AA',
+      onManifest(country) { emergencyFromHybrid = [...country.general_emergency]; },
+      fetchImpl: async (url) => ({ ok: true, json: async () => structuredClone(url === TRAVELER_MANIFEST_URL ? manifest : artifact) }),
+    });
+  }, /support-record artifact|dataset versions do not match/i, `${label} did not fail closed`);
+  assert.equal(mismatchedResult, undefined, `${label} returned a reconstructed result`);
+  assert.deepEqual(emergencyFromHybrid, ['112'], `${label} removed already-published emergency metadata`);
+}
 
 let manifestPublished = false;
 const failureCalls = [];
