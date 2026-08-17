@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "internal_only_marker": "internal-licensing-legal-review-handoff-only/v1",
+  "purpose": "repository_internal_non_authoritative_legal_review_preparation",
+  "review_state": "no_legal_review_contact_or_approval_has_occurred",
+  "outcome": "held",
+  "prohibited_claims_actions": [
+    "Do not choose or apply any code, data, documentation, or other license.",
+    "Do not add LICENSE, NOTICE, contribution, or other licensing terms.",
+    "Do not claim that the project, code, or data is open source or open data.",
+    "Do not treat this handoff or the external pack as legal advice or a legal conclusion.",
+    "Do not state or imply that qualified counsel has reviewed, approved, or been contacted.",
+    "Do not contact counsel, sources, rights holders, contributors, or prospective partners from this artifact.",
+    "Do not conduct outreach, enrollment, procurement, or contract negotiation.",
+    "Do not publish pricing, accept payment, start billing, or incur external spend.",
+    "Do not promise an SLA, availability, support, verification, safety, or service outcome.",
+    "Do not promise a DPA, privacy compliance, security compliance, or security assurance.",
+    "Do not activate a hosted, customer, partner, production, or commercial workflow.",
+    "Do not publish, distribute, or expose this repository-internal handoff artifact."
+  ],
+  "external_decision_pack": {
+    "repository_bound": false,
+    "expected_filename": "licensing-decision-pack-2026-08-13.md",
+    "expected_sha256": "sha256:bcdfc6018e3c6ffbca946a3961a953e4541713ff210e63462a380d86356e738f",
+    "availability": "external_optional_not_required_by_ci",
+    "legal_effect": "research_and_decision_support_only_no_authorization"
+  },
+  "sources": {
+    "REPORTS/web_verified_directory_integration_report.md": "sha256:38958ccc6871fa857405c1c264724434aaa1c6198b47c6033ded5a62c0c9a8fc",
+    "docs/PACKAGING.md": "sha256:4a7260669f2ef15674e95eb78a6f915e9ed7f524a14f857386d42e7f3e522432",
+    "hotlines.json": "sha256:e893c9f6b0afcc57832054547002c826e80b5387e544b4cf6909afc9424dde3a",
+    "information.json": "sha256:f7f38b23484947bf233349f3e9a4bf439a54353ead46b72d18f913f82e589fe8",
+    "scripts/merge_vibbrancy.py": "sha256:cf5746bfc98e1041184feea063513beff03426550cc086c251dd4525ae6ae0d8",
+    "sources/crisis_resources.sqlite": "sha256:bc1722a5ff8cd60b7c5b4add689b0ae990ec07717ce2b1a702ca303531bd6107",
+    "sources/findahelpline.json": "sha256:e4ba21dd758970bb661e3babdad3e64407e4bf1be6235ade03b8676b5917fea8",
+    "sources/helplines_world.json": "sha256:316c6f6e3394aba612ab64c366463649ddbd233030b0451c61dd558eb0637baf",
+    "sources/vibbrancy_hotlines.json": "sha256:ebe73e5ec116f499228f20d0e6e6eca05e66681929fb8b63486efa0b0c464db4",
+    "sources/web_verified_crisis_directory/final_countries_crisis_directory.json": "sha256:df9dbea2b9814128b0aab19ae66b85d9d4ef59c3f8f1c275717e550174b9da3b",
+    "web/src/pages/data.astro": "sha256:23da9ba832bfb96c2c34b3eefef2f80ead5db7f533a8795c58e015e4cfc28f94",
+    "web/src/pages/index.astro": "sha256:a7be8434d92dcfcd1192cd52ea784caaeeb4ab6595bb6e56a422988f3a4a8748"
+  },
+  "decision_domains": [
+    { "id": "code", "status": "held", "repository_evidence": ["docs/PACKAGING.md", "web/src/pages/index.astro"], "decision_needed": "Determine ownership and the exact included and excluded code boundary before considering any grant.", "not_established": "No ownership conclusion, patent position, license selection, reuse permission, or open-source status is established." },
+    { "id": "data", "status": "held", "repository_evidence": ["hotlines.json", "information.json", "web/src/pages/data.astro"], "decision_needed": "Determine field-level rights lineage and any source-segmented clearance boundary before considering a data grant.", "not_established": "No blanket dataset permission, open-data status, cleared partition, or redistribution right is established." },
+    { "id": "brand", "status": "held", "repository_evidence": ["web/src/pages/index.astro"], "decision_needed": "Determine ownership and permissible use of names, logos, domains, marks, and anti-confusion conditions.", "not_established": "No trademark conclusion, brand permission, endorsement right, or fork naming permission is established." },
+    { "id": "contributions", "status": "held", "repository_evidence": ["docs/PACKAGING.md"], "decision_needed": "Determine whether contributions may be accepted and which authority and provenance declarations would be required.", "not_established": "No contribution solicitation, DCO, CLA, contributor authority, or outbound licensing compatibility is established." },
+    { "id": "hosted_service_commercial_rights", "status": "held", "repository_evidence": ["docs/PACKAGING.md", "web/src/pages/index.astro"], "decision_needed": "Separate any hosted service, support, commercial, privacy, security, liability, and data terms from artifact licensing.", "not_established": "No offer, customer right, service term, pricing, billing, SLA, DPA, security assurance, or production authorization is established." }
+  ],
+  "provenance_populations": [
+    { "id": "unknown_information_json", "status": "held", "repository_evidence": ["hotlines.json", "information.json"], "observed_population": "900 direct source markers", "lineage_limit": "The source label and count do not identify the origin, rights holder, acquisition terms, or field-level derivation.", "counsel_question": "What evidence or replacement threshold is required before any affected fields can enter a licensed partition?" },
+    { "id": "helplines_world", "status": "held", "repository_evidence": ["hotlines.json", "sources/helplines_world.json"], "observed_population": "654 direct and 787 xref markers; not additive", "lineage_limit": "Marker overlap exists and neither a marker nor tracked snapshot establishes permission or field-level derivation.", "counsel_question": "What historical terms or permission and record-to-field proof would be sufficient, and what must otherwise be isolated?" },
+    { "id": "find_a_helpline", "status": "held", "repository_evidence": ["hotlines.json", "sources/findahelpline.json"], "observed_population": "165 direct, 177 xref, 192 measured union", "lineage_limit": "Counts do not establish operative terms, extraction authority, redistribution permission, or copied-versus-verified fields.", "counsel_question": "Which terms version and written permission or independent replacement evidence is required for affected fields?" },
+    { "id": "psc_app", "status": "held", "repository_evidence": ["hotlines.json", "sources/crisis_resources.sqlite"], "observed_population": "514 xref markers", "lineage_limit": "Possession and xref labels do not establish upstream ownership, acquisition terms, transformations, or redistribution rights.", "counsel_question": "What supplier, acquisition, terms, and field mapping evidence is required before inclusion in any grant?" },
+    { "id": "vibbrancy_naga", "status": "held", "repository_evidence": ["hotlines.json", "scripts/merge_vibbrancy.py", "sources/vibbrancy_hotlines.json"], "observed_population": "457 Vibbrancy xref and 300 Naga direct markers; not additive", "lineage_limit": "Related provenance signals may overlap; a public repository location and pinned revision do not establish a reuse grant.", "counsel_question": "What pinned-revision license, authorship, transformation, overlap, attribution, and permission evidence is required?" },
+    { "id": "web_verified_directory", "status": "held", "repository_evidence": ["REPORTS/web_verified_directory_integration_report.md", "hotlines.json", "sources/web_verified_crisis_directory/final_countries_crisis_directory.json"], "observed_population": "209 xref markers", "lineage_limit": "Web verified describes a method, not ownership or permission, and does not provide field-level underlying rights lineage.", "counsel_question": "Which first-party captures, terms, transformations, and field mappings are required before affected records can be cleared?" }
+  ],
+  "unresolved_questions": [
+    "Who owns or may license each relevant code, data, documentation, brand, and contribution right?",
+    "Which exact repository paths and generated outputs could be included in or excluded from any future grant?",
+    "Which canonical fields derive from which source bytes, pages, authors, terms versions, and transformations?",
+    "Which source populations require permission, attribution, isolation, replacement, or exclusion from a future export?",
+    "How should code, data, documentation, dependencies, map data, brand, contributions, and hosted service terms remain separated?",
+    "What employment, contractor, contributor, AI-assisted authorship, patent, database-right, and jurisdictional evidence is required?",
+    "What separately authorized review record would constitute counsel advice or owner approval without changing this held artifact?"
+  ]
+}

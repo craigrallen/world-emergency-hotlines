@@ -41,6 +41,9 @@
     "verify:design-partner-discovery:dist": "npm run test:design-partner-discovery && node scripts/verify-design-partner-discovery.mjs && npm run verify:internal-nonpublication:dist",
     "test:design-partner-discovery": "node --test scripts/design-partner-discovery.test.mjs",
     "verify:design-partner-discovery": "npm run build && npm run verify:design-partner-discovery:dist",
+    "verify:licensing-legal-review:dist": "npm run test:licensing-legal-review && node scripts/verify-licensing-legal-review.mjs && npm run verify:internal-nonpublication:dist",
+    "test:licensing-legal-review": "node --test scripts/licensing-legal-review.test.mjs",
+    "verify:licensing-legal-review": "npm run build && npm run verify:licensing-legal-review:dist",
     "verify:finder": "node scripts/verify-guided-finder.mjs && node scripts/verify-traveler.mjs",
     "verify:category-filters": "node scripts/verify-category-filters.mjs",
     "verify:api": "node scripts/verify-static-api.mjs",
@@ -63,7 +66,7 @@
     "verify:feeds:artifacts": "node scripts/verify-release-feed-artifacts.mjs && python3 scripts/verify-release-feed-semantics.py",
     "release:dataset:candidate": "node scripts/release-dataset-candidate.mjs",
     "verify:caddy": "sh scripts/verify-caddy.sh",
-    "verify:all": "npm run verify:data && npm run verify:search && npm run verify:discovery && npm run verify:pwa && npm run verify:seo && npm run verify:internal-nonpublication:dist && npm run verify:accessibility-evidence:dist && npm run verify:security-privacy-evidence:dist && npm run verify:technical-due-diligence:dist && npm run verify:design-partner-discovery:dist && npm run verify:trust && npm run verify:locales && npm run verify:finder && npm run verify:category-filters && npm run verify:api && npm run verify:widget && npm run verify:integration && npm run verify:gateway && npm run verify:organizations && npm run verify:managed-widget-config && npm run verify:technical-health && npm run verify:assurance-packs && npm run verify:provider-claims && npm run verify:reviewer-work-queue && npm run verify:managed-api-plans && npm run verify:deprecation-proposals && npm run verify:evidence-backed-coverage && npm run verify:release",
+    "verify:all": "npm run verify:data && npm run verify:search && npm run verify:discovery && npm run verify:pwa && npm run verify:seo && npm run verify:internal-nonpublication:dist && npm run verify:accessibility-evidence:dist && npm run verify:security-privacy-evidence:dist && npm run verify:technical-due-diligence:dist && npm run verify:design-partner-discovery:dist && npm run verify:licensing-legal-review:dist && npm run verify:trust && npm run verify:locales && npm run verify:finder && npm run verify:category-filters && npm run verify:api && npm run verify:widget && npm run verify:integration && npm run verify:gateway && npm run verify:organizations && npm run verify:managed-widget-config && npm run verify:technical-health && npm run verify:assurance-packs && npm run verify:provider-claims && npm run verify:reviewer-work-queue && npm run verify:managed-api-plans && npm run verify:deprecation-proposals && npm run verify:evidence-backed-coverage && npm run verify:release",
     "typecheck": "astro check",
     "monitor:seo:public": "python3 ../scripts/public_seo_monitor.py",
     "test:monitor:seo": "cd .. && python3 -m unittest tests.test_monitor_delta tests.test_public_seo_monitor tests.test_search_console_monitor tests.test_source_monitor tests.test_source_monitor_result tests.test_prior_artifact tests.test_seo_orchestrator tests.test_seo_workflow_contract tests.test_verification_workbench"

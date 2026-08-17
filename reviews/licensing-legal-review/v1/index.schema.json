@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "internal-licensing-legal-review-handoff/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "internal_only_marker", "purpose", "review_state", "outcome", "prohibited_claims_actions", "external_decision_pack", "sources", "decision_domains", "provenance_populations", "unresolved_questions"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "internal_only_marker": { "const": "internal-licensing-legal-review-handoff-only/v1" },
+    "purpose": { "const": "repository_internal_non_authoritative_legal_review_preparation" },
+    "review_state": { "const": "no_legal_review_contact_or_approval_has_occurred" },
+    "outcome": { "const": "held" },
+    "prohibited_claims_actions": { "type": "array", "minItems": 12, "uniqueItems": true, "items": { "type": "string", "minLength": 20 } },
+    "external_decision_pack": { "$ref": "#/$defs/external" },
+    "sources": { "type": "object", "minProperties": 1, "propertyNames": { "pattern": "^(?!.*(?:^|/)\\.\\.?(?:/|$))[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*$" }, "additionalProperties": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" } },
+    "decision_domains": { "type": "array", "minItems": 5, "items": { "$ref": "#/$defs/domain" } },
+    "provenance_populations": { "type": "array", "minItems": 5, "items": { "$ref": "#/$defs/population" } },
+    "unresolved_questions": { "type": "array", "minItems": 5, "uniqueItems": true, "items": { "type": "string", "minLength": 20 } }
+  },
+  "$defs": {
+    "path": { "type": "string", "pattern": "^(?!.*(?:^|/)\\.\\.?(?:/|$))[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*$" },
+    "external": { "type": "object", "additionalProperties": false, "required": ["repository_bound", "expected_filename", "expected_sha256", "availability", "legal_effect"], "properties": { "repository_bound": { "const": false }, "expected_filename": { "const": "licensing-decision-pack-2026-08-13.md" }, "expected_sha256": { "const": "sha256:bcdfc6018e3c6ffbca946a3961a953e4541713ff210e63462a380d86356e738f" }, "availability": { "const": "external_optional_not_required_by_ci" }, "legal_effect": { "const": "research_and_decision_support_only_no_authorization" } } },
+    "domain": { "type": "object", "additionalProperties": false, "required": ["id", "status", "repository_evidence", "decision_needed", "not_established"], "properties": { "id": { "enum": ["code", "data", "brand", "contributions", "hosted_service_commercial_rights"] }, "status": { "const": "held" }, "repository_evidence": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/path" } }, "decision_needed": { "type": "string", "minLength": 20 }, "not_established": { "type": "string", "minLength": 20 } } },
+    "population": { "type": "object", "additionalProperties": false, "required": ["id", "status", "repository_evidence", "observed_population", "lineage_limit", "counsel_question"], "properties": { "id": { "enum": ["unknown_information_json", "helplines_world", "find_a_helpline", "psc_app", "vibbrancy_naga", "web_verified_directory"] }, "status": { "const": "held" }, "repository_evidence": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/path" } }, "observed_population": { "type": "string", "minLength": 10 }, "lineage_limit": { "type": "string", "minLength": 20 }, "counsel_question": { "type": "string", "minLength": 20 } } }
+  }
+}
