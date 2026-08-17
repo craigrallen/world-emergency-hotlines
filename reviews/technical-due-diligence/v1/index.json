@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0",
+  "internal_only_marker": "internal-technical-due-diligence-evidence-only/v1",
+  "purpose": "repository_internal_deterministic_regression_evidence_index",
+  "limitations": [
+    "Internal, non-authoritative regression evidence only; never a public assurance or sales artifact.",
+    "Not a certification or conformance statement.",
+    "Not an audit opinion or independent security assessment.",
+    "Not legal advice or evidence of legal or regulatory compliance.",
+    "Not operational uptime, availability, reachability, or hotline currency evidence.",
+    "Not an accessibility assessment, VPAT, ACR, or assistive-technology review.",
+    "Not a language qualification or evidence of completed qualified human review.",
+    "Not a penetration test, threat model, privacy assessment, or security attestation.",
+    "Static checks bind only the exact repository source bytes listed below."
+  ],
+  "status_vocabulary": ["verified_static", "manual", "not_assessed", "held"],
+  "sources": {
+    ".dockerignore": "sha256:bfd224b1027dc27e57d4da2b6a41991f26001a60cfe0983f81dfb54e9dcac5b0",
+    ".github/workflows/web-ci.yml": "sha256:5b44191fe832614cc5eff96478ae1945daa48a40b4c55802173b83d3c6e7e0ce",
+    "Caddyfile": "sha256:01bbd54a9e3c7c50cfc7d4f0f2f7728ca965a8f0ee06883682013d4a8dfd97d1",
+    "Dockerfile": "sha256:cde8258e1ed807ad91795d52e0c6253d008a47639f25e43a651e567e26b9994e",
+    "docs/dataset-releases.json": "sha256:58ef360fe8d6767ac7f508b12271246fabf409c68d8842de0dc35bd9fe8645f6",
+    "docs/releases.json": "sha256:775022c67db09b377528f7a7b838d7996e22c15022260a135096b372c357ec85",
+    "reviews/accessibility-evidence/v1/README.md": "sha256:c577c353813b72cadf75b9c0d9018653958018c03594bd8f7a48f489d39d7439",
+    "reviews/accessibility-evidence/v1/baseline.json": "sha256:dfe06976996bca9d09d38f6dea1a9b94e6367610efebf4847a61f173b4b3fc4d",
+    "reviews/multilingual-ui/v1/README.md": "sha256:87afcf694a12e50ea7cd015c873ac518b3e30aa4d2c83302937395eb17a0ac6d",
+    "reviews/multilingual-ui/v1/review-pack.json": "sha256:a407805e1955d8ba783379e56b3e0e466a40bfb932ccde00a01a8858525cd40a",
+    "reviews/multilingual-ui/v1/review-pack.schema.json": "sha256:005b85eee323124dbfc3702fdd9ae177263f196f10c338b5ed2b706242ab2732",
+    "reviews/multilingual-ui/v1/safety-classification.json": "sha256:fd271765f0882eda962d009332ca76e693112b94ed965f702b05b770c9586b80",
+    "reviews/security-privacy-evidence/v1/README.md": "sha256:4364570794a3ce94dfdba49627df8bfd0cd84b50211f6d476c42439ff24544e1",
+    "reviews/security-privacy-evidence/v1/inventory.json": "sha256:4f07fab94a92f4d7e340e85f1bf0ba0a0bc25aa18602b6d3c2f7359b6d46d6d6",
+    "reviews/technical-due-diligence/v1/README.md": "sha256:87ae878128a2d3df102e0dbfd68621abea80a128e3eda98a3b59bb8a03bf585e",
+    "reviews/technical-due-diligence/v1/index.schema.json": "sha256:5ba797f99ddc1598d72a074e47240afdba5771a80acf0bce86aacd054b9c1022",
+    "web/package-lock.json": "sha256:a9063627b51f3f2fa325df1cedc8fa48b6b623585ff635c5bb64e6bbb376a961",
+    "web/package.json": "sha256:78ab208f6963e6d4398c99d5d85a25126ee28a8feb33b0a24f0578e8599d952f",
+    "web/scripts/print-technical-due-diligence-sources.mjs": "sha256:4b289029ffabe3e9cad62cb1ca3cfcdfe7b5095fccd414ed8947305da18e5faa",
+    "web/scripts/security-privacy-evidence-lib.mjs": "sha256:9972eddc8f990bf7cb4d6ec87329bb94a22974b698213d978cdd6de9dc782df0",
+    "web/scripts/technical-due-diligence-lib.mjs": "sha256:d1195c196949937d6828879b32f5780c138858ec285421a48f6d1142bdd7d26b",
+    "web/scripts/technical-due-diligence.test.mjs": "sha256:8355300035b4f3e49bf6da4368f4638c8dbf04dfb3fedb4c0441e730e51ec1ee",
+    "web/scripts/verify-docker-image.sh": "sha256:d72a726fa535659a3770167bc3944692ed990ae8d81438d96b71e52ebb3bc9d2",
+    "web/scripts/verify-internal-nonpublication.mjs": "sha256:81699159668ee240ae5fb2d8020b287ce6e89d80eb8bbd69dfd41a13ad361ca4",
+    "web/scripts/verify-release-integrity.mjs": "sha256:6c3413d93559e9f5d6663bd0f1519ae83a35aaaf81cbdf910b7864c2ebe9fb05",
+    "web/scripts/verify-release-reproducibility.mjs": "sha256:a51527be77c2a0f011e1d683db0d9828746afb4935b98b6382c385a3ae62c7f9",
+    "web/scripts/verify-technical-due-diligence.mjs": "sha256:94a704c803d7fefbafcdff2504ec2160962a58df0dec201d1a94d9504eb30ca9"
+  },
+  "domains": [
+    {
+      "id": "release_integrity",
+      "artifacts": [
+        { "path": "docs/releases.json", "proves_narrowly": "Records the bound release changelog source consumed by repository release generation.", "does_not_prove": "Does not prove deployed bytes, current service operation, or third-party delivery.", "review_status": "verified_static", "next_qualified_or_manual_gate": "Manually review changed release semantics before accepting a refreshed source digest." },
+        { "path": "docs/dataset-releases.json", "proves_narrowly": "Records the bound dataset release registry used by deterministic repository checks.", "does_not_prove": "Does not independently validate hotline accuracy, currency, reachability, or provider approval.", "review_status": "verified_static", "next_qualified_or_manual_gate": "Manually review registry history and the generated candidate before any dataset release." },
+        { "path": "web/scripts/verify-release-integrity.mjs", "proves_narrowly": "Implements the cited static release descriptor and artifact identity regression checks.", "does_not_prove": "Does not establish signatures, hostile filesystem race freedom, or deployed artifact identity.", "review_status": "verified_static", "next_qualified_or_manual_gate": "Review implementation changes and rerun the complete release verification gate." },
+        { "path": "web/scripts/verify-release-reproducibility.mjs", "proves_narrowly": "Implements the cited repeat-build comparison for the repository release artifact boundary.", "does_not_prove": "Does not establish reproducibility on every platform, toolchain, or future dependency graph.", "review_status": "manual", "next_qualified_or_manual_gate": "A reviewer must assess toolchain changes and interpret any reproducibility delta." }
+      ]
+    },
+    {
+      "id": "deployment_build",
+      "artifacts": [
+        { "path": "Dockerfile", "proves_narrowly": "Defines the bound multi-stage image build and the files copied into its static serving stage.", "does_not_prove": "Does not prove a registry image, deployment configuration, runtime behavior, or availability.", "review_status": "verified_static", "next_qualified_or_manual_gate": "Inspect every image-context or final-stage change and rerun the deployment image smoke test." },
+        { "path": "Caddyfile", "proves_narrowly": "Defines the bound static route and response-header configuration used by the repository image.", "does_not_prove": "Does not prove upstream TLS, infrastructure policy, live headers, or operational behavior.", "review_status": "not_assessed", "next_qualified_or_manual_gate": "A qualified operator must separately review live infrastructure and observed responses." },
+        { "path": ".dockerignore", "proves_narrowly": "Excludes the complete reviews directory from the bound Docker build context.", "does_not_prove": "Does not by itself prove absence from local build output or every possible distribution path.", "review_status": "held", "next_qualified_or_manual_gate": "Keep reviews excluded and rerun dist and final-image nonpublication scans; other channels remain held." }
+      ]
+    },
+    {
+      "id": "accessibility",
+      "artifacts": [
+        { "path": "reviews/accessibility-evidence/v1/baseline.json", "proves_narrowly": "Binds selected static accessibility regression assertions to its finite source inventory.", "does_not_prove": "Does not prove WCAG conformance, legal compliance, or assistive-technology outcomes.", "review_status": "verified_static", "next_qualified_or_manual_gate": "Qualified manual keyboard, screen-reader, contrast, zoom, reflow, RTL, and browser review remains required." },
+        { "path": "reviews/accessibility-evidence/v1/README.md", "proves_narrowly": "Documents the intended finite static accessibility boundary and its explicit limitations.", "does_not_prove": "Does not constitute an accessibility assessment, certification, VPAT, ACR, or assessor opinion.", "review_status": "not_assessed", "next_qualified_or_manual_gate": "Commission and record a separately authorized qualified accessibility review before making any external statement." }
+      ]
+    },
+    {
+      "id": "multilingual_qualification_review",
+      "artifacts": [
+        { "path": "reviews/multilingual-ui/v1/review-pack.json", "proves_narrowly": "Records the deterministic pending-only UI-string handoff for the bound locale and key inventory.", "does_not_prove": "Does not prove translation quality, locale qualification, reviewer approval, or service accuracy.", "review_status": "manual", "next_qualified_or_manual_gate": "Identity-distinct qualified human decisions require a future separately approved authenticated process." },
+        { "path": "reviews/multilingual-ui/v1/review-pack.schema.json", "proves_narrowly": "Defines the closed structural contract for the bound pending-only multilingual review pack.", "does_not_prove": "Does not establish semantic correctness or substitute for deterministic regeneration and human review.", "review_status": "verified_static", "next_qualified_or_manual_gate": "Review schema and generator parity whenever locale, key, classification, or status inventory changes." },
+        { "path": "reviews/multilingual-ui/v1/safety-classification.json", "proves_narrowly": "Records the bound closed safety classification used to generate the UI review handoff.", "does_not_prove": "Does not establish legal clearance, linguistic correctness, or suitability in a locale.", "review_status": "manual", "next_qualified_or_manual_gate": "A qualified reviewer must examine safety-facing copy and legal-sensitive copy needs separate legal clearance." },
+        { "path": "reviews/multilingual-ui/v1/README.md", "proves_narrowly": "Documents the pending-only multilingual handoff boundary and reviewer instructions.", "does_not_prove": "Does not qualify a locale or authorize canonical hotline, provider, or contact changes.", "review_status": "held", "next_qualified_or_manual_gate": "Qualification remains held until a separately approved authenticated reviewer-decision process exists." }
+      ]
+    },
+    {
+      "id": "security_privacy",
+      "artifacts": [
+        { "path": "reviews/security-privacy-evidence/v1/inventory.json", "proves_narrowly": "Binds narrow static security and privacy repository assertions and gaps to exact source bytes.", "does_not_prove": "Does not prove security or privacy compliance, penetration results, runtime controls, or operational response.", "review_status": "verified_static", "next_qualified_or_manual_gate": "Qualified manual security and privacy review is required before interpreting or refreshing its bounded assertions." },
+        { "path": "reviews/security-privacy-evidence/v1/README.md", "proves_narrowly": "Documents the finite internal inventory semantics, fail-closed mechanics, and known limitations.", "does_not_prove": "Does not constitute a threat model, audit, legal opinion, attestation, or external assessment.", "review_status": "not_assessed", "next_qualified_or_manual_gate": "Independent assessment, penetration testing, runtime infrastructure, and provider practices remain separately unassessed." }
+      ]
+    },
+    {
+      "id": "internal_control_integrity",
+      "artifacts": [
+        { "path": "reviews/technical-due-diligence/v1/README.md", "proves_narrowly": "Documents the bounded index contract, runtime-only invariants, and conservative nonpublication limitations.", "does_not_prove": "Does not independently enforce the documented behavior or make the internal index authoritative.", "review_status": "verified_static", "next_qualified_or_manual_gate": "Review wording against the bound implementation whenever control semantics change." },
+        { "path": "reviews/technical-due-diligence/v1/index.schema.json", "proves_narrowly": "Defines the exact checked-in Draft 2020-12 structural specification validated with Ajv 2020.", "does_not_prove": "Does not express source ordering, exact cross-object coverage, byte reading, gap count, or assurance-language rules.", "review_status": "verified_static", "next_qualified_or_manual_gate": "Review schema and runtime-only tests together whenever either contract changes." },
+        { "path": "web/package-lock.json", "proves_narrowly": "Pins the repository dependency graph containing the Ajv 2020 implementation used by this verifier.", "does_not_prove": "Does not establish dependency security, provenance, future availability, or runtime correctness.", "review_status": "verified_static", "next_qualified_or_manual_gate": "Review dependency updates and rerun the bounded verifier tests after lockfile changes." },
+        { "path": "web/package.json", "proves_narrowly": "Defines the finite technical due-diligence scripts and verify-all wiring checked by the verifier.", "does_not_prove": "Does not prove that a remote CI run executed or that external branch rules require it.", "review_status": "verified_static", "next_qualified_or_manual_gate": "Review script wiring changes and run the local targeted verification gate." },
+        { "path": "web/scripts/print-technical-due-diligence-sources.mjs", "proves_narrowly": "Prints refreshed source digests through the shared tracked stable-reader implementation.", "does_not_prove": "Does not authorize a digest refresh or replace manual review of changed source meaning.", "review_status": "verified_static", "next_qualified_or_manual_gate": "Use only after reviewing every intentionally changed bound control and evidence source." },
+        { "path": "web/scripts/security-privacy-evidence-lib.mjs", "proves_narrowly": "Provides the inherited tracked no-follow reader and whole-index snapshot checks reused here.", "does_not_prove": "Does not provide portable openat traversal, absolute race freedom, or hostile-concurrency safety.", "review_status": "verified_static", "next_qualified_or_manual_gate": "Retain adversarial replacement, symlink, worktree drift, and index-mutation tests when changing it." },
+        { "path": "web/scripts/technical-due-diligence-lib.mjs", "proves_narrowly": "Implements schema loading, Ajv validation, runtime-only invariants, and exact source coverage checks.", "does_not_prove": "Does not elevate bounded static repository facts into operational or external assurance.", "review_status": "verified_static", "next_qualified_or_manual_gate": "Review implementation and evidence language together before refreshing its digest." },
+        { "path": "web/scripts/technical-due-diligence.test.mjs", "proves_narrowly": "Exercises accepted and rejected schema instances plus runtime-only and stable-reader adversarial cases.", "does_not_prove": "Does not exhaust all filesystem interleavings, semantic interpretations, or future platform behavior.", "review_status": "verified_static", "next_qualified_or_manual_gate": "Extend focused cases whenever schema, reader, or runtime-only invariants change." },
+        { "path": "web/scripts/verify-docker-image.sh", "proves_narrowly": "Scans the locally built served root for finite due-diligence paths and stable marker strings.", "does_not_prove": "Does not scan arbitrary marker-stripped copies or prove an externally deployed image identity.", "review_status": "verified_static", "next_qualified_or_manual_gate": "Rerun with a container engine and inspect changes to the finite served-root probes." },
+        { "path": "web/scripts/verify-internal-nonpublication.mjs", "proves_narrowly": "Scans built distribution files for finite internal markers and exact current evidence-file hashes.", "does_not_prove": "Does not recognize modified marker-stripped copies or inspect distribution channels outside its input tree.", "review_status": "verified_static", "next_qualified_or_manual_gate": "Review marker and artifact coverage when adding or renaming internal evidence." },
+        { "path": "web/scripts/verify-technical-due-diligence.mjs", "proves_narrowly": "Runs the checked-in schema, runtime, source, and package-script wiring verification entry point.", "does_not_prove": "Does not show that any external CI system ran it or accepted its result.", "review_status": "verified_static", "next_qualified_or_manual_gate": "Run the targeted verifier and inspect failures before any integration decision." },
+        { "path": ".github/workflows/web-ci.yml", "proves_narrowly": "The bound Web CI job invokes verify-all and the local deployment-image verifier without a job-level condition.", "does_not_prove": "Does not prove any remote run completed or that repository branch protections require the job.", "review_status": "verified_static", "next_qualified_or_manual_gate": "Review CI wiring and separately inspect external required-check configuration." }
+      ]
+    }
+  ]
+}
