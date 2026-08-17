@@ -32,6 +32,15 @@ test('Ajv 2020 accepts the index and rejects schema-expressible tuple, property-
   const unsafeSource = clone(); unsafeSource.sources['../escape'] = `sha256:${'0'.repeat(64)}`; assert.equal(validate(unsafeSource), false);
   const openArtifact = clone(); openArtifact.domains[0].artifacts[0].extra = true; assert.equal(validate(openArtifact), false);
 });
+test('Ajv 2020 rejects terminal dot segments in source property names and artifact paths', () => {
+  const validate = new Ajv2020({ allErrors: true, strict: true }).compile(expectedSchema());
+  for (const [target, path] of [['source', 'foo/.'], ['source', 'foo/..'], ['artifact', 'foo/.'], ['artifact', 'foo/..']]) {
+    const candidate = clone();
+    if (target === 'source') candidate.sources[path] = `sha256:${'0'.repeat(64)}`;
+    else candidate.domains[0].artifacts[0].path = path;
+    assert.equal(validate(candidate), false, `${target} path ${path} must be rejected`);
+  }
+});
 test('strict JSON rejects duplicate members and malformed UTF-8', () => {
   assert.throws(() => parseStrictJson('{"schema_version":"1.0","schema_version":"2.0"}', INDEX_PATH), /duplicate member/);
   assert.throws(() => parseStrictJson(Buffer.from([0x7b, 0x22, 0x78, 0x22, 0x3a, 0xff, 0x7d]), INDEX_PATH), /malformed UTF-8/);

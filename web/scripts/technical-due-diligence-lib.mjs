@@ -16,7 +16,7 @@ const exactKeys = (value, keys, label) => assert.deepEqual(Object.keys(value), k
 
 export function expectedSchema() {
   const artifact = { type: 'object', additionalProperties: false, required: ARTIFACT_KEYS, properties: {
-    path: { type: 'string', pattern: '^(?!/)(?!.*(?:^|/)\\.\\.?/)[A-Za-z0-9._/-]+$' }, proves_narrowly: { type: 'string', minLength: 20 }, does_not_prove: { type: 'string', minLength: 20 }, review_status: { enum: STATUSES }, next_qualified_or_manual_gate: { type: 'string', minLength: 20 },
+    path: { type: 'string', pattern: '^(?!/)(?!.*(?:^|/)\\.\\.?(?:/|$))[A-Za-z0-9._/-]+$' }, proves_narrowly: { type: 'string', minLength: 20 }, does_not_prove: { type: 'string', minLength: 20 }, review_status: { enum: STATUSES }, next_qualified_or_manual_gate: { type: 'string', minLength: 20 },
   } };
   const domain = (id) => ({ type: 'object', additionalProperties: false, required: DOMAIN_KEYS, properties: { id: { const: id }, artifacts: { type: 'array', minItems: 1, items: artifact } } });
   const definitions = Object.fromEntries(DOMAINS.map((id) => [`domain_${id}`, domain(id)]));
@@ -27,7 +27,7 @@ export function expectedSchema() {
       schema_version: { const: '1.0' }, internal_only_marker: { const: INTERNAL_MARKER }, purpose: { const: 'repository_internal_deterministic_regression_evidence_index' },
       limitations: { type: 'array', minItems: 8, uniqueItems: true, items: { type: 'string', minLength: 10 } },
       status_vocabulary: { const: STATUSES },
-      sources: { type: 'object', minProperties: 1, propertyNames: { pattern: '^(?!/)(?!.*(?:^|/)\\.\\.?/)[A-Za-z0-9._/-]+$' }, additionalProperties: { type: 'string', pattern: '^sha256:[0-9a-f]{64}$' } },
+      sources: { type: 'object', minProperties: 1, propertyNames: { pattern: '^(?!/)(?!.*(?:^|/)\\.\\.?(?:/|$))[A-Za-z0-9._/-]+$' }, additionalProperties: { type: 'string', pattern: '^sha256:[0-9a-f]{64}$' } },
       domains: { type: 'array', minItems: DOMAINS.length, maxItems: DOMAINS.length, prefixItems: DOMAINS.map((id) => ({ '$ref': `#/$defs/${id}` })), items: false },
     },
     '$defs': {
