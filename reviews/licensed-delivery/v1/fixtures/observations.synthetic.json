@@ -7,7 +7,7 @@
     "tenant_id": "tenant-synthetic-a",
     "app_id": "app-synthetic-a",
     "app_version": "synthetic-1.0",
-    "presentation_token_digest": "sha256:0204a2996ac2070a267819679fe7d9a614ca84e3719ca02fb65f8fe8de89a627",
+    "presentation_token_digest": "sha256:3142ff7803b4cafa3e32ffb411e4e3a5901a2b3918ef6b8f03ae4699b5932b2a",
     "record_revision": "sha256:8c1fecfff95cd55e2fdd7f2db2d8d167f6db7582ee4dea2d875b11dae42bd969",
     "presentation_status": "active",
     "presentation_issued_at": "2026-08-17T10:00:00.000Z",
@@ -16,7 +16,7 @@
     "surface_class": "licensed_app",
     "observed_at": "2026-08-17T10:01:00.000Z",
     "evidence_key_id": "obs-key-1",
-    "evidence_signature": "KROZuhcZCrjg7c6LrBrQOFTqabF-Ph_KvLx4qkG93i4"
+    "evidence_signature": "dPBR9KrBbpPVrYn5-I2_0JM6lKW3x3ZjFtFS8QpF_5U"
   },
   "render_attestation": {
     "schema_version": "1.0",
@@ -25,7 +25,7 @@
     "tenant_id": "tenant-synthetic-a",
     "app_id": "app-synthetic-a",
     "app_version": "synthetic-1.0",
-    "presentation_token_digest": "sha256:0204a2996ac2070a267819679fe7d9a614ca84e3719ca02fb65f8fe8de89a627",
+    "presentation_token_digest": "sha256:3142ff7803b4cafa3e32ffb411e4e3a5901a2b3918ef6b8f03ae4699b5932b2a",
     "record_revision": "sha256:8c1fecfff95cd55e2fdd7f2db2d8d167f6db7582ee4dea2d875b11dae42bd969",
     "coarse_time_bucket": "2026-08-17T10:00:00.000Z",
     "render_count": 2,
@@ -34,7 +34,7 @@
     "presentation_expires_at": "2026-08-17T10:02:00.000Z",
     "issuance_key_id": "synthetic-key-1",
     "evidence_key_id": "obs-key-1",
-    "evidence_signature": "1BQeVpzyzppxNUz2u1417ZyChoNVpRafkW43OsWrfjQ"
+    "evidence_signature": "2XPmnblnoLBpZpBK_qp9kmBS_rM5rG8QRXONoP7p69g"
   },
   "fetch_observation": {
     "schema_version": "1.0",
@@ -55,7 +55,7 @@
     "schema_version": "1.0",
     "evidence_type": "outward",
     "observation_id": "synthetic-outward-1",
-    "matched_metadata_digest": "sha256:e8ea4f2a4046b7dbf70d6e2a1c5be54a1e17c56357292a9cce7d8c5bb594d98a",
+    "matched_metadata_digest": "sha256:4ab1bccb852946d9d88f9e93141247383f3ea0ac42a91f6609ce8ed185114adf",
     "surface_class": "third_party_app",
     "coarse_time_bucket": "2026-08-17T10:00:00.000Z",
     "match_count": 1,
@@ -65,7 +65,7 @@
     "scan_method": "static_digest_scan_v1",
     "scan_version": "1",
     "evidence_key_id": "obs-key-1",
-    "evidence_signature": "Xui1aJoB5F41cJGmM3-pkiCdweWT1abSAnJlk4kEYj4"
+    "evidence_signature": "9gIwqQyabN2Oem0__EjsckUCiIx_ClxQmiL71MJtR1Y"
   },
   "app_binary_observation": {
     "schema_version": "1.0",
@@ -80,8 +80,8 @@
     "acquisition_id": "synthetic-build-1",
     "scan_method": "static_digest_scan_v1",
     "scan_version": "1",
-    "matched_metadata_digest": "sha256:e8ea4f2a4046b7dbf70d6e2a1c5be54a1e17c56357292a9cce7d8c5bb594d98a",
+    "matched_metadata_digest": "sha256:4ab1bccb852946d9d88f9e93141247383f3ea0ac42a91f6609ce8ed185114adf",
     "evidence_key_id": "obs-key-1",
-    "evidence_signature": "H90Fm9X9Gb075R51VpzoiwWAajsU1FLi6ZDHcfwIt-k"
+    "evidence_signature": "Kl_rtnSZC9ImXdoqYoiTkPkIIK3ke1k9Jg0Xi7W5qlc"
   }
 }

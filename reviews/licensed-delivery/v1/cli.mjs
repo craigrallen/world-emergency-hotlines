@@ -17,8 +17,8 @@ import {
 const root = fileURLToPath(new URL('.', import.meta.url));
 const fixturePins = Object.freeze({
   'fixtures/synthetic-input.json': '174117ce223406ca3ad680e3137e95493fb44cabd41e1f776cb3c79320b7ca45',
-  'fixtures/presentation.synthetic.json': 'dfd95ba3fcd2bd16d2a1d39db8460c438da90431b4a2440852f82c6c05b8d099',
-  'fixtures/observations.synthetic.json': '776de581d7921807caa1e719ba790356d23284cc903b234bcb7efaafe7d384df',
+  'fixtures/presentation.synthetic.json': 'c59180bd757ee1c3fc2e9462f0186f4945edcba043672438388e69753a271a67',
+  'fixtures/observations.synthetic.json': '342827a7c392e42549ea9348bb51dd995f0a63811fd7df517c8131bfc69316f5',
 });
 
 function loadPinnedFixture(path) {
@@ -35,7 +35,7 @@ function trustedDemoContext(input, presentation) {
   if (input.record.contact_emails.length !== 1 || !input.record.contact_emails[0].endsWith('@example.invalid')) throw new Error('synthetic email must use example.invalid');
   const observationKey = 'SYNTHETIC-OBSERVATION-KEY-000000000000000000';
   const artifactDigest = sha256(Buffer.from('artifact'));
-  const metadataDigest = sha256(Buffer.from('synthetic-metadata'));
+  const metadataDigest = sha256(Buffer.from(presentation.presentation_metadata.opaque_canary));
   const tokenDigest = sha256(Buffer.from(presentation.presentation_token));
   const acquisition = id => [id, {status: 'active', artifact_sha256: artifactDigest, acquisition_provenance: 'registered_capture_service', scan_method: 'static_digest_scan_v1', scan_version: '1'}];
   return {
@@ -43,7 +43,7 @@ function trustedDemoContext(input, presentation) {
     registered_apps: {'tenant-synthetic-a\0app-synthetic-a\0synthetic-1.0': {status: 'active'}},
     presentation_keys: {[input.key_id]: {status: 'active', key: input.key}},
     presentation_ledger: {[tokenDigest]: {status: 'active', tenant_id: 'tenant-synthetic-a', app_id: 'app-synthetic-a', app_version: 'synthetic-1.0', record_revision: presentation.record_revision, issued_at: presentation.issued_at, expires_at: presentation.expires_at, key_id: input.key_id}},
-    metadata_registry: {[metadataDigest]: {status: 'active', metadata_type: 'canary', tenant_id: 'tenant-synthetic-a', app_id: 'app-synthetic-a', app_version: 'synthetic-1.0', issuance_key_id: input.key_id}},
+    metadata_registry: {[metadataDigest]: {status: 'active', metadata_type: 'canary', tenant_id: 'tenant-synthetic-a', app_id: 'app-synthetic-a', app_version: 'synthetic-1.0', record_revision: presentation.record_revision, release_revision: presentation.release_revision, issuance_key_id: input.key_id}},
     acquisition_registry: Object.fromEntries([acquisition('build-synthetic-1'), acquisition('synthetic-build-1')]),
     scan_version_registry: {[`static_digest_scan_v1\0${'1'}`]: {status: 'active'}},
   };
