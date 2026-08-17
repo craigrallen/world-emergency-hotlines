@@ -1,0 +1,22 @@
+{
+  "synthetic_fixture": true,
+  "record": {
+    "callable_numbers": ["+1-202-555-0100"],
+    "sms_codes": ["SYNTHETIC"],
+    "contact_urls": ["https://example.invalid/help"],
+    "contact_emails": ["help@example.invalid"],
+    "provider_identity": "SYNTHETIC PROVIDER — NOT A REAL HOTLINE",
+    "geographic_scope": "SYNTHETIC TEST REGION",
+    "eligibility": "synthetic fixtures only",
+    "availability_hours": "synthetic always",
+    "emergency_classification": "synthetic_non_emergency_fixture",
+    "routing_fallback": "none_synthetic"
+  },
+  "release_revision": "sha256:synthetic-release-revision-not-production",
+  "trusted_context": {"status":"active","tenant_id":"tenant-synthetic-a","app_id":"app-synthetic-a","app_version":"synthetic-1.0"},
+  "key": "SYNTHETIC-TEST-KEY-NEVER-PUBLISH-OR-USE-IN-PRODUCTION",
+  "key_id": "synthetic-key-1",
+  "now": "2026-08-17T10:00:00.000Z",
+  "fixture_nonce": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+  "ttl_seconds": 120
+}
