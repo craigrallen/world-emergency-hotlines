@@ -203,6 +203,8 @@ const encodePercent = (value) => [...Buffer.from(value)].map((byte) => `%${byte.
 const encodeJsX = (value) => [...Buffer.from(value)].map((byte) => `\\x${byte.toString(16).padStart(2, '0')}`).join('');
 const encodeJsU = (value) => [...value].map((character) => `\\u${character.codePointAt(0).toString(16).padStart(4, '0')}`).join('');
 const encodeHtml = (value) => [...value].map((character) => `&#x${character.codePointAt(0).toString(16)};`).join('');
+const interiorPositions = (value) => [...new Set([1, Math.floor(value.length / 2), value.length - 1])].filter((position) => position > 0 && position < value.length);
+const insertInlineTag = (value, position) => `${value.slice(0, position)}<span></span>${value.slice(position)}`;
 test('nonpublication fixed-point decoding rejects nested and mixed encodings for every tuple class', () => {
   for (const [kind, source] of [['real', ledger], ['synthetic', example]]) {
     tupleClasses(source.entries[0]).forEach((tuple, tupleIndex) => {
@@ -213,6 +215,19 @@ test('nonpublication fixed-point decoding rejects nested and mixed encodings for
       assertLeakRejected(encodeHtml(encodePercent(encodeJsX(joined))), `${kind}-tuple-${tupleIndex}-html-percent-jsx`);
     });
   }
+});
+test('nonpublication rejects inline tags at multiple interior positions of every tuple component', () => {
+  for (const [kind, source] of [['real', ledger], ['synthetic', example]]) {
+    tupleClasses(source.entries[0]).forEach((tuple, tupleIndex) => {
+      tuple.forEach((component, componentIndex) => {
+        for (const position of interiorPositions(component)) {
+          const splitTuple = tuple.map((value, index) => index === componentIndex ? insertInlineTag(value, position) : value);
+          assertLeakRejected(splitTuple.join(' | '), `${kind}-tuple-${tupleIndex}-component-${componentIndex}-position-${position}`);
+        }
+      });
+    });
+  }
+  assertLeakRejected('psc_<span>a</span>pp identity_naming', 'exact-psc-app-inline-span');
 });
 test('nonpublication decoder negative controls remain literal and bounded', () => {
   for (const [index, content] of ['%zz %5', '\\xGG \\u0ZZZ', '&amp without-semicolon; &#x110000;', 'ordinary compressed or encrypted data is not claimed detectable'].entries()) {
@@ -230,6 +245,9 @@ test('nonpublication tuple fingerprints permit ordinary public content and isola
     'This record is held pending review and may change.',
     'Identity naming conventions, eligibility audience, and service classifications.',
     ...rowScalars(ledger.entries[0]).map((scalar) => scalar === ledger.entries[0].notes ? 'Qualified counsel may review public terms.' : scalar.split(/[_\s]+/u)[0]),
+    'ps <span>c</span> app identity_naming',
+    'psc_ <span>a</span> pp identity_naming',
+    'psc_ap <span></span>p identity_naming',
   ];
   for (const [index, content] of controls.entries()) {
     const dist = temporaryRoot(); writeFileSync(resolve(dist, `ordinary-${index}.txt`), content);

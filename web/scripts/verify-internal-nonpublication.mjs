@@ -62,7 +62,8 @@ const decodeHtmlEntities = (text) => text.replace(/&(?:#(x[0-9a-f]+|[0-9]+)|([a-
   }
   return HTML_ENTITIES.get(named.toLocaleLowerCase('en-US')) ?? entity;
 });
-const normalizeScanText = (text) => {
+const normalizeDecodedText = (text, tagReplacement) => ` ${text.replace(/<[^>]*>/gu, tagReplacement).normalize('NFKC').toLocaleLowerCase('en-US').replace(/[^\p{L}\p{N}]+/gu, ' ').trim()} `;
+const normalizeScanTexts = (text) => {
   if (Buffer.byteLength(text) > MAX_NORMALIZATION_BYTES) throw new Error('production artifact exceeds bounded nonpublication normalization size');
   let decoded = text;
   let converged = false;
@@ -73,8 +74,9 @@ const normalizeScanText = (text) => {
     decoded = next;
   }
   if (!converged) throw new Error('production artifact exceeds bounded nonpublication normalization iterations');
-  return ` ${decoded.replace(/<[^>]*>/gu, ' ').normalize('NFKC').toLocaleLowerCase('en-US').replace(/[^\p{L}\p{N}]+/gu, ' ').trim()} `;
+  return [normalizeDecodedText(decoded, ' '), normalizeDecodedText(decoded, '')];
 };
+const normalizeScanText = (text) => normalizeScanTexts(text)[0];
 const clearanceRowFingerprints = (artifacts) => artifacts.flatMap(([artifact, value]) => value.entries.flatMap((entry, index) => [
   ['population-field mapping', [entry.population_id, entry.field_group_id]],
   ['evidence-population binding', [entry.population_id, ...entry.evidence_references]],
@@ -117,8 +119,8 @@ export function assertInternalNonpublication(dist, repoRoot = repo) {
     for (const marker of forbidden.markers) if (bytes.includes(Buffer.from(marker))) throw new Error(`internal review-pack marker published in ${path}`);
     if (forbidden.exactHashes.includes(sha256(bytes))) throw new Error(`internal evidence exact copy published in ${path}`);
     const text = bytes.toString('utf8');
-    const normalizedText = normalizeScanText(text);
-    for (const row of forbidden.clearanceRowFingerprints) if (row.components.every((component) => normalizedText.includes(` ${component} `))) throw new Error(`internal field-clearance row fingerprint (${row.label}) published in ${path}`);
+    const normalizedTexts = normalizeScanTexts(text);
+    for (const row of forbidden.clearanceRowFingerprints) if (normalizedTexts.some((normalizedText) => row.components.every((component) => normalizedText.includes(` ${component} `)))) throw new Error(`internal field-clearance row fingerprint (${row.label}) published in ${path}`);
     for (const scalar of forbidden.scalarFingerprints) if (text.includes(scalar)) throw new Error(`internal review-pack scalar fingerprint published in ${path}`);
     try {
       const match = findForbiddenSemanticSection(JSON.parse(text), forbidden.semanticFingerprints);
