@@ -65,14 +65,18 @@ const decodeHtmlEntities = (text) => text.replace(/&(?:#(x[0-9a-f]+|[0-9]+)|([a-
 });
 const normalizeDecodedText = (text) => ` ${text.normalize('NFKC').toLocaleLowerCase('en-US').replace(/[^\p{L}\p{N}]+/gu, ' ').trim()} `;
 const htmlTextRepresentations = (html) => {
-  const textNodes = [];
-  const visit = (node) => {
-    if (node.nodeName === '#text') textNodes.push(node.value);
-    for (const child of node.childNodes ?? []) visit(child);
-    if (node.content) visit(node.content);
+  const representations = [];
+  for (const scriptingEnabled of [true, false]) {
+    const textNodes = [];
+    const visit = (node) => {
+      if (node.nodeName === '#text') textNodes.push(node.value);
+      for (const child of node.childNodes ?? []) visit(child);
+      if (node.content) visit(node.content);
+    };
+    visit(parse(html, { scriptingEnabled }));
+    representations.push(textNodes.join(' '), textNodes.join(''));
   };
-  visit(parse(html));
-  return [textNodes.join(' '), textNodes.join('')];
+  return [...new Set(representations)];
 };
 const normalizeScanTexts = (text, isHtml = false) => {
   if (Buffer.byteLength(text) > MAX_NORMALIZATION_BYTES) throw new Error('production artifact exceeds bounded nonpublication normalization size');

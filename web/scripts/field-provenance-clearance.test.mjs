@@ -230,6 +230,19 @@ test('nonpublication rejects inline tags at multiple interior positions of every
   }
   assertLeakRejected('psc_<span>a</span>pp identity_naming', 'exact-psc-app-inline-span', 'html');
 });
+test('nonpublication rejects noscript markup splits in both parse5 scripting modes', () => {
+  for (const [kind, source] of [['real', ledger], ['synthetic', example]]) {
+    tupleClasses(source.entries[0]).forEach((tuple, tupleIndex) => {
+      tuple.forEach((component, componentIndex) => {
+        for (const position of interiorPositions(component)) {
+          const splitTuple = tuple.map((value, index) => index === componentIndex ? insertInlineTag(value, position) : value);
+          assertLeakRejected(`<noscript>${splitTuple.join(' | ')}</noscript>`, `${kind}-noscript-tuple-${tupleIndex}-component-${componentIndex}-position-${position}`, 'html');
+        }
+      });
+    });
+  }
+  assertLeakRejected('<noscript>psc_<span>a</span>pp identity_naming</noscript>', 'exact-noscript-psc-app-inline-span', 'html');
+});
 test('nonpublication HTML parser rejects quoted-attribute greater-than splits across every tuple component', () => {
   for (const [kind, source] of [['real', ledger], ['synthetic', example]]) {
     tupleClasses(source.entries[0]).forEach((tuple, tupleIndex) => {
@@ -262,6 +275,9 @@ test('nonpublication tuple fingerprints permit ordinary public content and isola
     'ps <span>c</span> app identity_naming',
     'psc_ <span>a</span> pp identity_naming',
     'psc_ap <span></span>p identity_naming',
+    '<noscript>ps <span>c</span> app identity_naming</noscript>',
+    '<noscript>psc_ <span>a</span> pp identity_naming</noscript>',
+    '<noscript>psc_ap <span></span>p identity_naming</noscript>',
   ];
   for (const [index, content] of controls.entries()) {
     const dist = temporaryRoot(); writeFileSync(resolve(dist, `ordinary-${index}.txt`), content);
@@ -273,6 +289,6 @@ test('nonpublication preserves raw non-HTML text and ignores HTML attribute valu
   writeFileSync(resolve(raw, 'literal.txt'), 'psc_a<span title=">">p</span>p identity_naming');
   assert.doesNotThrow(() => assertInternalNonpublication(raw, repo));
   const html = temporaryRoot();
-  writeFileSync(resolve(html, 'attributes.html'), '<p data-population="psc_app" title="identity_naming">Ordinary public content.</p>');
+  writeFileSync(resolve(html, 'attributes.html'), '<noscript data-population="psc_app" title="identity_naming"><span>Ordinary public content.</span></noscript>');
   assert.doesNotThrow(() => assertInternalNonpublication(html, repo));
 });
