@@ -5,6 +5,7 @@ import { INTERNAL_MARKER, sha256 } from './accessibility-evidence-lib.mjs';
 import { INVENTORY_MARKER } from './security-privacy-evidence-lib.mjs';
 import { INTERNAL_MARKER as DUE_DILIGENCE_MARKER } from './technical-due-diligence-lib.mjs';
 import { INTERNAL_MARKER as DESIGN_PARTNER_MARKER, PACK_PATH } from './design-partner-discovery-lib.mjs';
+import { INDEX_PATH as LEGAL_REVIEW_INDEX_PATH, INTERNAL_MARKER as LEGAL_REVIEW_MARKER } from './licensing-legal-review-lib.mjs';
 
 const repo = resolve(import.meta.dirname, '../..');
 const files = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
@@ -48,11 +49,21 @@ export function forbiddenInternalEvidence(repoRoot = repo) {
   const evidenceDirs = [resolve(repoRoot, 'reviews')];
   const exactHashes = evidenceDirs.flatMap((path) => files(path)).map((path) => sha256(readFileSync(path)));
   const designPartnerPack = JSON.parse(readFileSync(resolve(repoRoot, PACK_PATH), 'utf8'));
+  const legalReviewIndex = JSON.parse(readFileSync(resolve(repoRoot, LEGAL_REVIEW_INDEX_PATH), 'utf8'));
+  // Public release metadata legitimately contains some bound source hashes and
+  // paths. Fingerprint only the legal handoff's substantive internal sections.
+  const legalReviewSubstance = {
+    prohibited_claims_actions: legalReviewIndex.prohibited_claims_actions,
+    decision_domains: legalReviewIndex.decision_domains,
+    provenance_populations: legalReviewIndex.provenance_populations,
+    unresolved_questions: legalReviewIndex.unresolved_questions,
+  };
+  const semanticArtifacts = [['design-partner pack', designPartnerPack], ['licensing legal-review substance', legalReviewSubstance]];
   return {
-    markers: ['reviews/multilingual-ui', 'internal-multilingual-ui-review-pack/v1', 'pending_not_reviewed', 'static_ui_runtime_dictionaries_only', 'reviews/accessibility-evidence', INTERNAL_MARKER, 'internal_deterministic_regression_evidence', 'accessibility-evidence/v1/baseline.json', 'reviews/security-privacy-evidence', INVENTORY_MARKER, 'repository_internal_deterministic_regression_evidence', 'security-privacy-evidence/v1/inventory.json', 'reviews/technical-due-diligence', DUE_DILIGENCE_MARKER, 'technical-due-diligence/v1/index.json', 'reviews/design-partner-discovery', DESIGN_PARTNER_MARKER, 'design-partner-discovery/v1/pack.json'],
+    markers: ['reviews/multilingual-ui', 'internal-multilingual-ui-review-pack/v1', 'pending_not_reviewed', 'static_ui_runtime_dictionaries_only', 'reviews/accessibility-evidence', INTERNAL_MARKER, 'internal_deterministic_regression_evidence', 'accessibility-evidence/v1/baseline.json', 'reviews/security-privacy-evidence', INVENTORY_MARKER, 'repository_internal_deterministic_regression_evidence', 'security-privacy-evidence/v1/inventory.json', 'reviews/technical-due-diligence', DUE_DILIGENCE_MARKER, 'technical-due-diligence/v1/index.json', 'reviews/design-partner-discovery', DESIGN_PARTNER_MARKER, 'design-partner-discovery/v1/pack.json', 'reviews/licensing-legal-review', LEGAL_REVIEW_MARKER, 'licensing-legal-review/v1/index.json'],
     exactHashes,
-    semanticFingerprints: new Map(semanticSections(designPartnerPack).map(([label, value]) => [semanticHash(value), label])),
-    scalarFingerprints: substantiveUniqueScalars(designPartnerPack),
+    semanticFingerprints: new Map(semanticArtifacts.flatMap(([artifact, value]) => semanticSections(value).map(([label, section]) => [semanticHash(section), `${artifact} ${label}`]))),
+    scalarFingerprints: [...new Set(semanticArtifacts.flatMap(([, value]) => substantiveUniqueScalars(value)))],
   };
 }
 export function assertInternalNonpublication(dist, repoRoot = repo) {
