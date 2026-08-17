@@ -47,7 +47,7 @@ function gitIndexSnapshot(repo, options = {}) {
   return Buffer.from(io.execFileSync('git', ['-C', io.realpathSync(repo), 'ls-files', '-s', '-z'], { encoding: 'buffer', maxBuffer: 64 * 1024 * 1024 }));
 }
 
-function withStableGitIndex(repo, options, operation) {
+export function withStableGitIndex(repo, options = {}, operation) {
   if (options.testOnlySkipGitIndex) return operation();
   const before = gitIndexSnapshot(repo, options);
   const result = operation();
@@ -74,7 +74,7 @@ function assertWebCiContract(workflow) {
   assert.equal((workflow.match(/^\s*run:\s*npm run verify:all\s*$/gm) ?? []).length, 1, 'Web CI must run npm run verify:all exactly once');
 }
 
-function readTrackedRegularFile(repo, path, options = {}) {
+export function readTrackedRegularFile(repo, path, options = {}) {
   const io = { ...defaultIo, ...(options.io ?? {}) };
   assert.equal(typeof path, 'string');
   assert.ok(path && !path.startsWith('/') && !path.split('/').some((part) => !part || part === '.' || part === '..'), `unsafe evidence path: ${path}`);

@@ -34,15 +34,15 @@ until curl --max-time 2 -fsS "$base/status" >/dev/null 2>&1; do
   sleep 0.25
 done
 
-if docker exec "$container" sh -c "find /srv -type f -print | grep -E 'reviews|multilingual-ui|review-pack|security-privacy-evidence'"; then
+if docker exec "$container" sh -c "find /srv -type f -print | grep -E 'reviews|multilingual-ui|review-pack|security-privacy-evidence|technical-due-diligence|due-diligence-evidence'"; then
   echo 'Internal review or evidence path exists in the final served root' >&2; exit 1
 fi
-for marker in internal-multilingual-ui-review-pack/v1 pending_not_reviewed static_ui_runtime_dictionaries_only internal-security-privacy-evidence-only/v1 repository_internal_deterministic_regression_evidence; do
+for marker in internal-multilingual-ui-review-pack/v1 pending_not_reviewed static_ui_runtime_dictionaries_only internal-security-privacy-evidence-only/v1 repository_internal_deterministic_regression_evidence internal-technical-due-diligence-evidence-only/v1 repository_internal_deterministic_regression_evidence_index; do
   if docker exec "$container" grep -R -F "$marker" /srv >/dev/null 2>&1; then
     echo "Internal review-pack marker exists in the final served root: $marker" >&2; exit 1
   fi
 done
-for path in /reviews/multilingual-ui/v1/review-pack.json /multilingual-ui/v1/review-pack.json /review-pack.json /reviews/security-privacy-evidence/v1/inventory.json /security-privacy-evidence/v1/inventory.json /security-privacy-evidence.json; do
+for path in /reviews/multilingual-ui/v1/review-pack.json /multilingual-ui/v1/review-pack.json /review-pack.json /reviews/security-privacy-evidence/v1/inventory.json /security-privacy-evidence/v1/inventory.json /security-privacy-evidence.json /reviews/technical-due-diligence/v1/index.json /technical-due-diligence/v1/index.json /technical-due-diligence.json /due-diligence-evidence.json; do
   status=$(curl --max-time 5 -sS -o /dev/null -w '%{http_code}' "$base$path")
   [ "$status" = 404 ] || { echo "Internal review-pack route $path returned $status, expected 404" >&2; exit 1; }
 done
