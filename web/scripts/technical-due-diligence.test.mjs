@@ -32,9 +32,10 @@ test('Ajv 2020 accepts the index and rejects schema-expressible tuple, property-
   const unsafeSource = clone(); unsafeSource.sources['../escape'] = `sha256:${'0'.repeat(64)}`; assert.equal(validate(unsafeSource), false);
   const openArtifact = clone(); openArtifact.domains[0].artifacts[0].extra = true; assert.equal(validate(openArtifact), false);
 });
-test('Ajv 2020 rejects terminal dot segments in source property names and artifact paths', () => {
+test('Ajv 2020 accepts ordinary safe paths and rejects dot or empty segments in source property names and artifact paths', () => {
   const validate = new Ajv2020({ allErrors: true, strict: true }).compile(expectedSchema());
-  for (const [target, path] of [['source', 'foo/.'], ['source', 'foo/..'], ['artifact', 'foo/.'], ['artifact', 'foo/..']]) {
+  assert.equal(validate(clone()), true, 'ordinary repository paths must remain accepted');
+  for (const [target, path] of ['foo/.', 'foo/..', 'foo/', 'foo//bar'].flatMap((path) => [['source', path], ['artifact', path]])) {
     const candidate = clone();
     if (target === 'source') candidate.sources[path] = `sha256:${'0'.repeat(64)}`;
     else candidate.domains[0].artifacts[0].path = path;

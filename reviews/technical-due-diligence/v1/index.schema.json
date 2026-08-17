@@ -10,7 +10,7 @@
     "purpose": { "const": "repository_internal_deterministic_regression_evidence_index" },
     "limitations": { "type": "array", "minItems": 8, "uniqueItems": true, "items": { "type": "string", "minLength": 10 } },
     "status_vocabulary": { "const": ["verified_static", "manual", "not_assessed", "held"] },
-    "sources": { "type": "object", "minProperties": 1, "propertyNames": { "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.?(?:/|$))[A-Za-z0-9._/-]+$" }, "additionalProperties": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" } },
+    "sources": { "type": "object", "minProperties": 1, "propertyNames": { "pattern": "^(?!.*(?:^|/)\\.\\.?(?:/|$))[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*$" }, "additionalProperties": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" } },
     "domains": {
       "type": "array", "minItems": 6, "maxItems": 6,
       "prefixItems": [
@@ -25,7 +25,7 @@
     }
   },
   "$defs": {
-    "artifact": { "type": "object", "additionalProperties": false, "required": ["path", "proves_narrowly", "does_not_prove", "review_status", "next_qualified_or_manual_gate"], "properties": { "path": { "type": "string", "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.?(?:/|$))[A-Za-z0-9._/-]+$" }, "proves_narrowly": { "type": "string", "minLength": 20 }, "does_not_prove": { "type": "string", "minLength": 20 }, "review_status": { "enum": ["verified_static", "manual", "not_assessed", "held"] }, "next_qualified_or_manual_gate": { "type": "string", "minLength": 20 } } },
+    "artifact": { "type": "object", "additionalProperties": false, "required": ["path", "proves_narrowly", "does_not_prove", "review_status", "next_qualified_or_manual_gate"], "properties": { "path": { "type": "string", "pattern": "^(?!.*(?:^|/)\\.\\.?(?:/|$))[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*$" }, "proves_narrowly": { "type": "string", "minLength": 20 }, "does_not_prove": { "type": "string", "minLength": 20 }, "review_status": { "enum": ["verified_static", "manual", "not_assessed", "held"] }, "next_qualified_or_manual_gate": { "type": "string", "minLength": 20 } } },
     "release_integrity": { "$ref": "#/$defs/domain_release_integrity" },
     "deployment_build": { "$ref": "#/$defs/domain_deployment_build" },
     "accessibility": { "$ref": "#/$defs/domain_accessibility" },
