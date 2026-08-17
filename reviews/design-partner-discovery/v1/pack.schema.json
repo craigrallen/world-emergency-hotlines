@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "internal-design-partner-discovery-decision-pack/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "internal_only_marker", "purpose", "boundaries", "sources", "capability_matrix", "discovery_questions", "demand_gate", "decision_rubric", "example_records"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "internal_only_marker": { "const": "internal-design-partner-discovery-decision-pack-only/v1" },
+    "purpose": { "const": "repository_internal_non_authoritative_discovery_preparation" },
+    "boundaries": { "type": "array", "minItems": 7, "maxItems": 7, "prefixItems": [
+      { "const": "No outreach, messages, forms, enrollment, or real organization/contact records." },
+      { "const": "No price publication, commercial offer, contract, paid commitment, billing, or external spending." },
+      { "const": "No SLA, DPA, security, privacy, compliance, legal, availability, response, verification, or outcome assurance." },
+      { "const": "No telemetry or user, provider, customer, contact, personal, interview, or crisis-case data." },
+      { "const": "No production service or managed-service activation; public crisis information remains free." },
+      { "const": "The repository has no license; public accessibility does not grant reuse permission, so permission and terms remain unresolved." },
+      { "const": "This pack is non-authoritative internal preparation and cannot approve outreach, enrollment, production reuse, a pilot, or a continue decision." }
+    ], "items": false },
+    "sources": { "type": "object", "minProperties": 13, "maxProperties": 13, "propertyNames": { "pattern": "^(?!.*(?:^|/)\\.\\.?(?:/|$))[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*$" }, "additionalProperties": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" } },
+    "capability_matrix": { "type": "array", "minItems": 4, "maxItems": 4, "items": { "$ref": "#/$defs/capability" } },
+    "discovery_questions": { "type": "array", "minItems": 6, "maxItems": 6, "items": { "$ref": "#/$defs/question_group" } },
+    "demand_gate": { "type": "object", "additionalProperties": false, "required": ["minimum_distinct_credible_organizations", "same_capability_required", "independent_request_required", "general_enthusiasm_counts", "rule", "proof_requirement", "current_pack_evidence_mechanism", "current_pack_gate_status"], "properties": {
+      "minimum_distinct_credible_organizations": { "const": 3 }, "same_capability_required": { "const": true }, "independent_request_required": { "const": true }, "general_enthusiasm_counts": { "const": false },
+      "rule": { "const": "Do not recommend managed-service activation until at least three distinct credible organizations independently request the same clearly identified operational capability; general enthusiasm does not count." },
+      "proof_requirement": { "const": "A separately authorized future evidence mechanism must prove distinctness, credibility, independence, same-capability grouping, operational request substance, and non-enthusiasm." },
+      "current_pack_evidence_mechanism": { "const": "unavailable" }, "current_pack_gate_status": { "const": "held" }
+    } },
+    "decision_rubric": { "$ref": "#/$defs/decision_rubric" },
+    "example_records": { "type": "array", "minItems": 1, "maxItems": 1, "prefixItems": [{ "$ref": "#/$defs/fixed_record" }], "items": false }
+  },
+  "$defs": {
+    "safe_path": { "type": "string", "pattern": "^(?!.*(?:^|/)\\.\\.?(?:/|$))[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*$" },
+    "capability": { "type": "object", "additionalProperties": false, "required": ["id", "current_capability", "limitations", "evidence"], "properties": { "id": { "type": "string" }, "current_capability": { "type": "string" }, "limitations": { "type": "string" }, "evidence": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/safe_path" } } } },
+    "question_group": { "type": "object", "additionalProperties": false, "required": ["topic", "questions"], "properties": { "topic": { "type": "string" }, "questions": { "type": "array", "minItems": 2, "maxItems": 2, "items": { "type": "string" } } } },
+    "decision_rubric": { "type": "object", "additionalProperties": false, "required": ["outcomes", "predicate_fields", "rules"], "properties": { "outcomes": { "const": ["stop", "hold", "continue"] }, "predicate_fields": { "const": ["boundary_status", "real_data_status", "evidence_consistency", "reuse_permission_status", "required_evidence_status", "future_evidence_mechanism", "distinctness_status", "credibility_status", "independence_status", "same_capability_status", "operational_request_status", "non_enthusiasm_status"] }, "rules": { "type": "array", "minItems": 3, "maxItems": 3, "prefixItems": [{ "type": "object", "additionalProperties": false, "required": ["outcome", "when"], "properties": { "outcome": { "const": "stop" }, "when": { "const": "A prohibited boundary fails, real organization/contact/interview/crisis data is present, reuse permission is assumed, decision evidence is contradictory, or an already-started evaluation/pilot has permission uncertainty." } } }, { "type": "object", "additionalProperties": false, "required": ["outcome", "when"], "properties": { "outcome": { "const": "hold" }, "when": { "const": "No stop predicate applies, but required evidence is incomplete or a separately authorized mechanism has not proven three distinct credible independent same-capability operational requests that are not general enthusiasm." } } }, { "type": "object", "additionalProperties": false, "required": ["outcome", "when"], "properties": { "outcome": { "const": "continue" }, "when": { "const": "No stop or hold predicate applies and a separately authorized evidence mechanism proves at least three distinct credible organizations independently request the same clearly identified operational capability; this vocabulary entry does not authorize this pack to emit or recommend continue or activation." } } }], "items": false } } },
+    "fixed_record": { "type": "object", "additionalProperties": false, "required": ["scenario_id", "fixture_kind", "capability_id", "boundary_status", "real_data_status", "evidence_consistency", "reuse_permission_status", "required_evidence_status", "future_evidence_mechanism", "distinctness_status", "credibility_status", "independence_status", "same_capability_status", "operational_request_status", "non_enthusiasm_status", "outcome", "rationale"], "properties": {
+      "scenario_id": { "const": "synthetic-held-example-001" }, "fixture_kind": { "const": "fixed_non_collecting_synthetic_scenario" }, "capability_id": { "const": "bounded_static_snapshot_change_handoff" },
+      "boundary_status": { "const": "pass" }, "real_data_status": { "const": "absent" }, "evidence_consistency": { "const": "consistent" }, "reuse_permission_status": { "const": "unresolved" }, "required_evidence_status": { "const": "incomplete" }, "future_evidence_mechanism": { "const": "unavailable" },
+      "distinctness_status": { "const": "unestablished" }, "credibility_status": { "const": "unestablished" }, "independence_status": { "const": "unestablished" }, "same_capability_status": { "const": "unestablished" }, "operational_request_status": { "const": "unestablished" }, "non_enthusiasm_status": { "const": "unestablished" },
+      "outcome": { "const": "hold" }, "rationale": { "const": "The static pack has no authorized evidence mechanism and cannot establish the demand gate." }
+    } }
+  }
+}
