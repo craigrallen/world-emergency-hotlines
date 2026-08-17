@@ -10,7 +10,8 @@ export const DOMAINS = Object.freeze(['release_integrity', 'deployment_build', '
 const ROOT_KEYS = ['schema_version', 'internal_only_marker', 'purpose', 'limitations', 'status_vocabulary', 'sources', 'domains'];
 const DOMAIN_KEYS = ['id', 'artifacts'];
 const ARTIFACT_KEYS = ['path', 'proves_narrowly', 'does_not_prove', 'review_status', 'next_qualified_or_manual_gate'];
-const forbiddenAssurance = /\b(?:certif(?:y|ies|ied|ying|ication|ications)|conform(?:s|ed|ing|ance|ant)|compli(?:ance|ant)|secure|security (?:assessment|assessments)|assessed|audited|audit opinions?|assur(?:ance|ances|e|es|ed|ing)|guarantee|guarantees|guaranteed|guaranteeing|availability|available(?!\s+for\s+download\b)|sales[- ]ready|production[- ]ready)\b/i;
+const benignAvailability = /\bartifact available for download\b/gi;
+const forbiddenAssurance = /\b(?:certif(?:y|ies|ied|ying|ication|ications)|conform(?:s|ed|ing|ance|ant)?|compl(?:y|ies|ied|ying|iance|iant)|security(?:[- ]assessment(?:s)?|[- ]assessed)|audited|audit[- ]opinions?|legal[- ](?:advice|opinions?)|assur(?:e|es|ed|ing|ance|ances)|guarantee(?:s|d|ing)?|uptime|availability|available|sales[- ](?:artifacts?|ready)|production[- ]ready)\b/i;
 const safePath = /^(?!.*(?:^|\/)\.\.?(?:\/|$))[A-Za-z0-9._-]+(?:\/[A-Za-z0-9._-]+)*$/;
 const exactKeys = (value, keys, label) => assert.deepEqual(Object.keys(value), keys, `${label}: fields changed`);
 
@@ -86,7 +87,7 @@ export function validateIndex(index, repo, options = {}) {
       assert.ok(!used.has(artifact.path), `duplicate artifact path: ${artifact.path}`); used.add(artifact.path);
       assert.ok(STATUSES.includes(artifact.review_status), `unknown status: ${artifact.review_status}`);
       for (const field of ['proves_narrowly', 'does_not_prove', 'next_qualified_or_manual_gate']) assert.ok(typeof artifact[field] === 'string' && artifact[field].length >= 20, `${artifact.path}: invalid ${field}`);
-      assert.doesNotMatch(artifact.proves_narrowly, forbiddenAssurance, `${artifact.path}: unsupported assurance language in proves_narrowly`);
+      assert.doesNotMatch(artifact.proves_narrowly.replace(benignAvailability, ''), forbiddenAssurance, `${artifact.path}: unsupported assurance language in proves_narrowly`);
       if (artifact.review_status !== 'verified_static') gaps++;
     }
   }

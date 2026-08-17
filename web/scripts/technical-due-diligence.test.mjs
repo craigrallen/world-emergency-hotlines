@@ -56,15 +56,17 @@ test('closed runtime schema rejects unexpected fields, domains, statuses, missin
 test('proves_narrowly rejects every prohibited assurance category and accepts bounded factual wording', () => {
   const options = { testOnlySkipGitIndex: true };
   const prohibited = [
-    ['certification/certify', ['This artifact certifies conformance with the documented release process.', 'This artifact is certifying the documented release process.']],
-    ['conformance/conformant', ['This artifact records conformance with the documented release process.', 'This artifact declares the release conformant with the documented process.']],
-    ['compliance/compliant', ['This artifact establishes GDPR compliance for the documented release process.', 'This artifact declares the release compliant with the documented process.']],
-    ['security assessment/assessed', ['This artifact is a security assessment of the documented release process.', 'This artifact proves the documented release process was assessed.']],
+    ['certification/certify', ['This artifact is a certification of the documented process.', 'This artifact will certify the documented process.', 'This artifact certifies the documented process.', 'This artifact certified the documented process.', 'This artifact is certifying the documented process.']],
+    ['conformance/conformant', ['This artifact records conformance with the documented process.', 'This artifact is conformant with the documented process.', 'This artifact will conform to the documented process.', 'This artifact conforms to the documented process.', 'This artifact conformed to the documented process.', 'This artifact is conforming to the documented process.']],
+    ['compliance/comply/complies/compliant', ['This artifact establishes GDPR compliance for the documented process.', 'This artifact declares the release compliant with the documented process.', 'This artifact will comply with GDPR.', 'This artifact complies with GDPR.', 'This artifact complied with GDPR.', 'This artifact is complying with GDPR.']],
+    ['security assessment/security assessed', ['This artifact is a security assessment of the documented process.', 'This artifact records two security assessments of the documented process.', 'This artifact proves the documented process was security assessed.']],
     ['audited/audit opinion', ['This artifact records an audit opinion about the documented release process.', 'This artifact proves the documented release process was audited.']],
-    ['assurance/assured', ['This artifact provides assurance about the documented release process.', 'This artifact declares the documented release process assured.']],
+    ['legal advice/legal opinion', ['This artifact is legal advice about the documented process.', 'This artifact is a legal opinion about the documented process.']],
+    ['assurance/assured', ['This artifact provides assurance about the documented process.', 'This artifact declares the documented process assured.', 'This artifact assures users about the documented process.', 'This artifact will assure users about the documented process.', 'This artifact is assuring users about the documented process.']],
     ['guarantee', ['This artifact guarantees the documented release process will always succeed.', 'This artifact is guaranteeing the documented release process will always succeed.']],
+    ['uptime', ['This artifact establishes uptime for the documented service.']],
     ['availability/available', ['This artifact establishes availability of the documented service.', 'This artifact proves the documented service is available to every user.']],
-    ['sales-ready', ['This artifact proves the documented release is sales-ready for every user.']],
+    ['sales artifact/sales-ready', ['This artifact is a sales artifact for the documented release.', 'These are sales artifacts for the documented release.', 'This artifact proves the documented release is sales-ready for every user.']],
     ['production-ready', ['This artifact proves the documented release is production-ready for every user.']],
   ];
   for (const [category, wordings] of prohibited) {
@@ -75,6 +77,8 @@ test('proves_narrowly rejects every prohibited assurance category and accepts bo
   }
   const accepted = [
     'Records the bound release artifact available for download from the repository fixture.',
+    'Records an artifact assessed for finite formatting defects by a repository test.',
+    'Records secure cookie syntax as a static source fact without making a security claim.',
     'Records the finite static checks executed by the repository verifier without an operational claim.',
   ];
   for (const wording of accepted) {
