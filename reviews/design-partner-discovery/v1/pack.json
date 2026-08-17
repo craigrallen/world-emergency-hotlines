@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "internal_only_marker": "internal-design-partner-discovery-decision-pack-only/v1",
+  "purpose": "repository_internal_non_authoritative_discovery_preparation",
+  "boundaries": [
+    "No outreach, messages, forms, enrollment, or real organization/contact records.",
+    "No price publication, commercial offer, contract, paid commitment, billing, or external spending.",
+    "No SLA, DPA, security, privacy, compliance, legal, availability, response, verification, or outcome assurance.",
+    "No telemetry or user, provider, customer, contact, personal, interview, or crisis-case data.",
+    "No production service or managed-service activation; public crisis information remains free.",
+    "The repository has no license; public accessibility does not grant reuse permission, so permission and terms remain unresolved.",
+    "This pack is non-authoritative internal preparation and cannot approve outreach, enrollment, production reuse, a pilot, or a continue decision."
+  ],
+  "sources": {
+    "docs/DESIGN_PARTNER_PILOT.md": "sha256:b5f25123bec93654ed5d4d3caaa38c172cacaef12b0e62fd43a8fb231c889c5d",
+    "docs/INTEGRATIONS.md": "sha256:562faa0020f942a176b1109479d3e1a9fa8580dc44137fcb53b0597eab131809",
+    "docs/PACKAGING.md": "sha256:4a7260669f2ef15674e95eb78a6f915e9ed7f524a14f857386d42e7f3e522432",
+    "reviews/accessibility-evidence/v1/README.md": "sha256:c577c353813b72cadf75b9c0d9018653958018c03594bd8f7a48f489d39d7439",
+    "reviews/accessibility-evidence/v1/baseline.json": "sha256:764bc290818fb5f44f6f9fe8ed2950f56af59bd3e178e5235c21819348713b11",
+    "reviews/multilingual-ui/v1/README.md": "sha256:87afcf694a12e50ea7cd015c873ac518b3e30aa4d2c83302937395eb17a0ac6d",
+    "reviews/multilingual-ui/v1/review-pack.json": "sha256:a407805e1955d8ba783379e56b3e0e466a40bfb932ccde00a01a8858525cd40a",
+    "reviews/multilingual-ui/v1/review-pack.schema.json": "sha256:005b85eee323124dbfc3702fdd9ae177263f196f10c338b5ed2b706242ab2732",
+    "reviews/multilingual-ui/v1/safety-classification.json": "sha256:fd271765f0882eda962d009332ca76e693112b94ed965f702b05b770c9586b80",
+    "reviews/security-privacy-evidence/v1/README.md": "sha256:4364570794a3ce94dfdba49627df8bfd0cd84b50211f6d476c42439ff24544e1",
+    "reviews/security-privacy-evidence/v1/inventory.json": "sha256:92bd9972fff3158888b21b18360487bda87fa5c840abdf7ba23ca54517f47a63",
+    "reviews/technical-due-diligence/v1/README.md": "sha256:87ae878128a2d3df102e0dbfd68621abea80a128e3eda98a3b59bb8a03bf585e",
+    "reviews/technical-due-diligence/v1/index.json": "sha256:25a19381cccfbe82b623012a03b753538a2973a4c0e977ad8f85eeae9818502e"
+  },
+  "capability_matrix": [
+    { "id": "public_static_surfaces", "current_capability": "Public keyless static beta finder, API, widget, and snapshot integration surfaces are documented.", "limitations": "No uptime, support, SLA, production-reuse permission, guaranteed coverage, currency, reachability, or outcomes.", "evidence": ["docs/INTEGRATIONS.md", "docs/PACKAGING.md"] },
+    { "id": "bounded_synthetic_pilot_draft", "current_capability": "A draft describes a partner-controlled non-production, synthetic-only 4–6 week evaluation shape.", "limitations": "Enrollment is not open; the draft is not an offer, agreement, capacity promise, or authorization to run a pilot.", "evidence": ["docs/DESIGN_PARTNER_PILOT.md"] },
+    { "id": "static_internal_evidence", "current_capability": "Versioned internal artifacts bind selected accessibility, multilingual, security/privacy, and technical checks to repository evidence.", "limitations": "They are not audits, assessments, certifications, legal opinions, qualified language review, runtime assurance, or operational evidence.", "evidence": ["reviews/accessibility-evidence/v1/baseline.json", "reviews/accessibility-evidence/v1/README.md", "reviews/multilingual-ui/v1/review-pack.json", "reviews/multilingual-ui/v1/review-pack.schema.json", "reviews/multilingual-ui/v1/safety-classification.json", "reviews/multilingual-ui/v1/README.md", "reviews/security-privacy-evidence/v1/inventory.json", "reviews/security-privacy-evidence/v1/README.md", "reviews/technical-due-diligence/v1/index.json", "reviews/technical-due-diligence/v1/README.md"] },
+    { "id": "reuse_permission", "current_capability": "Repository documentation explicitly exposes the current permission question for review.", "limitations": "No repository license exists, public access grants no reuse right, and production packaging or reuse commitments remain blocked.", "evidence": ["docs/INTEGRATIONS.md", "docs/PACKAGING.md", "docs/DESIGN_PARTNER_PILOT.md"] }
+  ],
+  "discovery_questions": [
+    { "topic": "countries_categories", "questions": ["Which countries and hotline categories create the recurring operational need?", "Which synthetic country/category and fallback cases would demonstrate that need without real crisis data?"] },
+    { "topic": "integration_surface", "questions": ["Why is a public link insufficient, and which one clearly identified static API, widget, snapshot, or documentation capability is required?", "Which partner-controlled non-production surface and teardown path could be used for synthetic evaluation?"] },
+    { "topic": "process_pain", "questions": ["What current process is slow, error-prone, or unavailable, and how often does the same problem occur?", "What bounded observable result would distinguish a solved workflow problem from general enthusiasm?"] },
+    { "topic": "operational_assurance", "questions": ["Which operational evidence would be required before any later production decision?", "Which availability, security, privacy, accessibility, legal, localization, and content-review claims must remain explicitly unmade today?"] },
+    { "topic": "ownership_approvals", "questions": ["Who would own engineering, safety, privacy, security, accessibility, legal/licensing, content review, stop authority, and teardown?", "Which written internal approvals would be prerequisites to a separately authorized next step?"] },
+    { "topic": "bounded_funding_signal", "questions": ["Would an organization independently request and be willing to fund a bounded managed pilot for the same clearly identified operational capability while public crisis information remains free?", "What exact scope and budget authority would that willingness cover, without accepting a price, contract, enrollment, or paid commitment now?"] }
+  ],
+  "demand_gate": {
+    "minimum_distinct_credible_organizations": 3,
+    "same_capability_required": true,
+    "independent_request_required": true,
+    "general_enthusiasm_counts": false,
+    "rule": "Do not recommend managed-service activation until at least three distinct credible organizations independently request the same clearly identified operational capability; general enthusiasm does not count.",
+    "proof_requirement": "A separately authorized future evidence mechanism must prove distinctness, credibility, independence, same-capability grouping, operational request substance, and non-enthusiasm.",
+    "current_pack_evidence_mechanism": "unavailable",
+    "current_pack_gate_status": "held"
+  },
+  "decision_rubric": {
+    "outcomes": ["stop", "hold", "continue"],
+    "predicate_fields": ["boundary_status", "real_data_status", "evidence_consistency", "reuse_permission_status", "required_evidence_status", "future_evidence_mechanism", "distinctness_status", "credibility_status", "independence_status", "same_capability_status", "operational_request_status", "non_enthusiasm_status"],
+    "rules": [
+      { "outcome": "stop", "when": "A prohibited boundary fails, real organization/contact/interview/crisis data is present, reuse permission is assumed, decision evidence is contradictory, or an already-started evaluation/pilot has permission uncertainty." },
+      { "outcome": "hold", "when": "No stop predicate applies, but required evidence is incomplete or a separately authorized mechanism has not proven three distinct credible independent same-capability operational requests that are not general enthusiasm." },
+      { "outcome": "continue", "when": "No stop or hold predicate applies and a separately authorized evidence mechanism proves at least three distinct credible organizations independently request the same clearly identified operational capability; this vocabulary entry does not authorize this pack to emit or recommend continue or activation." }
+    ]
+  },
+  "example_records": [
+    { "scenario_id": "synthetic-held-example-001", "fixture_kind": "fixed_non_collecting_synthetic_scenario", "capability_id": "bounded_static_snapshot_change_handoff", "boundary_status": "pass", "real_data_status": "absent", "evidence_consistency": "consistent", "reuse_permission_status": "unresolved", "required_evidence_status": "incomplete", "future_evidence_mechanism": "unavailable", "distinctness_status": "unestablished", "credibility_status": "unestablished", "independence_status": "unestablished", "same_capability_status": "unestablished", "operational_request_status": "unestablished", "non_enthusiasm_status": "unestablished", "outcome": "hold", "rationale": "The static pack has no authorized evidence mechanism and cannot establish the demand gate." }
+  ]
+}

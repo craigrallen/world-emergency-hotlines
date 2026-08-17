@@ -2,6 +2,8 @@
 
 **Internal/reviewable draft only.** Enrollment is not stated or implied to be open, and this document is not an offer or promise of availability.
 
+Before any pilot starts, unresolved reuse permission is a hold: do not start. If an evaluation or pilot has already started and permission becomes uncertain or remains unresolved, stop it immediately. The repository has no license; public access does not grant reuse permission.
+
 ## Intended fit and exclusions
 
 Potential fit is an organization evaluating a public, keyless, client-side finder/API/widget in a partner-controlled non-production channel, with engineering, accessibility, safety, privacy, legal, and content-review owners. Exclude clinical decision support, emergency dispatch, real-time case management, production dependency, covert measurement, service ranking, and any workflow that needs guaranteed coverage, availability, response, verification, compliance, or outcomes.

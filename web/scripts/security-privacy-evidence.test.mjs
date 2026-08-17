@@ -98,7 +98,7 @@ test('CI, verify:all, and every public security/privacy wrapper are inspected', 
   ];
   for (const [path, mutate] of mutations) { const root = copiedRepo(); const target = resolve(root, path); writeFileSync(target, mutate(readFileSync(target, 'utf8'))); assert.throws(() => validateInventory(committed, root, { verifyHashes: false, ...copiedOptions }), /Web CI|verify:all|closed security\/privacy wrapper wiring/); }
 });
-test('renamed exact copies are caught; modified marker-stripped copies are outside the stated scan', () => {
+test('renamed exact copies and modified marker-stripped sensitive copies are caught', () => {
   const root = temporaryRoot('weh-sp-nonpub-'); const dist = resolve(root, 'dist'); mkdirSync(dist); cpSync(resolve(repo, INVENTORY_PATH), resolve(dist, 'arbitrary.bin')); assert.throws(() => assertInternalNonpublication(dist, repo), /security\/privacy|internal review/);
-  const root2 = temporaryRoot('weh-sp-nonpub-'); const dist2 = resolve(root2, 'dist'); mkdirSync(dist2); let modified = readFileSync(resolve(repo, INVENTORY_PATH), 'utf8'); for (const marker of forbiddenInternalEvidence(repo).markers) modified = modified.replaceAll(marker, 'marker-removed'); writeFileSync(resolve(dist2, 'arbitrary.bin'), modified); assert.doesNotThrow(() => assertInternalNonpublication(dist2, repo));
+  const root2 = temporaryRoot('weh-sp-nonpub-'); const dist2 = resolve(root2, 'dist'); mkdirSync(dist2); let modified = readFileSync(resolve(repo, INVENTORY_PATH), 'utf8'); for (const marker of forbiddenInternalEvidence(repo).markers) modified = modified.replaceAll(marker, 'marker-removed'); writeFileSync(resolve(dist2, 'arbitrary.bin'), modified); assert.throws(() => assertInternalNonpublication(dist2, repo), /scalar fingerprint|semantic section/);
 });
