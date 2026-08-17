@@ -51,8 +51,36 @@ test('closed runtime schema rejects unexpected fields, domains, statuses, missin
   const unexpected = clone(); unexpected.extra = true; assert.throws(() => validateIndex(unexpected, repo, options), /fields changed/);
   const domain = clone(); domain.domains[0].id = 'operations'; assert.throws(() => validateIndex(domain, repo, options), /domain inventory/);
   const status = clone(); status.domains[0].artifacts[0].review_status = 'certified'; assert.throws(() => validateIndex(status, repo, options), /unknown status/);
-  const assurance = clone(); assurance.domains[0].artifacts[0].proves_narrowly = 'This artifact proves the release is certified and production-ready for every user.'; assert.throws(() => validateIndex(assurance, repo, options), /unsupported assurance language/);
   const gaps = clone(); for (const d of gaps.domains) for (const a of d.artifacts) a.review_status = 'verified_static'; assert.throws(() => validateIndex(gaps, repo, options), /retain conservative/);
+});
+test('proves_narrowly rejects every prohibited assurance category and accepts bounded factual wording', () => {
+  const options = { testOnlySkipGitIndex: true };
+  const prohibited = [
+    ['certification/certify', ['This artifact certifies conformance with the documented release process.', 'This artifact is certifying the documented release process.']],
+    ['conformance/conformant', ['This artifact records conformance with the documented release process.', 'This artifact declares the release conformant with the documented process.']],
+    ['compliance/compliant', ['This artifact establishes GDPR compliance for the documented release process.', 'This artifact declares the release compliant with the documented process.']],
+    ['security assessment/assessed', ['This artifact is a security assessment of the documented release process.', 'This artifact proves the documented release process was assessed.']],
+    ['audited/audit opinion', ['This artifact records an audit opinion about the documented release process.', 'This artifact proves the documented release process was audited.']],
+    ['assurance/assured', ['This artifact provides assurance about the documented release process.', 'This artifact declares the documented release process assured.']],
+    ['guarantee', ['This artifact guarantees the documented release process will always succeed.', 'This artifact is guaranteeing the documented release process will always succeed.']],
+    ['availability/available', ['This artifact establishes availability of the documented service.', 'This artifact proves the documented service is available to every user.']],
+    ['sales-ready', ['This artifact proves the documented release is sales-ready for every user.']],
+    ['production-ready', ['This artifact proves the documented release is production-ready for every user.']],
+  ];
+  for (const [category, wordings] of prohibited) {
+    for (const wording of wordings) {
+      const candidate = clone(); candidate.domains[0].artifacts[0].proves_narrowly = wording;
+      assert.throws(() => validateIndex(candidate, repo, options), /unsupported assurance language/, `${category}: ${wording}`);
+    }
+  }
+  const accepted = [
+    'Records the bound release artifact available for download from the repository fixture.',
+    'Records the finite static checks executed by the repository verifier without an operational claim.',
+  ];
+  for (const wording of accepted) {
+    const candidate = clone(); candidate.domains[0].artifacts[0].proves_narrowly = wording;
+    assert.doesNotThrow(() => validateIndex(candidate, repo, options), wording);
+  }
 });
 test('source inventory rejects missing, unexpected, duplicate, traversal, and changed source bytes', () => {
   const options = { testOnlySkipGitIndex: true };

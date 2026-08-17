@@ -10,7 +10,7 @@ export const DOMAINS = Object.freeze(['release_integrity', 'deployment_build', '
 const ROOT_KEYS = ['schema_version', 'internal_only_marker', 'purpose', 'limitations', 'status_vocabulary', 'sources', 'domains'];
 const DOMAIN_KEYS = ['id', 'artifacts'];
 const ARTIFACT_KEYS = ['path', 'proves_narrowly', 'does_not_prove', 'review_status', 'next_qualified_or_manual_gate'];
-const forbiddenAssurance = /\b(?:certif(?:y|ied|ication)|conformant|compliant|compliance achieved|secure|security assessed|audited|audit opinion|assured|guaranteed|available|sales[- ]ready|production[- ]ready)\b/i;
+const forbiddenAssurance = /\b(?:certif(?:y|ies|ied|ying|ication|ications)|conform(?:s|ed|ing|ance|ant)|compli(?:ance|ant)|secure|security (?:assessment|assessments)|assessed|audited|audit opinions?|assur(?:ance|ances|e|es|ed|ing)|guarantee|guarantees|guaranteed|guaranteeing|availability|available(?!\s+for\s+download\b)|sales[- ]ready|production[- ]ready)\b/i;
 const safePath = /^(?!.*(?:^|\/)\.\.?(?:\/|$))[A-Za-z0-9._-]+(?:\/[A-Za-z0-9._-]+)*$/;
 const exactKeys = (value, keys, label) => assert.deepEqual(Object.keys(value), keys, `${label}: fields changed`);
 
