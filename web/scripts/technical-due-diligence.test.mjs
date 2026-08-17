@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os';
 import { resolve } from 'node:path';
 import test, { afterEach } from 'node:test';
 import { assertInternalNonpublication, forbiddenInternalEvidence } from './verify-internal-nonpublication.mjs';
-import { expectedSchema, INDEX_PATH, INTERNAL_MARKER, loadIndex, SCHEMA_PATH, validateIndex, validateSchemaSpecification } from './technical-due-diligence-lib.mjs';
+import { expectedSchema, INDEX_PATH, INTERNAL_MARKER, loadIndex, REQUIRED_INTERNAL_CONTROL_PATHS, SCHEMA_PATH, validateIndex, validateSchemaSpecification } from './technical-due-diligence-lib.mjs';
 import { parseStrictJson, sourceMap } from './security-privacy-evidence-lib.mjs';
 
 const repo = resolve(import.meta.dirname, '../..');
@@ -93,6 +93,33 @@ test('source inventory rejects missing, unexpected, duplicate, traversal, and ch
   const duplicate = clone(); duplicate.domains[1].artifacts.push(structuredClone(duplicate.domains[0].artifacts[0])); assert.throws(() => validateIndex(duplicate, repo, options), /duplicate artifact/);
   const traversal = clone(); traversal.domains[0].artifacts[0].path = '../docs/releases.json'; assert.throws(() => validateIndex(traversal, repo, options), /non-canonical/);
   const changed = clone(); changed.sources['docs/releases.json'] = `sha256:${'0'.repeat(64)}`; assert.throws(() => validateIndex(changed, repo, options), /exact tracked evidence source bytes changed/);
+});
+test('finite internal control inventory rejects synchronized removal of every required source and artifact', () => {
+  const options = { testOnlySkipGitIndex: true };
+  for (const path of REQUIRED_INTERNAL_CONTROL_PATHS) {
+    const candidate = clone();
+    delete candidate.sources[path];
+    const controls = candidate.domains.find(({ id }) => id === 'internal_control_integrity').artifacts;
+    controls.splice(controls.findIndex((artifact) => artifact.path === path), 1);
+    assert.throws(() => validateIndex(candidate, repo, options), /finite required path inventory/, path);
+  }
+});
+test('finite internal control inventory rejects substitution, addition, and reordering independent of exact source coverage', () => {
+  const options = { testOnlySkipGitIndex: true };
+  const internal = (candidate) => candidate.domains.find(({ id }) => id === 'internal_control_integrity').artifacts;
+  const release = (candidate) => candidate.domains.find(({ id }) => id === 'release_integrity').artifacts;
+
+  const substituted = clone();
+  [internal(substituted)[0], release(substituted)[0]] = [release(substituted)[0], internal(substituted)[0]];
+  assert.throws(() => validateIndex(substituted, repo, options), /finite required path inventory/);
+
+  const added = clone();
+  internal(added).push(release(added).shift());
+  assert.throws(() => validateIndex(added, repo, options), /finite required path inventory/);
+
+  const reordered = clone();
+  [internal(reordered)[0], internal(reordered)[1]] = [internal(reordered)[1], internal(reordered)[0]];
+  assert.throws(() => validateIndex(reordered, repo, options), /finite required path inventory/);
 });
 test('tracked reader rejects worktree/index drift and symlinked sources', () => {
   const drift = temporaryRoot('weh-dd-drift-'); writeFileSync(resolve(drift, 'source.txt'), 'indexed\n'); execFileSync('git', ['init', '-q', drift]); execFileSync('git', ['-C', drift, 'add', '--', 'source.txt']); writeFileSync(resolve(drift, 'source.txt'), 'working\n'); assert.throws(() => sourceMap(drift, ['source.txt']), /working-tree evidence bytes differ from Git index/);

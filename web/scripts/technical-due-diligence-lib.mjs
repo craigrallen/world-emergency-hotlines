@@ -7,6 +7,20 @@ export const SCHEMA_PATH = 'reviews/technical-due-diligence/v1/index.schema.json
 export const INTERNAL_MARKER = 'internal-technical-due-diligence-evidence-only/v1';
 export const STATUSES = Object.freeze(['verified_static', 'manual', 'not_assessed', 'held']);
 export const DOMAINS = Object.freeze(['release_integrity', 'deployment_build', 'accessibility', 'multilingual_qualification_review', 'security_privacy', 'internal_control_integrity']);
+export const REQUIRED_INTERNAL_CONTROL_PATHS = Object.freeze([
+  'reviews/technical-due-diligence/v1/README.md',
+  'reviews/technical-due-diligence/v1/index.schema.json',
+  'web/package-lock.json',
+  'web/package.json',
+  'web/scripts/print-technical-due-diligence-sources.mjs',
+  'web/scripts/security-privacy-evidence-lib.mjs',
+  'web/scripts/technical-due-diligence-lib.mjs',
+  'web/scripts/technical-due-diligence.test.mjs',
+  'web/scripts/verify-docker-image.sh',
+  'web/scripts/verify-internal-nonpublication.mjs',
+  'web/scripts/verify-technical-due-diligence.mjs',
+  '.github/workflows/web-ci.yml',
+]);
 const ROOT_KEYS = ['schema_version', 'internal_only_marker', 'purpose', 'limitations', 'status_vocabulary', 'sources', 'domains'];
 const DOMAIN_KEYS = ['id', 'artifacts'];
 const ARTIFACT_KEYS = ['path', 'proves_narrowly', 'does_not_prove', 'review_status', 'next_qualified_or_manual_gate'];
@@ -72,10 +86,16 @@ export function validateIndex(index, repo, options = {}) {
   assert.ok(paths.length > 0);
   assert.deepEqual(paths, [...paths].sort(), 'source paths must be sorted');
   for (const [path, digest] of Object.entries(index.sources)) { assert.match(path, safePath, `non-canonical source path: ${path}`); assert.match(digest, /^sha256:[0-9a-f]{64}$/, `malformed source digest: ${path}`); }
-  assert.deepEqual(sourceMap(repo, paths, options), index.sources, 'exact tracked evidence source bytes changed');
 
   assert.ok(Array.isArray(index.domains));
   assert.deepEqual(index.domains.map(({ id }) => id), DOMAINS, 'domain inventory/order changed');
+  const internalControlDomain = index.domains.find(({ id }) => id === 'internal_control_integrity');
+  assert.deepEqual(
+    internalControlDomain?.artifacts?.map(({ path }) => path),
+    REQUIRED_INTERNAL_CONTROL_PATHS,
+    'internal control artifacts must equal the finite required path inventory in exact order',
+  );
+  assert.deepEqual(sourceMap(repo, paths, options), index.sources, 'exact tracked evidence source bytes changed');
   const used = new Set(); let gaps = 0;
   for (const domain of index.domains) {
     exactKeys(domain, DOMAIN_KEYS, `domain ${domain.id ?? '<missing>'}`);
