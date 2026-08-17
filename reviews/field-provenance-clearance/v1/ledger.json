@@ -1,0 +1,1005 @@
+{
+  "schema_version": "1.0",
+  "internal_only_marker": "internal-field-provenance-clearance-ledger-only/v1",
+  "purpose": "qualified_legal_review_preparation_only",
+  "publication": "prohibited",
+  "dataset_binding": {
+    "path": "hotlines.json",
+    "sha256": "sha256:e893c9f6b0afcc57832054547002c826e80b5387e544b4cf6909afc9424dde3a"
+  },
+  "handoff_binding": {
+    "path": "reviews/licensing-legal-review/v1/index.json",
+    "sha256": "sha256:a3d6afe5e12f3a0b143c14a1d09ec5d0d98d5864f8bf7b34bce637a4ceaa06cf"
+  },
+  "populations": [
+    "unknown_information_json",
+    "helplines_world",
+    "find_a_helpline",
+    "psc_app",
+    "vibbrancy_naga",
+    "web_verified_directory"
+  ],
+  "field_groups": [
+    "identity_naming",
+    "contact_channels",
+    "geography_scope",
+    "service_classifications",
+    "eligibility_audience",
+    "hours_languages_accessibility",
+    "provenance_evidence",
+    "lifecycle_replacement",
+    "record_relationships"
+  ],
+  "field_inventory": [
+    {
+      "field_group_id": "identity_naming",
+      "paths": [
+        "countries[].country",
+        "countries[].alpha-2",
+        "countries[].alpha-3",
+        "countries[].hotlines[].id",
+        "countries[].hotlines[].name",
+        "countries[].hotlines[].organization"
+      ]
+    },
+    {
+      "field_group_id": "contact_channels",
+      "paths": [
+        "countries[].general_emergency[]",
+        "countries[].hotlines[].voice_numbers[]",
+        "countries[].hotlines[].sms_numbers[]",
+        "countries[].hotlines[].text_numbers[]",
+        "countries[].hotlines[].short_codes[]",
+        "countries[].hotlines[].email",
+        "countries[].hotlines[].website",
+        "countries[].hotlines[].chat_url"
+      ]
+    },
+    {
+      "field_group_id": "geography_scope",
+      "paths": [
+        "countries[].region",
+        "countries[].subregion",
+        "countries[].hotlines[].geography"
+      ]
+    },
+    {
+      "field_group_id": "service_classifications",
+      "paths": [
+        "countries[].notes",
+        "countries[].hotlines[].category",
+        "countries[].hotlines[].notes"
+      ]
+    },
+    {
+      "field_group_id": "eligibility_audience",
+      "paths": [
+        "countries[].hotlines[].target"
+      ]
+    },
+    {
+      "field_group_id": "hours_languages_accessibility",
+      "paths": [
+        "countries[].hotlines[].hours",
+        "countries[].hotlines[].languages[]",
+        "countries[].hotlines[].cost"
+      ]
+    },
+    {
+      "field_group_id": "provenance_evidence",
+      "paths": [
+        "countries[].hotlines[].sources[]",
+        "countries[].hotlines[].provenance"
+      ]
+    },
+    {
+      "field_group_id": "lifecycle_replacement",
+      "paths": [
+        "countries[].hotlines[].last_verified",
+        "countries[].hotlines[].verification_status"
+      ]
+    },
+    {
+      "field_group_id": "record_relationships",
+      "paths": [
+        "countries[].hotlines[]._legacy.name",
+        "countries[].hotlines[]._legacy.numbers[]",
+        "countries[].hotlines[]._legacy.phone",
+        "countries[].hotlines[]._legacy.sms[]",
+        "countries[].hotlines[]._legacy.source",
+        "countries[].hotlines[]._legacy.tags[]",
+        "countries[].hotlines[]._legacy.voice[]"
+      ]
+    }
+  ],
+  "excluded_paths": [
+    {
+      "path": "$schema_version",
+      "classification": "repository_metadata",
+      "status": "held_outside_field_clearance",
+      "notes": "Excluded from field clearance only as repository schema metadata; no permission, license, rights, publication, or record-change conclusion is made."
+    },
+    {
+      "path": "categories_reference",
+      "classification": "repository_metadata",
+      "status": "held_outside_field_clearance",
+      "notes": "Excluded from field clearance only as the repository category-reference map; its values and rights remain unresolved and no permission or publication conclusion is made."
+    },
+    {
+      "path": "contributors",
+      "classification": "repository_metadata",
+      "status": "held_outside_field_clearance",
+      "notes": "Excluded from field clearance only as repository contributor metadata; identity, attribution, and rights remain unresolved."
+    },
+    {
+      "path": "last_updated",
+      "classification": "repository_metadata",
+      "status": "held_outside_field_clearance",
+      "notes": "Excluded from field clearance only as repository update metadata; no permission, license, rights, publication, or record-change conclusion is made."
+    },
+    {
+      "path": "methodology",
+      "classification": "repository_metadata",
+      "status": "held_outside_field_clearance",
+      "notes": "Excluded from field clearance only as repository methodology metadata; its content and rights remain unresolved."
+    },
+    {
+      "path": "countries",
+      "classification": "structural_container",
+      "status": "held_outside_field_clearance",
+      "notes": "Excluded only as a structural container; every observed scalar country and hotline field path beneath it is assigned exactly once above."
+    },
+    {
+      "path": "countries[]",
+      "classification": "structural_container",
+      "status": "held_outside_field_clearance",
+      "notes": "Excluded only as a structural array item; every observed scalar country and hotline field path beneath it is assigned exactly once above."
+    },
+    {
+      "path": "countries[].general_emergency",
+      "classification": "structural_container",
+      "status": "held_outside_field_clearance",
+      "notes": "Excluded only as a structural array container; its scalar item path is assigned exactly once above."
+    },
+    {
+      "path": "countries[].hotlines",
+      "classification": "structural_container",
+      "status": "held_outside_field_clearance",
+      "notes": "Excluded only as a structural array container; every observed scalar hotline field path beneath it is assigned exactly once above."
+    },
+    {
+      "path": "countries[].hotlines[]",
+      "classification": "structural_container",
+      "status": "held_outside_field_clearance",
+      "notes": "Excluded only as a structural array item; every observed scalar hotline field path beneath it is assigned exactly once above."
+    },
+    {
+      "path": "countries[].hotlines[]._legacy",
+      "classification": "structural_container",
+      "status": "held_outside_field_clearance",
+      "notes": "Excluded only as a structural legacy-record container; every observed scalar field path beneath it is assigned exactly once above."
+    },
+    {
+      "path": "countries[].hotlines[].languages",
+      "classification": "structural_container",
+      "status": "held_outside_field_clearance",
+      "notes": "Excluded only as a structural array container; its scalar item path is assigned exactly once above."
+    },
+    {
+      "path": "countries[].hotlines[].short_codes",
+      "classification": "structural_container",
+      "status": "held_outside_field_clearance",
+      "notes": "Excluded only as a structural array container; its scalar item path is assigned exactly once above."
+    },
+    {
+      "path": "countries[].hotlines[].sms_numbers",
+      "classification": "structural_container",
+      "status": "held_outside_field_clearance",
+      "notes": "Excluded only as a structural array container; its scalar item path is assigned exactly once above."
+    },
+    {
+      "path": "countries[].hotlines[].sources",
+      "classification": "structural_container",
+      "status": "held_outside_field_clearance",
+      "notes": "Excluded only as a structural array container; its scalar item path is assigned exactly once above."
+    },
+    {
+      "path": "countries[].hotlines[].text_numbers",
+      "classification": "structural_container",
+      "status": "held_outside_field_clearance",
+      "notes": "Excluded only as a structural array container; its scalar item path is assigned exactly once above."
+    },
+    {
+      "path": "countries[].hotlines[].voice_numbers",
+      "classification": "structural_container",
+      "status": "held_outside_field_clearance",
+      "notes": "Excluded only as a structural array container; its scalar item path is assigned exactly once above."
+    },
+    {
+      "path": "countries[].hotlines[]._legacy.numbers",
+      "classification": "structural_container",
+      "status": "held_outside_field_clearance",
+      "notes": "Excluded only as a structural array container; its scalar item path is assigned exactly once above."
+    },
+    {
+      "path": "countries[].hotlines[]._legacy.sms",
+      "classification": "structural_container",
+      "status": "held_outside_field_clearance",
+      "notes": "Excluded only as a structural array container; its scalar item path is assigned exactly once above."
+    },
+    {
+      "path": "countries[].hotlines[]._legacy.tags",
+      "classification": "structural_container",
+      "status": "held_outside_field_clearance",
+      "notes": "Excluded only as a structural array container; its scalar item path is assigned exactly once above."
+    },
+    {
+      "path": "countries[].hotlines[]._legacy.voice",
+      "classification": "structural_container",
+      "status": "held_outside_field_clearance",
+      "notes": "Excluded only as a structural array container; its scalar item path is assigned exactly once above."
+    }
+  ],
+  "evidence_catalog": [
+    {
+      "id": "evidence_unknown_information_json",
+      "population_id": "unknown_information_json",
+      "handoff_pointer": "provenance_populations/unknown_information_json",
+      "repository_evidence": [
+        "hotlines.json",
+        "information.json"
+      ]
+    },
+    {
+      "id": "evidence_helplines_world",
+      "population_id": "helplines_world",
+      "handoff_pointer": "provenance_populations/helplines_world",
+      "repository_evidence": [
+        "hotlines.json",
+        "sources/helplines_world.json"
+      ]
+    },
+    {
+      "id": "evidence_find_a_helpline",
+      "population_id": "find_a_helpline",
+      "handoff_pointer": "provenance_populations/find_a_helpline",
+      "repository_evidence": [
+        "hotlines.json",
+        "sources/findahelpline.json"
+      ]
+    },
+    {
+      "id": "evidence_psc_app",
+      "population_id": "psc_app",
+      "handoff_pointer": "provenance_populations/psc_app",
+      "repository_evidence": [
+        "hotlines.json",
+        "sources/crisis_resources.sqlite"
+      ]
+    },
+    {
+      "id": "evidence_vibbrancy_naga",
+      "population_id": "vibbrancy_naga",
+      "handoff_pointer": "provenance_populations/vibbrancy_naga",
+      "repository_evidence": [
+        "hotlines.json",
+        "scripts/merge_vibbrancy.py",
+        "sources/vibbrancy_hotlines.json"
+      ]
+    },
+    {
+      "id": "evidence_web_verified_directory",
+      "population_id": "web_verified_directory",
+      "handoff_pointer": "provenance_populations/web_verified_directory",
+      "repository_evidence": [
+        "REPORTS/web_verified_directory_integration_report.md",
+        "hotlines.json",
+        "sources/web_verified_crisis_directory/final_countries_crisis_directory.json"
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "population_id": "unknown_information_json",
+      "field_group_id": "identity_naming",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_unknown_information_json"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "unknown_information_json",
+      "field_group_id": "contact_channels",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_unknown_information_json"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "unknown_information_json",
+      "field_group_id": "geography_scope",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_unknown_information_json"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "unknown_information_json",
+      "field_group_id": "service_classifications",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_unknown_information_json"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "unknown_information_json",
+      "field_group_id": "eligibility_audience",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_unknown_information_json"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "unknown_information_json",
+      "field_group_id": "hours_languages_accessibility",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_unknown_information_json"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "unknown_information_json",
+      "field_group_id": "provenance_evidence",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_unknown_information_json"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "unknown_information_json",
+      "field_group_id": "lifecycle_replacement",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_unknown_information_json"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "unknown_information_json",
+      "field_group_id": "record_relationships",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_unknown_information_json"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "helplines_world",
+      "field_group_id": "identity_naming",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_helplines_world"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "helplines_world",
+      "field_group_id": "contact_channels",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_helplines_world"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "helplines_world",
+      "field_group_id": "geography_scope",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_helplines_world"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "helplines_world",
+      "field_group_id": "service_classifications",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_helplines_world"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "helplines_world",
+      "field_group_id": "eligibility_audience",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_helplines_world"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "helplines_world",
+      "field_group_id": "hours_languages_accessibility",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_helplines_world"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "helplines_world",
+      "field_group_id": "provenance_evidence",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_helplines_world"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "helplines_world",
+      "field_group_id": "lifecycle_replacement",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_helplines_world"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "helplines_world",
+      "field_group_id": "record_relationships",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_helplines_world"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "find_a_helpline",
+      "field_group_id": "identity_naming",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_find_a_helpline"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "find_a_helpline",
+      "field_group_id": "contact_channels",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_find_a_helpline"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "find_a_helpline",
+      "field_group_id": "geography_scope",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_find_a_helpline"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "find_a_helpline",
+      "field_group_id": "service_classifications",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_find_a_helpline"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "find_a_helpline",
+      "field_group_id": "eligibility_audience",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_find_a_helpline"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "find_a_helpline",
+      "field_group_id": "hours_languages_accessibility",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_find_a_helpline"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "find_a_helpline",
+      "field_group_id": "provenance_evidence",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_find_a_helpline"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "find_a_helpline",
+      "field_group_id": "lifecycle_replacement",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_find_a_helpline"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "find_a_helpline",
+      "field_group_id": "record_relationships",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_find_a_helpline"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "psc_app",
+      "field_group_id": "identity_naming",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_psc_app"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "psc_app",
+      "field_group_id": "contact_channels",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_psc_app"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "psc_app",
+      "field_group_id": "geography_scope",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_psc_app"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "psc_app",
+      "field_group_id": "service_classifications",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_psc_app"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "psc_app",
+      "field_group_id": "eligibility_audience",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_psc_app"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "psc_app",
+      "field_group_id": "hours_languages_accessibility",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_psc_app"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "psc_app",
+      "field_group_id": "provenance_evidence",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_psc_app"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "psc_app",
+      "field_group_id": "lifecycle_replacement",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_psc_app"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "psc_app",
+      "field_group_id": "record_relationships",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_psc_app"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "vibbrancy_naga",
+      "field_group_id": "identity_naming",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_vibbrancy_naga"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "vibbrancy_naga",
+      "field_group_id": "contact_channels",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_vibbrancy_naga"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "vibbrancy_naga",
+      "field_group_id": "geography_scope",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_vibbrancy_naga"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "vibbrancy_naga",
+      "field_group_id": "service_classifications",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_vibbrancy_naga"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "vibbrancy_naga",
+      "field_group_id": "eligibility_audience",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_vibbrancy_naga"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "vibbrancy_naga",
+      "field_group_id": "hours_languages_accessibility",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_vibbrancy_naga"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "vibbrancy_naga",
+      "field_group_id": "provenance_evidence",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_vibbrancy_naga"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "vibbrancy_naga",
+      "field_group_id": "lifecycle_replacement",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_vibbrancy_naga"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "vibbrancy_naga",
+      "field_group_id": "record_relationships",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_vibbrancy_naga"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "web_verified_directory",
+      "field_group_id": "identity_naming",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_web_verified_directory"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "web_verified_directory",
+      "field_group_id": "contact_channels",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_web_verified_directory"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "web_verified_directory",
+      "field_group_id": "geography_scope",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_web_verified_directory"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "web_verified_directory",
+      "field_group_id": "service_classifications",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_web_verified_directory"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "web_verified_directory",
+      "field_group_id": "eligibility_audience",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_web_verified_directory"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "web_verified_directory",
+      "field_group_id": "hours_languages_accessibility",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_web_verified_directory"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "web_verified_directory",
+      "field_group_id": "provenance_evidence",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_web_verified_directory"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "web_verified_directory",
+      "field_group_id": "lifecycle_replacement",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_web_verified_directory"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    },
+    {
+      "population_id": "web_verified_directory",
+      "field_group_id": "record_relationships",
+      "status": "held_pending_qualified_legal_review",
+      "permission_assertion": "none",
+      "evidence_references": [
+        "evidence_web_verified_directory"
+      ],
+      "reviewer": null,
+      "legal_decision": null,
+      "restrictions": "no_use_for_permission_license_rights_publication_or_record_changes",
+      "notes": "Unresolved; requires separately authorized review by qualified counsel."
+    }
+  ]
+}
