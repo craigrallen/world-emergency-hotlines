@@ -156,7 +156,7 @@ test('nonpublication rejects delimiter, renamed-key, and split-field clearance r
     cases.push(`<article>${Object.values(row).flat().map((value) => `<span>${value}</span>`).join('')}</article>`);
   }
   for (const [index, content] of cases.entries()) {
-    const dist = temporaryRoot(); writeFileSync(resolve(dist, `row-${index}.txt`), content);
+    const dist = temporaryRoot(); writeFileSync(resolve(dist, `row-${index}.${content.startsWith('<article>') ? 'html' : 'txt'}`), content);
     assert.throws(() => assertInternalNonpublication(dist, repo), /row fingerprint/);
   }
   const dist = temporaryRoot();
@@ -164,8 +164,8 @@ test('nonpublication rejects delimiter, renamed-key, and split-field clearance r
   assert.doesNotThrow(() => assertInternalNonpublication(dist, repo));
 });
 const rowScalars = (row) => Object.values(row).flat().filter((value) => typeof value === 'string');
-const assertLeakRejected = (content, label) => {
-  const dist = temporaryRoot(); writeFileSync(resolve(dist, `${label}.txt`), content);
+const assertLeakRejected = (content, label, extension = 'txt') => {
+  const dist = temporaryRoot(); writeFileSync(resolve(dist, `${label}.${extension}`), content);
   assert.throws(() => assertInternalNonpublication(dist, repo), /row fingerprint/, label);
 };
 test('nonpublication rejects review probes and every single-field removal for real and synthetic rows', () => {
@@ -191,7 +191,7 @@ test('nonpublication normalizes case, separators, JSON Unicode escapes, and spli
     assertLeakRejected(values.map((value) => [...value].map((character) => `\\u${character.codePointAt(0).toString(16).padStart(4, '0')}`).join('')).join(','), `${kind}-json-escaped`);
     assertLeakRejected(values.map((value) => [...value].map((character) => `&#x${character.codePointAt(0).toString(16)};`).join('')).join(' &NewLine; '), `${kind}-html-entities`);
     assertLeakRejected(values.map((value) => value.replaceAll('_', '&lowbar;')).join('&Tab;'), `${kind}-named-html-entities`);
-    assertLeakRejected(`<article>${values.map((value) => `<span>${value.replaceAll('_', '</span> <span>')}</span>`).join('</article><article>')}</article>`, `${kind}-split-html`);
+    assertLeakRejected(`<article>${values.map((value) => `<span>${value.replaceAll('_', '</span> <span>')}</span>`).join('</article><article>')}</article>`, `${kind}-split-html`, 'html');
   }
 });
 const tupleClasses = (row) => [
@@ -205,6 +205,7 @@ const encodeJsU = (value) => [...value].map((character) => `\\u${character.codeP
 const encodeHtml = (value) => [...value].map((character) => `&#x${character.codePointAt(0).toString(16)};`).join('');
 const interiorPositions = (value) => [...new Set([1, Math.floor(value.length / 2), value.length - 1])].filter((position) => position > 0 && position < value.length);
 const insertInlineTag = (value, position) => `${value.slice(0, position)}<span></span>${value.slice(position)}`;
+const splitWithQuotedGreaterThanTag = (value, position) => `${value.slice(0, position)}<span title=">">${value[position]}</span>${value.slice(position + 1)}`;
 test('nonpublication fixed-point decoding rejects nested and mixed encodings for every tuple class', () => {
   for (const [kind, source] of [['real', ledger], ['synthetic', example]]) {
     tupleClasses(source.entries[0]).forEach((tuple, tupleIndex) => {
@@ -222,12 +223,25 @@ test('nonpublication rejects inline tags at multiple interior positions of every
       tuple.forEach((component, componentIndex) => {
         for (const position of interiorPositions(component)) {
           const splitTuple = tuple.map((value, index) => index === componentIndex ? insertInlineTag(value, position) : value);
-          assertLeakRejected(splitTuple.join(' | '), `${kind}-tuple-${tupleIndex}-component-${componentIndex}-position-${position}`);
+          assertLeakRejected(splitTuple.join(' | '), `${kind}-tuple-${tupleIndex}-component-${componentIndex}-position-${position}`, 'html');
         }
       });
     });
   }
-  assertLeakRejected('psc_<span>a</span>pp identity_naming', 'exact-psc-app-inline-span');
+  assertLeakRejected('psc_<span>a</span>pp identity_naming', 'exact-psc-app-inline-span', 'html');
+});
+test('nonpublication HTML parser rejects quoted-attribute greater-than splits across every tuple component', () => {
+  for (const [kind, source] of [['real', ledger], ['synthetic', example]]) {
+    tupleClasses(source.entries[0]).forEach((tuple, tupleIndex) => {
+      tuple.forEach((component, componentIndex) => {
+        for (const position of interiorPositions(component)) {
+          const splitTuple = tuple.map((value, index) => index === componentIndex ? splitWithQuotedGreaterThanTag(value, position) : value);
+          assertLeakRejected(splitTuple.join(' | '), `${kind}-quoted-gt-tuple-${tupleIndex}-component-${componentIndex}-position-${position}`, 'html');
+        }
+      });
+    });
+  }
+  assertLeakRejected('psc_a<span title=">">p</span>p identity_naming', 'exact-quoted-gt-adversarial', 'html');
 });
 test('nonpublication decoder negative controls remain literal and bounded', () => {
   for (const [index, content] of ['%zz %5', '\\xGG \\u0ZZZ', '&amp without-semicolon; &#x110000;', 'ordinary compressed or encrypted data is not claimed detectable'].entries()) {
@@ -253,4 +267,12 @@ test('nonpublication tuple fingerprints permit ordinary public content and isola
     const dist = temporaryRoot(); writeFileSync(resolve(dist, `ordinary-${index}.txt`), content);
     assert.doesNotThrow(() => assertInternalNonpublication(dist, repo), `ordinary control ${index}`);
   }
+});
+test('nonpublication preserves raw non-HTML text and ignores HTML attribute values', () => {
+  const raw = temporaryRoot();
+  writeFileSync(resolve(raw, 'literal.txt'), 'psc_a<span title=">">p</span>p identity_naming');
+  assert.doesNotThrow(() => assertInternalNonpublication(raw, repo));
+  const html = temporaryRoot();
+  writeFileSync(resolve(html, 'attributes.html'), '<p data-population="psc_app" title="identity_naming">Ordinary public content.</p>');
+  assert.doesNotThrow(() => assertInternalNonpublication(html, repo));
 });
