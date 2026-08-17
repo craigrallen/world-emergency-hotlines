@@ -1,5 +1,23 @@
 {
   "synthetic_fixture": true,
+  "presentation_observation": {
+    "schema_version": "1.0",
+    "evidence_type": "presentation",
+    "observation_id": "synthetic-presentation-1",
+    "tenant_id": "tenant-synthetic-a",
+    "app_id": "app-synthetic-a",
+    "app_version": "synthetic-1.0",
+    "presentation_token_digest": "sha256:0204a2996ac2070a267819679fe7d9a614ca84e3719ca02fb65f8fe8de89a627",
+    "record_revision": "sha256:8c1fecfff95cd55e2fdd7f2db2d8d167f6db7582ee4dea2d875b11dae42bd969",
+    "presentation_status": "active",
+    "presentation_issued_at": "2026-08-17T10:00:00.000Z",
+    "presentation_expires_at": "2026-08-17T10:02:00.000Z",
+    "issuance_key_id": "synthetic-key-1",
+    "surface_class": "licensed_app",
+    "observed_at": "2026-08-17T10:01:00.000Z",
+    "evidence_key_id": "obs-key-1",
+    "evidence_signature": "KROZuhcZCrjg7c6LrBrQOFTqabF-Ph_KvLx4qkG93i4"
+  },
   "render_attestation": {
     "schema_version": "1.0",
     "evidence_type": "render",
