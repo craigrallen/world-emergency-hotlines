@@ -61,6 +61,81 @@ const findForbiddenSemanticSection = (value, fingerprints) => {
 const MAX_NORMALIZATION_BYTES = 32 * 1024 * 1024;
 const MAX_NORMALIZATION_PASSES = 8;
 const MAX_HTML_SCAN_ITEMS = 250_000;
+const strictUtf8 = new TextDecoder('utf-8', { fatal: true });
+const decodeUtf16 = (bytes, littleEndian, label) => {
+  const payload = bytes.subarray(2);
+  if (payload.length % 2 !== 0) throw new Error(`${label} has malformed odd-length BOM-marked UTF-16`);
+  let text = '';
+  for (let offset = 0; offset < payload.length; offset += 2) {
+    const unit = littleEndian ? payload[offset] | (payload[offset + 1] << 8) : (payload[offset] << 8) | payload[offset + 1];
+    if (unit >= 0xd800 && unit <= 0xdbff) {
+      if (offset + 3 >= payload.length) throw new Error(`${label} has invalid UTF-16 surrogate sequence`);
+      const next = littleEndian ? payload[offset + 2] | (payload[offset + 3] << 8) : (payload[offset + 2] << 8) | payload[offset + 3];
+      if (next < 0xdc00 || next > 0xdfff) throw new Error(`${label} has invalid UTF-16 surrogate sequence`);
+      text += String.fromCharCode(unit, next); offset += 2;
+    } else {
+      if (unit >= 0xdc00 && unit <= 0xdfff) throw new Error(`${label} has invalid UTF-16 surrogate sequence`);
+      text += String.fromCharCode(unit);
+    }
+  }
+  if (Buffer.byteLength(text) > MAX_NORMALIZATION_BYTES) throw new Error(`decoded ${label} exceeds bounded nonpublication normalization size`);
+  return text;
+};
+export const decodeArtifactText = (bytes, label) => {
+  if (bytes[0] === 0xff && bytes[1] === 0xfe) return decodeUtf16(bytes, true, label);
+  if (bytes[0] === 0xfe && bytes[1] === 0xff) return decodeUtf16(bytes, false, label);
+  try {
+    const text = strictUtf8.decode(bytes);
+    if (Buffer.byteLength(text) > MAX_NORMALIZATION_BYTES) throw new Error(`decoded ${label} exceeds bounded nonpublication normalization size`);
+    return text;
+  } catch (error) {
+    if (bytes[0] === 0xef && bytes[1] === 0xbb && bytes[2] === 0xbf && error instanceof TypeError) throw new Error(`${label} has malformed BOM-marked UTF-8`);
+    if (error instanceof TypeError) return undefined; // Opaque BOM-less binary: retain byte checks, but do not guess an encoding.
+    throw error;
+  }
+};
+export const decodeLegacyOctalEscapes = (text) => {
+  let output = '';
+  for (let index = 0; index < text.length; index += 1) {
+    if (text[index] !== '\\') { output += text[index]; continue; }
+    let preceding = 0;
+    for (let at = index - 1; at >= 0 && text[at] === '\\'; at -= 1) preceding += 1;
+    if (preceding % 2 !== 0) { output += text[index]; continue; }
+    const first = text[index + 1];
+    if (first === '0') {
+      const second = text[index + 2];
+      if (/[0-7]/u.test(second ?? '')) {
+        let digits = first + second;
+        const third = text[index + 3];
+        if (/[0-7]/u.test(third ?? '')) digits += third;
+        output += String.fromCharCode(Number.parseInt(digits, 8)); index += digits.length; continue;
+      }
+      if (!/[0-9]/u.test(second ?? '')) { output += '\0'; index += 1; continue; }
+    } else if (/[1-7]/u.test(first ?? '')) {
+      let digits = first;
+      const second = text[index + 2];
+      if (/[0-7]/u.test(second ?? '')) {
+        digits += second;
+        const third = text[index + 3];
+        if (/[0-3]/u.test(first) && /[0-7]/u.test(third ?? '')) digits += third;
+      }
+      output += String.fromCharCode(Number.parseInt(digits, 8)); index += digits.length; continue;
+    }
+    output += text[index];
+  }
+  return output;
+};
+const hasStrictDirective = (source) => {
+  let rest = source.replace(/^#![^\r\n]*(?:\r?\n|$)/u, '');
+  while (true) {
+    const next = rest.replace(/^\s*(?:(?:\/\/[^\r\n]*(?:\r?\n|$))|(?:\/\*[\s\S]*?\*\/))/u, '');
+    if (next === rest) break; rest = next;
+  }
+  return /^(?:"use strict"|'use strict')\s*(?:;|\r?\n|$)/u.test(rest);
+};
+const javascriptRepresentations = (text, mode = 'unknown') => mode === 'strict' || mode === 'disabled' || hasStrictDirective(text)
+  ? [text]
+  : [...new Set([text, decodeLegacyOctalEscapes(text)])];
 const decodeJavaScriptEscapes = (text) => text
   // ECMAScript removes an unescaped backslash plus LineTerminatorSequence
   // before interpreting the remaining string characters. Preserve pairs of
@@ -107,12 +182,14 @@ const htmlRepresentations = (html, sourceHtml) => {
   };
   const addAttributeValue = (raw) => {
     if (!raw) return;
-    const value = decodeBoundedText(raw, 'HTML attribute value', decodeHTMLAttribute);
-    attributeBytes += Buffer.byteLength(value);
-    if (attributeBytes > MAX_NORMALIZATION_BYTES) throw new Error('decoded HTML attributes exceed bounded nonpublication normalization size');
-    // Keep values separate: unrelated public attributes must not combine to
-    // form a forbidden scalar or row fingerprint.
-    representations.push(value);
+    for (const source of javascriptRepresentations(raw)) {
+      const value = decodeBoundedText(source, 'HTML attribute value', decodeHTMLAttribute);
+      attributeBytes += Buffer.byteLength(value);
+      if (attributeBytes > MAX_NORMALIZATION_BYTES) throw new Error('decoded HTML attributes exceed bounded nonpublication normalization size');
+      // Keep values separate: unrelated public attributes must not combine to
+      // form a forbidden scalar or row fingerprint.
+      representations.push(value);
+    }
   };
   const addText = (raw, values) => {
     const value = decodeBoundedText(raw, 'HTML text value');
@@ -153,15 +230,21 @@ const htmlRepresentations = (html, sourceHtml) => {
         addName(attribute.name);
         addAttributeValue(attribute.value);
       }
-      if (node.nodeName === '#text') addText(node.value, textNodes);
+      if (node.nodeName === '#text') {
+        if (node.parentNode?.tagName === 'script') {
+          const type = node.parentNode.attrs?.find((attribute) => attribute.name.toLowerCase() === 'type')?.value.trim().toLowerCase();
+          const mode = type === 'module' || (type && !/^(?:application|text)\/(?:javascript|ecmascript)$/u.test(type)) ? 'disabled' : 'classic';
+          for (const representation of javascriptRepresentations(node.value, mode)) addText(representation, textNodes);
+        } else addText(node.value, textNodes);
+      }
       if (node.nodeName === '#comment') {
-        const value = decodeBoundedText(node.data, 'HTML comment value');
-        commentBytes += Buffer.byteLength(value);
+        const values = javascriptRepresentations(node.data).map((source) => decodeBoundedText(source, 'HTML comment value'));
+        commentBytes += values.reduce((sum, value) => sum + Buffer.byteLength(value), 0);
         if (commentBytes > MAX_NORMALIZATION_BYTES) throw new Error('decoded HTML comments exceed bounded nonpublication normalization size');
         // Keep comments separate so unrelated payloads cannot combine into a
         // forbidden fingerprint. Also render tag-like fragments inside each
         // payload, since comment contents can otherwise split normalized text.
-        if (value) {
+        for (const value of values) if (value) {
           representations.push(value);
           const commentTextNodes = [];
           visit(parse(value, { scriptingEnabled }), (commentNode) => {
@@ -194,10 +277,13 @@ const htmlRepresentations = (html, sourceHtml) => {
   };
   return [...new Set(representations)];
 };
-const normalizeScanTexts = (text, isHtml = false) => {
+const normalizeScanTexts = (text, isHtml = false, javascriptMode = 'unknown') => {
   if (Buffer.byteLength(text) > MAX_NORMALIZATION_BYTES) throw new Error('production artifact exceeds bounded nonpublication normalization size');
-  const decoded = decodeBoundedText(text);
-  const representations = isHtml ? htmlRepresentations(decoded, text) : [decoded];
+  const sourceRepresentations = isHtml ? [text] : javascriptRepresentations(text, javascriptMode);
+  const representations = sourceRepresentations.flatMap((source) => {
+    const decoded = decodeBoundedText(source);
+    return isHtml ? htmlRepresentations(decoded, source) : [decoded];
+  });
   return [...new Set(representations.map(normalizeDecodedText))];
 };
 const normalizeScanText = (text) => normalizeScanTexts(text)[0];
@@ -261,20 +347,24 @@ export function assertInternalNonpublication(dist, repoRoot = repo) {
     const bytes = readFileSync(path);
     for (const marker of forbidden.markers) if (bytes.includes(Buffer.from(marker))) throw new Error(`internal review-pack marker published in ${path}`);
     if (forbidden.exactHashes.includes(sha256(bytes))) throw new Error(`internal evidence exact copy published in ${path}`);
-    const text = bytes.toString('utf8');
-    const normalizedTexts = normalizeScanTexts(text, /\.html?$/iu.test(path));
+    const text = decodeArtifactText(bytes, `production artifact ${path}`);
+    if (text === undefined) continue;
+    const isHtml = /\.html?$/iu.test(path);
+    const extensionMode = /\.mjs$/iu.test(path) ? 'strict' : /\.json$/iu.test(path) ? 'disabled' : 'unknown';
+    const rawTexts = isHtml ? [text] : javascriptRepresentations(text, extensionMode);
+    const normalizedTexts = normalizeScanTexts(text, isHtml, extensionMode);
     for (const row of forbidden.clearanceRowFingerprints) if (normalizedTexts.some((normalizedText) => row.components.every((component) => normalizedText.includes(` ${component} `)))) throw new Error(`internal field-clearance row fingerprint (${row.label}) published in ${path}`);
-    for (const scalar of forbidden.scalarFingerprints) if (text.includes(scalar)) throw new Error(`internal review-pack scalar fingerprint published in ${path}`);
-    for (const contract of forbidden.licensedContractFingerprints) if (text.includes(contract.raw) || normalizedTexts.some((normalizedText) => normalizedText.includes(contract.normalized))) throw new Error(`internal licensed-delivery contract scalar fingerprint published in ${path}`);
-    for (const fixture of forbidden.licensedFixtureFingerprints) if (text.includes(fixture.raw) || normalizedTexts.some((normalizedText) => normalizedText.includes(fixture.normalized))) throw new Error(`internal licensed-delivery fixture scalar fingerprint published in ${path}`);
-    for (const draft of forbidden.licensedDraftFingerprints) if (text.includes(draft.raw) || normalizedTexts.some((normalizedText) => normalizedText.includes(draft.normalized))) throw new Error(`internal review-pack scalar fingerprint published in ${path}`);
+    for (const scalar of forbidden.scalarFingerprints) if (rawTexts.some((rawText) => rawText.includes(scalar))) throw new Error(`internal review-pack scalar fingerprint published in ${path}`);
+    for (const contract of forbidden.licensedContractFingerprints) if (rawTexts.some((rawText) => rawText.includes(contract.raw)) || normalizedTexts.some((normalizedText) => normalizedText.includes(contract.normalized))) throw new Error(`internal licensed-delivery contract scalar fingerprint published in ${path}`);
+    for (const fixture of forbidden.licensedFixtureFingerprints) if (rawTexts.some((rawText) => rawText.includes(fixture.raw)) || normalizedTexts.some((normalizedText) => normalizedText.includes(fixture.normalized))) throw new Error(`internal licensed-delivery fixture scalar fingerprint published in ${path}`);
+    for (const draft of forbidden.licensedDraftFingerprints) if (rawTexts.some((rawText) => rawText.includes(draft.raw)) || normalizedTexts.some((normalizedText) => normalizedText.includes(draft.normalized))) throw new Error(`internal review-pack scalar fingerprint published in ${path}`);
     for (const marker of forbidden.normalizedMarkers) if (normalizedTexts.some((normalizedText) => normalizedText.includes(marker.normalized))) throw new Error(`normalized internal review-pack marker (${marker.raw}) published in ${path}`);
     try {
-      const match = findForbiddenSemanticSection(JSON.parse(text), forbidden.semanticFingerprints);
+      const match = rawTexts.map((rawText) => {
+        try { return findForbiddenSemanticSection(JSON.parse(rawText), forbidden.semanticFingerprints); } catch (error) { if (error instanceof SyntaxError) return undefined; throw error; }
+      }).find(Boolean);
       if (match) throw new Error(`internal review-pack semantic section (${match}) published in ${path}`);
-    } catch (error) {
-      if (!(error instanceof SyntaxError)) throw error;
-    }
+    } catch (error) { throw error; }
   }
 }
 export function verifyInternalNonpublication(dist = resolve(repo, 'web/dist')) {

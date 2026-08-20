@@ -1,6 +1,6 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {createHmac} from 'node:crypto';import {mkdtempSync,mkdirSync,readFileSync,rmSync,writeFileSync} from 'node:fs';import {tmpdir} from 'node:os';import {resolve} from 'node:path';
 import {HTTP_CONTRACT_METADATA,NORMATIVE_HTTP_CONTRACT,NORMATIVE_HTTP_RESPONSE,PRESENTATION_MAX_TTL_SECONDS,analyzeCompliance,assertNormativeHttpContract,assertNormativeHttpResponse,canonicalSafetyBytes,issuePresentation,sha256,signSyntheticEvidence,validateBinaryObservation,validateFetchObservation,validateOutwardObservation,validatePresentationObservation,validateRenderAttestation,verifyPresentation} from '../model.mjs';
-import {assertInternalNonpublication} from '../../../../web/scripts/verify-internal-nonpublication.mjs';
+import {assertInternalNonpublication,decodeArtifactText,decodeLegacyOctalEscapes} from '../../../../web/scripts/verify-internal-nonpublication.mjs';
 const input=JSON.parse(readFileSync(resolve(import.meta.dirname,'../fixtures/synthetic-input.json'))),key=input.key,obsKey='SYNTHETIC-OBSERVATION-KEY-000000000000000000';input.tenant_id=input.trusted_context.tenant_id;const tc=input.trusted_context;
 const trusted_keys={[input.key_id]:{status:'active',key}},observation_keys={'obs-key-1':{status:'active',key:obsKey}},registered_apps={'tenant-synthetic-a\0app-synthetic-a\0synthetic-1.0':{status:'active'}},presentation_keys=trusted_keys;
 const fixtureIssue=()=>issuePresentation({...input,fixture_nonce:'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'});
@@ -192,5 +192,46 @@ test('licensed contract normalized fingerprints permit ordinary and common publi
   ];
   try{
     for(const [name,content] of controls){const dist=resolve(root,name.replace('.','-'));mkdirSync(dist);writeFileSync(resolve(dist,name),content);assert.doesNotThrow(()=>assertInternalNonpublication(dist,repo),name);}
+  }finally{rmSync(root,{recursive:true,force:true});}
+});
+test('nonpublication strictly decodes BOM-marked UTF-16 artifacts before every scan class',()=>{
+  const repo=resolve(import.meta.dirname,'../../../..'),root=mkdtempSync(resolve(tmpdir(),'licensed-utf16-nonpub-'));
+  const schemas=JSON.parse(readFileSync(resolve(repo,'reviews/licensed-delivery/v1/schemas.json'))),fixture=JSON.parse(readFileSync(resolve(repo,'reviews/licensed-delivery/v1/fixtures/presentation.synthetic.json')));
+  const counsel=readFileSync(resolve(repo,'reviews/licensed-delivery/v1/terms.counsel-draft.md'),'utf8').split(/\n\s*\n/).find(value=>value.includes('Responses and presentation tokens')).replace(/\s+/g,' ').trim();
+  const schema='Internal licensed-delivery v1 closed schema bundle',provider=fixture.envelope.canonical_record.provider_identity;
+  const utf16=(text,endian)=>{const le=Buffer.from(text,'utf16le');if(endian==='le')return Buffer.concat([Buffer.from([0xff,0xfe]),le]);const be=Buffer.alloc(le.length);for(let i=0;i<le.length;i+=2){be[i]=le[i+1];be[i+1]=le[i];}return Buffer.concat([Buffer.from([0xfe,0xff]),be]);};
+  const cases=[
+    ['marker-le.txt','reviews/licensed-delivery','le'],['marker-be.html','<!--reviews/licensed-delivery-->','be'],
+    ['schema-le.js',`const value=${JSON.stringify(schema)};`,'le'],['schema-be.html',`<script>const value=${JSON.stringify(schema)}</script>`,'be'],
+    ['fixture-le.json',JSON.stringify(fixture.envelope.canonical_record),'le'],['fixture-be.js',`const provider=${JSON.stringify(provider)};`,'be'],
+    ['counsel-le.html',`<article>${counsel}</article>`,'le'],['counsel-be.txt',counsel,'be'],
+    ['semantic-le.json',JSON.stringify(schemas),'le'],['semantic-be.json',JSON.stringify(schemas),'be'],
+  ];
+  try{for(const [name,value,endian] of cases){const dist=resolve(root,name.replace('.','-'));mkdirSync(dist);writeFileSync(resolve(dist,name),utf16(value,endian));assert.throws(()=>assertInternalNonpublication(dist,repo),/marker|semantic section|scalar fingerprint/,name);}}finally{rmSync(root,{recursive:true,force:true});}
+});
+test('artifact text decoding fails closed for malformed UTF-16 and keeps UTF-8 BOM, binary, and Unicode behavior exact',()=>{
+  assert.throws(()=>decodeArtifactText(Buffer.from([0xff,0xfe,0x41]),'odd'),/odd-length/);
+  for(const bytes of [[0xff,0xfe,0x00,0xd8],[0xfe,0xff,0xdc,0x00],[0xff,0xfe,0x00,0xd8,0x41,0x00]])assert.throws(()=>decodeArtifactText(Buffer.from(bytes),'surrogate'),/surrogate/);
+  assert.equal(decodeArtifactText(Buffer.from([0xef,0xbb,0xbf,0x68,0x69]),'utf8-bom'),'hi');
+  assert.throws(()=>decodeArtifactText(Buffer.from([0xef,0xbb,0xbf,0xff]),'utf8-bom-bad'),/malformed BOM-marked UTF-8/);
+  assert.equal(decodeArtifactText(Buffer.from([0,0xff,1,0x80]),'binary'),undefined);
+  assert.equal(decodeArtifactText(Buffer.from('Harmless café — 世界 😀'),'unicode'),'Harmless café — 世界 😀');
+  const oversized=Buffer.alloc(2+(32*1024*1024+1)*2);oversized[0]=0xff;oversized[1]=0xfe;for(let i=2;i<oversized.length;i+=2)oversized[i]=0x61;
+  assert.throws(()=>decodeArtifactText(oversized,'oversized'),/exceeds bounded/);
+});
+test('legacy octal decoding implements ECMAScript maximal munch and preserves invalid or escaped forms',()=>{
+  assert.equal(decodeLegacyOctalEscapes(String.raw`\0x\00\07\10\77\100\377\400`),`\0x\0\x07\b?@ÿ 0`);
+  assert.equal(decodeLegacyOctalEscapes(String.raw`\18\278\378\777`),`${String.fromCharCode(1)}8${String.fromCharCode(23)}8${String.fromCharCode(31)}8?7`);
+  assert.equal(decodeLegacyOctalEscapes(String.raw`\08\09\8\9\\141 text 123`),String.raw`\08\09\8\9\\141 text 123`);
+  assert.equal(decodeLegacyOctalEscapes(String.raw`a\141b\142c\143d`),'aabbccd');
+});
+test('nonpublication conservatively scans valid legacy octal in classic and ambiguous contexts but not strict source',()=>{
+  const repo=resolve(import.meta.dirname,'../../../..'),root=mkdtempSync(resolve(tmpdir(),'licensed-octal-nonpub-')),marker='reviews/licensed-delivery';
+  const octal=value=>[...value].map(character=>`\\${character.charCodeAt(0).toString(8)}`).join('');
+  const encoded=octal(marker),mixed=`${octal('reviews/licensed')}\\x2d${octal('delivery')}`;
+  const rejects=[['classic.js',`const a='${encoded}', b='public', c='${mixed}';`],['multiple.txt',`before ${encoded} middle ${encoded} after`],['script.html',`<script>const x='${encoded}'</script>`],['comment.html',`<!--${encoded}-->`],['attribute.html',`<p data-note="${encoded}">public</p>`],['unknown.dat',`{"note":"${encoded}"}`]];
+  try{
+    for(const [name,value] of rejects){const dist=resolve(root,name.replace('.','-'));mkdirSync(dist);writeFileSync(resolve(dist,name),value);assert.throws(()=>assertInternalNonpublication(dist,repo),/marker/,name);}
+    for(const [name,value] of [['strict.js',`'use strict'; const x='${encoded}';`],['module.mjs',`export const x='${encoded}';`],['module.html',`<script type="module">const x='${encoded}'</script>`],['data-script.html',`<script type="application/json">{"note":"${encoded}"}</script>`],['escaped.js',String.raw`const x="\\162\\145\\166";`],['invalid.js',String.raw`const x="\8\9\08\09";`],['public.txt',String.raw`Public build 123 077 400 and \\141 documentation.`],['unicode.txt','Public café 世界 😀']]){const dist=resolve(root,`control-${name.replace('.','-')}`);mkdirSync(dist);writeFileSync(resolve(dist,name),value);assert.doesNotThrow(()=>assertInternalNonpublication(dist,repo),name);}
   }finally{rmSync(root,{recursive:true,force:true});}
 });
