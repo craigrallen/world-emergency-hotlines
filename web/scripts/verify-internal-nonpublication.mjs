@@ -62,6 +62,40 @@ const MAX_NORMALIZATION_BYTES = 32 * 1024 * 1024;
 const MAX_NORMALIZATION_PASSES = 8;
 const MAX_HTML_SCAN_ITEMS = 250_000;
 const strictUtf8 = new TextDecoder('utf-8', { fatal: true });
+const TEXT_ARTIFACT_EXTENSIONS = new Set([
+  '.asc', '.atom', '.cjs', '.conf', '.css', '.csv', '.graphql', '.gql', '.htm', '.html', '.ics', '.ini',
+  '.js', '.json', '.json5', '.jsonl', '.jsx', '.map', '.manifest', '.md', '.mjs', '.ndjson', '.rss', '.shtml',
+  '.svg', '.text', '.toml', '.ts', '.tsx', '.txt', '.vtt', '.webmanifest', '.xhtml', '.xml', '.yaml', '.yml',
+]);
+const OPAQUE_ARTIFACT_EXTENSIONS = new Set([
+  '.7z', '.avif', '.bin', '.br', '.bz2', '.eot', '.gif', '.gz', '.ico', '.jpeg', '.jpg', '.mp3', '.mp4',
+  '.ogg', '.otf', '.pdf', '.png', '.tar', '.ttf', '.wasm', '.webp', '.woff', '.woff2', '.zip',
+]);
+const EXTENSIONLESS_TEXT_OUTPUTS = new Set([
+  '_headers', '_redirects', 'ads.txt', 'assetlinks.json', 'cname', 'humans.txt', 'manifest', 'robots.txt',
+  'security.txt', 'sitemap',
+]);
+const artifactExtension = (label) => {
+  const basename = label.replaceAll('\\', '/').split('/').at(-1).toLowerCase();
+  const dot = basename.lastIndexOf('.');
+  return { basename, extension: dot > 0 ? basename.slice(dot) : '' };
+};
+const payloadLooksTextLike = (bytes) => {
+  // Latin-1 is used only for an ASCII-compatible signature check. It is never
+  // accepted as the artifact encoding.
+  const sample = bytes.subarray(0, Math.min(bytes.length, 64 * 1024)).toString('latin1');
+  const trimmed = sample.replace(/^[\x00-\x20]+/u, '');
+  return /^(?:<!doctype\s+html\b|<html\b|<\?xml\b|<(?:svg|rss|feed)\b|[\[{])/iu.test(trimmed)
+    || /<meta\b[^>]*\bcharset\s*=|<meta\b[^>]*http-equiv\s*=\s*["']?content-type|\bcontent-type\s*:\s*(?:text\/|application\/(?:javascript|json|xml))/iu.test(sample);
+};
+const textArtifactClassification = (bytes, label) => {
+  const { basename, extension } = artifactExtension(label);
+  if (TEXT_ARTIFACT_EXTENSIONS.has(extension)) return `text extension ${extension}`;
+  if (EXTENSIONLESS_TEXT_OUTPUTS.has(basename)) return `known text output ${basename}`;
+  if (payloadLooksTextLike(bytes)) return 'text-like payload signature';
+  if (OPAQUE_ARTIFACT_EXTENSIONS.has(extension)) return undefined;
+  return extension ? `non-binary artifact extension ${extension}` : 'unrecognized extensionless non-binary artifact';
+};
 const decodeUtf16 = (bytes, littleEndian, label) => {
   const payload = bytes.subarray(2);
   if (payload.length % 2 !== 0) throw new Error(`${label} has malformed odd-length BOM-marked UTF-16`);
@@ -90,7 +124,11 @@ export const decodeArtifactText = (bytes, label) => {
     return text;
   } catch (error) {
     if (bytes[0] === 0xef && bytes[1] === 0xbb && bytes[2] === 0xbf && error instanceof TypeError) throw new Error(`${label} has malformed BOM-marked UTF-8`);
-    if (error instanceof TypeError) return undefined; // Opaque BOM-less binary: retain byte checks, but do not guess an encoding.
+    if (error instanceof TypeError) {
+      const classification = textArtifactClassification(bytes, label);
+      if (classification) throw new Error(`${label} is a text-like artifact (${classification}) with invalid UTF-8; legacy charset declarations do not permit non-UTF-8 build output`);
+      return undefined; // Opaque binary: retain byte/hash checks, but skip text normalization.
+    }
     throw error;
   }
 };
@@ -133,29 +171,52 @@ const hasStrictDirective = (source) => {
   }
   return /^(?:"use strict"|'use strict')\s*(?:;|\r?\n|$)/u.test(rest);
 };
-const javascriptRepresentations = (text, mode = 'unknown') => mode === 'strict' || mode === 'disabled' || hasStrictDirective(text)
+const javascriptRepresentations = (text, mode = 'unknown') => mode === 'disabled' || mode === 'strict' || hasStrictDirective(text)
   ? [text]
   : [...new Set([text, decodeLegacyOctalEscapes(text)])];
-const decodeJavaScriptEscapes = (text) => text
-  // ECMAScript removes an unescaped backslash plus LineTerminatorSequence
-  // before interpreting the remaining string characters. Preserve pairs of
-  // backslashes: their final backslash is escaped and cannot continue a line.
-  .replace(/(^|[^\\])((?:\\\\)*)\\(?:\r\n|[\n\r\u2028\u2029])/gu, (_, prefix, pairs) => `${prefix}${pairs}`)
-  .replace(/\\u\{([0-9a-f]{1,6})\}/giu, (escape, hex) => {
-    const point = Number.parseInt(hex, 16);
-    return point <= 0x10ffff && !(point >= 0xd800 && point <= 0xdfff) ? String.fromCodePoint(point) : escape;
-  })
-  .replace(/\\u([0-9a-f]{4})/giu, (_, hex) => String.fromCharCode(Number.parseInt(hex, 16)))
-  .replace(/\\x([0-9a-f]{2})/giu, (_, hex) => String.fromCharCode(Number.parseInt(hex, 16)));
+const JS_ESCAPE_CHARACTERS = new Set(["'", '"', '\\', 'b', 'f', 'n', 'r', 't', 'v', 'x', 'u']);
+const decodeJavaScriptEscapes = (text, decodeNonEscapeCharacter = false) => {
+  let output = '';
+  for (let index = 0; index < text.length; index += 1) {
+    if (text[index] !== '\\') { output += text[index]; continue; }
+    const next = text[index + 1];
+    // Retain escaped backslashes as a stable pair. This representation is a
+    // conservative scanner view, not an evaluator, and must not turn `\\\\a`
+    // into a NonEscapeCharacter on a later fixed-point pass.
+    if (next === '\\') { output += '\\\\'; index += 1; continue; }
+    if (next === '\r' || next === '\n' || next === '\u2028' || next === '\u2029') {
+      if (next === '\r' && text[index + 2] === '\n') index += 2;
+      else index += 1;
+      continue;
+    }
+    if (next === 'u' && text[index + 2] === '{') {
+      const close = text.indexOf('}', index + 3);
+      const hex = close < 0 ? '' : text.slice(index + 3, close);
+      if (/^[0-9a-f]{1,6}$/iu.test(hex)) {
+        const point = Number.parseInt(hex, 16);
+        if (point <= 0x10ffff && !(point >= 0xd800 && point <= 0xdfff)) { output += String.fromCodePoint(point); index = close; continue; }
+      }
+    } else if (next === 'u' && /^[0-9a-f]{4}$/iu.test(text.slice(index + 2, index + 6))) {
+      output += String.fromCharCode(Number.parseInt(text.slice(index + 2, index + 6), 16)); index += 5; continue;
+    } else if (next === 'x' && /^[0-9a-f]{2}$/iu.test(text.slice(index + 2, index + 4))) {
+      output += String.fromCharCode(Number.parseInt(text.slice(index + 2, index + 4), 16)); index += 3; continue;
+    }
+    if (decodeNonEscapeCharacter && next !== undefined && !JS_ESCAPE_CHARACTERS.has(next) && !/[0-9]/u.test(next)) {
+      output += next; index += 1; continue;
+    }
+    output += '\\';
+  }
+  return output;
+};
 const decodePercentEncoding = (text) => text.replace(/(?:%[0-9a-f]{2})+/giu, (encoded) => {
   try { return decodeURIComponent(encoded); } catch { return encoded; }
 });
 const normalizeDecodedText = (text) => ` ${text.normalize('NFKC').toLocaleLowerCase('en-US').replace(/[^\p{L}\p{N}]+/gu, ' ').trim()} `;
-const decodeBoundedText = (text, label = 'production artifact', decodeEntities = decodeHTML) => {
+const decodeBoundedText = (text, label = 'production artifact', decodeEntities = decodeHTML, decodeNonEscapeCharacter = false) => {
   let decoded = text;
   let converged = false;
   for (let i = 0; i < MAX_NORMALIZATION_PASSES; i += 1) {
-    const next = decodeEntities(decodePercentEncoding(decodeJavaScriptEscapes(decoded)));
+    const next = decodeEntities(decodePercentEncoding(decodeJavaScriptEscapes(decoded, decodeNonEscapeCharacter)));
     if (Buffer.byteLength(next) > MAX_NORMALIZATION_BYTES) throw new Error(`decoded ${label} exceeds bounded nonpublication normalization size`);
     if (next === decoded) { converged = true; break; }
     decoded = next;
@@ -163,7 +224,9 @@ const decodeBoundedText = (text, label = 'production artifact', decodeEntities =
   if (!converged) throw new Error(`${label} exceeds bounded nonpublication normalization iterations`);
   return decoded;
 };
-const htmlRepresentations = (html, sourceHtml) => {
+const decodedJavaScriptRepresentations = (text, label, decodeEntities = decodeHTML, mode = 'unknown', decodeNonEscapeCharacter = false) => javascriptRepresentations(text, mode)
+  .map((source) => decodeBoundedText(source, label, decodeEntities, mode !== 'disabled' && decodeNonEscapeCharacter));
+const htmlRepresentations = (html, sourceHtml, decodeNonEscapeCharacter = false) => {
   const representations = [];
   let scanItems = 0;
   let attributeBytes = 0;
@@ -182,8 +245,7 @@ const htmlRepresentations = (html, sourceHtml) => {
   };
   const addAttributeValue = (raw) => {
     if (!raw) return;
-    for (const source of javascriptRepresentations(raw)) {
-      const value = decodeBoundedText(source, 'HTML attribute value', decodeHTMLAttribute);
+    for (const value of decodedJavaScriptRepresentations(raw, 'HTML attribute value', decodeHTMLAttribute, 'unknown', decodeNonEscapeCharacter)) {
       attributeBytes += Buffer.byteLength(value);
       if (attributeBytes > MAX_NORMALIZATION_BYTES) throw new Error('decoded HTML attributes exceed bounded nonpublication normalization size');
       // Keep values separate: unrelated public attributes must not combine to
@@ -191,11 +253,12 @@ const htmlRepresentations = (html, sourceHtml) => {
       representations.push(value);
     }
   };
-  const addText = (raw, values) => {
-    const value = decodeBoundedText(raw, 'HTML text value');
-    textBytes += Buffer.byteLength(value);
-    if (textBytes > MAX_NORMALIZATION_BYTES) throw new Error('decoded HTML text exceeds bounded nonpublication normalization size');
-    values.push(value);
+  const addText = (raw, values, mode = 'unknown') => {
+    for (const value of decodedJavaScriptRepresentations(raw, 'HTML text value', decodeHTML, mode, decodeNonEscapeCharacter)) {
+      textBytes += Buffer.byteLength(value);
+      if (textBytes > MAX_NORMALIZATION_BYTES) throw new Error('decoded HTML text exceeds bounded nonpublication normalization size');
+      values.push(value);
+    }
   };
   const addDoctype = (node) => {
     if (node.nodeName !== '#documentType') return;
@@ -233,12 +296,12 @@ const htmlRepresentations = (html, sourceHtml) => {
       if (node.nodeName === '#text') {
         if (node.parentNode?.tagName === 'script') {
           const type = node.parentNode.attrs?.find((attribute) => attribute.name.toLowerCase() === 'type')?.value.trim().toLowerCase();
-          const mode = type === 'module' || (type && !/^(?:application|text)\/(?:javascript|ecmascript)$/u.test(type)) ? 'disabled' : 'classic';
-          for (const representation of javascriptRepresentations(node.value, mode)) addText(representation, textNodes);
+          const mode = type === 'module' ? 'strict' : type && !/^(?:application|text)\/(?:javascript|ecmascript)$/u.test(type) ? 'disabled' : 'classic';
+          addText(node.value, textNodes, mode);
         } else addText(node.value, textNodes);
       }
       if (node.nodeName === '#comment') {
-        const values = javascriptRepresentations(node.data).map((source) => decodeBoundedText(source, 'HTML comment value'));
+        const values = decodedJavaScriptRepresentations(node.data, 'HTML comment value', decodeHTML, 'unknown', decodeNonEscapeCharacter);
         commentBytes += values.reduce((sum, value) => sum + Buffer.byteLength(value), 0);
         if (commentBytes > MAX_NORMALIZATION_BYTES) throw new Error('decoded HTML comments exceed bounded nonpublication normalization size');
         // Keep comments separate so unrelated payloads cannot combine into a
@@ -281,8 +344,12 @@ const normalizeScanTexts = (text, isHtml = false, javascriptMode = 'unknown') =>
   if (Buffer.byteLength(text) > MAX_NORMALIZATION_BYTES) throw new Error('production artifact exceeds bounded nonpublication normalization size');
   const sourceRepresentations = isHtml ? [text] : javascriptRepresentations(text, javascriptMode);
   const representations = sourceRepresentations.flatMap((source) => {
-    const decoded = decodeBoundedText(source);
-    return isHtml ? htmlRepresentations(decoded, source) : [decoded];
+    const decodedRepresentations = isHtml || javascriptMode === 'disabled'
+      ? [decodeBoundedText(source)]
+      : [...new Set([decodeBoundedText(source), decodeBoundedText(source, 'production artifact', decodeHTML, true)])];
+    return decodedRepresentations.flatMap((decoded) => isHtml
+      ? [htmlRepresentations(decoded, source), htmlRepresentations(decoded, source, true)].flat()
+      : [decoded]);
   });
   return [...new Set(representations.map(normalizeDecodedText))];
 };

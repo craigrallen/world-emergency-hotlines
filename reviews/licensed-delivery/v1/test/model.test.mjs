@@ -214,7 +214,7 @@ test('artifact text decoding fails closed for malformed UTF-16 and keeps UTF-8 B
   for(const bytes of [[0xff,0xfe,0x00,0xd8],[0xfe,0xff,0xdc,0x00],[0xff,0xfe,0x00,0xd8,0x41,0x00]])assert.throws(()=>decodeArtifactText(Buffer.from(bytes),'surrogate'),/surrogate/);
   assert.equal(decodeArtifactText(Buffer.from([0xef,0xbb,0xbf,0x68,0x69]),'utf8-bom'),'hi');
   assert.throws(()=>decodeArtifactText(Buffer.from([0xef,0xbb,0xbf,0xff]),'utf8-bom-bad'),/malformed BOM-marked UTF-8/);
-  assert.equal(decodeArtifactText(Buffer.from([0,0xff,1,0x80]),'binary'),undefined);
+  assert.equal(decodeArtifactText(Buffer.from([0,0xff,1,0x80]),'binary.bin'),undefined);
   assert.equal(decodeArtifactText(Buffer.from('Harmless café — 世界 😀'),'unicode'),'Harmless café — 世界 😀');
   const oversized=Buffer.alloc(2+(32*1024*1024+1)*2);oversized[0]=0xff;oversized[1]=0xfe;for(let i=2;i<oversized.length;i+=2)oversized[i]=0x61;
   assert.throws(()=>decodeArtifactText(oversized,'oversized'),/exceeds bounded/);

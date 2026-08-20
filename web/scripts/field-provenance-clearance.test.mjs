@@ -327,6 +327,109 @@ test('ECMAScript continuation decoding preserves escaped backslashes, malformed 
     assert.doesNotThrow(() => assertInternalNonpublication(dist, repo), `continuation negative ${index}`);
   }
 });
+test('ECMAScript NonEscapeCharacter decoding covers every licensed evidence class at multiple grammar-safe split positions', () => {
+  const forbidden = forbiddenInternalEvidence(repo);
+  const probes = [
+    ['marker', 'internal-licensed-delivery-counsel-draft-only/v1'],
+    ['schema', forbidden.licensedContractFingerprints[0].raw],
+    ['fixture', forbidden.licensedFixtureFingerprints.find(({ raw }) => /^[a-z][a-z0-9_/-]+$/u.test(raw)).raw],
+    ['counsel', forbidden.licensedDraftFingerprints[0].raw],
+  ];
+  const escapeCharacters = new Set(["'", '"', '\\', 'b', 'f', 'n', 'r', 't', 'v', 'x', 'u']);
+  for (const [probeClass, probe] of probes) {
+    const positions = [...probe].map((character, index) => [character, index])
+      .filter(([character, index]) => index > 0 && !escapeCharacters.has(character) && !/[0-9\r\n\u2028\u2029]/u.test(character))
+      .map(([, index]) => index);
+    for (const position of [positions[0], positions[Math.floor(positions.length / 2)], positions.at(-1)]) {
+      const escaped = `${probe.slice(0, position)}\\${probe.slice(position)}`;
+      for (const [label, content, extension] of [
+        ['classic', `const value = '${escaped}';`, 'js'],
+        ['strict', `'use strict'; const value = '${escaped}';`, 'js'],
+        ['module', `export const value = '${escaped}';`, 'mjs'],
+      ]) {
+        const dist = temporaryRoot(); writeFileSync(resolve(dist, `${probeClass}-${label}-${position}.${extension}`), content);
+        assert.throws(() => assertInternalNonpublication(dist, repo), /marker|licensed-delivery .* fingerprint|review-pack scalar fingerprint/, `${probeClass} ${label} ${position}`);
+      }
+    }
+  }
+});
+test('ECMAScript NonEscapeCharacter decoding reaches HTML script, comment, attribute, and nested representations', () => {
+  const marker = 'internal-licensed-delivery-counsel-draft-only/v1';
+  const escaped = marker.replace('internal', 'intern\\al');
+  const contexts = [
+    ['classic-script', `<script>const value='${escaped}'</script>`],
+    ['strict-script', `<script>'use strict';const value='${escaped}'</script>`],
+    ['module-script', `<script type="module">export const value='${escaped}'</script>`],
+    ['attribute', `<div data-value="${escaped}"></div>`],
+    ['comment', `<!--${escaped}-->`],
+    ['comment-attribute', `<!--<div data-value="${escaped}"></div>-->`],
+    ['nested', encodeHtml(encodePercent(encodeJsCodePoint(escaped)))],
+  ];
+  for (const [label, content] of contexts) {
+    const dist = temporaryRoot(); writeFileSync(resolve(dist, `${label}.HTML`), content);
+    assert.throws(() => assertInternalNonpublication(dist, repo), /marker|licensed-delivery .* fingerprint/, label);
+  }
+});
+test('ECMAScript NonEscapeCharacter grammar boundaries remain literal and legacy octal stays classic-only', () => {
+  const marker = 'internal-licensed-delivery-counsel-draft-only/v1';
+  const split = marker.indexOf('licensed') + 3;
+  const before = marker.slice(0, split); const after = marker.slice(split);
+  const controls = [
+    `${before}\\b${after}`, `${before}\\f${after}`, `${before}\\n${after}`, `${before}\\r${after}`,
+    `${before}\\t${after}`, `${before}\\v${after}`, `${before}\\x${after}`, `${before}\\u${after}`,
+    `${before}\\0${after}`, `${before}\\8${after}`, `${before}\\9${after}`, `${before}\\'${after}`,
+    `${before}\\"${after}`, `${before}\\\\${after}`, `${before}\\\n${after}`, `${before}\\\u2028${after}`,
+    `${before}\\xG0${after}`, `${before}\\u00ZZ${after}`, `${before}\\u{110000}${after}`,
+    marker.replace('internal', 'intern\\\\al'),
+    'Public JavaScript may document identity\\mapping and escaped\\\\backslashes.',
+  ];
+  for (const [index, content] of controls.entries()) {
+    const dist = temporaryRoot(); writeFileSync(resolve(dist, `nonescape-negative-${index}.js`), `const value = ${JSON.stringify(content)};`);
+    assert.doesNotThrow(() => assertInternalNonpublication(dist, repo), `grammar boundary ${index}`);
+  }
+  const octal = marker.replace('internal', 'intern\\141l');
+  for (const [label, content, shouldReject] of [
+    ['classic', `const value='${octal}'`, true],
+    ['strict', `'use strict';const value='${octal}'`, false],
+    ['module', `export const value='${octal}'`, false],
+    ['html-classic', `<script>const value='${octal}'</script>`, true],
+    ['html-strict', `<script>'use strict';const value='${octal}'</script>`, false],
+    ['html-module', `<script type="module">export const value='${octal}'</script>`, false],
+  ]) {
+    const dist = temporaryRoot(); writeFileSync(resolve(dist, `${label}.${label.startsWith('html') ? 'html' : label === 'module' ? 'mjs' : 'js'}`), content);
+    if (shouldReject) assert.throws(() => assertInternalNonpublication(dist, repo), /marker|licensed-delivery .* fingerprint/, label);
+    else assert.doesNotThrow(() => assertInternalNonpublication(dist, repo), label);
+  }
+});
+test('text-like artifacts fail closed on invalid UTF-8 regardless of extension case or legacy charset claims', () => {
+  const extensions = ['html', 'JS', 'Css', 'json', 'XML', 'Svg', 'txt', 'MAP', 'manifest', 'webmanifest'];
+  for (const extension of extensions) {
+    const dist = temporaryRoot();
+    const prefix = extension.toLowerCase() === 'html' ? '<!doctype html><meta charset="windows-1252"><p>' : 'public text ';
+    writeFileSync(resolve(dist, `artifact.${extension}`), Buffer.concat([Buffer.from(prefix), Buffer.from([0x93, 0xff]), Buffer.from('</p>')]));
+    assert.throws(() => assertInternalNonpublication(dist, repo), /text-like artifact .* invalid UTF-8.*legacy charset/u, extension);
+  }
+  for (const [name, prefix] of [
+    ['CNAME', 'example.invalid'], ['_headers', '/\n  Content-Type: text/plain; charset=windows-1252'],
+    ['output', '<html><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">'],
+    ['unknown.custom-output', 'otherwise harmless generated text'],
+  ]) {
+    const dist = temporaryRoot(); writeFileSync(resolve(dist, name), Buffer.concat([Buffer.from(prefix), Buffer.from([0x80])]));
+    assert.throws(() => assertInternalNonpublication(dist, repo), /text-like artifact .* invalid UTF-8/u, name);
+  }
+});
+test('UTF decoding retains valid UTF-8 and BOM UTF-16 while harmless opaque binary controls skip text scans', () => {
+  for (const [name, bytes] of [
+    ['valid.JSON', Buffer.from('{"public":"support"}', 'utf8')],
+    ['little.txt', Buffer.from(`\ufeffPublic support`, 'utf16le')],
+    ['big.XML', Buffer.from([0xfe, 0xff, 0x00, 0x3c, 0x00, 0x70, 0x00, 0x2f, 0x00, 0x3e])],
+    ['image.PNG', Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0xff, 0x00])],
+    ['font.woff2', Buffer.from([0x77, 0x4f, 0x46, 0x32, 0x00, 0xff, 0x80])],
+  ]) {
+    const dist = temporaryRoot(); writeFileSync(resolve(dist, name), bytes);
+    assert.doesNotThrow(() => assertInternalNonpublication(dist, repo), name);
+  }
+});
 test('complete named references expose every internal marker class in HTML representations', () => {
   const forbidden = forbiddenInternalEvidence(repo);
   const markerClasses = [
