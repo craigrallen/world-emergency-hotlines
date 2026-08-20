@@ -138,6 +138,32 @@ test('nonpublication rejects encoded licensed fixture scalars in HTML attributes
     for(const [name,content] of cases){const dist=resolve(root,name.replace('.','-'));mkdirSync(dist);writeFileSync(resolve(dist,name),content);assert.throws(()=>assertInternalNonpublication(dist,repo),/licensed-delivery fixture scalar fingerprint/,name);}
   }finally{rmSync(root,{recursive:true,force:true});}
 });
+test('nonpublication rejects raw, encoded, nested, and fragmented internal material in HTML comments',()=>{
+  const repo=resolve(import.meta.dirname,'../../../..'),root=mkdtempSync(resolve(tmpdir(),'licensed-comment-nonpub-'));
+  const terms=readFileSync(resolve(repo,'reviews/licensed-delivery/v1/terms.counsel-draft.md'),'utf8');
+  const counsel=terms.split(/\n\s*\n/).find(value=>value.includes('Responses and presentation tokens')).replace(/\s+/g,' ').trim();
+  const presentation=JSON.parse(readFileSync(resolve(repo,'reviews/licensed-delivery/v1/fixtures/presentation.synthetic.json')));
+  const schema='Internal licensed-delivery v1 closed schema bundle',fixture=presentation.envelope.canonical_record.provider_identity;
+  const percent=value=>[...Buffer.from(value)].map(byte=>`%${byte.toString(16).padStart(2,'0')}`).join('');
+  const entities=value=>[...value].map(character=>`&#x${character.codePointAt(0).toString(16)};`).join('');
+  const js=value=>[...value].map(character=>`\\u${character.codePointAt(0).toString(16).padStart(4,'0')}`).join('');
+  const split=value=>{const at=Math.floor(value.length/2);return `${value.slice(0,at)}<i></i>${value.slice(at)}`;};
+  const cases=[
+    ['raw-marker.html','reviews/licensed-delivery'],
+    ['raw-fingerprint.html',schema],
+    ['entity-schema.html',entities(schema)],
+    ['percent-fixture.html',percent(fixture)],
+    ['javascript-counsel.html',js(counsel)],
+    ['mixed-fixture.html',entities(percent(fixture))],
+    ['nested-schema.html',js(entities(percent(schema)))],
+    ['case-fragmented-schema.html',split(schema.toUpperCase())],
+    ['tag-fragmented-counsel.html',split(counsel)],
+  ];
+  try{
+    for(const [name,value] of cases){const dist=resolve(root,name.replace('.','-'));mkdirSync(dist);writeFileSync(resolve(dist,name),`<!doctype html><p>Ordinary public content.</p><!--${value}-->`);assert.throws(()=>assertInternalNonpublication(dist,repo),/marker|scalar fingerprint/,name);}
+    for(const [index,value] of ['Deployment note: public assets generated successfully.','TODO: improve public hotline navigation.','<i>Ordinary</i> public comment with %zz and \\u0ZZZ.'].entries()){const dist=resolve(root,`control-${index}`);mkdirSync(dist);writeFileSync(resolve(dist,'public.html'),`<main>Public hotline directory.</main><!--${value}-->`);assert.doesNotThrow(()=>assertInternalNonpublication(dist,repo),value);}
+  }finally{rmSync(root,{recursive:true,force:true});}
+});
 test('licensed fixture normalized fingerprints permit ordinary artifacts and isolated common values',()=>{
   const repo=resolve(import.meta.dirname,'../../../..'),root=mkdtempSync(resolve(tmpdir(),'licensed-fixture-controls-'));
   const controls=[

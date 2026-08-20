@@ -91,6 +91,7 @@ const htmlRepresentations = (html, sourceHtml) => {
   const representations = [];
   let scanItems = 0;
   let attributeBytes = 0;
+  let commentBytes = 0;
   const visit = (document, visitor) => {
     const pending = [document];
     while (pending.length) {
@@ -107,6 +108,22 @@ const htmlRepresentations = (html, sourceHtml) => {
     const textNodes = [];
     visit(parse(html, { scriptingEnabled }), (node) => {
       if (node.nodeName === '#text') textNodes.push(node.value);
+      if (node.nodeName === '#comment') {
+        const value = decodeBoundedText(node.data, 'HTML comment value');
+        commentBytes += Buffer.byteLength(value);
+        if (commentBytes > MAX_NORMALIZATION_BYTES) throw new Error('decoded HTML comments exceed bounded nonpublication normalization size');
+        // Keep comments separate so unrelated payloads cannot combine into a
+        // forbidden fingerprint. Also render tag-like fragments inside each
+        // payload, since comment contents can otherwise split normalized text.
+        if (value) {
+          representations.push(value);
+          const commentTextNodes = [];
+          visit(parse(value, { scriptingEnabled }), (commentNode) => {
+            if (commentNode.nodeName === '#text') commentTextNodes.push(commentNode.value);
+          });
+          representations.push(commentTextNodes.join(' '), commentTextNodes.join(''));
+        }
+      }
     });
     representations.push(textNodes.join(' '), textNodes.join(''));
     visit(parse(sourceHtml, { scriptingEnabled }), (node) => {
