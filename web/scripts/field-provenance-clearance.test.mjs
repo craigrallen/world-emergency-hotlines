@@ -316,6 +316,65 @@ test('nonpublication scans decoded HTML tag and attribute names for licensed int
     assert.throws(() => assertInternalNonpublication(dist, repo), /marker|licensed-delivery .* fingerprint/, label);
   }
 });
+test('normalized complete marker cores match adjacent letters, digits, and Unicode across encodings and HTML contexts', () => {
+  const markerClasses = [
+    'reviews/licensed-delivery',
+    'internal-licensed-delivery-counsel-draft-only/v1',
+    'SYNTHETIC-TEST-KEY-NEVER-PUBLISH-OR-USE-IN-PRODUCTION',
+    'internal_deterministic_regression_evidence',
+  ];
+  const adjacency = [
+    ['left-letter', 'x', ''], ['right-letter', '', 'z'], ['both-letters', 'x', 'z'],
+    ['left-digit', '7', ''], ['right-digit', '', '9'], ['both-digits', '7', '9'],
+    ['left-unicode', 'Ω', ''], ['right-unicode', '', '界'], ['both-unicode', 'Ω', '界'],
+  ];
+  const encodeCodePoints = (value) => [...value].map((character) => `\\u{${character.codePointAt(0).toString(16)}}`).join('');
+  const encodings = [
+    ['entity', encodeHtml], ['percent', encodePercent], ['javascript', encodeJsU],
+    ['code-point', encodeCodePoints],
+    ['mixed', (value) => encodeHtml(encodePercent(encodeJsX(value)))],
+    ['nested', (value) => encodeCodePoints(encodeHtml(encodePercent(value)))],
+  ];
+  const contexts = [
+    ['text', (value) => `<p>${value}</p>`],
+    ['attribute', (value) => `<div data-note="${value}"></div>`],
+    ['tag-name', (value) => `<${value}></${value}>`],
+    ['attribute-name', (value) => `<div ${value}="public"></div>`],
+    ['comment', (value) => `<!--${value}-->`],
+    ['doctype', (value) => `<!DOCTYPE html PUBLIC "${value}" "about:blank"><html></html>`],
+  ];
+  const count = Math.max(adjacency.length, encodings.length, contexts.length);
+  for (const [markerIndex, marker] of markerClasses.entries()) {
+    for (let index = 0; index < count; index += 1) {
+      const [adjacencyLabel, left, right] = adjacency[index % adjacency.length];
+      const [encodingLabel, encode] = encodings[(index + markerIndex) % encodings.length];
+      const [contextLabel, context] = contexts[(index + markerIndex * 2) % contexts.length];
+      // HTML names cannot contain every source separator, but separator folding
+      // makes this spelling exactly equivalent to the inventory marker.
+      const core = /-name$/u.test(contextLabel) ? marker.replace(/[^\p{L}\p{N}]+/gu, '-') : marker;
+      const value = encode(`${left}${core}${right}`);
+      const dist = temporaryRoot();
+      const label = `${markerIndex}-${adjacencyLabel}-${encodingLabel}-${contextLabel}`;
+      writeFileSync(resolve(dist, `${label}.html`), context(value));
+      assert.throws(() => assertInternalNonpublication(dist, repo), /normalized internal review-pack marker|internal review-pack marker/, label);
+    }
+  }
+});
+test('normalized marker cores preserve complete-marker semantics and ordinary public negatives', () => {
+  const controls = [
+    'xinternal-licensed-delivery-counsel-draft-onlyz',
+    'internal-licensed-delivery-counsel-draft/v1',
+    'licensed-delivery-counsel-draft-only/v1',
+    'internal delivery counsel draft only',
+    'synthetic test key for public documentation',
+    'internal deterministic regression results are not included here',
+    '<p>Public licensed application delivery information.</p>',
+  ];
+  for (const [index, content] of controls.entries()) {
+    const dist = temporaryRoot(); writeFileSync(resolve(dist, `marker-near-miss-${index}.html`), content);
+    assert.doesNotThrow(() => assertInternalNonpublication(dist, repo), content);
+  }
+});
 test('nonpublication scans every isolated doctype field through bounded fixed-point decoding', () => {
   const fixture = 'synthetic_non_emergency_fixture';
   const encodings = [
