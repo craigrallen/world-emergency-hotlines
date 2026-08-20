@@ -1,6 +1,7 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { decodeHTML, decodeHTMLAttribute } from 'entities/decode';
 import { parse } from 'parse5';
 import { INTERNAL_MARKER, sha256 } from './accessibility-evidence-lib.mjs';
 import { INVENTORY_MARKER } from './security-privacy-evidence-lib.mjs';
@@ -70,20 +71,12 @@ const decodeJavaScriptEscapes = (text) => text
 const decodePercentEncoding = (text) => text.replace(/(?:%[0-9a-f]{2})+/giu, (encoded) => {
   try { return decodeURIComponent(encoded); } catch { return encoded; }
 });
-const HTML_ENTITIES = new Map([['amp', '&'], ['apos', "'"], ['gt', '>'], ['lowbar', '_'], ['lt', '<'], ['nbsp', ' '], ['newline', '\n'], ['quot', '"'], ['tab', '\t']]);
-const decodeHtmlEntities = (text) => text.replace(/&(?:#(x[0-9a-f]+|[0-9]+)|([a-z][a-z0-9]+));/giu, (entity, numeric, named) => {
-  if (numeric) {
-    const point = Number.parseInt(numeric.replace(/^x/iu, ''), /^x/iu.test(numeric) ? 16 : 10);
-    return Number.isSafeInteger(point) && point <= 0x10ffff && !(point >= 0xd800 && point <= 0xdfff) ? String.fromCodePoint(point) : entity;
-  }
-  return HTML_ENTITIES.get(named.toLocaleLowerCase('en-US')) ?? entity;
-});
 const normalizeDecodedText = (text) => ` ${text.normalize('NFKC').toLocaleLowerCase('en-US').replace(/[^\p{L}\p{N}]+/gu, ' ').trim()} `;
-const decodeBoundedText = (text, label = 'production artifact') => {
+const decodeBoundedText = (text, label = 'production artifact', decodeEntities = decodeHTML) => {
   let decoded = text;
   let converged = false;
   for (let i = 0; i < MAX_NORMALIZATION_PASSES; i += 1) {
-    const next = decodeHtmlEntities(decodePercentEncoding(decodeJavaScriptEscapes(decoded)));
+    const next = decodeEntities(decodePercentEncoding(decodeJavaScriptEscapes(decoded)));
     if (Buffer.byteLength(next) > MAX_NORMALIZATION_BYTES) throw new Error(`decoded ${label} exceeds bounded nonpublication normalization size`);
     if (next === decoded) { converged = true; break; }
     decoded = next;
@@ -98,13 +91,30 @@ const htmlRepresentations = (html, sourceHtml) => {
   let commentBytes = 0;
   let nameBytes = 0;
   let doctypeBytes = 0;
+  let textBytes = 0;
   const addName = (name) => {
     if (!name) return;
-    nameBytes += Buffer.byteLength(name);
+    const value = decodeBoundedText(name, 'HTML name');
+    nameBytes += Buffer.byteLength(value);
     if (nameBytes > MAX_NORMALIZATION_BYTES) throw new Error('decoded HTML names exceed bounded nonpublication normalization size');
     // Keep names separate from each other and from content/value representations:
     // unrelated public markup must not combine into a forbidden fingerprint.
-    representations.push(name);
+    representations.push(value);
+  };
+  const addAttributeValue = (raw) => {
+    if (!raw) return;
+    const value = decodeBoundedText(raw, 'HTML attribute value', decodeHTMLAttribute);
+    attributeBytes += Buffer.byteLength(value);
+    if (attributeBytes > MAX_NORMALIZATION_BYTES) throw new Error('decoded HTML attributes exceed bounded nonpublication normalization size');
+    // Keep values separate: unrelated public attributes must not combine to
+    // form a forbidden scalar or row fingerprint.
+    representations.push(value);
+  };
+  const addText = (raw, values) => {
+    const value = decodeBoundedText(raw, 'HTML text value');
+    textBytes += Buffer.byteLength(value);
+    if (textBytes > MAX_NORMALIZATION_BYTES) throw new Error('decoded HTML text exceeds bounded nonpublication normalization size');
+    values.push(value);
   };
   const addDoctype = (node) => {
     if (node.nodeName !== '#documentType') return;
@@ -135,8 +145,11 @@ const htmlRepresentations = (html, sourceHtml) => {
     visit(parse(html, { scriptingEnabled }), (node) => {
       addDoctype(node);
       if (node.tagName) addName(node.tagName);
-      for (const attribute of node.attrs ?? []) addName(attribute.name);
-      if (node.nodeName === '#text') textNodes.push(node.value);
+      for (const attribute of node.attrs ?? []) {
+        addName(attribute.name);
+        addAttributeValue(attribute.value);
+      }
+      if (node.nodeName === '#text') addText(node.value, textNodes);
       if (node.nodeName === '#comment') {
         const value = decodeBoundedText(node.data, 'HTML comment value');
         commentBytes += Buffer.byteLength(value);
@@ -150,8 +163,11 @@ const htmlRepresentations = (html, sourceHtml) => {
           visit(parse(value, { scriptingEnabled }), (commentNode) => {
             addDoctype(commentNode);
             if (commentNode.tagName) addName(commentNode.tagName);
-            for (const attribute of commentNode.attrs ?? []) addName(attribute.name);
-            if (commentNode.nodeName === '#text') commentTextNodes.push(commentNode.value);
+            for (const attribute of commentNode.attrs ?? []) {
+              addName(attribute.name);
+              addAttributeValue(attribute.value);
+            }
+            if (commentNode.nodeName === '#text') addText(commentNode.value, commentTextNodes);
           });
           representations.push(commentTextNodes.join(' '), commentTextNodes.join(''));
         }
@@ -164,13 +180,8 @@ const htmlRepresentations = (html, sourceHtml) => {
       for (const attribute of node.attrs ?? []) {
         scanItems += 1;
         if (scanItems > MAX_HTML_SCAN_ITEMS) throw new Error('production HTML exceeds bounded nonpublication scan work');
-        const value = decodeBoundedText(attribute.value, 'HTML attribute value');
-        attributeBytes += Buffer.byteLength(value);
-        if (attributeBytes > MAX_NORMALIZATION_BYTES) throw new Error('decoded HTML attributes exceed bounded nonpublication normalization size');
         addName(attribute.name);
-        // Keep values separate: unrelated public attributes must not combine to
-        // form a forbidden scalar or row fingerprint.
-        if (value) representations.push(value);
+        addAttributeValue(attribute.value);
       }
     });
     // Attribute decoding starts after parsing the original markup, so encoded

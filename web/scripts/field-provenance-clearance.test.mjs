@@ -204,6 +204,9 @@ const encodeJsX = (value) => [...Buffer.from(value)].map((byte) => `\\x${byte.to
 const encodeJsU = (value) => [...value].map((character) => `\\u${character.codePointAt(0).toString(16).padStart(4, '0')}`).join('');
 const encodeJsCodePoint = (value) => [...value].map((character) => `\\u{${character.codePointAt(0).toString(16)}}`).join('');
 const encodeHtml = (value) => [...value].map((character) => `&#x${character.codePointAt(0).toString(16)};`).join('');
+const encodeNamedHtml = (value) => [...value].map((character) => ({
+  '-': '&hyphen;', '_': '&UnderBar;', '/': '&sol;', ':': '&colon;', '.': '&period;', ' ': '&emsp;',
+}[character] ?? character)).join('');
 const interiorPositions = (value) => [...new Set([1, Math.floor(value.length / 2), value.length - 1])].filter((position) => position > 0 && position < value.length);
 const insertInlineTag = (value, position) => `${value.slice(0, position)}<span></span>${value.slice(position)}`;
 const splitWithQuotedGreaterThanTag = (value, position) => `${value.slice(0, position)}<span title=">">${value[position]}</span>${value.slice(position + 1)}`;
@@ -258,13 +261,76 @@ test('nonpublication HTML parser rejects quoted-attribute greater-than splits ac
   assertLeakRejected('psc_a<span title=">">p</span>p identity_naming', 'exact-quoted-gt-adversarial', 'html');
 });
 test('nonpublication decoder negative controls remain literal and bounded', () => {
-  for (const [index, content] of ['%zz %5', '\\xGG \\u0ZZZ', '\\u{} \\u{0zz} \\u{1234567} \\u{110000} \\u{d800} \\u{DFFF} \\u{10ffff', '&amp without-semicolon; &#x110000;', 'ordinary \\u{1f642} public support text', 'ordinary compressed or encrypted data is not claimed detectable'].entries()) {
+  for (const [index, content] of ['%zz %5', '\\xGG \\u0ZZZ', '\\u{} \\u{0zz} \\u{1234567} \\u{110000} \\u{d800} \\u{DFFF} \\u{10ffff', '&unknown; &NotARealReference; &#x; &#x110000;', 'ordinary &hyphen; public support &CounterClockwiseContourIntegral; text', 'ordinary \\u{1f642} public support text', 'ordinary compressed or encrypted data is not claimed detectable'].entries()) {
     const dist = temporaryRoot(); writeFileSync(resolve(dist, `decoder-control-${index}.txt`), content);
     assert.doesNotThrow(() => assertInternalNonpublication(dist, repo));
   }
   let overNested = '&lowbar;'; for (let i = 0; i < 9; i += 1) overNested = overNested.replaceAll('&', '&amp;');
   const dist = temporaryRoot(); writeFileSync(resolve(dist, 'iteration-bound.txt'), overNested);
   assert.throws(() => assertInternalNonpublication(dist, repo), /normalization iterations/);
+});
+test('complete named references expose every internal marker class in HTML representations', () => {
+  const forbidden = forbiddenInternalEvidence(repo);
+  const markerClasses = [
+    'reviews/licensed-delivery',
+    'internal-licensed-delivery-counsel-draft-only/v1',
+    'SYNTHETIC-TEST-KEY-NEVER-PUBLISH-OR-USE-IN-PRODUCTION',
+    'internal_deterministic_regression_evidence',
+  ];
+  const contexts = [
+    ['text', (value) => `<p>${value}</p>`],
+    ['attribute', (value) => `<div data-note="${value}"></div>`],
+    ['comment', (value) => `<!--${value}-->`],
+    ['comment-parser-text', (value) => `<!--<p>${value}</p>-->`],
+    ['doctype', (value) => `<!DOCTYPE html SYSTEM "${value}"><html></html>`],
+    ['decoded-parser-attribute', (value) => encodePercent(`<div data-note="${value}"></div>`)],
+  ];
+  for (const marker of markerClasses) {
+    assert.ok(forbidden.markers.includes(marker));
+    for (const [context, wrap] of contexts) {
+      const dist = temporaryRoot();
+      writeFileSync(resolve(dist, `${context}.html`), wrap(encodeNamedHtml(marker)));
+      assert.throws(() => assertInternalNonpublication(dist, repo), /normalized internal review-pack marker|internal review-pack marker|licensed-delivery .* fingerprint/, `${marker} in ${context}`);
+    }
+  }
+});
+test('complete named references expose licensed schema, fixture, and counsel fingerprints through mixed nesting', () => {
+  const forbidden = forbiddenInternalEvidence(repo);
+  const probes = [
+    ['contract', forbidden.licensedContractFingerprints[0].raw],
+    ['fixture', forbidden.licensedFixtureFingerprints.find(({ raw }) => /^[a-z][a-z0-9_/-]+$/u.test(raw)).raw],
+    ['counsel', forbidden.licensedDraftFingerprints[0].raw],
+  ];
+  const contexts = [
+    ['text', (value) => `<p>${value}</p>`],
+    ['attribute', (value) => `<div title="${value}"></div>`],
+    ['comment', (value) => `<!--${value}-->`],
+    ['comment-attribute', (value) => `<!--<div title="${value}"></div>-->`],
+    ['decoded-parser-text', (value) => encodeJsU(encodePercent(`<p>${value}</p>`))],
+  ];
+  for (const [probeClass, raw] of probes) {
+    for (const [context, wrap] of contexts) {
+      const dist = temporaryRoot();
+      const named = encodeNamedHtml(raw);
+      const content = context === 'comment' ? wrap(encodePercent(named)) : wrap(named);
+      writeFileSync(resolve(dist, `${probeClass}-${context}.html`), content);
+      assert.throws(() => assertInternalNonpublication(dist, repo), /licensed-delivery .* fingerprint|review-pack scalar fingerprint/, `${probeClass} in ${context}`);
+    }
+  }
+});
+test('legacy semicolonless named references follow text and attribute parsing rules', () => {
+  const marker = 'internal-licensed-delivery-counsel-draft-only/v1';
+  for (const [label, content] of [
+    ['text', `<p>${marker.replaceAll('-', '&shy')}</p>`],
+    ['comment', `<!--${marker.replaceAll('-', '&shy')}-->`],
+    ['attribute-valid-boundary', `<div title="${marker.replaceAll('-', '&shy ')}"></div>`],
+  ]) {
+    const dist = temporaryRoot(); writeFileSync(resolve(dist, `${label}.html`), content);
+    assert.throws(() => assertInternalNonpublication(dist, repo), /normalized internal review-pack marker|licensed-delivery .* fingerprint/, label);
+  }
+  const dist = temporaryRoot();
+  writeFileSync(resolve(dist, 'attribute-ambiguous.html'), '<div title="Public &copy=directory &notit support"></div>');
+  assert.doesNotThrow(() => assertInternalNonpublication(dist, repo));
 });
 test('nonpublication decodes Unicode code-point escapes across licensed leak classes and HTML surfaces', () => {
   const forbidden = forbiddenInternalEvidence(repo);
