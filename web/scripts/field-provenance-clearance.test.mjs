@@ -269,6 +269,64 @@ test('nonpublication decoder negative controls remain literal and bounded', () =
   const dist = temporaryRoot(); writeFileSync(resolve(dist, 'iteration-bound.txt'), overNested);
   assert.throws(() => assertInternalNonpublication(dist, repo), /normalization iterations/);
 });
+test('ECMAScript line continuations cannot split licensed markers or fingerprints', () => {
+  const forbidden = forbiddenInternalEvidence(repo);
+  const probes = [
+    ['marker', 'internal-licensed-delivery-counsel-draft-only/v1'],
+    ['schema', forbidden.licensedContractFingerprints[0].raw],
+    ['fixture', forbidden.licensedFixtureFingerprints.find(({ raw }) => /^[a-z][a-z0-9_/-]+$/u.test(raw)).raw],
+    ['counsel', forbidden.licensedDraftFingerprints[0].raw],
+  ];
+  const continuations = [['lf', '\n'], ['crlf', '\r\n'], ['cr', '\r'], ['line-separator', '\u2028'], ['paragraph-separator', '\u2029']];
+  const positions = (value) => [...new Set([1, Math.floor(value.length / 3), Math.floor(value.length / 2), value.length - 1])].filter((position) => position > 0 && position < value.length);
+  for (const [probeClass, probe] of probes) {
+    for (const [continuationName, terminator] of continuations) {
+      for (const position of positions(probe)) {
+        const split = `${probe.slice(0, position)}\\${terminator}${probe.slice(position)}`;
+        const dist = temporaryRoot();
+        writeFileSync(resolve(dist, `${probeClass}-${continuationName}-${position}.js`), `const withheld = '${split}';`);
+        assert.throws(() => assertInternalNonpublication(dist, repo), /marker|licensed-delivery .* fingerprint|review-pack scalar fingerprint/, `${probeClass} ${continuationName} at ${position}`);
+      }
+    }
+  }
+});
+test('ECMAScript line continuations survive nested encodings and every relevant HTML representation', () => {
+  const marker = 'internal-licensed-delivery-counsel-draft-only/v1';
+  const contexts = [
+    ['text', false, (value) => `<p>${value}</p>`],
+    ['attribute-value', false, (value) => `<div title="${value}"></div>`],
+    ['tag-name', true, (value) => `<${value}></span>`],
+    ['attribute-name', true, (value) => `<div ${value}="public"></div>`],
+    ['comment', false, (value) => `<!--${value}-->`],
+    ['comment-parser-text', false, (value) => `<!--<p>${value}</p>-->`],
+    ['doctype', false, (value) => `<!DOCTYPE html SYSTEM "${value}"><html></html>`],
+    ['decoded-parser-text', false, (value) => encodePercent(`<p>${value}</p>`)],
+  ];
+  for (const [context, name, wrap] of contexts) {
+    const source = name ? marker.replace(/[^a-z0-9]+/giu, '-') : marker;
+    const split = source.replace('licensed', `lic\\\u2028ensed`);
+    const mixed = encodeHtml(encodePercent(encodeJsCodePoint(split)));
+    const dist = temporaryRoot(); writeFileSync(resolve(dist, `${context}.html`), wrap(mixed));
+    assert.throws(() => assertInternalNonpublication(dist, repo), /marker|licensed-delivery .* fingerprint/, context);
+  }
+});
+test('ECMAScript continuation decoding preserves escaped backslashes, malformed near misses, ordinary newlines, and public text', () => {
+  const marker = 'internal-licensed-delivery-counsel-draft-only/v1';
+  const splitAt = marker.indexOf('licensed') + 3;
+  const controls = [
+    `${marker.slice(0, splitAt)}\\\\\n${marker.slice(splitAt)}`,
+    `${marker.slice(0, splitAt)}\n${marker.slice(splitAt)}`,
+    `${marker.slice(0, splitAt)}\\ \n${marker.slice(splitAt)}`,
+    `${marker.slice(0, splitAt)}\\\u0085${marker.slice(splitAt)}`,
+    `${marker.slice(0, splitAt)}\\\r\u2028${marker.slice(splitAt)}`,
+    'Public JavaScript documentation may discuss \\\\n escaped backslashes.',
+    'Ordinary public content\ncontinues on another line.',
+  ];
+  for (const [index, content] of controls.entries()) {
+    const dist = temporaryRoot(); writeFileSync(resolve(dist, `continuation-negative-${index}.txt`), content);
+    assert.doesNotThrow(() => assertInternalNonpublication(dist, repo), `continuation negative ${index}`);
+  }
+});
 test('complete named references expose every internal marker class in HTML representations', () => {
   const forbidden = forbiddenInternalEvidence(repo);
   const markerClasses = [

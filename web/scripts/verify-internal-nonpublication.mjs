@@ -62,6 +62,10 @@ const MAX_NORMALIZATION_BYTES = 32 * 1024 * 1024;
 const MAX_NORMALIZATION_PASSES = 8;
 const MAX_HTML_SCAN_ITEMS = 250_000;
 const decodeJavaScriptEscapes = (text) => text
+  // ECMAScript removes an unescaped backslash plus LineTerminatorSequence
+  // before interpreting the remaining string characters. Preserve pairs of
+  // backslashes: their final backslash is escaped and cannot continue a line.
+  .replace(/(^|[^\\])((?:\\\\)*)\\(?:\r\n|[\n\r\u2028\u2029])/gu, (_, prefix, pairs) => `${prefix}${pairs}`)
   .replace(/\\u\{([0-9a-f]{1,6})\}/giu, (escape, hex) => {
     const point = Number.parseInt(hex, 16);
     return point <= 0x10ffff && !(point >= 0xd800 && point <= 0xdfff) ? String.fromCodePoint(point) : escape;
