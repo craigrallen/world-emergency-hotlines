@@ -24,7 +24,7 @@
     "hotlines.json": "sha256:e893c9f6b0afcc57832054547002c826e80b5387e544b4cf6909afc9424dde3a",
     "reviews/accessibility-evidence/v1/README.md": "sha256:c577c353813b72cadf75b9c0d9018653958018c03594bd8f7a48f489d39d7439",
     "reviews/multilingual-ui/v1/README.md": "sha256:87afcf694a12e50ea7cd015c873ac518b3e30aa4d2c83302937395eb17a0ac6d",
-    "web/package.json": "sha256:1a78ef0694a69c389824da7bcd9fff1e318b3ec0cca841e3589980b81b09f33e",
+    "web/package.json": "sha256:1f1b969247ae49aab5d56ae3f9e791a75aca927d8ba16b64263d8999149595e3",
     "web/scripts/build-static-data.mjs": "sha256:8cc22700e63fa27eb0bad784fb3c528d79facd982d1022da6985d6541194bfef",
     "web/scripts/print-security-privacy-evidence-sources.mjs": "sha256:c6f03df78fdaa6b915b0d78624bb98ae1921f0720ca46c453e9ecd93dcf3afbe",
     "web/scripts/release-integrity.mjs": "sha256:64f09f67a861248a7c6ead2acdecc655392e7766010a44134d09fc92943511df",
@@ -32,7 +32,7 @@
     "web/scripts/security-privacy-evidence.test.mjs": "sha256:ffe0956c15d5e4eaccb54278068c8ea0dce759d82a88c2c88939f476a06c3a5f",
     "web/scripts/verify-contact-links.mjs": "sha256:718ef385722919a18bcf16a5a929870d29203912bff007730ab41320d143e641",
     "web/scripts/verify-docker-image.sh": "sha256:934964d730d52242e56fa606a253431bf4ed3dd11ce9810373ce1c463bf31a73",
-    "web/scripts/verify-internal-nonpublication.mjs": "sha256:8b4e61695d562efe90ace56adcdf82d8b29cfe081bd719688737f956e2403f90",
+    "web/scripts/verify-internal-nonpublication.mjs": "sha256:3a51637ddd714c26d4c50ae7526cd1e3ba324f9a50dfaed361392819ddcf600f",
     "web/scripts/verify-release-integrity.mjs": "sha256:6c3413d93559e9f5d6663bd0f1519ae83a35aaaf81cbdf910b7864c2ebe9fb05",
     "web/scripts/verify-release-reproducibility.mjs": "sha256:a51527be77c2a0f011e1d683db0d9828746afb4935b98b6382c385a3ae62c7f9",
     "web/scripts/verify-security-privacy-evidence.mjs": "sha256:10597689cc2b3b2ae8219fe69dbde47f079f1c967b0e0cb0a5ae7f205d48d658",
@@ -92,7 +92,7 @@
       "id": "ci_build_image_nonpublication",
       "assertions": [
         { "id": "required_web_ci_wiring", "status": "verified_static", "statement": "The bound Web CI workflow invokes verify:all, whose package script includes the internal inventory verification path.", "evidence": [".github/workflows/web-ci.yml", "web/package.json", "web/scripts/security-privacy-evidence-lib.mjs", "web/scripts/security-privacy-evidence.test.mjs", "web/scripts/verify-security-privacy-evidence.mjs"], "checks": ["web_verify_security_privacy_evidence"] },
-        { "id": "internal_artifact_exclusion", "status": "verified_static", "statement": "The complete reviews tree is excluded from Docker build context; web/dist is scanned for listed stable markers, exact complete artifact hashes, recursive internal semantic subtrees, unique substantive internal scalar fingerprints, and normalized purpose-specific field-clearance tuples through a bounded fixed-point standards-complete HTML character-reference/percent/JavaScript-escape decoder, while the final served root /srv is scanned for listed paths and markers and representative routes. Arbitrary encryption, compression, paraphrase, and OS files outside /srv are not claimed as covered.", "evidence": [".dockerignore", "Dockerfile", "web/scripts/verify-internal-nonpublication.mjs", "web/scripts/verify-docker-image.sh"], "checks": ["web_verify_internal_nonpublication", "web_verify_security_privacy_evidence", "web_verify_docker_image"] }
+        { "id": "internal_artifact_exclusion", "status": "verified_static", "statement": "The complete reviews tree is excluded from Docker build context; web/dist is scanned for listed stable markers, exact complete artifact hashes, recursive internal semantic subtrees, unique substantive internal scalar fingerprints, and normalized purpose-specific field-clearance tuples through bounded fixed-point character-reference/percent/JavaScript decoding, parser-aware HTML/XML-family representations, and context-specific CSS escape decoding, while the final served root /srv is scanned for listed paths and markers and representative routes. Arbitrary encryption, compression, paraphrase, and OS files outside /srv are not claimed as covered.", "evidence": [".dockerignore", "Dockerfile", "web/scripts/verify-internal-nonpublication.mjs", "web/scripts/verify-docker-image.sh"], "checks": ["web_verify_internal_nonpublication", "web_verify_security_privacy_evidence", "web_verify_docker_image"] }
       ]
     },
     {

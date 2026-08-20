@@ -3,6 +3,7 @@ import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { decodeHTML, decodeHTMLAttribute } from 'entities/decode';
 import { parse } from 'parse5';
+import { SaxesParser } from 'saxes';
 import { INTERNAL_MARKER, sha256 } from './accessibility-evidence-lib.mjs';
 import { INVENTORY_MARKER } from './security-privacy-evidence-lib.mjs';
 import { INTERNAL_MARKER as DUE_DILIGENCE_MARKER } from './technical-due-diligence-lib.mjs';
@@ -60,12 +61,12 @@ const findForbiddenSemanticSection = (value, fingerprints) => {
 };
 const MAX_NORMALIZATION_BYTES = 32 * 1024 * 1024;
 const MAX_NORMALIZATION_PASSES = 8;
-const MAX_HTML_SCAN_ITEMS = 250_000;
+const MAX_MARKUP_SCAN_ITEMS = 250_000;
 const strictUtf8 = new TextDecoder('utf-8', { fatal: true });
 const TEXT_ARTIFACT_EXTENSIONS = new Set([
   '.asc', '.atom', '.cjs', '.conf', '.css', '.csv', '.graphql', '.gql', '.htm', '.html', '.ics', '.ini',
   '.js', '.json', '.json5', '.jsonl', '.jsx', '.map', '.manifest', '.md', '.mjs', '.ndjson', '.rss', '.shtml',
-  '.svg', '.text', '.toml', '.ts', '.tsx', '.txt', '.vtt', '.webmanifest', '.xhtml', '.xml', '.yaml', '.yml',
+  '.svg', '.text', '.toml', '.ts', '.tsx', '.txt', '.vtt', '.webmanifest', '.xhtml', '.xml', '.xsl', '.xslt', '.yaml', '.yml',
 ]);
 const OPAQUE_ARTIFACT_EXTENSIONS = new Set([
   '.7z', '.avif', '.bin', '.br', '.bz2', '.eot', '.gif', '.gz', '.ico', '.jpeg', '.jpg', '.mp3', '.mp4',
@@ -211,12 +212,36 @@ const decodeJavaScriptEscapes = (text, decodeNonEscapeCharacter = false) => {
 const decodePercentEncoding = (text) => text.replace(/(?:%[0-9a-f]{2})+/giu, (encoded) => {
   try { return decodeURIComponent(encoded); } catch { return encoded; }
 });
+export const decodeCssEscapes = (text) => {
+  let output = '';
+  for (let index = 0; index < text.length; index += 1) {
+    if (text[index] !== '\\') { output += text[index]; continue; }
+    const next = text[index + 1];
+    if (next === undefined) { output += '\\'; continue; }
+    if (/[0-9a-f]/iu.test(next)) {
+      let end = index + 1;
+      while (end < text.length && end < index + 7 && /[0-9a-f]/iu.test(text[end])) end += 1;
+      const point = Number.parseInt(text.slice(index + 1, end), 16);
+      output += point === 0 || point > 0x10ffff || (point >= 0xd800 && point <= 0xdfff) ? '\ufffd' : String.fromCodePoint(point);
+      if (/[\t\n\f\r ]/u.test(text[end] ?? '')) {
+        if (text[end] === '\r' && text[end + 1] === '\n') end += 1;
+        index = end;
+      } else index = end - 1;
+      continue;
+    }
+    if (next === '\n' || next === '\f') { index += 1; continue; }
+    if (next === '\r') { index += text[index + 2] === '\n' ? 2 : 1; continue; }
+    output += next; index += 1;
+  }
+  return output;
+};
 const normalizeDecodedText = (text) => ` ${text.normalize('NFKC').toLocaleLowerCase('en-US').replace(/[^\p{L}\p{N}]+/gu, ' ').trim()} `;
-const decodeBoundedText = (text, label = 'production artifact', decodeEntities = decodeHTML, decodeNonEscapeCharacter = false) => {
+const decodeBoundedText = (text, label = 'production artifact', decodeEntities = decodeHTML, decodeNonEscapeCharacter = false, decodeJavaScript = true) => {
   let decoded = text;
   let converged = false;
   for (let i = 0; i < MAX_NORMALIZATION_PASSES; i += 1) {
-    const next = decodeEntities(decodePercentEncoding(decodeJavaScriptEscapes(decoded, decodeNonEscapeCharacter)));
+    const escaped = decodeJavaScript ? decodeJavaScriptEscapes(decoded, decodeNonEscapeCharacter) : decoded;
+    const next = decodeEntities(decodePercentEncoding(escaped));
     if (Buffer.byteLength(next) > MAX_NORMALIZATION_BYTES) throw new Error(`decoded ${label} exceeds bounded nonpublication normalization size`);
     if (next === decoded) { converged = true; break; }
     decoded = next;
@@ -224,8 +249,25 @@ const decodeBoundedText = (text, label = 'production artifact', decodeEntities =
   if (!converged) throw new Error(`${label} exceeds bounded nonpublication normalization iterations`);
   return decoded;
 };
+const decodedCssRepresentations = (text, label, decodeEntities = decodeHTML) => {
+  const decoded = decodeBoundedText(text, label, decodeEntities, false, false);
+  const cssDecoded = decodeCssEscapes(decoded);
+  if (Buffer.byteLength(cssDecoded) > MAX_NORMALIZATION_BYTES) throw new Error(`decoded ${label} exceeds bounded nonpublication normalization size`);
+  return [...new Set([decoded, cssDecoded])];
+};
 const decodedJavaScriptRepresentations = (text, label, decodeEntities = decodeHTML, mode = 'unknown', decodeNonEscapeCharacter = false) => javascriptRepresentations(text, mode)
   .map((source) => decodeBoundedText(source, label, decodeEntities, mode !== 'disabled' && decodeNonEscapeCharacter));
+const FATAL_HTML_PARSE_ERRORS = new Set([
+  'abrupt-closing-of-empty-comment', 'abrupt-doctype-public-identifier', 'abrupt-doctype-system-identifier',
+  'eof-in-cdata', 'eof-in-comment', 'eof-in-doctype', 'eof-in-element-that-can-contain-only-text',
+  'eof-in-script-html-comment-like-text', 'eof-in-tag', 'unexpected-null-character',
+]);
+const parseHtmlDocument = (source, options = {}) => {
+  let firstError;
+  const document = parse(source, { ...options, onParseError: (error) => { if (FATAL_HTML_PARSE_ERRORS.has(error.code)) firstError ??= error; } });
+  if (firstError) throw new Error(`production HTML is malformed (${firstError.code})`);
+  return document;
+};
 const htmlRepresentations = (html, sourceHtml, decodeNonEscapeCharacter = false) => {
   const representations = [];
   let scanItems = 0;
@@ -243,9 +285,12 @@ const htmlRepresentations = (html, sourceHtml, decodeNonEscapeCharacter = false)
     // unrelated public markup must not combine into a forbidden fingerprint.
     representations.push(value);
   };
-  const addAttributeValue = (raw) => {
+  const addAttributeValue = (raw, css = false) => {
     if (!raw) return;
-    for (const value of decodedJavaScriptRepresentations(raw, 'HTML attribute value', decodeHTMLAttribute, 'unknown', decodeNonEscapeCharacter)) {
+    const values = css
+      ? decodedCssRepresentations(raw, 'HTML style attribute', decodeHTMLAttribute)
+      : decodedJavaScriptRepresentations(raw, 'HTML attribute value', decodeHTMLAttribute, 'unknown', decodeNonEscapeCharacter);
+    for (const value of values) {
       attributeBytes += Buffer.byteLength(value);
       if (attributeBytes > MAX_NORMALIZATION_BYTES) throw new Error('decoded HTML attributes exceed bounded nonpublication normalization size');
       // Keep values separate: unrelated public attributes must not combine to
@@ -277,7 +322,7 @@ const htmlRepresentations = (html, sourceHtml, decodeNonEscapeCharacter = false)
     while (pending.length) {
       const node = pending.pop();
       scanItems += 1;
-      if (scanItems > MAX_HTML_SCAN_ITEMS) throw new Error('production HTML exceeds bounded nonpublication scan work');
+      if (scanItems > MAX_MARKUP_SCAN_ITEMS) throw new Error('production HTML exceeds bounded nonpublication scan work');
       visitor(node);
       if (node.content) pending.push(node.content);
       const children = node.childNodes ?? [];
@@ -286,18 +331,27 @@ const htmlRepresentations = (html, sourceHtml, decodeNonEscapeCharacter = false)
   };
   for (const scriptingEnabled of [true, false]) {
     const textNodes = [];
-    visit(parse(html, { scriptingEnabled }), (node) => {
+    const document = parseHtmlDocument(html, { scriptingEnabled });
+    visit(document, (node) => {
       addDoctype(node);
       if (node.tagName) addName(node.tagName);
       for (const attribute of node.attrs ?? []) {
         addName(attribute.name);
-        addAttributeValue(attribute.value);
+        addAttributeValue(attribute.value, attribute.name.toLowerCase() === 'style');
       }
       if (node.nodeName === '#text') {
-        if (node.parentNode?.tagName === 'script') {
+        if (node.parentNode?.tagName === 'style') {
+          for (const value of decodedCssRepresentations(node.value, 'HTML style element')) {
+            textBytes += Buffer.byteLength(value);
+            if (textBytes > MAX_NORMALIZATION_BYTES) throw new Error('decoded HTML text exceeds bounded nonpublication normalization size');
+            representations.push(value);
+          }
+        } else if (node.parentNode?.tagName === 'script') {
           const type = node.parentNode.attrs?.find((attribute) => attribute.name.toLowerCase() === 'type')?.value.trim().toLowerCase();
           const mode = type === 'module' ? 'strict' : type && !/^(?:application|text)\/(?:javascript|ecmascript)$/u.test(type) ? 'disabled' : 'classic';
-          addText(node.value, textNodes, mode);
+          const scriptValues = [];
+          addText(node.value, scriptValues, mode);
+          representations.push(...scriptValues);
         } else addText(node.value, textNodes);
       }
       if (node.nodeName === '#comment') {
@@ -315,7 +369,7 @@ const htmlRepresentations = (html, sourceHtml, decodeNonEscapeCharacter = false)
             if (commentNode.tagName) addName(commentNode.tagName);
             for (const attribute of commentNode.attrs ?? []) {
               addName(attribute.name);
-              addAttributeValue(attribute.value);
+              addAttributeValue(attribute.value, attribute.name.toLowerCase() === 'style');
             }
             if (commentNode.nodeName === '#text') addText(commentNode.value, commentTextNodes);
           });
@@ -324,14 +378,14 @@ const htmlRepresentations = (html, sourceHtml, decodeNonEscapeCharacter = false)
       }
     });
     representations.push(textNodes.join(' '), textNodes.join(''));
-    visit(parse(sourceHtml, { scriptingEnabled }), (node) => {
+    visit(parseHtmlDocument(sourceHtml), (node) => {
       addDoctype(node);
       if (node.tagName) addName(node.tagName);
       for (const attribute of node.attrs ?? []) {
         scanItems += 1;
-        if (scanItems > MAX_HTML_SCAN_ITEMS) throw new Error('production HTML exceeds bounded nonpublication scan work');
+        if (scanItems > MAX_MARKUP_SCAN_ITEMS) throw new Error('production HTML exceeds bounded nonpublication scan work');
         addName(attribute.name);
-        addAttributeValue(attribute.value);
+        addAttributeValue(attribute.value, attribute.name.toLowerCase() === 'style');
       }
     });
     // Attribute decoding starts after parsing the original markup, so encoded
@@ -340,15 +394,98 @@ const htmlRepresentations = (html, sourceHtml, decodeNonEscapeCharacter = false)
   };
   return [...new Set(representations)];
 };
-const normalizeScanTexts = (text, isHtml = false, javascriptMode = 'unknown') => {
+const xmlRepresentations = (xml, decodeNonEscapeCharacter = false) => {
+  const representations = [];
+  const renderedText = [];
+  const stack = [];
+  let scanItems = 0;
+  let decodedBytes = 0;
+  const account = (value, label) => {
+    scanItems += 1; decodedBytes += Buffer.byteLength(value);
+    if (scanItems > MAX_MARKUP_SCAN_ITEMS) throw new Error('production XML exceeds bounded nonpublication scan work');
+    if (decodedBytes > MAX_NORMALIZATION_BYTES) throw new Error('decoded XML exceeds bounded nonpublication normalization size');
+    if (value) representations.push(value);
+  };
+  const decoded = (raw, label, entities = decodeHTML) => decodedJavaScriptRepresentations(raw, label, entities, 'unknown', decodeNonEscapeCharacter);
+  const addIndependent = (raw, label, entities = decodeHTML) => {
+    if (!raw) return;
+    for (const value of decoded(raw, label, entities)) account(value, label);
+  };
+  const addRendered = (raw, context) => {
+    if (!raw) return;
+    const values = context === 'style'
+      ? decodedCssRepresentations(raw, 'XML style content')
+      : context === 'script'
+        ? decodedJavaScriptRepresentations(raw, 'XML script content', decodeHTML, 'unknown', decodeNonEscapeCharacter)
+        : decoded(raw, 'XML rendered text');
+    for (const value of values) {
+      account(value, 'XML rendered text');
+      if (context !== 'style' && context !== 'script') renderedText.push(value);
+    }
+  };
+  const parser = new SaxesParser({ xmlns: false, fragment: false });
+  parser.on('opentag', (node) => {
+    addIndependent(node.name, 'XML element name');
+    for (const [key, attribute] of Object.entries(node.attributes)) {
+      const name = typeof attribute === 'string' ? key : attribute.name;
+      const raw = typeof attribute === 'string' ? attribute : attribute.value;
+      addIndependent(name, 'XML attribute name');
+      const values = name.toLowerCase() === 'style'
+        ? decodedCssRepresentations(raw, 'XML style attribute')
+        : decoded(raw, 'XML attribute value');
+      for (const value of values) account(value, 'XML attribute value');
+    }
+    stack.push(node.name.toLowerCase());
+  });
+  parser.on('closetag', () => { stack.pop(); });
+  parser.on('text', (value) => addRendered(value, stack.at(-1)));
+  parser.on('cdata', (value) => addRendered(value, stack.at(-1)));
+  parser.on('comment', (value) => addIndependent(value, 'XML comment'));
+  parser.on('processinginstruction', ({ target, body }) => {
+    addIndependent(target, 'XML processing-instruction target');
+    addIndependent(body, 'XML processing-instruction body');
+  });
+  parser.on('doctype', (value) => addIndependent(value, 'XML doctype and entity declarations'));
+  parser.write(xml).close();
+  representations.push(renderedText.join(' '), renderedText.join(''));
+  return [...new Set(representations)];
+};
+const MARKUP_EXTENSIONS = new Map([
+  ['.html', 'html'], ['.htm', 'html'], ['.shtml', 'html'],
+  ['.xml', 'xml'], ['.svg', 'xml'], ['.xhtml', 'xml'], ['.atom', 'xml'], ['.rss', 'xml'], ['.xsl', 'xml'], ['.xslt', 'xml'],
+]);
+const markupKind = (text, label) => {
+  const { extension } = artifactExtension(label);
+  if (MARKUP_EXTENSIONS.has(extension)) return MARKUP_EXTENSIONS.get(extension);
+  const trimmed = text.replace(/^\ufeff?[\x00-\x20]*/u, '');
+  if (/^<\?xml\b/iu.test(trimmed) || /^<(?:svg|rss|feed)\b/iu.test(trimmed)) return 'xml';
+  if (/^<!doctype\s+html\b/iu.test(trimmed) || /^<html\b/iu.test(trimmed)) return 'html';
+  if (/^<!doctype\s+[a-z_:][\w:.-]*\b/iu.test(trimmed) || /^<[a-z_:][\w:.-]*\b[^>]*\bxmlns(?::[\w.-]+)?\s*=/iu.test(trimmed)) return 'xml';
+  return undefined;
+};
+const normalizeScanTexts = (text, markup = undefined, javascriptMode = 'unknown') => {
   if (Buffer.byteLength(text) > MAX_NORMALIZATION_BYTES) throw new Error('production artifact exceeds bounded nonpublication normalization size');
-  const sourceRepresentations = isHtml ? [text] : javascriptRepresentations(text, javascriptMode);
+  const sourceRepresentations = markup ? [text] : javascriptMode === 'css' ? [text] : javascriptRepresentations(text, javascriptMode);
   const representations = sourceRepresentations.flatMap((source) => {
-    const decodedRepresentations = isHtml || javascriptMode === 'disabled'
-      ? [decodeBoundedText(source)]
-      : [...new Set([decodeBoundedText(source), decodeBoundedText(source, 'production artifact', decodeHTML, true)])];
-    return decodedRepresentations.flatMap((decoded) => isHtml
+    let decodedRepresentations;
+    if (markup) {
+      const contextSafe = decodeBoundedText(source, 'production artifact', decodeHTML, false, false);
+      // Only apply whole-payload JavaScript decoding when nested encoding has
+      // hidden the markup itself. Once markup is visible, escapes belong to the
+      // parser-selected script/CSS/text context and must not bleed across it.
+      decodedRepresentations = /^\s*</u.test(source)
+        ? [source]
+        : /^\s*</u.test(contextSafe)
+          ? [contextSafe]
+        : [...new Set([contextSafe, decodeBoundedText(source)])];
+    } else if (javascriptMode === 'disabled') decodedRepresentations = [decodeBoundedText(source)];
+    else decodedRepresentations = javascriptMode === 'css'
+        ? decodedCssRepresentations(source, 'CSS artifact')
+        : [...new Set([decodeBoundedText(source), decodeBoundedText(source, 'production artifact', decodeHTML, true)])];
+    return decodedRepresentations.flatMap((decoded) => markup === 'html'
       ? [htmlRepresentations(decoded, source), htmlRepresentations(decoded, source, true)].flat()
+      : markup === 'xml'
+        ? [xmlRepresentations(decoded), xmlRepresentations(decoded, true)].flat()
       : [decoded]);
   });
   return [...new Set(representations.map(normalizeDecodedText))];
@@ -416,10 +553,10 @@ export function assertInternalNonpublication(dist, repoRoot = repo) {
     if (forbidden.exactHashes.includes(sha256(bytes))) throw new Error(`internal evidence exact copy published in ${path}`);
     const text = decodeArtifactText(bytes, `production artifact ${path}`);
     if (text === undefined) continue;
-    const isHtml = /\.html?$/iu.test(path);
-    const extensionMode = /\.mjs$/iu.test(path) ? 'strict' : /\.json$/iu.test(path) ? 'disabled' : 'unknown';
-    const rawTexts = isHtml ? [text] : javascriptRepresentations(text, extensionMode);
-    const normalizedTexts = normalizeScanTexts(text, isHtml, extensionMode);
+    const markup = markupKind(text, path);
+    const extensionMode = /\.css$/iu.test(path) ? 'css' : /\.mjs$/iu.test(path) ? 'strict' : /\.json$/iu.test(path) ? 'disabled' : 'unknown';
+    const rawTexts = markup || extensionMode === 'css' ? [text] : javascriptRepresentations(text, extensionMode);
+    const normalizedTexts = normalizeScanTexts(text, markup, extensionMode);
     for (const row of forbidden.clearanceRowFingerprints) if (normalizedTexts.some((normalizedText) => row.components.every((component) => normalizedText.includes(` ${component} `)))) throw new Error(`internal field-clearance row fingerprint (${row.label}) published in ${path}`);
     for (const scalar of forbidden.scalarFingerprints) if (rawTexts.some((rawText) => rawText.includes(scalar))) throw new Error(`internal review-pack scalar fingerprint published in ${path}`);
     for (const contract of forbidden.licensedContractFingerprints) if (rawTexts.some((rawText) => rawText.includes(contract.raw)) || normalizedTexts.some((normalizedText) => normalizedText.includes(contract.normalized))) throw new Error(`internal licensed-delivery contract scalar fingerprint published in ${path}`);

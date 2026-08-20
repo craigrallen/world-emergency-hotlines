@@ -6,7 +6,7 @@ import { tmpdir } from 'node:os';
 import { resolve } from 'node:path';
 import test, { afterEach } from 'node:test';
 import { assertCanonicalInventory, EXAMPLE_PATH, EXCLUDED_PATHS, FIELD_GROUP_IDS, FIELD_INVENTORY, HANDOFF_PATH, INTERNAL_MARKER, LEDGER_PATH, loadClearanceArtifacts, observedCanonicalPaths, POPULATION_IDS, README_PATH, REAL_HELD_NOTES, SCHEMA_PATH, SYNTHETIC_HELD_NOTES, validateLedger } from './field-provenance-clearance-lib.mjs';
-import { assertInternalNonpublication, forbiddenInternalEvidence } from './verify-internal-nonpublication.mjs';
+import { assertInternalNonpublication, decodeCssEscapes, forbiddenInternalEvidence } from './verify-internal-nonpublication.mjs';
 import { parseStrictJson } from './security-privacy-evidence-lib.mjs';
 
 const repo = resolve(import.meta.dirname, '../..');
@@ -676,4 +676,98 @@ test('nonpublication preserves raw non-HTML text and ignores HTML attribute valu
   const html = temporaryRoot();
   writeFileSync(resolve(html, 'attributes.html'), '<noscript data-population="psc_app" title="identity_naming"><span>Ordinary public content.</span></noscript>');
   assert.doesNotThrow(() => assertInternalNonpublication(html, repo));
+});
+
+const licensedLeakProbes = () => {
+  const forbidden = forbiddenInternalEvidence(repo);
+  return [
+    ['marker', 'internal-licensed-delivery-counsel-draft-only/v1'],
+    ['contract', forbidden.licensedContractFingerprints[0].raw],
+    ['fixture', forbidden.licensedFixtureFingerprints.find(({ raw }) => /^[a-z][a-z0-9_/-]+$/u.test(raw)).raw],
+    ['counsel', forbidden.licensedDraftFingerprints[0].raw],
+  ];
+};
+const assertLicensedLeakRejected = (content, label, extension) => {
+  const dist = temporaryRoot(); writeFileSync(resolve(dist, `${label}.${extension}`), content);
+  assert.throws(() => assertInternalNonpublication(dist, repo), /malformed|marker|licensed-delivery .* fingerprint|review-pack scalar fingerprint/, label);
+};
+test('parser-aware markup scanning covers SVG, XML, XHTML, SHTML, and payload signatures across licensed evidence classes', () => {
+  const markupCases = [
+    ['svg-nested', 'svg', (a, b) => `<svg xmlns="http://www.w3.org/2000/svg"><text>${a}<tspan>${b}</tspan></text></svg>`],
+    ['xml-nested', 'xml', (a, b) => `<?xml version="1.0"?><root><label>${a}<part>${b}</part></label></root>`],
+    ['xhtml-nested', 'xhtml', (a, b) => `<?xml version="1.0"?><html xmlns="http://www.w3.org/1999/xhtml"><body><p>${a}<span>${b}</span></p></body></html>`],
+    ['shtml-nested', 'shtml', (a, b) => `<main><p>${a}<span>${b}</span></p></main>`],
+    ['signature-svg', 'asset', (a, b) => `<svg xmlns="http://www.w3.org/2000/svg"><text>${a}<tspan>${b}</tspan></text></svg>`],
+    ['attribute', 'xml', (a, b) => `<?xml version="1.0"?><root data-leak="${a}${encodeHtml(b)}"/>`],
+    ['cdata', 'xml', (a, b) => `<?xml version="1.0"?><root><![CDATA[${a}${b}]]></root>`],
+    ['comment', 'xml', (a, b) => `<?xml version="1.0"?><root><!--${a}${b}--></root>`],
+    ['processing-instruction', 'xml', (a, b) => `<?xml version="1.0"?><?withheld ${a}${b}?><root/>`],
+    ['doctype-entity', 'xml', (a, b) => `<?xml version="1.0"?><!DOCTYPE root [<!ENTITY withheld "${a}${b}">]><root/>`],
+  ];
+  for (const [probeClass, probe] of licensedLeakProbes()) {
+    const split = Math.floor(probe.length / 2); const a = encodePercent(probe.slice(0, split)); const b = encodeHtml(probe.slice(split));
+    for (const [context, extension, wrap] of markupCases) assertLicensedLeakRejected(wrap(a, b), `${probeClass}-${context}`, extension);
+  }
+});
+test('markup scanning keeps unrelated XML names, attributes, comments, and sibling documents from false concatenation and fails closed', () => {
+  const marker = 'internal-licensed-delivery-counsel-draft-only/v1'; const split = Math.floor(marker.length / 2);
+  for (const [label, content, extension] of [
+    ['separate-attributes', `<?xml version="1.0"?><root a="${marker.slice(0, split)}" b="${marker.slice(split)}"/>`, 'xml'],
+    ['name-and-value', `<?xml version="1.0"?><${marker.slice(0, split)} value="${marker.slice(split)}"/>`, 'xml'],
+    ['comment-and-text', `<?xml version="1.0"?><root><!--${marker.slice(0, split)}-->${marker.slice(split)}</root>`, 'xml'],
+    ['public-svg', '<svg xmlns="http://www.w3.org/2000/svg"><text>Public <tspan>support</tspan></text></svg>', 'svg'],
+    ['public-shtml', '<main><p>Public <span>support</span></p></main>', 'shtml'],
+  ]) {
+    const dist = temporaryRoot(); writeFileSync(resolve(dist, `${label}.${extension}`), content);
+    assert.doesNotThrow(() => assertInternalNonpublication(dist, repo), label);
+  }
+  for (const [label, content, extension] of [
+    ['xml-unclosed', '<?xml version="1.0"?><root><child></root>', 'xml'],
+    ['xml-bad-attribute', '<?xml version="1.0"?><root value="unterminated/>', 'xml'],
+    ['html-unclosed-comment', '<main><!-- unterminated', 'shtml'],
+  ]) {
+    const dist = temporaryRoot(); writeFileSync(resolve(dist, `${label}.${extension}`), content);
+    assert.throws(() => assertInternalNonpublication(dist, repo), /malformed|unclosed|unexpected|attribute|comment|tag|root/iu, label);
+  }
+});
+test('CSS escape decoder implements maximal munch, replacement, terminators, simple escapes, and continuations', () => {
+  for (const [source, expected] of [
+    ['\\a', '\n'], ['\\41', 'A'], ['\\041', 'A'], ['\\0041', 'A'], ['\\00041', 'A'], ['\\000041', 'A'],
+    ['\\41 rest', 'Arest'], ['\\41\trest', 'Arest'], ['\\41\r\nrest', 'Arest'], ['\\41\frest', 'Arest'],
+    ['\\41z', 'Az'], ['\\000041B', 'AB'], ['\\41B', '\u041b'], ['\\-', '-'], ['\\\\', '\\'],
+    ['a\\\nb', 'ab'], ['a\\\r\nb', 'ab'], ['a\\\fb', 'ab'],
+    ['\\0', '\ufffd'], ['\\d800', '\ufffd'], ['\\110000', '\ufffd'],
+  ]) assert.equal(decodeCssEscapes(source), expected, source);
+});
+test('CSS escapes expose every licensed evidence class in external, HTML, XHTML, and SVG CSS contexts', () => {
+  const cssEscapeAt = (value, position, terminator = ' ') => `${value.slice(0, position)}\\${value.codePointAt(position).toString(16)}${terminator}${value.slice(position + 1)}`;
+  for (const [probeClass, probe] of licensedLeakProbes()) {
+    for (const position of interiorPositions(probe)) {
+      const escaped = cssEscapeAt(probe, position);
+      const nested = encodeHtml(encodePercent(escaped));
+      for (const [context, extension, content] of [
+        ['external', 'css', `.withheld::after{content:"${escaped}"}`],
+        ['style-element', 'html', `<style>.withheld::after{content:"${nested}"}</style>`],
+        ['style-attribute', 'html', `<div style="--withheld:'${nested}'"></div>`],
+        ['xhtml-style', 'xhtml', `<?xml version="1.0"?><html xmlns="http://www.w3.org/1999/xhtml"><style>.x{content:"${nested}"}</style></html>`],
+        ['svg-style-element', 'svg', `<svg xmlns="http://www.w3.org/2000/svg"><style>.x{content:"${nested}"}</style></svg>`],
+        ['svg-style-attribute', 'svg', `<svg xmlns="http://www.w3.org/2000/svg"><text style="--x:'${nested}'">public</text></svg>`],
+      ]) assertLicensedLeakRejected(content, `${probeClass}-${context}-${position}`, extension);
+    }
+  }
+});
+test('CSS escape negatives preserve escaped backslashes, malformed boundaries, JavaScript octal separation, and public content', () => {
+  const marker = 'internal-licensed-delivery-counsel-draft-only/v1'; const split = marker.indexOf('licensed') + 3;
+  const controls = [
+    `.x{content:"${marker.slice(0, split)}\\\\69 ${marker.slice(split + 1)}"}`,
+    `.x{content:"${marker.slice(0, split)}\\${marker.slice(split)}"}`,
+    `.x{content:"${marker.slice(0, split)}\\110000${marker.slice(split)}"}`,
+    `.x{content:"intern\\141l public support"}`,
+    '.public\\:support { content: "ordinary \\26 helpful information"; }',
+  ];
+  for (const [index, content] of controls.entries()) {
+    const dist = temporaryRoot(); writeFileSync(resolve(dist, `css-negative-${index}.css`), content);
+    assert.doesNotThrow(() => assertInternalNonpublication(dist, repo), `CSS negative ${index}`);
+  }
+  assertLicensedLeakRejected(`const value='${marker.replace('internal', 'intern\\141l')}'`, 'javascript-octal-control', 'js');
 });
