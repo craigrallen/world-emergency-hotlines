@@ -15,6 +15,7 @@ test('demo verifies every pinned synthetic observation class and produces determ
   const result = JSON.parse(first);
   assert.equal(result.assessment, 'corroborating_only_not_conclusive');
   assert.ok(result.signals.length > 0);
+  assert.ok(result.signals.some(signal => signal.code === 'bounded_render_fetch_ratio'));
   assert.ok(result.signals.some(signal => signal.code === 'outward_in_canary_match'));
   assert.ok(result.signals.some(signal => signal.code === 'app_binary_metadata_match'));
 });
