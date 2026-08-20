@@ -13,6 +13,6 @@
     "schemas.json": "441ffbff8a25674178c2518168d8d734aa71154c917bdd8147440ede2c15d20b",
     "terms.counsel-draft.md": "f9ece07e41b74d791b93092e0e7bedf0f31d61f28c2a9deb554bde0c07f7782a",
     "test/cli.test.mjs": "2e5febfeda4d12057411aa10c184ac30e37a80467be82f672ff96e217f438b2a",
-    "test/model.test.mjs": "e9d921c20157c10af3e8293c05f1a3f991ffc060ee03bd3a424a6728a23382bc"
+    "test/model.test.mjs": "77e2baf8e1c01a2c295ddef7e6d9de20dfa87331af491e3ba2ac4d6163c8cb67"
   }
 }

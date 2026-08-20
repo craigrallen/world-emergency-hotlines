@@ -41,6 +41,11 @@ const licensedFixtureScalars = (fixtures) => [...new Set(fixtures.flatMap(([, fi
   // are not distinctive enough to block independently in normalized public text.
   .filter((value) => !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$/u.test(value))
   .map((raw) => ({ raw, normalized: normalizeScanText(raw) }));
+const normalizedArtifactScalars = (artifacts) => [...new Set(artifacts.flatMap(([, value]) => substantiveUniqueScalars(value)))]
+  // Short schema names and standard HTTP directives become ordinary phrases
+  // after separator folding. Keep normalized contract matching distinctive.
+  .filter((value) => value.length >= 32)
+  .map((raw) => ({ raw, normalized: normalizeScanText(raw) }));
 const findForbiddenSemanticSection = (value, fingerprints) => {
   if (!value || typeof value !== 'object') return undefined;
   const match = fingerprints.get(semanticHash(value));
@@ -160,14 +165,17 @@ export function forbiddenInternalEvidence(repoRoot = repo) {
   };
   const clearanceSubstance = (value) => ({ evidence_catalog: value.evidence_catalog, entries: value.entries });
   const clearanceArtifacts = [['field clearance ledger', clearanceLedger], ['field clearance synthetic', clearanceExample]];
-  const generalSemanticArtifacts = [['design-partner pack', designPartnerPack], ['licensing legal-review substance', legalReviewSubstance], ['field clearance ledger substance', clearanceSubstance(clearanceLedger)], ['field clearance synthetic substance', clearanceSubstance(clearanceExample)], ['licensed-delivery schemas', licensedSchemas], ['licensed-delivery HTTP contract', licensedHttp]];
+  const generalScalarArtifacts = [['design-partner pack', designPartnerPack], ['licensing legal-review substance', legalReviewSubstance], ['field clearance ledger substance', clearanceSubstance(clearanceLedger)], ['field clearance synthetic substance', clearanceSubstance(clearanceExample)]];
+  const licensedContractArtifacts = [['licensed-delivery schemas', licensedSchemas], ['licensed-delivery HTTP contract', licensedHttp]];
+  const generalSemanticArtifacts = [...generalScalarArtifacts, ...licensedContractArtifacts];
   const semanticArtifacts = [...generalSemanticArtifacts, ...licensedFixtures.map(([name, value]) => [`licensed-delivery fixture ${name}`, value])];
   const licensedDraftScalars = licensedDraftText.flatMap((text) => text.split(/\n\s*\n/).map((x) => x.replace(/\s+/g, ' ').trim()).filter((x) => x.length >= 80));
   return {
     markers: ['reviews/licensed-delivery', 'internal-licensed-delivery-counsel-draft-only/v1', 'SYNTHETIC-TEST-KEY-NEVER-PUBLISH-OR-USE-IN-PRODUCTION', 'reviews/multilingual-ui', 'internal-multilingual-ui-review-pack/v1', 'pending_not_reviewed', 'static_ui_runtime_dictionaries_only', 'reviews/accessibility-evidence', INTERNAL_MARKER, 'internal_deterministic_regression_evidence', 'accessibility-evidence/v1/baseline.json', 'reviews/security-privacy-evidence', INVENTORY_MARKER, 'repository_internal_deterministic_regression_evidence', 'security-privacy-evidence/v1/inventory.json', 'reviews/technical-due-diligence', DUE_DILIGENCE_MARKER, 'technical-due-diligence/v1/index.json', 'reviews/design-partner-discovery', DESIGN_PARTNER_MARKER, 'design-partner-discovery/v1/pack.json', 'reviews/licensing-legal-review', LEGAL_REVIEW_MARKER, 'licensing-legal-review/v1/index.json', 'reviews/field-provenance-clearance', CLEARANCE_MARKER, 'field-provenance-clearance/v1/ledger.json', 'field-provenance-clearance/v1/example.synthetic.json'],
     exactHashes,
     semanticFingerprints: new Map(semanticArtifacts.flatMap(([artifact, value]) => semanticSections(value).filter(([, section]) => !artifact.startsWith('licensed-delivery') || canonicalJson(section).length >= 80).map(([label, section]) => [semanticHash(section), `${artifact} ${label}`]))),
-    scalarFingerprints: [...new Set(generalSemanticArtifacts.flatMap(([, value]) => substantiveUniqueScalars(value)))],
+    scalarFingerprints: [...new Set(generalScalarArtifacts.flatMap(([, value]) => substantiveUniqueScalars(value)))],
+    licensedContractFingerprints: normalizedArtifactScalars(licensedContractArtifacts),
     licensedFixtureFingerprints: licensedFixtureScalars(licensedFixtures),
     licensedDraftFingerprints: [...new Set(licensedDraftScalars)].map((raw) => ({ raw, normalized: normalizeScanText(raw) })),
     clearanceRowFingerprints: clearanceRowFingerprints(clearanceArtifacts),
@@ -184,6 +192,7 @@ export function assertInternalNonpublication(dist, repoRoot = repo) {
     const normalizedTexts = normalizeScanTexts(text, /\.html?$/iu.test(path));
     for (const row of forbidden.clearanceRowFingerprints) if (normalizedTexts.some((normalizedText) => row.components.every((component) => normalizedText.includes(` ${component} `)))) throw new Error(`internal field-clearance row fingerprint (${row.label}) published in ${path}`);
     for (const scalar of forbidden.scalarFingerprints) if (text.includes(scalar)) throw new Error(`internal review-pack scalar fingerprint published in ${path}`);
+    for (const contract of forbidden.licensedContractFingerprints) if (text.includes(contract.raw) || normalizedTexts.some((normalizedText) => normalizedText.includes(contract.normalized))) throw new Error(`internal licensed-delivery contract scalar fingerprint published in ${path}`);
     for (const fixture of forbidden.licensedFixtureFingerprints) if (text.includes(fixture.raw) || normalizedTexts.some((normalizedText) => normalizedText.includes(fixture.normalized))) throw new Error(`internal licensed-delivery fixture scalar fingerprint published in ${path}`);
     for (const draft of forbidden.licensedDraftFingerprints) if (text.includes(draft.raw) || normalizedTexts.some((normalizedText) => normalizedText.includes(draft.normalized))) throw new Error(`internal review-pack scalar fingerprint published in ${path}`);
     try {

@@ -49,6 +49,29 @@ test('flat volume aggregates distinct hours and requires equal positive consecut
 test('app versions are incomparable in ratios and flat-volume series',()=>{const h=n=>`2026-08-17T${String(n).padStart(2,'0')}:00:00.000Z`,otherRegistry={...registered_apps,'tenant-synthetic-a\0app-synthetic-a\0synthetic-2.0':{status:'active'}},make=(n,version)=>validateFetchObservation(sign('fetch',{...base,app_version:version,observation_id:`cv-${n}-${version}`,coarse_time_bucket:h(n),fetch_count:2,unique_token_count:1,conditional_request_count:0,surface_count:1}),{...ctx(fixtureIssue()),registered_apps:otherRegistry});const r=analyzeCompliance({fetches:[make(10,'synthetic-1.0'),make(11,'synthetic-2.0'),make(12,'synthetic-1.0')]});assert.equal(r.signals.some(x=>x.code==='flat_volume_pattern'),false);assert.ok(r.signals.filter(x=>x.code==='missing_render_attestation').every(x=>x.detail.app_version));});
 test('corroborating evidence remains non-conclusive',()=>{const e=fixtureIssue(),c=ctx(e);const out=validateOutwardObservation(sign('outward',{...outwardBody,observation_id:'out-z',surface_class:'public_web'}),c);const bin=validateBinaryObservation(sign('binary',{...base,observation_id:'bin-z',artifact_sha256:sha256(Buffer.from('a')),platform:'ios',acquisition_provenance:'licensed_store_artifact',acquisition_id:'a1',scan_method:'static_digest_scan_v1',scan_version:'1',matched_metadata_digest:metadataDigest}),c);const r=analyzeCompliance({outward:[out],binaries:[bin]});assert.ok(r.signals.every(s=>s.conclusive===false));assert.equal(r.assessment,'corroborating_only_not_conclusive');});
 test('nonpublication rejects marker-stripped licensed semantic subtree and counsel excerpt',()=>{const repo=resolve(import.meta.dirname,'../../../..'),root=mkdtempSync(resolve(tmpdir(),'licensed-nonpub-')),dist=resolve(root,'dist');mkdirSync(dist);try{const http=JSON.parse(readFileSync(resolve(repo,'reviews/licensed-delivery/v1/http-contract.json')));writeFileSync(resolve(dist,'subtree.json'),JSON.stringify(http.replay));assert.throws(()=>assertInternalNonpublication(dist,repo),/semantic section|scalar fingerprint/);rmSync(dist,{recursive:true});mkdirSync(dist);const terms=readFileSync(resolve(repo,'reviews/licensed-delivery/v1/terms.counsel-draft.md'),'utf8'),excerpt=terms.split(/\n\s*\n/).find(x=>x.includes('Replay prevention requires'));writeFileSync(resolve(dist,'draft.txt'),excerpt.replace(/\s+/g,' ').trim());assert.throws(()=>assertInternalNonpublication(dist,repo),/scalar fingerprint/);}finally{rmSync(root,{recursive:true,force:true});}});
+test('nonpublication rejects normalized licensed schema and HTTP contract scalars',()=>{
+  const repo=resolve(import.meta.dirname,'../../../..'),root=mkdtempSync(resolve(tmpdir(),'licensed-contract-nonpub-'));
+  const schema='Internal licensed-delivery v1 closed schema bundle',http='future_authenticated_runtime_contract_not_active';
+  const percent=value=>[...Buffer.from(value)].map(byte=>`%${byte.toString(16).padStart(2,'0')}`).join('');
+  const entities=value=>[...value].map(character=>`&#${character.codePointAt(0)};`).join('');
+  const js=value=>[...value].map(character=>`\\u${character.codePointAt(0).toString(16).padStart(4,'0')}`).join('');
+  const split=value=>{const at=Math.floor(value.length/2);return `${value.slice(0,at)}<span></span>${value.slice(at)}`;};
+  const cases=[
+    ['schema-raw.txt',schema],
+    ['http-extracted.json',JSON.stringify({public:true,value:http},null,3)],
+    ['schema-entity.txt',entities(schema)],
+    ['http-percent.txt',percent(http)],
+    ['schema-js.txt',js(schema)],
+    ['schema-nested.txt','internal\\u0026#45;licensed'+entities(' delivery v1 closed schema bundle')],
+    ['schema-text.html',`<main>${schema}</main>`],
+    ['http-split.html',`<p>${split(http)}</p>`],
+    ['schema-attribute.html',`<meta content="${entities(percent(schema))}">`],
+    ['http-attribute.htm',`<div data-contract='${js(http)}'></div>`],
+  ];
+  try{
+    for(const [name,content] of cases){const dist=resolve(root,name.replace('.','-'));mkdirSync(dist);writeFileSync(resolve(dist,name),content);assert.throws(()=>assertInternalNonpublication(dist,repo),/licensed-delivery contract scalar fingerprint/,name);}
+  }finally{rmSync(root,{recursive:true,force:true});}
+});
 test('nonpublication semantically rejects every licensed synthetic fixture and substantive branch',()=>{
   const repo=resolve(import.meta.dirname,'../../../..'),fixturesRoot=resolve(repo,'reviews/licensed-delivery/v1/fixtures'),root=mkdtempSync(resolve(tmpdir(),'licensed-fixture-nonpub-'));
   const fixtures=['synthetic-input.json','presentation.synthetic.json','observations.synthetic.json'].map(name=>[name,JSON.parse(readFileSync(resolve(fixturesRoot,name),'utf8'))]);
@@ -56,7 +79,7 @@ test('nonpublication semantically rejects every licensed synthetic fixture and s
   const assertRejected=(label,value,pattern=/semantic section|scalar fingerprint/)=>{const dist=resolve(root,label.replace(/[^a-z0-9]+/giu,'-'));mkdirSync(dist);writeFileSync(resolve(dist,'transformed.json'),JSON.stringify(reordered(value),null,3));assert.throws(()=>assertInternalNonpublication(dist,repo),pattern,label);};
   try{
     for(const [name,fixture] of fixtures){
-      assertRejected(`${name}-whole`,fixture,/internal (?:review-pack marker|evidence exact copy|review-pack semantic section|review-pack scalar fingerprint)/);
+      assertRejected(`${name}-whole`,fixture,/internal (?:review-pack marker|evidence exact copy|review-pack semantic section|review-pack scalar fingerprint|licensed-delivery (?:contract|fixture) scalar fingerprint)/);
       const stripped=structuredClone(fixture);delete stripped.synthetic_fixture;if('key'in stripped)stripped.key='ordinary-public-placeholder';assertRejected(`${name}-marker-stripped`,stripped);
       for(const [branch,value] of Object.entries(fixture))if(value&&typeof value==='object')assertRejected(`${name}-${branch}`,value);
     }
@@ -123,6 +146,18 @@ test('licensed fixture normalized fingerprints permit ordinary artifacts and iso
     ['public.json',JSON.stringify({status:'active',platform:'ios',updated_at:'2026-08-17T10:00:00.000Z'})],
     ['common.txt','active outward binary presentation render fetch ios registered_capture_service static_digest_scan_v1'],
     ['attributes.html','<section data-status="active" data-platform="ios" aria-label="Public hotline directory" title="Current service information"></section>'],
+  ];
+  try{
+    for(const [name,content] of controls){const dist=resolve(root,name.replace('.','-'));mkdirSync(dist);writeFileSync(resolve(dist,name),content);assert.doesNotThrow(()=>assertInternalNonpublication(dist,repo),name);}
+  }finally{rmSync(root,{recursive:true,force:true});}
+});
+test('licensed contract normalized fingerprints permit ordinary and common public content',()=>{
+  const repo=resolve(import.meta.dirname,'../../../..'),root=mkdtempSync(resolve(tmpdir(),'licensed-contract-controls-'));
+  const controls=[
+    ['public.html','<main>Licensed application delivery information for the public.</main>'],
+    ['public.txt','A future authenticated service may use a runtime contract after review.'],
+    ['public.json',JSON.stringify({cache_control:'private, no-store',schema_version:'1.0',status:'active'})],
+    ['attributes.html','<section data-delivery="licensed" data-contract="public" title="Application information"></section>'],
   ];
   try{
     for(const [name,content] of controls){const dist=resolve(root,name.replace('.','-'));mkdirSync(dist);writeFileSync(resolve(dist,name),content);assert.doesNotThrow(()=>assertInternalNonpublication(dist,repo),name);}
