@@ -128,7 +128,8 @@ export function forbiddenInternalEvidence(repoRoot = repo) {
     markers: ['reviews/licensed-delivery', 'internal-licensed-delivery-counsel-draft-only/v1', 'SYNTHETIC-TEST-KEY-NEVER-PUBLISH-OR-USE-IN-PRODUCTION', 'reviews/multilingual-ui', 'internal-multilingual-ui-review-pack/v1', 'pending_not_reviewed', 'static_ui_runtime_dictionaries_only', 'reviews/accessibility-evidence', INTERNAL_MARKER, 'internal_deterministic_regression_evidence', 'accessibility-evidence/v1/baseline.json', 'reviews/security-privacy-evidence', INVENTORY_MARKER, 'repository_internal_deterministic_regression_evidence', 'security-privacy-evidence/v1/inventory.json', 'reviews/technical-due-diligence', DUE_DILIGENCE_MARKER, 'technical-due-diligence/v1/index.json', 'reviews/design-partner-discovery', DESIGN_PARTNER_MARKER, 'design-partner-discovery/v1/pack.json', 'reviews/licensing-legal-review', LEGAL_REVIEW_MARKER, 'licensing-legal-review/v1/index.json', 'reviews/field-provenance-clearance', CLEARANCE_MARKER, 'field-provenance-clearance/v1/ledger.json', 'field-provenance-clearance/v1/example.synthetic.json'],
     exactHashes,
     semanticFingerprints: new Map(semanticArtifacts.flatMap(([artifact, value]) => semanticSections(value).filter(([, section]) => !artifact.startsWith('licensed-delivery') || canonicalJson(section).length >= 80).map(([label, section]) => [semanticHash(section), `${artifact} ${label}`]))),
-    scalarFingerprints: [...new Set([...semanticArtifacts.flatMap(([, value]) => substantiveUniqueScalars(value)), ...licensedDraftScalars])],
+    scalarFingerprints: [...new Set(semanticArtifacts.flatMap(([, value]) => substantiveUniqueScalars(value)))],
+    licensedDraftFingerprints: [...new Set(licensedDraftScalars)].map((raw) => ({ raw, normalized: normalizeScanText(raw) })),
     clearanceRowFingerprints: clearanceRowFingerprints(clearanceArtifacts),
   };
 }
@@ -143,6 +144,7 @@ export function assertInternalNonpublication(dist, repoRoot = repo) {
     const normalizedTexts = normalizeScanTexts(text, /\.html?$/iu.test(path));
     for (const row of forbidden.clearanceRowFingerprints) if (normalizedTexts.some((normalizedText) => row.components.every((component) => normalizedText.includes(` ${component} `)))) throw new Error(`internal field-clearance row fingerprint (${row.label}) published in ${path}`);
     for (const scalar of forbidden.scalarFingerprints) if (text.includes(scalar)) throw new Error(`internal review-pack scalar fingerprint published in ${path}`);
+    for (const draft of forbidden.licensedDraftFingerprints) if (text.includes(draft.raw) || normalizedTexts.some((normalizedText) => normalizedText.includes(draft.normalized))) throw new Error(`internal review-pack scalar fingerprint published in ${path}`);
     try {
       const match = findForbiddenSemanticSection(JSON.parse(text), forbidden.semanticFingerprints);
       if (match) throw new Error(`internal review-pack semantic section (${match}) published in ${path}`);
