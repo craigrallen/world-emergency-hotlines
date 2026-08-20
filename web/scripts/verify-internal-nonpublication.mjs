@@ -54,6 +54,7 @@ const findForbiddenSemanticSection = (value, fingerprints) => {
 };
 const MAX_NORMALIZATION_BYTES = 32 * 1024 * 1024;
 const MAX_NORMALIZATION_PASSES = 8;
+const MAX_HTML_SCAN_ITEMS = 250_000;
 const decodeJavaScriptEscapes = (text) => text
   .replace(/\\u([0-9a-f]{4})/giu, (_, hex) => String.fromCharCode(Number.parseInt(hex, 16)))
   .replace(/\\x([0-9a-f]{2})/giu, (_, hex) => String.fromCharCode(Number.parseInt(hex, 16)));
@@ -69,32 +70,62 @@ const decodeHtmlEntities = (text) => text.replace(/&(?:#(x[0-9a-f]+|[0-9]+)|([a-
   return HTML_ENTITIES.get(named.toLocaleLowerCase('en-US')) ?? entity;
 });
 const normalizeDecodedText = (text) => ` ${text.normalize('NFKC').toLocaleLowerCase('en-US').replace(/[^\p{L}\p{N}]+/gu, ' ').trim()} `;
-const htmlTextRepresentations = (html) => {
+const decodeBoundedText = (text, label = 'production artifact') => {
+  let decoded = text;
+  let converged = false;
+  for (let i = 0; i < MAX_NORMALIZATION_PASSES; i += 1) {
+    const next = decodeHtmlEntities(decodePercentEncoding(decodeJavaScriptEscapes(decoded)));
+    if (Buffer.byteLength(next) > MAX_NORMALIZATION_BYTES) throw new Error(`decoded ${label} exceeds bounded nonpublication normalization size`);
+    if (next === decoded) { converged = true; break; }
+    decoded = next;
+  }
+  if (!converged) throw new Error(`${label} exceeds bounded nonpublication normalization iterations`);
+  return decoded;
+};
+const htmlRepresentations = (html, sourceHtml) => {
   const representations = [];
+  let scanItems = 0;
+  let attributeBytes = 0;
+  const visit = (document, visitor) => {
+    const pending = [document];
+    while (pending.length) {
+      const node = pending.pop();
+      scanItems += 1;
+      if (scanItems > MAX_HTML_SCAN_ITEMS) throw new Error('production HTML exceeds bounded nonpublication scan work');
+      visitor(node);
+      if (node.content) pending.push(node.content);
+      const children = node.childNodes ?? [];
+      for (let index = children.length - 1; index >= 0; index -= 1) pending.push(children[index]);
+    }
+  };
   for (const scriptingEnabled of [true, false]) {
     const textNodes = [];
-    const visit = (node) => {
+    visit(parse(html, { scriptingEnabled }), (node) => {
       if (node.nodeName === '#text') textNodes.push(node.value);
-      for (const child of node.childNodes ?? []) visit(child);
-      if (node.content) visit(node.content);
-    };
-    visit(parse(html, { scriptingEnabled }));
+    });
     representations.push(textNodes.join(' '), textNodes.join(''));
+    visit(parse(sourceHtml, { scriptingEnabled }), (node) => {
+      for (const attribute of node.attrs ?? []) {
+        scanItems += 1;
+        if (scanItems > MAX_HTML_SCAN_ITEMS) throw new Error('production HTML exceeds bounded nonpublication scan work');
+        const value = decodeBoundedText(attribute.value, 'HTML attribute value');
+        attributeBytes += Buffer.byteLength(value);
+        if (attributeBytes > MAX_NORMALIZATION_BYTES) throw new Error('decoded HTML attributes exceed bounded nonpublication normalization size');
+        // Keep values separate: unrelated public attributes must not combine to
+        // form a forbidden scalar or row fingerprint.
+        if (value) representations.push(value);
+      }
+    });
+    // Attribute decoding starts after parsing the original markup, so encoded
+    // angle brackets cannot alter the HTML tree. parse5 has already resolved
+    // character references; bounded decoding handles percent/JS nesting.
   };
   return [...new Set(representations)];
 };
 const normalizeScanTexts = (text, isHtml = false) => {
   if (Buffer.byteLength(text) > MAX_NORMALIZATION_BYTES) throw new Error('production artifact exceeds bounded nonpublication normalization size');
-  let decoded = text;
-  let converged = false;
-  for (let i = 0; i < MAX_NORMALIZATION_PASSES; i += 1) {
-    const next = decodeHtmlEntities(decodePercentEncoding(decodeJavaScriptEscapes(decoded)));
-    if (Buffer.byteLength(next) > MAX_NORMALIZATION_BYTES) throw new Error('decoded production artifact exceeds bounded nonpublication normalization size');
-    if (next === decoded) { converged = true; break; }
-    decoded = next;
-  }
-  if (!converged) throw new Error('production artifact exceeds bounded nonpublication normalization iterations');
-  const representations = isHtml ? htmlTextRepresentations(decoded) : [decoded];
+  const decoded = decodeBoundedText(text);
+  const representations = isHtml ? htmlRepresentations(decoded, text) : [decoded];
   return [...new Set(representations.map(normalizeDecodedText))];
 };
 const normalizeScanText = (text) => normalizeScanTexts(text)[0];

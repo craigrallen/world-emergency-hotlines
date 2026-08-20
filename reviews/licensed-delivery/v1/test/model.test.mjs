@@ -98,6 +98,23 @@ test('nonpublication rejects normalized non-JSON leaks from every licensed fixtu
     for(const [name,content] of cases){const dist=resolve(root,name.replace('.','-'));mkdirSync(dist);writeFileSync(resolve(dist,name),content);assert.throws(()=>assertInternalNonpublication(dist,repo),/licensed-delivery fixture scalar fingerprint/,name);}
   }finally{rmSync(root,{recursive:true,force:true});}
 });
+test('nonpublication rejects encoded licensed fixture scalars in HTML attributes',()=>{
+  const repo=resolve(import.meta.dirname,'../../../..'),root=mkdtempSync(resolve(tmpdir(),'licensed-fixture-attribute-nonpub-'));
+  const inputFixture=JSON.parse(readFileSync(resolve(repo,'reviews/licensed-delivery/v1/fixtures/synthetic-input.json')));
+  const presentation=JSON.parse(readFileSync(resolve(repo,'reviews/licensed-delivery/v1/fixtures/presentation.synthetic.json')));
+  const observations=JSON.parse(readFileSync(resolve(repo,'reviews/licensed-delivery/v1/fixtures/observations.synthetic.json')));
+  const percent=(value,upper=false)=>[...Buffer.from(value)].map(byte=>`%${byte.toString(16).padStart(2,'0')[upper?'toUpperCase':'toLowerCase']()}`).join('');
+  const entities=value=>[...value].map(character=>`&#${character.codePointAt(0)};`).join('');
+  const cases=[
+    ['entity-key.html',`<DIV DATA-LICENSED="${entities(inputFixture.key)}"></DIV>`],
+    ['percent-signature.html',`<span data-evidence='${percent(observations.fetch_observation.evidence_signature)}'></span>`],
+    ['upper-percent-digest.htm',`<template DATA-DIGEST=${percent(presentation.envelope.record_revision,true)}></template>`],
+    ['nested-encoding.html',`<meta content="${percent(entities(observations.app_binary_observation.evidence_signature))}">`],
+  ];
+  try{
+    for(const [name,content] of cases){const dist=resolve(root,name.replace('.','-'));mkdirSync(dist);writeFileSync(resolve(dist,name),content);assert.throws(()=>assertInternalNonpublication(dist,repo),/licensed-delivery fixture scalar fingerprint/,name);}
+  }finally{rmSync(root,{recursive:true,force:true});}
+});
 test('licensed fixture normalized fingerprints permit ordinary artifacts and isolated common values',()=>{
   const repo=resolve(import.meta.dirname,'../../../..'),root=mkdtempSync(resolve(tmpdir(),'licensed-fixture-controls-'));
   const controls=[
@@ -105,6 +122,7 @@ test('licensed fixture normalized fingerprints permit ordinary artifacts and iso
     ['public.txt','Public application help and contact information.'],
     ['public.json',JSON.stringify({status:'active',platform:'ios',updated_at:'2026-08-17T10:00:00.000Z'})],
     ['common.txt','active outward binary presentation render fetch ios registered_capture_service static_digest_scan_v1'],
+    ['attributes.html','<section data-status="active" data-platform="ios" aria-label="Public hotline directory" title="Current service information"></section>'],
   ];
   try{
     for(const [name,content] of controls){const dist=resolve(root,name.replace('.','-'));mkdirSync(dist);writeFileSync(resolve(dist,name),content);assert.doesNotThrow(()=>assertInternalNonpublication(dist,repo),name);}
