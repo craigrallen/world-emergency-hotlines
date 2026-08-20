@@ -11,15 +11,18 @@
     { "$ref": "#/$defs/app_binary_observation" }
   ],
   "$defs": {
-    "identifier": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
-    "digest": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
-    "opaque": { "type": "string", "minLength": 22, "maxLength": 64, "pattern": "^[A-Za-z0-9_-]+$" },
-    "timestamp": { "type": "string", "format": "date-time", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$" },
-    "coarse_time_bucket": { "type": "string", "format": "date-time", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:00:00\\.000Z$" },
-    "short_text": { "type": "string", "minLength": 1, "maxLength": 160 },
+    "identifier": { "type": "string", "minLength": 1, "maxLength": 128, "x-maxUtf8Bytes": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
+    "digest": { "type": "string", "x-maxUtf8Bytes": 71, "pattern": "^sha256:[a-f0-9]{64}$" },
+    "opaque": { "type": "string", "minLength": 22, "maxLength": 64, "x-maxUtf8Bytes": 64, "pattern": "^[A-Za-z0-9_-]+$" },
+    "timestamp": { "type": "string", "format": "date-time", "x-maxUtf8Bytes": 24, "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$" },
+    "coarse_time_bucket": { "type": "string", "format": "date-time", "x-maxUtf8Bytes": 24, "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:00:00\\.000Z$" },
+    "short_text": { "type": "string", "minLength": 1, "x-maxUtf8Bytes": 160 },
+    "app_version": { "type": "string", "minLength": 1, "x-maxUtf8Bytes": 64 },
+    "scan_version": { "type": "string", "minLength": 1, "x-maxUtf8Bytes": 32 },
     "short_text_array": { "type": "array", "maxItems": 100, "items": { "$ref": "#/$defs/short_text" } },
     "canonical_record": {
       "type": "object",
+      "x-maxNodes": 256, "x-maxObjectWidth": 32, "x-maxArrayItems": 100, "x-maxDepth": 5, "x-maxAggregateUtf8Bytes": 32768,
       "properties": {
         "callable_numbers": { "$ref": "#/$defs/short_text_array" },
         "sms_codes": { "$ref": "#/$defs/short_text_array" },
@@ -43,6 +46,7 @@
     },
     "presentation_envelope": {
       "type": "object",
+      "x-maxNodes": 256, "x-maxObjectWidth": 32, "x-maxArrayItems": 100, "x-maxDepth": 5, "x-maxAggregateUtf8Bytes": 32768,
       "properties": {
         "schema_version": { "const": "1.0" },
         "canonical_record": { "$ref": "#/$defs/canonical_record" },
@@ -51,7 +55,7 @@
         "presentation_metadata": { "$ref": "#/$defs/presentation_metadata" },
         "tenant_id": { "$ref": "#/$defs/identifier" },
         "app_id": { "$ref": "#/$defs/identifier" },
-        "app_version": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "app_version": { "$ref": "#/$defs/app_version" },
         "response_nonce": { "$ref": "#/$defs/opaque" },
         "issued_at": { "$ref": "#/$defs/timestamp" },
         "expires_at": { "$ref": "#/$defs/timestamp" },
@@ -63,24 +67,27 @@
     },
     "render_attestation": {
       "type": "object",
+      "x-maxNodes": 256, "x-maxObjectWidth": 32, "x-maxArrayItems": 100, "x-maxDepth": 5, "x-maxAggregateUtf8Bytes": 32768,
       "properties": {
-        "schema_version": { "const": "1.0" }, "evidence_type":{"const":"render"}, "observation_id": { "$ref": "#/$defs/identifier" }, "tenant_id": { "$ref": "#/$defs/identifier" }, "app_id": { "$ref": "#/$defs/identifier" }, "presentation_token_digest": { "$ref": "#/$defs/digest" }, "record_revision": { "$ref": "#/$defs/digest" }, "presentation_status":{"enum":["active"]}, "presentation_issued_at":{"$ref":"#/$defs/timestamp"}, "presentation_expires_at":{"$ref":"#/$defs/timestamp"}, "issuance_key_id":{"$ref":"#/$defs/identifier"}, "coarse_time_bucket": { "$ref": "#/$defs/coarse_time_bucket" }, "render_count": { "type": "integer", "minimum": 0, "maximum": 100 }, "app_version": { "type": "string", "minLength": 1, "maxLength": 64 }, "evidence_key_id":{"$ref":"#/$defs/identifier"}, "evidence_signature":{"$ref":"#/$defs/opaque"}
+        "schema_version": { "const": "1.0" }, "evidence_type":{"const":"render"}, "observation_id": { "$ref": "#/$defs/identifier" }, "tenant_id": { "$ref": "#/$defs/identifier" }, "app_id": { "$ref": "#/$defs/identifier" }, "presentation_token_digest": { "$ref": "#/$defs/digest" }, "record_revision": { "$ref": "#/$defs/digest" }, "presentation_status":{"enum":["active"]}, "presentation_issued_at":{"$ref":"#/$defs/timestamp"}, "presentation_expires_at":{"$ref":"#/$defs/timestamp"}, "issuance_key_id":{"$ref":"#/$defs/identifier"}, "coarse_time_bucket": { "$ref": "#/$defs/coarse_time_bucket" }, "render_count": { "type": "integer", "minimum": 0, "maximum": 100 }, "app_version": { "$ref": "#/$defs/app_version" }, "evidence_key_id":{"$ref":"#/$defs/identifier"}, "evidence_signature":{"$ref":"#/$defs/opaque"}
       },
       "required": ["schema_version","evidence_type","observation_id","tenant_id","app_id","presentation_token_digest","record_revision","presentation_status","presentation_issued_at","presentation_expires_at","issuance_key_id","coarse_time_bucket","render_count","app_version","evidence_key_id","evidence_signature"],
       "additionalProperties": false
     },
     "fetch_observation": {
       "type": "object",
+      "x-maxNodes": 256, "x-maxObjectWidth": 32, "x-maxArrayItems": 100, "x-maxDepth": 5, "x-maxAggregateUtf8Bytes": 32768,
       "properties": {
-        "schema_version": { "const": "1.0" }, "evidence_type":{"const":"fetch"}, "observation_id": { "$ref": "#/$defs/identifier" }, "tenant_id": { "$ref": "#/$defs/identifier" }, "app_id": { "$ref": "#/$defs/identifier" }, "app_version":{"type":"string","minLength":1,"maxLength":64}, "coarse_time_bucket": { "$ref": "#/$defs/coarse_time_bucket" }, "fetch_count": { "type": "integer", "minimum": 0, "maximum": 10000 }, "unique_token_count": { "type": "integer", "minimum": 0, "maximum": 10000 }, "conditional_request_count": { "type": "integer", "minimum": 0, "maximum": 10000 }, "surface_count": { "type": "integer", "minimum": 1, "maximum": 20 }, "evidence_key_id":{"$ref":"#/$defs/identifier"}, "evidence_signature":{"$ref":"#/$defs/opaque"}
+        "schema_version": { "const": "1.0" }, "evidence_type":{"const":"fetch"}, "observation_id": { "$ref": "#/$defs/identifier" }, "tenant_id": { "$ref": "#/$defs/identifier" }, "app_id": { "$ref": "#/$defs/identifier" }, "app_version":{"$ref":"#/$defs/app_version"}, "coarse_time_bucket": { "$ref": "#/$defs/coarse_time_bucket" }, "fetch_count": { "type": "integer", "minimum": 0, "maximum": 10000 }, "unique_token_count": { "type": "integer", "minimum": 0, "maximum": 10000 }, "conditional_request_count": { "type": "integer", "minimum": 0, "maximum": 10000 }, "surface_count": { "type": "integer", "minimum": 1, "maximum": 20 }, "evidence_key_id":{"$ref":"#/$defs/identifier"}, "evidence_signature":{"$ref":"#/$defs/opaque"}
       },
       "required": ["schema_version","evidence_type","observation_id","tenant_id","app_id","app_version","coarse_time_bucket","fetch_count","unique_token_count","conditional_request_count","surface_count","evidence_key_id","evidence_signature"],
       "additionalProperties": false
     },
     "outward_observation": {
       "type": "object",
+      "x-maxNodes": 256, "x-maxObjectWidth": 32, "x-maxArrayItems": 100, "x-maxDepth": 5, "x-maxAggregateUtf8Bytes": 32768,
       "properties": {
-        "schema_version": { "const": "1.0" }, "evidence_type":{"const":"outward"}, "observation_id": { "$ref": "#/$defs/identifier" }, "artifact_sha256":{"$ref":"#/$defs/digest"}, "acquisition_provenance":{"enum":["registered_capture_service","licensed_store_artifact","customer_supplied_hash"]}, "acquisition_id":{"$ref":"#/$defs/identifier"}, "scan_method":{"enum":["static_digest_scan_v1"]}, "scan_version":{"type":"string","minLength":1,"maxLength":32}, "matched_metadata_digest": { "oneOf":[{"$ref":"#/$defs/digest"},{"type":"null"}] }, "surface_class": { "enum": ["public_web","public_api","third_party_app","unknown"] }, "coarse_time_bucket": { "$ref": "#/$defs/coarse_time_bucket" }, "match_count": { "type": "integer", "minimum": 0, "maximum": 100 }, "evidence_key_id":{"$ref":"#/$defs/identifier"}, "evidence_signature":{"$ref":"#/$defs/opaque"}
+        "schema_version": { "const": "1.0" }, "evidence_type":{"const":"outward"}, "observation_id": { "$ref": "#/$defs/identifier" }, "artifact_sha256":{"$ref":"#/$defs/digest"}, "acquisition_provenance":{"enum":["registered_capture_service","licensed_store_artifact","customer_supplied_hash"]}, "acquisition_id":{"$ref":"#/$defs/identifier"}, "scan_method":{"enum":["static_digest_scan_v1"]}, "scan_version":{"$ref":"#/$defs/scan_version"}, "matched_metadata_digest": { "oneOf":[{"$ref":"#/$defs/digest"},{"type":"null"}] }, "surface_class": { "enum": ["public_web","public_api","third_party_app","unknown"] }, "coarse_time_bucket": { "$ref": "#/$defs/coarse_time_bucket" }, "match_count": { "type": "integer", "minimum": 0, "maximum": 100 }, "evidence_key_id":{"$ref":"#/$defs/identifier"}, "evidence_signature":{"$ref":"#/$defs/opaque"}
       },
       "required": ["schema_version","evidence_type","observation_id","artifact_sha256","acquisition_provenance","acquisition_id","scan_method","scan_version","matched_metadata_digest","surface_class","coarse_time_bucket","match_count","evidence_key_id","evidence_signature"],
       "oneOf": [
@@ -91,13 +98,14 @@
     },
     "presentation_observation": {
       "type": "object",
+      "x-maxNodes": 256, "x-maxObjectWidth": 32, "x-maxArrayItems": 100, "x-maxDepth": 5, "x-maxAggregateUtf8Bytes": 32768,
       "properties": {
-        "schema_version": { "const": "1.0" }, "evidence_type":{"const":"presentation"}, "observation_id": { "$ref": "#/$defs/identifier" }, "tenant_id": { "$ref": "#/$defs/identifier" }, "app_id": { "$ref": "#/$defs/identifier" }, "app_version":{"type":"string","minLength":1,"maxLength":64}, "presentation_token_digest": { "$ref": "#/$defs/digest" }, "record_revision":{"$ref":"#/$defs/digest"}, "presentation_status":{"enum":["active"]}, "presentation_issued_at":{"$ref":"#/$defs/timestamp"}, "presentation_expires_at":{"$ref":"#/$defs/timestamp"}, "issuance_key_id":{"$ref":"#/$defs/identifier"}, "surface_class": { "enum": ["licensed_app","licensed_web","public_web","public_api","third_party_app","unknown"] }, "observed_at": { "$ref": "#/$defs/timestamp" }, "evidence_key_id":{"$ref":"#/$defs/identifier"}, "evidence_signature":{"$ref":"#/$defs/opaque"}
+        "schema_version": { "const": "1.0" }, "evidence_type":{"const":"presentation"}, "observation_id": { "$ref": "#/$defs/identifier" }, "tenant_id": { "$ref": "#/$defs/identifier" }, "app_id": { "$ref": "#/$defs/identifier" }, "app_version":{"$ref":"#/$defs/app_version"}, "presentation_token_digest": { "$ref": "#/$defs/digest" }, "record_revision":{"$ref":"#/$defs/digest"}, "presentation_status":{"enum":["active"]}, "presentation_issued_at":{"$ref":"#/$defs/timestamp"}, "presentation_expires_at":{"$ref":"#/$defs/timestamp"}, "issuance_key_id":{"$ref":"#/$defs/identifier"}, "surface_class": { "enum": ["licensed_app","licensed_web","public_web","public_api","third_party_app","unknown"] }, "observed_at": { "$ref": "#/$defs/timestamp" }, "evidence_key_id":{"$ref":"#/$defs/identifier"}, "evidence_signature":{"$ref":"#/$defs/opaque"}
       },
       "required": ["schema_version","evidence_type","observation_id","tenant_id","app_id","app_version","presentation_token_digest","record_revision","presentation_status","presentation_issued_at","presentation_expires_at","issuance_key_id","surface_class","observed_at","evidence_key_id","evidence_signature"],
       "additionalProperties": false
     },
-    "app_binary_observation":{"type":"object","properties":{"schema_version":{"const":"1.0"},"evidence_type":{"const":"binary"},"observation_id":{"$ref":"#/$defs/identifier"},"tenant_id":{"$ref":"#/$defs/identifier"},"app_id":{"$ref":"#/$defs/identifier"},"app_version":{"type":"string","minLength":1,"maxLength":64},"artifact_sha256":{"$ref":"#/$defs/digest"},"platform":{"enum":["android","ios","windows","macos","linux"]},"acquisition_provenance":{"enum":["registered_capture_service","licensed_store_artifact","customer_supplied_hash"]},"acquisition_id":{"$ref":"#/$defs/identifier"},"scan_method":{"enum":["static_digest_scan_v1"]},"scan_version":{"type":"string","minLength":1,"maxLength":32},"matched_metadata_digest":{"oneOf":[{"$ref":"#/$defs/digest"},{"type":"null"}]},"evidence_key_id":{"$ref":"#/$defs/identifier"},"evidence_signature":{"$ref":"#/$defs/opaque"}},"required":["schema_version","evidence_type","observation_id","tenant_id","app_id","app_version","artifact_sha256","platform","acquisition_provenance","acquisition_id","scan_method","scan_version","matched_metadata_digest","evidence_key_id","evidence_signature"],"additionalProperties":false
+    "app_binary_observation":{"type":"object","x-maxNodes":256,"x-maxObjectWidth":32,"x-maxArrayItems":100,"x-maxDepth":5,"x-maxAggregateUtf8Bytes":32768,"properties":{"schema_version":{"const":"1.0"},"evidence_type":{"const":"binary"},"observation_id":{"$ref":"#/$defs/identifier"},"tenant_id":{"$ref":"#/$defs/identifier"},"app_id":{"$ref":"#/$defs/identifier"},"app_version":{"$ref":"#/$defs/app_version"},"artifact_sha256":{"$ref":"#/$defs/digest"},"platform":{"enum":["android","ios","windows","macos","linux"]},"acquisition_provenance":{"enum":["registered_capture_service","licensed_store_artifact","customer_supplied_hash"]},"acquisition_id":{"$ref":"#/$defs/identifier"},"scan_method":{"enum":["static_digest_scan_v1"]},"scan_version":{"$ref":"#/$defs/scan_version"},"matched_metadata_digest":{"oneOf":[{"$ref":"#/$defs/digest"},{"type":"null"}]},"evidence_key_id":{"$ref":"#/$defs/identifier"},"evidence_signature":{"$ref":"#/$defs/opaque"}},"required":["schema_version","evidence_type","observation_id","tenant_id","app_id","app_version","artifact_sha256","platform","acquisition_provenance","acquisition_id","scan_method","scan_version","matched_metadata_digest","evidence_key_id","evidence_signature"],"additionalProperties":false
     }
   }
 }

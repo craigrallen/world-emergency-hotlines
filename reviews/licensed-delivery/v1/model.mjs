@@ -2,8 +2,9 @@ import { createHash, createHmac, randomBytes, timingSafeEqual } from 'node:crypt
 
 export const INTERNAL_MARKER = 'internal-licensed-delivery-counsel-draft-only/v1';
 export const VERSION = '1.0';
-const MAX_OBSERVATIONS = 1000, MAX_REGISTRY = 1000, MAX_TEXT = 160;
-const MAX_NODES = 256, MAX_OBJECT_WIDTH = 32, MAX_ARRAY_ITEMS = 100, MAX_DEPTH = 5, MAX_AGGREGATE_BYTES = 32768;
+const MAX_OBSERVATIONS = 1000, MAX_REGISTRY = 1000;
+export const INPUT_LIMITS = Object.freeze({max_text_utf8_bytes:160,max_identifier_utf8_bytes:128,max_app_version_utf8_bytes:64,max_scan_version_utf8_bytes:32,max_timestamp_utf8_bytes:24,max_nodes:256,max_object_width:32,max_array_items:100,max_depth:5,max_aggregate_utf8_bytes:32768});
+const MAX_TEXT = INPUT_LIMITS.max_text_utf8_bytes, MAX_NODES = INPUT_LIMITS.max_nodes, MAX_OBJECT_WIDTH = INPUT_LIMITS.max_object_width, MAX_ARRAY_ITEMS = INPUT_LIMITS.max_array_items, MAX_DEPTH = INPUT_LIMITS.max_depth, MAX_AGGREGATE_BYTES = INPUT_LIMITS.max_aggregate_utf8_bytes;
 export const SAFETY_FIELDS = Object.freeze(['callable_numbers','sms_codes','contact_urls','contact_emails','provider_identity','geographic_scope','eligibility','availability_hours','emergency_classification','routing_fallback']);
 export const ENUMS = Object.freeze({
   surface_class: Object.freeze(['licensed_app','licensed_web','public_web','public_api','third_party_app','unknown']),
