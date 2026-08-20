@@ -9,10 +9,10 @@
     "fixtures/presentation.synthetic.json": "c59180bd757ee1c3fc2e9462f0186f4945edcba043672438388e69753a271a67",
     "fixtures/synthetic-input.json": "174117ce223406ca3ad680e3137e95493fb44cabd41e1f776cb3c79320b7ca45",
     "http-contract.json": "75ac5e68940367b9c1af1c7eb55096bca40d621bbc91919462895818bd22fa43",
-    "model.mjs": "b427ae1fe54cfce7e2d6fdf7c2f3d149270d67c9c5e58975e4bd7c895f40cb04",
+    "model.mjs": "4bce4ebfd76544a7dd1d45d2a606455a3644c9307cd3bcd9fc5d29f2647078c1",
     "schemas.json": "292785aa646cf53108a14716624982601d20192ee65bbc89ce9ef95c1a4ce96b",
     "terms.counsel-draft.md": "f9ece07e41b74d791b93092e0e7bedf0f31d61f28c2a9deb554bde0c07f7782a",
     "test/cli.test.mjs": "2e5febfeda4d12057411aa10c184ac30e37a80467be82f672ff96e217f438b2a",
-    "test/model.test.mjs": "6a90cca2f1b83973ac557072fea309b265aa08efa4cc48648a651c2c94303372"
+    "test/model.test.mjs": "9966dd133b1df4a8aef073d4e979fb63adf38742d55a192f5e84cb81640bd90c"
   }
 }
