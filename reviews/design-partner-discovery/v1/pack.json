@@ -16,7 +16,7 @@
     "docs/INTEGRATIONS.md": "sha256:562faa0020f942a176b1109479d3e1a9fa8580dc44137fcb53b0597eab131809",
     "docs/PACKAGING.md": "sha256:4a7260669f2ef15674e95eb78a6f915e9ed7f524a14f857386d42e7f3e522432",
     "reviews/accessibility-evidence/v1/README.md": "sha256:c577c353813b72cadf75b9c0d9018653958018c03594bd8f7a48f489d39d7439",
-    "reviews/accessibility-evidence/v1/baseline.json": "sha256:96021cd4f5b9c6a0c9135c033eb4420279a42680af2a1de2a32b8e01700fb730",
+    "reviews/accessibility-evidence/v1/baseline.json": "sha256:09e2f79cba0df35cdd08fbb90f323a969caa49443102f86cf2bc9b36716d0996",
     "reviews/multilingual-ui/v1/README.md": "sha256:87afcf694a12e50ea7cd015c873ac518b3e30aa4d2c83302937395eb17a0ac6d",
     "reviews/multilingual-ui/v1/review-pack.json": "sha256:a407805e1955d8ba783379e56b3e0e466a40bfb932ccde00a01a8858525cd40a",
     "reviews/multilingual-ui/v1/review-pack.schema.json": "sha256:005b85eee323124dbfc3702fdd9ae177263f196f10c338b5ed2b706242ab2732",
@@ -24,7 +24,7 @@
     "reviews/security-privacy-evidence/v1/README.md": "sha256:4364570794a3ce94dfdba49627df8bfd0cd84b50211f6d476c42439ff24544e1",
     "reviews/security-privacy-evidence/v1/inventory.json": "sha256:3bd576afc38b66590a46acd7b0b7238c1b7b251195e9dde1cc298d3364e7d751",
     "reviews/technical-due-diligence/v1/README.md": "sha256:87ae878128a2d3df102e0dbfd68621abea80a128e3eda98a3b59bb8a03bf585e",
-    "reviews/technical-due-diligence/v1/index.json": "sha256:853c6170d9f66e3942b45c70f98b964ce60e5a82f64b56423e4732b93bccfe2c"
+    "reviews/technical-due-diligence/v1/index.json": "sha256:f62563cbbd493dd14354fc955166d59ccaddd1bb91038da5eba2e9c727c37069"
   },
   "capability_matrix": [
     { "id": "public_static_surfaces", "current_capability": "Public keyless static beta finder, API, widget, and snapshot integration surfaces are documented.", "limitations": "No uptime, support, SLA, production-reuse permission, guaranteed coverage, currency, reachability, or outcomes.", "evidence": ["docs/INTEGRATIONS.md", "docs/PACKAGING.md"] },

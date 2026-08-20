@@ -46,7 +46,7 @@
     },
     "presentation_envelope": {
       "type": "object",
-      "x-maxNodes": 256, "x-maxObjectWidth": 32, "x-maxArrayItems": 100, "x-maxDepth": 5, "x-maxAggregateUtf8Bytes": 32768,
+      "x-maxNodes": 256, "x-maxObjectWidth": 32, "x-maxArrayItems": 100, "x-maxDepth": 5, "x-maxAggregateUtf8Bytes": 32768, "x-maxPresentationTtlSeconds": 300,
       "properties": {
         "schema_version": { "const": "1.0" },
         "canonical_record": { "$ref": "#/$defs/canonical_record" },
@@ -67,7 +67,7 @@
     },
     "render_attestation": {
       "type": "object",
-      "x-maxNodes": 256, "x-maxObjectWidth": 32, "x-maxArrayItems": 100, "x-maxDepth": 5, "x-maxAggregateUtf8Bytes": 32768,
+      "x-maxNodes": 256, "x-maxObjectWidth": 32, "x-maxArrayItems": 100, "x-maxDepth": 5, "x-maxAggregateUtf8Bytes": 32768, "x-maxPresentationTtlSeconds": 300,
       "properties": {
         "schema_version": { "const": "1.0" }, "evidence_type":{"const":"render"}, "observation_id": { "$ref": "#/$defs/identifier" }, "tenant_id": { "$ref": "#/$defs/identifier" }, "app_id": { "$ref": "#/$defs/identifier" }, "presentation_token_digest": { "$ref": "#/$defs/digest" }, "record_revision": { "$ref": "#/$defs/digest" }, "presentation_status":{"enum":["active"]}, "presentation_issued_at":{"$ref":"#/$defs/timestamp"}, "presentation_expires_at":{"$ref":"#/$defs/timestamp"}, "issuance_key_id":{"$ref":"#/$defs/identifier"}, "coarse_time_bucket": { "$ref": "#/$defs/coarse_time_bucket" }, "render_count": { "type": "integer", "minimum": 0, "maximum": 100 }, "app_version": { "$ref": "#/$defs/app_version" }, "evidence_key_id":{"$ref":"#/$defs/identifier"}, "evidence_signature":{"$ref":"#/$defs/opaque"}
       },
@@ -98,7 +98,7 @@
     },
     "presentation_observation": {
       "type": "object",
-      "x-maxNodes": 256, "x-maxObjectWidth": 32, "x-maxArrayItems": 100, "x-maxDepth": 5, "x-maxAggregateUtf8Bytes": 32768,
+      "x-maxNodes": 256, "x-maxObjectWidth": 32, "x-maxArrayItems": 100, "x-maxDepth": 5, "x-maxAggregateUtf8Bytes": 32768, "x-maxPresentationTtlSeconds": 300,
       "properties": {
         "schema_version": { "const": "1.0" }, "evidence_type":{"const":"presentation"}, "observation_id": { "$ref": "#/$defs/identifier" }, "tenant_id": { "$ref": "#/$defs/identifier" }, "app_id": { "$ref": "#/$defs/identifier" }, "app_version":{"$ref":"#/$defs/app_version"}, "presentation_token_digest": { "$ref": "#/$defs/digest" }, "record_revision":{"$ref":"#/$defs/digest"}, "presentation_status":{"enum":["active"]}, "presentation_issued_at":{"$ref":"#/$defs/timestamp"}, "presentation_expires_at":{"$ref":"#/$defs/timestamp"}, "issuance_key_id":{"$ref":"#/$defs/identifier"}, "surface_class": { "enum": ["licensed_app","licensed_web","public_web","public_api","third_party_app","unknown"] }, "observed_at": { "$ref": "#/$defs/timestamp" }, "evidence_key_id":{"$ref":"#/$defs/identifier"}, "evidence_signature":{"$ref":"#/$defs/opaque"}
       },
