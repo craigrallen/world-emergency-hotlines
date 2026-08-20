@@ -22,7 +22,7 @@ const semanticHash = (value) => sha256(Buffer.from(canonicalJson(value)));
 const semanticSections = (value, path = '$') => {
   const sections = [];
   if (value && typeof value === 'object') {
-    sections.push([`design-partner pack subtree ${path}`, value]);
+    sections.push([`subtree ${path}`, value]);
     for (const [key, child] of Object.entries(value)) sections.push(...semanticSections(child, `${path}.${key}`));
   }
   return sections;
@@ -111,6 +111,8 @@ export function forbiddenInternalEvidence(repoRoot = repo) {
   const licensedRoot = resolve(repoRoot, 'reviews/licensed-delivery/v1');
   const licensedSchemas = JSON.parse(readFileSync(resolve(licensedRoot, 'schemas.json'), 'utf8'));
   const licensedHttp = JSON.parse(readFileSync(resolve(licensedRoot, 'http-contract.json'), 'utf8'));
+  const licensedFixtures = ['synthetic-input.json', 'presentation.synthetic.json', 'observations.synthetic.json']
+    .map((name) => [name, JSON.parse(readFileSync(resolve(licensedRoot, 'fixtures', name), 'utf8'))]);
   const licensedDraftText = ['DECISIONS.md', 'terms.counsel-draft.md'].map((name) => readFileSync(resolve(licensedRoot, name), 'utf8'));
   // Public release metadata legitimately contains some bound source hashes and
   // paths. Fingerprint only the legal handoff's substantive internal sections.
@@ -122,7 +124,7 @@ export function forbiddenInternalEvidence(repoRoot = repo) {
   };
   const clearanceSubstance = (value) => ({ evidence_catalog: value.evidence_catalog, entries: value.entries });
   const clearanceArtifacts = [['field clearance ledger', clearanceLedger], ['field clearance synthetic', clearanceExample]];
-  const semanticArtifacts = [['design-partner pack', designPartnerPack], ['licensing legal-review substance', legalReviewSubstance], ['field clearance ledger substance', clearanceSubstance(clearanceLedger)], ['field clearance synthetic substance', clearanceSubstance(clearanceExample)], ['licensed-delivery schemas', licensedSchemas], ['licensed-delivery HTTP contract', licensedHttp]];
+  const semanticArtifacts = [['design-partner pack', designPartnerPack], ['licensing legal-review substance', legalReviewSubstance], ['field clearance ledger substance', clearanceSubstance(clearanceLedger)], ['field clearance synthetic substance', clearanceSubstance(clearanceExample)], ['licensed-delivery schemas', licensedSchemas], ['licensed-delivery HTTP contract', licensedHttp], ...licensedFixtures.map(([name, value]) => [`licensed-delivery fixture ${name}`, value])];
   const licensedDraftScalars = licensedDraftText.flatMap((text) => text.split(/\n\s*\n/).map((x) => x.replace(/\s+/g, ' ').trim()).filter((x) => x.length >= 80));
   return {
     markers: ['reviews/licensed-delivery', 'internal-licensed-delivery-counsel-draft-only/v1', 'SYNTHETIC-TEST-KEY-NEVER-PUBLISH-OR-USE-IN-PRODUCTION', 'reviews/multilingual-ui', 'internal-multilingual-ui-review-pack/v1', 'pending_not_reviewed', 'static_ui_runtime_dictionaries_only', 'reviews/accessibility-evidence', INTERNAL_MARKER, 'internal_deterministic_regression_evidence', 'accessibility-evidence/v1/baseline.json', 'reviews/security-privacy-evidence', INVENTORY_MARKER, 'repository_internal_deterministic_regression_evidence', 'security-privacy-evidence/v1/inventory.json', 'reviews/technical-due-diligence', DUE_DILIGENCE_MARKER, 'technical-due-diligence/v1/index.json', 'reviews/design-partner-discovery', DESIGN_PARTNER_MARKER, 'design-partner-discovery/v1/pack.json', 'reviews/licensing-legal-review', LEGAL_REVIEW_MARKER, 'licensing-legal-review/v1/index.json', 'reviews/field-provenance-clearance', CLEARANCE_MARKER, 'field-provenance-clearance/v1/ledger.json', 'field-provenance-clearance/v1/example.synthetic.json'],
