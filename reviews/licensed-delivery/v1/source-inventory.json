@@ -9,10 +9,10 @@
     "fixtures/presentation.synthetic.json": "c59180bd757ee1c3fc2e9462f0186f4945edcba043672438388e69753a271a67",
     "fixtures/synthetic-input.json": "174117ce223406ca3ad680e3137e95493fb44cabd41e1f776cb3c79320b7ca45",
     "http-contract.json": "61de4e8abe0c5f1f51b123a3e48e9aae2c40afd591ee8a1887f6b47eabbf2e63",
-    "model.mjs": "5640fd287e0d47ddc31474533353ae2568d6a5ca511d87224ce6d89767c9dc2c",
+    "model.mjs": "4b26b4e1e136b773ad83ed668c0e7931d319b8a074132b81cac933defc476855",
     "schemas.json": "d877934ee2e1ecc2b2a2ffe56b85b11b98a9982e57dd9a9a0a0c74f8092e7713",
     "terms.counsel-draft.md": "f9ece07e41b74d791b93092e0e7bedf0f31d61f28c2a9deb554bde0c07f7782a",
     "test/cli.test.mjs": "2e5febfeda4d12057411aa10c184ac30e37a80467be82f672ff96e217f438b2a",
-    "test/model.test.mjs": "85d6225955c4c4c4a38e28d8a2359af31acedb2ddd8e0beb73a2f75e958c0d3a"
+    "test/model.test.mjs": "250264bae138948167925282f11cecd6210d0fa43850779fd73120727dc38ab2"
   }
 }
