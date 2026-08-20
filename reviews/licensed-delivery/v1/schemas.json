@@ -14,7 +14,7 @@
     "identifier": { "type": "string", "minLength": 1, "maxLength": 128, "x-maxUtf8Bytes": 128, "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$" },
     "digest": { "type": "string", "x-maxUtf8Bytes": 71, "pattern": "^sha256:[a-f0-9]{64}$" },
     "opaque": { "type": "string", "minLength": 22, "maxLength": 64, "x-maxUtf8Bytes": 64, "pattern": "^[A-Za-z0-9_-]+$" },
-    "timestamp": { "type": "string", "format": "date-time", "x-maxUtf8Bytes": 24, "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$" },
+    "timestamp": { "type": "string", "format": "date-time", "x-maxUtf8Bytes": 24, "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:[0-5]\\d\\.\\d{3}Z$" },
     "coarse_time_bucket": { "type": "string", "format": "date-time", "x-maxUtf8Bytes": 24, "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:00:00\\.000Z$" },
     "short_text": { "type": "string", "minLength": 1, "x-maxUtf8Bytes": 160 },
     "app_version": { "type": "string", "minLength": 1, "x-maxUtf8Bytes": 64 },
