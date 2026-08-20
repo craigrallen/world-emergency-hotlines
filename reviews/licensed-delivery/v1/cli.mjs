@@ -37,14 +37,14 @@ function trustedDemoContext(input, presentation) {
   const artifactDigest = sha256(Buffer.from('artifact'));
   const metadataDigest = sha256(Buffer.from(presentation.presentation_metadata.opaque_canary));
   const tokenDigest = sha256(Buffer.from(presentation.presentation_token));
-  const acquisition = id => [id, {status: 'active', artifact_sha256: artifactDigest, acquisition_provenance: 'registered_capture_service', scan_method: 'static_digest_scan_v1', scan_version: '1'}];
+  const acquisition = (id, evidence_type) => [id, {status: 'active', evidence_type, artifact_sha256: artifactDigest, acquisition_provenance: 'registered_capture_service', scan_method: 'static_digest_scan_v1', scan_version: '1', ...(evidence_type === 'binary' ? {tenant_id: input.trusted_context.tenant_id, app_id: input.trusted_context.app_id, app_version: input.trusted_context.app_version, platform: 'ios'} : {})}];
   return {
     observation_keys: {'obs-key-1': {status: 'active', key: observationKey}},
     registered_apps: {'tenant-synthetic-a\0app-synthetic-a\0synthetic-1.0': {status: 'active'}},
     presentation_keys: {[input.key_id]: {status: 'active', key: input.key}},
     presentation_ledger: {[tokenDigest]: {status: 'active', tenant_id: 'tenant-synthetic-a', app_id: 'app-synthetic-a', app_version: 'synthetic-1.0', record_revision: presentation.record_revision, issued_at: presentation.issued_at, expires_at: presentation.expires_at, key_id: input.key_id}},
     metadata_registry: {[metadataDigest]: {status: 'active', metadata_type: 'canary', tenant_id: 'tenant-synthetic-a', app_id: 'app-synthetic-a', app_version: 'synthetic-1.0', record_revision: presentation.record_revision, release_revision: presentation.release_revision, issuance_key_id: input.key_id}},
-    acquisition_registry: Object.fromEntries([acquisition('build-synthetic-1'), acquisition('synthetic-build-1')]),
+    acquisition_registry: Object.fromEntries([acquisition('build-synthetic-1', 'outward'), acquisition('synthetic-build-1', 'binary')]),
     scan_version_registry: {[`static_digest_scan_v1\0${'1'}`]: {status: 'active'}},
   };
 }

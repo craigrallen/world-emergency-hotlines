@@ -290,6 +290,41 @@ test('nonpublication scans decoded HTML tag and attribute names for licensed int
     assert.throws(() => assertInternalNonpublication(dist, repo), /marker|licensed-delivery .* fingerprint/, label);
   }
 });
+test('nonpublication scans every isolated doctype field through bounded fixed-point decoding', () => {
+  const fixture = 'synthetic_non_emergency_fixture';
+  const encodings = [
+    ['raw', fixture],
+    ['entity', encodeHtml(fixture)],
+    ['percent', encodePercent(fixture)],
+    ['javascript', encodeJsU(fixture)],
+    ['mixed', encodeHtml(encodePercent(encodeJsX(fixture)))],
+    ['nested', encodeJsU(encodeHtml(encodePercent(fixture)))],
+    ['case', [...fixture].map((character, index) => index % 2 ? character.toUpperCase() : character).join('')],
+  ];
+  for (const [encoding, value] of encodings) {
+    const cases = [
+      [`${encoding}-name`, `<!DOCTYPE ${value}><html></html>`],
+      [`${encoding}-public-id`, `<!DOCTYPE html PUBLIC "${value}" "about:blank"><html></html>`],
+      [`${encoding}-system-id`, `<!DOCTYPE html SYSTEM "${value}"><html></html>`],
+    ];
+    for (const [label, content] of cases) {
+      const dist = temporaryRoot(); writeFileSync(resolve(dist, `doctype-${label}.html`), content);
+      assert.throws(() => assertInternalNonpublication(dist, repo), /licensed-delivery .* fingerprint/, label);
+    }
+  }
+});
+test('nonpublication permits harmless standard and custom doctypes', () => {
+  const controls = [
+    '<!doctype html><html></html>',
+    '<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"><html></html>',
+    '<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><html></html>',
+    '<!DOCTYPE public-directory SYSTEM "support-directory.dtd"><html></html>',
+  ];
+  for (const [index, content] of controls.entries()) {
+    const dist = temporaryRoot(); writeFileSync(resolve(dist, `harmless-doctype-${index}.html`), content);
+    assert.doesNotThrow(() => assertInternalNonpublication(dist, repo));
+  }
+});
 test('nonpublication HTML name scanning preserves parser safety and harmless public names', () => {
   const controls = [
     '<public-support-card data-region-code="se" aria-label="Support"></public-support-card>',

@@ -93,6 +93,7 @@ const htmlRepresentations = (html, sourceHtml) => {
   let attributeBytes = 0;
   let commentBytes = 0;
   let nameBytes = 0;
+  let doctypeBytes = 0;
   const addName = (name) => {
     if (!name) return;
     nameBytes += Buffer.byteLength(name);
@@ -100,6 +101,18 @@ const htmlRepresentations = (html, sourceHtml) => {
     // Keep names separate from each other and from content/value representations:
     // unrelated public markup must not combine into a forbidden fingerprint.
     representations.push(name);
+  };
+  const addDoctype = (node) => {
+    if (node.nodeName !== '#documentType') return;
+    // Doctype fields are independent parser metadata. Decode and scan each one
+    // in isolation so unrelated fields or documents cannot form fingerprints.
+    for (const [field, raw] of [['name', node.name], ['publicId', node.publicId], ['systemId', node.systemId]]) {
+      if (!raw) continue;
+      const value = decodeBoundedText(raw, `HTML doctype ${field}`);
+      doctypeBytes += Buffer.byteLength(value);
+      if (doctypeBytes > MAX_NORMALIZATION_BYTES) throw new Error('decoded HTML doctypes exceed bounded nonpublication normalization size');
+      representations.push(value);
+    }
   };
   const visit = (document, visitor) => {
     const pending = [document];
@@ -116,6 +129,7 @@ const htmlRepresentations = (html, sourceHtml) => {
   for (const scriptingEnabled of [true, false]) {
     const textNodes = [];
     visit(parse(html, { scriptingEnabled }), (node) => {
+      addDoctype(node);
       if (node.tagName) addName(node.tagName);
       for (const attribute of node.attrs ?? []) addName(attribute.name);
       if (node.nodeName === '#text') textNodes.push(node.value);
@@ -130,6 +144,7 @@ const htmlRepresentations = (html, sourceHtml) => {
           representations.push(value);
           const commentTextNodes = [];
           visit(parse(value, { scriptingEnabled }), (commentNode) => {
+            addDoctype(commentNode);
             if (commentNode.tagName) addName(commentNode.tagName);
             for (const attribute of commentNode.attrs ?? []) addName(attribute.name);
             if (commentNode.nodeName === '#text') commentTextNodes.push(commentNode.value);
@@ -140,6 +155,7 @@ const htmlRepresentations = (html, sourceHtml) => {
     });
     representations.push(textNodes.join(' '), textNodes.join(''));
     visit(parse(sourceHtml, { scriptingEnabled }), (node) => {
+      addDoctype(node);
       if (node.tagName) addName(node.tagName);
       for (const attribute of node.attrs ?? []) {
         scanItems += 1;
