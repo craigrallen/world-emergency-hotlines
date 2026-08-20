@@ -202,6 +202,7 @@ const tupleClasses = (row) => [
 const encodePercent = (value) => [...Buffer.from(value)].map((byte) => `%${byte.toString(16).padStart(2, '0')}`).join('');
 const encodeJsX = (value) => [...Buffer.from(value)].map((byte) => `\\x${byte.toString(16).padStart(2, '0')}`).join('');
 const encodeJsU = (value) => [...value].map((character) => `\\u${character.codePointAt(0).toString(16).padStart(4, '0')}`).join('');
+const encodeJsCodePoint = (value) => [...value].map((character) => `\\u{${character.codePointAt(0).toString(16)}}`).join('');
 const encodeHtml = (value) => [...value].map((character) => `&#x${character.codePointAt(0).toString(16)};`).join('');
 const interiorPositions = (value) => [...new Set([1, Math.floor(value.length / 2), value.length - 1])].filter((position) => position > 0 && position < value.length);
 const insertInlineTag = (value, position) => `${value.slice(0, position)}<span></span>${value.slice(position)}`;
@@ -257,13 +258,38 @@ test('nonpublication HTML parser rejects quoted-attribute greater-than splits ac
   assertLeakRejected('psc_a<span title=">">p</span>p identity_naming', 'exact-quoted-gt-adversarial', 'html');
 });
 test('nonpublication decoder negative controls remain literal and bounded', () => {
-  for (const [index, content] of ['%zz %5', '\\xGG \\u0ZZZ', '&amp without-semicolon; &#x110000;', 'ordinary compressed or encrypted data is not claimed detectable'].entries()) {
+  for (const [index, content] of ['%zz %5', '\\xGG \\u0ZZZ', '\\u{} \\u{0zz} \\u{1234567} \\u{110000} \\u{d800} \\u{DFFF} \\u{10ffff', '&amp without-semicolon; &#x110000;', 'ordinary \\u{1f642} public support text', 'ordinary compressed or encrypted data is not claimed detectable'].entries()) {
     const dist = temporaryRoot(); writeFileSync(resolve(dist, `decoder-control-${index}.txt`), content);
     assert.doesNotThrow(() => assertInternalNonpublication(dist, repo));
   }
   let overNested = '&lowbar;'; for (let i = 0; i < 9; i += 1) overNested = overNested.replaceAll('&', '&amp;');
   const dist = temporaryRoot(); writeFileSync(resolve(dist, 'iteration-bound.txt'), overNested);
   assert.throws(() => assertInternalNonpublication(dist, repo), /normalization iterations/);
+});
+test('nonpublication decodes Unicode code-point escapes across licensed leak classes and HTML surfaces', () => {
+  const forbidden = forbiddenInternalEvidence(repo);
+  const marker = 'internal-licensed-delivery-counsel-draft-only/v1';
+  const schema = forbidden.licensedContractFingerprints[0].raw;
+  const fixture = forbidden.licensedFixtureFingerprints.find(({ raw }) => /^[a-z][a-z0-9_/-]+$/u.test(raw)).raw;
+  const counsel = forbidden.licensedDraftFingerprints[0].raw;
+  const safeName = (value) => value.replace(/[^a-z0-9]+/giu, '-').replace(/^-|-$/gu, '');
+  const cases = [
+    ['marker-text', encodeJsCodePoint(marker)],
+    ['schema-attribute-value', `<div title="${encodeJsCodePoint(schema)}"></div>`],
+    ['fixture-tag-name', `<${encodeJsCodePoint(safeName(fixture))}></span>`],
+    ['counsel-comment', `<!-- ${encodeJsCodePoint(counsel)} -->`],
+    ['fixture-doctype', `<!DOCTYPE html SYSTEM "${encodeJsCodePoint(fixture)}"><html></html>`],
+    ['nested-text', encodeHtml(encodePercent(encodeJsCodePoint(fixture)))],
+    ['nested-attribute-value', `<div title="${encodeHtml(encodePercent(encodeJsCodePoint(fixture)))}"></div>`],
+    ['nested-tag-name', `<${encodeHtml(encodePercent(encodeJsCodePoint(safeName(fixture))))}></span>`],
+    ['nested-attribute-name', `<div ${encodeHtml(encodePercent(encodeJsCodePoint(safeName(fixture))))}></div>`],
+    ['nested-comment', `<!-- ${encodeHtml(encodePercent(encodeJsCodePoint(fixture)))} -->`],
+    ['nested-doctype', `<!DOCTYPE html PUBLIC "${encodeHtml(encodePercent(encodeJsCodePoint(fixture)))}" "about:blank"><html></html>`],
+  ];
+  for (const [label, content] of cases) {
+    const dist = temporaryRoot(); writeFileSync(resolve(dist, `${label}.html`), content);
+    assert.throws(() => assertInternalNonpublication(dist, repo), /marker|licensed-delivery .* fingerprint|review-pack scalar fingerprint/, label);
+  }
 });
 test('nonpublication scans decoded HTML tag and attribute names for licensed internal strings', () => {
   const marker = 'SYNTHETIC-TEST-KEY-NEVER-PUBLISH-OR-USE-IN-PRODUCTION';

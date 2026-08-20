@@ -61,6 +61,10 @@ const MAX_NORMALIZATION_BYTES = 32 * 1024 * 1024;
 const MAX_NORMALIZATION_PASSES = 8;
 const MAX_HTML_SCAN_ITEMS = 250_000;
 const decodeJavaScriptEscapes = (text) => text
+  .replace(/\\u\{([0-9a-f]{1,6})\}/giu, (escape, hex) => {
+    const point = Number.parseInt(hex, 16);
+    return point <= 0x10ffff && !(point >= 0xd800 && point <= 0xdfff) ? String.fromCodePoint(point) : escape;
+  })
   .replace(/\\u([0-9a-f]{4})/giu, (_, hex) => String.fromCharCode(Number.parseInt(hex, 16)))
   .replace(/\\x([0-9a-f]{2})/giu, (_, hex) => String.fromCharCode(Number.parseInt(hex, 16)));
 const decodePercentEncoding = (text) => text.replace(/(?:%[0-9a-f]{2})+/giu, (encoded) => {
