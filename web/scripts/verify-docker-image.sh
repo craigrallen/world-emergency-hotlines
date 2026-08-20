@@ -34,10 +34,10 @@ until curl --max-time 2 -fsS "$base/status" >/dev/null 2>&1; do
   sleep 0.25
 done
 
-if docker exec "$container" sh -c "find /srv -type f -print | grep -E 'reviews|multilingual-ui|review-pack|security-privacy-evidence|technical-due-diligence|due-diligence-evidence'"; then
+if docker exec "$container" sh -c "find /srv -type f -print | grep -E 'reviews|multilingual-ui|review-pack|security-privacy-evidence|technical-due-diligence|due-diligence-evidence|field-provenance-clearance|clearance-ledger'"; then
   echo 'Internal review or evidence path exists in the final served root' >&2; exit 1
 fi
-for marker in internal-multilingual-ui-review-pack/v1 pending_not_reviewed static_ui_runtime_dictionaries_only internal-security-privacy-evidence-only/v1 repository_internal_deterministic_regression_evidence internal-technical-due-diligence-evidence-only/v1 repository_internal_deterministic_regression_evidence_index; do
+for marker in internal-multilingual-ui-review-pack/v1 pending_not_reviewed static_ui_runtime_dictionaries_only internal-security-privacy-evidence-only/v1 repository_internal_deterministic_regression_evidence internal-technical-due-diligence-evidence-only/v1 repository_internal_deterministic_regression_evidence_index internal-field-provenance-clearance-ledger-only/v1; do
   if docker exec "$container" grep -R -F "$marker" /srv >/dev/null 2>&1; then
     echo "Internal review-pack marker exists in the final served root: $marker" >&2; exit 1
   fi
