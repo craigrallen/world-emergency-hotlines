@@ -265,6 +265,44 @@ test('nonpublication decoder negative controls remain literal and bounded', () =
   const dist = temporaryRoot(); writeFileSync(resolve(dist, 'iteration-bound.txt'), overNested);
   assert.throws(() => assertInternalNonpublication(dist, repo), /normalization iterations/);
 });
+test('nonpublication scans decoded HTML tag and attribute names for licensed internal strings', () => {
+  const marker = 'SYNTHETIC-TEST-KEY-NEVER-PUBLISH-OR-USE-IN-PRODUCTION';
+  const schema = 'Internal licensed-delivery v1 closed schema bundle';
+  const fixture = 'synthetic_non_emergency_fixture';
+  const name = (value) => value.replace(/[^a-z0-9]+/giu, '-').replace(/^-|-$/gu, '');
+  const fragmentedCase = (value) => [...value].map((character, index) => index % 2 ? character.toUpperCase() : character.toLowerCase()).join('');
+  const cases = [
+    ['raw-tag-fixture', `<${fixture}></${fixture}>`],
+    ['raw-tag-schema', `<${name(schema)}></${name(schema)}>`],
+    ['raw-attribute-marker', `<div ${marker}></div>`],
+    ['entity-tag', `<${encodeHtml(fixture)}></${encodeHtml(fixture)}>`],
+    ['percent-attribute', `<div ${encodePercent(marker)}></div>`],
+    ['javascript-tag', `<${encodeJsU(name(schema))}></${encodeJsU(name(schema))}>`],
+    ['mixed-nested-tag', `<${encodeHtml(encodePercent(encodeJsX(fixture)))}></span>`],
+    ['mixed-nested-attribute', `<div ${encodeJsU(encodeHtml(encodePercent(marker)))}></div>`],
+    ['case-fragmented-tag', `<${fragmentedCase(fixture)}></${fragmentedCase(fixture)}>`],
+    ['case-fragmented-attribute', `<div ${fragmentedCase(marker)}></div>`],
+    ['comment-tag', `<!-- <${encodePercent(fixture)}> -->`],
+    ['comment-attribute', `<!-- <div ${encodeHtml(marker)}> -->`],
+  ];
+  for (const [label, content] of cases) {
+    const dist = temporaryRoot(); writeFileSync(resolve(dist, `${label}.html`), content);
+    assert.throws(() => assertInternalNonpublication(dist, repo), /marker|licensed-delivery .* fingerprint/, label);
+  }
+});
+test('nonpublication HTML name scanning preserves parser safety and harmless public names', () => {
+  const controls = [
+    '<public-support-card data-region-code="se" aria-label="Support"></public-support-card>',
+    '<world-emergency-hotlines data-provider-kind aria-live="polite"></world-emergency-hotlines>',
+    '<div data-internal-delivery-note="public" aria-description="Licensed directory"></div>',
+    '<broken%zz data-bad%5="literal"><span ordinary=value></broken%zz>',
+    '<broken%zz data-bad%5-name="literal"><span ordinary=value></broken%zz>',
+  ];
+  for (const [index, content] of controls.entries()) {
+    const dist = temporaryRoot(); writeFileSync(resolve(dist, `harmless-name-${index}.html`), content);
+    assert.doesNotThrow(() => assertInternalNonpublication(dist, repo), `harmless name control ${index}`);
+  }
+});
 test('nonpublication tuple fingerprints permit ordinary public content and isolated common tokens', () => {
   const controls = [
     'Public contact channels and geography scope information for visitors.',

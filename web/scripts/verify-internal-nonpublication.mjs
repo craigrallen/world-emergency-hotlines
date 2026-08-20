@@ -92,6 +92,15 @@ const htmlRepresentations = (html, sourceHtml) => {
   let scanItems = 0;
   let attributeBytes = 0;
   let commentBytes = 0;
+  let nameBytes = 0;
+  const addName = (name) => {
+    if (!name) return;
+    nameBytes += Buffer.byteLength(name);
+    if (nameBytes > MAX_NORMALIZATION_BYTES) throw new Error('decoded HTML names exceed bounded nonpublication normalization size');
+    // Keep names separate from each other and from content/value representations:
+    // unrelated public markup must not combine into a forbidden fingerprint.
+    representations.push(name);
+  };
   const visit = (document, visitor) => {
     const pending = [document];
     while (pending.length) {
@@ -107,6 +116,8 @@ const htmlRepresentations = (html, sourceHtml) => {
   for (const scriptingEnabled of [true, false]) {
     const textNodes = [];
     visit(parse(html, { scriptingEnabled }), (node) => {
+      if (node.tagName) addName(node.tagName);
+      for (const attribute of node.attrs ?? []) addName(attribute.name);
       if (node.nodeName === '#text') textNodes.push(node.value);
       if (node.nodeName === '#comment') {
         const value = decodeBoundedText(node.data, 'HTML comment value');
@@ -119,6 +130,8 @@ const htmlRepresentations = (html, sourceHtml) => {
           representations.push(value);
           const commentTextNodes = [];
           visit(parse(value, { scriptingEnabled }), (commentNode) => {
+            if (commentNode.tagName) addName(commentNode.tagName);
+            for (const attribute of commentNode.attrs ?? []) addName(attribute.name);
             if (commentNode.nodeName === '#text') commentTextNodes.push(commentNode.value);
           });
           representations.push(commentTextNodes.join(' '), commentTextNodes.join(''));
@@ -127,12 +140,14 @@ const htmlRepresentations = (html, sourceHtml) => {
     });
     representations.push(textNodes.join(' '), textNodes.join(''));
     visit(parse(sourceHtml, { scriptingEnabled }), (node) => {
+      if (node.tagName) addName(node.tagName);
       for (const attribute of node.attrs ?? []) {
         scanItems += 1;
         if (scanItems > MAX_HTML_SCAN_ITEMS) throw new Error('production HTML exceeds bounded nonpublication scan work');
         const value = decodeBoundedText(attribute.value, 'HTML attribute value');
         attributeBytes += Buffer.byteLength(value);
         if (attributeBytes > MAX_NORMALIZATION_BYTES) throw new Error('decoded HTML attributes exceed bounded nonpublication normalization size');
+        addName(attribute.name);
         // Keep values separate: unrelated public attributes must not combine to
         // form a forbidden scalar or row fingerprint.
         if (value) representations.push(value);
@@ -187,8 +202,10 @@ export function forbiddenInternalEvidence(repoRoot = repo) {
   const generalSemanticArtifacts = [...generalScalarArtifacts, ...licensedContractArtifacts];
   const semanticArtifacts = [...generalSemanticArtifacts, ...licensedFixtures.map(([name, value]) => [`licensed-delivery fixture ${name}`, value])];
   const licensedDraftScalars = licensedDraftText.flatMap((text) => text.split(/\n\s*\n/).map((x) => x.replace(/\s+/g, ' ').trim()).filter((x) => x.length >= 80));
+  const markers = ['reviews/licensed-delivery', 'internal-licensed-delivery-counsel-draft-only/v1', 'SYNTHETIC-TEST-KEY-NEVER-PUBLISH-OR-USE-IN-PRODUCTION', 'reviews/multilingual-ui', 'internal-multilingual-ui-review-pack/v1', 'pending_not_reviewed', 'static_ui_runtime_dictionaries_only', 'reviews/accessibility-evidence', INTERNAL_MARKER, 'internal_deterministic_regression_evidence', 'accessibility-evidence/v1/baseline.json', 'reviews/security-privacy-evidence', INVENTORY_MARKER, 'repository_internal_deterministic_regression_evidence', 'security-privacy-evidence/v1/inventory.json', 'reviews/technical-due-diligence', DUE_DILIGENCE_MARKER, 'technical-due-diligence/v1/index.json', 'reviews/design-partner-discovery', DESIGN_PARTNER_MARKER, 'design-partner-discovery/v1/pack.json', 'reviews/licensing-legal-review', LEGAL_REVIEW_MARKER, 'licensing-legal-review/v1/index.json', 'reviews/field-provenance-clearance', CLEARANCE_MARKER, 'field-provenance-clearance/v1/ledger.json', 'field-provenance-clearance/v1/example.synthetic.json'];
   return {
-    markers: ['reviews/licensed-delivery', 'internal-licensed-delivery-counsel-draft-only/v1', 'SYNTHETIC-TEST-KEY-NEVER-PUBLISH-OR-USE-IN-PRODUCTION', 'reviews/multilingual-ui', 'internal-multilingual-ui-review-pack/v1', 'pending_not_reviewed', 'static_ui_runtime_dictionaries_only', 'reviews/accessibility-evidence', INTERNAL_MARKER, 'internal_deterministic_regression_evidence', 'accessibility-evidence/v1/baseline.json', 'reviews/security-privacy-evidence', INVENTORY_MARKER, 'repository_internal_deterministic_regression_evidence', 'security-privacy-evidence/v1/inventory.json', 'reviews/technical-due-diligence', DUE_DILIGENCE_MARKER, 'technical-due-diligence/v1/index.json', 'reviews/design-partner-discovery', DESIGN_PARTNER_MARKER, 'design-partner-discovery/v1/pack.json', 'reviews/licensing-legal-review', LEGAL_REVIEW_MARKER, 'licensing-legal-review/v1/index.json', 'reviews/field-provenance-clearance', CLEARANCE_MARKER, 'field-provenance-clearance/v1/ledger.json', 'field-provenance-clearance/v1/example.synthetic.json'],
+    markers,
+    normalizedMarkers: markers.map((raw) => ({ raw, normalized: normalizeScanText(raw) })),
     exactHashes,
     semanticFingerprints: new Map(semanticArtifacts.flatMap(([artifact, value]) => semanticSections(value).filter(([, section]) => !artifact.startsWith('licensed-delivery') || canonicalJson(section).length >= 80).map(([label, section]) => [semanticHash(section), `${artifact} ${label}`]))),
     scalarFingerprints: [...new Set(generalScalarArtifacts.flatMap(([, value]) => substantiveUniqueScalars(value)))],
@@ -212,6 +229,7 @@ export function assertInternalNonpublication(dist, repoRoot = repo) {
     for (const contract of forbidden.licensedContractFingerprints) if (text.includes(contract.raw) || normalizedTexts.some((normalizedText) => normalizedText.includes(contract.normalized))) throw new Error(`internal licensed-delivery contract scalar fingerprint published in ${path}`);
     for (const fixture of forbidden.licensedFixtureFingerprints) if (text.includes(fixture.raw) || normalizedTexts.some((normalizedText) => normalizedText.includes(fixture.normalized))) throw new Error(`internal licensed-delivery fixture scalar fingerprint published in ${path}`);
     for (const draft of forbidden.licensedDraftFingerprints) if (text.includes(draft.raw) || normalizedTexts.some((normalizedText) => normalizedText.includes(draft.normalized))) throw new Error(`internal review-pack scalar fingerprint published in ${path}`);
+    for (const marker of forbidden.normalizedMarkers) if (normalizedTexts.some((normalizedText) => normalizedText.includes(marker.normalized))) throw new Error(`normalized internal review-pack marker (${marker.raw}) published in ${path}`);
     try {
       const match = findForbiddenSemanticSection(JSON.parse(text), forbidden.semanticFingerprints);
       if (match) throw new Error(`internal review-pack semantic section (${match}) published in ${path}`);
