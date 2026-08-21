@@ -11,7 +11,6 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync, lstatSync, realpath
 import { dirname, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
-import { gzipSync } from 'node:zlib';
 import { utf16Compare } from './dataset-diff.mjs';
 import { classifyScope, getHotlineChannels } from '../src/lib/finder.js';
 import { API_VERSION, canonicalHotline } from './api-records-transform.mjs';
@@ -319,7 +318,7 @@ const apiManifest = {
   endpoints: {
     manifest: 'manifest.json',
     records: 'records.json',
-    traveler_cards: 'traveler-cards.json.gz',
+    traveler_cards: 'traveler-cards.json',
     country: 'countries/{alpha2}.json',
     resolver_module: 'resolver.js',
     release_descriptor: '../../release/v1/release.json',
@@ -357,11 +356,11 @@ const travelerCardJson = Buffer.from(JSON.stringify({
 if (travelerCardJson.byteLength > TRAVELER_CARD_BUNDLE_MAX_DECOMPRESSED_BYTES) {
   throw new Error(`traveler card bundle JSON ${travelerCardJson.byteLength} bytes exceeds ${TRAVELER_CARD_BUNDLE_MAX_DECOMPRESSED_BYTES}-byte ceiling`);
 }
-const travelerCardBundle = gzipSync(travelerCardJson, { level: 9, mtime: 0 });
-if (travelerCardBundle.byteLength > TRAVELER_CARD_BUNDLE_MAX_BYTES) {
-  throw new Error(`traveler card bundle ${travelerCardBundle.byteLength} bytes exceeds ${TRAVELER_CARD_BUNDLE_MAX_BYTES}-byte ceiling`);
+if (travelerCardJson.byteLength > TRAVELER_CARD_BUNDLE_MAX_BYTES) {
+  throw new Error(`traveler card bundle ${travelerCardJson.byteLength} bytes exceeds ${TRAVELER_CARD_BUNDLE_MAX_BYTES}-byte ceiling`);
 }
-writeFileSync(resolve(API_DIR, 'traveler-cards.json.gz'), travelerCardBundle);
+rmSync(resolve(API_DIR, 'traveler-cards.json.gz'), { force: true });
+writeFileSync(resolve(API_DIR, 'traveler-cards.json'), travelerCardJson);
 writeFileSync(resolve(API_DIR, 'resolver.js'), readFileSync(resolve(WEB_ROOT, 'src', 'lib', 'finder.js'), 'utf-8'));
 assertPwaAssetParity({ webRoot: WEB_ROOT, datasetVersion: manifest.dataset_version, sourceLastUpdated: canonical.source_last_updated });
 generateReleaseFeeds({ currentDataset: { $schema_version: canonical.schema_version, countries: canonical.countries }, datasetVersion: manifest.dataset_version });

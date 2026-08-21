@@ -3,7 +3,6 @@ set -eu
 
 command -v docker >/dev/null 2>&1 || { echo "Docker is required for the Caddy integration verifier" >&2; exit 1; }
 command -v curl >/dev/null 2>&1 || { echo "curl is required for the Caddy integration verifier" >&2; exit 1; }
-command -v gzip >/dev/null 2>&1 || { echo "gzip is required for the Caddy integration verifier" >&2; exit 1; }
 
 repo_root=$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)
 caddy_image='caddy:2.10-alpine@sha256:4c6e91c6ed0e2fa03efd5b44747b625fec79bc9cd06ac5235a779726618e530d'
@@ -18,7 +17,7 @@ cleanup() {
 trap cleanup EXIT INT TERM
 
 mkdir -p "$fixture/api/v1" "$fixture/release/v1/changes" "$fixture/feeds" "$fixture/subscriptions/v1" "$fixture/gateway/v1" "$fixture/organizations/v1" "$fixture/managed-widget-config/v1" "$fixture/technical-health/v1" "$fixture/assurance-packs/v1" "$fixture/provider-claims/v1" "$fixture/reviewer-work-queue/v1" "$fixture/managed-api-plans/v1" "$fixture/deprecation-proposals/v1" "$fixture/evidence-backed-coverage/v1" "$fixture/countries" "$fixture/responses"
-printf '%s' '{"api_version":"1.0","cards":{"SE":"EMERGENCY fixture"}}' | gzip -n > "$fixture/api/v1/traveler-cards.json.gz"
+printf '%s' '{"api_version":"1.0","cards":{"SE":"EMERGENCY fixture"}}' > "$fixture/api/v1/traveler-cards.json"
 printf '%s\n' '/* service worker fixture */' > "$fixture/service-worker.js"
 printf '%s\n' '{"name":"PWA fixture"}' > "$fixture/manifest.webmanifest"
 printf '%s\n' '<!doctype html><title>Offline fixture</title>' > "$fixture/offline.html"
@@ -106,25 +105,25 @@ require_empty() {
   [ "$bytes" = 0 ] || { echo "$method $path returned $bytes response body bytes, expected 0" >&2; exit 1; }
 }
 
-card_path=/api/v1/traveler-cards.json.gz
+card_path=/api/v1/traveler-cards.json
 card_headers="$fixture/responses/traveler-cards-get.headers"
 card_body="$fixture/responses/traveler-cards-get.body"
 curl --max-time 5 -sS -H 'Accept-Encoding: identity' -D "$card_headers" -o "$card_body" "$base$card_path"
 require_status GET "$card_path" 200 "$card_headers"
-require_header "$card_headers" Content-Type 'application/gzip'
+require_header "$card_headers" Content-Type 'application/json'
 require_no_header "$card_headers" Content-Encoding
-cmp -s "$fixture/api/v1/traveler-cards.json.gz" "$card_body" || { echo "GET $card_path did not return raw gzip bytes" >&2; exit 1; }
+cmp -s "$fixture/api/v1/traveler-cards.json" "$card_body" || { echo "GET $card_path did not return raw JSON bytes" >&2; exit 1; }
 card_length=$(wc -c < "$card_body" | tr -d ' ')
 require_header "$card_headers" Content-Length "$card_length"
 card_head_headers="$fixture/responses/traveler-cards-head.headers"
 card_head_body="$fixture/responses/traveler-cards-head.body"
 curl --max-time 5 -sS --request HEAD --ignore-content-length -H 'Accept-Encoding: identity' -H 'Connection: close' -D "$card_head_headers" -o "$card_head_body" "$base$card_path"
 require_status HEAD "$card_path" 200 "$card_head_headers"
-require_header "$card_head_headers" Content-Type 'application/gzip'
+require_header "$card_head_headers" Content-Type 'application/json'
 require_no_header "$card_head_headers" Content-Encoding
 require_header "$card_head_headers" Content-Length "$card_length"
 require_empty HEAD "$card_path" "$card_head_body"
-for spec in 'POST|traveler-cards.json.gz' 'GET|missing.json'; do
+for spec in 'POST|traveler-cards.json' 'GET|missing.json'; do
   method=${spec%%|*}; path=${spec#*|}
   status=$(curl --max-time 5 -sS -X "$method" -o /dev/null -w '%{http_code}' "$base/api/v1/$path")
   [ "$status" = 404 ] || { echo "$method /api/v1/$path returned $status, expected 404" >&2; exit 1; }
@@ -468,4 +467,4 @@ for spec in 'GET|evidence-backed-coverage/v1/assessment.schema.json|200' 'HEAD|e
   [ "$actual" = "$expected" ] || { echo "$method /$path returned $actual, expected $expected" >&2; exit 1; }
 done
 
-echo "Caddy integration OK: raw gzip API GET/HEAD MIME and read-only 404 boundaries; PWA policy; HTML discovery and custom 404; release/feed/static contract MIME and CORS; no route shadowing"
+echo "Caddy integration OK: raw JSON API GET/HEAD MIME and read-only 404 boundaries; PWA policy; HTML discovery and custom 404; release/feed/static contract MIME and CORS; no route shadowing"

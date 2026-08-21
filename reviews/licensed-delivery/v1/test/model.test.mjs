@@ -1,6 +1,6 @@
-import test from 'node:test';import assert from 'node:assert/strict';import {createHmac} from 'node:crypto';import {mkdtempSync,mkdirSync,readFileSync,rmSync,writeFileSync} from 'node:fs';import {tmpdir} from 'node:os';import {resolve} from 'node:path';
+import test from 'node:test';import assert from 'node:assert/strict';import {createHmac} from 'node:crypto';import {linkSync,mkdtempSync,mkdirSync,readFileSync,rmSync,symlinkSync,writeFileSync} from 'node:fs';import {tmpdir} from 'node:os';import {resolve} from 'node:path';
 import {HTTP_CONTRACT_METADATA,NORMATIVE_HTTP_CONTRACT,NORMATIVE_HTTP_RESPONSE,PRESENTATION_MAX_TTL_SECONDS,analyzeCompliance,assertNormativeHttpContract,assertNormativeHttpResponse,canonicalSafetyBytes,issuePresentation,sha256,signSyntheticEvidence,validateBinaryObservation,validateFetchObservation,validateOutwardObservation,validatePresentationObservation,validateRenderAttestation,verifyPresentation} from '../model.mjs';
-import {assertInternalNonpublication,decodeArtifactText,decodeLegacyOctalEscapes} from '../../../../web/scripts/verify-internal-nonpublication.mjs';
+import {assertInternalNonpublication,classifyHtmlScriptType,decodeArtifactText,decodeLegacyOctalEscapes} from '../../../../web/scripts/verify-internal-nonpublication.mjs';
 const input=JSON.parse(readFileSync(resolve(import.meta.dirname,'../fixtures/synthetic-input.json'))),key=input.key,obsKey='SYNTHETIC-OBSERVATION-KEY-000000000000000000';input.tenant_id=input.trusted_context.tenant_id;const tc=input.trusted_context;
 const trusted_keys={[input.key_id]:{status:'active',key}},observation_keys={'obs-key-1':{status:'active',key:obsKey}},registered_apps={'tenant-synthetic-a\0app-synthetic-a\0synthetic-1.0':{status:'active'}},presentation_keys=trusted_keys;
 const fixtureIssue=()=>issuePresentation({...input,fixture_nonce:'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA'});
@@ -233,5 +233,35 @@ test('nonpublication conservatively scans valid legacy octal in classic and ambi
   try{
     for(const [name,value] of rejects){const dist=resolve(root,name.replace('.','-'));mkdirSync(dist);writeFileSync(resolve(dist,name),value);assert.throws(()=>assertInternalNonpublication(dist,repo),/marker/,name);}
     for(const [name,value] of [['strict.js',`'use strict'; const x='${encoded}';`],['module.mjs',`export const x='${encoded}';`],['module.html',`<script type="module">const x='${encoded}'</script>`],['data-script.html',`<script type="application/json">{"note":"${encoded}"}</script>`],['escaped.js',String.raw`const x="\\162\\145\\166";`],['invalid.js',String.raw`const x="\8\9\08\09";`],['public.txt',String.raw`Public build 123 077 400 and \\141 documentation.`],['unicode.txt','Public café 世界 😀']]){const dist=resolve(root,`control-${name.replace('.','-')}`);mkdirSync(dist);writeFileSync(resolve(dist,name),value);assert.doesNotThrow(()=>assertInternalNonpublication(dist,repo),name);}
+  }finally{rmSync(root,{recursive:true,force:true});}
+});
+test('HTML script type classification follows classic JavaScript MIME essence semantics and fails malformed values closed',()=>{
+  const legacy=['application/ecmascript','application/javascript','application/x-ecmascript','application/x-javascript','text/ecmascript','text/javascript','text/javascript1.0','text/javascript1.1','text/javascript1.2','text/javascript1.3','text/javascript1.4','text/javascript1.5','text/jscript','text/livescript','text/x-ecmascript','text/x-javascript'];
+  for(const essence of legacy){assert.equal(classifyHtmlScriptType(essence),'classic',essence);assert.equal(classifyHtmlScriptType(` \t${essence.toUpperCase()} ; Charset=UTF-8 `),'classic',`${essence} case/space/parameter`);assert.equal(classifyHtmlScriptType(`${essence};charset="utf-8";version='legacy'`),'classic',`${essence} quoted/unquoted`);}
+  for(const value of [undefined,'',' \t\n\r\f '])assert.equal(classifyHtmlScriptType(value),'classic',String(value));
+  for(const value of ['module',' MODULE ','importmap','SPECULATIONRULES','application/json','text/plain','text/javascriptish','text/javascript;','text/javascript;charset','text/javascript;=utf-8','text/javascript;charset=','text/javascript;charset="unterminated','text/javascript;charset="bad\nvalue"','text /javascript','text/javascript,application/json'])assert.equal(classifyHtmlScriptType(value),value.trim().toLowerCase()==='module'?'strict':'disabled',value);
+});
+test('HTML script execution modes apply octal and NonEscapeCharacter decoding only to executable classic scripts',()=>{
+  const repo=resolve(import.meta.dirname,'../../../..'),root=mkdtempSync(resolve(tmpdir(),'licensed-script-types-')),marker='reviews/licensed-delivery',octal=[...marker].map(c=>`\\${c.charCodeAt(0).toString(8)}`).join(''),nonEscape='reviews/licen\\sed/delivery',split='Internal licen\\sed-delivery v1 closed schema bundle';
+  const classicTypes=['',' type=" \tTeXt/JaVaScRiPt ; charset=UTF-8 "',' type=text/javascript',' type=\'application/x-javascript;charset="utf-8"\''];
+  try{
+    for(const [index,type] of classicTypes.entries()){const dist=resolve(root,`classic-${index}`);mkdirSync(dist);writeFileSync(resolve(dist,'index.html'),`<script${type}>const a='${octal}',b='${nonEscape}',c='${split}'</script>`);assert.throws(()=>assertInternalNonpublication(dist,repo),/marker|fingerprint/,type);}
+    for(const [index,type] of ['module','importmap','speculationrules','application/json','text/javascript;charset="unterminated'].entries()){const dist=resolve(root,`disabled-${index}`);mkdirSync(dist);writeFileSync(resolve(dist,'index.html'),`<script type='${type}'>const a='${octal}',b='${nonEscape}'</script>`);assert.doesNotThrow(()=>assertInternalNonpublication(dist,repo),type);}
+  }finally{rmSync(root,{recursive:true,force:true});}
+});
+test('public dist rejects archive/compression extensions, signatures, polyglots, and links while allowing approved opaque binaries',()=>{
+  const repo=resolve(import.meta.dirname,'../../../..'),root=mkdtempSync(resolve(tmpdir(),'licensed-archives-'));
+  const extensions=['gz','br','zip','7z','bz2','xz','tar','tgz','tbz2','txz','rar','zst','jar','whl','cab','cpio','rpm','ar','iso'];
+  const signatures=[['gzip',[0x1f,0x8b,8]],['zip',[0x50,0x4b,3,4]],['7z',[0x37,0x7a,0xbc,0xaf,0x27,0x1c]],['bzip2',[0x42,0x5a,0x68]],['xz',[0xfd,0x37,0x7a,0x58,0x5a,0]],['rar',[0x52,0x61,0x72,0x21,0x1a,7]],['zstd',[0x28,0xb5,0x2f,0xfd]],['cab',[0x4d,0x53,0x43,0x46]],['rpm',[0xed,0xab,0xee,0xdb]],['cpio',Buffer.from('070701')]];
+  const reject=(name,bytes)=>{const dist=resolve(root,name.replaceAll('.','-'));mkdirSync(dist);writeFileSync(resolve(dist,name),bytes);assert.throws(()=>assertInternalNonpublication(dist,repo),/compressed\/archive artifact/,name);};
+  try{
+    for(const extension of extensions)reject(`harmless.${extension}`,Buffer.from('ordinary harmless archive payload'));
+    for(const [name,bytes] of signatures)reject(`${name}.bin`,Buffer.from(bytes));
+    const tar=Buffer.alloc(512);tar.write('ustar',257);reject('renamed.dat',tar);
+    reject('licensed.txt.gz',Buffer.concat([Buffer.from([0x1f,0x8b,8]),Buffer.from('reviews/licensed-delivery')]));
+    reject('photo.JPG',Buffer.concat([Buffer.from([0xff,0xd8,0xff]),Buffer.from('public'),Buffer.from([0x50,0x4b,3,4])]));
+    for(const [name,bytes] of [['image.png',[0x89,0x50,0x4e,0x47,0,0xff]],['font.WOFF2',[0x77,0x4f,0x46,0x32,0,0xff]],['module.wasm',[0,0x61,0x73,0x6d,1,0,0,0]],['media.mp4',[0,0,0,0x18,0x66,0x74,0x79,0x70,0,0xff]]]){const dist=resolve(root,`allowed-${name}`);mkdirSync(dist);writeFileSync(resolve(dist,name),Buffer.from(bytes));assert.doesNotThrow(()=>assertInternalNonpublication(dist,repo),name);}
+    const links=resolve(root,'links');mkdirSync(links);writeFileSync(resolve(links,'target.bin'),Buffer.from([0,0xff]));symlinkSync('target.bin',resolve(links,'alias.bin'));assert.throws(()=>assertInternalNonpublication(links,repo),/symbolic link/);
+    rmSync(resolve(links,'alias.bin'));linkSync(resolve(links,'target.bin'),resolve(links,'hard.bin'));assert.throws(()=>assertInternalNonpublication(links,repo),/hard-linked artifact/);
   }finally{rmSync(root,{recursive:true,force:true});}
 });

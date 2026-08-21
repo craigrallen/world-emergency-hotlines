@@ -154,7 +154,7 @@ export function generateReleaseIntegrity({ datasetVersion }) {
     '/subscriptions/v1/fixture-modified.json', '/subscriptions/v1/fixture-country-metadata.json',
   ];
   const relationshipPaths = [
-    '/data/manifest.json', '/api/v1/manifest.json', '/api/v1/records.json', '/api/v1/traveler-cards.json.gz',
+    '/data/manifest.json', '/api/v1/manifest.json', '/api/v1/records.json', '/api/v1/traveler-cards.json',
     '/api/v1/resolver.js', '/widget/v1/hotlines-widget.js',
     '/data/metadata-coverage.json', '/data/categories-stats.json', '/data/search-index.json',
     '/release/v1/changes.json', '/release/v1/changes/latest.json',

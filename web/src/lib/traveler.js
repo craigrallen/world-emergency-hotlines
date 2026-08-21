@@ -4,11 +4,11 @@ import { resolveGuidedHelp } from './finder.js';
 export const TRAVELER_MANIFEST_URL = '/data/manifest.json';
 export const TRAVELER_RECORDS_URL = '/api/v1/records.json';
 export const TRAVELER_CARD_MANIFEST_URL = '/api/v1/manifest.json';
-export const TRAVELER_CARD_BUNDLE_URL = '/api/v1/traveler-cards.json.gz';
+export const TRAVELER_CARD_BUNDLE_URL = '/api/v1/traveler-cards.json';
 export const TRAVELER_RECORDS_API_VERSION = '1.0';
-export const TRAVELER_CARD_BUNDLE_MAX_BYTES = 180 * 1024;
+export const TRAVELER_CARD_BUNDLE_MAX_BYTES = 1024 * 1024;
 export const TRAVELER_CARD_BUNDLE_MAX_DECOMPRESSED_BYTES = 1024 * 1024;
-export const TRAVELER_CARD_BROWSER_COMPATIBILITY_MESSAGE = 'Country-card downloads require a browser with built-in gzip decompression support. Use a current browser or the regular Traveler Mode search below.';
+export const TRAVELER_CARD_BROWSER_COMPATIBILITY_MESSAGE = 'Country-card downloads require standard JSON and streaming response support. Use a current browser or the regular Traveler Mode search below.';
 // Keep cards compact while ensuring validated destinations outrank display-only values.
 export const TRAVELER_CARD_CONTACT_LIMIT = 2;
 
@@ -349,17 +349,17 @@ async function readBoundedTravelerCardBody(response) {
 }
 
 function createTravelerCardDecompressionStream(bytes) {
-  return new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
+  return new Blob([bytes]).stream();
 }
 
 /** Reports whether the browser can consume the fixed gzip card artifact. */
-export function supportsTravelerCardDownload(decompressionStream = globalThis.DecompressionStream) {
-  return typeof decompressionStream === 'function';
+export function supportsTravelerCardDownload() {
+  return typeof Blob === 'function' && typeof TextDecoder === 'function';
 }
 
 /** Fails synchronously so callers can stop before issuing either fixed request. */
-export function assertTravelerCardDownloadSupport(decompressionStream = globalThis.DecompressionStream) {
-  if (!supportsTravelerCardDownload(decompressionStream)) throw new Error(TRAVELER_CARD_BROWSER_COMPATIBILITY_MESSAGE);
+export function assertTravelerCardDownloadSupport() {
+  if (!supportsTravelerCardDownload()) throw new Error(TRAVELER_CARD_BROWSER_COMPATIBILITY_MESSAGE);
 }
 
 /** Decompresses only up to the reviewed JSON-byte ceiling before decoding or parsing. */
@@ -424,8 +424,8 @@ export async function loadTravelerCountryCard({ fetchImpl = fetch, countryCode, 
   if (typeof lengthHeader === 'string' && /^\d+$/.test(lengthHeader.trim()) && Number(lengthHeader) > TRAVELER_CARD_BUNDLE_MAX_BYTES) {
     throw new Error('Static country-card bundle exceeds its byte-size ceiling.');
   }
-  const compressedBytes = await readBoundedTravelerCardBody(response);
-  const bundle = validateTravelerCardBundleIdentity(await decodeBundle(compressedBytes), manifest);
+  const bundleBytes = await readBoundedTravelerCardBody(response);
+  const bundle = validateTravelerCardBundleIdentity(await decodeBundle(bundleBytes), manifest);
   const code = normalizeCode(countryCode);
   const country = manifest.countries?.find((entry) => normalizeCode(entry?.alpha2) === code);
   const content = bundle.cards[code];

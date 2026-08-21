@@ -74,13 +74,13 @@ require_page /feeds/releases.atom '<feed xmlns="http://www.w3.org/2005/Atom">' "
 require_page /manifest.webmanifest '"/pwa-icon-512.png"' "$fixture/manifest.webmanifest"
 require_page /service-worker.js "cache.match('/offline.html')" "$fixture/service-worker.js"
 require_page /offline.html 'limited offline shell' "$fixture/offline.html"
-card_path=/api/v1/traveler-cards.json.gz
+card_path=/api/v1/traveler-cards.json
 card_headers="$fixture/traveler-cards.headers"
-card_body="$fixture/traveler-cards.json.gz"
+card_body="$fixture/traveler-cards.json"
 card_status=$(curl --max-time 5 -sS -H 'Accept-Encoding: identity' -D "$card_headers" -o "$card_body" -w '%{http_code}' "$base$card_path")
 [ "$card_status" = 200 ] || { echo "GET $card_path returned $card_status, expected 200" >&2; exit 1; }
 card_type=$(tr -d '\r' < "$card_headers" | sed -n 's/^[Cc]ontent-[Tt]ype: //p' | tail -n 1)
-[ "$card_type" = 'application/gzip' ] || { echo "production traveler-card MIME was '$card_type', expected application/gzip" >&2; exit 1; }
+[ "$card_type" = 'application/json' ] || { echo "production traveler-card MIME was '$card_type', expected application/json" >&2; exit 1; }
 card_encoding=$(tr -d '\r' < "$card_headers" | sed -n 's/^[Cc]ontent-[Ee]ncoding: //p' | tail -n 1)
 [ -z "$card_encoding" ] || { echo "production traveler-card response unexpectedly used Content-Encoding: $card_encoding" >&2; exit 1; }
 card_length=$(wc -c < "$card_body" | tr -d ' ')
@@ -92,8 +92,8 @@ card_head_status=$(curl --max-time 5 -sS --request HEAD --ignore-content-length 
 head_type=$(tr -d '\r' < "$fixture/traveler-cards-head.headers" | sed -n 's/^[Cc]ontent-[Tt]ype: //p' | tail -n 1)
 head_length=$(tr -d '\r' < "$fixture/traveler-cards-head.headers" | sed -n 's/^[Cc]ontent-[Ll]ength: //p' | tail -n 1)
 head_encoding=$(tr -d '\r' < "$fixture/traveler-cards-head.headers" | sed -n 's/^[Cc]ontent-[Ee]ncoding: //p' | tail -n 1)
-[ "$head_type" = 'application/gzip' ] && [ "$head_length" = "$card_length" ] && [ -z "$head_encoding" ] || { echo "HEAD $card_path did not preserve raw gzip MIME/length semantics" >&2; exit 1; }
-for spec in 'POST|traveler-cards.json.gz' 'GET|does-not-exist.json'; do
+[ "$head_type" = 'application/json' ] && [ "$head_length" = "$card_length" ] && [ -z "$head_encoding" ] || { echo "HEAD $card_path did not preserve raw JSON MIME/length semantics" >&2; exit 1; }
+for spec in 'POST|traveler-cards.json' 'GET|does-not-exist.json'; do
   method=${spec%%|*}; path=${spec#*|}
   status=$(curl --max-time 5 -sS -X "$method" -o /dev/null -w '%{http_code}' "$base/api/v1/$path")
   [ "$status" = 404 ] || { echo "$method /api/v1/$path returned $status, expected 404" >&2; exit 1; }
@@ -164,19 +164,19 @@ if (!valid) {
   process.exit(1);
 }
 const byPath = new Map(index.artifacts.map((entry) => [entry.path, entry]));
-const cardEntry = byPath.get('/api/v1/traveler-cards.json.gz');
+const cardEntry = byPath.get('/api/v1/traveler-cards.json');
 const metadataKeys = ['api_version', 'dataset_version', 'schema_version', 'generated_at', 'source_last_updated'];
 const cardCodes = Object.keys(cardBundle.cards).sort();
 const manifestCodes = apiManifest.countries.map(({ alpha2 }) => alpha2).sort();
-const cardsValid = apiManifest.endpoints.traveler_cards === 'traveler-cards.json.gz'
+const cardsValid = apiManifest.endpoints.traveler_cards === 'traveler-cards.json'
   && metadataKeys.every((key) => cardBundle[key] === apiManifest[key])
   && JSON.stringify(cardCodes) === JSON.stringify(manifestCodes)
   && cardCodes.length === apiManifest.total_countries
   && cardCodes.every((code) => typeof cardBundle.cards[code] === 'string' && cardBundle.cards[code].startsWith('EMERGENCY'))
   && cardEntry?.bytes === cardBytes.length
   && cardEntry.sha256 === digest(cardBytes)
-  && JSON.stringify(descriptor.relationships['/api/v1/traveler-cards.json.gz']) === JSON.stringify(cardEntry);
-if (!cardsValid) { console.error('Served traveler-card gzip, metadata/card invariants, or release relationship failed'); process.exit(1); }
+  && JSON.stringify(descriptor.relationships['/api/v1/traveler-cards.json']) === JSON.stringify(cardEntry);
+if (!cardsValid) { console.error('Served traveler-card JSON, metadata/card invariants, or release relationship failed'); process.exit(1); }
 const packValid = pack.schema === 'data-assurance-pack/v1'
   && pack.pack_kind === 'static_synthetic_reference'
   && pack.release.release_id === 'sha256:da1a06c5b11b20fc76afa269c324ab869293cdd67d232cf62f05724dc1fc124a'
@@ -198,4 +198,4 @@ missing_status=$(curl --max-time 5 -sS -o "$fixture/missing.txt" -w '%{http_code
 [ "$missing_status" = 404 ] || { echo "GET $missing returned $missing_status, expected 404" >&2; exit 1; }
 [ "$(cat "$fixture/missing.txt")" = 'Not found' ] || { echo "GET $missing did not return the stable 404 body" >&2; exit 1; }
 
-echo "Deployment image OK: Docker build; raw traveler-card gzip GET/HEAD MIME, invariants, release hash/bytes, and read-only 404s; assurance and release relationships"
+echo "Deployment image OK: Docker build; raw traveler-card JSON GET/HEAD MIME, invariants, release hash/bytes, and read-only 404s; assurance and release relationships"

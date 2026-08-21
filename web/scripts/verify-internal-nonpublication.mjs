@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { existsSync, lstatSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { decodeHTML, decodeHTMLAttribute } from 'entities/decode';
@@ -69,8 +69,14 @@ const TEXT_ARTIFACT_EXTENSIONS = new Set([
   '.svg', '.text', '.toml', '.ts', '.tsx', '.txt', '.vtt', '.webmanifest', '.xhtml', '.xml', '.xsl', '.xslt', '.yaml', '.yml',
 ]);
 const OPAQUE_ARTIFACT_EXTENSIONS = new Set([
-  '.7z', '.avif', '.bin', '.br', '.bz2', '.eot', '.gif', '.gz', '.ico', '.jpeg', '.jpg', '.mp3', '.mp4',
-  '.ogg', '.otf', '.pdf', '.png', '.tar', '.ttf', '.wasm', '.webp', '.woff', '.woff2', '.zip',
+  '.avif', '.bin', '.eot', '.gif', '.ico', '.jpeg', '.jpg', '.mp3', '.mp4',
+  '.ogg', '.otf', '.pdf', '.png', '.ttf', '.wasm', '.webp', '.woff', '.woff2',
+]);
+const ARCHIVE_ARTIFACT_EXTENSIONS = new Set([
+  '.7z', '.a', '.ace', '.alz', '.ar', '.arc', '.arj', '.br', '.bz', '.bz2', '.cab', '.cpio', '.deb', '.dmg',
+  '.ear', '.gz', '.iso', '.jar', '.lha', '.lharc', '.lzh', '.lz', '.lz4', '.lzip', '.lzma', '.pak', '.rar',
+  '.rpm', '.sit', '.sitx', '.squashfs', '.tar', '.taz', '.tb2', '.tbz', '.tbz2', '.tgz', '.tlz', '.txz',
+  '.war', '.whl', '.xar', '.xz', '.z', '.zip', '.zipx', '.zst', '.zstd',
 ]);
 const EXTENSIONLESS_TEXT_OUTPUTS = new Set([
   '_headers', '_redirects', 'ads.txt', 'assetlinks.json', 'cname', 'humans.txt', 'manifest', 'robots.txt',
@@ -80,6 +86,31 @@ const artifactExtension = (label) => {
   const basename = label.replaceAll('\\', '/').split('/').at(-1).toLowerCase();
   const dot = basename.lastIndexOf('.');
   return { basename, extension: dot > 0 ? basename.slice(dot) : '' };
+};
+const archiveSignature = (bytes) => {
+  const signatures = [
+    ['gzip', Buffer.from([0x1f, 0x8b])], ['ZIP', Buffer.from([0x50, 0x4b, 0x03, 0x04])],
+    ['ZIP', Buffer.from([0x50, 0x4b, 0x05, 0x06])], ['ZIP', Buffer.from([0x50, 0x4b, 0x07, 0x08])],
+    ['7z', Buffer.from([0x37, 0x7a, 0xbc, 0xaf, 0x27, 0x1c])], ['bzip2', Buffer.from('BZh')],
+    ['xz', Buffer.from([0xfd, 0x37, 0x7a, 0x58, 0x5a, 0x00])], ['rar', Buffer.from('Rar!\x1a\x07', 'latin1')],
+    ['zstd', Buffer.from([0x28, 0xb5, 0x2f, 0xfd])], ['lzip', Buffer.from('LZIP')],
+    ['Unix compress', Buffer.from([0x1f, 0x9d])], ['ar/deb', Buffer.from('!<arch>\n')],
+    ['cab', Buffer.from('MSCF')], ['xar', Buffer.from('xar!')], ['ACE', Buffer.from('**ACE**')],
+    ['RPM', Buffer.from([0xed, 0xab, 0xee, 0xdb])], ['LZ4', Buffer.from([0x04, 0x22, 0x4d, 0x18])],
+  ];
+  for (const [name, signature] of signatures) {
+    const offset = bytes.indexOf(signature);
+    if (offset === 0 || (signature.length >= 4 && offset > 0)) return name;
+  }
+  for (const signature of ['070701', '070702', '070707']) if (bytes.subarray(0, 6).equals(Buffer.from(signature))) return 'cpio';
+  if (bytes.length >= 265 && bytes.subarray(257, 262).equals(Buffer.from('ustar'))) return 'tar';
+  return undefined;
+};
+const assertPublishableArtifact = (path, bytes) => {
+  const { extension } = artifactExtension(path);
+  if (ARCHIVE_ARTIFACT_EXTENSIONS.has(extension)) throw new Error(`compressed/archive artifact ${path} is forbidden in public dist (extension ${extension})`);
+  const signature = archiveSignature(bytes);
+  if (signature) throw new Error(`compressed/archive artifact ${path} is forbidden in public dist (${signature} signature)`);
 };
 const payloadLooksTextLike = (bytes) => {
   // Latin-1 is used only for an ASCII-compatible signature check. It is never
@@ -172,6 +203,57 @@ const hasStrictDirective = (source) => {
   }
   return /^(?:"use strict"|'use strict')\s*(?:;|\r?\n|$)/u.test(rest);
 };
+const CLASSIC_JAVASCRIPT_MIME_ESSENCES = new Set([
+  'application/ecmascript', 'application/javascript', 'application/x-ecmascript', 'application/x-javascript',
+  'text/ecmascript', 'text/javascript', 'text/javascript1.0', 'text/javascript1.1', 'text/javascript1.2',
+  'text/javascript1.3', 'text/javascript1.4', 'text/javascript1.5', 'text/jscript', 'text/livescript',
+  'text/x-ecmascript', 'text/x-javascript',
+]);
+const MIME_TOKEN = /^[!#$%&'*+\-.^_`|~0-9A-Za-z]+$/u;
+const MIME_QUOTED_PAIR = /^[\t\x20-\x7e\x80-\xff]$/u;
+const parseMimeEssence = (input) => {
+  const value = input.replace(/^[\t\n\f\r ]+|[\t\n\f\r ]+$/gu, '');
+  const semicolon = value.indexOf(';');
+  const essence = (semicolon < 0 ? value : value.slice(0, semicolon)).replace(/[\t\n\f\r ]+$/gu, '');
+  const slash = essence.indexOf('/');
+  if (slash <= 0 || slash !== essence.lastIndexOf('/') || !MIME_TOKEN.test(essence.slice(0, slash)) || !MIME_TOKEN.test(essence.slice(slash + 1))) return undefined;
+  let rest = semicolon < 0 ? '' : value.slice(semicolon);
+  while (rest) {
+    if (rest[0] !== ';') return undefined;
+    rest = rest.slice(1).replace(/^[\t\n\f\r ]+/u, '');
+    const equals = rest.indexOf('=');
+    if (equals <= 0) return undefined;
+    const name = rest.slice(0, equals).replace(/[\t\n\f\r ]+$/u, '');
+    if (!MIME_TOKEN.test(name)) return undefined;
+    rest = rest.slice(equals + 1).replace(/^[\t\n\f\r ]+/u, '');
+    if (rest[0] === '"') {
+      let index = 1, closed = false;
+      for (; index < rest.length; index += 1) {
+        if (rest[index] === '"') { index += 1; closed = true; break; }
+        if (rest[index] === '\\') {
+          index += 1;
+          if (index >= rest.length || !MIME_QUOTED_PAIR.test(rest[index])) return undefined;
+        } else if (!MIME_QUOTED_PAIR.test(rest[index])) return undefined;
+      }
+      if (!closed) return undefined;
+      rest = rest.slice(index).replace(/^[\t\n\f\r ]+/u, '');
+    } else {
+      const next = rest.indexOf(';');
+      const parameter = (next < 0 ? rest : rest.slice(0, next)).replace(/[\t\n\f\r ]+$/u, '');
+      if (!MIME_TOKEN.test(parameter)) return undefined;
+      rest = next < 0 ? '' : rest.slice(next);
+    }
+  }
+  return essence.toLowerCase();
+};
+export const classifyHtmlScriptType = (rawType) => {
+  if (rawType === undefined || rawType.replace(/^[\t\n\f\r ]+|[\t\n\f\r ]+$/gu, '') === '') return 'classic';
+  const normalized = rawType.replace(/^[\t\n\f\r ]+|[\t\n\f\r ]+$/gu, '').toLowerCase();
+  if (normalized === 'module') return 'strict';
+  if (normalized === 'importmap' || normalized === 'speculationrules') return 'disabled';
+  const essence = parseMimeEssence(rawType);
+  return essence && CLASSIC_JAVASCRIPT_MIME_ESSENCES.has(essence) ? 'classic' : 'disabled';
+};
 const javascriptRepresentations = (text, mode = 'unknown') => mode === 'disabled' || mode === 'strict' || hasStrictDirective(text)
   ? [text]
   : [...new Set([text, decodeLegacyOctalEscapes(text)])];
@@ -256,7 +338,7 @@ const decodedCssRepresentations = (text, label, decodeEntities = decodeHTML) => 
   return [...new Set([decoded, cssDecoded])];
 };
 const decodedJavaScriptRepresentations = (text, label, decodeEntities = decodeHTML, mode = 'unknown', decodeNonEscapeCharacter = false) => javascriptRepresentations(text, mode)
-  .map((source) => decodeBoundedText(source, label, decodeEntities, mode !== 'disabled' && decodeNonEscapeCharacter));
+  .map((source) => decodeBoundedText(source, label, decodeEntities, mode !== 'disabled' && mode !== 'strict' && decodeNonEscapeCharacter));
 const FATAL_HTML_PARSE_ERRORS = new Set([
   'abrupt-closing-of-empty-comment', 'abrupt-doctype-public-identifier', 'abrupt-doctype-system-identifier',
   'eof-in-cdata', 'eof-in-comment', 'eof-in-doctype', 'eof-in-element-that-can-contain-only-text',
@@ -347,8 +429,8 @@ const htmlRepresentations = (html, sourceHtml, decodeNonEscapeCharacter = false)
             representations.push(value);
           }
         } else if (node.parentNode?.tagName === 'script') {
-          const type = node.parentNode.attrs?.find((attribute) => attribute.name.toLowerCase() === 'type')?.value.trim().toLowerCase();
-          const mode = type === 'module' ? 'strict' : type && !/^(?:application|text)\/(?:javascript|ecmascript)$/u.test(type) ? 'disabled' : 'classic';
+          const type = node.parentNode.attrs?.find((attribute) => attribute.name.toLowerCase() === 'type')?.value;
+          const mode = classifyHtmlScriptType(type);
           const scriptValues = [];
           addText(node.value, scriptValues, mode);
           representations.push(...scriptValues);
@@ -481,7 +563,7 @@ const normalizeScanTexts = (text, markup = undefined, javascriptMode = 'unknown'
     } else if (javascriptMode === 'disabled') decodedRepresentations = [decodeBoundedText(source)];
     else decodedRepresentations = javascriptMode === 'css'
         ? decodedCssRepresentations(source, 'CSS artifact')
-        : [...new Set([decodeBoundedText(source), decodeBoundedText(source, 'production artifact', decodeHTML, true)])];
+        : [...new Set([decodeBoundedText(source), decodeBoundedText(source, 'production artifact', decodeHTML, javascriptMode !== 'strict')])];
     return decodedRepresentations.flatMap((decoded) => markup === 'html'
       ? [htmlRepresentations(decoded, source), htmlRepresentations(decoded, source, true)].flat()
       : markup === 'xml'
@@ -548,7 +630,13 @@ export function assertInternalNonpublication(dist, repoRoot = repo) {
   if (!existsSync(dist)) throw new Error('web/dist is absent; build current sources before the dist-only non-publication scan');
   const forbidden = forbiddenInternalEvidence(repoRoot);
   for (const path of files(dist)) {
+    const link = lstatSync(path);
+    if (link.isSymbolicLink()) throw new Error(`symbolic link ${path} is forbidden in public dist`);
+    const metadata = statSync(path);
+    if (!metadata.isFile()) throw new Error(`non-regular artifact ${path} is forbidden in public dist`);
+    if (metadata.nlink !== 1) throw new Error(`hard-linked artifact ${path} is forbidden in public dist`);
     const bytes = readFileSync(path);
+    assertPublishableArtifact(path, bytes);
     for (const marker of forbidden.markers) if (bytes.includes(Buffer.from(marker))) throw new Error(`internal review-pack marker published in ${path}`);
     if (forbidden.exactHashes.includes(sha256(bytes))) throw new Error(`internal evidence exact copy published in ${path}`);
     const text = decodeArtifactText(bytes, `production artifact ${path}`);

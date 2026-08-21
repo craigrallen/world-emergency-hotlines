@@ -1,6 +1,5 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { gunzipSync } from 'node:zlib';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
@@ -174,13 +173,12 @@ assert.equal(TRAVELER_MANIFEST_URL, '/data/manifest.json');
 assert.equal(TRAVELER_RECORDS_URL, '/api/v1/records.json');
 assert.equal(TRAVELER_RECORDS_API_VERSION, '1.0');
 assert.equal(TRAVELER_CARD_MANIFEST_URL, '/api/v1/manifest.json');
-assert.equal(TRAVELER_CARD_BUNDLE_URL, '/api/v1/traveler-cards.json.gz');
-assert.equal(TRAVELER_CARD_BUNDLE_MAX_BYTES, 180 * 1024);
+assert.equal(TRAVELER_CARD_BUNDLE_URL, '/api/v1/traveler-cards.json');
+assert.equal(TRAVELER_CARD_BUNDLE_MAX_BYTES, 1024 * 1024);
 assert.equal(TRAVELER_CARD_BUNDLE_MAX_DECOMPRESSED_BYTES, 1024 * 1024);
-assert.match(TRAVELER_CARD_BROWSER_COMPATIBILITY_MESSAGE, /built-in gzip decompression support/i);
-assert.equal(supportsTravelerCardDownload(null), false);
-assert.equal(supportsTravelerCardDownload(class SyntheticDecompressionStream {}), true);
-assert.throws(() => assertTravelerCardDownloadSupport(null), /current browser|gzip decompression support/i);
+assert.match(TRAVELER_CARD_BROWSER_COMPATIBILITY_MESSAGE, /standard JSON and streaming response support/i);
+assert.equal(supportsTravelerCardDownload(), true);
+assert.doesNotThrow(() => assertTravelerCardDownloadSupport());
 
 let scrollAttempts = 0;
 assert.equal(scrollTravelerOutputBestEffort(() => { scrollAttempts += 1; throw new Error('scroll unavailable'); }), false);
@@ -289,12 +287,11 @@ assert.equal(downloadController.release(secondDownload), false, 'stale release a
 const generatedManifest = JSON.parse(readFileSync(resolve(WEB_ROOT, 'public/data/manifest.json'), 'utf8'));
 const generatedApiManifest = JSON.parse(readFileSync(resolve(WEB_ROOT, 'public/api/v1/manifest.json'), 'utf8'));
 const generatedRecords = JSON.parse(readFileSync(resolve(WEB_ROOT, 'public/api/v1/records.json'), 'utf8'));
-const generatedCardBytes = readFileSync(resolve(WEB_ROOT, 'public/api/v1/traveler-cards.json.gz'));
-const generatedCardBundle = JSON.parse(gunzipSync(generatedCardBytes));
+const generatedCardBytes = readFileSync(resolve(WEB_ROOT, 'public/api/v1/traveler-cards.json'));
+const generatedCardBundle = JSON.parse(generatedCardBytes);
 assert.ok(generatedCardBytes.byteLength <= TRAVELER_CARD_BUNDLE_MAX_BYTES);
-assert.ok(gunzipSync(generatedCardBytes).byteLength <= TRAVELER_CARD_BUNDLE_MAX_DECOMPRESSED_BYTES);
-assert.ok(generatedCardBytes.byteLength < readFileSync(resolve(WEB_ROOT, 'public/data/manifest.json')).byteLength);
-assert.equal(generatedApiManifest.endpoints.traveler_cards, 'traveler-cards.json.gz');
+assert.ok(generatedCardBytes.byteLength <= TRAVELER_CARD_BUNDLE_MAX_DECOMPRESSED_BYTES);
+assert.equal(generatedApiManifest.endpoints.traveler_cards, 'traveler-cards.json');
 assert.equal(generatedApiManifest.traveler_card_build_version, generatedApiManifest.build_versions.integration_generator);
 assert.equal(generatedCardBundle.traveler_card_build_version, generatedApiManifest.traveler_card_build_version);
 assert.deepEqual(getTravelerReleaseContext(generatedApiManifest), getTravelerReleaseContext(generatedCardBundle));
@@ -323,8 +320,8 @@ let unsupportedCardRequests = 0;
 await assert.rejects(loadTravelerCountryCard({
   countryCode: 'US',
   fetchImpl: async () => { unsupportedCardRequests += 1; throw new Error('unsupported browser made a request'); },
-  requireSupport: () => assertTravelerCardDownloadSupport(null),
-}), /gzip decompression support/i);
+  requireSupport: () => { throw new Error(TRAVELER_CARD_BROWSER_COMPATIBILITY_MESSAGE); },
+}), /streaming response support/i);
 assert.equal(unsupportedCardRequests, 0, 'unsupported browser requested a fixed artifact before capability failure');
 const loadedCard = await loadTravelerCountryCard({
   countryCode: 'US',

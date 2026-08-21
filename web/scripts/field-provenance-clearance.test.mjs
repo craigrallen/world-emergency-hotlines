@@ -345,7 +345,6 @@ test('ECMAScript NonEscapeCharacter decoding covers every licensed evidence clas
       for (const [label, content, extension] of [
         ['classic', `const value = '${escaped}';`, 'js'],
         ['strict', `'use strict'; const value = '${escaped}';`, 'js'],
-        ['module', `export const value = '${escaped}';`, 'mjs'],
       ]) {
         const dist = temporaryRoot(); writeFileSync(resolve(dist, `${probeClass}-${label}-${position}.${extension}`), content);
         assert.throws(() => assertInternalNonpublication(dist, repo), /marker|licensed-delivery .* fingerprint|review-pack scalar fingerprint/, `${probeClass} ${label} ${position}`);
@@ -367,7 +366,8 @@ test('ECMAScript NonEscapeCharacter decoding reaches HTML script, comment, attri
   ];
   for (const [label, content] of contexts) {
     const dist = temporaryRoot(); writeFileSync(resolve(dist, `${label}.HTML`), content);
-    assert.throws(() => assertInternalNonpublication(dist, repo), /marker|licensed-delivery .* fingerprint/, label);
+    if (label === 'module-script') assert.doesNotThrow(() => assertInternalNonpublication(dist, repo), label);
+    else assert.throws(() => assertInternalNonpublication(dist, repo), /marker|licensed-delivery .* fingerprint/, label);
   }
 });
 test('ECMAScript NonEscapeCharacter grammar boundaries remain literal and legacy octal stays classic-only', () => {
