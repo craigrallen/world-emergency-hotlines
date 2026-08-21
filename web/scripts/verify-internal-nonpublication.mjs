@@ -1,6 +1,6 @@
 import { existsSync, lstatSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { relative, resolve, sep } from 'node:path';
-import { gunzipSync } from 'node:zlib';
+import { gunzipSync, gzipSync } from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import { decodeHTML, decodeHTMLAttribute } from 'entities/decode';
 import { parse } from 'parse5';
@@ -13,6 +13,11 @@ import { INDEX_PATH as LEGAL_REVIEW_INDEX_PATH, INTERNAL_MARKER as LEGAL_REVIEW_
 import { EXAMPLE_PATH as CLEARANCE_EXAMPLE_PATH, INTERNAL_MARKER as CLEARANCE_MARKER, LEDGER_PATH as CLEARANCE_LEDGER_PATH } from './field-provenance-clearance-lib.mjs';
 
 const repo = resolve(import.meta.dirname, '../..');
+export const CANONICAL_RAW_JSON_MAX_BYTES = 1024 * 1024;
+// zlib's worst-case deflate overhead at 1 MiB is only a few hundred bytes
+// (plus the 18-byte gzip wrapper). A 1 KiB allowance therefore safely covers
+// every canonical level-9 gzip while tightly bounding untrusted input first.
+export const CANONICAL_GZIP_MAX_BYTES = CANONICAL_RAW_JSON_MAX_BYTES + 1024;
 const files = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
   const path = resolve(dir, entry.name); return entry.isDirectory() ? files(path) : [path];
 });
@@ -678,8 +683,12 @@ export function assertInternalNonpublication(dist, repoRoot = repo) {
       const index = JSON.parse(readFileSync(resolve(dist, 'release/v1/artifacts.json'), 'utf8'));
       const release = JSON.parse(readFileSync(resolve(dist, 'release/v1/release.json'), 'utf8'));
       const compressed = bytes;
-      try { bytes = gunzipSync(compressed, { maxOutputLength: 1024 * 1024 }); } catch { throw new Error(`generated compatibility artifact ${path} could not be boundedly gunzipped`); }
       const raw = readFileSync(rawPath);
+      if (raw.length > CANONICAL_RAW_JSON_MAX_BYTES) throw new Error(`generated canonical raw JSON artifact ${rawPath} exceeds the 1 MiB size limit`);
+      if (compressed.length > CANONICAL_GZIP_MAX_BYTES) throw new Error(`generated compatibility artifact ${path} exceeds the ${CANONICAL_GZIP_MAX_BYTES}-byte compressed size limit`);
+      const canonicalCompressed = gzipSync(raw, { level: 9, mtime: 0 });
+      if (!compressed.equals(canonicalCompressed)) throw new Error(`generated compatibility artifact ${path} differs from canonical deterministic gzip bytes`);
+      try { bytes = gunzipSync(compressed, { maxOutputLength: CANONICAL_RAW_JSON_MAX_BYTES }); } catch { throw new Error(`generated compatibility artifact ${path} could not be boundedly gunzipped`); }
       if (!bytes.equals(raw)) throw new Error(`generated compatibility artifact ${path} does not decompress to canonical raw JSON bytes`);
       const descriptors = manifest.traveler_card_artifacts;
       const rawHash = sha256(raw), gzipHash = sha256(compressed);

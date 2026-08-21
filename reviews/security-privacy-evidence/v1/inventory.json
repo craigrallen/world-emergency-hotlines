@@ -32,7 +32,7 @@
     "web/scripts/security-privacy-evidence.test.mjs": "sha256:ffe0956c15d5e4eaccb54278068c8ea0dce759d82a88c2c88939f476a06c3a5f",
     "web/scripts/verify-contact-links.mjs": "sha256:718ef385722919a18bcf16a5a929870d29203912bff007730ab41320d143e641",
     "web/scripts/verify-docker-image.sh": "sha256:efe7dc006ca23dad237658a403c648a7bacdea23bb2e5e01eb20aa73bff94ac0",
-    "web/scripts/verify-internal-nonpublication.mjs": "sha256:23343ba10d4b25bc07ad13e35c6763002a003cb01f03771e787e2b7e1ded7fcf",
+    "web/scripts/verify-internal-nonpublication.mjs": "sha256:62968ae316bd2b5fb9de33a896ae2d69ccd2686d01137eba22eb0a8681ea2b8f",
     "web/scripts/verify-release-integrity.mjs": "sha256:05820c23f4ec76f30a62f8b47a316baa6d8f123557295991f9bca859211fcaea",
     "web/scripts/verify-release-reproducibility.mjs": "sha256:a51527be77c2a0f011e1d683db0d9828746afb4935b98b6382c385a3ae62c7f9",
     "web/scripts/verify-security-privacy-evidence.mjs": "sha256:10597689cc2b3b2ae8219fe69dbde47f079f1c967b0e0cb0a5ae7f205d48d658",
