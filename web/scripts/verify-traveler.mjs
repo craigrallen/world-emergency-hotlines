@@ -371,6 +371,43 @@ try {
 } finally { globalThis.Blob = originalBlob; }
 await assert.rejects(loadTravelerCountryCard({ countryCode: 'CA', fetchImpl: async (url) => url === TRAVELER_CARD_MANIFEST_URL ? { ok: true, json: async () => generatedApiManifest } : { ok: true, headers: { get: () => null }, body: null } }), /no readable bounded body/);
 await assert.rejects(loadTravelerCountryCard({ countryCode: 'CA', fetchImpl: async (url) => url === TRAVELER_CARD_MANIFEST_URL ? { ok: true, json: async () => generatedApiManifest } : { ok: true, headers: { get: () => null }, body: { getReader: () => ({ read: async () => ({ done: false, value: 'not bytes' }), cancel: async () => {} }) } } }), /body could not be read/);
+
+const originalReadableStream = globalThis.ReadableStream;
+try {
+  globalThis.ReadableStream = undefined;
+  assert.equal(supportsTravelerCardDownload(), false, 'missing ReadableStream was reported as a supported browser');
+  assert.throws(() => assertTravelerCardDownloadSupport(), new RegExp(TRAVELER_CARD_BROWSER_COMPATIBILITY_MESSAGE.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  let requestsWithoutStreamSupport = 0;
+  await assert.rejects(loadTravelerCountryCard({
+    countryCode: 'US',
+    fetchImpl: async () => { requestsWithoutStreamSupport += 1; return { ok: true, json: async () => generatedApiManifest }; },
+  }), /streaming response support/i);
+  assert.equal(requestsWithoutStreamSupport, 0, 'a browser without ReadableStream still issued a fixed-artifact fetch before capability failure');
+} finally { globalThis.ReadableStream = originalReadableStream; }
+assert.equal(supportsTravelerCardDownload(), true, 'ReadableStream restoration did not restore capability support');
+
+const originalResponse = globalThis.Response;
+try {
+  class ResponseWithoutBody {}
+  globalThis.Response = ResponseWithoutBody;
+  assert.equal(supportsTravelerCardDownload(), false, 'a fetch Response without a streamable body was reported as supported');
+  assert.throws(() => assertTravelerCardDownloadSupport(), /streaming response support/i);
+  let requestsWithoutResponseBody = 0;
+  await assert.rejects(loadTravelerCountryCard({
+    countryCode: 'US',
+    fetchImpl: async () => { requestsWithoutResponseBody += 1; return { ok: true, json: async () => generatedApiManifest }; },
+  }), /streaming response support/i);
+  assert.equal(requestsWithoutResponseBody, 0, 'a Response without a readable body still issued a fixed-artifact fetch before capability failure');
+} finally { globalThis.Response = originalResponse; }
+assert.equal(supportsTravelerCardDownload(), true, 'Response restoration did not restore capability support');
+assert.doesNotThrow(() => assertTravelerCardDownloadSupport());
+const supportedLoadedCard = await loadTravelerCountryCard({
+  countryCode: 'US',
+  fetchImpl: async (url) => url === TRAVELER_CARD_MANIFEST_URL ? { ok: true, json: async () => structuredClone(generatedApiManifest) } : { ...mockCardResponse, body: cardBody([generatedCardBytes]) },
+  decodeBundle: async (bytes) => { assert.equal(Buffer.from(bytes).equals(generatedCardBytes), true); return structuredClone(generatedCardBundle); },
+});
+assert.equal(supportedLoadedCard.content, generatedCardBundle.cards.US, 'a genuinely supported environment could no longer load a country card');
+
 assert.equal(generatedManifest.schema_version, '2.0');
 assert.ok(Array.isArray(generatedManifest.countries) && generatedManifest.countries.length > 0);
 assert.equal(generatedRecords.api_version, '1.0');

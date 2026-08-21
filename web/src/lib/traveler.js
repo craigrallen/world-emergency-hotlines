@@ -347,9 +347,14 @@ async function readBoundedTravelerCardBody(response) {
   return bytes;
 }
 
-/** Reports whether the browser has exactly the APIs used by the raw JSON download path. */
+/** Reports whether the browser has exactly the APIs used by the raw JSON download path, including a readable streaming fetch response body. */
 export function supportsTravelerCardDownload() {
-  return typeof Blob === 'function' && typeof TextDecoder === 'function';
+  return typeof Blob === 'function'
+    && typeof TextDecoder === 'function'
+    && typeof ReadableStream === 'function'
+    && typeof ReadableStream.prototype?.getReader === 'function'
+    && typeof Response === 'function'
+    && 'body' in Response.prototype;
 }
 
 /** Fails synchronously so callers can stop before issuing either fixed request. */
