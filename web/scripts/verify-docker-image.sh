@@ -74,26 +74,47 @@ require_page /feeds/releases.atom '<feed xmlns="http://www.w3.org/2005/Atom">' "
 require_page /manifest.webmanifest '"/pwa-icon-512.png"' "$fixture/manifest.webmanifest"
 require_page /service-worker.js "cache.match('/offline.html')" "$fixture/service-worker.js"
 require_page /offline.html 'limited offline shell' "$fixture/offline.html"
-card_path=/api/v1/traveler-cards.json.gz
+card_path=/api/v1/traveler-cards.json
 card_headers="$fixture/traveler-cards.headers"
-card_body="$fixture/traveler-cards.json.gz"
+card_body="$fixture/traveler-cards.json"
 card_status=$(curl --max-time 5 -sS -H 'Accept-Encoding: identity' -D "$card_headers" -o "$card_body" -w '%{http_code}' "$base$card_path")
 [ "$card_status" = 200 ] || { echo "GET $card_path returned $card_status, expected 200" >&2; exit 1; }
 card_type=$(tr -d '\r' < "$card_headers" | sed -n 's/^[Cc]ontent-[Tt]ype: //p' | tail -n 1)
-[ "$card_type" = 'application/gzip' ] || { echo "production traveler-card MIME was '$card_type', expected application/gzip" >&2; exit 1; }
+[ "$card_type" = 'application/json' ] || { echo "production traveler-card MIME was '$card_type', expected application/json" >&2; exit 1; }
 card_encoding=$(tr -d '\r' < "$card_headers" | sed -n 's/^[Cc]ontent-[Ee]ncoding: //p' | tail -n 1)
 [ -z "$card_encoding" ] || { echo "production traveler-card response unexpectedly used Content-Encoding: $card_encoding" >&2; exit 1; }
 card_length=$(wc -c < "$card_body" | tr -d ' ')
+[ "$card_length" -le 1048576 ] || { echo "production traveler-card response was $card_length bytes, exceeding the 1048576-byte ceiling" >&2; exit 1; }
 served_length=$(tr -d '\r' < "$card_headers" | sed -n 's/^[Cc]ontent-[Ll]ength: //p' | tail -n 1)
 [ "$served_length" = "$card_length" ] || { echo "production traveler-card Content-Length was '$served_length', expected $card_length" >&2; exit 1; }
+card_cache=$(tr -d '\r' < "$card_headers" | sed -n 's/^[Cc]ache-[Cc]ontrol: //p' | tail -n 1)
+[ "$card_cache" = 'public, max-age=300, stale-while-revalidate=86400' ] || { echo "production traveler-card Cache-Control was '$card_cache'" >&2; exit 1; }
 card_head_status=$(curl --max-time 5 -sS --request HEAD --ignore-content-length -H 'Accept-Encoding: identity' -H 'Connection: close' -D "$fixture/traveler-cards-head.headers" -o "$fixture/traveler-cards-head.body" -w '%{http_code}' "$base$card_path")
 [ "$card_head_status" = 200 ] || { echo "HEAD $card_path returned $card_head_status, expected 200" >&2; exit 1; }
 [ ! -s "$fixture/traveler-cards-head.body" ] || { echo "HEAD $card_path returned a body" >&2; exit 1; }
 head_type=$(tr -d '\r' < "$fixture/traveler-cards-head.headers" | sed -n 's/^[Cc]ontent-[Tt]ype: //p' | tail -n 1)
 head_length=$(tr -d '\r' < "$fixture/traveler-cards-head.headers" | sed -n 's/^[Cc]ontent-[Ll]ength: //p' | tail -n 1)
 head_encoding=$(tr -d '\r' < "$fixture/traveler-cards-head.headers" | sed -n 's/^[Cc]ontent-[Ee]ncoding: //p' | tail -n 1)
-[ "$head_type" = 'application/gzip' ] && [ "$head_length" = "$card_length" ] && [ -z "$head_encoding" ] || { echo "HEAD $card_path did not preserve raw gzip MIME/length semantics" >&2; exit 1; }
-for spec in 'POST|traveler-cards.json.gz' 'GET|does-not-exist.json'; do
+head_cache=$(tr -d '\r' < "$fixture/traveler-cards-head.headers" | sed -n 's/^[Cc]ache-[Cc]ontrol: //p' | tail -n 1)
+[ "$head_type" = 'application/json' ] && [ "$head_length" = "$card_length" ] && [ -z "$head_encoding" ] && [ "$head_cache" = "$card_cache" ] || { echo "HEAD $card_path did not preserve raw JSON MIME/length/cache semantics" >&2; exit 1; }
+gzip_path=/api/v1/traveler-cards.json.gz
+gzip_headers="$fixture/traveler-cards-gzip.headers"
+gzip_body="$fixture/traveler-cards.json.gz"
+gzip_status=$(curl --max-time 5 -sS -H 'Accept-Encoding: identity' -D "$gzip_headers" -o "$gzip_body" -w '%{http_code}' "$base$gzip_path")
+[ "$gzip_status" = 200 ] || { echo "GET $gzip_path returned $gzip_status, expected 200" >&2; exit 1; }
+gzip_type=$(tr -d '\r' < "$gzip_headers" | sed -n 's/^[Cc]ontent-[Tt]ype: //p' | tail -n 1)
+gzip_encoding=$(tr -d '\r' < "$gzip_headers" | sed -n 's/^[Cc]ontent-[Ee]ncoding: //p' | tail -n 1)
+gzip_cache=$(tr -d '\r' < "$gzip_headers" | sed -n 's/^[Cc]ache-[Cc]ontrol: //p' | tail -n 1)
+[ "$gzip_type" = 'application/gzip' ] && [ -z "$gzip_encoding" ] && [ "$gzip_cache" = "$card_cache" ] || { echo "GET $gzip_path did not preserve compatibility MIME/encoding/cache semantics" >&2; exit 1; }
+node -e 'const fs=require("node:fs"),z=require("node:zlib");if(!z.gunzipSync(fs.readFileSync(process.argv[1])).equals(fs.readFileSync(process.argv[2])))process.exit(1)' "$gzip_body" "$card_body" || { echo "GET $gzip_path did not decompress to raw canonical bytes" >&2; exit 1; }
+gzip_length=$(wc -c < "$gzip_body" | tr -d ' ')
+gzip_head_status=$(curl --max-time 5 -sS --request HEAD --ignore-content-length -H 'Accept-Encoding: identity' -H 'Connection: close' -D "$fixture/traveler-cards-gzip-head.headers" -o "$fixture/traveler-cards-gzip-head.body" -w '%{http_code}' "$base$gzip_path")
+[ "$gzip_head_status" = 200 ] && [ ! -s "$fixture/traveler-cards-gzip-head.body" ] || { echo "HEAD $gzip_path failed or returned a body" >&2; exit 1; }
+gzip_head_type=$(tr -d '\r' < "$fixture/traveler-cards-gzip-head.headers" | sed -n 's/^[Cc]ontent-[Tt]ype: //p' | tail -n 1)
+gzip_head_length=$(tr -d '\r' < "$fixture/traveler-cards-gzip-head.headers" | sed -n 's/^[Cc]ontent-[Ll]ength: //p' | tail -n 1)
+gzip_head_encoding=$(tr -d '\r' < "$fixture/traveler-cards-gzip-head.headers" | sed -n 's/^[Cc]ontent-[Ee]ncoding: //p' | tail -n 1)
+[ "$gzip_head_type" = 'application/gzip' ] && [ "$gzip_head_length" = "$gzip_length" ] && [ -z "$gzip_head_encoding" ] || { echo "HEAD $gzip_path did not preserve compatibility MIME/length/encoding semantics" >&2; exit 1; }
+for spec in 'POST|traveler-cards.json' 'GET|does-not-exist.json'; do
   method=${spec%%|*}; path=${spec#*|}
   status=$(curl --max-time 5 -sS -X "$method" -o /dev/null -w '%{http_code}' "$base/api/v1/$path")
   [ "$status" = 404 ] || { echo "$method /api/v1/$path returned $status, expected 404" >&2; exit 1; }
@@ -137,7 +158,6 @@ assurance_pack_write_status=$(curl --max-time 5 -sS -X POST -o "$fixture/assuran
 node - "$fixture/release.json" "$fixture/assurance-pack.json" "$fixture/artifacts.json" "$repo_root/assurance-packs/contracts/v1" "$fixture/api-manifest.json" "$card_body" <<'NODE'
 const { createHash } = require('node:crypto');
 const { readFileSync } = require('node:fs');
-const { gunzipSync } = require('node:zlib');
 
 const descriptor = JSON.parse(readFileSync(process.argv[2], 'utf8'));
 const pack = JSON.parse(readFileSync(process.argv[3], 'utf8'));
@@ -148,7 +168,8 @@ const digest = (bytes) => `sha256:${createHash('sha256').update(bytes).digest('h
 const identity = /^sha256:[0-9a-f]{64}$/;
 const apiManifest = JSON.parse(readFileSync(process.argv[6], 'utf8'));
 const cardBytes = readFileSync(process.argv[7]);
-const cardBundle = JSON.parse(gunzipSync(cardBytes));
+if (cardBytes.length > 1024 * 1024) { console.error('Served traveler-card JSON exceeds the 1048576-byte ceiling'); process.exit(1); }
+const cardBundle = JSON.parse(cardBytes);
 const valid = descriptor.schema_version === '1.0'
   && descriptor.canonical_origin === 'https://worldhotlines.org'
   && identity.test(descriptor.dataset_version)
@@ -164,19 +185,19 @@ if (!valid) {
   process.exit(1);
 }
 const byPath = new Map(index.artifacts.map((entry) => [entry.path, entry]));
-const cardEntry = byPath.get('/api/v1/traveler-cards.json.gz');
+const cardEntry = byPath.get('/api/v1/traveler-cards.json');
 const metadataKeys = ['api_version', 'dataset_version', 'schema_version', 'generated_at', 'source_last_updated'];
 const cardCodes = Object.keys(cardBundle.cards).sort();
 const manifestCodes = apiManifest.countries.map(({ alpha2 }) => alpha2).sort();
-const cardsValid = apiManifest.endpoints.traveler_cards === 'traveler-cards.json.gz'
+const cardsValid = apiManifest.endpoints.traveler_cards === 'traveler-cards.json'
   && metadataKeys.every((key) => cardBundle[key] === apiManifest[key])
   && JSON.stringify(cardCodes) === JSON.stringify(manifestCodes)
   && cardCodes.length === apiManifest.total_countries
   && cardCodes.every((code) => typeof cardBundle.cards[code] === 'string' && cardBundle.cards[code].startsWith('EMERGENCY'))
   && cardEntry?.bytes === cardBytes.length
   && cardEntry.sha256 === digest(cardBytes)
-  && JSON.stringify(descriptor.relationships['/api/v1/traveler-cards.json.gz']) === JSON.stringify(cardEntry);
-if (!cardsValid) { console.error('Served traveler-card gzip, metadata/card invariants, or release relationship failed'); process.exit(1); }
+  && JSON.stringify(descriptor.relationships['/api/v1/traveler-cards.json']) === JSON.stringify(cardEntry);
+if (!cardsValid) { console.error('Served traveler-card JSON, metadata/card invariants, or release relationship failed'); process.exit(1); }
 const packValid = pack.schema === 'data-assurance-pack/v1'
   && pack.pack_kind === 'static_synthetic_reference'
   && pack.release.release_id === 'sha256:da1a06c5b11b20fc76afa269c324ab869293cdd67d232cf62f05724dc1fc124a'
@@ -198,4 +219,4 @@ missing_status=$(curl --max-time 5 -sS -o "$fixture/missing.txt" -w '%{http_code
 [ "$missing_status" = 404 ] || { echo "GET $missing returned $missing_status, expected 404" >&2; exit 1; }
 [ "$(cat "$fixture/missing.txt")" = 'Not found' ] || { echo "GET $missing did not return the stable 404 body" >&2; exit 1; }
 
-echo "Deployment image OK: Docker build; raw traveler-card gzip GET/HEAD MIME, invariants, release hash/bytes, and read-only 404s; assurance and release relationships"
+echo "Deployment image OK: Docker build; raw traveler-card JSON GET/HEAD MIME, invariants, release hash/bytes, and read-only 404s; assurance and release relationships"

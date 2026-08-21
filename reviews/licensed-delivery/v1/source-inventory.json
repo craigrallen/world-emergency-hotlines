@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "algorithm": "sha256",
+  "sources": {
+    "DECISIONS.md": "709ff5e712fb8481f1040e73b02c75b73ce52c7b15c015e0fdc3855fe376a7f6",
+    "README.md": "89c9e1fa3b0905c6f95f6f37b610dadb209b71b9572c39e54a4a1756429bab58",
+    "cli.mjs": "216238e4e8107703f1a136285d43cfda2efe07e12b8a5cfd2c1490b7b3f86f8e",
+    "fixtures/observations.synthetic.json": "342827a7c392e42549ea9348bb51dd995f0a63811fd7df517c8131bfc69316f5",
+    "fixtures/presentation.synthetic.json": "c59180bd757ee1c3fc2e9462f0186f4945edcba043672438388e69753a271a67",
+    "fixtures/synthetic-input.json": "174117ce223406ca3ad680e3137e95493fb44cabd41e1f776cb3c79320b7ca45",
+    "http-contract.json": "75ac5e68940367b9c1af1c7eb55096bca40d621bbc91919462895818bd22fa43",
+    "model.mjs": "2f05d1abbbad19cfd8923a849576a289b82f791ccf7e4b679b45fe04657e75c8",
+    "schemas.json": "292785aa646cf53108a14716624982601d20192ee65bbc89ce9ef95c1a4ce96b",
+    "terms.counsel-draft.md": "f9ece07e41b74d791b93092e0e7bedf0f31d61f28c2a9deb554bde0c07f7782a",
+    "test/cli.test.mjs": "2e5febfeda4d12057411aa10c184ac30e37a80467be82f672ff96e217f438b2a",
+    "test/model.test.mjs": "bf960380a1d43ac4968599fcfed556cec2faa07a60256d073034f6c406f66499"
+  }
+}
