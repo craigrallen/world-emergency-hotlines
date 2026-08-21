@@ -84,15 +84,19 @@ card_type=$(tr -d '\r' < "$card_headers" | sed -n 's/^[Cc]ontent-[Tt]ype: //p' |
 card_encoding=$(tr -d '\r' < "$card_headers" | sed -n 's/^[Cc]ontent-[Ee]ncoding: //p' | tail -n 1)
 [ -z "$card_encoding" ] || { echo "production traveler-card response unexpectedly used Content-Encoding: $card_encoding" >&2; exit 1; }
 card_length=$(wc -c < "$card_body" | tr -d ' ')
+[ "$card_length" -le 1048576 ] || { echo "production traveler-card response was $card_length bytes, exceeding the 1048576-byte ceiling" >&2; exit 1; }
 served_length=$(tr -d '\r' < "$card_headers" | sed -n 's/^[Cc]ontent-[Ll]ength: //p' | tail -n 1)
 [ "$served_length" = "$card_length" ] || { echo "production traveler-card Content-Length was '$served_length', expected $card_length" >&2; exit 1; }
+card_cache=$(tr -d '\r' < "$card_headers" | sed -n 's/^[Cc]ache-[Cc]ontrol: //p' | tail -n 1)
+[ "$card_cache" = 'public, max-age=300, stale-while-revalidate=86400' ] || { echo "production traveler-card Cache-Control was '$card_cache'" >&2; exit 1; }
 card_head_status=$(curl --max-time 5 -sS --request HEAD --ignore-content-length -H 'Accept-Encoding: identity' -H 'Connection: close' -D "$fixture/traveler-cards-head.headers" -o "$fixture/traveler-cards-head.body" -w '%{http_code}' "$base$card_path")
 [ "$card_head_status" = 200 ] || { echo "HEAD $card_path returned $card_head_status, expected 200" >&2; exit 1; }
 [ ! -s "$fixture/traveler-cards-head.body" ] || { echo "HEAD $card_path returned a body" >&2; exit 1; }
 head_type=$(tr -d '\r' < "$fixture/traveler-cards-head.headers" | sed -n 's/^[Cc]ontent-[Tt]ype: //p' | tail -n 1)
 head_length=$(tr -d '\r' < "$fixture/traveler-cards-head.headers" | sed -n 's/^[Cc]ontent-[Ll]ength: //p' | tail -n 1)
 head_encoding=$(tr -d '\r' < "$fixture/traveler-cards-head.headers" | sed -n 's/^[Cc]ontent-[Ee]ncoding: //p' | tail -n 1)
-[ "$head_type" = 'application/json' ] && [ "$head_length" = "$card_length" ] && [ -z "$head_encoding" ] || { echo "HEAD $card_path did not preserve raw JSON MIME/length semantics" >&2; exit 1; }
+head_cache=$(tr -d '\r' < "$fixture/traveler-cards-head.headers" | sed -n 's/^[Cc]ache-[Cc]ontrol: //p' | tail -n 1)
+[ "$head_type" = 'application/json' ] && [ "$head_length" = "$card_length" ] && [ -z "$head_encoding" ] && [ "$head_cache" = "$card_cache" ] || { echo "HEAD $card_path did not preserve raw JSON MIME/length/cache semantics" >&2; exit 1; }
 for spec in 'POST|traveler-cards.json' 'GET|does-not-exist.json'; do
   method=${spec%%|*}; path=${spec#*|}
   status=$(curl --max-time 5 -sS -X "$method" -o /dev/null -w '%{http_code}' "$base/api/v1/$path")
@@ -137,7 +141,6 @@ assurance_pack_write_status=$(curl --max-time 5 -sS -X POST -o "$fixture/assuran
 node - "$fixture/release.json" "$fixture/assurance-pack.json" "$fixture/artifacts.json" "$repo_root/assurance-packs/contracts/v1" "$fixture/api-manifest.json" "$card_body" <<'NODE'
 const { createHash } = require('node:crypto');
 const { readFileSync } = require('node:fs');
-const { gunzipSync } = require('node:zlib');
 
 const descriptor = JSON.parse(readFileSync(process.argv[2], 'utf8'));
 const pack = JSON.parse(readFileSync(process.argv[3], 'utf8'));
@@ -148,7 +151,8 @@ const digest = (bytes) => `sha256:${createHash('sha256').update(bytes).digest('h
 const identity = /^sha256:[0-9a-f]{64}$/;
 const apiManifest = JSON.parse(readFileSync(process.argv[6], 'utf8'));
 const cardBytes = readFileSync(process.argv[7]);
-const cardBundle = JSON.parse(gunzipSync(cardBytes));
+if (cardBytes.length > 1024 * 1024) { console.error('Served traveler-card JSON exceeds the 1048576-byte ceiling'); process.exit(1); }
+const cardBundle = JSON.parse(cardBytes);
 const valid = descriptor.schema_version === '1.0'
   && descriptor.canonical_origin === 'https://worldhotlines.org'
   && identity.test(descriptor.dataset_version)

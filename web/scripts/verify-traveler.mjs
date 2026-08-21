@@ -305,6 +305,12 @@ assert.throws(() => validateTravelerCardBundleIdentity(
   { ...generatedApiManifest, traveler_card_build_version: undefined },
 ), /invalid country-card build version/);
 assert.deepEqual(Object.keys(generatedCardBundle.cards).sort(), generatedApiManifest.countries.map(({ alpha2 }) => alpha2).sort());
+const dockerVerifier = readFileSync(resolve(WEB_ROOT, 'scripts/verify-docker-image.sh'), 'utf8');
+assert.match(dockerVerifier, /const cardBundle = JSON\.parse\(cardBytes\);/, 'deployment smoke test must parse the bounded raw traveler-card JSON bytes');
+assert.doesNotMatch(dockerVerifier, /gunzip|node:zlib|traveler-cards\.json\.gz/, 'deployment smoke test retained a compressed traveler-card assumption');
+for (const assertion of ['1048576-byte ceiling', 'application/json', 'Cache-Control', 'cardEntry?.bytes === cardBytes.length', 'cardEntry.sha256 === digest(cardBytes)']) {
+  assert.ok(dockerVerifier.includes(assertion), `deployment smoke test lost its ${assertion} assertion`);
+}
 for (const content of Object.values(generatedCardBundle.cards)) {
   assert.equal(content.indexOf('EMERGENCY'), 0);
   assert.doesNotMatch(content, /https?:\/\//);
