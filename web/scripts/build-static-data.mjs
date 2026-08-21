@@ -11,6 +11,7 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync, lstatSync, realpath
 import { dirname, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createHash } from 'node:crypto';
+import { gzipSync } from 'node:zlib';
 import { utf16Compare } from './dataset-diff.mjs';
 import { classifyScope, getHotlineChannels } from '../src/lib/finder.js';
 import { API_VERSION, canonicalHotline } from './api-records-transform.mjs';
@@ -29,7 +30,7 @@ import { generateManagedApiPlanContracts } from './generate-managed-api-plan-con
 import { generateDeprecationProposalContracts } from './generate-deprecation-proposal-contracts.mjs';
 import { generateEvidenceBackedCoverageContracts } from './generate-evidence-backed-coverage-contracts.mjs';
 import { assertPwaAssetParity } from './generate-pwa-assets.mjs';
-import { serializeTravelerCountryCard, TRAVELER_CARD_BUNDLE_MAX_BYTES, TRAVELER_CARD_BUNDLE_MAX_DECOMPRESSED_BYTES } from '../src/lib/traveler.js';
+import { serializeTravelerCountryCard, TRAVELER_CARD_BUNDLE_MAX_BYTES } from '../src/lib/traveler.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const WEB_ROOT = resolve(__dirname, '..');
@@ -319,6 +320,7 @@ const apiManifest = {
     manifest: 'manifest.json',
     records: 'records.json',
     traveler_cards: 'traveler-cards.json',
+    traveler_cards_gzip_compatibility: 'traveler-cards.json.gz',
     country: 'countries/{alpha2}.json',
     resolver_module: 'resolver.js',
     release_descriptor: '../../release/v1/release.json',
@@ -338,7 +340,6 @@ const apiManifest = {
   countries: apiCountries.sort((a, b) => utf16Compare(a.name, b.name)),
 };
 apiManifest.traveler_card_build_version = apiManifest.build_versions.integration_generator;
-writeFileSync(resolve(API_DIR, 'manifest.json'), JSON.stringify(apiManifest, null, 2));
 writeFileSync(resolve(API_DIR, 'records.json'), JSON.stringify({
   api_version: API_VERSION,
   dataset_version: manifest.dataset_version,
@@ -353,14 +354,18 @@ const travelerCardJson = Buffer.from(JSON.stringify({
   source_last_updated: manifest.source_last_updated,
   cards: Object.fromEntries(Object.entries(travelerCards).sort(([a], [b]) => utf16Compare(a, b))),
 }));
-if (travelerCardJson.byteLength > TRAVELER_CARD_BUNDLE_MAX_DECOMPRESSED_BYTES) {
-  throw new Error(`traveler card bundle JSON ${travelerCardJson.byteLength} bytes exceeds ${TRAVELER_CARD_BUNDLE_MAX_DECOMPRESSED_BYTES}-byte ceiling`);
-}
 if (travelerCardJson.byteLength > TRAVELER_CARD_BUNDLE_MAX_BYTES) {
   throw new Error(`traveler card bundle ${travelerCardJson.byteLength} bytes exceeds ${TRAVELER_CARD_BUNDLE_MAX_BYTES}-byte ceiling`);
 }
-rmSync(resolve(API_DIR, 'traveler-cards.json.gz'), { force: true });
 writeFileSync(resolve(API_DIR, 'traveler-cards.json'), travelerCardJson);
+const travelerCardGzip = gzipSync(travelerCardJson, { level: 9, mtime: 0 });
+writeFileSync(resolve(API_DIR, 'traveler-cards.json.gz'), travelerCardGzip);
+const travelerCardSha256 = `sha256:${createHash('sha256').update(travelerCardJson).digest('hex')}`;
+apiManifest.traveler_card_artifacts = {
+  raw: { path: 'traveler-cards.json', bytes: travelerCardJson.byteLength, sha256: travelerCardSha256 },
+  gzip_compatibility: { path: 'traveler-cards.json.gz', bytes: travelerCardGzip.byteLength, sha256: `sha256:${createHash('sha256').update(travelerCardGzip).digest('hex')}`, decompressed_bytes: travelerCardJson.byteLength, decompressed_sha256: travelerCardSha256 },
+};
+writeFileSync(resolve(API_DIR, 'manifest.json'), JSON.stringify(apiManifest, null, 2));
 writeFileSync(resolve(API_DIR, 'resolver.js'), readFileSync(resolve(WEB_ROOT, 'src', 'lib', 'finder.js'), 'utf-8'));
 assertPwaAssetParity({ webRoot: WEB_ROOT, datasetVersion: manifest.dataset_version, sourceLastUpdated: canonical.source_last_updated });
 generateReleaseFeeds({ currentDataset: { $schema_version: canonical.schema_version, countries: canonical.countries }, datasetVersion: manifest.dataset_version });

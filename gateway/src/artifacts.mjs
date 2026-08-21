@@ -43,7 +43,7 @@ const ORGANIZATION_RELATIONSHIP_PATHS=MANAGED_RELATIONSHIP_PATHS.filter(path=>!p
 const ORGANIZATION_BUILD_INPUTS={...MANAGED_BUILD_INPUTS,integration_generator:MANAGED_BUILD_INPUTS.integration_generator.filter(path=>path!=='scripts/generate-managed-widget-config-contracts.mjs'&&path!=='repo:managed-widget-config/model.mjs')};
 const LEGACY_RELATIONSHIP_PATHS=ORGANIZATION_RELATIONSHIP_PATHS.filter(path=>!path.startsWith('/organizations/v1/'));
 const LEGACY_BUILD_INPUTS={...ORGANIZATION_BUILD_INPUTS,integration_generator:ORGANIZATION_BUILD_INPUTS.integration_generator.filter(path=>path!=='scripts/generate-organization-contracts.mjs'&&path!=='repo:control-plane/model.mjs')};
-RELATIONSHIP_PATHS.splice(3,0,'/api/v1/traveler-cards.json');
+RELATIONSHIP_PATHS.splice(3,0,'/api/v1/traveler-cards.json','/api/v1/traveler-cards.json.gz');
 BUILD_INPUTS.integration_generator.push('src/lib/traveler.js','src/lib/contact.ts');
 const GENERATED_AT_SEMANTICS='Release identity is derived from deterministic content and code identities, not wall-clock build metadata.';
 const BUILD_SEMANTICS='SHA-256 over the listed ordered source files, each framed by UTF-8 path length/path and byte length. These identities cover only their finite inputs.';

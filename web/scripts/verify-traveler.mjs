@@ -3,11 +3,11 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  assertTravelerCardDownloadSupport, createLatestGenerationGate, createTravelerDownloadController, createTravelerPrintReadinessController, createTravelerSelectionSnapshot, decompressTravelerCardBundle, getTravelerCountryChoices, getTravelerReleaseContext, loadTravelerCountryCard, loadTravelerData,
+  assertTravelerCardDownloadSupport, createLatestGenerationGate, createTravelerDownloadController, createTravelerPrintReadinessController, createTravelerSelectionSnapshot, decodeTravelerCardBundle, getTravelerCountryChoices, getTravelerReleaseContext, loadTravelerCountryCard, loadTravelerData,
   reconstructTravelerCountries, resolveTravelerHelp, safeTravelerUrl, scrollTravelerOutputBestEffort, selectTravelerContacts,
   serializeTravelerCountryCard,
   supportsTravelerCardDownload, TRAVELER_CARD_BROWSER_COMPATIBILITY_MESSAGE, TRAVELER_CARD_CONTACT_LIMIT,
-  TRAVELER_CARD_BUNDLE_MAX_BYTES, TRAVELER_CARD_BUNDLE_MAX_DECOMPRESSED_BYTES, TRAVELER_CARD_BUNDLE_URL, TRAVELER_CARD_MANIFEST_URL,
+  TRAVELER_CARD_BUNDLE_MAX_BYTES, TRAVELER_CARD_BUNDLE_URL, TRAVELER_CARD_MANIFEST_URL,
   TRAVELER_MANIFEST_URL, TRAVELER_RECORDS_API_VERSION, TRAVELER_RECORDS_URL, validateTravelerCardBundleIdentity,
 } from '../src/lib/traveler.js';
 import { dedupeMessageContacts, phoneContacts } from '../src/lib/contact.ts';
@@ -175,8 +175,7 @@ assert.equal(TRAVELER_RECORDS_API_VERSION, '1.0');
 assert.equal(TRAVELER_CARD_MANIFEST_URL, '/api/v1/manifest.json');
 assert.equal(TRAVELER_CARD_BUNDLE_URL, '/api/v1/traveler-cards.json');
 assert.equal(TRAVELER_CARD_BUNDLE_MAX_BYTES, 1024 * 1024);
-assert.equal(TRAVELER_CARD_BUNDLE_MAX_DECOMPRESSED_BYTES, 1024 * 1024);
-assert.match(TRAVELER_CARD_BROWSER_COMPATIBILITY_MESSAGE, /standard JSON and streaming response support/i);
+assert.match(TRAVELER_CARD_BROWSER_COMPATIBILITY_MESSAGE, /standard JSON.*UTF-8 decoding.*streaming response support/i);
 assert.equal(supportsTravelerCardDownload(), true);
 assert.doesNotThrow(() => assertTravelerCardDownloadSupport());
 
@@ -290,8 +289,8 @@ const generatedRecords = JSON.parse(readFileSync(resolve(WEB_ROOT, 'public/api/v
 const generatedCardBytes = readFileSync(resolve(WEB_ROOT, 'public/api/v1/traveler-cards.json'));
 const generatedCardBundle = JSON.parse(generatedCardBytes);
 assert.ok(generatedCardBytes.byteLength <= TRAVELER_CARD_BUNDLE_MAX_BYTES);
-assert.ok(generatedCardBytes.byteLength <= TRAVELER_CARD_BUNDLE_MAX_DECOMPRESSED_BYTES);
 assert.equal(generatedApiManifest.endpoints.traveler_cards, 'traveler-cards.json');
+assert.equal(generatedApiManifest.endpoints.traveler_cards_gzip_compatibility, 'traveler-cards.json.gz');
 assert.equal(generatedApiManifest.traveler_card_build_version, generatedApiManifest.build_versions.integration_generator);
 assert.equal(generatedCardBundle.traveler_card_build_version, generatedApiManifest.traveler_card_build_version);
 assert.deepEqual(getTravelerReleaseContext(generatedApiManifest), getTravelerReleaseContext(generatedCardBundle));
@@ -307,7 +306,7 @@ assert.throws(() => validateTravelerCardBundleIdentity(
 assert.deepEqual(Object.keys(generatedCardBundle.cards).sort(), generatedApiManifest.countries.map(({ alpha2 }) => alpha2).sort());
 const dockerVerifier = readFileSync(resolve(WEB_ROOT, 'scripts/verify-docker-image.sh'), 'utf8');
 assert.match(dockerVerifier, /const cardBundle = JSON\.parse\(cardBytes\);/, 'deployment smoke test must parse the bounded raw traveler-card JSON bytes');
-assert.doesNotMatch(dockerVerifier, /gunzip|node:zlib|traveler-cards\.json\.gz/, 'deployment smoke test retained a compressed traveler-card assumption');
+assert.match(dockerVerifier, /traveler-cards\.json\.gz/, 'deployment smoke test lost the v1 gzip compatibility endpoint');
 for (const assertion of ['1048576-byte ceiling', 'application/json', 'Cache-Control', 'cardEntry?.bytes === cardBytes.length', 'cardEntry.sha256 === digest(cardBytes)']) {
   assert.ok(dockerVerifier.includes(assertion), `deployment smoke test lost its ${assertion} assertion`);
 }
@@ -360,37 +359,16 @@ await assert.rejects(loadTravelerCountryCard({
 }), /byte-size ceiling/);
 assert.equal(oversizedBodyCancelled, true, 'oversized chunked body was not cancelled');
 const encoder = new TextEncoder();
-const boundedJson = encoder.encode(JSON.stringify({ ok: true }));
-assert.deepEqual(await decompressTravelerCardBundle(new Uint8Array(), () => cardBody([boundedJson])), { ok: true }, 'bounded decompression stream did not parse');
-let decompressionCancelled = false;
-let parseCalled = false;
-const oversizedDecompressedChunks = [
-  new Uint8Array(TRAVELER_CARD_BUNDLE_MAX_DECOMPRESSED_BYTES),
-  new Uint8Array(1),
-];
-let oversizedDecompressedChunkIndex = 0;
-const oversizedDecompressionStream = { getReader: () => ({
-  read: async () => oversizedDecompressedChunkIndex < oversizedDecompressedChunks.length
-    ? { done: false, value: oversizedDecompressedChunks[oversizedDecompressedChunkIndex++] }
-    : { done: true },
-  cancel: async () => { decompressionCancelled = true; },
-}) };
-const originalParse = JSON.parse;
-JSON.parse = (...args) => { parseCalled = true; return originalParse(...args); };
+assert.deepEqual(decodeTravelerCardBundle(encoder.encode(JSON.stringify({ ok: true }))), { ok: true });
+assert.throws(() => decodeTravelerCardBundle(encoder.encode('{malformed')), /could not be parsed/);
+assert.throws(() => decodeTravelerCardBundle(new Uint8Array([0xff])), /could not be parsed/, 'invalid UTF-8 was not rejected fatally');
+const originalBlob = globalThis.Blob;
 try {
-  await assert.rejects(
-    decompressTravelerCardBundle(new Uint8Array(), () => oversizedDecompressionStream),
-    /could not be parsed/,
-  );
-} finally {
-  JSON.parse = originalParse;
-}
-assert.equal(decompressionCancelled, true, 'oversized decompression stream was not cancelled');
-assert.equal(parseCalled, false, 'oversized decompressed bytes reached JSON parsing');
-await assert.rejects(
-  decompressTravelerCardBundle(new Uint8Array(), () => cardBody([encoder.encode('{malformed')])),
-  /could not be parsed/,
-);
+  class BlobWithoutStream { constructor(parts) { this.size = parts.reduce((total, part) => total + String(part).length, 0); } }
+  globalThis.Blob = BlobWithoutStream;
+  assert.equal(supportsTravelerCardDownload(), true, 'Blob.stream was incorrectly required for raw JSON');
+  assert.doesNotThrow(() => assertTravelerCardDownloadSupport());
+} finally { globalThis.Blob = originalBlob; }
 await assert.rejects(loadTravelerCountryCard({ countryCode: 'CA', fetchImpl: async (url) => url === TRAVELER_CARD_MANIFEST_URL ? { ok: true, json: async () => generatedApiManifest } : { ok: true, headers: { get: () => null }, body: null } }), /no readable bounded body/);
 await assert.rejects(loadTravelerCountryCard({ countryCode: 'CA', fetchImpl: async (url) => url === TRAVELER_CARD_MANIFEST_URL ? { ok: true, json: async () => generatedApiManifest } : { ok: true, headers: { get: () => null }, body: { getReader: () => ({ read: async () => ({ done: false, value: 'not bytes' }), cancel: async () => {} }) } } }), /body could not be read/);
 assert.equal(generatedManifest.schema_version, '2.0');

@@ -1,5 +1,6 @@
 import { existsSync, lstatSync, readFileSync, readdirSync, statSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { relative, resolve } from 'node:path';
+import { gunzipSync } from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import { decodeHTML, decodeHTMLAttribute } from 'entities/decode';
 import { parse } from 'parse5';
@@ -635,8 +636,29 @@ export function assertInternalNonpublication(dist, repoRoot = repo) {
     const metadata = statSync(path);
     if (!metadata.isFile()) throw new Error(`non-regular artifact ${path} is forbidden in public dist`);
     if (metadata.nlink !== 1) throw new Error(`hard-linked artifact ${path} is forbidden in public dist`);
-    const bytes = readFileSync(path);
-    assertPublishableArtifact(path, bytes);
+    let bytes = readFileSync(path);
+    const relativePath = relative(dist, path).split('\\').join('/');
+    if (relativePath === 'api/v1/traveler-cards.json.gz') {
+      const rawPath = resolve(dist, 'api/v1/traveler-cards.json');
+      const manifest = JSON.parse(readFileSync(resolve(dist, 'api/v1/manifest.json'), 'utf8'));
+      const index = JSON.parse(readFileSync(resolve(dist, 'release/v1/artifacts.json'), 'utf8'));
+      const release = JSON.parse(readFileSync(resolve(dist, 'release/v1/release.json'), 'utf8'));
+      const compressed = bytes;
+      try { bytes = gunzipSync(compressed, { maxOutputLength: 1024 * 1024 }); } catch { throw new Error(`generated compatibility artifact ${path} could not be boundedly gunzipped`); }
+      const raw = readFileSync(rawPath);
+      if (!bytes.equals(raw)) throw new Error(`generated compatibility artifact ${path} does not decompress to canonical raw JSON bytes`);
+      const descriptors = manifest.traveler_card_artifacts;
+      const rawHash = sha256(raw), gzipHash = sha256(compressed);
+      if (descriptors?.raw?.path !== 'traveler-cards.json' || descriptors.raw.bytes !== raw.length || descriptors.raw.sha256 !== rawHash
+          || descriptors?.gzip_compatibility?.path !== 'traveler-cards.json.gz' || descriptors.gzip_compatibility.bytes !== compressed.length || descriptors.gzip_compatibility.sha256 !== gzipHash
+          || descriptors.gzip_compatibility.decompressed_bytes !== raw.length || descriptors.gzip_compatibility.decompressed_sha256 !== rawHash) throw new Error(`generated compatibility artifact ${path} manifest hashes or sizes mismatch`);
+      for (const [publicPath, expectedBytes, expectedHash] of [['/api/v1/traveler-cards.json', raw.length, rawHash], ['/api/v1/traveler-cards.json.gz', compressed.length, gzipHash]]) {
+        const entry = index.artifacts?.find((candidate) => candidate.path === publicPath);
+        if (entry?.bytes !== expectedBytes || entry?.sha256 !== expectedHash || JSON.stringify(release.relationships?.[publicPath]) !== JSON.stringify(entry)) throw new Error(`generated compatibility artifact ${path} release hashes or sizes mismatch`);
+      }
+    } else {
+      assertPublishableArtifact(path, bytes);
+    }
     for (const marker of forbidden.markers) if (bytes.includes(Buffer.from(marker))) throw new Error(`internal review-pack marker published in ${path}`);
     if (forbidden.exactHashes.includes(sha256(bytes))) throw new Error(`internal evidence exact copy published in ${path}`);
     const text = decodeArtifactText(bytes, `production artifact ${path}`);

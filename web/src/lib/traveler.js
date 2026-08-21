@@ -7,8 +7,7 @@ export const TRAVELER_CARD_MANIFEST_URL = '/api/v1/manifest.json';
 export const TRAVELER_CARD_BUNDLE_URL = '/api/v1/traveler-cards.json';
 export const TRAVELER_RECORDS_API_VERSION = '1.0';
 export const TRAVELER_CARD_BUNDLE_MAX_BYTES = 1024 * 1024;
-export const TRAVELER_CARD_BUNDLE_MAX_DECOMPRESSED_BYTES = 1024 * 1024;
-export const TRAVELER_CARD_BROWSER_COMPATIBILITY_MESSAGE = 'Country-card downloads require standard JSON and streaming response support. Use a current browser or the regular Traveler Mode search below.';
+export const TRAVELER_CARD_BROWSER_COMPATIBILITY_MESSAGE = 'Country-card downloads require standard JSON, UTF-8 decoding, file downloads, and streaming response support. Use a current browser or the regular Traveler Mode search below.';
 // Keep cards compact while ensuring validated destinations outrank display-only values.
 export const TRAVELER_CARD_CONTACT_LIMIT = 2;
 
@@ -348,11 +347,7 @@ async function readBoundedTravelerCardBody(response) {
   return bytes;
 }
 
-function createTravelerCardDecompressionStream(bytes) {
-  return new Blob([bytes]).stream();
-}
-
-/** Reports whether the browser can consume the fixed gzip card artifact. */
+/** Reports whether the browser has exactly the APIs used by the raw JSON download path. */
 export function supportsTravelerCardDownload() {
   return typeof Blob === 'function' && typeof TextDecoder === 'function';
 }
@@ -362,37 +357,12 @@ export function assertTravelerCardDownloadSupport() {
   if (!supportsTravelerCardDownload()) throw new Error(TRAVELER_CARD_BROWSER_COMPATIBILITY_MESSAGE);
 }
 
-/** Decompresses only up to the reviewed JSON-byte ceiling before decoding or parsing. */
-export async function decompressTravelerCardBundle(bytes, createStream = createTravelerCardDecompressionStream) {
-  assertTravelerCardDownloadSupport();
-  let reader;
+/** Strictly decodes the already bounded raw JSON response bytes. */
+export function decodeTravelerCardBundle(bytes) {
   try {
-    const stream = createStream(bytes);
-    reader = stream?.getReader?.();
-    if (!reader) throw new Error('invalid decompression stream');
-    const chunks = [];
-    let total = 0;
-    while (true) {
-      const result = await reader.read();
-      if (!result || typeof result !== 'object' || typeof result.done !== 'boolean') throw new Error('invalid decompression read');
-      if (result.done) break;
-      if (!(result.value instanceof Uint8Array)) throw new Error('invalid decompression chunk');
-      total += result.value.byteLength;
-      if (total > TRAVELER_CARD_BUNDLE_MAX_DECOMPRESSED_BYTES) {
-        try { reader.cancel('decompressed byte-size ceiling exceeded')?.catch?.(() => {}); } catch { /* Stable parse error remains authoritative. */ }
-        throw new Error('decompressed byte-size ceiling exceeded');
-      }
-      chunks.push(result.value);
-    }
-    const decompressed = new Uint8Array(total);
-    let offset = 0;
-    for (const chunk of chunks) {
-      decompressed.set(chunk, offset);
-      offset += chunk.byteLength;
-    }
-    return JSON.parse(new TextDecoder().decode(decompressed));
+    if (!(bytes instanceof Uint8Array)) throw new TypeError('invalid bytes');
+    return JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes));
   } catch {
-    try { reader?.cancel?.('invalid country-card decompression')?.catch?.(() => {}); } catch { /* Stable parse error remains authoritative. */ }
     throw new Error('Static country-card bundle could not be parsed.');
   }
 }
@@ -414,7 +384,7 @@ export function validateTravelerCardBundleIdentity(bundle, manifest) {
 }
 
 /** Loads only two bounded fixed URLs; the manual country selection is applied after both responses. */
-export async function loadTravelerCountryCard({ fetchImpl = fetch, countryCode, decodeBundle = decompressTravelerCardBundle, requireSupport = assertTravelerCardDownloadSupport }) {
+export async function loadTravelerCountryCard({ fetchImpl = fetch, countryCode, decodeBundle = decodeTravelerCardBundle, requireSupport = assertTravelerCardDownloadSupport }) {
   requireSupport();
   const manifest = await fetchJson(fetchImpl, TRAVELER_CARD_MANIFEST_URL, 'Static API manifest');
   const releaseContext = getTravelerReleaseContext(manifest);

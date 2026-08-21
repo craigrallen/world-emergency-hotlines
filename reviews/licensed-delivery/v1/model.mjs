@@ -51,7 +51,7 @@ function rejectForbidden(v,path='$',depth=0){if(depth>MAX_DEPTH)throw new Error(
 function safeEqual(a,b){const x=Buffer.from(a),y=Buffer.from(b);return x.length===y.length&&timingSafeEqual(x,y);}
 function deepFreeze(v){if(v&&typeof v==='object'&&!Object.isFrozen(v)){for(const x of Object.values(v))deepFreeze(x);Object.freeze(v);}return v;}
 export const sha256=bytes=>`sha256:${createHash('sha256').update(bytes).digest('hex')}`;
-export function canonicalSafetyBytes(r){closed(r,SAFETY_FIELDS,'canonical_record');boundedTree(r,'canonical_record');for(const f of SAFETY_FIELDS.slice(0,4)){if(!Array.isArray(r[f])||r[f].length>100||r[f].some(x=>typeof x!=='string'||!x||Buffer.byteLength(x)>160))throw new Error(`canonical_record.${f} invalid array`);}for(const f of SAFETY_FIELDS.slice(4))text(r[f],`canonical_record.${f}`);return Buffer.from(canonical(r));}
+export function canonicalSafetyBytes(r){closed(r,SAFETY_FIELDS,'canonical_record');for(const f of SAFETY_FIELDS.slice(0,4)){const values=r[f];if(!Array.isArray(values)||values.length>100)throw new Error(`canonical_record.${f} invalid array`);for(let i=0;i<values.length;i++)if(!own(values,i)||typeof values[i]!=='string'||!values[i]||Buffer.byteLength(values[i])>160)throw new Error(`canonical_record.${f} invalid array`);}boundedTree(r,'canonical_record');for(const f of SAFETY_FIELDS.slice(4))text(r[f],`canonical_record.${f}`);return Buffer.from(canonical(r));}
 export const deriveRecordRevision=r=>sha256(canonicalSafetyBytes(r));
 const signable=({presentation_token:_x,...v})=>canonical(v),mac=(v,k)=>createHmac('sha256',k).update(signable(v)).digest('base64url');
 const opaque=(k,d,t,a,v,r,rel)=>createHmac('sha256',k).update(`${d}\0${t}\0${a}\0${v}\0${r}\0${rel}`).digest('base64url').slice(0,32);

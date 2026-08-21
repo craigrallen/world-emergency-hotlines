@@ -57,6 +57,11 @@
             respond @apiWrite "Not found" 404
             @apiResolver path /api/v1/resolver.js
             header @apiResolver Content-Type "text/javascript; charset=utf-8"
+            @travelerCardsGzip path /api/v1/traveler-cards.json.gz
+            header @travelerCardsGzip {
+                Content-Type "application/gzip"
+                -Content-Encoding
+            }
             file_server {
                 pass_thru
             }

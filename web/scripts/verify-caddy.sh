@@ -3,6 +3,7 @@ set -eu
 
 command -v docker >/dev/null 2>&1 || { echo "Docker is required for the Caddy integration verifier" >&2; exit 1; }
 command -v curl >/dev/null 2>&1 || { echo "curl is required for the Caddy integration verifier" >&2; exit 1; }
+command -v gzip >/dev/null 2>&1 || { echo "gzip is required for the Caddy integration verifier" >&2; exit 1; }
 
 repo_root=$(CDPATH= cd -- "$(dirname -- "$0")/../.." && pwd)
 caddy_image='caddy:2.10-alpine@sha256:4c6e91c6ed0e2fa03efd5b44747b625fec79bc9cd06ac5235a779726618e530d'
@@ -18,6 +19,7 @@ trap cleanup EXIT INT TERM
 
 mkdir -p "$fixture/api/v1" "$fixture/release/v1/changes" "$fixture/feeds" "$fixture/subscriptions/v1" "$fixture/gateway/v1" "$fixture/organizations/v1" "$fixture/managed-widget-config/v1" "$fixture/technical-health/v1" "$fixture/assurance-packs/v1" "$fixture/provider-claims/v1" "$fixture/reviewer-work-queue/v1" "$fixture/managed-api-plans/v1" "$fixture/deprecation-proposals/v1" "$fixture/evidence-backed-coverage/v1" "$fixture/countries" "$fixture/responses"
 printf '%s' '{"api_version":"1.0","cards":{"SE":"EMERGENCY fixture"}}' > "$fixture/api/v1/traveler-cards.json"
+gzip -n -9 -c "$fixture/api/v1/traveler-cards.json" > "$fixture/api/v1/traveler-cards.json.gz"
 printf '%s\n' '/* service worker fixture */' > "$fixture/service-worker.js"
 printf '%s\n' '{"name":"PWA fixture"}' > "$fixture/manifest.webmanifest"
 printf '%s\n' '<!doctype html><title>Offline fixture</title>' > "$fixture/offline.html"
@@ -123,6 +125,26 @@ require_header "$card_head_headers" Content-Type 'application/json'
 require_no_header "$card_head_headers" Content-Encoding
 require_header "$card_head_headers" Content-Length "$card_length"
 require_empty HEAD "$card_path" "$card_head_body"
+gzip_path=/api/v1/traveler-cards.json.gz
+gzip_headers="$fixture/responses/traveler-cards-gzip-get.headers"
+gzip_body="$fixture/responses/traveler-cards-gzip-get.body"
+curl --max-time 5 -sS -H 'Accept-Encoding: identity' -D "$gzip_headers" -o "$gzip_body" "$base$gzip_path"
+require_status GET "$gzip_path" 200 "$gzip_headers"
+require_header "$gzip_headers" Content-Type 'application/gzip'
+require_no_header "$gzip_headers" Content-Encoding
+require_header "$gzip_headers" Cache-Control 'public, max-age=300, stale-while-revalidate=86400'
+cmp -s "$fixture/api/v1/traveler-cards.json.gz" "$gzip_body" || { echo "GET $gzip_path did not return exact compatibility bytes" >&2; exit 1; }
+gzip -dc "$gzip_body" | cmp -s "$fixture/api/v1/traveler-cards.json" - || { echo "GET $gzip_path did not decompress to raw JSON bytes" >&2; exit 1; }
+gzip_length=$(wc -c < "$gzip_body" | tr -d ' ')
+gzip_head_headers="$fixture/responses/traveler-cards-gzip-head.headers"
+gzip_head_body="$fixture/responses/traveler-cards-gzip-head.body"
+curl --max-time 5 -sS --request HEAD --ignore-content-length -H 'Accept-Encoding: identity' -H 'Connection: close' -D "$gzip_head_headers" -o "$gzip_head_body" "$base$gzip_path"
+require_status HEAD "$gzip_path" 200 "$gzip_head_headers"
+require_header "$gzip_head_headers" Content-Type 'application/gzip'
+require_no_header "$gzip_head_headers" Content-Encoding
+require_header "$gzip_head_headers" Content-Length "$gzip_length"
+require_header "$gzip_head_headers" Cache-Control 'public, max-age=300, stale-while-revalidate=86400'
+require_empty HEAD "$gzip_path" "$gzip_head_body"
 for spec in 'POST|traveler-cards.json' 'GET|missing.json'; do
   method=${spec%%|*}; path=${spec#*|}
   status=$(curl --max-time 5 -sS -X "$method" -o /dev/null -w '%{http_code}' "$base/api/v1/$path")

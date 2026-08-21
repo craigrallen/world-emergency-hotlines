@@ -97,6 +97,23 @@ head_length=$(tr -d '\r' < "$fixture/traveler-cards-head.headers" | sed -n 's/^[
 head_encoding=$(tr -d '\r' < "$fixture/traveler-cards-head.headers" | sed -n 's/^[Cc]ontent-[Ee]ncoding: //p' | tail -n 1)
 head_cache=$(tr -d '\r' < "$fixture/traveler-cards-head.headers" | sed -n 's/^[Cc]ache-[Cc]ontrol: //p' | tail -n 1)
 [ "$head_type" = 'application/json' ] && [ "$head_length" = "$card_length" ] && [ -z "$head_encoding" ] && [ "$head_cache" = "$card_cache" ] || { echo "HEAD $card_path did not preserve raw JSON MIME/length/cache semantics" >&2; exit 1; }
+gzip_path=/api/v1/traveler-cards.json.gz
+gzip_headers="$fixture/traveler-cards-gzip.headers"
+gzip_body="$fixture/traveler-cards.json.gz"
+gzip_status=$(curl --max-time 5 -sS -H 'Accept-Encoding: identity' -D "$gzip_headers" -o "$gzip_body" -w '%{http_code}' "$base$gzip_path")
+[ "$gzip_status" = 200 ] || { echo "GET $gzip_path returned $gzip_status, expected 200" >&2; exit 1; }
+gzip_type=$(tr -d '\r' < "$gzip_headers" | sed -n 's/^[Cc]ontent-[Tt]ype: //p' | tail -n 1)
+gzip_encoding=$(tr -d '\r' < "$gzip_headers" | sed -n 's/^[Cc]ontent-[Ee]ncoding: //p' | tail -n 1)
+gzip_cache=$(tr -d '\r' < "$gzip_headers" | sed -n 's/^[Cc]ache-[Cc]ontrol: //p' | tail -n 1)
+[ "$gzip_type" = 'application/gzip' ] && [ -z "$gzip_encoding" ] && [ "$gzip_cache" = "$card_cache" ] || { echo "GET $gzip_path did not preserve compatibility MIME/encoding/cache semantics" >&2; exit 1; }
+node -e 'const fs=require("node:fs"),z=require("node:zlib");if(!z.gunzipSync(fs.readFileSync(process.argv[1])).equals(fs.readFileSync(process.argv[2])))process.exit(1)' "$gzip_body" "$card_body" || { echo "GET $gzip_path did not decompress to raw canonical bytes" >&2; exit 1; }
+gzip_length=$(wc -c < "$gzip_body" | tr -d ' ')
+gzip_head_status=$(curl --max-time 5 -sS --request HEAD --ignore-content-length -H 'Accept-Encoding: identity' -H 'Connection: close' -D "$fixture/traveler-cards-gzip-head.headers" -o "$fixture/traveler-cards-gzip-head.body" -w '%{http_code}' "$base$gzip_path")
+[ "$gzip_head_status" = 200 ] && [ ! -s "$fixture/traveler-cards-gzip-head.body" ] || { echo "HEAD $gzip_path failed or returned a body" >&2; exit 1; }
+gzip_head_type=$(tr -d '\r' < "$fixture/traveler-cards-gzip-head.headers" | sed -n 's/^[Cc]ontent-[Tt]ype: //p' | tail -n 1)
+gzip_head_length=$(tr -d '\r' < "$fixture/traveler-cards-gzip-head.headers" | sed -n 's/^[Cc]ontent-[Ll]ength: //p' | tail -n 1)
+gzip_head_encoding=$(tr -d '\r' < "$fixture/traveler-cards-gzip-head.headers" | sed -n 's/^[Cc]ontent-[Ee]ncoding: //p' | tail -n 1)
+[ "$gzip_head_type" = 'application/gzip' ] && [ "$gzip_head_length" = "$gzip_length" ] && [ -z "$gzip_head_encoding" ] || { echo "HEAD $gzip_path did not preserve compatibility MIME/length/encoding semantics" >&2; exit 1; }
 for spec in 'POST|traveler-cards.json' 'GET|does-not-exist.json'; do
   method=${spec%%|*}; path=${spec#*|}
   status=$(curl --max-time 5 -sS -X "$method" -o /dev/null -w '%{http_code}' "$base/api/v1/$path")

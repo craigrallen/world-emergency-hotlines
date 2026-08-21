@@ -12,7 +12,7 @@ const errors = [];
 const fail = (message) => errors.push(message);
 const readJson = (path) => JSON.parse(readFileSync(path, 'utf8'));
 
-for (const name of ['manifest.json', 'records.json', 'resolver.js', 'traveler-cards.json']) {
+for (const name of ['manifest.json', 'records.json', 'resolver.js', 'traveler-cards.json', 'traveler-cards.json.gz']) {
   if (!existsSync(resolve(API_DIR, name))) fail(`missing api/v1/${name}`);
 }
 
@@ -26,6 +26,7 @@ if (errors.length === 0) {
   if (typeof manifest.generated_at !== 'string' || Number.isNaN(Date.parse(manifest.generated_at))) fail('generated_at must remain an ISO timestamp string in API v1');
   if (typeof manifest.schema_version !== 'string' || manifest.source_last_updated !== dataManifest.source_last_updated) fail('API manifest release metadata differs from the data manifest');
   if (manifest.endpoints?.traveler_cards !== 'traveler-cards.json') fail('API manifest lacks the fixed traveler-card endpoint');
+  if (manifest.endpoints?.traveler_cards_gzip_compatibility !== 'traveler-cards.json.gz') fail('API manifest lacks the v1 gzip compatibility endpoint');
   if (manifest.traveler_card_build_version !== manifest.build_versions?.integration_generator) fail('API manifest traveler-card build identity is not bound to the finite integration generator identity');
   if (manifest.contract !== 'static-read-only') fail(`unexpected contract: ${manifest.contract}`);
   if (manifest.dataset_version !== dataManifest.dataset_version) fail('API/data dataset versions differ');

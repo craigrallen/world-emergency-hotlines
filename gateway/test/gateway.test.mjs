@@ -78,7 +78,7 @@ test('all trusted-release profiles are accepted and adjacent hybrids are rejecte
   ];
   profiles.push(['evidence', without(profiles.at(-1)[1], {
     namespace: '/evidence-backed-coverage/v1/', coverage: '/evidence-backed-coverage/v1/**',
-    artifacts: ['/api/v1/traveler-cards.json'],
+    artifacts: ['/api/v1/traveler-cards.json', '/api/v1/traveler-cards.json.gz'],
     buildInputs: ['scripts/api-records-transform.mjs', 'src/lib/traveler.js', 'src/lib/contact.ts', 'scripts/generate-evidence-backed-coverage-contracts.mjs', 'repo:evidence-backed-coverage/model.mjs'],
   }), '/evidence-backed-coverage/v1/README.md']);
   profiles.push(['plan', without(profiles.at(-1)[1], {
@@ -133,6 +133,9 @@ test('all trusted-release profiles are accepted and adjacent hybrids are rejecte
   const travelerHybrid = structuredClone(profiles[1][1].release);
   travelerHybrid.relationships['/api/v1/traveler-cards.json'] = current.release.relationships['/api/v1/traveler-cards.json'];
   assert.throws(() => descriptorFromRelease(travelerHybrid, profiles[1][1].index), /invalid/, 'traveler-card adjacent hybrid accepted');
+  const travelerGzipHybrid = structuredClone(profiles[1][1].release);
+  travelerGzipHybrid.relationships['/api/v1/traveler-cards.json.gz'] = current.release.relationships['/api/v1/traveler-cards.json.gz'];
+  assert.throws(() => descriptorFromRelease(travelerGzipHybrid, profiles[1][1].index), /invalid/, 'traveler-card gzip adjacent hybrid accepted');
   for (const currentOnlyInput of ['src/lib/traveler.js', 'src/lib/contact.ts']) {
     const inputHybrid = structuredClone(profiles[1][1].release);
     inputHybrid.build_version_semantics.inputs.integration_generator.push(currentOnlyInput);
