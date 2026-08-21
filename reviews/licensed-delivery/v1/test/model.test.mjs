@@ -1,4 +1,4 @@
-import test from 'node:test';import assert from 'node:assert/strict';import {createHash,createHmac} from 'node:crypto';import {linkSync,mkdtempSync,mkdirSync,readFileSync,rmSync,symlinkSync,writeFileSync} from 'node:fs';import {tmpdir} from 'node:os';import {resolve} from 'node:path';import {gzipSync} from 'node:zlib';
+import test from 'node:test';import assert from 'node:assert/strict';import {createHash,createHmac} from 'node:crypto';import {linkSync,mkdtempSync,mkdirSync,readFileSync,rmSync,symlinkSync,writeFileSync} from 'node:fs';import {tmpdir} from 'node:os';import {resolve} from 'node:path';import {brotliCompressSync,constants as zlibConstants,gzipSync} from 'node:zlib';
 import {HTTP_CONTRACT_METADATA,NORMATIVE_HTTP_CONTRACT,NORMATIVE_HTTP_RESPONSE,PRESENTATION_MAX_TTL_SECONDS,SAFETY_FIELDS,analyzeCompliance,assertNormativeHttpContract,assertNormativeHttpResponse,canonicalSafetyBytes,deriveRecordRevision,issuePresentation,sha256,signSyntheticEvidence,validateBinaryObservation,validateFetchObservation,validateOutwardObservation,validatePresentationObservation,validateRenderAttestation,verifyPresentation} from '../model.mjs';
 import {assertInternalNonpublication,classifyHtmlScriptType,decodeArtifactText,decodeLegacyOctalEscapes} from '../../../../web/scripts/verify-internal-nonpublication.mjs';
 const input=JSON.parse(readFileSync(resolve(import.meta.dirname,'../fixtures/synthetic-input.json'))),key=input.key,obsKey='SYNTHETIC-OBSERVATION-KEY-000000000000000000';input.tenant_id=input.trusted_context.tenant_id;const tc=input.trusted_context;
@@ -250,7 +250,7 @@ test('HTML script execution modes apply octal and NonEscapeCharacter decoding on
     for(const [index,type] of ['module','importmap','speculationrules','application/json','text/javascript;charset="unterminated'].entries()){const dist=resolve(root,`disabled-${index}`);mkdirSync(dist);writeFileSync(resolve(dist,'index.html'),`<script type='${type}'>const a='${octal}',b='${nonEscape}'</script>`);assert.doesNotThrow(()=>assertInternalNonpublication(dist,repo),type);}
   }finally{rmSync(root,{recursive:true,force:true});}
 });
-test('public dist rejects archive/compression extensions, signatures, polyglots, and links while allowing approved opaque binaries',()=>{
+test('public dist rejects archive/compression extensions, signatures, polyglots, and links while allowing only exact source-controlled root images',()=>{
   const repo=resolve(import.meta.dirname,'../../../..'),root=mkdtempSync(resolve(tmpdir(),'licensed-archives-'));
   const extensions=['gz','br','zip','7z','bz2','xz','tar','tgz','tbz2','txz','rar','zst','jar','whl','cab','cpio','rpm','ar','iso'];
   const signatures=[['gzip',[0x1f,0x8b,8]],['zip',[0x50,0x4b,3,4]],['7z',[0x37,0x7a,0xbc,0xaf,0x27,0x1c]],['bzip2',[0x42,0x5a,0x68]],['xz',[0xfd,0x37,0x7a,0x58,0x5a,0]],['rar',[0x52,0x61,0x72,0x21,0x1a,7]],['zstd',[0x28,0xb5,0x2f,0xfd]],['cab',[0x4d,0x53,0x43,0x46]],['rpm',[0xed,0xab,0xee,0xdb]],['cpio',Buffer.from('070701')]];
@@ -261,9 +261,28 @@ test('public dist rejects archive/compression extensions, signatures, polyglots,
     const tar=Buffer.alloc(512);tar.write('ustar',257);reject('renamed.dat',tar);
     reject('licensed.txt.gz',Buffer.concat([Buffer.from([0x1f,0x8b,8]),Buffer.from('reviews/licensed-delivery')]));
     reject('photo.JPG',Buffer.concat([Buffer.from([0xff,0xd8,0xff]),Buffer.from('public'),Buffer.from([0x50,0x4b,3,4])]));
-    for(const [name,bytes] of [['image.png',[0x89,0x50,0x4e,0x47,0,0xff]],['font.WOFF2',[0x77,0x4f,0x46,0x32,0,0xff]],['module.wasm',[0,0x61,0x73,0x6d,1,0,0,0]],['media.mp4',[0,0,0,0x18,0x66,0x74,0x79,0x70,0,0xff]]]){const dist=resolve(root,`allowed-${name}`);mkdirSync(dist);writeFileSync(resolve(dist,name),Buffer.from(bytes));assert.doesNotThrow(()=>assertInternalNonpublication(dist,repo),name);}
+    for(const name of ['favicon-32x32.png','favicon-192x192.png','apple-touch-icon.png','pwa-icon-512.png','social-card.png']){const dist=resolve(root,`allowed-${name}`);mkdirSync(dist);writeFileSync(resolve(dist,name),readFileSync(resolve(repo,'web/public',name)));assert.doesNotThrow(()=>assertInternalNonpublication(dist,repo),name);}
+    const image=readFileSync(resolve(repo,'web/public/social-card.png')),moved=resolve(root,'moved-image');mkdirSync(resolve(moved,'assets'),{recursive:true});writeFileSync(resolve(moved,'assets/social-card.png'),image);assert.throws(()=>assertInternalNonpublication(moved,repo),/explicitly source-allowlisted/);
+    const modified=resolve(root,'modified-image');mkdirSync(modified);const changed=Buffer.from(image);changed[changed.length-1]^=1;writeFileSync(resolve(modified,'social-card.png'),changed);assert.throws(()=>assertInternalNonpublication(modified,repo),/explicitly source-allowlisted/);
+    for(const name of ['social-card.png\\copy','social-card.png\u0001copy']){const dist=resolve(root,`noncanonical-${Buffer.from(name).toString('hex')}`);mkdirSync(dist);writeFileSync(resolve(dist,name),image);assert.throws(()=>assertInternalNonpublication(dist,repo),/noncanonical public artifact relative path/);}
     const links=resolve(root,'links');mkdirSync(links);writeFileSync(resolve(links,'target.bin'),Buffer.from([0,0xff]));symlinkSync('target.bin',resolve(links,'alias.bin'));assert.throws(()=>assertInternalNonpublication(links,repo),/symbolic link/);
     rmSync(resolve(links,'alias.bin'));linkSync(resolve(links,'target.bin'),resolve(links,'hard.bin'));assert.throws(()=>assertInternalNonpublication(links,repo),/hard-linked artifact/);
+  }finally{rmSync(root,{recursive:true,force:true});}
+});
+test('generated release inventories cannot self-authorize opaque artifacts or renamed Brotli streams',()=>{
+  const repo=resolve(import.meta.dirname,'../../../..'),root=mkdtempSync(resolve(tmpdir(),'licensed-opaque-deny-')),digest=bytes=>`sha256:${createHash('sha256').update(bytes).digest('hex')}`;
+  const fixture=(label,path,bytes,inventory=true)=>{const dist=resolve(root,label),target=resolve(dist,path);mkdirSync(resolve(target,'..'),{recursive:true});writeFileSync(target,bytes);if(inventory){const releaseDir=resolve(dist,'release/v1'),entry={path:`/${path}`,bytes:bytes.length,sha256:digest(bytes)};mkdirSync(releaseDir,{recursive:true});const indexBytes=Buffer.from(JSON.stringify({artifacts:[entry]}));writeFileSync(resolve(releaseDir,'artifacts.json'),indexBytes);writeFileSync(resolve(releaseDir,'release.json'),JSON.stringify({artifact_index:{sha256:digest(indexBytes),artifact_count:1},relationships:{[`/${path}`]:entry}}));}return dist;};
+  const reject=(label,path,bytes,inventory=false)=>assert.throws(()=>assertInternalNonpublication(fixture(label,path,bytes,inventory),repo),/opaque public artifact|marker/,label);
+  const internal=Buffer.from('reviews/licensed-delivery'),standalone=brotliCompressSync(internal),largeSource=Buffer.alloc(33*1024*1024);let state=0x6d2b79f5;for(let i=0;i<largeSource.length;i++){state^=state<<13;state^=state>>>17;state^=state<<5;largeSource[i]=state&0xff;}const large=brotliCompressSync(largeSource,{params:{[zlibConstants.BROTLI_PARAM_QUALITY]:0,[zlibConstants.BROTLI_PARAM_MODE]:zlibConstants.BROTLI_MODE_GENERIC}}),emptyTail=Buffer.concat([brotliCompressSync(Buffer.alloc(0)),internal]),validTail=Buffer.concat([standalone,Buffer.from('tail')]),prefixed=Buffer.concat([Buffer.from('prefix'),standalone]);assert.ok(large.length>32*1024*1024,'fixture must be a valid Brotli input whose compressed bytes exceed 32 MiB');
+  try{
+    const variants=[['standalone',standalone],['oversized',large],['empty-tail',emptyTail],['valid-tail',validTail],['prefixed',prefixed]],extensions=[['bin','.bin'],['known-opaque','.png'],['unknown','.opaque'],['extensionless','']];
+    for(const [variant,bytes] of variants)for(const [kind,extension] of extensions)reject(`${variant}-${kind}`,`payload${extension}`,bytes);
+    const ordinary=Buffer.from([0x00,0x11,0x22,0x80,0xfe,0x7f]);for(const [kind,extension] of extensions)reject(`ordinary-${kind}`,`ordinary${extension}`,ordinary);
+    for(const [kind,extension] of extensions)reject(`self-inventoried-${kind}`,`invented${extension}`,ordinary,true);
+    const image=readFileSync(resolve(repo,'web/public/social-card.png'));reject('self-inventoried-image','invented.png',image,true);
+    // Even an internally consistent path/byte-count/SHA inventory and matching
+    // release relationship is generated output and confers no authority.
+    reject('path-hash-bytes-self-authorization','arbitrary.bin',ordinary,true);
   }finally{rmSync(root,{recursive:true,force:true});}
 });
 test('only the exact generated gzip compatibility artifact is allowed, identity-bound, bounded, and decompressed-scanned',()=>{

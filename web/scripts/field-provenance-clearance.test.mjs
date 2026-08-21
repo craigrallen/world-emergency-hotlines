@@ -412,22 +412,29 @@ test('text-like artifacts fail closed on invalid UTF-8 regardless of extension c
   for (const [name, prefix] of [
     ['CNAME', 'example.invalid'], ['_headers', '/\n  Content-Type: text/plain; charset=windows-1252'],
     ['output', '<html><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">'],
-    ['unknown.custom-output', 'otherwise harmless generated text'],
   ]) {
     const dist = temporaryRoot(); writeFileSync(resolve(dist, name), Buffer.concat([Buffer.from(prefix), Buffer.from([0x80])]));
     assert.throws(() => assertInternalNonpublication(dist, repo), /text-like artifact .* invalid UTF-8/u, name);
   }
 });
-test('UTF decoding retains valid UTF-8 and BOM UTF-16 while harmless opaque binary controls skip text scans', () => {
+test('UTF decoding accepts valid UTF-8 and BOM UTF-16 while opaque artifacts require exact source allowlisting', () => {
   for (const [name, bytes] of [
     ['valid.JSON', Buffer.from('{"public":"support"}', 'utf8')],
     ['little.txt', Buffer.from(`\ufeffPublic support`, 'utf16le')],
     ['big.XML', Buffer.from([0xfe, 0xff, 0x00, 0x3c, 0x00, 0x70, 0x00, 0x2f, 0x00, 0x3e])],
+  ]) {
+    const dist = temporaryRoot(); writeFileSync(resolve(dist, name), bytes);
+    assert.doesNotThrow(() => assertInternalNonpublication(dist, repo), name);
+  }
+  const allowlisted = temporaryRoot();
+  copyFileSync(resolve(repo, 'web/public/favicon-32x32.png'), resolve(allowlisted, 'favicon-32x32.png'));
+  assert.doesNotThrow(() => assertInternalNonpublication(allowlisted, repo), 'exact checked-in allowlisted root image');
+  for (const [name, bytes] of [
     ['image.PNG', Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, 0xff, 0x00])],
     ['font.woff2', Buffer.from([0x77, 0x4f, 0x46, 0x32, 0x00, 0xff, 0x80])],
   ]) {
     const dist = temporaryRoot(); writeFileSync(resolve(dist, name), bytes);
-    assert.doesNotThrow(() => assertInternalNonpublication(dist, repo), name);
+    assert.throws(() => assertInternalNonpublication(dist, repo), /opaque public artifact .* explicitly source-allowlisted/u, name);
   }
 });
 test('complete named references expose every internal marker class in HTML representations', () => {

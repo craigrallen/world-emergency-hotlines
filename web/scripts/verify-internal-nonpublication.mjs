@@ -1,5 +1,5 @@
 import { existsSync, lstatSync, readFileSync, readdirSync, statSync } from 'node:fs';
-import { relative, resolve } from 'node:path';
+import { relative, resolve, sep } from 'node:path';
 import { gunzipSync } from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import { decodeHTML, decodeHTMLAttribute } from 'entities/decode';
@@ -83,6 +83,16 @@ const EXTENSIONLESS_TEXT_OUTPUTS = new Set([
   '_headers', '_redirects', 'ads.txt', 'assetlinks.json', 'cname', 'humans.txt', 'manifest', 'robots.txt',
   'security.txt', 'sitemap',
 ]);
+// Generated release metadata is output, not authority. Every supported opaque
+// artifact needs a reviewed source-controlled entry here and must remain at the
+// exact public-root path with the exact checked-in bytes.
+const GENERATED_OPAQUE_ALLOWLIST = new Map([
+  ['apple-touch-icon.png', 'apple-touch-icon.png'],
+  ['favicon-192x192.png', 'favicon-192x192.png'],
+  ['favicon-32x32.png', 'favicon-32x32.png'],
+  ['pwa-icon-512.png', 'pwa-icon-512.png'],
+  ['social-card.png', 'social-card.png'],
+]);
 const artifactExtension = (label) => {
   const basename = label.replaceAll('\\', '/').split('/').at(-1).toLowerCase();
   const dot = basename.lastIndexOf('.');
@@ -113,6 +123,27 @@ const assertPublishableArtifact = (path, bytes) => {
   const signature = archiveSignature(bytes);
   if (signature) throw new Error(`compressed/archive artifact ${path} is forbidden in public dist (${signature} signature)`);
 };
+const isOpaqueArtifactPath = (path) => {
+  const { basename, extension } = artifactExtension(path);
+  return OPAQUE_ARTIFACT_EXTENSIONS.has(extension)
+    || (!extension && !EXTENSIONLESS_TEXT_OUTPUTS.has(basename))
+    || (extension && !TEXT_ARTIFACT_EXTENSIONS.has(extension) && !ARCHIVE_ARTIFACT_EXTENSIONS.has(extension));
+};
+const assertCanonicalPublicRelativePath = (relativePath) => {
+  if (!relativePath || relativePath.startsWith('/') || relativePath.includes('\\') || /[\x00-\x1f\x7f]/u.test(relativePath)
+      || relativePath.includes('//') || relativePath.split('/').some((segment) => segment === '.' || segment === '..')) {
+    throw new Error(`noncanonical public artifact relative path ${JSON.stringify(relativePath)} is forbidden`);
+  }
+};
+const assertApprovedOpaqueArtifact = (repoRoot, relativePath, bytes) => {
+  assertCanonicalPublicRelativePath(relativePath);
+  const sourceRelativePath = GENERATED_OPAQUE_ALLOWLIST.get(relativePath);
+  if (sourceRelativePath !== undefined) {
+    const source = readFileSync(resolve(repoRoot, 'web/public', sourceRelativePath));
+    if (source.length === bytes.length && source.equals(bytes) && sha256(source) === sha256(bytes)) return;
+  }
+  throw new Error(`opaque public artifact /${relativePath} is forbidden unless explicitly source-allowlisted at its exact canonical path and checked-in byte/SHA-256 identity`);
+};
 const payloadLooksTextLike = (bytes) => {
   // Latin-1 is used only for an ASCII-compatible signature check. It is never
   // accepted as the artifact encoding.
@@ -126,7 +157,7 @@ const textArtifactClassification = (bytes, label) => {
   if (TEXT_ARTIFACT_EXTENSIONS.has(extension)) return `text extension ${extension}`;
   if (EXTENSIONLESS_TEXT_OUTPUTS.has(basename)) return `known text output ${basename}`;
   if (payloadLooksTextLike(bytes)) return 'text-like payload signature';
-  if (OPAQUE_ARTIFACT_EXTENSIONS.has(extension)) return undefined;
+  if (isOpaqueArtifactPath(label)) return undefined;
   return extension ? `non-binary artifact extension ${extension}` : 'unrecognized extensionless non-binary artifact';
 };
 const decodeUtf16 = (bytes, littleEndian, label) => {
@@ -637,7 +668,10 @@ export function assertInternalNonpublication(dist, repoRoot = repo) {
     if (!metadata.isFile()) throw new Error(`non-regular artifact ${path} is forbidden in public dist`);
     if (metadata.nlink !== 1) throw new Error(`hard-linked artifact ${path} is forbidden in public dist`);
     let bytes = readFileSync(path);
-    const relativePath = relative(dist, path).split('\\').join('/');
+    const nativeRelativePath = relative(dist, path);
+    if (sep !== '\\') assertCanonicalPublicRelativePath(nativeRelativePath);
+    const relativePath = nativeRelativePath.split(sep).join('/');
+    assertCanonicalPublicRelativePath(relativePath);
     if (relativePath === 'api/v1/traveler-cards.json.gz') {
       const rawPath = resolve(dist, 'api/v1/traveler-cards.json');
       const manifest = JSON.parse(readFileSync(resolve(dist, 'api/v1/manifest.json'), 'utf8'));
@@ -662,7 +696,10 @@ export function assertInternalNonpublication(dist, repoRoot = repo) {
     for (const marker of forbidden.markers) if (bytes.includes(Buffer.from(marker))) throw new Error(`internal review-pack marker published in ${path}`);
     if (forbidden.exactHashes.includes(sha256(bytes))) throw new Error(`internal evidence exact copy published in ${path}`);
     const text = decodeArtifactText(bytes, `production artifact ${path}`);
-    if (text === undefined) continue;
+    if (text === undefined) {
+      if (isOpaqueArtifactPath(relativePath)) assertApprovedOpaqueArtifact(repoRoot, relativePath, bytes);
+      continue;
+    }
     const markup = markupKind(text, path);
     const extensionMode = /\.css$/iu.test(path) ? 'css' : /\.mjs$/iu.test(path) ? 'strict' : /\.json$/iu.test(path) ? 'disabled' : 'unknown';
     const rawTexts = markup || extensionMode === 'css' ? [text] : javascriptRepresentations(text, extensionMode);
@@ -679,6 +716,7 @@ export function assertInternalNonpublication(dist, repoRoot = repo) {
       }).find(Boolean);
       if (match) throw new Error(`internal review-pack semantic section (${match}) published in ${path}`);
     } catch (error) { throw error; }
+    if (isOpaqueArtifactPath(relativePath)) assertApprovedOpaqueArtifact(repoRoot, relativePath, bytes);
   }
 }
 export function verifyInternalNonpublication(dist = resolve(repo, 'web/dist')) {

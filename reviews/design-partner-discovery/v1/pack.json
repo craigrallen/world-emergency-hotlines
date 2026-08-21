@@ -16,15 +16,15 @@
     "docs/INTEGRATIONS.md": "sha256:562faa0020f942a176b1109479d3e1a9fa8580dc44137fcb53b0597eab131809",
     "docs/PACKAGING.md": "sha256:4a7260669f2ef15674e95eb78a6f915e9ed7f524a14f857386d42e7f3e522432",
     "reviews/accessibility-evidence/v1/README.md": "sha256:c577c353813b72cadf75b9c0d9018653958018c03594bd8f7a48f489d39d7439",
-    "reviews/accessibility-evidence/v1/baseline.json": "sha256:9df90c21865e9573b6d33818e0355f9069f003dd726223d81f0d53e47d9b0d6a",
+    "reviews/accessibility-evidence/v1/baseline.json": "sha256:f0477ae0e64a4d22840be124420315e03fbc70ef291e5b6408a2bd2ee08c5e13",
     "reviews/multilingual-ui/v1/README.md": "sha256:87afcf694a12e50ea7cd015c873ac518b3e30aa4d2c83302937395eb17a0ac6d",
     "reviews/multilingual-ui/v1/review-pack.json": "sha256:a407805e1955d8ba783379e56b3e0e466a40bfb932ccde00a01a8858525cd40a",
     "reviews/multilingual-ui/v1/review-pack.schema.json": "sha256:005b85eee323124dbfc3702fdd9ae177263f196f10c338b5ed2b706242ab2732",
     "reviews/multilingual-ui/v1/safety-classification.json": "sha256:fd271765f0882eda962d009332ca76e693112b94ed965f702b05b770c9586b80",
     "reviews/security-privacy-evidence/v1/README.md": "sha256:4364570794a3ce94dfdba49627df8bfd0cd84b50211f6d476c42439ff24544e1",
-    "reviews/security-privacy-evidence/v1/inventory.json": "sha256:98164d9c5888c90e273a86668a06cc1c1fd4de582bf6e4b554ae7f772bb0aa72",
+    "reviews/security-privacy-evidence/v1/inventory.json": "sha256:0212fe05ca3b0b70bb59c7d86b7afffa9c66c85772d6d3ca89db480758325551",
     "reviews/technical-due-diligence/v1/README.md": "sha256:87ae878128a2d3df102e0dbfd68621abea80a128e3eda98a3b59bb8a03bf585e",
-    "reviews/technical-due-diligence/v1/index.json": "sha256:07c592c34d09546fcc432136e4247c68185a997499016a52507888ced6cb2cda"
+    "reviews/technical-due-diligence/v1/index.json": "sha256:e8163de7759104f65bc160b64eb35d7d4a48bc211085768a16ec7bcdfc67a5a2"
   },
   "capability_matrix": [
     { "id": "public_static_surfaces", "current_capability": "Public keyless static beta finder, API, widget, and snapshot integration surfaces are documented.", "limitations": "No uptime, support, SLA, production-reuse permission, guaranteed coverage, currency, reachability, or outcomes.", "evidence": ["docs/INTEGRATIONS.md", "docs/PACKAGING.md"] },
