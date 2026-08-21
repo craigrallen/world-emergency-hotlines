@@ -3,12 +3,12 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  assertTravelerCardDownloadSupport, createLatestGenerationGate, createTravelerDownloadController, createTravelerPrintReadinessController, createTravelerSelectionSnapshot, decodeTravelerCardBundle, getTravelerCountryChoices, getTravelerReleaseContext, loadTravelerCountryCard, loadTravelerData,
+  assertTravelerCardDownloadSupport, createLatestGenerationGate, createTravelerDownloadController, createTravelerPrintReadinessController, createTravelerSelectionSnapshot, decodeTravelerCardBundle, getTravelerCardRawArtifactDescriptor, getTravelerCountryChoices, getTravelerReleaseContext, loadTravelerCountryCard, loadTravelerData,
   reconstructTravelerCountries, resolveTravelerHelp, safeTravelerUrl, scrollTravelerOutputBestEffort, selectTravelerContacts,
-  serializeTravelerCountryCard,
+  serializeTravelerCountryCard, sha256HexDigest,
   supportsTravelerCardDownload, TRAVELER_CARD_BROWSER_COMPATIBILITY_MESSAGE, TRAVELER_CARD_CONTACT_LIMIT,
   TRAVELER_CARD_BUNDLE_MAX_BYTES, TRAVELER_CARD_BUNDLE_URL, TRAVELER_CARD_MANIFEST_URL,
-  TRAVELER_MANIFEST_URL, TRAVELER_RECORDS_API_VERSION, TRAVELER_RECORDS_URL, validateTravelerCardBundleIdentity,
+  TRAVELER_MANIFEST_URL, TRAVELER_RECORDS_API_VERSION, TRAVELER_RECORDS_URL, validateTravelerCardBundleIdentity, verifyTravelerCardRawBytes,
 } from '../src/lib/traveler.js';
 import { dedupeMessageContacts, phoneContacts } from '../src/lib/contact.ts';
 
@@ -304,6 +304,48 @@ assert.throws(() => validateTravelerCardBundleIdentity(
   { ...generatedApiManifest, traveler_card_build_version: undefined },
 ), /invalid country-card build version/);
 assert.deepEqual(Object.keys(generatedCardBundle.cards).sort(), generatedApiManifest.countries.map(({ alpha2 }) => alpha2).sort());
+
+const generatedRawDescriptor = getTravelerCardRawArtifactDescriptor(generatedApiManifest);
+assert.deepEqual(generatedRawDescriptor, { ...generatedApiManifest.traveler_card_artifacts.raw });
+assert.equal(generatedRawDescriptor.bytes, generatedCardBytes.byteLength, 'manifest raw artifact byte length does not describe the generated bundle bytes');
+assert.equal(await sha256HexDigest(generatedCardBytes), generatedRawDescriptor.sha256, 'manifest raw artifact digest does not describe the generated bundle bytes');
+await verifyTravelerCardRawBytes(generatedCardBytes, generatedRawDescriptor);
+await assert.rejects(verifyTravelerCardRawBytes(generatedCardBytes.subarray(0, generatedCardBytes.byteLength - 1), generatedRawDescriptor), /byte length/, 'a short body was accepted against the manifest raw descriptor');
+await assert.rejects(verifyTravelerCardRawBytes(Buffer.concat([generatedCardBytes, Buffer.from([0x20])]), generatedRawDescriptor), /byte length/, 'a long body was accepted against the manifest raw descriptor');
+const singleByteCorruptedBytes = Buffer.from(generatedCardBytes);
+singleByteCorruptedBytes[0] ^= 0xff;
+await assert.rejects(verifyTravelerCardRawBytes(singleByteCorruptedBytes, generatedRawDescriptor), /digest/, 'a same-length corrupted body was accepted against the manifest raw descriptor');
+await assert.rejects(verifyTravelerCardRawBytes(generatedCardBytes.toString('utf8'), generatedRawDescriptor), TypeError, 'non-Uint8Array input was not rejected');
+const matchingEndpoints = { traveler_cards: generatedRawDescriptor.path };
+for (const badManifest of [
+  {},
+  { traveler_card_artifacts: {} },
+  { traveler_card_artifacts: { raw: null } },
+  { traveler_card_artifacts: { raw: [] } },
+  { traveler_card_artifacts: { raw: { path: '', bytes: generatedRawDescriptor.bytes, sha256: generatedRawDescriptor.sha256 } }, endpoints: matchingEndpoints },
+  { traveler_card_artifacts: { raw: { path: generatedRawDescriptor.path, bytes: 0, sha256: generatedRawDescriptor.sha256 } }, endpoints: matchingEndpoints },
+  { traveler_card_artifacts: { raw: { path: generatedRawDescriptor.path, bytes: -1, sha256: generatedRawDescriptor.sha256 } }, endpoints: matchingEndpoints },
+  { traveler_card_artifacts: { raw: { path: generatedRawDescriptor.path, bytes: 1.5, sha256: generatedRawDescriptor.sha256 } }, endpoints: matchingEndpoints },
+  { traveler_card_artifacts: { raw: { path: generatedRawDescriptor.path, bytes: generatedRawDescriptor.bytes } }, endpoints: matchingEndpoints },
+  { traveler_card_artifacts: { raw: { path: generatedRawDescriptor.path, bytes: generatedRawDescriptor.bytes, sha256: 'sha256:bad' } }, endpoints: matchingEndpoints },
+  { traveler_card_artifacts: { raw: { path: generatedRawDescriptor.path, bytes: generatedRawDescriptor.bytes, sha256: generatedRawDescriptor.sha256.toUpperCase() } }, endpoints: matchingEndpoints },
+  { traveler_card_artifacts: { raw: { path: generatedRawDescriptor.path, bytes: generatedRawDescriptor.bytes, sha256: generatedRawDescriptor.sha256.replace('sha256:', 'sha1:') } }, endpoints: matchingEndpoints },
+  // Path binding: the descriptor must name the exact fixed artifact the loader actually fetches, not merely any non-empty path.
+  { traveler_card_artifacts: { raw: { path: `./${generatedRawDescriptor.path}`, bytes: generatedRawDescriptor.bytes, sha256: generatedRawDescriptor.sha256 } }, endpoints: { traveler_cards: `./${generatedRawDescriptor.path}` } },
+  { traveler_card_artifacts: { raw: { path: `/api/v1/${generatedRawDescriptor.path}`, bytes: generatedRawDescriptor.bytes, sha256: generatedRawDescriptor.sha256 } }, endpoints: { traveler_cards: `/api/v1/${generatedRawDescriptor.path}` } },
+  { traveler_card_artifacts: { raw: { path: `../${generatedRawDescriptor.path}`, bytes: generatedRawDescriptor.bytes, sha256: generatedRawDescriptor.sha256 } }, endpoints: { traveler_cards: `../${generatedRawDescriptor.path}` } },
+  { traveler_card_artifacts: { raw: { path: `${generatedRawDescriptor.path}.gz`, bytes: generatedRawDescriptor.bytes, sha256: generatedRawDescriptor.sha256 } }, endpoints: { traveler_cards: `${generatedRawDescriptor.path}.gz` } },
+  { traveler_card_artifacts: { raw: { path: generatedRawDescriptor.path, bytes: generatedRawDescriptor.bytes, sha256: generatedRawDescriptor.sha256 } }, endpoints: { traveler_cards: `${generatedRawDescriptor.path}.gz` } },
+  { traveler_card_artifacts: { raw: { path: generatedRawDescriptor.path, bytes: generatedRawDescriptor.bytes, sha256: generatedRawDescriptor.sha256 } } },
+  // Byte-size ceiling must be enforced at descriptor validation, before any bounded reader ever runs.
+  { traveler_card_artifacts: { raw: { path: generatedRawDescriptor.path, bytes: TRAVELER_CARD_BUNDLE_MAX_BYTES + 1, sha256: generatedRawDescriptor.sha256 } }, endpoints: matchingEndpoints },
+]) assert.throws(() => getTravelerCardRawArtifactDescriptor(badManifest), /raw country-card artifact/i, `malformed raw descriptor was not rejected: ${JSON.stringify(badManifest)}`);
+assert.deepEqual(
+  getTravelerCardRawArtifactDescriptor({ traveler_card_artifacts: { raw: { path: generatedRawDescriptor.path, bytes: TRAVELER_CARD_BUNDLE_MAX_BYTES, sha256: generatedRawDescriptor.sha256 } }, endpoints: matchingEndpoints }),
+  { path: generatedRawDescriptor.path, bytes: TRAVELER_CARD_BUNDLE_MAX_BYTES, sha256: generatedRawDescriptor.sha256 },
+  'a raw artifact exactly at the byte-size ceiling was rejected',
+);
+
 const dockerVerifier = readFileSync(resolve(WEB_ROOT, 'scripts/verify-docker-image.sh'), 'utf8');
 assert.match(dockerVerifier, /const cardBundle = JSON\.parse\(cardBytes\);/, 'deployment smoke test must parse the bounded raw traveler-card JSON bytes');
 assert.match(dockerVerifier, /traveler-cards\.json\.gz/, 'deployment smoke test lost the v1 gzip compatibility endpoint');
@@ -339,6 +381,48 @@ assert.doesNotMatch(JSON.stringify(cardCalls), /(?:US|us)/);
 assert.equal(loadedCard.content, generatedCardBundle.cards.US);
 await assert.rejects(loadTravelerCountryCard({ countryCode: 'CA', fetchImpl: async (url) => url === TRAVELER_CARD_MANIFEST_URL ? { ok: true, json: async () => generatedApiManifest } : { ...mockCardResponse, body: cardBody([generatedCardBytes]) }, decodeBundle: async () => ({ ...generatedCardBundle, dataset_version: `sha256:${'0'.repeat(64)}` }) }), /do not match/);
 await assert.rejects(loadTravelerCountryCard({ countryCode: 'CA', fetchImpl: async (url) => url === TRAVELER_CARD_MANIFEST_URL ? { ok: true, json: async () => generatedApiManifest } : { ...mockCardResponse, headers: { get: () => String(TRAVELER_CARD_BUNDLE_MAX_BYTES + 1) } }, decodeBundle: async () => generatedCardBundle }), /byte-size ceiling/);
+
+let decodeCalledForLengthMismatch = false;
+const shortenedRawDescriptorManifest = { ...generatedApiManifest, traveler_card_artifacts: { ...generatedApiManifest.traveler_card_artifacts, raw: { ...generatedApiManifest.traveler_card_artifacts.raw, bytes: generatedApiManifest.traveler_card_artifacts.raw.bytes + 1 } } };
+await assert.rejects(loadTravelerCountryCard({
+  countryCode: 'CA',
+  fetchImpl: async (url) => url === TRAVELER_CARD_MANIFEST_URL ? { ok: true, json: async () => shortenedRawDescriptorManifest } : { ...mockCardResponse, body: cardBody([generatedCardBytes]) },
+  decodeBundle: async () => { decodeCalledForLengthMismatch = true; return structuredClone(generatedCardBundle); },
+}), /byte length/, 'a byte-length mismatch between the fetched bundle and the manifest raw descriptor was accepted');
+assert.equal(decodeCalledForLengthMismatch, false, 'a byte-length mismatch reached the decoder before being rejected');
+
+let requestsForOverCeilingDescriptor = 0;
+const overCeilingRawDescriptorManifest = { ...generatedApiManifest, traveler_card_artifacts: { ...generatedApiManifest.traveler_card_artifacts, raw: { ...generatedApiManifest.traveler_card_artifacts.raw, bytes: TRAVELER_CARD_BUNDLE_MAX_BYTES + 1 } } };
+await assert.rejects(loadTravelerCountryCard({
+  countryCode: 'CA',
+  fetchImpl: async (url) => { requestsForOverCeilingDescriptor += 1; return url === TRAVELER_CARD_MANIFEST_URL ? { ok: true, json: async () => overCeilingRawDescriptorManifest } : mockCardResponse; },
+}), /raw country-card artifact/i, 'a manifest-declared byte length above the bounded-reader ceiling was accepted');
+assert.equal(requestsForOverCeilingDescriptor, 1, 'an over-ceiling raw byte length was not caught before the second fixed request');
+
+let decodeCalledForDigestMismatch = false;
+const corruptedFetchedBytes = Buffer.from(generatedCardBytes);
+corruptedFetchedBytes[corruptedFetchedBytes.length - 1] ^= 0xff;
+await assert.rejects(loadTravelerCountryCard({
+  countryCode: 'US',
+  fetchImpl: async (url) => url === TRAVELER_CARD_MANIFEST_URL
+    ? { ok: true, json: async () => structuredClone(generatedApiManifest) }
+    : { ...mockCardResponse, headers: { get: () => String(corruptedFetchedBytes.byteLength) }, body: cardBody([corruptedFetchedBytes]) },
+  decodeBundle: async () => { decodeCalledForDigestMismatch = true; return structuredClone(generatedCardBundle); },
+}), /digest/, 'a corrupted bundle with an otherwise matching byte length was accepted');
+assert.equal(decodeCalledForDigestMismatch, false, 'a digest mismatch reached the decoder — a corrupted artifact retaining valid embedded release identity fields was not rejected on raw bytes alone');
+
+for (const [label, brokenManifest] of [
+  ['missing raw artifact section', (() => { const { traveler_card_artifacts, ...rest } = generatedApiManifest; return rest; })()],
+  ['malformed raw artifact digest', { ...generatedApiManifest, traveler_card_artifacts: { ...generatedApiManifest.traveler_card_artifacts, raw: { ...generatedApiManifest.traveler_card_artifacts.raw, sha256: 'sha256:not-hex' } } }],
+]) {
+  let requestsForBrokenDescriptor = 0;
+  await assert.rejects(loadTravelerCountryCard({
+    countryCode: 'US',
+    fetchImpl: async (url) => { requestsForBrokenDescriptor += 1; return url === TRAVELER_CARD_MANIFEST_URL ? { ok: true, json: async () => brokenManifest } : mockCardResponse; },
+  }), /raw country-card artifact/i, `${label} did not fail closed`);
+  assert.equal(requestsForBrokenDescriptor, 1, `${label} was not caught before the second fixed request`);
+}
+
 const noLengthLoaded = await loadTravelerCountryCard({
   countryCode: 'CA',
   fetchImpl: async (url) => url === TRAVELER_CARD_MANIFEST_URL ? { ok: true, json: async () => generatedApiManifest } : { ok: true, headers: { get: () => null }, body: cardBody([generatedCardBytes.subarray(0, 7), generatedCardBytes.subarray(7)]) },
@@ -400,6 +484,40 @@ try {
   assert.equal(requestsWithoutResponseBody, 0, 'a Response without a readable body still issued a fixed-artifact fetch before capability failure');
 } finally { globalThis.Response = originalResponse; }
 assert.equal(supportsTravelerCardDownload(), true, 'Response restoration did not restore capability support');
+
+const originalCryptoDescriptor = Object.getOwnPropertyDescriptor(globalThis, 'crypto');
+try {
+  Object.defineProperty(globalThis, 'crypto', { value: undefined, configurable: true, writable: true });
+  assert.equal(supportsTravelerCardDownload(), false, 'a browser without Web Crypto was reported as supported');
+  assert.throws(() => assertTravelerCardDownloadSupport(), /SHA-256 verification/i);
+  let requestsWithoutCrypto = 0;
+  await assert.rejects(loadTravelerCountryCard({
+    countryCode: 'US',
+    fetchImpl: async () => { requestsWithoutCrypto += 1; return { ok: true, json: async () => generatedApiManifest }; },
+  }), /SHA-256 verification/i);
+  assert.equal(requestsWithoutCrypto, 0, 'a browser without Web Crypto still issued a fixed-artifact fetch before capability failure');
+} finally { Object.defineProperty(globalThis, 'crypto', originalCryptoDescriptor); }
+assert.equal(supportsTravelerCardDownload(), true, 'Web Crypto restoration did not restore capability support');
+
+const originalSubtleDescriptor = Object.getOwnPropertyDescriptor(globalThis.crypto, 'subtle');
+try {
+  Object.defineProperty(globalThis.crypto, 'subtle', { value: undefined, configurable: true, writable: true });
+  assert.equal(supportsTravelerCardDownload(), false, 'Web Crypto without a subtle digest was reported as supported');
+  assert.throws(() => assertTravelerCardDownloadSupport(), /SHA-256 verification/i);
+  let requestsWithoutSubtle = 0;
+  await assert.rejects(loadTravelerCountryCard({
+    countryCode: 'US',
+    fetchImpl: async () => { requestsWithoutSubtle += 1; return { ok: true, json: async () => generatedApiManifest }; },
+  }), /SHA-256 verification/i);
+  assert.equal(requestsWithoutSubtle, 0, 'a browser without SubtleCrypto.digest still issued a fixed-artifact fetch before capability failure');
+} finally {
+  if (originalSubtleDescriptor) {
+    Object.defineProperty(globalThis.crypto, 'subtle', originalSubtleDescriptor);
+  } else {
+    delete globalThis.crypto.subtle;
+  }
+}
+assert.equal(supportsTravelerCardDownload(), true, 'SubtleCrypto restoration did not restore capability support');
 assert.doesNotThrow(() => assertTravelerCardDownloadSupport());
 const supportedLoadedCard = await loadTravelerCountryCard({
   countryCode: 'US',
@@ -689,4 +807,4 @@ const staleErrorGeneration = mutationErrorGate.begin();
 mutationErrorGate.begin();
 assert.equal(mutationErrorGate.run(staleErrorGeneration, () => mutationRendered.errors.push('stale error')), false, 'form mutation left an older error boundary current');
 
-console.log('Traveler Mode OK: immutable submit snapshots, form-mutation invalidation, latest-generation rendering, distinct manifest/home choices, zero-hotline safety, accessible validation, fixed two-request loading, evidence, and privacy');
+console.log('Traveler Mode OK: immutable submit snapshots, form-mutation invalidation, latest-generation rendering, distinct manifest/home choices, zero-hotline safety, accessible validation, fixed two-request loading, raw-bundle byte-length/SHA-256 verification against the manifest, evidence, and privacy');

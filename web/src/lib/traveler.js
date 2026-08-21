@@ -7,11 +7,14 @@ export const TRAVELER_CARD_MANIFEST_URL = '/api/v1/manifest.json';
 export const TRAVELER_CARD_BUNDLE_URL = '/api/v1/traveler-cards.json';
 export const TRAVELER_RECORDS_API_VERSION = '1.0';
 export const TRAVELER_CARD_BUNDLE_MAX_BYTES = 1024 * 1024;
-export const TRAVELER_CARD_BROWSER_COMPATIBILITY_MESSAGE = 'Country-card downloads require standard JSON, UTF-8 decoding, file downloads, and streaming response support. Use a current browser or the regular Traveler Mode search below.';
+export const TRAVELER_CARD_BROWSER_COMPATIBILITY_MESSAGE = 'Country-card downloads require standard JSON, UTF-8 decoding, file downloads, streaming response support, and Web Crypto SHA-256 verification. Use a current browser or the regular Traveler Mode search below.';
 // Keep cards compact while ensuring validated destinations outrank display-only values.
 export const TRAVELER_CARD_CONTACT_LIMIT = 2;
 
 const NO_CROSS_BORDER_REASON = 'No usable current-country support record was found after the finder’s documented fallbacks. No regional or global hotline is shown because the released data does not establish cross-border access or eligibility.';
+
+// The one raw artifact path the loader will ever request, derived from the single fetched URL so the two cannot drift apart.
+const TRAVELER_CARD_RAW_ARTIFACT_PATH = TRAVELER_CARD_BUNDLE_URL.slice(TRAVELER_CARD_BUNDLE_URL.lastIndexOf('/') + 1);
 
 function normalizeCode(value) {
   return String(value ?? '').trim().toUpperCase();
@@ -347,14 +350,16 @@ async function readBoundedTravelerCardBody(response) {
   return bytes;
 }
 
-/** Reports whether the browser has exactly the APIs used by the raw JSON download path, including a readable streaming fetch response body. */
+/** Reports whether the browser has exactly the APIs used by the raw JSON download path, including a readable streaming fetch response body and Web Crypto SHA-256 verification. */
 export function supportsTravelerCardDownload() {
   return typeof Blob === 'function'
     && typeof TextDecoder === 'function'
     && typeof ReadableStream === 'function'
     && typeof ReadableStream.prototype?.getReader === 'function'
     && typeof Response === 'function'
-    && 'body' in Response.prototype;
+    && 'body' in Response.prototype
+    && typeof crypto !== 'undefined'
+    && typeof crypto.subtle?.digest === 'function';
 }
 
 /** Fails synchronously so callers can stop before issuing either fixed request. */
@@ -370,6 +375,45 @@ export function decodeTravelerCardBundle(bytes) {
   } catch {
     throw new Error('Static country-card bundle could not be parsed.');
   }
+}
+
+/** Extracts and validates the manifest's exact byte-length/SHA-256 descriptor for the raw country-card bundle. */
+export function getTravelerCardRawArtifactDescriptor(manifest) {
+  const raw = manifest?.traveler_card_artifacts?.raw;
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) {
+    throw new Error('The API manifest has an invalid raw country-card artifact descriptor.');
+  }
+  if (raw.path !== TRAVELER_CARD_RAW_ARTIFACT_PATH || manifest?.endpoints?.traveler_cards !== TRAVELER_CARD_RAW_ARTIFACT_PATH) {
+    throw new Error('The API manifest has an invalid raw country-card artifact descriptor.');
+  }
+  if (!Number.isSafeInteger(raw.bytes) || raw.bytes <= 0 || raw.bytes > TRAVELER_CARD_BUNDLE_MAX_BYTES) {
+    throw new Error('The API manifest has an invalid raw country-card artifact byte length.');
+  }
+  if (typeof raw.sha256 !== 'string' || !/^sha256:[a-f0-9]{64}$/.test(raw.sha256)) {
+    throw new Error('The API manifest has an invalid raw country-card artifact digest.');
+  }
+  return Object.freeze({ path: raw.path, bytes: raw.bytes, sha256: raw.sha256 });
+}
+
+/** Computes the project's "sha256:<hex>" digest of already bounded bytes using Web Crypto. */
+export async function sha256HexDigest(bytes) {
+  if (!(bytes instanceof Uint8Array)) throw new TypeError('invalid bytes');
+  const digestBuffer = await crypto.subtle.digest('SHA-256', bytes);
+  const hex = Array.from(new Uint8Array(digestBuffer), (byte) => byte.toString(16).padStart(2, '0')).join('');
+  return `sha256:${hex}`;
+}
+
+/** Fails closed unless the bounded fetched bytes are exactly the manifest-declared release artifact. */
+export async function verifyTravelerCardRawBytes(bytes, descriptor, digestBytes = sha256HexDigest) {
+  if (!(bytes instanceof Uint8Array)) throw new TypeError('invalid bytes');
+  if (bytes.byteLength !== descriptor.bytes) {
+    throw new Error('Static country-card bundle does not match its manifest byte length.');
+  }
+  const actual = await digestBytes(bytes);
+  if (actual !== descriptor.sha256) {
+    throw new Error('Static country-card bundle does not match its manifest digest.');
+  }
+  return bytes;
 }
 
 /** Validates that the independently cached card bundle is exactly the manifest release. */
@@ -389,10 +433,11 @@ export function validateTravelerCardBundleIdentity(bundle, manifest) {
 }
 
 /** Loads only two bounded fixed URLs; the manual country selection is applied after both responses. */
-export async function loadTravelerCountryCard({ fetchImpl = fetch, countryCode, decodeBundle = decodeTravelerCardBundle, requireSupport = assertTravelerCardDownloadSupport }) {
+export async function loadTravelerCountryCard({ fetchImpl = fetch, countryCode, decodeBundle = decodeTravelerCardBundle, requireSupport = assertTravelerCardDownloadSupport, digestBytes = sha256HexDigest }) {
   requireSupport();
   const manifest = await fetchJson(fetchImpl, TRAVELER_CARD_MANIFEST_URL, 'Static API manifest');
   const releaseContext = getTravelerReleaseContext(manifest);
+  const rawDescriptor = getTravelerCardRawArtifactDescriptor(manifest);
   const response = await fetchImpl(TRAVELER_CARD_BUNDLE_URL, { credentials: 'omit', referrerPolicy: 'no-referrer' });
   if (!response?.ok) throw new Error(`Static country-card bundle returned ${response?.status ?? 'an invalid response'}.`);
   const lengthHeader = response.headers?.get?.('content-length');
@@ -400,6 +445,7 @@ export async function loadTravelerCountryCard({ fetchImpl = fetch, countryCode, 
     throw new Error('Static country-card bundle exceeds its byte-size ceiling.');
   }
   const bundleBytes = await readBoundedTravelerCardBody(response);
+  await verifyTravelerCardRawBytes(bundleBytes, rawDescriptor, digestBytes);
   const bundle = validateTravelerCardBundleIdentity(await decodeBundle(bundleBytes), manifest);
   const code = normalizeCode(countryCode);
   const country = manifest.countries?.find((entry) => normalizeCode(entry?.alpha2) === code);
