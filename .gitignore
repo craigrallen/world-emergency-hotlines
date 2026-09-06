@@ -22,3 +22,8 @@ venv/
 # Temporary
 *.tmp
 *.bak
+
+# Secrets — environment files are never committed (see payments/.env.example)
+.env
+.env.*
+!.env.example

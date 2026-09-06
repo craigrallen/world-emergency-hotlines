@@ -27,7 +27,7 @@
   },
   "sources": {
     "REPORTS/web_verified_directory_integration_report.md": "sha256:38958ccc6871fa857405c1c264724434aaa1c6198b47c6033ded5a62c0c9a8fc",
-    "docs/PACKAGING.md": "sha256:4a7260669f2ef15674e95eb78a6f915e9ed7f524a14f857386d42e7f3e522432",
+    "docs/PACKAGING.md": "sha256:69b587926fe70576238d61e742f6843a841a23315b78ebed0fad14594f306942",
     "hotlines.json": "sha256:e893c9f6b0afcc57832054547002c826e80b5387e544b4cf6909afc9424dde3a",
     "information.json": "sha256:f7f38b23484947bf233349f3e9a4bf439a54353ead46b72d18f913f82e589fe8",
     "scripts/merge_vibbrancy.py": "sha256:cf5746bfc98e1041184feea063513beff03426550cc086c251dd4525ae6ae0d8",

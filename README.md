@@ -26,6 +26,8 @@ Public site: <https://worldhotlines.org>
 | `docs/OPERATIONS.md` | Privacy-safe public intake, read-only source monitoring, and the verification reviewer workbench |
 | `docs/INTEGRATIONS.md` | Integration decision guide, v1 examples, limitations, and production checklist |
 | `managed-api-plans/` | Static, synthetic managed-API plan contract with one ordered authoritative metering planner; no service, store, CAS helper, or billing is deployed |
+| `payments/` | Dependency-free Stripe hosted-Checkout and webhook foundation (service, contracts, tests, Railway/Docker files); prepared but disabled, not deployed, no prices |
+| `docs/PAYMENTS.md` | Payments architecture, environment variables, and the activation checklist that must be completed before billing can be switched on |
 | `deprecation-proposals/` | Static synthetic deprecation/replacement proposals and closed redacted audit-export contract; no canonical mutation or publication authority |
 | `docs/RELEASES.md` / `docs/releases.json` | Contract and machine-readable source for factual public release milestones |
 | `docs/dataset-releases.json` / `docs/dataset-release-snapshots/` | Trusted-base CI unchanged-prefix checks, a self-consistent hash chain, and complete metadata-only snapshots |

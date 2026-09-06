@@ -1,0 +1,16 @@
+# Railway configuration for the payments foundation service.
+# https://docs.railway.com/reference/config-as-code
+# Set this service's root directory to `payments` so this file and the
+# Dockerfile are picked up. The service stays in PAYMENTS_MODE=disabled until
+# the activation checklist in docs/PAYMENTS.md is complete.
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+startCommand = "node src/cli.mjs serve"
+healthcheckPath = "/billing/api/health"
+healthcheckTimeout = 30
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10

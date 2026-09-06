@@ -346,6 +346,46 @@ for spec in 'OPTIONS|organizations/v1/openapi.json|204' 'GET|organizations/v1/mi
   require_status "$method" "/$path" "$expected" "$headers"
 done
 
+# Payments foundation: without PAYMENTS_UPSTREAM every /billing/api/* request
+# fails closed with the exact service-shaped 503 and is never served from disk.
+expected_payments_disabled="$fixture/responses/payments-disabled.expected"
+printf '%s' '{"error":{"code":"payments_disabled","message":"Payments are not enabled"}}' > "$expected_payments_disabled"
+for spec in 'POST|billing/api/checkout-session' 'POST|billing/api/portal-session' 'POST|billing/api/webhook' 'GET|billing/api/health' 'GET|billing/api/checkout-session' 'PUT|billing/api/webhook' 'GET|billing/api//health' 'GET|BILLING/api/health' 'GET|billing/api/health/' 'GET|billing/api/health?probe=1'; do
+  method=${spec%%|*}; path=${spec#*|}
+  label=$(printf '%s' "$method-$path" | tr '/?.' '---')
+  payments_headers="$fixture/responses/payments-$label.headers"; payments_body="$fixture/responses/payments-$label.body"
+  curl --max-time 5 -sS --path-as-is -X "$method" -H 'Origin: https://worldhotlines.org' -D "$payments_headers" -o "$payments_body" "$base/$path"
+  require_status "$method" "/$path" 503 "$payments_headers"
+  require_header "$payments_headers" Cache-Control 'no-store'
+  require_header "$payments_headers" Content-Type 'application/json; charset=utf-8'
+  require_header "$payments_headers" X-Content-Type-Options 'nosniff'
+  cmp -s "$expected_payments_disabled" "$payments_body" || { echo "$method /$path did not return the exact payments_disabled body" >&2; exit 1; }
+done
+traversal_status=$(curl --max-time 5 -sS --path-as-is -o /dev/null -w '%{http_code}' "$base/billing/api/../index.html")
+[ "$traversal_status" = 404 ] || { echo "dot-segment traversal under /billing/api returned $traversal_status, expected 404 (never a served file, never the proxy)" >&2; exit 1; }
+payments_head_headers="$fixture/responses/payments-head.headers"; payments_head_body="$fixture/responses/payments-head.body"
+curl --max-time 5 -sS --request HEAD --ignore-content-length -H 'Connection: close' -D "$payments_head_headers" -o "$payments_head_body" "$base/billing/api/health"
+require_status HEAD /billing/api/health 503 "$payments_head_headers"
+require_empty HEAD /billing/api/health "$payments_head_body"
+# Site-level security headers apply to the main handler chain, not to the
+# handle_errors 404 route, so probe a page the fixture actually serves.
+csp_headers="$fixture/responses/csp.headers"
+curl --max-time 5 -sS -D "$csp_headers" -o /dev/null "$base/countries"
+require_status GET /countries 200 "$csp_headers"
+csp_value=$(header_value Content-Security-Policy "$csp_headers")
+case "$csp_value" in
+  *"form-action 'self' https://checkout.stripe.com https://billing.stripe.com"*) ;;
+  *) echo "CSP form-action does not allow exactly the Stripe hosted origins: $csp_value" >&2; exit 1 ;;
+esac
+case "$csp_value" in
+  *"script-src"*"stripe"*"style-src"*) echo "CSP script-src must not admit Stripe scripts: $csp_value" >&2; exit 1 ;;
+esac
+permissions_value=$(header_value Permissions-Policy "$csp_headers")
+case "$permissions_value" in
+  *"payment=()"*) ;;
+  *) echo "Permissions-Policy must keep payment=(): $permissions_value" >&2; exit 1 ;;
+esac
+
 readme_body="$fixture/responses/readme.body"
 curl --max-time 5 -sS -o "$readme_body" "$base/subscriptions/v1/README.md"
 cmp -s "$fixture/subscriptions/v1/README.md" "$readme_body" || { echo "README link target was not served byte-for-byte" >&2; exit 1; }
@@ -488,5 +528,19 @@ for spec in 'GET|evidence-backed-coverage/v1/assessment.schema.json|200' 'HEAD|e
   if [ "$method" = HEAD ]; then actual=$(curl --max-time 5 -sS -I -o /dev/null -w '%{http_code}' "$base/$path"); else actual=$(curl --max-time 5 -sS -X "$method" -o /dev/null -w '%{http_code}' "$base/$path"); fi
   [ "$actual" = "$expected" ] || { echo "$method /$path returned $actual, expected $expected" >&2; exit 1; }
 done
+
+docker rm -f "$container" >/dev/null 2>&1 || true
+container=$(docker run -d --rm -e PORT=8080 -e PAYMENTS_UPSTREAM=127.0.0.1:1 -p 127.0.0.1::8080 -v "$repo_root/Caddyfile:/etc/caddy/Caddyfile:ro" -v "$fixture:/srv:ro" "$caddy_image")
+port=$(docker port "$container" 8080/tcp | sed -n 's/.*://p')
+base="http://127.0.0.1:$port"
+attempt=0
+until curl --max-time 2 -fsS "$base/release/v1/release.json" >/dev/null 2>&1; do
+  attempt=$((attempt + 1)); [ "$attempt" -lt 40 ] || { docker logs "$container"; exit 1; }
+  sleep 0.25
+done
+proxied_status=$(curl --max-time 5 -sS -X POST -o /dev/null -w '%{http_code}' "$base/billing/api/checkout-session")
+[ "$proxied_status" = 502 ] || { echo "with PAYMENTS_UPSTREAM set, /billing/api/checkout-session returned $proxied_status, expected 502 from the proxy path" >&2; exit 1; }
+index_status=$(curl --max-time 5 -sS -o /dev/null -w '%{http_code}' "$base/release/v1/release.json")
+[ "$index_status" = 200 ] || { echo "static routes must be unaffected by PAYMENTS_UPSTREAM (got $index_status)" >&2; exit 1; }
 
 echo "Caddy integration OK: raw JSON API GET/HEAD MIME and read-only 404 boundaries; PWA policy; HTML discovery and custom 404; release/feed/static contract MIME and CORS; no route shadowing"

@@ -42,7 +42,7 @@
     "handoff_binding": {
       "const": {
         "path": "reviews/licensing-legal-review/v1/index.json",
-        "sha256": "sha256:a3d6afe5e12f3a0b143c14a1d09ec5d0d98d5864f8bf7b34bce637a4ceaa06cf"
+        "sha256": "sha256:7c10e0daded51751eb4df36df7ce7075596a5f67a88c4f3fedcb476ca412b126"
       }
     },
     "populations": {},

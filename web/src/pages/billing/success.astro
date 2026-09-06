@@ -1,0 +1,40 @@
+---
+import Base from '../../layouts/Base.astro';
+import { CHECKOUT_SESSION_PATTERN, PAYMENTS_ENABLED, PORTAL_ACTION } from '../../lib/billing';
+---
+
+<Base title="Checkout complete · World Emergency & Hotlines" description="Return page after Stripe hosted checkout." robots="noindex,follow" canonical={false}>
+  <article class="mx-auto max-w-3xl">
+    <p class="text-sm font-semibold uppercase tracking-wider text-accent">Stripe checkout</p>
+    <h1 class="mt-2 text-4xl font-semibold text-fg sm:text-5xl">Checkout complete</h1>
+    <p class="mt-4 text-lg text-fg-muted">Thank you. If your payment went through, Stripe emails the receipt to the address you entered on its checkout page. This page cannot see your payment details; it only receives a checkout session reference.</p>
+
+    <section class="mt-8 rounded-xl border border-border bg-bg-elev p-5" aria-labelledby="manage-title">
+      <h2 id="manage-title" class="text-xl font-semibold text-fg">Keep your session reference</h2>
+      <p class="mt-2 text-sm text-fg-muted">The reference below opens Stripe's Customer Portal, where you can update payment details or cancel. Save it somewhere private; it is not stored in your browser by this site.</p>
+      <form method="post" action={PORTAL_ACTION} class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end">
+        <label class="flex-1 text-sm text-fg-muted">Checkout session reference
+          <input name="session_id" type="text" autocomplete="off" spellcheck="false" required pattern={CHECKOUT_SESSION_PATTERN} data-session-id class="mt-1 w-full rounded-lg border border-border bg-bg px-3 py-2 text-fg" disabled={!PAYMENTS_ENABLED} />
+        </label>
+        <button type="submit" class="btn-ghost disabled:cursor-not-allowed disabled:opacity-50" disabled={!PAYMENTS_ENABLED}>{PAYMENTS_ENABLED ? 'Open customer portal' : 'Portal not enabled'}</button>
+      </form>
+    </section>
+
+    <p class="mt-8 text-sm text-fg-muted">Access to any paid managed surface is provisioned separately after Stripe confirms the payment by webhook; nothing on the free site changes. Questions about a charge go through Stripe's receipt email. <a class="text-accent hover:underline" href="/billing">Back to billing</a>.</p>
+  </article>
+
+  <script is:inline>
+    (() => {
+      try {
+        const url = new URL(window.location.href);
+        const id = url.searchParams.get('session_id');
+        const input = document.querySelector('[data-session-id]');
+        if (id && /^cs_(test|live)_[A-Za-z0-9]{8,}$/.test(id) && input) input.value = id;
+        if (url.searchParams.has('session_id')) {
+          url.searchParams.delete('session_id');
+          history.replaceState({}, '', url.pathname + (url.search || '') + url.hash);
+        }
+      } catch {}
+    })();
+  </script>
+</Base>
