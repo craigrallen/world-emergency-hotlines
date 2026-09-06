@@ -1,0 +1,19 @@
+{
+  "id": "evt_synthetic00000002",
+  "object": "event",
+  "api_version": "2025-08-27.basil",
+  "created": 2145916860,
+  "livemode": false,
+  "type": "customer.subscription.updated",
+  "data": {
+    "object": {
+      "id": "sub_synthetic00000001",
+      "object": "subscription",
+      "status": "active",
+      "customer": "cus_synthetic00000001",
+      "cancel_at_period_end": false,
+      "current_period_end": 2148595200,
+      "metadata": { "offer": "growth_monthly" }
+    }
+  }
+}

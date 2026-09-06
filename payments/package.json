@@ -1,0 +1,13 @@
+{
+  "name": "@world-hotlines/payments-foundation",
+  "version": "0.1.0-foundation",
+  "private": true,
+  "type": "module",
+  "description": "Dependency-free Stripe Checkout and webhook foundation for the World Hotlines site. Disabled by default; not deployed.",
+  "scripts": {
+    "start": "node src/cli.mjs serve",
+    "check-config": "node src/cli.mjs check-config",
+    "test": "node --test test/*.test.mjs"
+  },
+  "engines": { "node": ">=22" }
+}

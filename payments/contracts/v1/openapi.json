@@ -1,0 +1,66 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "World Hotlines payments foundation",
+    "version": "0.1.0-foundation",
+    "description": "Stripe hosted-Checkout and webhook surface for the World Hotlines site. PREPARED, NOT ENABLED and not deployed: PAYMENTS_MODE defaults to disabled, so every POST route answers 503 payments_disabled until the activation checklist in docs/PAYMENTS.md is complete. Browser requests are same-origin only and carry an offer id, never a price id. Card data is handled by Stripe on checkout.stripe.com; this service never receives it. Query-bearing paths are 404; unsupported methods are 405 with an Allow header; unknown paths are 404. Free static crisis-information surfaces are unaffected."
+  },
+  "servers": [{ "url": "https://worldhotlines.org", "description": "Canonical origin; Caddy proxies /billing/api/* to the service only when PAYMENTS_UPSTREAM is configured." }],
+  "paths": {
+    "/billing/api/health": {
+      "get": { "summary": "Service identity and enablement state", "description": "Never includes secrets. 405 for methods other than GET and HEAD.", "responses": { "200": { "$ref": "#/components/responses/Health" }, "404": { "$ref": "#/components/responses/Error" }, "405": { "$ref": "#/components/responses/Error" }, "503": { "$ref": "#/components/responses/Error" } } },
+      "head": { "summary": "Health headers only", "responses": { "200": { "description": "Same headers as GET, empty body", "headers": { "X-Request-Id": { "$ref": "#/components/headers/RequestId" }, "Cache-Control": { "$ref": "#/components/headers/CacheControl" } } }, "404": { "$ref": "#/components/responses/Error" }, "405": { "$ref": "#/components/responses/Error" }, "503": { "$ref": "#/components/responses/Error" } } }
+    },
+    "/billing/api/checkout-session": {
+      "post": {
+        "summary": "Create a Stripe Checkout Session for a configured offer",
+        "description": "Same-origin form or JSON POST naming an offer id from offers.json. Responds 303 to https://checkout.stripe.com/... for browsers, or 200 JSON when Accept prefers application/json. 400 unknown_offer for ids not present in PAYMENTS_OFFERS; 403 for cross-origin requests; 413 above 4096 bytes; 415 for other content types; 429 when rate limited; 502 when Stripe rejects the request; 503 while disabled.",
+        "requestBody": { "required": true, "content": { "application/x-www-form-urlencoded": { "schema": { "$ref": "#/components/schemas/CheckoutRequest" } }, "application/json": { "schema": { "$ref": "#/components/schemas/CheckoutRequest" } } } },
+        "responses": { "200": { "$ref": "#/components/responses/RedirectTarget" }, "303": { "$ref": "#/components/responses/Redirect" }, "400": { "$ref": "#/components/responses/Error" }, "403": { "$ref": "#/components/responses/Error" }, "404": { "$ref": "#/components/responses/Error" }, "405": { "$ref": "#/components/responses/Error" }, "413": { "$ref": "#/components/responses/Error" }, "415": { "$ref": "#/components/responses/Error" }, "429": { "$ref": "#/components/responses/Error" }, "502": { "$ref": "#/components/responses/Error" }, "503": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/billing/api/portal-session": {
+      "post": {
+        "summary": "Open the Stripe Customer Portal for a completed subscription Checkout Session",
+        "description": "Same-origin POST carrying the session_id that Stripe appended to the success URL. The session must be complete and in subscription mode; otherwise 404 portal_unavailable. Responds 303 to https://billing.stripe.com/... or 200 JSON.",
+        "requestBody": { "required": true, "content": { "application/x-www-form-urlencoded": { "schema": { "$ref": "#/components/schemas/PortalRequest" } }, "application/json": { "schema": { "$ref": "#/components/schemas/PortalRequest" } } } },
+        "responses": { "200": { "$ref": "#/components/responses/RedirectTarget" }, "303": { "$ref": "#/components/responses/Redirect" }, "400": { "$ref": "#/components/responses/Error" }, "403": { "$ref": "#/components/responses/Error" }, "404": { "$ref": "#/components/responses/Error" }, "405": { "$ref": "#/components/responses/Error" }, "413": { "$ref": "#/components/responses/Error" }, "415": { "$ref": "#/components/responses/Error" }, "429": { "$ref": "#/components/responses/Error" }, "502": { "$ref": "#/components/responses/Error" }, "503": { "$ref": "#/components/responses/Error" } }
+      }
+    },
+    "/billing/api/webhook": {
+      "post": {
+        "summary": "Receive signed Stripe events",
+        "description": "Verifies the Stripe-Signature header (HMAC-SHA256 over timestamp.body, 300 second tolerance), rejects events whose livemode disagrees with PAYMENTS_MODE, deduplicates by event id, and stores only pseudonymous identifiers and enum statuses. Bodies above 262144 bytes are 413. A 500 means the event was not recorded and Stripe should retry.",
+        "parameters": [{ "name": "Stripe-Signature", "in": "header", "required": true, "schema": { "type": "string", "pattern": "^t=\\d+,v1=[0-9a-f]{64}" } }],
+        "requestBody": { "required": true, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/StripeEvent" } } } },
+        "responses": { "200": { "$ref": "#/components/responses/WebhookAck" }, "400": { "$ref": "#/components/responses/Error" }, "404": { "$ref": "#/components/responses/Error" }, "405": { "$ref": "#/components/responses/Error" }, "413": { "$ref": "#/components/responses/Error" }, "500": { "$ref": "#/components/responses/Error" }, "503": { "$ref": "#/components/responses/Error" } }
+      }
+    }
+  },
+  "components": {
+    "headers": {
+      "RequestId": { "description": "Per-request UUID echoed in error bodies", "schema": { "type": "string", "format": "uuid" } },
+      "CacheControl": { "description": "Always no-store", "schema": { "type": "string", "const": "no-store" } },
+      "Location": { "description": "Stripe hosted page URL", "schema": { "type": "string", "format": "uri" } },
+      "Allow": { "description": "Allowed methods on 405", "schema": { "type": "string" } },
+      "RetryAfter": { "description": "Seconds to wait on 429/503", "schema": { "type": "string", "pattern": "^\\d+$" } }
+    },
+    "schemas": {
+      "OfferId": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,31}$", "description": "An id from offers.json" },
+      "CheckoutRequest": { "type": "object", "required": ["offer"], "properties": { "offer": { "$ref": "#/components/schemas/OfferId" } }, "additionalProperties": false },
+      "PortalRequest": { "type": "object", "required": ["session_id"], "properties": { "session_id": { "type": "string", "pattern": "^cs_(test|live)_[A-Za-z0-9]{8,}$" } }, "additionalProperties": false },
+      "StripeEvent": { "type": "object", "required": ["id", "object", "type", "livemode", "created", "data"], "properties": { "id": { "type": "string", "pattern": "^evt_[A-Za-z0-9]{8,}$" }, "object": { "const": "event" }, "type": { "type": "string" }, "livemode": { "type": "boolean" }, "created": { "type": "integer", "minimum": 0 }, "data": { "type": "object", "required": ["object"], "properties": { "object": { "type": "object" } } } } },
+      "Health": { "type": "object", "required": ["component", "payments_version", "status", "mode", "offers", "store", "foundation"], "properties": { "component": { "const": "payments" }, "payments_version": { "const": "0.1.0-foundation" }, "status": { "enum": ["disabled", "enabled"] }, "mode": { "enum": ["disabled", "test", "live"] }, "offers": { "type": "array", "items": { "$ref": "#/components/schemas/OfferId" } }, "store": { "type": "string" }, "foundation": { "const": true } }, "additionalProperties": false },
+      "RedirectTarget": { "type": "object", "required": ["url"], "properties": { "url": { "type": "string", "format": "uri" }, "id": { "type": "string" } }, "additionalProperties": false },
+      "WebhookAck": { "type": "object", "required": ["received"], "properties": { "received": { "const": true }, "duplicate": { "const": true }, "outcome": { "enum": ["processed", "ignored", "stale"] } }, "additionalProperties": false },
+      "Error": { "type": "object", "required": ["error"], "properties": { "error": { "type": "object", "required": ["code", "message", "request_id"], "properties": { "code": { "enum": ["invalid_request", "unknown_offer", "signature_invalid", "livemode_mismatch", "origin_not_allowed", "not_found", "portal_unavailable", "method_not_allowed", "payload_too_large", "unsupported_media_type", "rate_limited", "handler_failed", "upstream_error", "payments_disabled", "unavailable"] }, "message": { "type": "string" }, "request_id": { "type": "string", "format": "uuid" } }, "additionalProperties": false } }, "additionalProperties": false }
+    },
+    "responses": {
+      "Health": { "description": "Service identity", "headers": { "X-Request-Id": { "$ref": "#/components/headers/RequestId" }, "Cache-Control": { "$ref": "#/components/headers/CacheControl" } }, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Health" } } } },
+      "Redirect": { "description": "Browser redirect to a Stripe hosted page", "headers": { "Location": { "$ref": "#/components/headers/Location" }, "X-Request-Id": { "$ref": "#/components/headers/RequestId" }, "Cache-Control": { "$ref": "#/components/headers/CacheControl" } }, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RedirectTarget" } } } },
+      "RedirectTarget": { "description": "Stripe hosted page URL for JSON clients", "headers": { "X-Request-Id": { "$ref": "#/components/headers/RequestId" }, "Cache-Control": { "$ref": "#/components/headers/CacheControl" } }, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RedirectTarget" } } } },
+      "WebhookAck": { "description": "Event verified and recorded, or already recorded", "headers": { "X-Request-Id": { "$ref": "#/components/headers/RequestId" }, "Cache-Control": { "$ref": "#/components/headers/CacheControl" } }, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/WebhookAck" } } } },
+      "Error": { "description": "Closed error envelope; never includes secrets or request bodies", "headers": { "X-Request-Id": { "$ref": "#/components/headers/RequestId" }, "Cache-Control": { "$ref": "#/components/headers/CacheControl" }, "Allow": { "$ref": "#/components/headers/Allow" }, "Retry-After": { "$ref": "#/components/headers/RetryAfter" } }, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Error" } } } }
+    }
+  }
+}

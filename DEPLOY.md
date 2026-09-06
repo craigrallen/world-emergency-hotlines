@@ -57,10 +57,17 @@ For active development with hot reload, `cd web && npm run dev` serves `http://l
 - **Serve stage** — `caddy:2.8-alpine`. Copies `web/dist/` to `/srv` and serves it with the `Caddyfile` from the repo root: gzip/zstd compression, security headers (HSTS, CSP, X-Frame-Options, Referrer-Policy, Permissions-Policy), and per-asset-type cache rules (immutable for hashed `_astro/` assets, short TTL + stale-while-revalidate for HTML and `/data/*`).
 - Railway injects `$PORT` at runtime; Caddy binds to it automatically (`ENV PORT=8080` is the image default, overridden by Railway).
 
-## 6. Troubleshooting
+## 6. Payments service (prepared, not enabled)
+
+A separate Stripe payments foundation lives in `payments/` and is **not deployed**. Caddy already routes `/billing/api/*`, but while the web service has no `PAYMENTS_UPSTREAM` variable that route answers `503 payments_disabled`, and the built `/billing` pages render with disabled buttons unless the web build sees `PUBLIC_PAYMENTS_MODE=test|live`. Nothing here changes the free static site.
+
+When (and only when) the activation checklist in `docs/PAYMENTS.md` is complete: create a second Railway service from this repository with root directory `payments` (it picks up `payments/Dockerfile` and `payments/railway.toml`, health check `/billing/api/health`), set its `PAYMENTS_*`/`STRIPE_*` variables, then set `PAYMENTS_UPSTREAM=payments.railway.internal:8081` on the web service. Unsetting that one variable is the rollback.
+
+## 7. Troubleshooting
 
 - **Build fails installing npm dependencies** → check `web/package-lock.json` is committed and in sync with `web/package.json`; the Dockerfile runs `npm install --no-audit --no-fund` against it.
 - **Build fails during `astro build` / `astro check`** → reproduce locally with `cd web && npm run build` (or `npm run typecheck`); the same commands run in `web-ci.yml` on every push/PR.
 - **Site loads but shows "page not found" for a country/category page** → the page is generated at build time from `hotlines.json`; confirm the country/category exists in the canonical dataset and rebuild.
 - **Custom domain not resolving** → DNS can take time to propagate; check with `dig <domain>` or `nslookup <domain>`.
-- **CSP blocking something** (e.g. a new external asset host) → edit the `Content-Security-Policy` header in `Caddyfile` and redeploy.
+- **CSP blocking something** (e.g. a new external asset host) → edit the `Content-Security-Policy` header in `Caddyfile` and redeploy. The only Stripe entries are `form-action` allowances for `checkout.stripe.com` and `billing.stripe.com`; hosted Checkout needs no Stripe script or frame on this origin.
+- **`/billing/api/*` returns 503** → expected while `PAYMENTS_UPSTREAM` is unset (payments are not enabled). A 502 means the variable is set but the payments service is unreachable.
