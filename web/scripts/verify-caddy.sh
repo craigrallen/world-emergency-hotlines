@@ -367,8 +367,11 @@ payments_head_headers="$fixture/responses/payments-head.headers"; payments_head_
 curl --max-time 5 -sS --request HEAD --ignore-content-length -H 'Connection: close' -D "$payments_head_headers" -o "$payments_head_body" "$base/billing/api/health"
 require_status HEAD /billing/api/health 503 "$payments_head_headers"
 require_empty HEAD /billing/api/health "$payments_head_body"
+# Site-level security headers apply to the main handler chain, not to the
+# handle_errors 404 route, so probe a page the fixture actually serves.
 csp_headers="$fixture/responses/csp.headers"
-curl --max-time 5 -sS -D "$csp_headers" -o /dev/null "$base/"
+curl --max-time 5 -sS -D "$csp_headers" -o /dev/null "$base/countries"
+require_status GET /countries 200 "$csp_headers"
 csp_value=$(header_value Content-Security-Policy "$csp_headers")
 case "$csp_value" in
   *"form-action 'self' https://checkout.stripe.com https://billing.stripe.com"*) ;;
