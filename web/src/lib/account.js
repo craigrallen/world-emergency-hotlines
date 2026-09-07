@@ -190,11 +190,15 @@ function renderSignedIn(root, status, me) {
     ]));
   }
   const keyForm = root.querySelector('[data-account-key-form]');
-  const keysOn = status.gateway?.key_issuance === true && me.entitlement.active;
+  // `entitlement.active` only means some subscription is active; a key can be minted only through one
+  // whose plan still resolves to a gateway policy (`can_grant_keys`), so gate on that instead, or every
+  // submission from an account with an active-but-unconfigured subscription would fail with plan_unconfigured.
+  const keysOn = status.gateway?.key_issuance === true && me.entitlement.can_grant_keys === true;
   keyForm.querySelector('button').disabled = !keysOn;
   root.querySelector('[data-account-keys-note]').textContent = status.gateway?.key_issuance !== true
     ? 'Managed API key issuance is not enabled on this deployment.'
-    : me.entitlement.active ? `Up to ${me.gateway?.max_keys ?? 5} active keys. Keys authenticate against the managed API gateway only; every free static surface stays keyless.` : 'An active subscription is required before a key can be issued.';
+    : keysOn ? `Up to ${me.gateway?.max_keys ?? 5} active keys. Keys authenticate against the managed API gateway only; every free static surface stays keyless.`
+    : me.entitlement.active ? 'This subscription does not grant managed API key access.' : 'An active subscription is required before a key can be issued.';
 }
 
 async function refresh(root, status, { preserveViewOnFailure = false } = {}) {

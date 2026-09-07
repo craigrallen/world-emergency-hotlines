@@ -205,7 +205,7 @@ describe('Stripe webhooks through the CMS endpoint', () => {
     expect(sub.currentPeriodEnd).toBe(new Date(2148595200 * 1000).toISOString());
     expect(sub.plan).toBeTruthy();
     const me = await call('/cms/api/account/me', { token: await login('buyer@example.test', PASSWORD) });
-    expect(me.data.entitlement).toEqual({ active: true, offer: 'growth_monthly' });
+    expect(me.data.entitlement).toEqual({ active: true, can_grant_keys: true, offer: 'growth_monthly' });
     expect(me.data.subscriptions[0]).toMatchObject({ id: 'sub_synthetic00000001', status: 'active', offer: 'growth_monthly' });
     // Ordering is per event family: a checkout event created after a delayed
     // subscription event must not discard the status that subscription event carries.
@@ -554,7 +554,7 @@ describe('managed API keys', () => {
     expect(await accountKey()).toMatchObject({ state: 'active', revocable: true, permissions: ['manifest', 'records', 'resolver'], quota: { rate: 10, burst: 100 } });
     // Cancelling the granting (pro) subscription revokes the key in the export even though the cheaper subscription keeps the account entitled.
     expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.deleted', priced('sub_synthetic00000011', 'price_synthetic0002', { status: 'canceled' }), { created: 2145917000 }) as never)).toBe('processed');
-    expect((await call('/cms/api/account/me', { token })).data.entitlement).toEqual({ active: true, offer: 'growth_monthly' });
+    expect((await call('/cms/api/account/me', { token })).data.entitlement).toEqual({ active: true, can_grant_keys: true, offer: 'growth_monthly' });
     expect(await exportedKey()).toBeUndefined(); // revoked keys are not exported
     // The account page must not still say active, but the stored record is still active (the subscription
     // could recover), so the member must still be able to permanently revoke this key on request.
@@ -575,7 +575,7 @@ describe('managed API keys', () => {
     expect(viaGrowth.data.record).toMatchObject({ permissions: ['manifest', 'records'], quota: { rate: 2, burst: 20 } });
     const growthSubscription = (await payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: 'sub_synthetic00000010' } }, overrideAccess: true, depth: 0 })).docs[0];
     expect((await payload.find({ collection: 'api-keys', where: { keyId: { equals: viaGrowth.data.record.id } }, overrideAccess: true, depth: 0 })).docs[0].subscription).toBe(growthSubscription.id);
-    expect((await call('/cms/api/account/me', { token })).data.entitlement).toEqual({ active: true, offer: 'growth_monthly' });
+    expect((await call('/cms/api/account/me', { token })).data.entitlement).toEqual({ active: true, can_grant_keys: true, offer: 'growth_monthly' });
     // The payments mirror replaying its record (old offer metadata, no price) cannot restore the cleared plan: the billed
     // price already recorded on the subscription decides. A record that carries a configured price brings the plan back.
     const subscription11 = () => payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: 'sub_synthetic00000011' } }, overrideAccess: true, depth: 0 }).then((result) => result.docs[0]);
@@ -599,7 +599,7 @@ describe('managed API keys', () => {
     expect(deleted.status).toBe(200);
     expect((await payload.find({ collection: 'api-keys', where: { keyId: { equals: minted.data.record.id } }, overrideAccess: true, depth: 0 })).docs[0]).toMatchObject({ state: 'revoked', subscription: null });
     expect(await exportedKey()).toBeUndefined(); // revoked keys are not exported
-    expect((await call('/cms/api/account/me', { token })).data.entitlement).toEqual({ active: true, offer: 'growth_monthly' }); // the account itself stays entitled through the cheaper plan
+    expect((await call('/cms/api/account/me', { token })).data.entitlement).toEqual({ active: true, can_grant_keys: true, offer: 'growth_monthly' }); // the account itself stays entitled through the cheaper plan
   });
 
   test('a usable plan is found behind many unconfigured active subscriptions', async () => {
@@ -613,7 +613,7 @@ describe('managed API keys', () => {
     }
     const configured = await payload.create({ collection: 'subscriptions', data: { ...base, stripeSubscriptionId: 'sub_synthetic00000300', plan: growthPlan.id, offer: 'growth_monthly', stripePriceId: 'price_synthetic0001', lastEventCreated: 2145930000, lastSubscriptionEventCreated: 2145930000 } as never, overrideAccess: true, context: { ...INTERNAL_CONTEXT } });
     const token = await login('heavy@example.test', PASSWORD);
-    expect((await call('/cms/api/account/me', { token })).data.entitlement).toEqual({ active: true, offer: 'growth_monthly' });
+    expect((await call('/cms/api/account/me', { token })).data.entitlement).toEqual({ active: true, can_grant_keys: true, offer: 'growth_monthly' });
     const minted = await call('/cms/api/account/api-keys', { method: 'POST', token, body: { label: 'found behind the crowd' } });
     expect(minted.status).toBe(201);
     expect(minted.data.record).toMatchObject({ permissions: ['manifest', 'records'], quota: { rate: 2, burst: 20 } });
@@ -684,7 +684,9 @@ describe('managed API keys', () => {
     const unknownPrice = subscription('sub_synthetic00000014', { customer: 'cus_synthetic00000014', metadata: { cms_user: String(planless.id) }, items: { object: 'list', data: [{ id: 'si_synthetic0014', object: 'subscription_item', current_period_end: 2148595200, price: { id: 'price_synthetic0099', object: 'price' } }] } });
     expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.created', unknownPrice, { created: 2145916800 }) as never)).toBe('processed');
     const token = await login('planless@example.test', PASSWORD);
-    expect((await call('/cms/api/account/me', { token })).data.entitlement.active).toBe(true);
+    // The account page must disable key creation here (an active-but-unconfigured subscription), not
+    // just show entitlement.active — every submission would otherwise deterministically fail below.
+    expect((await call('/cms/api/account/me', { token })).data.entitlement).toMatchObject({ active: true, can_grant_keys: false });
     const refused = await call('/cms/api/account/api-keys', { method: 'POST', token, body: {} });
     expect(refused.status).toBe(409);
     expect(refused.data.error.code).toBe('plan_unconfigured');

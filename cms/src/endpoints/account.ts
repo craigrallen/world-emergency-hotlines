@@ -213,7 +213,10 @@ export const accountEndpoints: Endpoint[] = [
       const entitled = entitling.granting?.subscription ?? entitling.newest;
       return json(req, 200, {
         user: { id: user.id, email: user.email, name: user.name ?? null, role: user.role, verified: user._verified !== false, created_at: user.createdAt ?? null, billing_customer_linked: env.stripeMode !== 'disabled' && customerOf(user, env.stripeMode === 'live') !== null },
-        entitlement: { active: entitled !== null, offer: (entitled?.offer as string | undefined) ?? null },
+        // `active` reflects any active subscription; a key can be minted only through one whose plan still
+        // resolves to a gateway policy (`entitling.granting`), so the account page gates key creation on
+        // `can_grant_keys` instead, matching exactly what /account/api-keys will actually accept.
+        entitlement: { active: entitled !== null, can_grant_keys: entitling.granting !== null, offer: (entitled?.offer as string | undefined) ?? null },
         subscriptions: (subscriptions.docs as unknown as Doc[]).map(publicSubscription),
         api_keys: keys.map((key) => publicKey(key, storedStates.get(String(key.keyId)))),
         stripe: { mode: env.stripeMode },

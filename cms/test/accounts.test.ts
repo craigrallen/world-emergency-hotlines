@@ -135,7 +135,7 @@ describe('registration and sessions', () => {
     const me = await call('/cms/api/account/me', { token: memberToken });
     expect(me.status).toBe(200);
     expect(me.data.user).toMatchObject({ email: 'member@example.test', role: 'member', billing_customer_linked: false });
-    expect(me.data.entitlement).toEqual({ active: false, offer: null });
+    expect(me.data.entitlement).toEqual({ active: false, can_grant_keys: false, offer: null });
     const escalate = await call(`/cms/api/users/${me.data.user.id}`, { method: 'PATCH', token: memberToken, body: { role: 'admin', name: 'Renamed' } });
     expect(escalate.status).toBe(200);
     const after = await payload.findByID({ collection: 'users', id: me.data.user.id, overrideAccess: true });
