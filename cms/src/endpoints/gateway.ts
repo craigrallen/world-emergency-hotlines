@@ -3,16 +3,19 @@ import type { Payload } from 'payload';
 import { hasRole, isServiceRequest } from '../access';
 import { ACTIVE_STATUSES } from '../collections/Subscriptions';
 import { getEnv, type StripeMode } from '../env';
-import { toGatewayRecord } from '../lib/gateway-keys';
-import { fail, guarded, json } from '../lib/responses';
+import { toGatewayRecord, type GatewayKeyRecord } from '../lib/gateway-keys';
+import { EndpointError, fail, guarded, json } from '../lib/responses';
 
 export const KEY_RECORDS_SCHEMA = 'gateway-key-records/v1';
 /**
  * The gateway refuses a snapshot with more records than this (`gateway/src/cms-keys.mjs`).
- * Only keys the gateway can accept are exported, so the bound is on active keys, never on
- * revoked or expired history, and reaching it is a capacity limit to raise on both sides.
+ * Only keys that evaluate as active are exported and counted, so the bound is on usable
+ * keys, never on revoked, lapsed, or expired history, and reaching it is a capacity limit
+ * to raise on both sides.
  */
 export const GATEWAY_MAX_KEYS = 10000;
+/** Stored keys are evaluated in pages of this size; history is walked but never exported or counted. */
+export const EXPORT_PAGE_SIZE = 1000;
 
 /**
  * Live-mode keys are always exported. Keys minted from a test-mode subscription are
@@ -110,6 +113,28 @@ export function withEntitlement<T extends Doc>(keys: T[], context: EntitlementCo
 }
 
 /**
+ * Every record the gateway snapshot needs: keys stored as active, evaluated page by page
+ * against the subscription that granted them, keeping those that still evaluate as active.
+ * Stored state alone says nothing about a key's standing (a lapsed subscription leaves its
+ * keys stored active and exported revoked), so the capacity check counts the evaluated set.
+ * More than `maxKeys` usable keys throws `snapshot_too_large`: a capacity limit to raise on
+ * both sides, never a snapshot to truncate (a failed sync keeps the gateway's previous keys;
+ * a truncated one would silently drop live ones).
+ */
+export async function collectActiveKeys(payload: Payload, stripeMode: StripeMode, { pageSize = EXPORT_PAGE_SIZE, maxKeys = GATEWAY_MAX_KEYS }: { pageSize?: number; maxKeys?: number } = {}): Promise<GatewayKeyRecord[]> {
+  if (!Number.isInteger(pageSize) || pageSize < 1 || !Number.isInteger(maxKeys) || maxKeys < 0) throw new TypeError('invalid export bounds');
+  const keys = new Map<string, GatewayKeyRecord>();
+  for (let page = 1; ; page += 1) {
+    const result = await payload.find({ collection: 'api-keys', where: { state: { equals: 'active' } }, sort: 'keyId', limit: pageSize, page, depth: 0, overrideAccess: true });
+    const docs = exportableKeys(result.docs as unknown as Doc[], stripeMode);
+    for (const record of withEntitlement(docs, await entitlementContext(payload, docs)).map(toGatewayRecord)) if (record.state === 'active') keys.set(record.id, record);
+    if (keys.size > maxKeys) throw new EndpointError('snapshot_too_large');
+    if (!result.hasNextPage) break;
+  }
+  return [...keys.values()];
+}
+
+/**
  * Key records for the managed API gateway (`gateway/src/cli.mjs sync-keys`).
  * Only a service account scoped `gateway_sync` (API key) or an admin may read it;
  * the payments-store credential cannot. The snapshot replaces the gateway's whole
@@ -126,13 +151,8 @@ export const gatewayEndpoints: Endpoint[] = [
       if (!isServiceRequest(req, 'gateway_sync') && !hasRole(req, 'admin')) return fail(req, req.user ? 'forbidden' : 'unauthenticated');
       const mode = req.searchParams.get('mode') ?? 'production';
       if (mode !== 'production') return fail(req, 'invalid_request');
-      const result = await req.payload.find({ collection: 'api-keys', where: { state: { equals: 'active' } }, sort: 'keyId', limit: GATEWAY_MAX_KEYS + 1, depth: 0, overrideAccess: true });
-      // More active key records than one snapshot can hold is a capacity limit to raise on both sides, never a snapshot to truncate:
-      // a failed sync keeps the gateway's previous keys, a truncated one would silently drop live ones.
-      if (result.docs.length > GATEWAY_MAX_KEYS) return fail(req, 'snapshot_too_large');
       const stripeMode = getEnv().stripeMode;
-      const docs = exportableKeys(result.docs as unknown as Doc[], stripeMode);
-      const keys = withEntitlement(docs, await entitlementContext(req.payload, docs)).map(toGatewayRecord).filter((record) => record.state === 'active');
+      const keys = await collectActiveKeys(req.payload, stripeMode);
       return json(req, 200, { schema: KEY_RECORDS_SCHEMA, mode: 'production', generated_at: new Date().toISOString(), includes_test_mode_keys: stripeMode === 'test', keys });
     }),
   },

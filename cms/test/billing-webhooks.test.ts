@@ -9,7 +9,7 @@ import { createHmac } from 'node:crypto';
 import { call, createUser, login, signEvent, startMockStripe, stripeEvent } from './helpers';
 import { handleStripeEvent, periodEndOf } from '../src/lib/stripe';
 import { toGatewayRecord } from '../src/lib/gateway-keys';
-import { exportableKeys, withEntitlement } from '../src/endpoints/gateway';
+import { collectActiveKeys, exportableKeys, withEntitlement } from '../src/endpoints/gateway';
 
 let payload: Payload;
 let stripe: Awaited<ReturnType<typeof startMockStripe>>;
@@ -130,6 +130,19 @@ describe('Stripe webhooks through the CMS endpoint', () => {
     expect((await deliver(signed2)).data).toEqual({ received: true, outcome: 'processed' });
     expect((await payload.count({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: 'sub_synthetic00000012' } }, overrideAccess: true })).totalDocs).toBe(1);
     expect((await payload.count({ collection: 'stripe-events', where: { eventId: { equals: second.id } }, overrideAccess: true })).totalDocs).toBe(1);
+  });
+
+  test('a subscription whose account was deleted keeps updating: stale metadata never re-links a user that no longer exists', async () => {
+    const gone = await createUser(payload, { email: 'gone@example.test', password: PASSWORD });
+    const withUser = (status: string) => subscription('sub_synthetic00000007', { customer: 'cus_synthetic00000007', status, metadata: { cms_user: String(gone.id) } });
+    const find = async () => (await payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: 'sub_synthetic00000007' } }, overrideAccess: true, depth: 0 })).docs[0];
+    expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.created', withUser('active'), { created: 2145920000 }) as never)).toBe('processed');
+    expect((await find()).user).toBe(gone.id);
+    await payload.delete({ collection: 'users', id: gone.id, overrideAccess: true });
+    // Stripe still carries the deleted account id in metadata: the update applies with the subscription detached
+    // instead of failing on the relationship and being retried forever.
+    expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.updated', withUser('past_due'), { created: 2145920100 }) as never)).toBe('processed');
+    expect(await find()).toMatchObject({ status: 'past_due', user: null });
   });
 
   test('same-second events are reconciled against Stripe instead of trusting delivery order', async () => {
@@ -401,6 +414,10 @@ describe('managed API keys', () => {
     // so revoked and expired history never counts against the gateway's snapshot limit.
     expect(exported.data.keys.find((record: { id: string }) => record.id === created.data.record.id)).toBeUndefined();
     expect(exported.data.keys.every((record: { state: string }) => record.state === 'active')).toBe(true);
+    // The snapshot is assembled page by page and its capacity bound counts keys that evaluate as active, never stored history.
+    const paged = await collectActiveKeys(payload, 'test', { pageSize: 1 });
+    expect(paged.map((record) => record.id).sort()).toEqual(exported.data.keys.map((record: { id: string }) => record.id).sort());
+    await expect(collectActiveKeys(payload, 'test', { pageSize: 1, maxKeys: 0 })).rejects.toMatchObject({ code: 'snapshot_too_large' });
     const stillActive = second.data.record.id as string;
     const active = exported.data.keys.find((record: { id: string }) => record.id === stillActive);
     expect(active.state).toBe('active');

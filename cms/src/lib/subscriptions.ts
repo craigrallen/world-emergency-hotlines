@@ -101,6 +101,21 @@ export async function lockRow(payload: Payload, tx: PayloadRequest, collection: 
   await session.execute(sql`SELECT id FROM ${sql.identifier(table)} WHERE ${sql.identifier(column)} = ${value} FOR UPDATE`);
 }
 
+/**
+ * `id` when that user still exists, else null. Stripe keeps `cms_user` in metadata after
+ * an account is deleted (Postgres nulls the relation, SQLite may not), so neither the
+ * metadata id nor a stored relation is written back without this check: a deleted id
+ * would violate the relationship and turn every later event for the subscription into
+ * a failed, endlessly retried delivery.
+ */
+async function liveUser(payload: Payload, tx: PayloadRequest, id: Id | null | undefined): Promise<Id | null> {
+  if (id === null || id === undefined) return null;
+  // Collections use integer ids; anything else cannot name a user and must not reach the database inside this transaction.
+  if (typeof id !== 'number' && !/^\d{1,15}$/.test(String(id))) return null;
+  const result = await payload.count({ collection: 'users', where: { id: { equals: id } }, overrideAccess: true, req: tx });
+  return result.totalDocs > 0 ? id : null;
+}
+
 async function findUserByCustomer(payload: Payload, tx: PayloadRequest, customer: string | null | undefined): Promise<Id | null> {
   if (!customer) return null;
   const result = await payload.find({ collection: 'users', where: { stripeCustomerId: { equals: customer } }, limit: 1, depth: 0, overrideAccess: true, req: tx });
@@ -168,7 +183,7 @@ export async function applySubscriptionPatch(payload: Payload, incoming: Subscri
 
       const customer = patch.stripeCustomerId ?? (existing?.stripeCustomerId as string | undefined) ?? null;
       const { plan, byPrice } = await resolvePlan(payload, tx, patch, existing);
-      const user = patch.user ?? relationId(existing?.user) ?? (await findUserByCustomer(payload, tx, customer));
+      const user = (await liveUser(payload, tx, patch.user)) ?? (await liveUser(payload, tx, relationId(existing?.user))) ?? (await findUserByCustomer(payload, tx, customer));
 
       const data: Record<string, unknown> = {
         stripeSubscriptionId: patch.stripeSubscriptionId,
