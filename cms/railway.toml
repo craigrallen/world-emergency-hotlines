@@ -1,0 +1,17 @@
+# Railway configuration for the World Hotlines CMS service.
+# https://docs.railway.com/reference/config-as-code
+# Set this service's root directory to `cms` so this file and the Dockerfile are
+# picked up, attach a Railway Postgres database (DATABASE_URL), and set the
+# variables listed in .env.example. The web service then gets
+# CMS_UPSTREAM=cms.railway.internal:3000 to switch /account, /admin, and /cms/api on.
+
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+startCommand = "node server.js"
+healthcheckPath = "/cms/api/account/status"
+healthcheckTimeout = 60
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10

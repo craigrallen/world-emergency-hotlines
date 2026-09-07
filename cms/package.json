@@ -1,0 +1,45 @@
+{
+  "name": "@world-hotlines/cms",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Payload CMS backend for World Hotlines: accounts, user administration, Stripe billing, and managed API key issuance.",
+  "scripts": {
+    "dev": "next dev --port 3000",
+    "build": "next build",
+    "start": "next start --port ${PORT:-3000}",
+    "payload": "payload",
+    "generate:types": "payload generate:types",
+    "generate:importmap": "payload generate:importmap",
+    "migrate": "payload migrate",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "lint": "next lint",
+    "migrate:create": "payload migrate:create"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "@payloadcms/db-postgres": "3.88.0",
+    "@payloadcms/db-sqlite": "3.88.0",
+    "@payloadcms/email-nodemailer": "3.88.0",
+    "@payloadcms/next": "3.88.0",
+    "@payloadcms/ui": "3.88.0",
+    "graphql": "^16.11.0",
+    "next": "16.3.4",
+    "payload": "3.88.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "stripe": "^22.6.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.0"
+  }
+}

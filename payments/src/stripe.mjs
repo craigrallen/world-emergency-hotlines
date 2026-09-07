@@ -78,6 +78,8 @@ export function createStripeClient({ secretKey, apiVersion = null, fetchImpl = g
     request,
     createCheckoutSession: (params, idempotencyKey) => request('POST', '/v1/checkout/sessions', { params, idempotencyKey }),
     retrieveCheckoutSession: (id) => request('GET', `/v1/checkout/sessions/${id}`),
+    retrieveSubscription: (id) => request('GET', `/v1/subscriptions/${id}`),
+    retrieveInvoice: (id) => request('GET', `/v1/invoices/${id}`),
     createBillingPortalSession: (params, idempotencyKey) => request('POST', '/v1/billing_portal/sessions', { params, idempotencyKey }),
   });
 }

@@ -53,6 +53,8 @@ Documented with defaults in `payments/.env.example`. Summary:
 | `STRIPE_SECRET_KEY` | payments | Restricted key preferred (`rk_test_`/`rk_live_`). Its mode must match `PAYMENTS_MODE`. |
 | `STRIPE_WEBHOOK_SECRET` | payments | The endpoint's `whsec_` signing secret. |
 | `STRIPE_API_VERSION` | payments | Optional pin, e.g. the version shown in the Dashboard. |
+| `PAYMENTS_STORE` | payments | `memory` (default, single instance, forgets on restart) or `cms` (durable, persisted in the Payload CMS collections `stripe-events` and `entitlements`). |
+| `PAYMENTS_CMS_URL`, `PAYMENTS_CMS_API_KEY` | payments | CMS API base (`http://cms.railway.internal:3000/cms/api`) and a `service`-role API key; required with `PAYMENTS_STORE=cms`. |
 | `PAYMENTS_UPSTREAM` | web (Caddy) | `host:port` of the payments service, e.g. `payments.railway.internal:8081`. Unset means 503. |
 | `PUBLIC_PAYMENTS_MODE` | web (build) | `test` or `live` enables the `/billing` buttons in the built HTML. Unset means disabled. |
 
@@ -102,7 +104,7 @@ Work top to bottom. Every step is reversible by unsetting `PAYMENTS_UPSTREAM` or
 ### Railway
 
 - [ ] New service from this repository with **root directory `payments`** (picks up `payments/Dockerfile` and `payments/railway.toml`). Set the variables from the table above with `PAYMENTS_MODE=test`, `PAYMENTS_HOST=::`, `PAYMENTS_TRUST_PROXY=1`. Health check `/billing/api/health` must go green.
-- [ ] Durable store decision: the in-memory store is single-instance and forgets events on restart. Before more than one replica or any entitlement automation, implement the four-method store contract (`payments/src/store.mjs`) on a database and inject it in `payments/src/cli.mjs`.
+- [ ] Durable store: the in-memory store is single-instance and forgets events on restart. Before more than one replica or any entitlement automation, deploy the CMS (`docs/ACCOUNTS.md`) and set `PAYMENTS_STORE=cms` with `PAYMENTS_CMS_URL` and a `service`-role `PAYMENTS_CMS_API_KEY`; `payments/src/cms-store.mjs` implements the four-method contract on the CMS's unique-indexed collections, and subscription records are mirrored into the CMS `subscriptions` view.
 - [ ] On the **web** service, set `PAYMENTS_UPSTREAM=payments.railway.internal:8081` (private networking) and redeploy. `POST /billing/api/checkout-session` should now reach the service (a 400 `unknown_offer` for a bogus offer proves the path).
 - [ ] On the **web** service, set build variable `PUBLIC_PAYMENTS_MODE=test` and redeploy so `/billing` renders live buttons with the test-mode banner.
 - [ ] Complete a test-card checkout end to end, confirm the webhook shows delivered in the Dashboard, and confirm the Customer Portal opens from `/billing/success`.
@@ -125,4 +127,4 @@ Work top to bottom. Every step is reversible by unsetting `PAYMENTS_UPSTREAM` or
 
 ## Not done by this foundation
 
-No Stripe account, product, price, webhook, tax setup, terms, or deployed service is created here. No customer accounts or login exist; subscribers manage billing through the Stripe Customer Portal using their checkout session reference. Managed API key issuance on payment is not implemented.
+No Stripe account, product, price, webhook, tax setup, terms, or deployed service is created here. Anonymous subscribers manage billing through the Stripe Customer Portal using their checkout session reference. Account-bound checkout, the account page, user administration, a second (CMS) webhook consumer sharing the same idempotency ledger, and managed API key issuance live in the separate CMS backend described in `docs/ACCOUNTS.md`, which is likewise prepared but not enabled.

@@ -9,7 +9,7 @@
   },
   "handoff_binding": {
     "path": "reviews/licensing-legal-review/v1/index.json",
-    "sha256": "sha256:7c10e0daded51751eb4df36df7ce7075596a5f67a88c4f3fedcb476ca412b126"
+    "sha256": "sha256:344660c26ca5d6d3d24b2c91723818afb2b63d99080f0400d2b40e0b4546d9b3"
   },
   "populations": [
     "synthetic_example_population"

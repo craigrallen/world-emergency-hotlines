@@ -23,7 +23,13 @@ venv/
 *.tmp
 *.bak
 
-# Secrets — environment files are never committed (see payments/.env.example)
+# CMS local state
+cms/.next/
+cms/data/*.db
+cms/data/*.db-*
+cms/node_modules/
+
+# Secrets — environment files are never committed (see payments/.env.example and cms/.env.example)
 .env
 .env.*
 !.env.example

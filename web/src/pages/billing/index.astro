@@ -51,7 +51,7 @@ const description = 'Stripe hosted-checkout foundation for the proposed managed 
 
     <section class="mt-10 rounded-xl border border-border bg-bg-elev p-5" aria-labelledby="manage-title">
       <h2 id="manage-title" class="text-2xl font-semibold text-fg">Manage an existing subscription</h2>
-      <p class="mt-3 text-sm text-fg-muted">Subscribers can update payment details or cancel through Stripe's Customer Portal. Paste the checkout session reference from your confirmation page (it starts with <code>cs_</code>).</p>
+      <p class="mt-3 text-sm text-fg-muted">Subscribers with an <a class="text-accent hover:underline" href="/account">account</a> manage billing, the Customer Portal, and managed API keys from their account page. Without an account, update payment details or cancel through Stripe's Customer Portal by pasting the checkout session reference from your confirmation page (it starts with <code>cs_</code>).</p>
       <form method="post" action={PORTAL_ACTION} class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end">
         <label class="flex-1 text-sm text-fg-muted">Checkout session reference
           <input name="session_id" type="text" inputmode="text" autocomplete="off" spellcheck="false" required pattern={CHECKOUT_SESSION_PATTERN} placeholder="cs_live_…" class="mt-1 w-full rounded-lg border border-border bg-bg px-3 py-2 text-fg" disabled={!PAYMENTS_ENABLED} />

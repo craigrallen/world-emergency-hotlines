@@ -6,6 +6,8 @@ import { ARTIFACT_ROUTES, createArtifactStore } from './artifacts.mjs';
 import { exactObject, SHA256_ID, validateKeyRecord, validateOrigin } from './validation.mjs';
 
 export const VERSION='0.1.0-foundation';
+/** Most key records a configuration or reload may carry; the default quota store is sized to hold a bucket for every one of them. */
+export const MAX_KEYS=10000;
 const HEALTH='/managed/v1/health', KNOWN=new Set([HEALTH,...Object.keys(ARTIFACT_ROUTES)]);
 const ERR={400:['body_not_allowed','Request bodies are not allowed'],401:['unauthorized','Authentication failed'],403:['forbidden','Access denied'],404:['not_found','Not found'],405:['method_not_allowed','Method not allowed'],429:['rate_limited','Rate limit exceeded'],503:['unavailable','Service unavailable']};
 const EVENT_KEYS=['timestamp','request_id','route_template','artifact_class','api_major','status_class','status_code','latency_bucket','response_bytes_bucket','auth_outcome','quota_outcome','gateway_version','release_id','dataset_version'];
@@ -19,11 +21,11 @@ function validateConfig(config){
   if(mode==='synthetic'&&!['127.0.0.1','::1','localhost'].includes(host))throw new Error('invalid gateway configuration');
   if(mode==='production'&&(!Object.hasOwn(config,'host')||['127.0.0.1','::1','localhost'].includes(host)))throw new Error('invalid gateway configuration');
   if(typeof config.pepper!=='string'||config.pepper.length<(mode==='production'?32:16)||config.pepper.length>4096)throw new Error('invalid gateway configuration');
-  if(!SHA256_ID.test(config.releaseId)||!SHA256_ID.test(config.datasetVersion)||!Array.isArray(config.keys)||config.keys.length<1||config.keys.length>10000)throw new Error('invalid gateway configuration');
+  if(!SHA256_ID.test(config.releaseId)||!SHA256_ID.test(config.datasetVersion)||!Array.isArray(config.keys)||config.keys.length<1||config.keys.length>MAX_KEYS)throw new Error('invalid gateway configuration');
   const ids=new Set();for(const record of config.keys){if(!validateKeyRecord(record,mode)||ids.has(record.id))throw new Error('invalid gateway configuration');ids.add(record.id);}
   if(!Array.isArray(origins)||origins.length>100||new Set(origins).size!==origins.length||!origins.every((o)=>validateOrigin(o,mode)))throw new Error('invalid gateway configuration');
   if(config.sink!==undefined&&typeof config.sink!=='function'||config.sinkError!==undefined&&typeof config.sinkError!=='function'||config.now!==undefined&&typeof config.now!=='function')throw new Error('invalid gateway configuration');
-  if(config.quotaStore!==undefined&&(config.quotaStore===null||typeof config.quotaStore!=='object'||typeof config.quotaStore.take!=='function'))throw new Error('invalid gateway configuration');
+  if(config.quotaStore!==undefined&&(config.quotaStore===null||typeof config.quotaStore!=='object'||typeof config.quotaStore.take!=='function'||config.quotaStore.forget!==undefined&&typeof config.quotaStore.forget!=='function'))throw new Error('invalid gateway configuration');
   for(const [name,min,max,def] of [['maxConcurrent',1,10000,32],['maxConnections',1,100000,128],['requestTimeoutMs',100,120000,5000],['headersTimeoutMs',100,120000,3000],['keepAliveTimeoutMs',100,120000,5000],['maxRequestsPerSocket',1,10000,100],['shutdownTimeoutMs',100,60000,5000]])if(!integer(config[name]??def,min,max))throw new Error('invalid gateway configuration');
   return {mode,host,port,origins};
 }
@@ -43,10 +45,23 @@ function error(res,method,status,id,extra){ const [code,message]=ERR[status]; re
 
 export function createGateway(config){
   const validated=validateConfig(config),{host,port,origins}=validated;
-  const sink=config.sink??(()=>{}),sinkError=config.sinkError??(()=>{}),clock=config.now??(()=>Date.now()),quotaStore=config.quotaStore??new MemoryTokenBuckets();
+  // The default store holds one bucket per accepted key: a full key set of active clients must never overflow it (503 store_overflow).
+  const sink=config.sink??(()=>{}),sinkError=config.sinkError??(()=>{}),clock=config.now??(()=>Date.now()),quotaStore=config.quotaStore??new MemoryTokenBuckets({maxKeys:MAX_KEYS});
   let initialNow;try{initialNow=clock();}catch{throw new Error('invalid gateway configuration');}if(!Number.isFinite(initialNow))throw new Error('invalid gateway configuration');
   const maxConcurrent=config.maxConcurrent??32,shutdownTimeoutMs=config.shutdownTimeoutMs??5000;
-  const keysById=new Map(config.keys.map((record)=>[record.id,Object.freeze({...record,api_majors:Object.freeze([...record.api_majors]),permissions:Object.freeze([...record.permissions]),quota:Object.freeze({...record.quota})})]));
+  const freezeKeys=(records)=>new Map(records.map((record)=>[record.id,Object.freeze({...record,api_majors:Object.freeze([...record.api_majors]),permissions:Object.freeze([...record.permissions]),quota:Object.freeze({...record.quota})})]));
+  // Reloadable: sync-keys rewrites GATEWAY_CONFIG and reloadKeys() swaps this map without a restart (see reload.mjs).
+  let keysById=freezeKeys(config.keys);
+  function reloadKeys(records){
+    if(!Array.isArray(records)||records.length>MAX_KEYS)throw new Error('invalid key records');
+    const ids=new Set();for(const record of records){if(!validateKeyRecord(record,validated.mode)||ids.has(record.id))throw new Error('invalid key records');ids.add(record.id);}
+    const next=freezeKeys(records);
+    // Retired keys (revoked or rotated) release their quota buckets: a bounded store must never let a key that can no longer
+    // authenticate hold capacity against one that can. A store without forget() keeps its own idle expiry; a failing forget()
+    // must not stop the key swap, which is what makes a revocation take effect.
+    let retired=0;if(typeof quotaStore.forget==='function')for(const id of keysById.keys())if(!next.has(id)){retired++;try{quotaStore.forget(id);}catch{}}
+    keysById=next;return {keys:records.length,retired};
+  }
   const artifacts=createArtifactStore({root:config.artifactRoot,descriptor:config.artifactDescriptor,releaseId:config.releaseId,datasetVersion:config.datasetVersion});
   let active=0,stopping=false,sinkErrors=0;const sockets=new Set();
   const server=http.createServer({requestTimeout:config.requestTimeoutMs??5000,headersTimeout:config.headersTimeoutMs??3000,keepAliveTimeout:config.keepAliveTimeoutMs??5000,maxHeaderSize:16384},(req,res)=>{
@@ -78,7 +93,7 @@ export function createGateway(config){
   server.maxConnections=config.maxConnections??128;server.maxRequestsPerSocket=config.maxRequestsPerSocket??100;
   server.on('connection',(socket)=>{sockets.add(socket);socket.once('close',()=>sockets.delete(socket));});
   server.on('clientError',(_e,socket)=>{if(socket.writable)socket.end('HTTP/1.1 400 Bad Request\r\nConnection: close\r\nContent-Length: 0\r\n\r\n');});
-  return {server,get activeRequests(){return active;},get sinkErrors(){return sinkErrors;},listen:()=>new Promise((ok,no)=>{const fail=(error)=>{server.off('listening',ready);no(error);},ready=()=>{server.off('error',fail);ok();};server.once('error',fail).once('listening',ready).listen(port,host);}),close:()=>new Promise((ok,no)=>{stopping=true;const timer=setTimeout(()=>{for(const socket of sockets)socket.destroy();},shutdownTimeoutMs);timer.unref();server.close((error)=>{clearTimeout(timer);error?no(error):ok();});server.closeIdleConnections();})};
+  return {server,reloadKeys,get activeRequests(){return active;},get sinkErrors(){return sinkErrors;},get keyCount(){return keysById.size;},listen:()=>new Promise((ok,no)=>{const fail=(error)=>{server.off('listening',ready);no(error);},ready=()=>{server.off('error',fail);ok();};server.once('error',fail).once('listening',ready).listen(port,host);}),close:()=>new Promise((ok,no)=>{stopping=true;const timer=setTimeout(()=>{for(const socket of sockets)socket.destroy();},shutdownTimeoutMs);timer.unref();server.close((error)=>{clearTimeout(timer);error?no(error):ok();});server.closeIdleConnections();})};
 }
 
 export { EVENT_KEYS };

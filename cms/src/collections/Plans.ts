@@ -1,0 +1,56 @@
+import type { CollectionConfig } from 'payload';
+import { ValidationError } from 'payload';
+import { isAdmin, isStaff } from '../access';
+
+export const OFFER_ID = /^[a-z][a-z0-9_]{1,31}$/;
+export const PRICE_ID = /^price_[A-Za-z0-9]{8,}$/;
+export const GATEWAY_PERMISSIONS = ['manifest', 'records', 'resolver'] as const;
+
+export const Plans: CollectionConfig = {
+  slug: 'plans',
+  labels: { singular: 'Plan', plural: 'Plans' },
+  admin: {
+    useAsTitle: 'label',
+    defaultColumns: ['offerId', 'label', 'mode', 'active', 'stripePriceId', 'updatedAt'],
+    group: 'Billing',
+    description: 'Offer ids mapped to Stripe prices that live only here and in the Stripe Dashboard; prices are never published on the site. The account page sells active subscription-mode plans only: one-time payment plans grant no entitlement and are refused at checkout.',
+  },
+  access: { read: isStaff, create: isAdmin, update: isAdmin, delete: isAdmin },
+  fields: [
+    { name: 'offerId', type: 'text', required: true, unique: true, index: true, admin: { description: 'Stable public id, e.g. growth_monthly. Must match payments/contracts/v1/offers.json when the same offer is sold through /billing.' }, validate: (value: unknown) => (typeof value === 'string' && OFFER_ID.test(value) ? true : 'must be 2 to 32 lowercase letters, digits, or underscores starting with a letter') },
+    { name: 'label', type: 'text', required: true, maxLength: 80 },
+    { name: 'description', type: 'textarea', maxLength: 600, admin: { description: 'Shown on the account page. Never include a price.' } },
+    { name: 'mode', type: 'select', required: true, defaultValue: 'subscription', options: [{ label: 'Subscription', value: 'subscription' }, { label: 'One-time payment', value: 'payment' }] },
+    { name: 'stripePriceId', type: 'text', required: true, unique: true, index: true, admin: { description: 'Stripe price id (price_…), unique across plans so a subscription\'s price resolves to exactly one plan. Must belong to the same test/live mode as STRIPE_SECRET_KEY.' }, validate: (value: unknown) => (typeof value === 'string' && PRICE_ID.test(value) ? true : 'must be a Stripe price id (price_…)') },
+    { name: 'quantity', type: 'number', required: true, defaultValue: 1, min: 1, max: 100, admin: { description: 'Whole number of units per checkout line item (Stripe accepts integers only).' }, validate: (value: unknown) => (Number.isInteger(value) && (value as number) >= 1 && (value as number) <= 100 ? true : 'must be a whole number from 1 to 100') },
+    { name: 'active', type: 'checkbox', defaultValue: false, admin: { description: 'Only active plans are offered on the account page.' } },
+    {
+      name: 'gateway',
+      type: 'group',
+      admin: { description: 'Managed API key policy granted to subscribers of this plan (see gateway/contracts/v1/key-record.schema.json).' },
+      fields: [
+        { name: 'permissions', type: 'select', hasMany: true, defaultValue: [...GATEWAY_PERMISSIONS], options: GATEWAY_PERMISSIONS.map((value) => ({ label: value, value })) },
+        { name: 'quotaRate', type: 'number', required: true, defaultValue: 1, min: 0.001, max: 1000, admin: { description: 'Tokens per second (0 < rate <= 1000).' } },
+        { name: 'quotaBurst', type: 'number', required: true, defaultValue: 10, min: 1, max: 10000, admin: { description: 'Integer bucket capacity (1..10000, and at most rate × 86400).' } },
+      ],
+    },
+  ],
+  hooks: {
+    beforeValidate: [
+      ({ data, originalDoc, req }) => {
+        if (!data) return data;
+        // Validate the effective policy (incoming values over the stored ones), so a partial
+        // update of one field cannot leave burst above rate × 86400 and make the gateway
+        // refuse the whole exported snapshot.
+        type Gateway = { quotaRate?: number; quotaBurst?: number; permissions?: string[] };
+        const gateway: Gateway = { ...((originalDoc?.gateway ?? {}) as Gateway), ...((data.gateway ?? {}) as Gateway) };
+        const invalid = (path: string, message: string) => new ValidationError({ collection: 'plans', errors: [{ path, message }] }, req.t);
+        if (gateway.quotaBurst !== undefined && !Number.isInteger(gateway.quotaBurst)) throw invalid('gateway.quotaBurst', 'must be an integer');
+        if (gateway.quotaRate !== undefined && gateway.quotaBurst !== undefined && gateway.quotaBurst > gateway.quotaRate * 86400) throw invalid('gateway.quotaBurst', 'must not exceed quotaRate × 86400');
+        if (gateway.permissions !== undefined && gateway.permissions.length === 0) throw invalid('gateway.permissions', 'needs at least one permission');
+        return data;
+      },
+    ],
+  },
+  timestamps: true,
+};

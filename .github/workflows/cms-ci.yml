@@ -1,0 +1,78 @@
+name: CMS CI
+
+on:
+  pull_request:
+    paths:
+      - "cms/**"
+      - "gateway/**"
+      - "payments/**"
+      - ".github/workflows/cms-ci.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "cms/**"
+      - "gateway/**"
+      - "payments/**"
+      - ".github/workflows/cms-ci.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  cms:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: cms
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+      # Test-only values; the CMS refuses to start in production without real ones.
+      PAYLOAD_SECRET: ci-only-payload-secret-that-is-long-enough-000000
+      DATABASE_URL: file:./data/ci.db
+      PUBLIC_SITE_URL: http://localhost:8080
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: cms/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generated types are current
+        run: |
+          npm run generate:types
+          git diff --exit-code -- src/payload-types.ts
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit and integration tests (SQLite, mock Stripe)
+        run: npm test
+
+      - name: Payments and gateway suites that speak the CMS contract
+        working-directory: .
+        run: |
+          (cd payments && npm test)
+          node --test gateway/test/cms-keys.test.mjs
+
+      - name: Production build with the runtime variables removed, as in the image build stage
+        run: env -u PAYLOAD_SECRET -u DATABASE_URL -u PUBLIC_SITE_URL npm run build
+
+  image:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Build the CMS image exactly as Railway and Compose do (no build arguments, no secrets)
+        run: docker build --pull cms

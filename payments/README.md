@@ -13,4 +13,4 @@ node src/cli.mjs serve            # GET /billing/api/health
 node src/cli.mjs sign-test-event --file fixtures/events/checkout.session.completed.synthetic.json
 ```
 
-Layout: `src/config.mjs` (fail-closed env parsing), `src/stripe.mjs` (REST client), `src/webhook.mjs` (signature verification), `src/events.mjs` (event → entitlement state), `src/store.mjs` (store contract + bounded memory store), `src/server.mjs` (HTTP), `src/cli.mjs`. `Dockerfile` and `railway.toml` describe a separate Railway service whose root directory is this folder.
+Layout: `src/config.mjs` (fail-closed env parsing), `src/stripe.mjs` (REST client), `src/webhook.mjs` (signature verification), `src/events.mjs` (event → entitlement state), `src/store.mjs` (store contract + bounded memory store), `src/cms-store.mjs` (durable store on the Payload CMS, `PAYMENTS_STORE=cms`), `src/server.mjs` (HTTP), `src/cli.mjs`. `Dockerfile` and `railway.toml` describe a separate Railway service whose root directory is this folder.

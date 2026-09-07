@@ -3,6 +3,9 @@ export class MemoryTokenBuckets {
   constructor({ now = () => performance.now(), maxKeys = 1000, idleMs = 300000 } = {}) { if(typeof now!=='function'||!Number.isInteger(maxKeys)||maxKeys<1||maxKeys>100000||!Number.isInteger(idleMs)||idleMs<1000||idleMs>86400000)throw new Error('invalid quota store configuration');this.now=now;this.maxKeys=maxKeys;this.idleMs=idleMs;this.buckets=new Map(); }
   clock(){const value=this.now();if(!Number.isFinite(value))throw new Error('invalid quota clock');return value;}
   cleanup(now=this.clock()) { for (const [k,b] of this.buckets) if (Math.max(0,now-b.seen) >= this.idleMs) this.buckets.delete(k); }
+  /** Drop the bucket of a key that no longer exists (revoked or rotated on a key reload), so retired keys never hold capacity against live ones. */
+  forget(key) { if(typeof key!=='string')throw new Error('invalid quota input'); return this.buckets.delete(key); }
+  get size() { return this.buckets.size; }
   take(key, { rate, burst }) {
     if(typeof key!=='string'||!validQuota({rate,burst}))throw new Error('invalid quota input');const now=this.clock(); this.cleanup(now); let b=this.buckets.get(key);
     if (!b) { if (this.buckets.size >= this.maxKeys) return { ok:false, overflow:true, retryAfter:1, limit:burst, remaining:0, reset:1 }; b={tokens:burst,last:now,seen:now}; this.buckets.set(key,b); }

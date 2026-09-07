@@ -18,6 +18,11 @@ __pycache__
 *.pyc
 .DS_Store
 
+# Separate services build from their own directories
+cms
+payments/node_modules
+docker-compose.yml
+
 # Astro local dev artefacts
 web/node_modules
 web/dist

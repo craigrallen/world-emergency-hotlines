@@ -63,7 +63,13 @@ A separate Stripe payments foundation lives in `payments/` and is **not deployed
 
 When (and only when) the activation checklist in `docs/PAYMENTS.md` is complete: create a second Railway service from this repository with root directory `payments` (it picks up `payments/Dockerfile` and `payments/railway.toml`, health check `/billing/api/health`), set its `PAYMENTS_*`/`STRIPE_*` variables, then set `PAYMENTS_UPSTREAM=payments.railway.internal:8081` on the web service. Unsetting that one variable is the rollback.
 
-## 7. Troubleshooting
+## 7. Accounts and CMS backend (prepared, not enabled)
+
+A Payload CMS backend lives in `cms/` and is **not deployed**. Caddy already routes `/cms/*`, `/admin`, `/admin/*`, and `/_next/*`, but while the web service has no `CMS_UPSTREAM` variable those routes answer `503 accounts_disabled`, and the built `/account` pages render with disabled forms (they probe `/cms/api/account/status` at runtime and stay off unless it answers). Nothing here changes the free static site.
+
+When (and only when) the activation checklist in `docs/ACCOUNTS.md` is complete: attach a Railway Postgres database, create a service from this repository with root directory `cms` (it picks up `cms/Dockerfile` and `cms/railway.toml`, health check `/cms/api/account/status`), set its variables from `cms/.env.example`, then set `CMS_UPSTREAM=cms.railway.internal:3000` on the web service and `PUBLIC_ACCOUNTS_MODE=enabled` as a web build variable. The payments service gains a durable store with `PAYMENTS_STORE=cms`, and the gateway pulls issued keys with `node src/cli.mjs sync-keys`. Unsetting `CMS_UPSTREAM` is the rollback. `docker compose up --build` runs the whole topology locally at `http://localhost:8080`.
+
+## 8. Troubleshooting
 
 - **Build fails installing npm dependencies** → check `web/package-lock.json` is committed and in sync with `web/package.json`; the Dockerfile runs `npm install --no-audit --no-fund` against it.
 - **Build fails during `astro build` / `astro check`** → reproduce locally with `cd web && npm run build` (or `npm run typecheck`); the same commands run in `web-ci.yml` on every push/PR.
@@ -71,3 +77,5 @@ When (and only when) the activation checklist in `docs/PAYMENTS.md` is complete:
 - **Custom domain not resolving** → DNS can take time to propagate; check with `dig <domain>` or `nslookup <domain>`.
 - **CSP blocking something** (e.g. a new external asset host) → edit the `Content-Security-Policy` header in `Caddyfile` and redeploy. The only Stripe entries are `form-action` allowances for `checkout.stripe.com` and `billing.stripe.com`; hosted Checkout needs no Stripe script or frame on this origin.
 - **`/billing/api/*` returns 503** → expected while `PAYMENTS_UPSTREAM` is unset (payments are not enabled). A 502 means the variable is set but the payments service is unreachable.
+- **`/admin` or `/cms/api/*` returns 503** → expected while `CMS_UPSTREAM` is unset (accounts are not enabled). A 502 means the variable is set but the CMS is unreachable; check its health at `/cms/api/account/status` and that `DATABASE_URL` points at Postgres.
+- **`/account` says accounts are not enabled although the CMS is up** → the page probes `/cms/api/account/status` through Caddy; confirm `CMS_UPSTREAM` on the web service, and rebuild with `PUBLIC_ACCOUNTS_MODE=enabled` to render the forms enabled before the probe.

@@ -5,7 +5,7 @@ import { loadConfig } from '../src/config.mjs';
 import { EVENT_KEYS, LIMITS, ROUTES, createPaymentsServer, parseFields, sameOrigin } from '../src/server.mjs';
 import { StripeApiError } from '../src/stripe.mjs';
 import { signTestPayload } from '../src/webhook.mjs';
-import { createMemoryStore } from '../src/store.mjs';
+import { createMemoryStore, CLAIM_GRACE_SECONDS } from '../src/store.mjs';
 import { MemoryTokenBuckets } from '../src/quota.mjs';
 
 const KEY = `sk_test_${'a'.repeat(40)}`;
@@ -27,6 +27,8 @@ function mockStripe(overrides = {}) {
     createCheckoutSession: async (params, idempotencyKey) => { calls.push({ method: 'createCheckoutSession', params, idempotencyKey }); return overrides.createCheckoutSession ? overrides.createCheckoutSession(params) : session; },
     retrieveCheckoutSession: async (id) => { calls.push({ method: 'retrieveCheckoutSession', id }); return overrides.retrieveCheckoutSession ? overrides.retrieveCheckoutSession(id) : session; },
     createBillingPortalSession: async (params, idempotencyKey) => { calls.push({ method: 'createBillingPortalSession', params, idempotencyKey }); return overrides.createBillingPortalSession ? overrides.createBillingPortalSession(params) : { url: 'https://billing.stripe.com/p/session/synthetic' }; },
+    retrieveSubscription: async (id) => { calls.push({ method: 'retrieveSubscription', id }); if (!overrides.retrieveSubscription) throw new Error('no such subscription in this test'); return overrides.retrieveSubscription(id); },
+    retrieveInvoice: async (id) => { calls.push({ method: 'retrieveInvoice', id }); if (!overrides.retrieveInvoice) throw new Error('no such invoice in this test'); return overrides.retrieveInvoice(id); },
   };
 }
 
@@ -263,10 +265,53 @@ test('webhook verifies, deduplicates, records, and rejects mismatched or oversiz
   try { assert.equal((await fetch(`${drift.base}${ROUTES.webhook}`, webhook(fixture))).status, 400); } finally { await drift.service.close(); }
 });
 
+test('same-second subscription events are reconciled against Stripe instead of trusting delivery order', async () => {
+  const store = createMemoryStore();
+  const current = { id: 'sub_synthetic00000001', object: 'subscription', status: 'canceled', customer: 'cus_synthetic00000001', metadata: { offer: 'growth_monthly' }, cancel_at_period_end: false, current_period_end: 2148595200 };
+  const stripe = mockStripe({ retrieveSubscription: () => current });
+  const s = await start({ store, stripe });
+  try {
+    const event = (id, status) => Buffer.from(JSON.stringify({ id, object: 'event', type: 'customer.subscription.updated', livemode: false, created: 2145916900, data: { object: { ...current, status } } }));
+    let r = await fetch(`${s.base}${ROUTES.webhook}`, webhook(event('evt_synthetic00000050', 'canceled')));
+    assert.deepEqual(await r.json(), { received: true, outcome: 'processed' });
+    // The pre-cancellation update from the same second arrives last: Stripe's current object decides, not delivery order.
+    r = await fetch(`${s.base}${ROUTES.webhook}`, webhook(event('evt_synthetic00000051', 'active')));
+    assert.deepEqual(await r.json(), { received: true, outcome: 'processed' });
+    assert.equal((await store.getEntitlement('sub:sub_synthetic00000001')).status, 'canceled');
+    assert.deepEqual(stripe.calls.filter((call) => call.method === 'retrieveSubscription').map((call) => call.id), ['sub_synthetic00000001']);
+  } finally { await s.service.close(); }
+  // When Stripe cannot be asked, the tied event fails (500) so Stripe retries it later rather than being applied in an unknown order.
+  const unreachable = await start({ store, stripe: mockStripe() });
+  try {
+    const event = Buffer.from(JSON.stringify({ id: 'evt_synthetic00000052', object: 'event', type: 'customer.subscription.updated', livemode: false, created: 2145916900, data: { object: { ...current, status: 'active' } } }));
+    const r = await fetch(`${unreachable.base}${ROUTES.webhook}`, webhook(event));
+    assert.equal(r.status, 500);
+    assert.equal((await store.getEntitlement('sub:sub_synthetic00000001')).status, 'canceled');
+  } finally { await unreachable.service.close(); }
+});
+
+test('an event whose earlier delivery is still in progress answers 409 so Stripe retries later, and an abandoned claim is taken over', async () => {
+  let clock = NOW_MS;
+  const store = createMemoryStore({ now: () => clock });
+  const s = await start({ store });
+  try {
+    assert.equal(await store.claimEvent(JSON.parse(fixture).id, 'lease-other-worker-0001'), 'claimed'); // another worker holds the claim and has not completed
+    let r = await fetch(`${s.base}${ROUTES.webhook}`, webhook(fixture));
+    assert.equal(r.status, 409);
+    assert.equal((await r.json()).error.code, 'event_in_progress');
+    assert.equal(await store.getEntitlement('sub:sub_synthetic00000001'), null, 'nothing applied while another delivery owns the claim');
+    clock += CLAIM_GRACE_SECONDS * 1000 + 1;
+    r = await fetch(`${s.base}${ROUTES.webhook}`, webhook(fixture));
+    assert.deepEqual(await r.json(), { received: true, outcome: 'processed' }, 'the abandoned claim is taken over');
+    r = await fetch(`${s.base}${ROUTES.webhook}`, webhook(fixture));
+    assert.deepEqual(await r.json(), { received: true, duplicate: true }, 'completed claims are duplicates');
+  } finally { await s.service.close(); }
+});
+
 test('webhook handler failures release the event so Stripe retries succeed', async () => {
   const inner = createMemoryStore();
   let failures = 1;
-  const flaky = { kind: 'flaky', claimEvent: (id) => inner.claimEvent(id), releaseEvent: (id) => inner.releaseEvent(id), getEntitlement: (key) => inner.getEntitlement(key), putEntitlement: (record) => { if (failures-- > 0) throw new Error('db down'); return inner.putEntitlement(record); } };
+  const flaky = { kind: 'flaky', claimEvent: (id, lease) => inner.claimEvent(id, lease), completeEvent: (id, lease) => inner.completeEvent(id, lease), releaseEvent: (id, lease) => inner.releaseEvent(id, lease), getEntitlement: (key) => inner.getEntitlement(key), putEntitlement: (record) => { if (failures-- > 0) throw new Error('db down'); return inner.putEntitlement(record); } };
   const s = await start({ store: flaky });
   try {
     let r = await fetch(`${s.base}${ROUTES.webhook}`, webhook(fixture));
@@ -275,7 +320,7 @@ test('webhook handler failures release the event so Stripe retries succeed', asy
     r = await fetch(`${s.base}${ROUTES.webhook}`, webhook(fixture));
     assert.deepEqual(await r.json(), { received: true, outcome: 'processed' });
   } finally { await s.service.close(); }
-  const broken = { kind: 'broken', claimEvent: () => { throw new Error('unreachable'); }, releaseEvent: async () => {}, getEntitlement: async () => null, putEntitlement: async (record) => record };
+  const broken = { kind: 'broken', claimEvent: () => { throw new Error('unreachable'); }, completeEvent: async () => {}, releaseEvent: async () => {}, getEntitlement: async () => null, putEntitlement: async (record) => record };
   const b = await start({ store: broken });
   try { assert.equal((await fetch(`${b.base}${ROUTES.webhook}`, webhook(fixture))).status, 503); } finally { await b.service.close(); }
 });
