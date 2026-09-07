@@ -1,6 +1,7 @@
 import * as migration_20260907_125602_initial_accounts_billing from './20260907_125602_initial_accounts_billing';
 import * as migration_20260907_133303_api_keys_livemode from './20260907_133303_api_keys_livemode';
 import * as migration_20260907_134045_verification_and_event_families from './20260907_134045_verification_and_event_families';
+import * as migration_20260907_140142_stripe_event_claims from './20260907_140142_stripe_event_claims';
 
 export const migrations = [
   {
@@ -16,6 +17,11 @@ export const migrations = [
   {
     up: migration_20260907_134045_verification_and_event_families.up,
     down: migration_20260907_134045_verification_and_event_families.down,
-    name: '20260907_134045_verification_and_event_families'
+    name: '20260907_134045_verification_and_event_families',
+  },
+  {
+    up: migration_20260907_140142_stripe_event_claims.up,
+    down: migration_20260907_140142_stripe_event_claims.down,
+    name: '20260907_140142_stripe_event_claims'
   },
 ];

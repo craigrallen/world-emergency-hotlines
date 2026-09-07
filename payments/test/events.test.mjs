@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { HANDLED_EVENT_TYPES, PENDING_SUBSCRIPTION, dispatchEvent, stripeId } from '../src/events.mjs';
-import { createMemoryStore } from '../src/store.mjs';
+import { HANDLED_EVENT_TYPES, MAX_UPSERT_ATTEMPTS, PENDING_SUBSCRIPTION, dispatchEvent, stripeId } from '../src/events.mjs';
+import { StoreConflictError, createMemoryStore, isStoreConflict, regressedFamily } from '../src/store.mjs';
 
 const load = (name) => JSON.parse(readFileSync(new URL(`../fixtures/events/${name}.synthetic.json`, import.meta.url), 'utf8'));
 const offers = { growth_monthly: { id: 'growth_monthly', price: 'price_synthetic0001', mode: 'subscription', quantity: 1 } };
@@ -83,6 +83,37 @@ test('subscription lifecycle applies newest-wins ordering and invoice status', a
   legacy.id = 'evt_synthetic00000012'; legacy.type = 'invoice.paid'; legacy.created = 2148595400; delete legacy.data.object.parent; legacy.data.object.subscription = 'sub_synthetic00000001';
   assert.equal((await dispatchEvent(legacy, { store, offers })).outcome, 'processed');
   assert.equal((await store.getEntitlement('sub:sub_synthetic00000001')).last_invoice_status, 'paid');
+});
+
+test('a writer that read before a newer event was stored yields to it instead of overwriting', async () => {
+  const base = createMemoryStore();
+  let gate = null;
+  const gated = { ...base, async getEntitlement(key) { const record = await base.getEntitlement(key); if (gate) { const wait = gate; gate = null; await wait; } return record; } };
+  const older = load('customer.subscription.updated'); older.id = 'evt_synthetic00000030'; older.created = 2145916800; older.data.object.status = 'active';
+  const newer = load('customer.subscription.updated'); newer.id = 'evt_synthetic00000031'; newer.created = 2145916900; newer.data.object.status = 'canceled';
+  let release;
+  gate = new Promise((ok) => { release = ok; });
+  const slow = dispatchEvent(older, { store: gated, offers }); // reads "no record", then parks
+  await new Promise((ok) => setTimeout(ok, 0));
+  assert.equal((await dispatchEvent(newer, { store: base, offers })).outcome, 'processed');
+  release();
+  assert.equal((await slow).outcome, 'stale', 'the store refused the stale write and the re-read saw the newer event');
+  const record = await base.getEntitlement(`sub:${older.data.object.id}`);
+  assert.equal(record.status, 'canceled');
+  assert.equal(record.subscription_event_epoch, 2145916900);
+  assert.equal(record.source_event, 'evt_synthetic00000031');
+  // The guard lives in the store, so no caller can bypass it.
+  await assert.rejects(base.putEntitlement({ ...record, subscription_event_epoch: 2145916850 }), isStoreConflict);
+  await assert.rejects(base.putEntitlement({ key: record.key, kind: 'subscription', status: 'active' }), (error) => isStoreConflict(error) && error.family === 'subscription', 'dropping a family epoch is a regression too');
+  assert.equal(regressedFamily(record, record), null);
+  assert.equal(regressedFamily(null, record), null);
+  assert.equal(regressedFamily({ checkout_event_epoch: 5 }, { checkout_event_epoch: 5, subscription_event_epoch: 1 }), null, 'families the stored record never saw are free to appear');
+  // A store that keeps conflicting is given up on after a bounded number of re-reads; the webhook then fails and Stripe retries.
+  let attempts = 0;
+  const hostile = { ...base, async putEntitlement(entry) { attempts += 1; throw new StoreConflictError(entry.key, 'subscription'); } };
+  const another = load('customer.subscription.updated'); another.id = 'evt_synthetic00000032'; another.created = 2148595500;
+  await assert.rejects(dispatchEvent(another, { store: hostile, offers }), isStoreConflict);
+  assert.equal(attempts, MAX_UPSERT_ATTEMPTS);
 });
 
 test('unhandled, malformed, and unlinked events are ignored explicitly', async () => {

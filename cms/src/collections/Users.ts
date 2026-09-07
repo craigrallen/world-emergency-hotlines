@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload';
 import { addDataAndFileToRequest, headersWithCors, resetPasswordOperation, ValidationError } from 'payload';
 import { generatePayloadCookie } from 'payload/shared';
-import { ROLES, adminField, hasRole, isAdmin, isInternal, selfOrAdmin, selfOrStaff, staffField } from '../access';
+import { INTERNAL_CONTEXT, ROLES, adminField, hasRole, isAdmin, isInternal, selfOrAdmin, selfOrStaff, staffField } from '../access';
 import { getEnv } from '../env';
 import { resetPasswordEmailHTML, resetPasswordEmailSubject, verifyEmailHTML, verifyEmailSubject } from '../lib/emails';
 
@@ -71,6 +71,23 @@ export const Users: CollectionConfig = {
     },
   ],
   hooks: {
+    beforeOperation: [
+      // Verification fields are always in the schema; when verification is not
+      // required, accounts are created already verified and must not be emailed a
+      // verification link they cannot use.
+      ({ args, operation }) => {
+        if (operation === 'create' && !env.requireEmailVerification) (args as { disableVerificationEmail?: boolean }).disableVerificationEmail = true;
+        return args;
+      },
+    ],
+    beforeDelete: [
+      // Managed keys belong to the account: deleting the account deletes them in the
+      // same transaction (the gateway drops them at its next sync). Without this the
+      // required `api-keys.user` relation makes Postgres refuse the delete.
+      async ({ id, req }) => {
+        await req.payload.delete({ collection: 'api-keys', where: { user: { equals: id } }, depth: 0, overrideAccess: true, context: { ...INTERNAL_CONTEXT }, req });
+      },
+    ],
     beforeValidate: [
       ({ data, req, operation, originalDoc }) => {
         if (!data) return data;

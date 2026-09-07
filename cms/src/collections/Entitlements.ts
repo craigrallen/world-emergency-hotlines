@@ -1,6 +1,27 @@
 import type { CollectionConfig } from 'payload';
+import { APIError } from 'payload';
 import { isAdmin, isAdminOrService, isStaffOrService } from '../access';
-import { syncSubscriptionFromEntitlement } from '../lib/subscriptions';
+import { EVENT_FAMILIES, lockRow, syncSubscriptionFromEntitlement, type EventFamily } from '../lib/subscriptions';
+
+export const STALE_RECORD = 'stale_record';
+
+/**
+ * The first event family whose epoch the incoming record would move backwards, or
+ * drop, relative to the stored record; null when the write is safe. Records carry
+ * one `<family>_event_epoch` per family (payments/src/events.mjs), so a writer that
+ * read the record before another replica advanced it is detected here.
+ */
+export function regressedFamily(stored: unknown, incoming: unknown): EventFamily | null {
+  if (!stored || typeof stored !== 'object' || !incoming || typeof incoming !== 'object') return null;
+  for (const family of EVENT_FAMILIES) {
+    const stamp = `${family}_event_epoch`;
+    const before = (stored as Record<string, unknown>)[stamp];
+    if (!Number.isInteger(before)) continue;
+    const after = (incoming as Record<string, unknown>)[stamp];
+    if (!Number.isInteger(after) || (after as number) < (before as number)) return family;
+  }
+  return null;
+}
 
 /**
  * Durable store for the payments service (`payments/src/cms-store.mjs`). One document
@@ -35,6 +56,24 @@ export const Entitlements: CollectionConfig = {
     { name: 'record', type: 'json', required: true, admin: { description: 'Exact record as written by the payments service store contract.' } },
   ],
   hooks: {
+    beforeChange: [
+      // Ordering guard, atomic with the write. Two payments replicas can read the
+      // same record and both pass their own client-side staleness check; whichever
+      // writes second must not move any family's epoch backwards. The stored record
+      // is re-read under the row lock (Postgres `SELECT … FOR UPDATE`; SQLite
+      // serialises writers itself) because `originalDoc` predates the lock. A
+      // regression is refused with 409 and the payments service re-reads and retries.
+      async ({ data, operation, originalDoc, req }) => {
+        if (operation !== 'update' || !data || data.record === undefined) return data;
+        const key = (data.key as string | undefined) ?? (originalDoc?.key as string | undefined);
+        if (typeof key !== 'string') return data;
+        await lockRow(req.payload, req, 'entitlements', 'key', key);
+        const current = await req.payload.find({ collection: 'entitlements', where: { key: { equals: key } }, limit: 1, depth: 0, overrideAccess: true, req });
+        const family = regressedFamily(current.docs[0]?.record, data.record);
+        if (family) throw new APIError(`entitlement ${key} already carries a newer ${family} event; re-read and retry`, 409, { code: STALE_RECORD, family }, true);
+        return data;
+      },
+    ],
     afterChange: [
       async ({ doc, req }) => {
         if (doc.kind === 'subscription') {

@@ -24,6 +24,7 @@ export interface SubscriptionPatch {
 }
 
 export type EventFamily = 'checkout' | 'subscription' | 'invoice';
+export const EVENT_FAMILIES: readonly EventFamily[] = Object.freeze(['checkout', 'subscription', 'invoice'] as const);
 export const FAMILY_WATERMARK: Record<EventFamily, 'lastCheckoutEventCreated' | 'lastSubscriptionEventCreated' | 'lastInvoiceEventCreated'> = {
   checkout: 'lastCheckoutEventCreated', subscription: 'lastSubscriptionEventCreated', invoice: 'lastInvoiceEventCreated',
 };

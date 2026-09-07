@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { loadConfig, describeConfig, redact, ConfigError } from '../src/config.mjs';
-import { CmsStoreError, createCmsStore, toEntitlementDocument, validCmsUrl } from '../src/cms-store.mjs';
-import { validateStore } from '../src/store.mjs';
+import { CmsStoreError, claimKeyFor, createCmsStore, toEntitlementDocument, validCmsUrl } from '../src/cms-store.mjs';
+import { STORE_CONFLICT, isStoreConflict, regressedFamily, validateStore } from '../src/store.mjs';
 import { dispatchEvent } from '../src/events.mjs';
 import { createPaymentsServer, ROUTES } from '../src/server.mjs';
 
@@ -32,16 +32,24 @@ function fakeCms({ failWith = null, unauthorized = false } = {}) {
     }
     if (init.method === 'POST') {
       const body = JSON.parse(init.body);
-      const unique = collection === 'stripe-events' ? 'eventId' : 'key';
-      if ([...table.values()].some((doc) => doc[unique] === body[unique])) return json(400, { errors: [{ message: `The following field is invalid: ${unique}`, data: { errors: [{ field: unique, message: 'Value must be unique' }] } }] });
-      const doc = { id: nextId++, ...body };
+      // Like the CMS hook, the claim key is derived from consumer + event, never taken from the client.
+      const incoming = collection === 'stripe-events' ? { ...body, claimKey: `${body.source ?? 'payments'}:${body.eventId}` } : body;
+      const unique = collection === 'stripe-events' ? 'claimKey' : 'key';
+      if ([...table.values()].some((doc) => doc[unique] === incoming[unique])) return json(400, { errors: [{ message: `The following field is invalid: ${unique}`, data: { errors: [{ field: unique, message: 'Value must be unique' }] } }] });
+      const doc = { id: nextId++, ...incoming };
       table.set(doc.id, doc);
       return json(201, { doc, message: 'created' });
     }
     if (init.method === 'PATCH') {
       const doc = table.get(Number(id));
       if (!doc) return json(404, { errors: [{ message: 'Not Found' }] });
-      Object.assign(doc, JSON.parse(init.body));
+      const body = JSON.parse(init.body);
+      // The CMS refuses, under its row lock, a record that moves any family epoch backwards.
+      if (collection === 'entitlements' && body.record !== undefined) {
+        const family = regressedFamily(doc.record, body.record);
+        if (family) return json(409, { errors: [{ message: `entitlement already carries a newer ${family} event` }] });
+      }
+      Object.assign(doc, body);
       return json(200, { doc, message: 'updated' });
     }
     if (init.method === 'DELETE') {
@@ -78,8 +86,13 @@ test('claimEvent is first-writer-wins and releaseEvent frees the id', async () =
   assert.equal(await store.claimEvent('evt_synthetic0001'), false);
   assert.equal(cms.events.size, 1);
   assert.equal([...cms.events.values()][0].source, 'payments');
+  assert.equal([...cms.events.values()][0].claimKey, claimKeyFor('evt_synthetic0001'));
+  // The CMS webhook's own claim on the same event never counts as this consumer's.
+  cms.events.set(99, { id: 99, eventId: 'evt_synthetic0002', source: 'cms', claimKey: 'cms:evt_synthetic0002' });
+  assert.equal(await store.claimEvent('evt_synthetic0002'), true);
+  assert.equal(cms.events.size, 3);
   await store.releaseEvent('evt_synthetic0001');
-  assert.equal(cms.events.size, 0);
+  assert.equal(cms.events.size, 2, 'release removes only this consumer\'s claim');
   assert.equal(await store.claimEvent('evt_synthetic0001'), true);
   await assert.rejects(store.claimEvent('not-an-event'), TypeError);
   await assert.rejects(store.releaseEvent(''), TypeError);
@@ -132,6 +145,41 @@ test('a lost create race falls back to updating the winner', async () => {
   await store.putEntitlement({ key: 'sub:sub_synthetic0002', kind: 'subscription', status: 'past_due' });
   assert.equal(cms.entitlements.size, 1);
   assert.equal([...cms.entitlements.values()][0].status, 'past_due');
+});
+
+test('a stale entitlement write is refused as a conflict and the dispatcher re-reads instead of overwriting', async () => {
+  const cms = fakeCms();
+  const store = createCmsStore({ url: URL_, apiKey: API_KEY, fetchImpl: cms.fetchImpl });
+  await store.putEntitlement({ key: 'sub:sub_synthetic0003', kind: 'subscription', status: 'canceled', subscription_event_epoch: 2145916900, updated_at_epoch: 2145916900 });
+  await assert.rejects(
+    store.putEntitlement({ key: 'sub:sub_synthetic0003', kind: 'subscription', status: 'active', subscription_event_epoch: 2145916800, updated_at_epoch: 2145916800 }),
+    (error) => error instanceof CmsStoreError && error.reason === 'conflict' && error.status === 409 && error.code === STORE_CONFLICT && isStoreConflict(error),
+  );
+  assert.equal((await store.getEntitlement('sub:sub_synthetic0003')).status, 'canceled');
+  // Two replicas: the older event reads before the newer one writes, then loses the
+  // write (409) and, on re-read, recognises the newer state as authoritative.
+  let gate = null;
+  const gated = async (input, init) => {
+    const response = await cms.fetchImpl(input, init);
+    if (init.method === 'GET' && gate) { const wait = gate; gate = null; await wait; }
+    return response;
+  };
+  const racing = createCmsStore({ url: URL_, apiKey: API_KEY, fetchImpl: gated });
+  const object = { id: 'sub_synthetic0004', object: 'subscription', status: 'active', customer: 'cus_synthetic0004', metadata: { offer: 'growth_monthly' }, cancel_at_period_end: false, current_period_end: 2148595200 };
+  const older = { id: 'evt_synthetic0030', object: 'event', type: 'customer.subscription.updated', livemode: false, created: 2145916800, data: { object } };
+  const newer = { ...older, id: 'evt_synthetic0031', created: 2145916900, data: { object: { ...object, status: 'canceled' } } };
+  let release;
+  gate = new Promise((ok) => { release = ok; });
+  const slow = dispatchEvent(older, { store: racing, offers: {} });
+  await new Promise((ok) => setTimeout(ok, 5));
+  assert.equal((await dispatchEvent(newer, { store, offers: {} })).outcome, 'processed');
+  release();
+  assert.equal((await slow).outcome, 'stale');
+  const final = await store.getEntitlement('sub:sub_synthetic0004');
+  assert.equal(final.status, 'canceled');
+  assert.equal(final.subscription_event_epoch, 2145916900);
+  assert.equal(final.source_event, 'evt_synthetic0031');
+  assert.equal(cms.entitlements.size, 2);
 });
 
 test('CMS failures surface as CmsStoreError and never as silent duplicates', async () => {

@@ -308,7 +308,7 @@ export interface Entitlement {
   createdAt: string;
 }
 /**
- * Webhook idempotency ledger shared by the CMS webhook and the payments service. The unique event id makes the first writer win across replicas; the ledger stores ids and types only.
+ * Webhook idempotency ledger shared by the CMS webhook and the payments service. Claims are unique per consumer and event (claimKey = source:eventId), so each consumer processes every event exactly once across replicas and neither can mark an event done for the other; the ledger stores ids and types only.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "stripe-events".
@@ -316,9 +316,13 @@ export interface Entitlement {
 export interface StripeEvent {
   id: number;
   eventId: string;
+  source: 'payments' | 'cms';
+  /**
+   * Derived as source:eventId; the unique index makes the first writer per consumer win.
+   */
+  claimKey: string;
   type?: string | null;
   livemode?: boolean | null;
-  source: 'payments' | 'cms';
   outcome?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -549,9 +553,10 @@ export interface EntitlementsSelect<T extends boolean = true> {
  */
 export interface StripeEventsSelect<T extends boolean = true> {
   eventId?: T;
+  source?: T;
+  claimKey?: T;
   type?: T;
   livemode?: T;
-  source?: T;
   outcome?: T;
   updatedAt?: T;
   createdAt?: T;

@@ -61,6 +61,22 @@ describe('registration and sessions', () => {
   test('accounts are created verified while verification is not required, so verification columns exist in every mode', async () => {
     const stored = (await payload.find({ collection: 'users', where: { email: { equals: 'member@example.test' } }, overrideAccess: true, showHiddenFields: true })).docs[0] as unknown as Record<string, unknown>;
     expect(stored._verified).toBe(true);
+    // ...and no verification email is attempted for an account that is already verified
+    // (the spy on the email adapter is proven live by the reset flow, which does send).
+    const adapter = payload.email as unknown as { sendEmail: unknown };
+    const originalSendEmail = adapter.sendEmail;
+    let attempted = 0;
+    adapter.sendEmail = async () => { attempted += 1; };
+    try {
+      const registered = await call('/cms/api/users', { method: 'POST', body: { email: 'quiet@example.test', password: PASSWORD } });
+      expect(registered.status).toBe(201);
+      expect(attempted).toBe(0);
+      const reset = await call('/cms/api/users/forgot-password', { method: 'POST', body: { email: 'quiet@example.test' } });
+      expect(reset.status).toBe(200);
+      expect(attempted).toBe(1);
+    } finally {
+      adapter.sendEmail = originalSendEmail;
+    }
   });
 
   test('members read only themselves; staff read everyone; members cannot escalate', async () => {

@@ -25,7 +25,6 @@
     "@payloadcms/db-sqlite": "3.88.0",
     "@payloadcms/email-nodemailer": "3.88.0",
     "@payloadcms/next": "3.88.0",
-    "@payloadcms/plugin-stripe": "3.88.0",
     "@payloadcms/ui": "3.88.0",
     "graphql": "^16.11.0",
     "next": "16.3.4",
@@ -42,8 +41,5 @@
     "ajv-formats": "^3.0.1",
     "typescript": "^5.9.0",
     "vitest": "^3.2.0"
-  },
-  "overrides": {
-    "stripe": "$stripe"
   }
 }

@@ -1,8 +1,8 @@
 import Stripe from 'stripe';
 import type { Payload } from 'payload';
 import { ValidationError } from 'payload';
-import type { StripeWebhookHandler, StripeWebhookHandlers } from '@payloadcms/plugin-stripe/types';
 import { INTERNAL_CONTEXT } from '../access';
+import { claimKeyFor, type EventSource } from '../collections/StripeEvents';
 import { getEnv } from '../env';
 import { applySubscriptionPatch } from './subscriptions';
 
@@ -43,10 +43,14 @@ const userOf = (metadata: Stripe.Metadata | null | undefined, reference?: string
   return /^\d{1,15}$/.test(raw) ? Number(raw) : raw;
 };
 
-/** First-writer-wins claim on the shared idempotency ledger; false means already seen. */
-export async function claimEvent(payload: Payload, event: Stripe.Event, source: 'cms' | 'payments' = 'cms'): Promise<boolean> {
+/**
+ * First-writer-wins claim on the idempotency ledger; false means this consumer has
+ * already seen the event. Claims are per consumer (`claimKey` = source:eventId): the
+ * payments service keeps its own, so neither consumer can mark an event done for the other.
+ */
+export async function claimEvent(payload: Payload, event: Stripe.Event, source: EventSource = 'cms'): Promise<boolean> {
   try {
-    await payload.create({ collection: 'stripe-events', data: { eventId: event.id, type: event.type, livemode: event.livemode, source }, depth: 0, overrideAccess: true, context: { ...INTERNAL_CONTEXT } });
+    await payload.create({ collection: 'stripe-events', data: { eventId: event.id, type: event.type, livemode: event.livemode, source, claimKey: claimKeyFor(source, event.id) }, depth: 0, overrideAccess: true, context: { ...INTERNAL_CONTEXT } });
     return true;
   } catch (error) {
     if (error instanceof ValidationError) return false;
@@ -54,12 +58,12 @@ export async function claimEvent(payload: Payload, event: Stripe.Event, source: 
   }
 }
 
-export async function releaseEvent(payload: Payload, eventId: string): Promise<void> {
-  await payload.delete({ collection: 'stripe-events', where: { eventId: { equals: eventId } }, depth: 0, overrideAccess: true });
+export async function releaseEvent(payload: Payload, eventId: string, source: EventSource = 'cms'): Promise<void> {
+  await payload.delete({ collection: 'stripe-events', where: { claimKey: { equals: claimKeyFor(source, eventId) } }, depth: 0, overrideAccess: true });
 }
 
-async function recordOutcome(payload: Payload, eventId: string, outcome: string): Promise<void> {
-  await payload.update({ collection: 'stripe-events', where: { eventId: { equals: eventId } }, data: { outcome }, depth: 0, overrideAccess: true });
+async function recordOutcome(payload: Payload, eventId: string, outcome: string, source: EventSource = 'cms'): Promise<void> {
+  await payload.update({ collection: 'stripe-events', where: { claimKey: { equals: claimKeyFor(source, eventId) } }, data: { outcome }, depth: 0, overrideAccess: true });
 }
 
 async function linkCustomerToUser(payload: Payload, userId: number | string | null, customer: string | null): Promise<void> {
@@ -121,8 +125,9 @@ async function onInvoice(payload: Payload, event: Stripe.Event): Promise<string>
 }
 
 /**
- * Apply one verified event. Exported for tests; the plugin calls it through
- * `stripeWebhookHandlers` after verifying the Stripe-Signature header.
+ * Apply one verified event. The webhook endpoint (`endpoints/stripe-webhook.ts`)
+ * calls this after verifying the Stripe-Signature header and turns
+ * `handler_failed` into a 500 so Stripe retries the delivery.
  */
 export async function handleStripeEvent(payload: Payload, event: Stripe.Event): Promise<string> {
   const env = getEnv();
@@ -138,7 +143,8 @@ export async function handleStripeEvent(payload: Payload, event: Stripe.Event): 
     else if (event.type.startsWith('customer.subscription.')) outcome = await onSubscription(payload, event);
     else outcome = await onInvoice(payload, event);
   } catch (error) {
-    // The plugin has already answered 200, so release the claim: a Dashboard resend can reprocess it.
+    // Release the claim before reporting failure: the endpoint answers 500 and
+    // Stripe's automatic retry must not be turned away as a duplicate.
     try { await releaseEvent(payload, event.id); } catch { /* ledger cleanup is best effort */ }
     payload.logger.error({ err: error instanceof Error ? error.message : 'unknown', event_type: event.type }, 'stripe event handler failed');
     return 'handler_failed';
@@ -147,7 +153,3 @@ export async function handleStripeEvent(payload: Payload, event: Stripe.Event): 
   payload.logger.info({ event_type: event.type, outcome }, 'stripe event applied');
   return outcome;
 }
-
-const handler: StripeWebhookHandler<Stripe.Event> = async ({ event, payload }) => { await handleStripeEvent(payload, event); };
-
-export const stripeWebhookHandlers: StripeWebhookHandlers = Object.fromEntries(HANDLED_EVENT_TYPES.map((type) => [type, handler]));

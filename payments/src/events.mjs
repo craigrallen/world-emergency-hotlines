@@ -4,7 +4,10 @@
 // overwrite state written by a newer one.
 
 import { OFFER_ID, STRIPE_OBJECT_ID } from './config.mjs';
+import { EVENT_FAMILIES, isStoreConflict } from './store.mjs';
 import { plain } from './validation.mjs';
+
+export { EVENT_FAMILIES };
 
 export const HANDLED_EVENT_TYPES = Object.freeze([
   'checkout.session.completed', 'checkout.session.async_payment_succeeded', 'checkout.session.async_payment_failed', 'checkout.session.expired',
@@ -15,6 +18,8 @@ export const SUBSCRIPTION_STATUSES = Object.freeze(['incomplete', 'incomplete_ex
 export const CHECKOUT_STATUSES = Object.freeze(['open', 'complete', 'expired']);
 export const PAYMENT_STATUSES = Object.freeze(['paid', 'unpaid', 'no_payment_required']);
 export const PENDING_SUBSCRIPTION = 'pending_subscription_event';
+/** Re-reads after a store conflict before giving up (the webhook then fails and Stripe retries). */
+export const MAX_UPSERT_ATTEMPTS = 5;
 
 /** Accept a bare id or an expanded object carrying one; anything else is null. */
 export function stripeId(value) {
@@ -31,25 +36,35 @@ function offerOf(object, offers) {
 
 const enumOr = (value, allowed, fallback = 'unknown') => (allowed.includes(value) ? value : fallback);
 
-export const EVENT_FAMILIES = Object.freeze(['checkout', 'subscription', 'invoice']);
-
 /**
  * Ordering is tracked per event family (`<family>_event_epoch`), because each
  * family writes its own fields: a checkout event that arrives after a delayed
  * subscription event must not make that subscription event "stale", or the
  * status it carried would be lost. `updated_at_epoch` stays the newest of all.
+ *
+ * `buildPatch(existing)` is called with the record as read for this attempt, so
+ * fallbacks derived from it are never taken from a stale read. The store refuses
+ * (conflict) a write that would move a family's epoch backwards relative to what
+ * another replica wrote in between; on conflict the record is re-read and the
+ * staleness decision is made again against the newer state.
  */
-async function upsert(store, key, patch, event, family) {
+async function upsert(store, key, buildPatch, event, family) {
   if (!EVENT_FAMILIES.includes(family)) throw new TypeError('event family invalid');
-  const existing = await store.getEntitlement(key);
   const stamp = `${family}_event_epoch`;
-  if (existing && Number.isInteger(existing[stamp]) && existing[stamp] > event.created) return { record: existing, stale: true };
-  const newest = Math.max(event.created, Number.isInteger(existing?.updated_at_epoch) ? existing.updated_at_epoch : 0);
-  const record = await store.putEntitlement({
-    ...(existing ?? {}), ...patch, key,
-    livemode: event.livemode, [stamp]: event.created, updated_at_epoch: newest, updated_at: new Date(newest * 1000).toISOString(), source_event: event.id,
-  });
-  return { record, stale: false };
+  for (let attempt = 1; ; attempt += 1) {
+    const existing = await store.getEntitlement(key);
+    if (existing && Number.isInteger(existing[stamp]) && existing[stamp] > event.created) return { record: existing, stale: true };
+    const newest = Math.max(event.created, Number.isInteger(existing?.updated_at_epoch) ? existing.updated_at_epoch : 0);
+    try {
+      const record = await store.putEntitlement({
+        ...(existing ?? {}), ...buildPatch(existing), key,
+        livemode: event.livemode, [stamp]: event.created, updated_at_epoch: newest, updated_at: new Date(newest * 1000).toISOString(), source_event: event.id,
+      });
+      return { record, stale: false };
+    } catch (error) {
+      if (!isStoreConflict(error) || attempt >= MAX_UPSERT_ATTEMPTS) throw error;
+    }
+  }
 }
 
 /**
@@ -71,14 +86,13 @@ export async function dispatchEvent(event, { store, offers = {} }) {
       status: enumOr(object.status, CHECKOUT_STATUSES), payment_status: enumOr(object.payment_status, PAYMENT_STATUSES),
       customer: stripeId(object.customer), subscription: stripeId(object.subscription), payment_intent: stripeId(object.payment_intent),
     };
-    const session = await upsert(store, `cs:${sessionId}`, patch, event, 'checkout');
+    const session = await upsert(store, `cs:${sessionId}`, () => patch, event, 'checkout');
     const keys = [session.record.key];
     if (patch.subscription && event.type === 'checkout.session.completed') {
-      const existing = await store.getEntitlement(`sub:${patch.subscription}`);
-      const seeded = await upsert(store, `sub:${patch.subscription}`, {
+      const seeded = await upsert(store, `sub:${patch.subscription}`, (existing) => ({
         kind: 'subscription', offer: existing?.offer ?? offer, offer_known: existing?.offer_known ?? known, customer: patch.customer ?? existing?.customer ?? null,
         status: existing?.status ?? PENDING_SUBSCRIPTION, checkout_session: sessionId,
-      }, event, 'checkout');
+      }), event, 'checkout');
       keys.push(seeded.record.key);
     }
     return { outcome: session.stale ? 'stale' : 'processed', keys, offer, offer_known: known };
@@ -88,30 +102,28 @@ export async function dispatchEvent(event, { store, offers = {} }) {
     if (!HANDLED_EVENT_TYPES.includes(event.type)) return ignored('unhandled_type');
     const subscriptionId = stripeId(object);
     if (!subscriptionId) return ignored('missing_id');
-    const existing = await store.getEntitlement(`sub:${subscriptionId}`);
     const meta = offerOf(object, offers);
-    const offer = meta.present ? meta.offer : (existing?.offer ?? null);
-    const known = meta.present ? meta.known : (existing?.offer_known ?? false);
     const status = event.type === 'customer.subscription.deleted' ? 'canceled' : enumOr(object.status, SUBSCRIPTION_STATUSES);
-    const result = await upsert(store, `sub:${subscriptionId}`, {
-      kind: 'subscription', offer, offer_known: known, customer: stripeId(object.customer) ?? existing?.customer ?? null, status,
+    const result = await upsert(store, `sub:${subscriptionId}`, (existing) => ({
+      kind: 'subscription',
+      offer: meta.present ? meta.offer : (existing?.offer ?? null), offer_known: meta.present ? meta.known : (existing?.offer_known ?? false),
+      customer: stripeId(object.customer) ?? existing?.customer ?? null, status,
       cancel_at_period_end: object.cancel_at_period_end === true,
       current_period_end: Number.isInteger(object.current_period_end) ? object.current_period_end : (existing?.current_period_end ?? null),
-    }, event, 'subscription');
-    return { outcome: result.stale ? 'stale' : 'processed', keys: [result.record.key], offer, offer_known: known };
+    }), event, 'subscription');
+    return { outcome: result.stale ? 'stale' : 'processed', keys: [result.record.key], offer: result.record.offer ?? null, offer_known: result.record.offer_known === true };
   }
 
   if (event.type === 'invoice.paid' || event.type === 'invoice.payment_failed') {
     // Newer Stripe API versions moved the subscription reference under `parent`.
     const subscriptionId = stripeId(object.subscription) ?? stripeId(object.parent?.subscription_details?.subscription);
     if (!subscriptionId) return ignored('no_subscription');
-    const existing = await store.getEntitlement(`sub:${subscriptionId}`);
-    const result = await upsert(store, `sub:${subscriptionId}`, {
+    const result = await upsert(store, `sub:${subscriptionId}`, (existing) => ({
       kind: 'subscription', offer: existing?.offer ?? null, offer_known: existing?.offer_known ?? false,
       customer: stripeId(object.customer) ?? existing?.customer ?? null, status: existing?.status ?? PENDING_SUBSCRIPTION,
       last_invoice: stripeId(object), last_invoice_status: event.type === 'invoice.paid' ? 'paid' : 'payment_failed',
-    }, event, 'invoice');
-    return { outcome: result.stale ? 'stale' : 'processed', keys: [result.record.key], offer: result.record.offer, offer_known: result.record.offer_known };
+    }), event, 'invoice');
+    return { outcome: result.stale ? 'stale' : 'processed', keys: [result.record.key], offer: result.record.offer ?? null, offer_known: result.record.offer_known === true };
   }
 
   return ignored('unhandled_type');

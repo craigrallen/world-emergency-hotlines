@@ -1,13 +1,17 @@
 // Durable store backed by the Payload CMS (`cms/`) REST API.
 //
 // Implements the four-method store contract from store.mjs on top of two CMS
-// collections: `stripe-events` (webhook idempotency ledger, unique eventId) and
-// `entitlements` (unique key, pseudonymous Stripe ids and enum statuses only).
-// The CMS enforces first-writer-wins through its unique indexes, so claimEvent is
-// atomic across payments replicas. Every failure throws CmsStoreError; the server
-// maps store errors to 503 unavailable / 500 handler_failed so Stripe retries.
-// The API key never appears in error messages or logs.
+// collections: `stripe-events` (webhook idempotency ledger; one claim per consumer
+// and event, unique `claimKey` = source:eventId) and `entitlements` (unique key,
+// pseudonymous Stripe ids and enum statuses only). The CMS enforces
+// first-writer-wins through its unique indexes, so claimEvent is atomic across
+// payments replicas, and it refuses (409) an entitlement write that would move any
+// event family's epoch backwards, which surfaces here as a conflict (STORE_CONFLICT)
+// that events.mjs resolves by re-reading. Every other failure throws CmsStoreError;
+// the server maps store errors to 503 unavailable / 500 handler_failed so Stripe
+// retries. The API key never appears in error messages or logs.
 
+import { STORE_CONFLICT } from './store.mjs';
 import { plain } from './validation.mjs';
 
 export const CMS_STORE_KIND = 'cms';
@@ -18,6 +22,8 @@ export const DEFAULT_CMS_TIMEOUT_MS = 10000;
 const EVENT_ID = /^evt_[A-Za-z0-9]{8,}$/;
 const ENTITLEMENT_KEY = /^(cs|sub):[a-z]{2,10}_(?:(?:test|live)_)?[A-Za-z0-9]{8,}$/;
 const CMS_SOURCE = 'payments';
+/** This consumer's claim on an event; the CMS derives the same value server-side. */
+export const claimKeyFor = (eventId) => `${CMS_SOURCE}:${eventId}`;
 
 export class CmsStoreError extends Error {
   constructor(reason, status = null) {
@@ -25,6 +31,7 @@ export class CmsStoreError extends Error {
     this.name = 'CmsStoreError';
     this.reason = reason;
     this.status = status;
+    if (reason === 'conflict') this.code = STORE_CONFLICT;
   }
 }
 
@@ -119,9 +126,9 @@ export function createCmsStore({ url, apiKey, fetchImpl = globalThis.fetch, time
         return true;
       }
       if (status === 400) {
-        // The unique index refused the insert; confirm the event is really recorded
-        // before reporting a duplicate so a schema error cannot silently drop events.
-        const existing = await findOne(EVENTS_COLLECTION, 'eventId', id);
+        // The unique index refused the insert; confirm this consumer's claim is really
+        // recorded before reporting a duplicate so a schema error cannot silently drop events.
+        const existing = await findOne(EVENTS_COLLECTION, 'claimKey', claimKeyFor(id));
         if (existing) return false;
         throw new CmsStoreError('claim_rejected', status);
       }
@@ -129,7 +136,7 @@ export function createCmsStore({ url, apiKey, fetchImpl = globalThis.fetch, time
     },
     async releaseEvent(id) {
       if (typeof id !== 'string' || !EVENT_ID.test(id)) throw new TypeError('event id required');
-      const { status } = await request('DELETE', `/${EVENTS_COLLECTION}?where[eventId][equals]=${encodeURIComponent(id)}`);
+      const { status } = await request('DELETE', `/${EVENTS_COLLECTION}?where[claimKey][equals]=${encodeURIComponent(claimKeyFor(id))}`);
       if (status !== 200) throw new CmsStoreError('release_failed', status);
     },
     async getEntitlement(key) {
@@ -143,21 +150,24 @@ export function createCmsStore({ url, apiKey, fetchImpl = globalThis.fetch, time
       if (!plain(record) || typeof record.key !== 'string' || !ENTITLEMENT_KEY.test(record.key)) throw new TypeError('entitlement record requires a key');
       const frozen = Object.freeze({ ...record });
       const document = toEntitlementDocument(frozen);
-      const existing = await findOne(ENTITLEMENTS_COLLECTION, 'key', frozen.key);
-      if (existing && (typeof existing.id === 'string' || typeof existing.id === 'number')) {
-        const { status } = await request('PATCH', `/${ENTITLEMENTS_COLLECTION}/${encodeURIComponent(String(existing.id))}?depth=0`, document);
+      // The CMS compares the incoming record's per-family epochs with the stored ones
+      // under a row lock and answers 409 when this write would move one backwards.
+      const update = async (id) => {
+        const { status } = await request('PATCH', `/${ENTITLEMENTS_COLLECTION}/${encodeURIComponent(String(id))}?depth=0`, document);
+        if (status === 409) throw new CmsStoreError('conflict', status);
         if (status !== 200) throw new CmsStoreError('update_failed', status);
         return frozen;
-      }
+      };
+      const existing = await findOne(ENTITLEMENTS_COLLECTION, 'key', frozen.key);
+      if (existing && (typeof existing.id === 'string' || typeof existing.id === 'number')) return update(existing.id);
       const created = await request('POST', `/${ENTITLEMENTS_COLLECTION}?depth=0`, document);
       if (created.status === 201 || created.status === 200) return frozen;
       if (created.status === 400) {
-        // Lost a create race with another replica: the unique key now exists, so update it.
+        // Lost a create race with another replica: the unique key now exists, so update
+        // it (the 409 guard above still applies if the winner carried newer events).
         const raced = await findOne(ENTITLEMENTS_COLLECTION, 'key', frozen.key);
         if (!raced || (typeof raced.id !== 'string' && typeof raced.id !== 'number')) throw new CmsStoreError('create_rejected', created.status);
-        const { status } = await request('PATCH', `/${ENTITLEMENTS_COLLECTION}/${encodeURIComponent(String(raced.id))}?depth=0`, document);
-        if (status !== 200) throw new CmsStoreError('update_failed', status);
-        return frozen;
+        return update(raced.id);
       }
       throw new CmsStoreError('create_failed', created.status);
     },

@@ -15,6 +15,8 @@ export const ERRORS = Object.freeze({
   no_entitlement: [403, 'An active subscription is required'],
   keys_unavailable: [503, 'API key issuance is not enabled'],
   key_limit: [409, 'Revoke an existing key before creating another'],
+  signature_invalid: [400, 'Stripe signature could not be verified'],
+  handler_failed: [500, 'Event could not be applied; the delivery should be retried'],
   upstream_error: [502, 'Payment provider request failed'],
   unavailable: [503, 'Service unavailable'],
 } as const);

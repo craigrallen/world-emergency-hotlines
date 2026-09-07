@@ -49,18 +49,27 @@ assert.match(payloadConfig, /routes: \{ admin: '\/admin', api: '\/cms\/api' \}/,
 assert.match(payloadConfig, /graphQL: \{ disable: true \}/, 'GraphQL stays off');
 assert.match(payloadConfig, /csrf: \[env\.siteUrl\]/);
 assert.match(payloadConfig, /cors: \[env\.siteUrl\]/);
-assert.match(payloadConfig, /stripePlugin\(\{[^}]*rest: false/, 'the Stripe REST proxy stays off');
+assert.ok(!payloadConfig.includes('stripePlugin'), 'the plugin webhook route acknowledges Stripe before handlers run; the CMS owns its webhook endpoint');
+assert.match(payloadConfig, /stripeWebhookEndpoint/, 'the signed webhook endpoint must be registered');
+const stripeWebhook = read('cms/src/endpoints/stripe-webhook.ts');
+assert.match(stripeWebhook, /path: STRIPE_WEBHOOK_PATH/);
+assert.match(stripeWebhook, /export const STRIPE_WEBHOOK_PATH = '\/stripe\/webhooks'/, 'webhook path must stay under the Caddy CMS route family');
+assert.match(stripeWebhook, /constructEvent\(/, 'the webhook must verify Stripe-Signature');
+assert.match(stripeWebhook, /fail\(req, 'handler_failed'\)/, 'a failed handler must answer non-2xx so Stripe retries');
+assert.match(read('cms/src/collections/StripeEvents.ts'), /name: 'claimKey',\n\s+type: 'text',\n\s+required: true,\n\s+unique: true/, 'ledger claims are unique per consumer and event');
 assert.ok(existsSync(resolve(repo, 'cms/src/app/(payload)/cms/api/[...slug]/route.ts')), 'the REST route folder must match routes.api');
 assert.ok(!existsSync(resolve(repo, 'cms/src/app/(payload)/api')), 'no REST route may exist at /api: it would shadow the static /api/v1');
 assert.match(read('cms/Dockerfile'), /^ENV NODE_ENV=production/m);
 assert.match(read('cms/railway.toml'), /healthcheckPath = "\/cms\/api\/account\/status"/);
 const cmsPackage = JSON.parse(read('cms/package.json'));
-for (const name of ['payload', '@payloadcms/next', '@payloadcms/plugin-stripe', '@payloadcms/db-postgres', '@payloadcms/db-sqlite']) assert.equal(cmsPackage.dependencies[name], cmsPackage.dependencies.payload, `${name} must be pinned to the payload version`);
+for (const name of ['payload', '@payloadcms/next', '@payloadcms/db-postgres', '@payloadcms/db-sqlite']) assert.equal(cmsPackage.dependencies[name], cmsPackage.dependencies.payload, `${name} must be pinned to the payload version`);
 
 // 3. Cross-service wiring -------------------------------------------------------------
 assert.deepEqual([...STORE_KINDS], ['memory', 'cms']);
 for (const name of ['PAYMENTS_STORE', 'PAYMENTS_CMS_URL', 'PAYMENTS_CMS_API_KEY']) assert.ok(PAYMENTS_VARIABLES.includes(name), `payments must know ${name}`);
 assert.match(read('payments/src/cms-store.mjs'), /stripe-events/);
+assert.match(read('payments/src/cms-store.mjs'), /claimKey/, 'the payments store must claim events under its own consumer key');
+assert.match(read('payments/src/cms-store.mjs'), /status === 409/, 'the payments store must treat a CMS 409 as an ordering conflict');
 assert.match(read('payments/src/cms-store.mjs'), /entitlements/);
 assert.match(read('cms/src/collections/StripeEvents.ts'), /slug: 'stripe-events'/);
 assert.match(read('cms/src/collections/Entitlements.ts'), /slug: 'entitlements'/);

@@ -4,7 +4,6 @@ import { buildConfig, type Config, type Payload } from 'payload';
 import { postgresAdapter } from '@payloadcms/db-postgres';
 import { sqliteAdapter } from '@payloadcms/db-sqlite';
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer';
-import { stripePlugin } from '@payloadcms/plugin-stripe';
 import { INTERNAL_CONTEXT } from './access';
 import { ApiKeys } from './collections/ApiKeys';
 import { Entitlements } from './collections/Entitlements';
@@ -14,8 +13,8 @@ import { Subscriptions } from './collections/Subscriptions';
 import { Users } from './collections/Users';
 import { accountEndpoints } from './endpoints/account';
 import { gatewayEndpoints } from './endpoints/gateway';
+import { stripeWebhookEndpoint } from './endpoints/stripe-webhook';
 import { describeEnv, getEnv } from './env';
-import { stripeWebhookHandlers } from './lib/stripe';
 import { migrations } from './migrations';
 
 const filename = fileURLToPath(import.meta.url);
@@ -47,7 +46,9 @@ const config: Config = {
     dateFormat: 'yyyy-MM-dd HH:mm',
   },
   collections: [Users, Plans, Subscriptions, Entitlements, StripeEvents, ApiKeys],
-  endpoints: [...accountEndpoints, ...gatewayEndpoints],
+  // The Stripe webhook is a first-class endpoint (not the plugin route) so its
+  // response can be non-2xx when handling fails and Stripe retries the delivery.
+  endpoints: [...accountEndpoints, ...gatewayEndpoints, stripeWebhookEndpoint],
   cors: [env.siteUrl],
   csrf: [env.siteUrl],
   graphQL: { disable: true },
@@ -55,9 +56,6 @@ const config: Config = {
   telemetry: false,
   db,
   typescript: { outputFile: path.resolve(dirname, 'payload-types.ts') },
-  plugins: env.stripeSecretKey && env.stripeWebhookSecret
-    ? [stripePlugin({ stripeSecretKey: env.stripeSecretKey, stripeWebhooksEndpointSecret: env.stripeWebhookSecret, isTestKey: env.stripeMode === 'test', rest: false, logs: false, webhooks: stripeWebhookHandlers })]
-    : [],
   onInit: async (payload) => {
     payload.logger.info({ cms: describeEnv(env) }, 'world hotlines cms ready');
     await bootstrapAdmin(payload);
