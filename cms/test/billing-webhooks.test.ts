@@ -439,7 +439,21 @@ describe('managed API keys', () => {
     expect((await payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: 'sub_synthetic00000011' } }, overrideAccess: true, depth: 0 })).docs[0]).toMatchObject({ status: 'active', plan: null, offer: null });
     expect((await exportedKey()).state).toBe('revoked');
     expect((await call('/cms/api/account/api-keys', { method: 'POST', token, body: {} })).data.error.code).toBe('plan_unconfigured');
-    // Back on a configured price, the plan (and the key) return.
+    // The payments mirror replaying its record (old offer metadata, no price) cannot restore the cleared plan: the billed
+    // price already recorded on the subscription decides. A record that carries a configured price brings the plan back.
+    const subscription11 = () => payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: 'sub_synthetic00000011' } }, overrideAccess: true, depth: 0 }).then((result) => result.docs[0]);
+    const record = { key: 'sub:sub_synthetic00000011', kind: 'subscription', offer: 'pro_monthly', offer_known: true, customer: 'cus_synthetic00000010', status: 'active', livemode: false, updated_at_epoch: 2145917155, subscription_event_epoch: 2145917155, checkout_event_epoch: 2145917155, source_event: 'evt_payments00000011' };
+    const mirror = (r: Record<string, unknown>) => ({ key: r.key, kind: 'subscription', offer: r.offer, offerKnown: true, status: r.status, customer: r.customer, subscription: 'sub_synthetic00000011', livemode: false, updatedAtEpoch: r.updated_at_epoch, sourceEvent: r.source_event, source: 'payments', record: r });
+    const created = await call('/cms/api/entitlements?depth=0', { method: 'POST', apiKey: 'service-api-key-synthetic-0001', origin: null, body: mirror(record) });
+    expect(created.status).toBe(201);
+    expect(await subscription11()).toMatchObject({ status: 'active', plan: null, offer: null, stripePriceId: 'price_synthetic0098', lastSubscriptionEventCreated: 2145917155 });
+    expect((await exportedKey()).state).toBe('revoked');
+    const repriced = await call(`/cms/api/entitlements/${created.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: 'service-api-key-synthetic-0001', origin: null, body: mirror({ ...record, price: 'price_synthetic0001', updated_at_epoch: 2145917158, subscription_event_epoch: 2145917158, source_event: 'evt_payments00000012', based_on_revision: 1 }) });
+    expect(repriced.status).toBe(200);
+    const growthPlan = (await payload.find({ collection: 'plans', where: { offerId: { equals: 'growth_monthly' } }, overrideAccess: true, depth: 0 })).docs[0];
+    expect(await subscription11()).toMatchObject({ status: 'active', plan: growthPlan.id, offer: 'growth_monthly', stripePriceId: 'price_synthetic0001' });
+    expect(await exportedKey()).toMatchObject({ state: 'active', permissions: ['manifest', 'records'], quota: { rate: 2, burst: 20 } });
+    // Back on a configured price by webhook too, the plan (and the key) return.
     expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.updated', priced('sub_synthetic00000011', 'price_synthetic0001'), { created: 2145917160 }) as never)).toBe('processed');
     expect(await exportedKey()).toMatchObject({ state: 'active', permissions: ['manifest', 'records'], quota: { rate: 2, burst: 20 } });
     expect((await payload.find({ collection: 'api-keys', where: { keyId: { equals: minted.data.record.id } }, overrideAccess: true, depth: 0 })).docs[0]).toMatchObject({ state: 'active', issuedBy: 'account', quotaRate: 10, quotaBurst: 100 }); // stored record untouched

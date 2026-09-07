@@ -239,6 +239,10 @@ export interface Subscription {
    */
   user?: (number | null) | User;
   plan?: (number | null) | Plan;
+  /**
+   * Billed Stripe price from the newest subscription event. The plan follows this price alone; a price no plan is configured for leaves the subscription without a plan, and offer metadata never restores one.
+   */
+  stripePriceId?: string | null;
   offer?: string | null;
   status:
     | 'incomplete'
@@ -524,6 +528,7 @@ export interface SubscriptionsSelect<T extends boolean = true> {
   stripeCustomerId?: T;
   user?: T;
   plan?: T;
+  stripePriceId?: T;
   offer?: T;
   status?: T;
   cancelAtPeriodEnd?: T;

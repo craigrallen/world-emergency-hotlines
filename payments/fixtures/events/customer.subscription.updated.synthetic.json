@@ -13,6 +13,7 @@
       "customer": "cus_synthetic00000001",
       "cancel_at_period_end": false,
       "current_period_end": 2148595200,
+      "items": { "object": "list", "data": [{ "id": "si_synthetic00000001", "object": "subscription_item", "price": { "id": "price_synthetic0001", "object": "price" } }] },
       "metadata": { "offer": "growth_monthly" }
     }
   }

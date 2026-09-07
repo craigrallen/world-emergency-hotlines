@@ -1,10 +1,11 @@
-// Webhook event dispatch. Only pseudonymous Stripe identifiers and closed enum
-// statuses are stored: no names, emails, addresses, card data, or amounts.
+// Webhook event dispatch. Only pseudonymous Stripe identifiers (including the billed
+// price id, which the CMS resolves to a plan) and closed enum statuses are stored: no
+// names, emails, addresses, card data, or amounts.
 // Out-of-order deliveries are tolerated by never letting an older event
 // overwrite state written by a newer one; two events created in the same
 // second are reconciled against Stripe's current object instead of being ordered.
 
-import { OFFER_ID, STRIPE_OBJECT_ID } from './config.mjs';
+import { OFFER_ID, PRICE_ID, STRIPE_OBJECT_ID } from './config.mjs';
 import { EVENT_FAMILIES, isStoreConflict, revisionOf } from './store.mjs';
 import { plain } from './validation.mjs';
 
@@ -23,6 +24,13 @@ export const PENDING_SUBSCRIPTION = 'pending_subscription_event';
 export const MAX_UPSERT_ATTEMPTS = 5;
 /** Stripe object kind fetched to reconcile a same-second tie, per event family. */
 export const RECONCILE_KIND = Object.freeze({ checkout: 'checkout.session', subscription: 'subscription', invoice: 'invoice' });
+
+/** The billed price of a subscription object (its first item), or null when the payload carries none. */
+export function billedPrice(subscription) {
+  const items = plain(subscription) && plain(subscription.items) && Array.isArray(subscription.items.data) ? subscription.items.data : [];
+  const price = stripeId(plain(items[0]) ? items[0].price : null);
+  return price && PRICE_ID.test(price) ? price : null;
+}
 
 /** Accept a bare id or an expanded object carrying one; anything else is null. */
 export function stripeId(value) {
@@ -145,6 +153,7 @@ export async function dispatchEvent(event, { store, offers = {}, fetchObject = n
         kind: 'subscription',
         offer: meta.present ? meta.offer : (existing?.offer ?? null), offer_known: meta.present ? meta.known : (existing?.offer_known ?? false),
         customer: stripeId(source.customer) ?? existing?.customer ?? null, status,
+        price: billedPrice(source) ?? existing?.price ?? null,
         cancel_at_period_end: source.cancel_at_period_end === true,
         current_period_end: Number.isInteger(source.current_period_end) ? source.current_period_end : (existing?.current_period_end ?? null),
       };

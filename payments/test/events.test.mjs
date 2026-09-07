@@ -51,6 +51,7 @@ test('subscription lifecycle applies newest-wins ordering and invoice status', a
   let record = await store.getEntitlement('sub:sub_synthetic00000001');
   assert.equal(record.status, 'active');
   assert.equal(record.current_period_end, 2148595200);
+  assert.equal(record.price, 'price_synthetic0001', 'the billed price id is recorded so the CMS can follow the plan');
   const stale = load('customer.subscription.updated');
   stale.id = 'evt_synthetic00000010'; stale.created = 2145916700; stale.data.object.status = 'incomplete';
   assert.equal((await dispatchEvent(stale, { store, offers })).outcome, 'stale');

@@ -19,6 +19,7 @@ export const Subscriptions: CollectionConfig = {
     { name: 'stripeCustomerId', type: 'text', index: true, admin: { readOnly: true } },
     { name: 'user', type: 'relationship', relationTo: 'users', index: true, admin: { description: 'Linked from checkout client_reference_id, subscription metadata, or the customer id on the user.' } },
     { name: 'plan', type: 'relationship', relationTo: 'plans' },
+    { name: 'stripePriceId', type: 'text', admin: { readOnly: true, description: 'Billed Stripe price from the newest subscription event. The plan follows this price alone; a price no plan is configured for leaves the subscription without a plan, and offer metadata never restores one.' } },
     { name: 'offer', type: 'text', index: true, admin: { readOnly: true } },
     { name: 'status', type: 'select', required: true, defaultValue: 'unknown', options: SUBSCRIPTION_STATUSES.map((value) => ({ label: value, value })), admin: { readOnly: true } },
     { name: 'cancelAtPeriodEnd', type: 'checkbox', defaultValue: false, admin: { readOnly: true } },

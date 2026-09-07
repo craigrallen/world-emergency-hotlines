@@ -109,18 +109,21 @@ async function planWhere(payload: Payload, tx: PayloadRequest, where: Record<str
  * only source of truth: an unknown price resolves to no plan, clearing any prior one,
  * so a subscription moved to an unconfigured product grants nothing (no key policy,
  * keys exported revoked) instead of keeping the old plan through stale offer
- * metadata. A patch without a price keeps the plan the record already has; only a
- * record with no plan yet (a checkout seed, the payments mirror) is seeded from the
- * offer metadata, which is the best hint available before a billed price is known.
+ * metadata. A patch without a price keeps the plan the record already has. Offer
+ * metadata seeds a plan only while no billed price is known at all (a checkout seed,
+ * a payments record that predates prices); once a price was recorded and resolved to
+ * no plan, the payments mirror replaying the old offer cannot bring that plan back.
+ * `byPrice` says the billed price decided, so the stored offer follows the plan.
  */
-async function resolvePlan(payload: Payload, tx: PayloadRequest, patch: SubscriptionPatch, existing: Doc | null): Promise<{ plan: PlanRef | null; explicitPrice: boolean }> {
+async function resolvePlan(payload: Payload, tx: PayloadRequest, patch: SubscriptionPatch, existing: Doc | null): Promise<{ plan: PlanRef | null; byPrice: boolean }> {
   if (typeof patch.stripePriceId === 'string' && patch.stripePriceId.length > 0) {
-    return { plan: await planWhere(payload, tx, { stripePriceId: { equals: patch.stripePriceId } }), explicitPrice: true };
+    return { plan: await planWhere(payload, tx, { stripePriceId: { equals: patch.stripePriceId } }), byPrice: true };
   }
   const kept = relationId(existing?.plan);
-  if (kept !== null) return { plan: { id: kept, offerId: (existing?.offer as string | undefined) ?? null }, explicitPrice: false };
+  if (kept !== null) return { plan: { id: kept, offerId: (existing?.offer as string | undefined) ?? null }, byPrice: false };
+  if (typeof existing?.stripePriceId === 'string' && existing.stripePriceId.length > 0) return { plan: null, byPrice: true };
   const hint = patch.offer ?? (existing?.offer as string | undefined);
-  return { plan: hint ? await planWhere(payload, tx, { offerId: { equals: hint } }) : null, explicitPrice: false };
+  return { plan: hint ? await planWhere(payload, tx, { offerId: { equals: hint } }) : null, byPrice: false };
 }
 
 async function subscriptionExists(payload: Payload, id: string): Promise<boolean> {
@@ -154,7 +157,7 @@ export async function applySubscriptionPatch(payload: Payload, incoming: Subscri
       const patch = applied;
 
       const customer = patch.stripeCustomerId ?? (existing?.stripeCustomerId as string | undefined) ?? null;
-      const { plan, explicitPrice } = await resolvePlan(payload, tx, patch, existing);
+      const { plan, byPrice } = await resolvePlan(payload, tx, patch, existing);
       const user = patch.user ?? relationId(existing?.user) ?? (await findUserByCustomer(payload, tx, customer));
 
       const data: Record<string, unknown> = {
@@ -162,9 +165,10 @@ export async function applySubscriptionPatch(payload: Payload, incoming: Subscri
         stripeCustomerId: customer,
         user,
         plan: plan?.id ?? null,
-        // With an explicit billed price the resolved plan decides the offer (none when the price is unknown here);
+        stripePriceId: typeof patch.stripePriceId === 'string' && patch.stripePriceId.length > 0 ? patch.stripePriceId : ((existing?.stripePriceId as string | undefined) ?? null),
+        // When the billed price decided, the resolved plan decides the offer (none when the price is unknown here);
         // otherwise the offer metadata, then the kept or seeded plan's offer, then the stored offer.
-        offer: explicitPrice ? (plan?.offerId ?? null) : (patch.offer ?? plan?.offerId ?? (existing?.offer as string | undefined) ?? null),
+        offer: byPrice ? (plan?.offerId ?? null) : (patch.offer ?? plan?.offerId ?? (existing?.offer as string | undefined) ?? null),
         status: patch.status !== undefined && patch.status !== null ? enumStatus(patch.status) : ((existing?.status as string | undefined) ?? 'pending_subscription_event'),
         cancelAtPeriodEnd: patch.cancelAtPeriodEnd ?? (existing?.cancelAtPeriodEnd as boolean | undefined) ?? false,
         currentPeriodEnd: patch.currentPeriodEnd !== undefined && patch.currentPeriodEnd !== null ? new Date(patch.currentPeriodEnd * 1000).toISOString() : ((existing?.currentPeriodEnd as string | undefined) ?? null),
@@ -227,6 +231,8 @@ export async function syncSubscriptionFromEntitlement(payload: Payload, doc: Rec
     const applied2 = await apply({
       ...base, status: doc.status, cancelAtPeriodEnd: record.cancel_at_period_end === true,
       currentPeriodEnd: Number.isInteger(record.current_period_end) ? (record.current_period_end as number) : undefined,
+      // The billed price the payments service saw on the subscription (payments/src/events.mjs); the plan follows it.
+      stripePriceId: typeof record.price === 'string' && /^price_[A-Za-z0-9]{8,}$/.test(record.price) ? record.price : undefined,
     }, 'subscription');
     result = applied2 ?? result;
   }
