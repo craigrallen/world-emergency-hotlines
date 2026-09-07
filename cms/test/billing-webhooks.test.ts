@@ -493,7 +493,14 @@ describe('managed API keys', () => {
     expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.updated', priced('sub_synthetic00000011', 'price_synthetic0098', { metadata: { cms_user: String(tiered.id), offer: 'pro_monthly' } }), { created: 2145917150 }) as never)).toBe('processed');
     expect((await payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: 'sub_synthetic00000011' } }, overrideAccess: true, depth: 0 })).docs[0]).toMatchObject({ status: 'active', plan: null, offer: null });
     expect(await exportedKey()).toBeUndefined(); // revoked keys are not exported
-    expect((await call('/cms/api/account/api-keys', { method: 'POST', token, body: {} })).data.error.code).toBe('plan_unconfigured');
+    // The account is still entitled through the cheaper subscription, so a new key is granted by that one, with its policy,
+    // instead of the unconfigured newest subscription refusing the whole account; the entitlement shows through it too.
+    const viaGrowth = await call('/cms/api/account/api-keys', { method: 'POST', token, body: { label: 'via growth' } });
+    expect(viaGrowth.status).toBe(201);
+    expect(viaGrowth.data.record).toMatchObject({ permissions: ['manifest', 'records'], quota: { rate: 2, burst: 20 } });
+    const growthSubscription = (await payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: 'sub_synthetic00000010' } }, overrideAccess: true, depth: 0 })).docs[0];
+    expect((await payload.find({ collection: 'api-keys', where: { keyId: { equals: viaGrowth.data.record.id } }, overrideAccess: true, depth: 0 })).docs[0].subscription).toBe(growthSubscription.id);
+    expect((await call('/cms/api/account/me', { token })).data.entitlement).toEqual({ active: true, offer: 'growth_monthly' });
     // The payments mirror replaying its record (old offer metadata, no price) cannot restore the cleared plan: the billed
     // price already recorded on the subscription decides. A record that carries a configured price brings the plan back.
     const subscription11 = () => payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: 'sub_synthetic00000011' } }, overrideAccess: true, depth: 0 }).then((result) => result.docs[0]);

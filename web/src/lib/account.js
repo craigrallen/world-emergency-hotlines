@@ -248,8 +248,18 @@ function bindForms(root, status) {
     const result = await api(ENDPOINTS.portal, { method: 'POST' });
     if (!(result.ok && redirectToStripe(result.data?.url))) { flash(root, errorMessage(result), 'error'); event.target.disabled = false; }
   });
-  root.querySelector('[data-account-logout]')?.addEventListener('click', async () => {
-    await api(ENDPOINTS.logout, { method: 'POST' });
+  root.querySelector('[data-account-logout]')?.addEventListener('click', async (event) => {
+    const button = event.currentTarget;
+    button.disabled = true;
+    const result = await api(ENDPOINTS.logout, { method: 'POST' });
+    button.disabled = false;
+    // Only the server can end the session. When the request fails (an outage answered by Caddy,
+    // for example) the session cookie is still valid, so the page stays signed in and says so
+    // rather than showing a shared device as signed out while a reload would sign it back in.
+    if (!result.ok) {
+      flash(root, `Sign-out could not be confirmed, so you are still signed in on this device. ${errorMessage(result, 'Please try again.')}`, 'error');
+      return;
+    }
     root.querySelector('[data-account-key-reveal]').hidden = true;
     flash(root, 'Signed out.', 'info');
     setView(root, 'signed-out');

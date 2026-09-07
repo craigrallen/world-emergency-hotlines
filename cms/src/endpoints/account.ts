@@ -6,12 +6,37 @@ import { describeEnv, getEnv } from '../env';
 import { createGatewayKey } from '../lib/gateway-keys';
 import { EndpointError, fail, guarded, json, readJsonBody } from '../lib/responses';
 import { CHECKOUT_ORIGIN, PORTAL_ORIGIN, getStripe } from '../lib/stripe';
-import { policyOf } from './gateway';
-import { activeSubscriptionFor, inTransaction, lockRow } from '../lib/subscriptions';
+import { policyOf, type GatewayPolicy } from './gateway';
+import { activeSubscriptionsFor, inTransaction, lockRow } from '../lib/subscriptions';
 
 type Doc = Record<string, unknown> & { id: string | number };
 /** Revoked and expired keys shown on the account page (newest first); active keys are never truncated. */
 export const INACTIVE_KEY_HISTORY = 50;
+
+const relationId = (value: unknown): string | number | null => (typeof value === 'string' || typeof value === 'number' ? value : value && typeof value === 'object' && 'id' in value ? (value as { id: string | number }).id : null);
+
+/**
+ * The user's active subscriptions in this billing mode (newest first) and, among them, the
+ * one that grants API keys: the newest whose plan resolves to a gateway policy. An active
+ * subscription on an unconfigured price, or one that lost its plan, therefore never blocks
+ * an account that is entitled through another subscription; with no usable policy anywhere
+ * `granting` is null. Only the granting subscription's plan decides a key's permissions and quota.
+ */
+async function entitlingSubscriptions(payload: Payload, userId: string | number, livemode: boolean | null, req?: PayloadRequest): Promise<{ active: Doc[]; granting: { subscription: Doc; plan: Doc; policy: GatewayPolicy } | null }> {
+  const active = await activeSubscriptionsFor(payload, userId, livemode, req);
+  const planIds = [...new Map(active.map((sub) => relationId(sub.plan)).filter((id): id is string | number => id !== null).map((id) => [String(id), id])).values()];
+  const plans = new Map<string, Doc>();
+  if (planIds.length) {
+    const found = await payload.find({ collection: 'plans', where: { id: { in: planIds } }, limit: planIds.length, depth: 0, overrideAccess: true, req });
+    for (const plan of found.docs as unknown as Doc[]) plans.set(String(plan.id), plan);
+  }
+  for (const subscription of active) {
+    const plan = plans.get(String(relationId(subscription.plan)));
+    const policy = policyOf(plan);
+    if (plan && policy) return { active, granting: { subscription, plan, policy } };
+  }
+  return { active, granting: null };
+}
 
 const publicPlan = (plan: Doc) => ({ id: plan.offerId, label: plan.label, description: plan.description ?? '', mode: plan.mode });
 const publicSubscription = (sub: Doc) => ({
@@ -75,13 +100,15 @@ export const accountEndpoints: Endpoint[] = [
       const env = getEnv();
       // Every active key is returned (a member must be able to revoke each one that counts
       // toward the limit); revoked and expired keys are history, capped to the most recent.
-      const [subscriptions, activeKeys, inactiveKeys, active] = await Promise.all([
+      const [subscriptions, activeKeys, inactiveKeys, entitling] = await Promise.all([
         req.payload.find({ collection: 'subscriptions', where: { user: { equals: user.id } }, sort: '-lastEventCreated', limit: 20, depth: 0, overrideAccess: true }),
         req.payload.find({ collection: 'api-keys', where: { and: [{ user: { equals: user.id } }, { state: { equals: 'active' } }] }, sort: '-createdAt', limit: 10000, pagination: false, depth: 0, overrideAccess: true }),
         req.payload.find({ collection: 'api-keys', where: { and: [{ user: { equals: user.id } }, { state: { not_equals: 'active' } }] }, sort: '-createdAt', limit: INACTIVE_KEY_HISTORY, depth: 0, overrideAccess: true }),
-        activeSubscriptionFor(req.payload, user.id, env.stripeMode === 'disabled' ? null : env.stripeMode === 'live'),
+        entitlingSubscriptions(req.payload, user.id, env.stripeMode === 'disabled' ? null : env.stripeMode === 'live'),
       ]);
       const keys = { docs: [...activeKeys.docs, ...inactiveKeys.docs] };
+      // Entitlement is shown through the subscription that can grant keys; failing that, the newest active one.
+      const active = entitling.granting?.subscription ?? entitling.active[0] ?? null;
       return json(req, 200, {
         user: { id: user.id, email: user.email, name: user.name ?? null, role: user.role, verified: user._verified !== false, created_at: user.createdAt ?? null, billing_customer_linked: typeof user.stripeCustomerId === 'string' && user.stripeCustomerId.length > 0 },
         entitlement: { active: active !== null, offer: (active?.offer as string | undefined) ?? null },
@@ -157,21 +184,19 @@ export const accountEndpoints: Endpoint[] = [
       // user's row locked, so concurrent requests cannot exceed the per-user limit.
       const record = await inTransaction(req.payload, undefined, async (tx) => {
         await lockRow(req.payload, tx, 'users', 'id', user.id);
-        const active = await activeSubscriptionFor(req.payload, user.id, env.stripeMode === 'disabled' ? null : env.stripeMode === 'live', tx);
-        if (!active) throw new EndpointError('no_entitlement');
+        const { active, granting } = await entitlingSubscriptions(req.payload, user.id, env.stripeMode === 'disabled' ? null : env.stripeMode === 'live', tx);
+        if (active.length === 0) throw new EndpointError('no_entitlement');
         const existing = await req.payload.count({ collection: 'api-keys', where: { and: [{ user: { equals: user.id } }, { state: { equals: 'active' } }] }, overrideAccess: true, req: tx });
         if (existing.totalDocs >= env.maxApiKeysPerUser) throw new EndpointError('key_limit');
-        // The key's policy comes only from the plan attached to the entitling subscription. A
-        // subscription without a resolvable plan (deleted plan, unknown price) grants nothing:
-        // there is no default policy to fall back to.
-        const planId = active.plan && typeof active.plan === 'object' ? (active.plan as unknown as Doc).id : (active.plan as string | number | null);
-        const plan = planId ? ((await req.payload.findByID({ collection: 'plans', id: planId, depth: 0, overrideAccess: true, disableErrors: true, req: tx })) as unknown as Doc | null) : null;
-        const policy = policyOf(plan ?? undefined);
-        if (!policy) throw new EndpointError('plan_unconfigured');
+        // The key's policy comes only from the plan attached to the granting subscription (the newest
+        // active one with a resolvable policy). Active subscriptions without one (deleted plan, unknown
+        // price) grant nothing, and when none has a policy there is no default to fall back to.
+        if (!granting) throw new EndpointError('plan_unconfigured');
+        const { subscription: grantor, policy } = granting;
         return (await req.payload.create({
           collection: 'api-keys',
           data: {
-            keyId: key.id, verifier: key.verifier, user: user.id as number, subscription: active.id as number, issuedBy: 'account', label, state: 'active', livemode: active.livemode === true,
+            keyId: key.id, verifier: key.verifier, user: user.id as number, subscription: grantor.id as number, issuedBy: 'account', label, state: 'active', livemode: grantor.livemode === true,
             permissions: policy.permissions as ('manifest' | 'records' | 'resolver')[],
             quotaRate: policy.quotaRate, quotaBurst: policy.quotaBurst,
           },

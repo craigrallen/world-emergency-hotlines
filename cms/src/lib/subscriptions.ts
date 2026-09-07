@@ -299,10 +299,15 @@ export async function syncSubscriptionFromEntitlement(payload: Payload, doc: Rec
   return result;
 }
 
-/** The newest active (or trialing) subscription for a user, or null. */
-export async function activeSubscriptionFor(payload: Payload, userId: Id, livemode: boolean | null = null, req?: PayloadRequest): Promise<Doc | null> {
+/** Active (or trialing) subscriptions for a user in the given billing mode, newest event first. */
+export async function activeSubscriptionsFor(payload: Payload, userId: Id, livemode: boolean | null = null, req?: PayloadRequest, limit = 25): Promise<Doc[]> {
   const where: Record<string, unknown> = { and: [{ user: { equals: userId } }, { status: { in: [...ACTIVE_STATUSES] } }] };
   if (livemode !== null) (where.and as unknown[]).push({ livemode: { equals: livemode } });
-  const result = await payload.find({ collection: 'subscriptions', where: where as never, sort: '-lastEventCreated', limit: 1, depth: 0, overrideAccess: true, req });
-  return (result.docs[0] as unknown as Doc | undefined) ?? null;
+  const result = await payload.find({ collection: 'subscriptions', where: where as never, sort: '-lastEventCreated', limit, depth: 0, overrideAccess: true, req });
+  return result.docs as unknown as Doc[];
+}
+
+/** The newest active (or trialing) subscription for a user, or null. */
+export async function activeSubscriptionFor(payload: Payload, userId: Id, livemode: boolean | null = null, req?: PayloadRequest): Promise<Doc | null> {
+  return (await activeSubscriptionsFor(payload, userId, livemode, req, 1))[0] ?? null;
 }
