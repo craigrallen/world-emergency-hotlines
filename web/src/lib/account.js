@@ -234,7 +234,11 @@ function bindForms(root, status) {
     if (login.ok) await refresh(root, status); else flash(root, 'Account created. Sign in to continue.', 'success');
   });
   submit('[data-account-forgot]', async (fields, form) => {
-    await api(ENDPOINTS.forgot, { method: 'POST', body: { email: fields.get('email') } });
+    const result = await api(ENDPOINTS.forgot, { method: 'POST', body: { email: fields.get('email') } });
+    // Payload's forgot-password operation always answers 200 whatever the address, by design, so it can never leak
+    // which addresses have accounts; a non-2xx here is therefore an infra failure (network, 503, rate limiting), never
+    // "no such account", and is safe to report plainly without becoming an enumeration oracle.
+    if (!result.ok) { flash(root, `${errorMessage(result, 'The reset request could not be sent.')} Please try again.`, 'error'); return; }
     form.reset();
     flash(root, 'If that address has an account, a password reset email is on its way.', 'success');
   });
