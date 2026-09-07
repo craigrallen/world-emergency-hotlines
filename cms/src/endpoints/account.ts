@@ -36,7 +36,9 @@ const MAX_GRANT_ATTEMPTS = 5;
  * taken (and is then visible here) or blocks until this transaction commits. Also re-checks that
  * the subscription still belongs to the requesting user: an admin reassigning it away between the
  * unlocked read and this lock must not let the requester mint a key bound to someone else's
- * subscription, nor can its billing mode have drifted from the one being granted in. Returns the
+ * subscription, nor can its billing mode have drifted from the one being granted in. The plan is
+ * locked and re-read the same way: an admin changing its policy or mode is a separate row too, and
+ * a key must never copy a policy that is already stale by the time it is created. Returns the
  * current subscription, plan, and policy, or null when the candidate no longer qualifies to grant
  * a key.
  */
@@ -48,6 +50,7 @@ async function lockAndRevalidateGrant(payload: Payload, tx: PayloadRequest, user
   if (subscription.livemode !== livemode) return null;
   const planId = relationId(subscription.plan);
   if (planId === null) return null;
+  await lockRow(payload, tx, 'plans', 'id', planId);
   const plan = (await payload.findByID({ collection: 'plans', id: planId, depth: 0, overrideAccess: true, disableErrors: true, req: tx })) as unknown as Doc | null;
   const policy = policyOf(plan ?? undefined);
   if (!plan || !policy) return null;
