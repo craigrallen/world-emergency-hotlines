@@ -63,7 +63,17 @@ export function el(tag, attrs = {}, children = []) {
   return node;
 }
 
+/** Forget a freshly minted key: the reveal is hidden and its text emptied, so nothing recoverable stays in the DOM once the account is not signed in. */
+function clearKeyReveal(root) {
+  const reveal = root.querySelector('[data-account-key-reveal]');
+  if (!reveal) return;
+  reveal.hidden = true;
+  const code = reveal.querySelector('code');
+  if (code) code.textContent = '';
+}
+
 function setView(root, view) {
+  if (view !== 'signed-in') clearKeyReveal(root);
   root.dataset.accountView = view;
   for (const section of root.querySelectorAll('[data-account-view]')) section.hidden = section.dataset.accountView !== view;
 }
@@ -260,7 +270,8 @@ function bindForms(root, status) {
       flash(root, `Sign-out could not be confirmed, so you are still signed in on this device. ${errorMessage(result, 'Please try again.')}`, 'error');
       return;
     }
-    root.querySelector('[data-account-key-reveal]').hidden = true;
+    // The one-time key must not survive the session on a shared device: hidden and emptied, not just hidden.
+    clearKeyReveal(root);
     flash(root, 'Signed out.', 'info');
     setView(root, 'signed-out');
   });
