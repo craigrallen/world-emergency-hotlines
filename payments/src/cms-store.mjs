@@ -146,8 +146,10 @@ export function createCmsStore({ url, apiKey, fetchImpl = globalThis.fetch, time
       const cutoff = now() - claimGraceSeconds * 1000;
       if (Number.isFinite(updatedAt) && updatedAt > cutoff) return 'in_progress';
       const query = `?where[claimKey][equals]=${encodeURIComponent(claimKey)}&where[outcome][exists]=false&where[updatedAt][less_than]=${encodeURIComponent(new Date(cutoff).toISOString())}&depth=0`;
+      // The CMS re-checks each matched row under a row lock and refuses (per-document error)
+      // a take-over that lost the race, so anything but exactly one updated document backs off.
       const takeover = await request('PATCH', `/${EVENTS_COLLECTION}${query}`, { outcome: null });
-      if (takeover.status !== 200 || !takeover.payload || !Array.isArray(takeover.payload.docs)) throw new CmsStoreError('claim_takeover_failed', takeover.status);
+      if (![200, 400].includes(takeover.status) || !takeover.payload || !Array.isArray(takeover.payload.docs)) throw new CmsStoreError('claim_takeover_failed', takeover.status);
       return takeover.payload.docs.length === 1 ? 'claimed' : 'in_progress';
     },
     async completeEvent(id) {

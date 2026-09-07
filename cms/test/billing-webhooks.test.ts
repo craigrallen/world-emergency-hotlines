@@ -240,6 +240,17 @@ describe('payments-service store contract (service API key)', () => {
     expect((await call('/cms/api/stripe-events?where[claimKey][equals]=cms:evt_payments00000007', { method: 'DELETE', apiKey: service.apiKey, origin: null })).data.docs ?? []).toHaveLength(0);
     expect((await payload.findByID({ collection: 'stripe-events', id: cmsClaim.id, overrideAccess: true, depth: 0 })).outcome ?? null).toBeNull();
     expect((await call('/cms/api/stripe-events?where[eventId][equals]=evt_payments00000007', { apiKey: service.apiKey, origin: null })).data.totalDocs).toBe(0); // invisible to the store credential
+    // A take-over is re-checked under the row lock: a fresh incomplete claim cannot be taken over (even by id), an abandoned one can, once.
+    const fresh = await call('/cms/api/stripe-events', { method: 'POST', apiKey: service.apiKey, origin: null, body: { eventId: 'evt_payments00000008', source: 'payments' } });
+    expect(fresh.status).toBe(201);
+    expect((await call(`/cms/api/stripe-events/${fresh.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { outcome: null } })).status).toBe(409);
+    await payload.db.updateOne({ collection: 'stripe-events', id: fresh.data.doc.id, data: { updatedAt: new Date(Date.now() - 10 * 60 * 1000).toISOString() } });
+    const taken = await call('/cms/api/stripe-events?where[claimKey][equals]=payments:evt_payments00000008&where[outcome][exists]=false&depth=0', { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { outcome: null } });
+    expect(taken.status).toBe(200);
+    expect(taken.data.docs).toHaveLength(1);
+    expect((await call(`/cms/api/stripe-events/${fresh.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { outcome: null } })).status).toBe(409); // refreshed by the take-over: a second taker backs off
+    expect((await call('/cms/api/stripe-events?where[claimKey][equals]=payments:evt_payments00000008&depth=0', { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { outcome: 'processed' } })).data.docs).toHaveLength(1);
+    expect((await call(`/cms/api/stripe-events/${fresh.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { outcome: null } })).status).toBe(409); // completed claims are never taken over
     // Scopes: the gateway-sync credential cannot touch the ledger or entitlements, and neither service credential reads anything else.
     const gateway = { apiKey: 'service-api-key-synthetic-0002' };
     expect((await call('/cms/api/stripe-events', { method: 'POST', apiKey: gateway.apiKey, origin: null, body: { eventId: 'evt_payments00000005', source: 'payments' } })).status).toBe(403);
@@ -436,6 +447,18 @@ describe('managed API keys', () => {
     expect((await payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: 'sub_synthetic00000008' } }, overrideAccess: true, depth: 0 })).docs[0].user).toBeNull();
     const exported = await call('/cms/api/gateway/keys', { apiKey: 'service-api-key-synthetic-0002', origin: null });
     expect(exported.data.keys.some((record: { id: string }) => record.id === minted.data.record.id)).toBe(false);
+  });
+
+  test('the account page lists every active key, however many revoked ones came after them', async () => {
+    const hoarder = await createUser(payload, { email: 'hoarder@example.test', password: PASSWORD });
+    const keyDoc = (n: number, state: 'active' | 'revoked') => ({ keyId: `hoard${String(n).padStart(7, '0')}`, verifier: 'A'.repeat(43), user: hoarder.id, state, livemode: false, issuedBy: 'admin', permissions: ['manifest'], quotaRate: 1, quotaBurst: 10 });
+    for (let n = 0; n < 3; n += 1) await payload.create({ collection: 'api-keys', data: keyDoc(n, 'active') as never, overrideAccess: true, depth: 0 });
+    for (let n = 3; n < 60; n += 1) await payload.create({ collection: 'api-keys', data: keyDoc(n, 'revoked') as never, overrideAccess: true, depth: 0 });
+    const me = await call('/cms/api/account/me', { token: await login('hoarder@example.test', PASSWORD) });
+    const listed = me.data.api_keys as { id: string; state: string }[];
+    expect(listed.filter((key) => key.state === 'active').map((key) => key.id).sort()).toEqual(['hoard0000000', 'hoard0000001', 'hoard0000002']);
+    expect(listed.filter((key) => key.state === 'revoked')).toHaveLength(50);
+    expect(listed).toHaveLength(53);
   });
 
   test('no entitlement, no key', async () => {

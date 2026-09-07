@@ -9,6 +9,8 @@ import { CHECKOUT_ORIGIN, PORTAL_ORIGIN, getStripe } from '../lib/stripe';
 import { activeSubscriptionFor, inTransaction, lockRow } from '../lib/subscriptions';
 
 type Doc = Record<string, unknown> & { id: string | number };
+/** Revoked and expired keys shown on the account page (newest first); active keys are never truncated. */
+export const INACTIVE_KEY_HISTORY = 50;
 
 const publicPlan = (plan: Doc) => ({ id: plan.offerId, label: plan.label, description: plan.description ?? '', mode: plan.mode });
 const publicSubscription = (sub: Doc) => ({
@@ -70,11 +72,15 @@ export const accountEndpoints: Endpoint[] = [
     handler: (req) => guarded(req, async () => {
       const user = requireAccount(req);
       const env = getEnv();
-      const [subscriptions, keys, active] = await Promise.all([
+      // Every active key is returned (a member must be able to revoke each one that counts
+      // toward the limit); revoked and expired keys are history, capped to the most recent.
+      const [subscriptions, activeKeys, inactiveKeys, active] = await Promise.all([
         req.payload.find({ collection: 'subscriptions', where: { user: { equals: user.id } }, sort: '-lastEventCreated', limit: 20, depth: 0, overrideAccess: true }),
-        req.payload.find({ collection: 'api-keys', where: { user: { equals: user.id } }, sort: '-createdAt', limit: 50, depth: 0, overrideAccess: true }),
+        req.payload.find({ collection: 'api-keys', where: { and: [{ user: { equals: user.id } }, { state: { equals: 'active' } }] }, sort: '-createdAt', limit: 10000, pagination: false, depth: 0, overrideAccess: true }),
+        req.payload.find({ collection: 'api-keys', where: { and: [{ user: { equals: user.id } }, { state: { not_equals: 'active' } }] }, sort: '-createdAt', limit: INACTIVE_KEY_HISTORY, depth: 0, overrideAccess: true }),
         activeSubscriptionFor(req.payload, user.id, env.stripeMode === 'disabled' ? null : env.stripeMode === 'live'),
       ]);
+      const keys = { docs: [...activeKeys.docs, ...inactiveKeys.docs] };
       return json(req, 200, {
         user: { id: user.id, email: user.email, name: user.name ?? null, role: user.role, verified: user._verified !== false, created_at: user.createdAt ?? null, billing_customer_linked: typeof user.stripeCustomerId === 'string' && user.stripeCustomerId.length > 0 },
         entitlement: { active: active !== null, offer: (active?.offer as string | undefined) ?? null },

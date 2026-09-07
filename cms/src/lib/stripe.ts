@@ -2,9 +2,9 @@ import Stripe from 'stripe';
 import type { Payload } from 'payload';
 import { ValidationError } from 'payload';
 import { INTERNAL_CONTEXT } from '../access';
-import { claimKeyFor, type EventSource } from '../collections/StripeEvents';
+import { CLAIM_GRACE_SECONDS, claimKeyFor, type EventSource } from '../collections/StripeEvents';
 import { getEnv } from '../env';
-import { applySubscriptionPatch, type SubscriptionPatch } from './subscriptions';
+import { applySubscriptionPatch, inTransaction, lockRow, type SubscriptionPatch } from './subscriptions';
 
 export const CHECKOUT_ORIGIN = 'https://checkout.stripe.com';
 export const PORTAL_ORIGIN = 'https://billing.stripe.com';
@@ -43,8 +43,7 @@ const userOf = (metadata: Stripe.Metadata | null | undefined, reference?: string
   return /^\d{1,15}$/.test(raw) ? Number(raw) : raw;
 };
 
-/** How long an incomplete claim is trusted to be in progress before another delivery may take it over. */
-export const CLAIM_GRACE_SECONDS = 120;
+export { CLAIM_GRACE_SECONDS };
 export type ClaimResult = 'claimed' | 'duplicate' | 'in_progress';
 
 /**
@@ -64,14 +63,19 @@ export async function claimEvent(payload: Payload, event: Stripe.Event, source: 
   } catch (error) {
     if (!(error instanceof ValidationError)) throw error;
   }
-  const existing = (await payload.find({ collection: 'stripe-events', where: { claimKey: { equals: claimKey } }, limit: 1, depth: 0, overrideAccess: true })).docs[0];
-  if (!existing) throw new Error('event claim was refused but is not recorded');
-  if (typeof existing.outcome === 'string' && existing.outcome.length > 0) return 'duplicate';
-  const updatedAt = Date.parse(String(existing.updatedAt));
-  if (Number.isFinite(updatedAt) && now - updatedAt < CLAIM_GRACE_SECONDS * 1000) return 'in_progress';
-  // Take the abandoned claim over; the update refreshes updatedAt so a second taker sees it as in progress.
-  await payload.update({ collection: 'stripe-events', id: existing.id, data: { outcome: null, type: event.type, livemode: event.livemode }, depth: 0, overrideAccess: true, context: { ...INTERNAL_CONTEXT } });
-  return 'claimed';
+  // The existing claim is inspected and, if abandoned, taken over under a row lock
+  // (Postgres `SELECT … FOR UPDATE`): a second taker waits for the first to commit,
+  // re-reads the refreshed row, and sees the claim as in progress.
+  return inTransaction(payload, undefined, async (tx) => {
+    await lockRow(payload, tx, 'stripe-events', 'claim_key', claimKey);
+    const existing = (await payload.find({ collection: 'stripe-events', where: { claimKey: { equals: claimKey } }, limit: 1, depth: 0, overrideAccess: true, req: tx })).docs[0];
+    if (!existing) throw new Error('event claim was refused but is not recorded');
+    if (typeof existing.outcome === 'string' && existing.outcome.length > 0) return 'duplicate';
+    const updatedAt = Date.parse(String(existing.updatedAt));
+    if (Number.isFinite(updatedAt) && now - updatedAt < CLAIM_GRACE_SECONDS * 1000) return 'in_progress';
+    await payload.update({ collection: 'stripe-events', id: existing.id, data: { outcome: null, type: event.type, livemode: event.livemode }, depth: 0, overrideAccess: true, context: { ...INTERNAL_CONTEXT }, req: tx });
+    return 'claimed';
+  });
 }
 
 export async function releaseEvent(payload: Payload, eventId: string, source: EventSource = 'cms'): Promise<void> {

@@ -1,8 +1,13 @@
 import type { Access, CollectionConfig } from 'payload';
+import { APIError } from 'payload';
 import { hasRole, isAdminOrPaymentsStore, isServiceRequest } from '../access';
+import { lockRow } from '../lib/subscriptions';
 
 export const EVENT_SOURCES = ['payments', 'cms'] as const;
 export type EventSource = (typeof EVENT_SOURCES)[number];
+
+/** How long an incomplete claim is trusted to be in progress before another delivery may take it over. */
+export const CLAIM_GRACE_SECONDS = 120;
 
 /** One claim per consumer and event: the payments service and the CMS webhook do different work with the same event. */
 export const claimKeyFor = (source: string, eventId: string): string => `${source}:${eventId}`;
@@ -38,6 +43,24 @@ export const StripeEvents: CollectionConfig = {
     { name: 'outcome', type: 'text', maxLength: 64 },
   ],
   hooks: {
+    beforeChange: [
+      // A service take-over of an abandoned claim (`outcome: null` on an incomplete row) is
+      // re-checked under the row lock: if another delivery completed or refreshed the claim
+      // in the meantime, this one is refused with 409 and backs off, so two takers can never
+      // both process the event. The CMS's own take-over path holds the same lock (lib/stripe.ts).
+      async ({ data, operation, originalDoc, req }) => {
+        if (operation !== 'update' || !data || !isServiceRequest(req) || data.outcome !== null) return data;
+        const claimKey = (originalDoc?.claimKey as string | undefined) ?? (data.claimKey as string | undefined);
+        if (typeof claimKey !== 'string') return data;
+        await lockRow(req.payload, req, 'stripe-events', 'claim_key', claimKey);
+        const current = (await req.payload.find({ collection: 'stripe-events', where: { claimKey: { equals: claimKey } }, limit: 1, depth: 0, overrideAccess: true, req })).docs[0];
+        if (!current) return data;
+        if (typeof current.outcome === 'string' && current.outcome.length > 0) throw new APIError('claim already completed', 409, { code: 'claim_completed' }, true);
+        const updatedAt = Date.parse(String(current.updatedAt));
+        if (Number.isFinite(updatedAt) && Date.now() - updatedAt < CLAIM_GRACE_SECONDS * 1000) throw new APIError('claim is in progress', 409, { code: 'claim_in_progress' }, true);
+        return data;
+      },
+    ],
     beforeValidate: [
       ({ data, originalDoc, req }) => {
         if (!data) return data;
