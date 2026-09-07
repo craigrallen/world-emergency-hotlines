@@ -97,16 +97,30 @@ async function findUserByCustomer(payload: Payload, tx: PayloadRequest, customer
   return result.docs[0]?.id ?? null;
 }
 
-async function findPlan(payload: Payload, tx: PayloadRequest, offer: string | null | undefined, priceId: string | null | undefined): Promise<{ id: Id; offerId: string } | null> {
-  if (priceId) {
-    const byPrice = await payload.find({ collection: 'plans', where: { stripePriceId: { equals: priceId } }, limit: 1, depth: 0, overrideAccess: true, req: tx });
-    if (byPrice.docs[0]) return { id: byPrice.docs[0].id, offerId: byPrice.docs[0].offerId as string };
+type PlanRef = { id: Id; offerId: string | null };
+
+async function planWhere(payload: Payload, tx: PayloadRequest, where: Record<string, unknown>): Promise<PlanRef | null> {
+  const result = await payload.find({ collection: 'plans', where: where as never, limit: 1, depth: 0, overrideAccess: true, req: tx });
+  return result.docs[0] ? { id: result.docs[0].id, offerId: (result.docs[0].offerId as string) ?? null } : null;
+}
+
+/**
+ * Which plan a subscription is on. An explicit billed price (unique per plan) is the
+ * only source of truth: an unknown price resolves to no plan, clearing any prior one,
+ * so a subscription moved to an unconfigured product grants nothing (no key policy,
+ * keys exported revoked) instead of keeping the old plan through stale offer
+ * metadata. A patch without a price keeps the plan the record already has; only a
+ * record with no plan yet (a checkout seed, the payments mirror) is seeded from the
+ * offer metadata, which is the best hint available before a billed price is known.
+ */
+async function resolvePlan(payload: Payload, tx: PayloadRequest, patch: SubscriptionPatch, existing: Doc | null): Promise<{ plan: PlanRef | null; explicitPrice: boolean }> {
+  if (typeof patch.stripePriceId === 'string' && patch.stripePriceId.length > 0) {
+    return { plan: await planWhere(payload, tx, { stripePriceId: { equals: patch.stripePriceId } }), explicitPrice: true };
   }
-  if (offer) {
-    const byOffer = await payload.find({ collection: 'plans', where: { offerId: { equals: offer } }, limit: 1, depth: 0, overrideAccess: true, req: tx });
-    if (byOffer.docs[0]) return { id: byOffer.docs[0].id, offerId: byOffer.docs[0].offerId as string };
-  }
-  return null;
+  const kept = relationId(existing?.plan);
+  if (kept !== null) return { plan: { id: kept, offerId: (existing?.offer as string | undefined) ?? null }, explicitPrice: false };
+  const hint = patch.offer ?? (existing?.offer as string | undefined);
+  return { plan: hint ? await planWhere(payload, tx, { offerId: { equals: hint } }) : null, explicitPrice: false };
 }
 
 async function subscriptionExists(payload: Payload, id: string): Promise<boolean> {
@@ -140,16 +154,17 @@ export async function applySubscriptionPatch(payload: Payload, incoming: Subscri
       const patch = applied;
 
       const customer = patch.stripeCustomerId ?? (existing?.stripeCustomerId as string | undefined) ?? null;
-      const plan = (await findPlan(payload, tx, patch.offer ?? (existing?.offer as string | undefined), patch.stripePriceId)) ?? null;
+      const { plan, explicitPrice } = await resolvePlan(payload, tx, patch, existing);
       const user = patch.user ?? relationId(existing?.user) ?? (await findUserByCustomer(payload, tx, customer));
 
       const data: Record<string, unknown> = {
         stripeSubscriptionId: patch.stripeSubscriptionId,
         stripeCustomerId: customer,
         user,
-        plan: plan?.id ?? relationId(existing?.plan) ?? null,
-        // The billed price (unique per plan) decides the plan and offer; checkout metadata only fills in when the price is unknown here.
-        offer: plan?.offerId ?? patch.offer ?? (existing?.offer as string | undefined) ?? null,
+        plan: plan?.id ?? null,
+        // With an explicit billed price the resolved plan decides the offer (none when the price is unknown here);
+        // otherwise the offer metadata, then the kept or seeded plan's offer, then the stored offer.
+        offer: explicitPrice ? (plan?.offerId ?? null) : (patch.offer ?? plan?.offerId ?? (existing?.offer as string | undefined) ?? null),
         status: patch.status !== undefined && patch.status !== null ? enumStatus(patch.status) : ((existing?.status as string | undefined) ?? 'pending_subscription_event'),
         cancelAtPeriodEnd: patch.cancelAtPeriodEnd ?? (existing?.cancelAtPeriodEnd as boolean | undefined) ?? false,
         currentPeriodEnd: patch.currentPeriodEnd !== undefined && patch.currentPeriodEnd !== null ? new Date(patch.currentPeriodEnd * 1000).toISOString() : ((existing?.currentPeriodEnd as string | undefined) ?? null),

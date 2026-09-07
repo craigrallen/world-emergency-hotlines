@@ -433,6 +433,15 @@ describe('managed API keys', () => {
     // Reactivating it restores the key; moving it to the cheaper plan moves the key's policy with it.
     expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.updated', priced('sub_synthetic00000011', 'price_synthetic0001'), { created: 2145917100 }) as never)).toBe('processed');
     expect(await exportedKey()).toMatchObject({ state: 'active', permissions: ['manifest', 'records'], quota: { rate: 2, burst: 20 } });
+    // Moving it to a price no plan is configured for clears the plan even though the old offer metadata is still on the subscription:
+    // the key is exported revoked and no new key can be minted, instead of the old plan's policy surviving on an unconfigured product.
+    expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.updated', priced('sub_synthetic00000011', 'price_synthetic0098', { metadata: { cms_user: String(tiered.id), offer: 'pro_monthly' } }), { created: 2145917150 }) as never)).toBe('processed');
+    expect((await payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: 'sub_synthetic00000011' } }, overrideAccess: true, depth: 0 })).docs[0]).toMatchObject({ status: 'active', plan: null, offer: null });
+    expect((await exportedKey()).state).toBe('revoked');
+    expect((await call('/cms/api/account/api-keys', { method: 'POST', token, body: {} })).data.error.code).toBe('plan_unconfigured');
+    // Back on a configured price, the plan (and the key) return.
+    expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.updated', priced('sub_synthetic00000011', 'price_synthetic0001'), { created: 2145917160 }) as never)).toBe('processed');
+    expect(await exportedKey()).toMatchObject({ state: 'active', permissions: ['manifest', 'records'], quota: { rate: 2, burst: 20 } });
     expect((await payload.find({ collection: 'api-keys', where: { keyId: { equals: minted.data.record.id } }, overrideAccess: true, depth: 0 })).docs[0]).toMatchObject({ state: 'active', issuedBy: 'account', quotaRate: 10, quotaBurst: 100 }); // stored record untouched
     // Deleting the granting subscription itself revokes the keys it granted, in the same operation.
     const deleted = await call(`/cms/api/subscriptions/${pro.id}`, { method: 'DELETE', token: await login('admin@example.test', PASSWORD) });
