@@ -199,6 +199,9 @@ export interface Plan {
    * Stripe price id (price_…). Must belong to the same test/live mode as STRIPE_SECRET_KEY.
    */
   stripePriceId: string;
+  /**
+   * Whole number of units per checkout line item (Stripe accepts integers only).
+   */
   quantity: number;
   /**
    * Only active plans are offered on the account page.

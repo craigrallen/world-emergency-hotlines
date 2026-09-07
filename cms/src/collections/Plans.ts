@@ -1,4 +1,5 @@
 import type { CollectionConfig } from 'payload';
+import { ValidationError } from 'payload';
 import { isAdmin, isStaff } from '../access';
 
 export const OFFER_ID = /^[a-z][a-z0-9_]{1,31}$/;
@@ -21,7 +22,7 @@ export const Plans: CollectionConfig = {
     { name: 'description', type: 'textarea', maxLength: 600, admin: { description: 'Shown on the account page. Never include a price.' } },
     { name: 'mode', type: 'select', required: true, defaultValue: 'subscription', options: [{ label: 'Subscription', value: 'subscription' }, { label: 'One-time payment', value: 'payment' }] },
     { name: 'stripePriceId', type: 'text', required: true, admin: { description: 'Stripe price id (price_…). Must belong to the same test/live mode as STRIPE_SECRET_KEY.' }, validate: (value: unknown) => (typeof value === 'string' && PRICE_ID.test(value) ? true : 'must be a Stripe price id (price_…)') },
-    { name: 'quantity', type: 'number', required: true, defaultValue: 1, min: 1, max: 100 },
+    { name: 'quantity', type: 'number', required: true, defaultValue: 1, min: 1, max: 100, admin: { description: 'Whole number of units per checkout line item (Stripe accepts integers only).' }, validate: (value: unknown) => (Number.isInteger(value) && (value as number) >= 1 && (value as number) <= 100 ? true : 'must be a whole number from 1 to 100') },
     { name: 'active', type: 'checkbox', defaultValue: false, admin: { description: 'Only active plans are offered on the account page.' } },
     {
       name: 'gateway',
@@ -36,11 +37,17 @@ export const Plans: CollectionConfig = {
   ],
   hooks: {
     beforeValidate: [
-      ({ data }) => {
-        const gateway = (data?.gateway ?? {}) as { quotaRate?: number; quotaBurst?: number; permissions?: string[] };
-        if (gateway.quotaBurst !== undefined && !Number.isInteger(gateway.quotaBurst)) throw new Error('gateway.quotaBurst must be an integer');
-        if (gateway.quotaRate !== undefined && gateway.quotaBurst !== undefined && gateway.quotaBurst > gateway.quotaRate * 86400) throw new Error('gateway.quotaBurst must not exceed quotaRate × 86400');
-        if (gateway.permissions !== undefined && gateway.permissions.length === 0) throw new Error('gateway.permissions needs at least one permission');
+      ({ data, originalDoc, req }) => {
+        if (!data) return data;
+        // Validate the effective policy (incoming values over the stored ones), so a partial
+        // update of one field cannot leave burst above rate × 86400 and make the gateway
+        // refuse the whole exported snapshot.
+        type Gateway = { quotaRate?: number; quotaBurst?: number; permissions?: string[] };
+        const gateway: Gateway = { ...((originalDoc?.gateway ?? {}) as Gateway), ...((data.gateway ?? {}) as Gateway) };
+        const invalid = (path: string, message: string) => new ValidationError({ collection: 'plans', errors: [{ path, message }] }, req.t);
+        if (gateway.quotaBurst !== undefined && !Number.isInteger(gateway.quotaBurst)) throw invalid('gateway.quotaBurst', 'must be an integer');
+        if (gateway.quotaRate !== undefined && gateway.quotaBurst !== undefined && gateway.quotaBurst > gateway.quotaRate * 86400) throw invalid('gateway.quotaBurst', 'must not exceed quotaRate × 86400');
+        if (gateway.permissions !== undefined && gateway.permissions.length === 0) throw invalid('gateway.permissions', 'needs at least one permission');
         return data;
       },
     ],

@@ -118,8 +118,8 @@ test('a writer that read before a newer event was stored yields to it instead of
 
 test('same-second events are reconciled from Stripe\'s current object instead of delivery order', async () => {
   const store = createMemoryStore();
-  const fetched = { calls: [], object: null };
-  const fetchObject = async (kind, id) => { fetched.calls.push([kind, id]); return fetched.object; };
+  const fetched = { calls: [], object: null, objects: {} };
+  const fetchObject = async (kind, id) => { fetched.calls.push([kind, id]); return fetched.objects[kind] ?? fetched.object; };
   const at = 2145917000;
   const lifecycle = (id, status) => { const event = load('customer.subscription.updated'); event.id = id; event.created = at; event.data.object.status = status; return event; };
   assert.equal((await dispatchEvent(lifecycle('evt_synthetic00000040', 'active'), { store, offers, fetchObject })).outcome, 'processed');
@@ -139,17 +139,34 @@ test('same-second events are reconciled from Stripe\'s current object instead of
   assert.equal((await store.getEntitlement('sub:sub_synthetic00000001')).status, 'canceled');
   // A fetch failure propagates so the webhook fails and Stripe retries.
   await assert.rejects(dispatchEvent(lifecycle('evt_synthetic00000045', 'active'), { store, offers, fetchObject: async () => { throw new Error('stripe unreachable'); } }), /stripe unreachable/);
-  // Invoice ties take the fetched invoice's status; checkout ties take the fetched session.
+  // Invoice ties are resolved from the subscription's latest invoice, so a delayed event
+  // for an older invoice cannot overwrite the newer one; checkout ties take the fetched session.
+  fetched.object = null;
   const invoice = load('invoice.payment_failed'); invoice.id = 'evt_synthetic00000046'; invoice.created = at + 1;
   assert.equal((await dispatchEvent(invoice, { store, offers, fetchObject })).outcome, 'processed');
-  const paidLater = load('invoice.payment_failed'); paidLater.id = 'evt_synthetic00000047'; paidLater.created = at + 1; paidLater.type = 'invoice.paid';
-  fetched.object = { ...paidLater.data.object, status: 'paid' };
-  assert.equal((await dispatchEvent(paidLater, { store, offers, fetchObject })).outcome, 'processed');
-  assert.equal((await store.getEntitlement('sub:sub_synthetic00000001')).last_invoice_status, 'paid');
+  assert.deepEqual([(await store.getEntitlement('sub:sub_synthetic00000001')).last_invoice, (await store.getEntitlement('sub:sub_synthetic00000001')).last_invoice_status], ['in_synthetic00000001', 'payment_failed']);
+  const olderInvoice = load('invoice.payment_failed'); olderInvoice.id = 'evt_synthetic00000047'; olderInvoice.created = at + 1; olderInvoice.data.object.id = 'in_synthetic00000000';
+  fetched.objects.subscription = { id: 'sub_synthetic00000001', object: 'subscription', status: 'active', customer: 'cus_synthetic00000001', latest_invoice: 'in_synthetic00000002' };
+  fetched.objects.invoice = { id: 'in_synthetic00000002', object: 'invoice', status: 'paid', customer: 'cus_synthetic00000001' };
+  fetched.calls.length = 0;
+  const statusBeforeTie = (await store.getEntitlement('sub:sub_synthetic00000001')).status;
+  assert.equal((await dispatchEvent(olderInvoice, { store, offers, fetchObject })).outcome, 'processed');
+  assert.deepEqual(fetched.calls, [['subscription', 'sub_synthetic00000001'], ['invoice', 'in_synthetic00000002']], 'the tie asks for the subscription\'s latest invoice, not the delivered one');
+  const afterTie = await store.getEntitlement('sub:sub_synthetic00000001');
+  assert.equal(afterTie.last_invoice, 'in_synthetic00000002', 'the latest invoice wins, not whichever invoice the tied delivery carried');
+  assert.equal(afterTie.last_invoice_status, 'paid');
+  assert.equal(afterTie.status, statusBeforeTie, 'invoice reconciliation never touches the subscription status');
+  // A subscription without a latest invoice, or one whose latest invoice cannot be fetched, leaves the record alone.
+  fetched.objects.subscription = { ...fetched.objects.subscription, latest_invoice: null };
+  assert.equal((await dispatchEvent({ ...olderInvoice, id: 'evt_synthetic00000050' }, { store, offers, fetchObject })).outcome, 'stale');
+  fetched.objects.subscription = { ...fetched.objects.subscription, latest_invoice: 'in_synthetic00000003' };
+  assert.equal((await dispatchEvent({ ...olderInvoice, id: 'evt_synthetic00000051' }, { store, offers, fetchObject })).outcome, 'stale', 'fetched invoice id mismatch fails closed');
+  assert.equal((await store.getEntitlement('sub:sub_synthetic00000001')).last_invoice, 'in_synthetic00000002');
+  delete fetched.objects.subscription; delete fetched.objects.invoice;
   const checkout = load('checkout.session.completed'); checkout.id = 'evt_synthetic00000048'; checkout.created = at + 2;
   assert.equal((await dispatchEvent(checkout, { store, offers, fetchObject })).outcome, 'processed');
   const expired = load('checkout.session.completed'); expired.id = 'evt_synthetic00000049'; expired.created = at + 2; expired.type = 'checkout.session.expired'; expired.data.object.status = 'expired';
-  fetched.object = { ...expired.data.object, status: 'complete' };
+  fetched.objects['checkout.session'] = { ...expired.data.object, status: 'complete' };
   assert.equal((await dispatchEvent(expired, { store, offers, fetchObject })).outcome, 'processed');
   assert.equal((await store.getEntitlement('cs:cs_test_synthetic00000001')).status, 'complete', 'the fetched session, not the tied payload, is stored');
 });

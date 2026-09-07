@@ -175,7 +175,20 @@ describe('checkout, portal, and plans', () => {
     expect(staff.status).toBe(200);
     const staffWrite = await call('/cms/api/plans', { method: 'POST', token: await login('staff@example.test', PASSWORD), body: { offerId: 'x_plan', label: 'x', mode: 'subscription', stripePriceId: 'price_synthetic0009', quantity: 1 } });
     expect(staffWrite.status).toBe(403);
-    const badQuota = await call('/cms/api/plans', { method: 'POST', token: await login('admin@example.test', PASSWORD), body: { offerId: 'bad_quota', label: 'x', mode: 'subscription', stripePriceId: 'price_synthetic0009', quantity: 1, gateway: { quotaRate: 0.001, quotaBurst: 10000 } } });
-    expect(badQuota.status).toBeGreaterThanOrEqual(400);
+    const admin = await login('admin@example.test', PASSWORD);
+    const badQuota = await call('/cms/api/plans', { method: 'POST', token: admin, body: { offerId: 'bad_quota', label: 'x', mode: 'subscription', stripePriceId: 'price_synthetic0009', quantity: 1, gateway: { quotaRate: 0.001, quotaBurst: 10000 } } });
+    expect(badQuota.status).toBe(400);
+    // Stripe line-item quantities are integers; a fractional plan quantity would make every checkout fail upstream.
+    const fractional = await call('/cms/api/plans', { method: 'POST', token: admin, body: { offerId: 'half_pack', label: 'x', mode: 'subscription', stripePriceId: 'price_synthetic0009', quantity: 1.5, gateway: { quotaRate: 1, quotaBurst: 10 } } });
+    expect(fractional.status).toBe(400);
+    // The quota invariant holds for the effective policy: a partial update of one field is checked against the stored other.
+    const created = await call('/cms/api/plans?depth=0', { method: 'POST', token: admin, body: { offerId: 'partial_plan', label: 'x', mode: 'subscription', stripePriceId: 'price_synthetic0010', quantity: 1, gateway: { quotaRate: 1, quotaBurst: 100 } } });
+    expect(created.status).toBe(201);
+    const rateOnly = await call(`/cms/api/plans/${created.data.doc.id}?depth=0`, { method: 'PATCH', token: admin, body: { gateway: { quotaRate: 0.001 } } });
+    expect(rateOnly.status).toBe(400); // 0.001 × 86400 = 86.4 < the stored burst of 100
+    expect((await payload.findByID({ collection: 'plans', id: created.data.doc.id, overrideAccess: true, depth: 0 })).gateway?.quotaRate).toBe(1);
+    const burstOnly = await call(`/cms/api/plans/${created.data.doc.id}?depth=0`, { method: 'PATCH', token: admin, body: { gateway: { quotaBurst: 86 } } });
+    expect(burstOnly.status).toBe(200);
+    expect((await call(`/cms/api/plans/${created.data.doc.id}?depth=0`, { method: 'PATCH', token: admin, body: { gateway: { quotaRate: 0.001 } } })).status).toBe(200);
   });
 });

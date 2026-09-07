@@ -166,10 +166,20 @@ async function onInvoice(payload: Payload, event: Stripe.Event): Promise<string>
   const invoice = event.data.object as InvoiceLike;
   const patch = invoicePatch(invoice, event.livemode, event.type === 'invoice.paid' ? 'paid' : 'payment_failed');
   if (!patch) return 'no_subscription';
-  const invoiceId = stripeId(invoice);
+  const subscriptionId = patch.stripeSubscriptionId;
   const result = await applySubscriptionPatch(payload, patch, {
     family: 'invoice', eventCreated: event.created, eventId: event.id, source: 'cms',
-    reconcile: invoiceId ? async () => { const current = await stripeForReconcile().invoices.retrieve(invoiceId); return invoicePatch(current as InvoiceLike, event.livemode, fetchedInvoiceStatus(current)); } : undefined,
+    // Two invoice events in one second may concern different invoices, so the tie is
+    // resolved from the subscription's latest invoice, never from whichever invoice this
+    // delivery happens to carry.
+    reconcile: async () => {
+      const stripe = stripeForReconcile();
+      const current = await stripe.subscriptions.retrieve(subscriptionId);
+      const latestId = stripeId(current.latest_invoice);
+      if (!latestId) return null;
+      const latest = current.latest_invoice && typeof current.latest_invoice === 'object' ? (current.latest_invoice as Stripe.Invoice) : await stripe.invoices.retrieve(latestId);
+      return { stripeSubscriptionId: subscriptionId, stripeCustomerId: stripeId(current.customer), livemode: event.livemode, lastInvoiceId: latestId, lastInvoiceStatus: fetchedInvoiceStatus(latest) ?? undefined };
+    },
   });
   return result ? 'processed' : 'stale';
 }

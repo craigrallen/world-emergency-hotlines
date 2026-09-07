@@ -153,6 +153,17 @@ export async function dispatchEvent(event, { store, offers = {}, fetchObject = n
     const subscriptionId = stripeId(object.subscription) ?? stripeId(object.parent?.subscription_details?.subscription);
     if (!subscriptionId) return ignored('no_subscription');
     const invoiceId = stripeId(object);
+    // Two invoice events in one second may concern different invoices, so a tie is resolved
+    // from the subscription's latest invoice, never from whichever invoice this delivery carries.
+    const reconcile = typeof fetchObject === 'function'
+      ? async () => {
+        const current = await fetchObject(RECONCILE_KIND.subscription, subscriptionId);
+        const latestId = plain(current) && stripeId(current) === subscriptionId ? stripeId(current.latest_invoice) : null;
+        if (!latestId) return null;
+        const latest = await fetchObject(RECONCILE_KIND.invoice, latestId);
+        return plain(latest) && stripeId(latest) === latestId ? latest : null;
+      }
+      : null;
     const result = await upsert(store, `sub:${subscriptionId}`, (existing, current) => {
       const source = current ?? object;
       // From the event the type is authoritative; from a fetched invoice its status is.
@@ -164,7 +175,7 @@ export async function dispatchEvent(event, { store, offers = {}, fetchObject = n
         customer: stripeId(source.customer) ?? existing?.customer ?? null, status: existing?.status ?? PENDING_SUBSCRIPTION,
         last_invoice: stripeId(source) ?? invoiceId, last_invoice_status: invoiceStatus,
       };
-    }, event, 'invoice', invoiceId ? reconciler(fetchObject, 'invoice', invoiceId) : null);
+    }, event, 'invoice', reconcile);
     return { outcome: outcome(result), keys: [result.record.key], offer: result.record.offer ?? null, offer_known: result.record.offer_known === true };
   }
 

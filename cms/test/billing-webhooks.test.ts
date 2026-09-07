@@ -158,6 +158,16 @@ describe('Stripe webhooks through the CMS endpoint', () => {
     expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.updated', subscription(id, { customer: 'cus_synthetic00000005', status: 'active' }), { created: at + 1 }) as never)).toBe('processed');
     expect((await find()).status).toBe('active');
     expect(retrievals()).toBe(3);
+    // Two invoice events in one second for different invoices: the subscription's latest invoice decides, not the delivered one.
+    const invoiceEvent = (invoiceId: string, type: string, created: number) => stripeEvent(type, { id: invoiceId, object: 'invoice', customer: 'cus_synthetic00000005', status: type === 'invoice.paid' ? 'paid' : 'open', parent: { subscription_details: { subscription: id } } }, { created });
+    expect(await handleStripeEvent(payload, invoiceEvent('in_synthetic00000052', 'invoice.paid', at + 2) as never)).toBe('processed');
+    expect(await find()).toMatchObject({ lastInvoiceId: 'in_synthetic00000052', lastInvoiceStatus: 'paid' });
+    stripe.objects.set(`/v1/subscriptions/${id}`, subscription(id, { customer: 'cus_synthetic00000005', latest_invoice: 'in_synthetic00000052' }));
+    stripe.objects.set('/v1/invoices/in_synthetic00000052', { id: 'in_synthetic00000052', object: 'invoice', status: 'paid', customer: 'cus_synthetic00000005' });
+    expect(await handleStripeEvent(payload, invoiceEvent('in_synthetic00000051', 'invoice.payment_failed', at + 2) as never)).toBe('processed'); // older invoice, same second, delivered last
+    expect(await find()).toMatchObject({ lastInvoiceId: 'in_synthetic00000052', lastInvoiceStatus: 'paid', status: 'active' });
+    expect(stripe.requests.filter((r) => r.method === 'GET' && r.path === '/v1/invoices/in_synthetic00000052').length).toBe(1);
+    expect(stripe.requests.filter((r) => r.method === 'GET' && r.path === '/v1/invoices/in_synthetic00000051').length).toBe(0);
   });
 
   test('subscription events activate the account, are idempotent, and never let an older event overwrite newer state', async () => {
