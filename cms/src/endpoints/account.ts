@@ -7,7 +7,7 @@ import { createGatewayKey } from '../lib/gateway-keys';
 import { EndpointError, fail, guarded, json, readJsonBody } from '../lib/responses';
 import { CHECKOUT_ORIGIN, PORTAL_ORIGIN, getStripe } from '../lib/stripe';
 import { policyOf, type GatewayPolicy } from './gateway';
-import { activeSubscriptionsFor, inTransaction, lockRow } from '../lib/subscriptions';
+import { forEachActiveSubscription, inTransaction, lockRow, newerSubscription } from '../lib/subscriptions';
 
 type Doc = Record<string, unknown> & { id: string | number };
 /** Revoked and expired keys shown on the account page (newest first); active keys are never truncated. */
@@ -17,32 +17,32 @@ const relationId = (value: unknown): string | number | null => (typeof value ===
 
 /**
  * The user's newest active subscription in this billing mode (null when there is none) and
- * the one that grants API keys: the newest whose plan resolves to a gateway policy, found by
- * walking every active subscription page by page, newest first, until one qualifies. An
- * active subscription on an unconfigured price, or one that lost its plan, therefore never
- * blocks an account that is entitled through another subscription, however many sit in
- * front of it; with no usable policy anywhere `granting` is null. Only the granting
- * subscription's plan decides a key's permissions and quota.
+ * the one that grants API keys: the newest whose plan resolves to a gateway policy. Every
+ * active subscription is visited once, in pages keyed on the immutable id, so a webhook
+ * moving `lastEventCreated` mid-walk cannot hide one; among those with a usable policy the
+ * newest event wins. An active subscription on an unconfigured price, or one that lost its
+ * plan, therefore never blocks an account that is entitled through another subscription,
+ * however many there are; with no usable policy anywhere `granting` is null. Only the
+ * granting subscription's plan decides a key's permissions and quota.
  */
 async function entitlingSubscriptions(payload: Payload, userId: string | number, livemode: boolean | null, req?: PayloadRequest): Promise<{ newest: Doc | null; granting: { subscription: Doc; plan: Doc; policy: GatewayPolicy } | null }> {
   let newest: Doc | null = null;
-  for (let page = 1; ; page += 1) {
-    const { docs, hasNextPage } = await activeSubscriptionsFor(payload, userId, livemode, req, { page });
-    if (page === 1) newest = docs[0] ?? null;
-    const planIds = [...new Map(docs.map((sub) => relationId(sub.plan)).filter((id): id is string | number => id !== null).map((id) => [String(id), id])).values()];
+  let granting: { subscription: Doc; plan: Doc; policy: GatewayPolicy } | null = null;
+  await forEachActiveSubscription(payload, userId, livemode, req, async (page) => {
+    const planIds = [...new Map(page.map((sub) => relationId(sub.plan)).filter((id): id is string | number => id !== null).map((id) => [String(id), id])).values()];
     const plans = new Map<string, Doc>();
     if (planIds.length) {
       const found = await payload.find({ collection: 'plans', where: { id: { in: planIds } }, limit: planIds.length, depth: 0, overrideAccess: true, req });
       for (const plan of found.docs as unknown as Doc[]) plans.set(String(plan.id), plan);
     }
-    for (const subscription of docs) {
+    for (const subscription of page) {
+      newest = newerSubscription(newest, subscription);
       const plan = plans.get(String(relationId(subscription.plan)));
       const policy = policyOf(plan);
-      if (plan && policy) return { newest, granting: { subscription, plan, policy } };
+      if (plan && policy && (granting === null || newerSubscription(granting.subscription, subscription) === subscription)) granting = { subscription, plan, policy };
     }
-    if (!hasNextPage || docs.length === 0) break;
-  }
-  return { newest, granting: null };
+  });
+  return { newest, granting };
 }
 
 const publicPlan = (plan: Doc) => ({ id: plan.offerId, label: plan.label, description: plan.description ?? '', mode: plan.mode });

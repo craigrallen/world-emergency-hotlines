@@ -299,15 +299,40 @@ export async function syncSubscriptionFromEntitlement(payload: Payload, doc: Rec
   return result;
 }
 
-/** One page of a user's active (or trialing) subscriptions in the given billing mode, newest event first. */
-export async function activeSubscriptionsFor(payload: Payload, userId: Id, livemode: boolean | null = null, req?: PayloadRequest, { limit = 25, page = 1 }: { limit?: number; page?: number } = {}): Promise<{ docs: Doc[]; hasNextPage: boolean }> {
-  const where: Record<string, unknown> = { and: [{ user: { equals: userId } }, { status: { in: [...ACTIVE_STATUSES] } }] };
-  if (livemode !== null) (where.and as unknown[]).push({ livemode: { equals: livemode } });
-  const result = await payload.find({ collection: 'subscriptions', where: where as never, sort: '-lastEventCreated', limit, page, depth: 0, overrideAccess: true, req });
-  return { docs: result.docs as unknown as Doc[], hasNextPage: result.hasNextPage === true };
+/**
+ * One page of a user's active (or trialing) subscriptions in the given billing mode,
+ * keyed on the immutable `id` (ascending; `after` is the last id of the previous page).
+ * A walk over these pages visits every subscription that existed when it started exactly
+ * once, however webhooks move `lastEventCreated` meanwhile; ordering by that mutable
+ * field would let an updated row slip into a page already consumed and be missed.
+ */
+export async function activeSubscriptionsFor(payload: Payload, userId: Id, livemode: boolean | null = null, req?: PayloadRequest, { limit = 25, after = null }: { limit?: number; after?: Id | null } = {}): Promise<Doc[]> {
+  const and: Record<string, unknown>[] = [{ user: { equals: userId } }, { status: { in: [...ACTIVE_STATUSES] } }];
+  if (livemode !== null) and.push({ livemode: { equals: livemode } });
+  if (after !== null) and.push({ id: { greater_than: after } });
+  const result = await payload.find({ collection: 'subscriptions', where: { and } as never, sort: 'id', limit, depth: 0, overrideAccess: true, req });
+  return result.docs as unknown as Doc[];
 }
 
-/** The newest active (or trialing) subscription for a user, or null. */
+/** Visit every active (or trialing) subscription of a user once, in stable id pages. */
+export async function forEachActiveSubscription(payload: Payload, userId: Id, livemode: boolean | null, req: PayloadRequest | undefined, visit: (page: Doc[]) => void | Promise<void>, pageSize = 25): Promise<void> {
+  let after: Id | null = null;
+  for (;;) {
+    const page = await activeSubscriptionsFor(payload, userId, livemode, req, { limit: pageSize, after });
+    if (page.length === 0) return;
+    await visit(page);
+    after = page[page.length - 1].id;
+    if (page.length < pageSize) return;
+  }
+}
+
+const eventStamp = (doc: Doc | null): number => (doc && typeof doc.lastEventCreated === 'number' ? (doc.lastEventCreated as number) : -1);
+/** The later of two subscriptions by newest applied event (the first wins a tie). */
+export const newerSubscription = (a: Doc | null, b: Doc): Doc => (eventStamp(b) > eventStamp(a) ? b : (a ?? b));
+
+/** The active (or trialing) subscription with the newest applied event for a user, or null. */
 export async function activeSubscriptionFor(payload: Payload, userId: Id, livemode: boolean | null = null, req?: PayloadRequest): Promise<Doc | null> {
-  return (await activeSubscriptionsFor(payload, userId, livemode, req, { limit: 1 })).docs[0] ?? null;
+  let newest: Doc | null = null;
+  await forEachActiveSubscription(payload, userId, livemode, req, (page) => { for (const doc of page) newest = newerSubscription(newest, doc); });
+  return newest;
 }

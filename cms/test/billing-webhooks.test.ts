@@ -542,11 +542,12 @@ describe('managed API keys', () => {
     const heavy = await createUser(payload, { email: 'heavy@example.test', password: PASSWORD });
     const growthPlan = (await payload.find({ collection: 'plans', where: { offerId: { equals: 'growth_monthly' } }, overrideAccess: true, depth: 0 })).docs[0];
     const base = { stripeCustomerId: 'cus_synthetic00000300', user: heavy.id, status: 'active', livemode: false, source: 'cms' };
-    // The oldest subscription is the only one on a configured plan; thirty newer ones sit on a price no plan is configured for.
-    const configured = await payload.create({ collection: 'subscriptions', data: { ...base, stripeSubscriptionId: 'sub_synthetic00000300', plan: growthPlan.id, offer: 'growth_monthly', stripePriceId: 'price_synthetic0001', lastEventCreated: 2145930000, lastSubscriptionEventCreated: 2145930000 } as never, overrideAccess: true, context: { ...INTERNAL_CONTEXT } });
+    // Thirty subscriptions with newer events sit on a price no plan is configured for; the only configured one has the oldest
+    // event and is created last, so it is on the last id page and never first by event time.
     for (let i = 1; i <= 30; i += 1) {
       await payload.create({ collection: 'subscriptions', data: { ...base, stripeSubscriptionId: `sub_synthetic000003${String(i).padStart(2, '0')}`, plan: null, offer: null, stripePriceId: 'price_synthetic0098', lastEventCreated: 2145930000 + i, lastSubscriptionEventCreated: 2145930000 + i } as never, overrideAccess: true, context: { ...INTERNAL_CONTEXT } });
     }
+    const configured = await payload.create({ collection: 'subscriptions', data: { ...base, stripeSubscriptionId: 'sub_synthetic00000300', plan: growthPlan.id, offer: 'growth_monthly', stripePriceId: 'price_synthetic0001', lastEventCreated: 2145930000, lastSubscriptionEventCreated: 2145930000 } as never, overrideAccess: true, context: { ...INTERNAL_CONTEXT } });
     const token = await login('heavy@example.test', PASSWORD);
     expect((await call('/cms/api/account/me', { token })).data.entitlement).toEqual({ active: true, offer: 'growth_monthly' });
     const minted = await call('/cms/api/account/api-keys', { method: 'POST', token, body: { label: 'found behind the crowd' } });
