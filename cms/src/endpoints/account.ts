@@ -32,13 +32,19 @@ const MAX_GRANT_ATTEMPTS = 5;
  * Re-reads a candidate granting subscription under a row lock keyed the same way the webhook
  * path locks it (`stripe_subscription_id`), so the two paths serialize against each other: a
  * webhook that cancels the subscription or clears its plan either committed before this lock is
- * taken (and is then visible here) or blocks until this transaction commits. Returns the current
- * subscription, plan, and policy, or null when the candidate no longer qualifies to grant a key.
+ * taken (and is then visible here) or blocks until this transaction commits. Also re-checks that
+ * the subscription still belongs to the requesting user: an admin reassigning it away between the
+ * unlocked read and this lock must not let the requester mint a key bound to someone else's
+ * subscription, nor can its billing mode have drifted from the one being granted in. Returns the
+ * current subscription, plan, and policy, or null when the candidate no longer qualifies to grant
+ * a key.
  */
-async function lockAndRevalidateGrant(payload: Payload, tx: PayloadRequest, candidate: { subscription: Doc }): Promise<{ subscription: Doc; plan: Doc; policy: GatewayPolicy } | null> {
+async function lockAndRevalidateGrant(payload: Payload, tx: PayloadRequest, userId: string | number, livemode: boolean, candidate: { subscription: Doc }): Promise<{ subscription: Doc; plan: Doc; policy: GatewayPolicy } | null> {
   await lockRow(payload, tx, 'subscriptions', 'stripe_subscription_id', String(candidate.subscription.stripeSubscriptionId));
   const subscription = (await payload.findByID({ collection: 'subscriptions', id: candidate.subscription.id, depth: 0, overrideAccess: true, disableErrors: true, req: tx })) as unknown as Doc | null;
   if (!subscription || !(ACTIVE_STATUSES as readonly string[]).includes(String(subscription.status))) return null;
+  if (String(relationId(subscription.user)) !== String(userId)) return null;
+  if (subscription.livemode !== livemode) return null;
   const planId = relationId(subscription.plan);
   if (planId === null) return null;
   const plan = (await payload.findByID({ collection: 'plans', id: planId, depth: 0, overrideAccess: true, disableErrors: true, req: tx })) as unknown as Doc | null;
@@ -250,7 +256,8 @@ export const accountEndpoints: Endpoint[] = [
       // user's row locked, so concurrent requests cannot exceed the per-user limit.
       const record = await inTransaction(req.payload, undefined, async (tx) => {
         await lockRow(req.payload, tx, 'users', 'id', user.id);
-        const { newest, granting } = await entitlingSubscriptions(req.payload, user.id, grantLivemode(env.stripeMode), tx);
+        const livemode = grantLivemode(env.stripeMode);
+        const { newest, granting } = await entitlingSubscriptions(req.payload, user.id, livemode, tx);
         if (!newest) throw new EndpointError('no_entitlement');
         // Keys whose expiry has passed are expired, not active: the transition is persisted here, under the user's lock,
         // so an admin-set expiry that lapsed never counts against the limit or blocks a usable replacement.
@@ -267,11 +274,11 @@ export const accountEndpoints: Endpoint[] = [
         // its own row immediately before use, so such a webhook is either already visible here or blocks until this
         // transaction is done; a candidate that no longer qualifies is replaced by searching again, bounded so a
         // subscription that keeps changing cannot spin this forever.
-        let confirmed = granting ? await lockAndRevalidateGrant(req.payload, tx, granting) : null;
+        let confirmed = granting ? await lockAndRevalidateGrant(req.payload, tx, user.id, livemode, granting) : null;
         for (let attempt = 1; !confirmed && attempt < MAX_GRANT_ATTEMPTS; attempt += 1) {
-          const retry = (await entitlingSubscriptions(req.payload, user.id, grantLivemode(env.stripeMode), tx)).granting;
+          const retry = (await entitlingSubscriptions(req.payload, user.id, livemode, tx)).granting;
           if (!retry) break;
-          confirmed = await lockAndRevalidateGrant(req.payload, tx, retry);
+          confirmed = await lockAndRevalidateGrant(req.payload, tx, user.id, livemode, retry);
         }
         if (!confirmed) throw new EndpointError('plan_unconfigured');
         const { subscription: grantor, policy } = confirmed;
