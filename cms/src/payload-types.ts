@@ -138,9 +138,13 @@ export interface User {
    */
   name?: string | null;
   /**
-   * admin: full control · staff: read-only admin access · member: account page · service: API-key-only automation (payments store, gateway key sync).
+   * admin: full control · staff: read-only admin access · member: account page · service: API-key-only automation limited to one scope (see Service scope).
    */
   role: 'admin' | 'staff' | 'member' | 'service';
+  /**
+   * Required for service accounts; each automation gets its own account and key. payments_store: webhook ledger and entitlement records for the payments service. gateway_sync: key-record export for the gateway. A scope grants nothing else.
+   */
+  serviceScope?: ('payments_store' | 'gateway_sync') | null;
   /**
    * Pseudonymous Stripe customer id, linked by checkout or webhook. No card or address data is ever stored here.
    */
@@ -341,6 +345,10 @@ export interface ApiKey {
    */
   verifier: string;
   user: number | User;
+  /**
+   * Subscription that granted this key. The gateway export follows it: the key is exported revoked while that subscription is not active, and its permissions and quota follow the plan currently attached to it.
+   */
+  subscription?: (number | null) | Subscription;
   label?: string | null;
   state: 'active' | 'revoked' | 'expired';
   /**
@@ -453,6 +461,7 @@ export interface PayloadMigration {
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
   role?: T;
+  serviceScope?: T;
   stripeCustomerId?: T;
   notes?: T;
   updatedAt?: T;
@@ -569,6 +578,7 @@ export interface ApiKeysSelect<T extends boolean = true> {
   keyId?: T;
   verifier?: T;
   user?: T;
+  subscription?: T;
   label?: T;
   state?: T;
   livemode?: T;

@@ -3,15 +3,27 @@
 // createMemoryStore is single-process and bounded; it is enough for local
 // testing and a single Railway replica. Production with more than one replica,
 // or any requirement to survive restarts, needs a durable implementation with
-// the same four methods: claimEvent must be an atomic first-writer-wins insert,
-// and putEntitlement must refuse, with a conflict error (`code` STORE_CONFLICT),
-// a record that would move any event family's `<family>_event_epoch` backwards
-// relative to what is stored, atomically with the write. events.mjs re-reads and
-// re-applies on conflict, so two replicas can never resurrect older state.
+// the same five methods:
+//
+// - claimEvent(id) is an atomic first-writer-wins insert that answers 'claimed',
+//   'duplicate' (a claim that was completed), or 'in_progress' (a claim that was
+//   never completed and is younger than CLAIM_GRACE_SECONDS). An incomplete claim
+//   older than the grace period belongs to a worker that died mid-way and is
+//   taken over ('claimed' again), so a failed delivery whose cleanup also failed
+//   stays retryable instead of being acknowledged forever as a duplicate.
+// - completeEvent(id) marks a claim done after the event was applied.
+// - releaseEvent(id) drops a claim after a failed apply (best effort).
+// - putEntitlement must refuse, with a conflict error (`code` STORE_CONFLICT), a
+//   record that would move any event family's `<family>_event_epoch` backwards
+//   relative to what is stored, atomically with the write. events.mjs re-reads
+//   and re-applies on conflict, so two replicas can never resurrect older state.
 
 import { plain } from './validation.mjs';
 
-export const STORE_METHODS = Object.freeze(['claimEvent', 'releaseEvent', 'getEntitlement', 'putEntitlement']);
+export const STORE_METHODS = Object.freeze(['claimEvent', 'completeEvent', 'releaseEvent', 'getEntitlement', 'putEntitlement']);
+export const CLAIM_RESULTS = Object.freeze(['claimed', 'duplicate', 'in_progress']);
+/** How long an incomplete claim is trusted to be in progress before another delivery may take it over. */
+export const CLAIM_GRACE_SECONDS = 120;
 export const EVENT_FAMILIES = Object.freeze(['checkout', 'subscription', 'invoice']);
 export const STORE_CONFLICT = 'store_conflict';
 
@@ -46,20 +58,28 @@ export function validateStore(store) {
   return store !== null && typeof store === 'object' && STORE_METHODS.every((name) => typeof store[name] === 'function');
 }
 
-export function createMemoryStore({ maxEvents = 10000, maxEntitlements = 10000 } = {}) {
+export function createMemoryStore({ maxEvents = 10000, maxEntitlements = 10000, now = () => Date.now(), claimGraceSeconds = CLAIM_GRACE_SECONDS } = {}) {
   if (!Number.isInteger(maxEvents) || maxEvents < 1 || maxEvents > 1000000 || !Number.isInteger(maxEntitlements) || maxEntitlements < 1 || maxEntitlements > 1000000) throw new Error('invalid store configuration');
-  const events = new Set();
+  if (typeof now !== 'function' || !Number.isInteger(claimGraceSeconds) || claimGraceSeconds < 1 || claimGraceSeconds > 86400) throw new Error('invalid store configuration');
+  const events = new Map(); // id -> { claimedAt, completed }
   const entitlements = new Map();
   const evict = (collection, max) => { while (collection.size > max) collection.delete(collection.keys().next().value); };
   return Object.freeze({
     kind: 'memory',
     async claimEvent(id) {
       if (typeof id !== 'string' || id.length === 0 || id.length > 128) throw new TypeError('event id required');
-      if (events.has(id)) return false;
-      events.add(id);
+      const at = now();
+      const existing = events.get(id);
+      if (existing) {
+        if (existing.completed) return 'duplicate';
+        if (at - existing.claimedAt < claimGraceSeconds * 1000) return 'in_progress';
+        events.delete(id); // abandoned by a worker that never completed: take it over
+      }
+      events.set(id, { claimedAt: at, completed: false });
       evict(events, maxEvents);
-      return true;
+      return 'claimed';
     },
+    async completeEvent(id) { const existing = events.get(id); if (existing) existing.completed = true; },
     async releaseEvent(id) { events.delete(id); },
     async getEntitlement(key) { return entitlements.get(key) ?? null; },
     async putEntitlement(record) {

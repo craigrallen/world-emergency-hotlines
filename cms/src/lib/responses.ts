@@ -16,6 +16,7 @@ export const ERRORS = Object.freeze({
   keys_unavailable: [503, 'API key issuance is not enabled'],
   key_limit: [409, 'Revoke an existing key before creating another'],
   signature_invalid: [400, 'Stripe signature could not be verified'],
+  event_in_progress: [409, 'This event is still being processed; retry later'],
   handler_failed: [500, 'Event could not be applied; the delivery should be retried'],
   upstream_error: [502, 'Payment provider request failed'],
   unavailable: [503, 'Service unavailable'],

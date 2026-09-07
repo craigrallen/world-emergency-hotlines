@@ -1,5 +1,5 @@
 import type { Payload, PayloadRequest } from 'payload';
-import { commitTransaction, createLocalReq, initTransaction, killTransaction } from 'payload';
+import { commitTransaction, createLocalReq, initTransaction, killTransaction, ValidationError } from 'payload';
 import { sql } from '@payloadcms/db-postgres';
 import { INTERNAL_CONTEXT } from '../access';
 import { ACTIVE_STATUSES, SUBSCRIPTION_STATUSES } from '../collections/Subscriptions';
@@ -35,6 +35,14 @@ export interface ApplyOptions {
   eventCreated: number; // unix seconds of the Stripe event (or store record)
   eventId: string | null;
   source: 'cms' | 'payments';
+  /**
+   * Same-second tie resolver. Whole-second `created` values cannot order two events
+   * from the same second, so when the family's watermark equals `eventCreated` the
+   * payload is not trusted: this returns the patch to apply instead (Stripe's current
+   * object for webhooks; the already-merged store record for the payments mirror).
+   * Without it, or when it returns null, the tied event is treated as stale.
+   */
+  reconcile?: () => Promise<SubscriptionPatch | null>;
 }
 
 interface DrizzleSession { db: { execute(query: unknown): Promise<unknown> } }
@@ -112,14 +120,24 @@ async function subscriptionExists(payload: Payload, id: string): Promise<boolean
  * a newer one even when two webhook deliveries race. Returns the stored
  * document, or null when the event was stale.
  */
-export async function applySubscriptionPatch(payload: Payload, patch: SubscriptionPatch, options: ApplyOptions, req?: PayloadRequest, attempt = 0): Promise<Doc | null> {
+export async function applySubscriptionPatch(payload: Payload, incoming: SubscriptionPatch, options: ApplyOptions, req?: PayloadRequest, attempt = 0): Promise<Doc | null> {
   try {
     return await inTransaction(payload, req, async (tx) => {
-      await lockRow(payload, tx, 'subscriptions', 'stripe_subscription_id', patch.stripeSubscriptionId);
-      const existingResult = await payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: patch.stripeSubscriptionId } }, limit: 1, depth: 0, overrideAccess: true, req: tx });
+      await lockRow(payload, tx, 'subscriptions', 'stripe_subscription_id', incoming.stripeSubscriptionId);
+      const existingResult = await payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: incoming.stripeSubscriptionId } }, limit: 1, depth: 0, overrideAccess: true, req: tx });
       const existing = (existingResult.docs[0] as unknown as Doc | undefined) ?? null;
       const watermark = FAMILY_WATERMARK[options.family];
-      if (existing && typeof existing[watermark] === 'number' && (existing[watermark] as number) > options.eventCreated) return null;
+      const mark = existing?.[watermark];
+      let applied = incoming;
+      if (typeof mark === 'number') {
+        if (mark > options.eventCreated) return null;
+        if (mark === options.eventCreated) {
+          const current = options.reconcile ? await options.reconcile() : null;
+          if (!current) return null;
+          applied = current;
+        }
+      }
+      const patch = applied;
 
       const customer = patch.stripeCustomerId ?? (existing?.stripeCustomerId as string | undefined) ?? null;
       const plan = (await findPlan(payload, tx, patch.offer ?? (existing?.offer as string | undefined), patch.stripePriceId)) ?? null;
@@ -151,12 +169,13 @@ export async function applySubscriptionPatch(payload: Payload, patch: Subscripti
     });
   } catch (error) {
     // Two first events for the same subscription can race to create it; the unique
-    // index rejects the loser and aborts its transaction. With the row now present, a
-    // fresh transaction takes the row lock and applies the patch as an update. A
-    // caller-owned transaction cannot be retried here, so the error propagates and
-    // the caller's retry (Stripe, or the payments service) replays the event.
-    if (attempt === 0 && !req?.transactionID && (await subscriptionExists(payload, patch.stripeSubscriptionId))) {
-      return applySubscriptionPatch(payload, patch, options, req, attempt + 1);
+    // index rejects the loser (a ValidationError) and aborts its transaction. With the
+    // row now present, a fresh transaction takes the row lock and applies the patch as
+    // an update. Any other failure (a reconciliation fetch, for example) and a
+    // caller-owned transaction are not retried here: the error propagates and the
+    // caller's retry (Stripe, or the payments service) replays the event.
+    if (attempt === 0 && !req?.transactionID && error instanceof ValidationError && (await subscriptionExists(payload, incoming.stripeSubscriptionId))) {
+      return applySubscriptionPatch(payload, incoming, options, req, attempt + 1);
     }
     throw error;
   }
@@ -179,21 +198,24 @@ export async function syncSubscriptionFromEntitlement(payload: Payload, doc: Rec
   const meta = { eventId: typeof doc.sourceEvent === 'string' ? doc.sourceEvent : null, source: 'payments' as const };
   const invoiceStatus = record.last_invoice_status === 'paid' || record.last_invoice_status === 'payment_failed' ? record.last_invoice_status : undefined;
 
+  // The store record is already a merged, ordered view (the payments service reconciles
+  // its own ties against Stripe), so a same-epoch tie applies it rather than refusing it.
+  const apply = (patch: SubscriptionPatch, family: EventFamily) => applySubscriptionPatch(payload, patch, { ...meta, family, eventCreated: epochOf(family), reconcile: async () => patch }, req);
   let result: Doc | null = null;
-  const applied = await applySubscriptionPatch(payload, {
+  const applied = await apply({
     ...base, offer: typeof doc.offer === 'string' ? doc.offer : null,
     checkoutSessionId: typeof record.checkout_session === 'string' ? record.checkout_session : undefined,
-  }, { ...meta, family: 'checkout', eventCreated: epochOf('checkout') }, req);
+  }, 'checkout');
   result = applied ?? result;
   if (typeof doc.status === 'string' && doc.status !== 'pending_subscription_event') {
-    const applied2 = await applySubscriptionPatch(payload, {
+    const applied2 = await apply({
       ...base, status: doc.status, cancelAtPeriodEnd: record.cancel_at_period_end === true,
       currentPeriodEnd: Number.isInteger(record.current_period_end) ? (record.current_period_end as number) : undefined,
-    }, { ...meta, family: 'subscription', eventCreated: epochOf('subscription') }, req);
+    }, 'subscription');
     result = applied2 ?? result;
   }
   if (typeof record.last_invoice === 'string') {
-    const applied3 = await applySubscriptionPatch(payload, { ...base, lastInvoiceId: record.last_invoice, lastInvoiceStatus: invoiceStatus }, { ...meta, family: 'invoice', eventCreated: epochOf('invoice') }, req);
+    const applied3 = await apply({ ...base, lastInvoiceId: record.last_invoice, lastInvoiceStatus: invoiceStatus }, 'invoice');
     result = applied3 ?? result;
   }
   return result;

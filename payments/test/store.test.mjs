@@ -1,18 +1,29 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { STORE_METHODS, createMemoryStore, validateStore } from '../src/store.mjs';
+import { CLAIM_GRACE_SECONDS, CLAIM_RESULTS, STORE_METHODS, createMemoryStore, validateStore } from '../src/store.mjs';
 
-test('memory store claims events once, releases on failure, and stays bounded', async () => {
-  const store = createMemoryStore({ maxEvents: 2 });
-  assert.equal(await store.claimEvent('evt_a'), true);
-  assert.equal(await store.claimEvent('evt_a'), false);
+test('memory store claims events once, distinguishes in-progress from completed claims, takes over abandoned ones, and stays bounded', async () => {
+  let clock = 1_700_000_000_000;
+  const store = createMemoryStore({ maxEvents: 2, now: () => clock });
+  assert.equal(await store.claimEvent('evt_a'), 'claimed');
+  assert.equal(await store.claimEvent('evt_a'), 'in_progress', 'a fresh incomplete claim belongs to a worker that is still applying it');
+  await store.completeEvent('evt_a');
+  assert.equal(await store.claimEvent('evt_a'), 'duplicate');
+  clock += CLAIM_GRACE_SECONDS * 1000 + 1;
+  assert.equal(await store.claimEvent('evt_a'), 'duplicate', 'completed claims never expire');
   await store.releaseEvent('evt_a');
-  assert.equal(await store.claimEvent('evt_a'), true);
-  assert.equal(await store.claimEvent('evt_b'), true);
-  assert.equal(await store.claimEvent('evt_c'), true);
-  assert.equal(await store.claimEvent('evt_a'), true, 'oldest entry evicted once the bound is exceeded');
+  assert.equal(await store.claimEvent('evt_a'), 'claimed');
+  // A claim that was never completed or released (its worker died) is taken over once the grace period passed.
+  clock += CLAIM_GRACE_SECONDS * 1000 + 1;
+  assert.equal(await store.claimEvent('evt_a'), 'claimed');
+  assert.equal(await store.claimEvent('evt_b'), 'claimed');
+  assert.equal(await store.claimEvent('evt_c'), 'claimed');
+  assert.equal(await store.claimEvent('evt_a'), 'claimed', 'oldest entry evicted once the bound is exceeded');
   await assert.rejects(store.claimEvent(''), TypeError);
   assert.deepEqual(store.size, { events: 2, entitlements: 0 });
+  assert.deepEqual(CLAIM_RESULTS, ['claimed', 'duplicate', 'in_progress']);
+  assert.throws(() => createMemoryStore({ now: 'nope' }));
+  assert.throws(() => createMemoryStore({ claimGraceSeconds: 0 }));
 });
 
 test('entitlements are frozen, keyed, replaced in place, and bounded', async () => {
@@ -34,6 +45,7 @@ test('store contract validation', () => {
   assert.equal(validateStore(createMemoryStore()), true);
   assert.equal(validateStore({}), false);
   assert.equal(validateStore(null), false);
-  assert.deepEqual(STORE_METHODS, ['claimEvent', 'releaseEvent', 'getEntitlement', 'putEntitlement']);
+  assert.deepEqual(STORE_METHODS, ['claimEvent', 'completeEvent', 'releaseEvent', 'getEntitlement', 'putEntitlement']);
+  assert.equal(validateStore({ claimEvent() {}, releaseEvent() {}, getEntitlement() {}, putEntitlement() {} }), false, 'completeEvent is part of the contract');
   assert.throws(() => createMemoryStore({ maxEvents: 0 }));
 });

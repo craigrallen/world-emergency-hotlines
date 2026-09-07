@@ -1,6 +1,6 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';import {cpSync,mkdtempSync,mkdirSync,writeFileSync,readFileSync,renameSync,rmSync,symlinkSync,unlinkSync,realpathSync} from 'node:fs';import {tmpdir} from 'node:os';import {resolve} from 'node:path';import net from 'node:net';import {spawnSync} from 'node:child_process';
-import {createGateway,EVENT_KEYS,ifNoneMatchMatches} from '../src/gateway.mjs';import {authenticate,createKey,verifier,redact} from '../src/security.mjs';import {MemoryTokenBuckets} from '../src/quota.mjs';import {descriptorFromRelease,descriptorFromReleaseBytes} from '../src/artifacts.mjs';
+import {createGateway,EVENT_KEYS,ifNoneMatchMatches} from '../src/gateway.mjs';import {createKeyReloader,reloadSecondsFrom} from '../src/reload.mjs';import {authenticate,createKey,verifier,redact} from '../src/security.mjs';import {MemoryTokenBuckets} from '../src/quota.mjs';import {descriptorFromRelease,descriptorFromReleaseBytes} from '../src/artifacts.mjs';
 import {verifyGatewayContractDrift} from '../../web/scripts/generate-gateway-contracts.mjs';
 const pepper='synthetic-test-pepper-with-32-chars',hash=`sha256:${'a'.repeat(64)}`;
 const sha=(bytes)=>`sha256:${createHash('sha256').update(bytes).digest('hex')}`;
@@ -160,3 +160,43 @@ test('invalid startup clocks and CLI configuration fail generically',()=>{const 
 test('root replacement and symlinked ancestors fail closed',async()=>{const g=await start();try{const moved=`${g.files.root}-moved`;renameSync(g.files.root,moved);mkdirSync(g.files.root,{recursive:true});assert.equal((await fetch(`${g.base}/managed/v1/manifest`,{headers:auth(g.key.raw)})).status,503);}finally{await g.gateway.close();}const c=config(),parent=resolve(c.files.root,'..'),link=resolve(parent,`weh-parent-link-${Date.now()}`);symlinkSync(parent,link);assert.throws(()=>createGateway({...c.value,artifactRoot:resolve(link,c.files.root.split('/').at(-1))}),/unsafe/i);});
 
 test('429 and 503 quota errors expose only finite integer headers with allowed CORS',async()=>{const origin='https://synthetic.invalid',c=config(),limited={...c.value.keys[0],quota:{rate:0.5,burst:1}},g=await start({keys:[limited]});try{await fetch(`${g.base}/managed/v1/manifest`,{headers:{...auth(c.key.raw),origin}});const r=await fetch(`${g.base}/managed/v1/manifest`,{headers:{...auth(c.key.raw),origin}});assert.equal(r.status,429);assert.equal(r.headers.get('access-control-allow-origin'),origin);for(const name of ['ratelimit-limit','ratelimit-remaining','ratelimit-reset','retry-after'])assert.match(r.headers.get(name),/^\d+$/);}finally{await g.gateway.close();}const bad=await start({quotaStore:{take:()=>({ok:true,limit:Infinity,remaining:0,reset:0})}});try{const r=await fetch(`${bad.base}/managed/v1/manifest`,{headers:{...auth(bad.key.raw),origin}});assert.equal(r.status,503);assert.equal(r.headers.get('access-control-allow-origin'),origin);for(const name of ['ratelimit-limit','ratelimit-remaining','ratelimit-reset'])assert.equal(r.headers.get(name),null);}finally{await bad.gateway.close();}});
+test('key records reload from GATEWAY_CONFIG without a restart; unreadable or invalid files keep the last good set',async()=>{
+  const g=await start();
+  const dir=mkdtempSync(resolve(tmpdir(),'weh-gateway-reload-')),configPath=resolve(dir,'gateway.json');
+  const write=(keys)=>{const temp=`${configPath}.tmp`;writeFileSync(temp,JSON.stringify({...g.value,keys}));renameSync(temp,configPath);};
+  try{
+    write(g.value.keys);
+    const logs=[];const reloader=createKeyReloader({gateway:g.gateway,configPath,intervalMs:0,log:(e)=>logs.push(e)});
+    assert.equal(reloader.check(),'unchanged');
+    const replacement=createKey();
+    write([record(replacement.raw,replacement.id),{...record(g.key.raw,g.key.id),state:'revoked'}]);
+    assert.equal(reloader.check(),'reloaded');
+    assert.equal(g.gateway.keyCount,2);
+    assert.equal((await fetch(`${g.base}/managed/v1/manifest`,{headers:auth(g.key.raw)})).status,401,'a key revoked by sync-keys stops authenticating without a restart');
+    assert.equal((await fetch(`${g.base}/managed/v1/manifest`,{headers:auth(replacement.raw)})).status,200);
+    writeFileSync(configPath,'{not json');
+    assert.equal(reloader.check(),'failed');
+    assert.equal((await fetch(`${g.base}/managed/v1/manifest`,{headers:auth(replacement.raw)})).status,200,'an unreadable file keeps the last good keys');
+    write([{...record(replacement.raw,replacement.id),state:'disabled'}]);
+    assert.equal(reloader.check(),'failed');
+    assert.equal(reloader.check(),'unchanged');
+    assert.equal(reloader.check(true),'failed','forced (SIGHUP) re-reads even without a file change');
+    write([]);
+    assert.equal(reloader.check(),'reloaded');
+    assert.equal((await fetch(`${g.base}/managed/v1/manifest`,{headers:auth(replacement.raw)})).status,401,'an empty snapshot fails closed');
+    assert.deepEqual(logs.map((e)=>e.event),['gateway_keys_reloaded','gateway_keys_reload_failed','gateway_keys_reload_failed','gateway_keys_reload_failed','gateway_keys_reloaded']);
+    assert.equal(JSON.stringify(logs).includes(replacement.id),false);
+    assert.throws(()=>g.gateway.reloadKeys('nope'),/invalid key records/);
+    // A polling reloader picks the change up on its own.
+    const timed=createKeyReloader({gateway:g.gateway,configPath,intervalMs:20});timed.start();assert.equal(timed.polling,true);
+    try{
+      write([record(replacement.raw,replacement.id)]);
+      for(let i=0;i<100&&(await fetch(`${g.base}/managed/v1/manifest`,{headers:auth(replacement.raw)})).status!==200;i++)await new Promise((ok)=>setTimeout(ok,20));
+      assert.equal((await fetch(`${g.base}/managed/v1/manifest`,{headers:auth(replacement.raw)})).status,200);
+    }finally{timed.stop();}
+    assert.equal(timed.polling,false);
+    assert.equal(reloadSecondsFrom(undefined),30);assert.equal(reloadSecondsFrom(''),30);assert.equal(reloadSecondsFrom('0'),0);assert.equal(reloadSecondsFrom('600'),600);
+    for(const bad of ['-1','abc','3601','1.5'])assert.throws(()=>reloadSecondsFrom(bad),/GATEWAY_KEYS_RELOAD_SECONDS/);
+    assert.throws(()=>createKeyReloader({gateway:{},configPath}),/gateway/);assert.throws(()=>createKeyReloader({gateway:g.gateway,configPath:''}),/config path/);assert.throws(()=>createKeyReloader({gateway:g.gateway,configPath,intervalMs:-1}),/interval/);
+  }finally{await g.gateway.close();rmSync(dir,{recursive:true,force:true});}
+});

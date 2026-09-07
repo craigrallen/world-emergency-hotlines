@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload';
 import { APIError } from 'payload';
-import { isAdmin, isAdminOrService, isStaffOrService } from '../access';
+import { isAdmin, isAdminOrPaymentsStore, isStaffOrPaymentsStore } from '../access';
 import { EVENT_FAMILIES, lockRow, syncSubscriptionFromEntitlement, type EventFamily } from '../lib/subscriptions';
 
 export const STALE_RECORD = 'stale_record';
@@ -38,7 +38,7 @@ export const Entitlements: CollectionConfig = {
     group: 'Billing',
     description: 'Payments-service store records (Stripe ids and enum statuses only). Subscription-kind records are mirrored into Subscriptions automatically.',
   },
-  access: { read: isStaffOrService, create: isAdminOrService, update: isAdminOrService, delete: isAdmin },
+  access: { read: isStaffOrPaymentsStore, create: isAdminOrPaymentsStore, update: isAdminOrPaymentsStore, delete: isAdmin },
   fields: [
     { name: 'key', type: 'text', required: true, unique: true, index: true, validate: (value: unknown) => (typeof value === 'string' && /^(cs|sub):[a-z]{2,10}_(?:(?:test|live)_)?[A-Za-z0-9]{8,}$/.test(value) ? true : 'must be cs:<checkout session id> or sub:<subscription id>') },
     { name: 'kind', type: 'select', required: true, defaultValue: 'unknown', options: [{ label: 'checkout_session', value: 'checkout_session' }, { label: 'subscription', value: 'subscription' }, { label: 'unknown', value: 'unknown' }] },

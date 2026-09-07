@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload';
-import { isAdmin, isStaffOrService } from '../access';
+import { isAdmin, isStaff } from '../access';
 
 export const OFFER_ID = /^[a-z][a-z0-9_]{1,31}$/;
 export const PRICE_ID = /^price_[A-Za-z0-9]{8,}$/;
@@ -14,7 +14,7 @@ export const Plans: CollectionConfig = {
     group: 'Billing',
     description: 'Offer ids mapped to Stripe prices that live only here and in the Stripe Dashboard; prices are never published on the site. The account page sells active subscription-mode plans only: one-time payment plans grant no entitlement and are refused at checkout.',
   },
-  access: { read: isStaffOrService, create: isAdmin, update: isAdmin, delete: isAdmin },
+  access: { read: isStaff, create: isAdmin, update: isAdmin, delete: isAdmin },
   fields: [
     { name: 'offerId', type: 'text', required: true, unique: true, index: true, admin: { description: 'Stable public id, e.g. growth_monthly. Must match payments/contracts/v1/offers.json when the same offer is sold through /billing.' }, validate: (value: unknown) => (typeof value === 'string' && OFFER_ID.test(value) ? true : 'must be 2 to 32 lowercase letters, digits, or underscores starting with a letter') },
     { name: 'label', type: 'text', required: true, maxLength: 80 },

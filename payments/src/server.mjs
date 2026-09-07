@@ -22,13 +22,14 @@ export const ERRORS = Object.freeze({
   invalid_request: [400, 'Request could not be processed'], unknown_offer: [400, 'Unknown offer'], signature_invalid: [400, 'Webhook signature could not be verified'],
   livemode_mismatch: [400, 'Event mode does not match this deployment'], origin_not_allowed: [403, 'Cross-origin requests are not accepted'],
   not_found: [404, 'Not found'], portal_unavailable: [404, 'No manageable subscription for this session'], method_not_allowed: [405, 'Method not allowed'],
+  event_in_progress: [409, 'Event is still being processed; retry later'],
   payload_too_large: [413, 'Request body too large'], unsupported_media_type: [415, 'Unsupported content type'], rate_limited: [429, 'Too many requests'],
   handler_failed: [500, 'Event could not be recorded'], upstream_error: [502, 'Payment provider request failed'], payments_disabled: [503, 'Payments are not enabled'],
   unavailable: [503, 'Service unavailable'],
 });
 const ROUTE_NAMES = new Map(Object.entries(ROUTES).map(([name, path]) => [path, name]));
 const CONFIG_KEYS = ['version', 'mode', 'host', 'port', 'publicOrigin', 'successPath', 'cancelPath', 'returnPath', 'trustProxy', 'automaticTax', 'stripeTimeoutMs', 'store', 'stripe', 'offers'];
-const STRIPE_METHODS = ['createCheckoutSession', 'retrieveCheckoutSession', 'createBillingPortalSession'];
+const STRIPE_METHODS = ['createCheckoutSession', 'retrieveCheckoutSession', 'createBillingPortalSession', 'retrieveSubscription', 'retrieveInvoice'];
 
 class RequestError extends Error {
   constructor(code, extra = {}) { super(code); this.code = code; this.extra = extra; }
@@ -191,14 +192,22 @@ export function createPaymentsServer(config, { stripe, store, sink, sinkError, n
     }
     telemetry.event_type = event.type;
     if (event.livemode !== (config.mode === 'live')) throw new RequestError('livemode_mismatch');
-    let claimed;
-    try { claimed = await eventStore.claimEvent(event.id); } catch { throw new RequestError('unavailable'); }
-    if (!claimed) { telemetry.outcome = 'duplicate'; send(res, 200, { received: true, duplicate: true }, id); return 200; }
+    let claim;
+    try { claim = await eventStore.claimEvent(event.id); } catch { throw new RequestError('unavailable'); }
+    if (claim === 'duplicate') { telemetry.outcome = 'duplicate'; send(res, 200, { received: true, duplicate: true }, id); return 200; }
+    // Another delivery holds an incomplete claim: a non-2xx keeps Stripe retrying until it completes or can be taken over.
+    if (claim === 'in_progress') throw new RequestError('event_in_progress');
+    if (claim !== 'claimed') throw new RequestError('unavailable');
+    // Same-second events cannot be ordered by `created`; the dispatcher then asks Stripe
+    // for the object's current state instead of trusting delivery order (see events.mjs).
+    const fetchObject = (kind, objectId) => (kind === 'subscription' ? stripeClient.retrieveSubscription(objectId) : kind === 'invoice' ? stripeClient.retrieveInvoice(objectId) : stripeClient.retrieveCheckoutSession(objectId));
     let summary;
-    try { summary = await dispatchEvent(event, { store: eventStore, offers: config.offers }); } catch {
+    try { summary = await dispatchEvent(event, { store: eventStore, offers: config.offers, fetchObject }); } catch {
       try { await eventStore.releaseEvent(event.id); } catch {}
       throw new RequestError('handler_failed');
     }
+    // Mark the claim complete; if this fails the incomplete claim expires and a later retry re-applies the event idempotently.
+    try { await eventStore.completeEvent(event.id); } catch {}
     telemetry.outcome = summary.outcome;
     telemetry.offer = summary.offer ?? null;
     send(res, 200, { received: true, outcome: summary.outcome }, id);

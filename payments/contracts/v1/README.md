@@ -7,7 +7,7 @@ This directory documents the Stripe integration surface that the `payments/` ser
 - **Hosted Stripe Checkout, redirect flow.** The browser posts an offer id to `/billing/api/checkout-session`; the server creates a Checkout Session and answers `303 Location: https://checkout.stripe.com/...`. No Stripe.js, iframe, or card field runs on this origin, so the site's CSP only needs `form-action` to allow `checkout.stripe.com` and `billing.stripe.com`, and `Permissions-Policy: payment=()` can stay.
 - **Offer ids, never price ids, cross the wire.** `offers.json` is the public list of offer ids; the private `PAYMENTS_OFFERS` variable maps each id to a Stripe price. Requests naming an unmapped offer are rejected.
 - **Same-origin only.** Browser-originated POSTs must carry an `Origin` equal to `PAYMENTS_PUBLIC_ORIGIN` (and `Sec-Fetch-Site: same-origin` when present).
-- **Webhook verification.** `/billing/api/webhook` verifies `Stripe-Signature` (HMAC-SHA256 over `timestamp.body`, 300-second tolerance, constant-time compare), rejects events whose `livemode` disagrees with the deployment mode, deduplicates by event id, and records only pseudonymous identifiers plus closed enum statuses.
+- **Webhook verification.** `/billing/api/webhook` verifies `Stripe-Signature` (HMAC-SHA256 over `timestamp.body`, 300-second tolerance, constant-time compare), rejects events whose `livemode` disagrees with the deployment mode, deduplicates by event id (a claim counts as a duplicate only once the event was applied; an incomplete claim is retried, and one abandoned by a dead worker is taken over after 120 seconds), and records only pseudonymous identifiers plus closed enum statuses. Ordering is per event family by `created`; two events from the same second are not ordered by the payload but reconciled by retrieving the object's current state from Stripe (a retrieval failure fails the delivery so Stripe retries it).
 - **Customer Portal.** `/billing/api/portal-session` exchanges a completed subscription Checkout Session id for a Customer Portal URL so subscribers can cancel or update payment details without an account system.
 - **Fail closed.** Unknown `PAYMENTS_*`/`STRIPE_*` variables, key/mode mismatches, malformed offers, or a missing webhook secret stop startup. Secret values never appear in logs or error messages.
 
@@ -18,7 +18,7 @@ This directory documents the Stripe integration surface that the `payments/` ser
 | `/billing/api/health` | GET, HEAD | 200 `status:"disabled"` | 200 `status:"enabled"` |
 | `/billing/api/checkout-session` | POST | 503 `payments_disabled` | 303 to Checkout, or 200 JSON `{url,id}` for `Accept: application/json` |
 | `/billing/api/portal-session` | POST | 503 `payments_disabled` | 303 to the Customer Portal, or 200 JSON `{url}` |
-| `/billing/api/webhook` | POST | 503 `payments_disabled` | 200 `{received:true}`; 400 on bad signature or livemode mismatch |
+| `/billing/api/webhook` | POST | 503 `payments_disabled` | 200 `{received:true}`; 400 on bad signature or livemode mismatch; 409 `event_in_progress` while an earlier delivery of the event is still being applied; 500 when it could not be applied (both make Stripe retry) |
 
 Every other path is 404; query-bearing paths are 404; wrong methods are 405 with `Allow`. `openapi.json` is the machine-readable contract.
 

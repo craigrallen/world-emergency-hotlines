@@ -13,7 +13,7 @@ export const Subscriptions: CollectionConfig = {
     group: 'Billing',
     description: 'Mirror of Stripe subscriptions, written only by verified webhooks (CMS) or the payments service store. Holds pseudonymous ids and enum statuses; no amounts, names, addresses, or card data.',
   },
-  access: { read: ownerOrStaff('user', true), create: isAdmin, update: isAdmin, delete: isAdmin },
+  access: { read: ownerOrStaff('user'), create: isAdmin, update: isAdmin, delete: isAdmin },
   fields: [
     { name: 'stripeSubscriptionId', type: 'text', required: true, unique: true, index: true, admin: { readOnly: true } },
     { name: 'stripeCustomerId', type: 'text', index: true, admin: { readOnly: true } },

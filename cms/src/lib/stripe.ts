@@ -4,7 +4,7 @@ import { ValidationError } from 'payload';
 import { INTERNAL_CONTEXT } from '../access';
 import { claimKeyFor, type EventSource } from '../collections/StripeEvents';
 import { getEnv } from '../env';
-import { applySubscriptionPatch } from './subscriptions';
+import { applySubscriptionPatch, type SubscriptionPatch } from './subscriptions';
 
 export const CHECKOUT_ORIGIN = 'https://checkout.stripe.com';
 export const PORTAL_ORIGIN = 'https://billing.stripe.com';
@@ -43,19 +43,35 @@ const userOf = (metadata: Stripe.Metadata | null | undefined, reference?: string
   return /^\d{1,15}$/.test(raw) ? Number(raw) : raw;
 };
 
+/** How long an incomplete claim is trusted to be in progress before another delivery may take it over. */
+export const CLAIM_GRACE_SECONDS = 120;
+export type ClaimResult = 'claimed' | 'duplicate' | 'in_progress';
+
 /**
- * First-writer-wins claim on the idempotency ledger; false means this consumer has
- * already seen the event. Claims are per consumer (`claimKey` = source:eventId): the
- * payments service keeps its own, so neither consumer can mark an event done for the other.
+ * First-writer-wins claim on the idempotency ledger. Claims are per consumer
+ * (`claimKey` = source:eventId): the payments service keeps its own, so neither
+ * consumer can mark an event done for the other. A claim is only a duplicate once
+ * it carries an outcome; an incomplete claim younger than the grace period is
+ * reported as in progress (the endpoint answers non-2xx so Stripe retries), and an
+ * older one belongs to a worker that died before cleaning up and is taken over. A
+ * failed delivery whose claim release also failed therefore stays retryable.
  */
-export async function claimEvent(payload: Payload, event: Stripe.Event, source: EventSource = 'cms'): Promise<boolean> {
+export async function claimEvent(payload: Payload, event: Stripe.Event, source: EventSource = 'cms', now = Date.now()): Promise<ClaimResult> {
+  const claimKey = claimKeyFor(source, event.id);
   try {
-    await payload.create({ collection: 'stripe-events', data: { eventId: event.id, type: event.type, livemode: event.livemode, source, claimKey: claimKeyFor(source, event.id) }, depth: 0, overrideAccess: true, context: { ...INTERNAL_CONTEXT } });
-    return true;
+    await payload.create({ collection: 'stripe-events', data: { eventId: event.id, type: event.type, livemode: event.livemode, source, claimKey }, depth: 0, overrideAccess: true, context: { ...INTERNAL_CONTEXT } });
+    return 'claimed';
   } catch (error) {
-    if (error instanceof ValidationError) return false;
-    throw error;
+    if (!(error instanceof ValidationError)) throw error;
   }
+  const existing = (await payload.find({ collection: 'stripe-events', where: { claimKey: { equals: claimKey } }, limit: 1, depth: 0, overrideAccess: true })).docs[0];
+  if (!existing) throw new Error('event claim was refused but is not recorded');
+  if (typeof existing.outcome === 'string' && existing.outcome.length > 0) return 'duplicate';
+  const updatedAt = Date.parse(String(existing.updatedAt));
+  if (Number.isFinite(updatedAt) && now - updatedAt < CLAIM_GRACE_SECONDS * 1000) return 'in_progress';
+  // Take the abandoned claim over; the update refreshes updatedAt so a second taker sees it as in progress.
+  await payload.update({ collection: 'stripe-events', id: existing.id, data: { outcome: null, type: event.type, livemode: event.livemode }, depth: 0, overrideAccess: true, context: { ...INTERNAL_CONTEXT } });
+  return 'claimed';
 }
 
 export async function releaseEvent(payload: Payload, eventId: string, source: EventSource = 'cms'): Promise<void> {
@@ -83,17 +99,53 @@ export function periodEndOf(subscription: Stripe.Subscription): number | null {
   return ends.length ? Math.max(...ends) : null;
 }
 
+/** Stripe client for a same-second reconciliation fetch; the webhook only runs with one configured. */
+const stripeForReconcile = (): Stripe => {
+  const stripe = getStripe();
+  if (!stripe) throw new Error('stripe client is not configured; cannot reconcile a same-second event');
+  return stripe;
+};
+
+function checkoutPatch(session: Stripe.Checkout.Session, livemode: boolean): SubscriptionPatch | null {
+  const subscription = stripeId(session.subscription);
+  if (!subscription) return null;
+  return {
+    stripeSubscriptionId: subscription, stripeCustomerId: stripeId(session.customer), user: userOf(session.metadata, session.client_reference_id), offer: offerOf(session.metadata),
+    checkoutSessionId: stripeId(session) ?? undefined, livemode,
+  };
+}
+
+function subscriptionPatch(subscription: Stripe.Subscription, livemode: boolean, deleted = false): SubscriptionPatch {
+  const price = subscription.items?.data?.[0]?.price;
+  return {
+    stripeSubscriptionId: String(subscription.id), stripeCustomerId: stripeId(subscription.customer), user: userOf(subscription.metadata), offer: offerOf(subscription.metadata), stripePriceId: stripeId(price),
+    status: deleted ? 'canceled' : subscription.status,
+    cancelAtPeriodEnd: subscription.cancel_at_period_end === true, currentPeriodEnd: periodEndOf(subscription), livemode,
+  };
+}
+
+type InvoiceLike = Stripe.Invoice & { subscription?: unknown; parent?: { subscription_details?: { subscription?: unknown } } };
+const invoiceSubscription = (invoice: InvoiceLike): string | null => stripeId(invoice.subscription) ?? stripeId(invoice.parent?.subscription_details?.subscription);
+function invoicePatch(invoice: InvoiceLike, livemode: boolean, status: 'paid' | 'payment_failed' | null): SubscriptionPatch | null {
+  const subscription = invoiceSubscription(invoice);
+  if (!subscription) return null;
+  return { stripeSubscriptionId: subscription, stripeCustomerId: stripeId(invoice.customer), livemode, lastInvoiceId: stripeId(invoice), lastInvoiceStatus: status ?? undefined };
+}
+/** From a fetched invoice its status is authoritative; anything not paid/open/uncollectible leaves the last status alone. */
+const fetchedInvoiceStatus = (invoice: Stripe.Invoice): 'paid' | 'payment_failed' | null => (invoice.status === 'paid' ? 'paid' : invoice.status === 'open' || invoice.status === 'uncollectible' ? 'payment_failed' : null);
+
 async function onCheckoutSession(payload: Payload, event: Stripe.Event): Promise<string> {
   const session = event.data.object as Stripe.Checkout.Session;
   const customer = stripeId(session.customer);
   const userId = userOf(session.metadata, session.client_reference_id);
   await linkCustomerToUser(payload, userId, customer);
-  const subscription = stripeId(session.subscription);
-  if (!subscription) return 'no_subscription';
-  const result = await applySubscriptionPatch(payload, {
-    stripeSubscriptionId: subscription, stripeCustomerId: customer, user: userId, offer: offerOf(session.metadata),
-    checkoutSessionId: stripeId(session) ?? undefined, livemode: event.livemode,
-  }, { family: 'checkout', eventCreated: event.created, eventId: event.id, source: 'cms' });
+  const patch = checkoutPatch(session, event.livemode);
+  if (!patch) return 'no_subscription';
+  const sessionId = stripeId(session);
+  const result = await applySubscriptionPatch(payload, patch, {
+    family: 'checkout', eventCreated: event.created, eventId: event.id, source: 'cms',
+    reconcile: sessionId ? async () => checkoutPatch(await stripeForReconcile().checkout.sessions.retrieve(sessionId), event.livemode) : undefined,
+  });
   return result ? 'processed' : 'stale';
 }
 
@@ -101,26 +153,24 @@ async function onSubscription(payload: Payload, event: Stripe.Event): Promise<st
   const subscription = event.data.object as Stripe.Subscription;
   const id = stripeId(subscription);
   if (!id) return 'missing_id';
-  const customer = stripeId(subscription.customer);
-  const userId = userOf(subscription.metadata);
-  await linkCustomerToUser(payload, userId, customer);
-  const price = subscription.items?.data?.[0]?.price;
-  const result = await applySubscriptionPatch(payload, {
-    stripeSubscriptionId: id, stripeCustomerId: customer, user: userId, offer: offerOf(subscription.metadata), stripePriceId: stripeId(price),
-    status: event.type === 'customer.subscription.deleted' ? 'canceled' : subscription.status,
-    cancelAtPeriodEnd: subscription.cancel_at_period_end === true, currentPeriodEnd: periodEndOf(subscription), livemode: event.livemode,
-  }, { family: 'subscription', eventCreated: event.created, eventId: event.id, source: 'cms' });
+  await linkCustomerToUser(payload, userOf(subscription.metadata), stripeId(subscription.customer));
+  const result = await applySubscriptionPatch(payload, subscriptionPatch(subscription, event.livemode, event.type === 'customer.subscription.deleted'), {
+    family: 'subscription', eventCreated: event.created, eventId: event.id, source: 'cms',
+    // Stripe's current object is authoritative for a tie (a deleted subscription reads as canceled).
+    reconcile: async () => subscriptionPatch(await stripeForReconcile().subscriptions.retrieve(id), event.livemode),
+  });
   return result ? 'processed' : 'stale';
 }
 
 async function onInvoice(payload: Payload, event: Stripe.Event): Promise<string> {
-  const invoice = event.data.object as Stripe.Invoice & { subscription?: unknown; parent?: { subscription_details?: { subscription?: unknown } } };
-  const subscription = stripeId(invoice.subscription) ?? stripeId(invoice.parent?.subscription_details?.subscription);
-  if (!subscription) return 'no_subscription';
-  const result = await applySubscriptionPatch(payload, {
-    stripeSubscriptionId: subscription, stripeCustomerId: stripeId(invoice.customer), livemode: event.livemode,
-    lastInvoiceId: stripeId(invoice), lastInvoiceStatus: event.type === 'invoice.paid' ? 'paid' : 'payment_failed',
-  }, { family: 'invoice', eventCreated: event.created, eventId: event.id, source: 'cms' });
+  const invoice = event.data.object as InvoiceLike;
+  const patch = invoicePatch(invoice, event.livemode, event.type === 'invoice.paid' ? 'paid' : 'payment_failed');
+  if (!patch) return 'no_subscription';
+  const invoiceId = stripeId(invoice);
+  const result = await applySubscriptionPatch(payload, patch, {
+    family: 'invoice', eventCreated: event.created, eventId: event.id, source: 'cms',
+    reconcile: invoiceId ? async () => { const current = await stripeForReconcile().invoices.retrieve(invoiceId); return invoicePatch(current as InvoiceLike, event.livemode, fetchedInvoiceStatus(current)); } : undefined,
+  });
   return result ? 'processed' : 'stale';
 }
 
@@ -136,7 +186,8 @@ export async function handleStripeEvent(payload: Payload, event: Stripe.Event): 
     return 'livemode_mismatch';
   }
   if (!HANDLED_EVENT_TYPES.includes(event.type)) return 'unhandled_type';
-  if (!(await claimEvent(payload, event))) return 'duplicate';
+  const claim = await claimEvent(payload, event);
+  if (claim !== 'claimed') return claim;
   let outcome: string;
   try {
     if (event.type.startsWith('checkout.session.')) outcome = await onCheckoutSession(payload, event);
@@ -144,8 +195,10 @@ export async function handleStripeEvent(payload: Payload, event: Stripe.Event): 
     else outcome = await onInvoice(payload, event);
   } catch (error) {
     // Release the claim before reporting failure: the endpoint answers 500 and
-    // Stripe's automatic retry must not be turned away as a duplicate.
-    try { await releaseEvent(payload, event.id); } catch { /* ledger cleanup is best effort */ }
+    // Stripe's automatic retry must not be turned away as a duplicate. If this
+    // release fails too, the claim stays incomplete and claimEvent lets a later
+    // retry take it over after the grace period.
+    try { await releaseEvent(payload, event.id); } catch { /* see claimEvent: an incomplete claim is retryable */ }
     payload.logger.error({ err: error instanceof Error ? error.message : 'unknown', event_type: event.type }, 'stripe event handler failed');
     return 'handler_failed';
   }

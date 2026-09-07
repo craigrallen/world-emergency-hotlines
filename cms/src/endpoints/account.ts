@@ -160,7 +160,7 @@ export const accountEndpoints: Endpoint[] = [
         return (await req.payload.create({
           collection: 'api-keys',
           data: {
-            keyId: key.id, verifier: key.verifier, user: user.id as number, label, state: 'active', livemode: active.livemode === true,
+            keyId: key.id, verifier: key.verifier, user: user.id as number, subscription: active.id as number, label, state: 'active', livemode: active.livemode === true,
             permissions: (gateway.permissions?.length ? gateway.permissions : ['manifest', 'records', 'resolver']) as ('manifest' | 'records' | 'resolver')[],
             quotaRate: gateway.quotaRate ?? 1, quotaBurst: gateway.quotaBurst ?? 10,
           },

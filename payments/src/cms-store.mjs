@@ -1,8 +1,9 @@
 // Durable store backed by the Payload CMS (`cms/`) REST API.
 //
-// Implements the four-method store contract from store.mjs on top of two CMS
+// Implements the five-method store contract from store.mjs on top of two CMS
 // collections: `stripe-events` (webhook idempotency ledger; one claim per consumer
-// and event, unique `claimKey` = source:eventId) and `entitlements` (unique key,
+// and event, unique `claimKey` = source:eventId, completed claims carry an
+// `outcome`) and `entitlements` (unique key,
 // pseudonymous Stripe ids and enum statuses only). The CMS enforces
 // first-writer-wins through its unique indexes, so claimEvent is atomic across
 // payments replicas, and it refuses (409) an entitlement write that would move any
@@ -11,7 +12,7 @@
 // the server maps store errors to 503 unavailable / 500 handler_failed so Stripe
 // retries. The API key never appears in error messages or logs.
 
-import { STORE_CONFLICT } from './store.mjs';
+import { CLAIM_GRACE_SECONDS, STORE_CONFLICT } from './store.mjs';
 import { plain } from './validation.mjs';
 
 export const CMS_STORE_KIND = 'cms';
@@ -38,8 +39,10 @@ export class CmsStoreError extends Error {
 /**
  * The CMS base API URL: http(s), no credentials, query, fragment, or trailing
  * slash. Plain http is accepted only for loopback and private-network hosts
- * (`localhost`, `*.internal`, `*.local`), which is where Railway/Compose place
- * the CMS; anything reachable from the public internet must be https.
+ * (`localhost`, `*.internal`, `*.local`, and single-label names such as the
+ * Compose service `cms`, which public DNS cannot resolve), which is where
+ * Railway/Compose place the CMS; anything reachable from the public internet
+ * must be https.
  */
 export function validCmsUrl(value) {
   if (typeof value !== 'string' || value.length < 8 || value.length > 512 || value.endsWith('/') || /\s/.test(value)) return false;
@@ -52,7 +55,8 @@ export function validCmsUrl(value) {
   if (url.protocol === 'https:') return true;
   if (url.protocol !== 'http:') return false;
   const host = url.hostname;
-  return host === 'localhost' || host === '127.0.0.1' || host === '[::1]' || host.endsWith('.internal') || host.endsWith('.local') || host.endsWith('.localhost');
+  if (host === 'localhost' || host === '127.0.0.1' || host === '[::1]' || host.endsWith('.internal') || host.endsWith('.local') || host.endsWith('.localhost')) return true;
+  return /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/i.test(host); // single-label (Docker network / Compose service) name
 }
 
 /** Map an entitlement record onto the CMS document shape (structured columns + the full record). */
@@ -76,12 +80,13 @@ export function toEntitlementDocument(record) {
   };
 }
 
-export function createCmsStore({ url, apiKey, fetchImpl = globalThis.fetch, timeoutMs = DEFAULT_CMS_TIMEOUT_MS, usersCollection = 'users' } = {}) {
+export function createCmsStore({ url, apiKey, fetchImpl = globalThis.fetch, timeoutMs = DEFAULT_CMS_TIMEOUT_MS, usersCollection = 'users', now = () => Date.now(), claimGraceSeconds = CLAIM_GRACE_SECONDS } = {}) {
   if (!validCmsUrl(url)) throw new Error('cms store requires a valid CMS API URL');
   if (typeof apiKey !== 'string' || !CMS_API_KEY.test(apiKey)) throw new Error('cms store requires an API key');
   if (typeof fetchImpl !== 'function') throw new Error('cms store requires fetch');
   if (!Number.isInteger(timeoutMs) || timeoutMs < 100 || timeoutMs > 120000) throw new Error('cms store timeout out of range');
   if (typeof usersCollection !== 'string' || !/^[a-z][a-z0-9-]{0,63}$/.test(usersCollection)) throw new Error('cms store users collection slug invalid');
+  if (typeof now !== 'function' || !Number.isInteger(claimGraceSeconds) || claimGraceSeconds < 1 || claimGraceSeconds > 86400) throw new Error('cms store clock or claim grace invalid');
   const authorization = `${usersCollection} API-Key ${apiKey}`;
 
   async function request(method, path, body) {
@@ -120,19 +125,35 @@ export function createCmsStore({ url, apiKey, fetchImpl = globalThis.fetch, time
     kind: CMS_STORE_KIND,
     async claimEvent(id) {
       if (typeof id !== 'string' || !EVENT_ID.test(id)) throw new TypeError('event id required');
+      const claimKey = claimKeyFor(id);
       const { status, payload } = await request('POST', `/${EVENTS_COLLECTION}`, { eventId: id, source: CMS_SOURCE });
       if (status === 201 || status === 200) {
         if (!payload || !plain(payload.doc)) throw new CmsStoreError('claim_unconfirmed', status);
-        return true;
+        return 'claimed';
       }
-      if (status === 400) {
-        // The unique index refused the insert; confirm this consumer's claim is really
-        // recorded before reporting a duplicate so a schema error cannot silently drop events.
-        const existing = await findOne(EVENTS_COLLECTION, 'claimKey', claimKeyFor(id));
-        if (existing) return false;
-        throw new CmsStoreError('claim_rejected', status);
-      }
-      throw new CmsStoreError('claim_failed', status);
+      if (status !== 400) throw new CmsStoreError('claim_failed', status);
+      // The unique index refused the insert; confirm this consumer's claim is really
+      // recorded before reporting a duplicate so a schema error cannot silently drop events.
+      const existing = await findOne(EVENTS_COLLECTION, 'claimKey', claimKey);
+      if (!existing) throw new CmsStoreError('claim_rejected', status);
+      // Completed claims carry an outcome. An incomplete one is in progress while it is
+      // younger than the grace period; older than that it was abandoned by a worker that
+      // died before completing or releasing it, and it is taken over here. The take-over
+      // is a conditional bulk update (still incomplete, still older than the cutoff), so a
+      // second taker within the same window finds nothing to update and backs off.
+      if (typeof existing.outcome === 'string' && existing.outcome.length > 0) return 'duplicate';
+      const updatedAt = Date.parse(String(existing.updatedAt));
+      const cutoff = now() - claimGraceSeconds * 1000;
+      if (Number.isFinite(updatedAt) && updatedAt > cutoff) return 'in_progress';
+      const query = `?where[claimKey][equals]=${encodeURIComponent(claimKey)}&where[outcome][exists]=false&where[updatedAt][less_than]=${encodeURIComponent(new Date(cutoff).toISOString())}&depth=0`;
+      const takeover = await request('PATCH', `/${EVENTS_COLLECTION}${query}`, { outcome: null });
+      if (takeover.status !== 200 || !takeover.payload || !Array.isArray(takeover.payload.docs)) throw new CmsStoreError('claim_takeover_failed', takeover.status);
+      return takeover.payload.docs.length === 1 ? 'claimed' : 'in_progress';
+    },
+    async completeEvent(id) {
+      if (typeof id !== 'string' || !EVENT_ID.test(id)) throw new TypeError('event id required');
+      const { status, payload } = await request('PATCH', `/${EVENTS_COLLECTION}?where[claimKey][equals]=${encodeURIComponent(claimKeyFor(id))}&depth=0`, { outcome: 'processed' });
+      if (status !== 200 || !payload || !Array.isArray(payload.docs) || payload.docs.length !== 1) throw new CmsStoreError('complete_failed', status);
     },
     async releaseEvent(id) {
       if (typeof id !== 'string' || !EVENT_ID.test(id)) throw new TypeError('event id required');

@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload';
-import { isAdmin, ownerOrStaff, staffOrServiceField } from '../access';
+import { isAdmin, ownerOrStaff, staffField } from '../access';
 import { GATEWAY_PERMISSIONS } from './Plans';
 
 export const KEY_STATES = ['active', 'revoked', 'expired'] as const;
@@ -19,11 +19,18 @@ export const ApiKeys: CollectionConfig = {
     group: 'Accounts',
     description: 'Managed API key records issued to subscribers. Raw keys are never stored; revoking here takes effect at the next gateway key sync.',
   },
-  access: { read: ownerOrStaff('user', true), create: isAdmin, update: isAdmin, delete: isAdmin },
+  access: { read: ownerOrStaff('user'), create: isAdmin, update: isAdmin, delete: isAdmin },
   fields: [
     { name: 'keyId', type: 'text', required: true, unique: true, index: true, admin: { readOnly: true }, validate: (value: unknown) => (typeof value === 'string' && /^[a-z0-9]{12}$/.test(value) ? true : 'must be 12 lowercase alphanumerics') },
-    { name: 'verifier', type: 'text', required: true, access: { read: staffOrServiceField, update: () => false }, admin: { readOnly: true, description: 'base64url HMAC-SHA-256 of the raw key; never the key itself.' }, validate: (value: unknown) => (typeof value === 'string' && /^[A-Za-z0-9_-]{43}$/.test(value) ? true : 'must be a 43-character base64url verifier') },
+    { name: 'verifier', type: 'text', required: true, access: { read: staffField, update: () => false }, admin: { readOnly: true, description: 'base64url HMAC-SHA-256 of the raw key; never the key itself.' }, validate: (value: unknown) => (typeof value === 'string' && /^[A-Za-z0-9_-]{43}$/.test(value) ? true : 'must be a 43-character base64url verifier') },
     { name: 'user', type: 'relationship', relationTo: 'users', required: true, index: true },
+    {
+      name: 'subscription',
+      type: 'relationship',
+      relationTo: 'subscriptions',
+      index: true,
+      admin: { readOnly: true, description: 'Subscription that granted this key. The gateway export follows it: the key is exported revoked while that subscription is not active, and its permissions and quota follow the plan currently attached to it.' },
+    },
     { name: 'label', type: 'text', maxLength: 60 },
     { name: 'state', type: 'select', required: true, defaultValue: 'active', options: KEY_STATES.map((value) => ({ label: value, value })) },
     { name: 'livemode', type: 'checkbox', required: true, defaultValue: false, admin: { readOnly: true, description: 'Billing mode of the subscription that entitled this key. Test-mode keys are exported to the gateway only while the CMS itself runs with a Stripe test key, so they stop working at live promotion.' } },

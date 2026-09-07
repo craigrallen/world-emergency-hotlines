@@ -116,6 +116,44 @@ test('a writer that read before a newer event was stored yields to it instead of
   assert.equal(attempts, MAX_UPSERT_ATTEMPTS);
 });
 
+test('same-second events are reconciled from Stripe\'s current object instead of delivery order', async () => {
+  const store = createMemoryStore();
+  const fetched = { calls: [], object: null };
+  const fetchObject = async (kind, id) => { fetched.calls.push([kind, id]); return fetched.object; };
+  const at = 2145917000;
+  const lifecycle = (id, status) => { const event = load('customer.subscription.updated'); event.id = id; event.created = at; event.data.object.status = status; return event; };
+  assert.equal((await dispatchEvent(lifecycle('evt_synthetic00000040', 'active'), { store, offers, fetchObject })).outcome, 'processed');
+  assert.deepEqual(fetched.calls, [], 'the first write of a family needs no reconciliation');
+  // Cancellation created in the same second, delivered second: the payload is not trusted for order; Stripe's current state is applied.
+  fetched.object = { ...lifecycle('evt_x', 'canceled').data.object };
+  assert.equal((await dispatchEvent(lifecycle('evt_synthetic00000041', 'canceled'), { store, offers, fetchObject })).outcome, 'processed');
+  assert.equal((await store.getEntitlement('sub:sub_synthetic00000001')).status, 'canceled');
+  assert.deepEqual(fetched.calls, [['subscription', 'sub_synthetic00000001']]);
+  // A pre-cancellation "active" update from that same second delivered last cannot restore access.
+  assert.equal((await dispatchEvent(lifecycle('evt_synthetic00000042', 'active'), { store, offers, fetchObject })).outcome, 'processed');
+  assert.equal((await store.getEntitlement('sub:sub_synthetic00000001')).status, 'canceled');
+  // Without a fetcher a tie is refused, and a fetched object for another id is ignored (both fail closed).
+  assert.equal((await dispatchEvent(lifecycle('evt_synthetic00000043', 'active'), { store, offers })).outcome, 'stale');
+  fetched.object = { ...fetched.object, id: 'sub_synthetic00000099' };
+  assert.equal((await dispatchEvent(lifecycle('evt_synthetic00000044', 'active'), { store, offers, fetchObject })).outcome, 'stale');
+  assert.equal((await store.getEntitlement('sub:sub_synthetic00000001')).status, 'canceled');
+  // A fetch failure propagates so the webhook fails and Stripe retries.
+  await assert.rejects(dispatchEvent(lifecycle('evt_synthetic00000045', 'active'), { store, offers, fetchObject: async () => { throw new Error('stripe unreachable'); } }), /stripe unreachable/);
+  // Invoice ties take the fetched invoice's status; checkout ties take the fetched session.
+  const invoice = load('invoice.payment_failed'); invoice.id = 'evt_synthetic00000046'; invoice.created = at + 1;
+  assert.equal((await dispatchEvent(invoice, { store, offers, fetchObject })).outcome, 'processed');
+  const paidLater = load('invoice.payment_failed'); paidLater.id = 'evt_synthetic00000047'; paidLater.created = at + 1; paidLater.type = 'invoice.paid';
+  fetched.object = { ...paidLater.data.object, status: 'paid' };
+  assert.equal((await dispatchEvent(paidLater, { store, offers, fetchObject })).outcome, 'processed');
+  assert.equal((await store.getEntitlement('sub:sub_synthetic00000001')).last_invoice_status, 'paid');
+  const checkout = load('checkout.session.completed'); checkout.id = 'evt_synthetic00000048'; checkout.created = at + 2;
+  assert.equal((await dispatchEvent(checkout, { store, offers, fetchObject })).outcome, 'processed');
+  const expired = load('checkout.session.completed'); expired.id = 'evt_synthetic00000049'; expired.created = at + 2; expired.type = 'checkout.session.expired'; expired.data.object.status = 'expired';
+  fetched.object = { ...expired.data.object, status: 'complete' };
+  assert.equal((await dispatchEvent(expired, { store, offers, fetchObject })).outcome, 'processed');
+  assert.equal((await store.getEntitlement('cs:cs_test_synthetic00000001')).status, 'complete', 'the fetched session, not the tied payload, is stored');
+});
+
 test('unhandled, malformed, and unlinked events are ignored explicitly', async () => {
   const store = createMemoryStore();
   const other = load('checkout.session.completed'); other.type = 'charge.succeeded';

@@ -1,14 +1,14 @@
 import type { CollectionConfig } from 'payload';
 import { addDataAndFileToRequest, headersWithCors, resetPasswordOperation, ValidationError } from 'payload';
 import { generatePayloadCookie } from 'payload/shared';
-import { INTERNAL_CONTEXT, ROLES, adminField, hasRole, isAdmin, isInternal, selfOrAdmin, selfOrStaff, staffField } from '../access';
+import { INTERNAL_CONTEXT, ROLES, SERVICE_SCOPES, adminField, hasRole, isAdmin, isInternal, selfOrAdmin, selfOrStaff, staffField } from '../access';
 import { getEnv } from '../env';
 import { resetPasswordEmailHTML, resetPasswordEmailSubject, verifyEmailHTML, verifyEmailSubject } from '../lib/emails';
 
 const env = getEnv();
 
 /** Fields a signed-in member must never set on their own account. */
-const PRIVILEGED_FIELDS = ['role', 'enableAPIKey', 'apiKey', 'apiKeyIndex', 'stripeCustomerId', 'notes', 'loginAttempts', 'lockUntil', '_verified', '_verificationToken', 'sessions'];
+const PRIVILEGED_FIELDS = ['role', 'serviceScope', 'enableAPIKey', 'apiKey', 'apiKeyIndex', 'stripeCustomerId', 'notes', 'loginAttempts', 'lockUntil', '_verified', '_verificationToken', 'sessions'];
 export const PASSWORD_MIN_LENGTH = 12;
 export const PASSWORD_MAX_LENGTH = 256;
 
@@ -51,7 +51,18 @@ export const Users: CollectionConfig = {
       required: true,
       saveToJWT: true,
       access: { create: adminField, update: adminField },
-      admin: { position: 'sidebar', description: 'admin: full control · staff: read-only admin access · member: account page · service: API-key-only automation (payments store, gateway key sync).' },
+      admin: { position: 'sidebar', description: 'admin: full control · staff: read-only admin access · member: account page · service: API-key-only automation limited to one scope (see Service scope).' },
+    },
+    {
+      name: 'serviceScope',
+      type: 'select',
+      options: SERVICE_SCOPES.map((scope) => ({ label: scope, value: scope })),
+      access: { create: adminField, update: adminField },
+      admin: {
+        position: 'sidebar',
+        condition: (data) => data?.role === 'service',
+        description: 'Required for service accounts; each automation gets its own account and key. payments_store: webhook ledger and entitlement records for the payments service. gateway_sync: key-record export for the gateway. A scope grants nothing else.',
+      },
     },
     {
       name: 'stripeCustomerId',
@@ -108,6 +119,15 @@ export const Users: CollectionConfig = {
         }
         // API keys belong to service accounts (and admins). Any other role loses them.
         const role = (data.role as string | undefined) ?? (originalDoc?.role as string | undefined) ?? 'member';
+        // A service account is exactly one automation: it must name its scope, and no other role carries one.
+        if (role === 'service') {
+          const scope = (data as Record<string, unknown>).serviceScope ?? originalDoc?.serviceScope;
+          if (!(SERVICE_SCOPES as readonly string[]).includes(String(scope))) {
+            throw new ValidationError({ collection: 'users', errors: [{ path: 'serviceScope', message: `Service accounts need a scope: ${SERVICE_SCOPES.join(' or ')}` }] }, req.t);
+          }
+        } else if (operation === 'create' || data.role !== undefined || (data as Record<string, unknown>).serviceScope !== undefined) {
+          (data as Record<string, unknown>).serviceScope = null;
+        }
         if (role !== 'service' && role !== 'admin') {
           if (operation === 'create' || data.enableAPIKey !== undefined || data.apiKey !== undefined || data.role !== undefined) {
             (data as Record<string, unknown>).enableAPIKey = false;

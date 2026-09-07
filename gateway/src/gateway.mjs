@@ -46,7 +46,14 @@ export function createGateway(config){
   const sink=config.sink??(()=>{}),sinkError=config.sinkError??(()=>{}),clock=config.now??(()=>Date.now()),quotaStore=config.quotaStore??new MemoryTokenBuckets();
   let initialNow;try{initialNow=clock();}catch{throw new Error('invalid gateway configuration');}if(!Number.isFinite(initialNow))throw new Error('invalid gateway configuration');
   const maxConcurrent=config.maxConcurrent??32,shutdownTimeoutMs=config.shutdownTimeoutMs??5000;
-  const keysById=new Map(config.keys.map((record)=>[record.id,Object.freeze({...record,api_majors:Object.freeze([...record.api_majors]),permissions:Object.freeze([...record.permissions]),quota:Object.freeze({...record.quota})})]));
+  const freezeKeys=(records)=>new Map(records.map((record)=>[record.id,Object.freeze({...record,api_majors:Object.freeze([...record.api_majors]),permissions:Object.freeze([...record.permissions]),quota:Object.freeze({...record.quota})})]));
+  // Reloadable: sync-keys rewrites GATEWAY_CONFIG and reloadKeys() swaps this map without a restart (see reload.mjs).
+  let keysById=freezeKeys(config.keys);
+  function reloadKeys(records){
+    if(!Array.isArray(records)||records.length>10000)throw new Error('invalid key records');
+    const ids=new Set();for(const record of records){if(!validateKeyRecord(record,validated.mode)||ids.has(record.id))throw new Error('invalid key records');ids.add(record.id);}
+    keysById=freezeKeys(records);return {keys:records.length};
+  }
   const artifacts=createArtifactStore({root:config.artifactRoot,descriptor:config.artifactDescriptor,releaseId:config.releaseId,datasetVersion:config.datasetVersion});
   let active=0,stopping=false,sinkErrors=0;const sockets=new Set();
   const server=http.createServer({requestTimeout:config.requestTimeoutMs??5000,headersTimeout:config.headersTimeoutMs??3000,keepAliveTimeout:config.keepAliveTimeoutMs??5000,maxHeaderSize:16384},(req,res)=>{
@@ -78,7 +85,7 @@ export function createGateway(config){
   server.maxConnections=config.maxConnections??128;server.maxRequestsPerSocket=config.maxRequestsPerSocket??100;
   server.on('connection',(socket)=>{sockets.add(socket);socket.once('close',()=>sockets.delete(socket));});
   server.on('clientError',(_e,socket)=>{if(socket.writable)socket.end('HTTP/1.1 400 Bad Request\r\nConnection: close\r\nContent-Length: 0\r\n\r\n');});
-  return {server,get activeRequests(){return active;},get sinkErrors(){return sinkErrors;},listen:()=>new Promise((ok,no)=>{const fail=(error)=>{server.off('listening',ready);no(error);},ready=()=>{server.off('error',fail);ok();};server.once('error',fail).once('listening',ready).listen(port,host);}),close:()=>new Promise((ok,no)=>{stopping=true;const timer=setTimeout(()=>{for(const socket of sockets)socket.destroy();},shutdownTimeoutMs);timer.unref();server.close((error)=>{clearTimeout(timer);error?no(error):ok();});server.closeIdleConnections();})};
+  return {server,reloadKeys,get activeRequests(){return active;},get sinkErrors(){return sinkErrors;},get keyCount(){return keysById.size;},listen:()=>new Promise((ok,no)=>{const fail=(error)=>{server.off('listening',ready);no(error);},ready=()=>{server.off('error',fail);ok();};server.once('error',fail).once('listening',ready).listen(port,host);}),close:()=>new Promise((ok,no)=>{stopping=true;const timer=setTimeout(()=>{for(const socket of sockets)socket.destroy();},shutdownTimeoutMs);timer.unref();server.close((error)=>{clearTimeout(timer);error?no(error):ok();});server.closeIdleConnections();})};
 }
 
 export { EVENT_KEYS };

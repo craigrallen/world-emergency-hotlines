@@ -56,6 +56,8 @@ export function stripeEvent(type: string, object: Record<string, unknown>, { cre
  */
 export async function startMockStripe(port = 12111) {
   const requests: { method: string; path: string; body: URLSearchParams; headers: http.IncomingHttpHeaders }[] = [];
+  /** Objects served for GET /v1/... retrievals (same-second tie reconciliation), keyed by path. */
+  const objects = new Map<string, unknown>();
   let customers = 0, sessions = 0, portals = 0;
   const server = http.createServer((req, res) => {
     let raw = '';
@@ -72,10 +74,11 @@ export async function startMockStripe(port = 12111) {
         const id = `cs_test_synthetic${String(sessions).padStart(8, '0')}`;
         return send(200, { id, object: 'checkout.session', url: `https://checkout.stripe.com/c/pay/${id}`, mode: body.get('mode'), customer: body.get('customer') });
       }
+      if (req.method === 'GET' && objects.has(req.url ?? '')) return send(200, objects.get(req.url ?? ''));
       if (req.method === 'POST' && req.url === '/v1/billing_portal/sessions') { portals += 1; return send(200, { id: `bps_synthetic${portals}`, object: 'billing_portal.session', url: `https://billing.stripe.com/p/session/synthetic${portals}` }); }
       return send(404, { error: { type: 'invalid_request_error', message: `unknown route ${req.method} ${req.url}` } });
     });
   });
   await new Promise<void>((ok) => server.listen(port, '127.0.0.1', () => ok()));
-  return { requests, close: () => new Promise<void>((ok) => server.close(() => ok())) };
+  return { requests, objects, close: () => new Promise<void>((ok) => server.close(() => ok())) };
 }

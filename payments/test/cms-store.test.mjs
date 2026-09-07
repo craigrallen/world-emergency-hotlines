@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { loadConfig, describeConfig, redact, ConfigError } from '../src/config.mjs';
 import { CmsStoreError, claimKeyFor, createCmsStore, toEntitlementDocument, validCmsUrl } from '../src/cms-store.mjs';
-import { STORE_CONFLICT, isStoreConflict, regressedFamily, validateStore } from '../src/store.mjs';
+import { CLAIM_GRACE_SECONDS, STORE_CONFLICT, isStoreConflict, regressedFamily, validateStore } from '../src/store.mjs';
 import { dispatchEvent } from '../src/events.mjs';
 import { createPaymentsServer, ROUTES } from '../src/server.mjs';
 
@@ -10,10 +10,11 @@ const URL_ = 'http://cms.railway.internal:3000/cms/api';
 const API_KEY = 'service-api-key-synthetic-0001';
 
 /** In-memory fake of the two Payload collections the store touches. */
-function fakeCms({ failWith = null, unauthorized = false } = {}) {
+function fakeCms({ failWith = null, unauthorized = false, clock = { now: Date.now() } } = {}) {
   const events = new Map(), entitlements = new Map();
   const calls = [];
   let nextId = 1;
+  const stamp = () => new Date(clock.now).toISOString();
   const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } });
   const fetchImpl = async (input, init = {}) => {
     const url = new URL(input);
@@ -36,21 +37,31 @@ function fakeCms({ failWith = null, unauthorized = false } = {}) {
       const incoming = collection === 'stripe-events' ? { ...body, claimKey: `${body.source ?? 'payments'}:${body.eventId}` } : body;
       const unique = collection === 'stripe-events' ? 'claimKey' : 'key';
       if ([...table.values()].some((doc) => doc[unique] === incoming[unique])) return json(400, { errors: [{ message: `The following field is invalid: ${unique}`, data: { errors: [{ field: unique, message: 'Value must be unique' }] } }] });
-      const doc = { id: nextId++, ...incoming };
+      const doc = { id: nextId++, ...incoming, updatedAt: stamp(), createdAt: stamp() };
       table.set(doc.id, doc);
       return json(201, { doc, message: 'created' });
     }
     if (init.method === 'PATCH') {
-      const doc = table.get(Number(id));
-      if (!doc) return json(404, { errors: [{ message: 'Not Found' }] });
       const body = JSON.parse(init.body);
-      // The CMS refuses, under its row lock, a record that moves any family epoch backwards.
-      if (collection === 'entitlements' && body.record !== undefined) {
-        const family = regressedFamily(doc.record, body.record);
-        if (family) return json(409, { errors: [{ message: `entitlement already carries a newer ${family} event` }] });
+      let targets;
+      if (id) {
+        const doc = table.get(Number(id));
+        if (!doc) return json(404, { errors: [{ message: 'Not Found' }] });
+        targets = [doc];
+      } else {
+        // Bulk update by `where`, as Payload's REST API does: equals / exists / less_than.
+        const conditions = [...url.searchParams.entries()].map(([k, v]) => [/^where\[(\w+)\]\[(\w+)\]$/.exec(k), v]).filter(([m]) => m).map(([m, v]) => [m[1], m[2], v]);
+        targets = [...table.values()].filter((doc) => conditions.every(([field, op, value]) => (op === 'equals' ? doc[field] === value : op === 'exists' ? (doc[field] !== undefined && doc[field] !== null) === (value === 'true') : op === 'less_than' ? typeof doc[field] === 'string' && doc[field] < value : false)));
       }
-      Object.assign(doc, body);
-      return json(200, { doc, message: 'updated' });
+      for (const doc of targets) {
+        // The CMS refuses, under its row lock, a record that moves any family epoch backwards.
+        if (collection === 'entitlements' && body.record !== undefined) {
+          const family = regressedFamily(doc.record, body.record);
+          if (family) return json(409, { errors: [{ message: `entitlement already carries a newer ${family} event` }] });
+        }
+        Object.assign(doc, body, { updatedAt: stamp() });
+      }
+      return id ? json(200, { doc: targets[0], message: 'updated' }) : json(200, { docs: targets, errors: [] });
     }
     if (init.method === 'DELETE') {
       const removed = [...table.values()].filter((doc) => filter && doc[filter[0]] === filter[1]);
@@ -63,8 +74,8 @@ function fakeCms({ failWith = null, unauthorized = false } = {}) {
 }
 
 test('CMS URL validation admits https and private/loopback http only', () => {
-  for (const ok of ['https://cms.example.org/cms/api', 'http://localhost:3000/cms/api', 'http://127.0.0.1:3000/cms/api', 'http://cms.railway.internal:3000/cms/api', 'http://cms.local/cms/api', 'https://worldhotlines.org']) assert.equal(validCmsUrl(ok), true, ok);
-  for (const bad of ['http://cms.example.org/cms/api', 'https://cms.example.org/cms/api/', 'https://user:pw@cms.example.org/cms/api', 'https://cms.example.org/cms/api?x=1', 'https://cms.example.org/#a', 'ftp://cms.internal', 'https://cms.example.org/../x', '', 42, 'https://cms example.org']) assert.equal(validCmsUrl(bad), false, String(bad));
+  for (const ok of ['https://cms.example.org/cms/api', 'http://localhost:3000/cms/api', 'http://127.0.0.1:3000/cms/api', 'http://cms.railway.internal:3000/cms/api', 'http://cms.local/cms/api', 'http://cms:3000/cms/api', 'https://worldhotlines.org']) assert.equal(validCmsUrl(ok), true, ok);
+  for (const bad of ['http://cms.example.org/cms/api', 'http://10.0.0.5:3000/cms/api', 'http://[fe80::1]:3000/cms/api', 'https://cms.example.org/cms/api/', 'https://user:pw@cms.example.org/cms/api', 'https://cms.example.org/cms/api?x=1', 'https://cms.example.org/#a', 'ftp://cms.internal', 'https://cms.example.org/../x', '', 42, 'https://cms example.org']) assert.equal(validCmsUrl(bad), false, String(bad));
 });
 
 test('store construction is closed and the API key never leaks into errors', () => {
@@ -79,24 +90,47 @@ test('store construction is closed and the API key never leaks into errors', () 
   assert.equal(JSON.stringify(Object.getOwnPropertyDescriptors(store)).includes(API_KEY), false);
 });
 
-test('claimEvent is first-writer-wins and releaseEvent frees the id', async () => {
+test('claimEvent is first-writer-wins per consumer, completion makes a claim a duplicate, and releaseEvent frees the id', async () => {
   const cms = fakeCms();
   const store = createCmsStore({ url: URL_, apiKey: API_KEY, fetchImpl: cms.fetchImpl });
-  assert.equal(await store.claimEvent('evt_synthetic0001'), true);
-  assert.equal(await store.claimEvent('evt_synthetic0001'), false);
+  assert.equal(await store.claimEvent('evt_synthetic0001'), 'claimed');
+  assert.equal(await store.claimEvent('evt_synthetic0001'), 'in_progress', 'an incomplete claim is still being applied by its owner');
+  await store.completeEvent('evt_synthetic0001');
+  assert.equal(await store.claimEvent('evt_synthetic0001'), 'duplicate');
   assert.equal(cms.events.size, 1);
   assert.equal([...cms.events.values()][0].source, 'payments');
   assert.equal([...cms.events.values()][0].claimKey, claimKeyFor('evt_synthetic0001'));
+  assert.equal([...cms.events.values()][0].outcome, 'processed');
   // The CMS webhook's own claim on the same event never counts as this consumer's.
-  cms.events.set(99, { id: 99, eventId: 'evt_synthetic0002', source: 'cms', claimKey: 'cms:evt_synthetic0002' });
-  assert.equal(await store.claimEvent('evt_synthetic0002'), true);
+  cms.events.set(99, { id: 99, eventId: 'evt_synthetic0002', source: 'cms', claimKey: 'cms:evt_synthetic0002', outcome: 'processed' });
+  assert.equal(await store.claimEvent('evt_synthetic0002'), 'claimed');
   assert.equal(cms.events.size, 3);
   await store.releaseEvent('evt_synthetic0001');
   assert.equal(cms.events.size, 2, 'release removes only this consumer\'s claim');
-  assert.equal(await store.claimEvent('evt_synthetic0001'), true);
+  assert.equal(await store.claimEvent('evt_synthetic0001'), 'claimed');
   await assert.rejects(store.claimEvent('not-an-event'), TypeError);
   await assert.rejects(store.releaseEvent(''), TypeError);
+  await assert.rejects(store.completeEvent(''), TypeError);
+  await assert.rejects(store.completeEvent('evt_synthetic0009'), (error) => error instanceof CmsStoreError && error.reason === 'complete_failed');
   assert.ok(cms.calls.every((call) => call.authorization === `users API-Key ${API_KEY}`));
+});
+
+test('an incomplete claim abandoned by a dead worker is taken over after the grace period, so it never becomes a permanent duplicate', async () => {
+  const clock = { now: 1_700_000_000_000 };
+  const cms = fakeCms({ clock });
+  const store = createCmsStore({ url: URL_, apiKey: API_KEY, fetchImpl: cms.fetchImpl, now: () => clock.now });
+  assert.equal(await store.claimEvent('evt_synthetic0005'), 'claimed');
+  clock.now += 1000;
+  assert.equal(await store.claimEvent('evt_synthetic0005'), 'in_progress');
+  clock.now += CLAIM_GRACE_SECONDS * 1000;
+  assert.equal(await store.claimEvent('evt_synthetic0005'), 'claimed', 'taken over: the worker never completed or released it');
+  assert.equal(await store.claimEvent('evt_synthetic0005'), 'in_progress', 'the take-over refreshed the claim, so a second taker backs off');
+  await store.completeEvent('evt_synthetic0005');
+  clock.now += CLAIM_GRACE_SECONDS * 1000 + 1;
+  assert.equal(await store.claimEvent('evt_synthetic0005'), 'duplicate', 'completed claims never expire');
+  assert.equal(cms.events.size, 1);
+  assert.throws(() => createCmsStore({ url: URL_, apiKey: API_KEY, fetchImpl: cms.fetchImpl, now: 'nope' }), /clock/);
+  assert.throws(() => createCmsStore({ url: URL_, apiKey: API_KEY, fetchImpl: cms.fetchImpl, claimGraceSeconds: 0 }), /grace/);
 });
 
 test('entitlements round-trip through structured columns and the raw record', async () => {
@@ -246,7 +280,7 @@ test('the server builds the CMS store from configuration and reports it in healt
     assert.equal(health.store, 'cms');
     assert.equal(health.status, 'disabled');
     assert.equal(service.store.kind, 'cms');
-    assert.equal(await service.store.claimEvent('evt_synthetic0001'), true);
+    assert.equal(await service.store.claimEvent('evt_synthetic0001'), 'claimed');
   } finally { await service.close(); }
   assert.throws(() => createPaymentsServer(Object.freeze({ ...config, store: Object.freeze({ kind: 'redis' }) })), /invalid payments configuration/);
 });
