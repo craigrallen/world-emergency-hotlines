@@ -364,7 +364,10 @@ export async function mountResetPage(root) {
     form.querySelector('button').disabled = true;
     const result = await api(ENDPOINTS.reset, { method: 'POST', body: { token, password: fields.get('password') } });
     if (result.ok) { window.location.replace('/account?reset=1'); return; }
-    flash(root, result.status === 400 ? 'This reset link is invalid or has expired. Request a new one from the account page.' : errorMessage(result), 'error');
+    // Payload's own invalid/expired-token error answers 403 (Token is either invalid or has expired.);
+    // a rejected password (too short, too long) answers 400 and must show that reason, not this one, or a
+    // password just outside the length limit reports a dead link even though the token is still good.
+    flash(root, result.status === 403 ? 'This reset link is invalid or has expired. Request a new one from the account page.' : errorMessage(result), 'error');
     form.querySelector('button').disabled = false;
   });
 }

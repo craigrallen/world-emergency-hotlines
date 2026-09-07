@@ -103,6 +103,18 @@ describe('registration and sessions', () => {
     expect(await login('member@example.test', PASSWORD)).toBeTruthy();
   });
 
+  test('reset-password distinguishes an invalid token (403) from a rejected password on a valid one (400)', async () => {
+    // The account page tells these apart by status alone (a rejected password must never be reported as a
+    // dead link): pin the exact codes Payload's own operation returns so a version bump cannot silently swap them.
+    const bogus = await call('/cms/api/users/reset-password', { method: 'POST', body: { token: 'x'.repeat(40), password: PASSWORD } });
+    expect(bogus.status).toBe(403);
+    expect(JSON.stringify(bogus.data)).toMatch(/invalid or has expired/i);
+    const forgot = await payload.forgotPassword({ collection: 'users', data: { email: 'member@example.test' }, disableEmail: true });
+    const tooLong = await call('/cms/api/users/reset-password', { method: 'POST', body: { token: forgot, password: 'a'.repeat(300) } });
+    expect(tooLong.status).toBe(400);
+    expect(JSON.stringify(tooLong.data)).toMatch(/12 to 256 characters/);
+  });
+
   test('accounts are created verified while verification is not required, so verification columns exist in every mode', async () => {
     const stored = (await payload.find({ collection: 'users', where: { email: { equals: 'member@example.test' } }, overrideAccess: true, showHiddenFields: true })).docs[0] as unknown as Record<string, unknown>;
     expect(stored._verified).toBe(true);

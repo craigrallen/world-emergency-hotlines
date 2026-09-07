@@ -88,8 +88,14 @@ export async function entitlementContext(payload: Payload, keys: Doc[]): Promise
   return { entitled, subscriptions, plans };
 }
 
-/** The gateway policy a plan grants, or null when the plan carries none. */
+/**
+ * The gateway policy a plan grants, or null when the plan carries none. Only a subscription-mode
+ * plan ever grants one: a one-time payment charges once and creates no ongoing relationship to
+ * enforce a quota against, and an admin can retarget an existing plan's mode after subscriptions
+ * already reference it, so this is checked here rather than trusted from the caller's context.
+ */
 export function policyOf(plan: Doc | undefined): GatewayPolicy | null {
+  if (plan?.mode !== 'subscription') return null;
   const gateway = plan?.gateway as { permissions?: unknown; quotaRate?: unknown; quotaBurst?: unknown } | undefined;
   if (!gateway || !Array.isArray(gateway.permissions) || gateway.permissions.length === 0 || typeof gateway.quotaRate !== 'number' || typeof gateway.quotaBurst !== 'number') return null;
   return { permissions: gateway.permissions.map(String), quotaRate: gateway.quotaRate, quotaBurst: gateway.quotaBurst };

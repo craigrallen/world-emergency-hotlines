@@ -515,7 +515,7 @@ describe('managed API keys', () => {
     const bound = {
       entitled: new Set(['test:7']),
       subscriptions: new Map<string, Record<string, unknown>>([['9', { id: 9, status: 'active', livemode: false, plan: 3 }], ['10', { id: 10, status: 'canceled', livemode: false, plan: 3 }], ['12', { id: 12, status: 'trialing', livemode: false, plan: 99 }]]),
-      plans: new Map<string, Record<string, unknown>>([['3', { id: 3, gateway: { permissions: ['manifest'], quotaRate: 5, quotaBurst: 50 } }]]),
+      plans: new Map<string, Record<string, unknown>>([['3', { id: 3, mode: 'subscription', gateway: { permissions: ['manifest'], quotaRate: 5, quotaBurst: 50 } }]]),
     };
     expect(withEntitlement([
       { state: 'active', livemode: false, user: 7, subscription: 9, permissions: ['manifest', 'records'], quotaRate: 1, quotaBurst: 10 },
@@ -600,6 +600,23 @@ describe('managed API keys', () => {
     expect((await payload.find({ collection: 'api-keys', where: { keyId: { equals: minted.data.record.id } }, overrideAccess: true, depth: 0 })).docs[0]).toMatchObject({ state: 'revoked', subscription: null });
     expect(await exportedKey()).toBeUndefined(); // revoked keys are not exported
     expect((await call('/cms/api/account/me', { token })).data.entitlement).toEqual({ active: true, can_grant_keys: true, offer: 'growth_monthly' }); // the account itself stays entitled through the cheaper plan
+  });
+
+  test('a plan retargeted from subscription to one-time payment grants no policy to the subscriptions still referencing it', async () => {
+    const retargeted = await payload.create({ collection: 'plans', data: { offerId: 'retargeted_monthly', label: 'Retargeted', mode: 'subscription', stripePriceId: 'price_synthetic0097', quantity: 1, active: true, gateway: { permissions: ['manifest'], quotaRate: 1, quotaBurst: 10 } }, overrideAccess: true });
+    const retargetedUser = await createUser(payload, { email: 'retargeted@example.test', password: PASSWORD });
+    const priced = subscription('sub_synthetic00000600', { customer: 'cus_synthetic00000600', metadata: { cms_user: String(retargetedUser.id) }, items: { object: 'list', data: [{ id: 'si_synthetic0600', object: 'subscription_item', current_period_end: 2148595200, price: { id: 'price_synthetic0097', object: 'price' } }] } });
+    expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.created', priced, { created: 2145921000 }) as never)).toBe('processed');
+    const token = await login('retargeted@example.test', PASSWORD);
+    const minted = await call('/cms/api/account/api-keys', { method: 'POST', token, body: {} });
+    expect(minted.status).toBe(201);
+    // An admin retargets the plan to one-time payment; the subscription that already references it is untouched.
+    await payload.update({ collection: 'plans', id: retargeted.id, data: { mode: 'payment' }, overrideAccess: true });
+    expect((await call('/cms/api/gateway/keys', { apiKey: 'service-api-key-synthetic-0002', origin: null })).data.keys.find((record: { id: string }) => record.id === minted.data.record.id)).toBeUndefined(); // revoked: the plan no longer grants a policy
+    expect((await call('/cms/api/account/me', { token })).data.entitlement.can_grant_keys).toBe(false);
+    const refused = await call('/cms/api/account/api-keys', { method: 'POST', token, body: {} });
+    expect(refused.status).toBe(409);
+    expect(refused.data.error.code).toBe('plan_unconfigured');
   });
 
   test('a usable plan is found behind many unconfigured active subscriptions', async () => {
