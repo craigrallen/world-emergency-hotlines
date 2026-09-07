@@ -102,9 +102,13 @@ test('sync-keys rewrites only the keys array atomically and the CLI prints count
     rmSync(dir, { recursive: true, force: true });
   }
   await assert.rejects(syncKeysIntoConfig({ configPath: resolve(dir, 'missing.json'), url: 'http://localhost:1/cms/api', apiKey: API_KEY }), (error) => error.reason === 'config_unreadable');
+  // An authenticated empty snapshot clears the keys instead of leaving stale ones accepted.
   const empty = await fakeCms(() => [200, { schema: KEY_RECORDS_SCHEMA, mode: 'production', keys: [] }]);
   const dir2 = mkdtempSync(resolve(tmpdir(), 'weh-gateway-keys-'));
   const path2 = resolve(dir2, 'gateway.json');
-  writeFileSync(path2, '{"keys":[]}');
-  try { await assert.rejects(syncKeysIntoConfig({ configPath: path2, url: empty.url, apiKey: API_KEY }), (error) => error.reason === 'no_keys'); } finally { await empty.close(); rmSync(dir2, { recursive: true, force: true }); }
+  writeFileSync(path2, JSON.stringify({ keys: [{ id: 'stalekey00001' }] }));
+  try {
+    assert.deepEqual(await syncKeysIntoConfig({ configPath: path2, url: empty.url, apiKey: API_KEY }), { previous_keys: 1, keys: 0, states: { active: 0, revoked: 0, expired: 0 } });
+    assert.deepEqual(JSON.parse(readFileSync(path2, 'utf8')).keys, []);
+  } finally { await empty.close(); rmSync(dir2, { recursive: true, force: true }); }
 });

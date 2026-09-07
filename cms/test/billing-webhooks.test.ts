@@ -9,7 +9,7 @@ import { createHmac } from 'node:crypto';
 import { call, createUser, login, signEvent, startMockStripe, stripeEvent } from './helpers';
 import { handleStripeEvent, periodEndOf } from '../src/lib/stripe';
 import { toGatewayRecord } from '../src/lib/gateway-keys';
-import { exportableKeys } from '../src/endpoints/gateway';
+import { exportableKeys, withEntitlement } from '../src/endpoints/gateway';
 
 let payload: Payload;
 let stripe: Awaited<ReturnType<typeof startMockStripe>>;
@@ -72,6 +72,16 @@ describe('Stripe webhooks through the plugin route', () => {
     const me = await call('/cms/api/account/me', { token: await login('buyer@example.test', PASSWORD) });
     expect(me.data.entitlement).toEqual({ active: true, offer: 'growth_monthly' });
     expect(me.data.subscriptions[0]).toMatchObject({ id: 'sub_synthetic00000001', status: 'active', offer: 'growth_monthly' });
+    // Ordering is per event family: a checkout event created after a delayed
+    // subscription event must not discard the status that subscription event carries.
+    const lateCheckout = stripeEvent('checkout.session.completed', { id: 'cs_test_synthetic00000002', object: 'checkout.session', mode: 'subscription', status: 'complete', customer: 'cus_synthetic00000001', subscription: 'sub_synthetic00000003', client_reference_id: String(await buyerId()), metadata: { offer: 'growth_monthly' } }, { created: 2145916950 });
+    expect(await handleStripeEvent(payload, lateCheckout as never)).toBe('processed');
+    const delayedActivation = stripeEvent('customer.subscription.created', subscription('sub_synthetic00000003'), { created: 2145916940 });
+    expect(await handleStripeEvent(payload, delayedActivation as never)).toBe('processed');
+    const third = (await payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: 'sub_synthetic00000003' } }, overrideAccess: true, depth: 0 })).docs[0];
+    expect(third).toMatchObject({ status: 'active', checkoutSessionId: 'cs_test_synthetic00000002', lastCheckoutEventCreated: 2145916950, lastSubscriptionEventCreated: 2145916940, lastEventCreated: 2145916950 });
+    const olderStatus = stripeEvent('customer.subscription.updated', subscription('sub_synthetic00000003', { status: 'canceled' }), { created: 2145916930 });
+    expect(await handleStripeEvent(payload, olderStatus as never)).toBe('stale');
     const livemodeMismatch = stripeEvent('customer.subscription.updated', subscription('sub_synthetic00000001', { status: 'past_due' }), { created: 2145916900, livemode: true });
     expect(await handleStripeEvent(payload, livemodeMismatch as never)).toBe('livemode_mismatch');
     const invoice = stripeEvent('invoice.payment_failed', { id: 'in_synthetic00000001', object: 'invoice', customer: 'cus_synthetic00000001', parent: { subscription_details: { subscription: 'sub_synthetic00000001' } } }, { created: 2145916902 });
@@ -162,6 +172,19 @@ describe('managed API keys', () => {
     expect(mine.state).toBe('revoked');
     expect(mine.verifier).toBe(createHmac('sha256', process.env.GATEWAY_KEY_PEPPER as string).update(raw).digest('base64url'));
     expect(toGatewayRecord({ keyId: 'abcdefabcdef', verifier: mine.verifier, state: 'active', expiresAt: '2000-01-01T00:00:00.000Z', permissions: ['manifest'], quotaRate: 1, quotaBurst: 1 }).state).toBe('expired');
+    const stillActive = second.data.record.id as string;
+    expect(exported.data.keys.find((record: { id: string }) => record.id === stillActive).state).toBe('active');
+    // Losing every entitlement suspends the export; recovering one restores the key.
+    // (The buyer also holds sub_synthetic00000003 from the ordering test above.)
+    expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.deleted', subscription('sub_synthetic00000001', { status: 'canceled' }), { created: 2145917200 }) as never)).toBe('processed');
+    expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.deleted', subscription('sub_synthetic00000003', { status: 'canceled' }), { created: 2145917200 }) as never)).toBe('processed');
+    const suspended = await call('/cms/api/gateway/keys', { apiKey: 'service-api-key-synthetic-0001', origin: null });
+    expect(suspended.data.keys.find((record: { id: string }) => record.id === stillActive).state).toBe('revoked');
+    expect((await payload.find({ collection: 'api-keys', where: { keyId: { equals: stillActive } }, overrideAccess: true })).docs[0].state).toBe('active'); // stored record untouched
+    expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.updated', subscription('sub_synthetic00000001', { status: 'active' }), { created: 2145917300 }) as never)).toBe('processed');
+    const restored = await call('/cms/api/gateway/keys', { apiKey: 'service-api-key-synthetic-0001', origin: null });
+    expect(restored.data.keys.find((record: { id: string }) => record.id === stillActive).state).toBe('active');
+    expect(withEntitlement([{ state: 'active', livemode: false, user: 7 }, { state: 'revoked', livemode: false, user: 7 }, { state: 'active', livemode: true, user: 7 }], new Set(['live:7'])).map((k) => k.state)).toEqual(['revoked', 'revoked', 'active']);
     const memberExport = await call('/cms/api/gateway/keys', { token });
     expect(memberExport.status).toBe(403);
     const anonymousExport = await call('/cms/api/gateway/keys');

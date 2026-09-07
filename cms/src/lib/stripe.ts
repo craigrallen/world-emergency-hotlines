@@ -89,7 +89,7 @@ async function onCheckoutSession(payload: Payload, event: Stripe.Event): Promise
   const result = await applySubscriptionPatch(payload, {
     stripeSubscriptionId: subscription, stripeCustomerId: customer, user: userId, offer: offerOf(session.metadata),
     checkoutSessionId: stripeId(session) ?? undefined, livemode: event.livemode,
-  }, { eventCreated: event.created, eventId: event.id, source: 'cms' });
+  }, { family: 'checkout', eventCreated: event.created, eventId: event.id, source: 'cms' });
   return result ? 'processed' : 'stale';
 }
 
@@ -105,7 +105,7 @@ async function onSubscription(payload: Payload, event: Stripe.Event): Promise<st
     stripeSubscriptionId: id, stripeCustomerId: customer, user: userId, offer: offerOf(subscription.metadata), stripePriceId: stripeId(price),
     status: event.type === 'customer.subscription.deleted' ? 'canceled' : subscription.status,
     cancelAtPeriodEnd: subscription.cancel_at_period_end === true, currentPeriodEnd: periodEndOf(subscription), livemode: event.livemode,
-  }, { eventCreated: event.created, eventId: event.id, source: 'cms' });
+  }, { family: 'subscription', eventCreated: event.created, eventId: event.id, source: 'cms' });
   return result ? 'processed' : 'stale';
 }
 
@@ -116,7 +116,7 @@ async function onInvoice(payload: Payload, event: Stripe.Event): Promise<string>
   const result = await applySubscriptionPatch(payload, {
     stripeSubscriptionId: subscription, stripeCustomerId: stripeId(invoice.customer), livemode: event.livemode,
     lastInvoiceId: stripeId(invoice), lastInvoiceStatus: event.type === 'invoice.paid' ? 'paid' : 'payment_failed',
-  }, { eventCreated: event.created, eventId: event.id, source: 'cms' });
+  }, { family: 'invoice', eventCreated: event.created, eventId: event.id, source: 'cms' });
   return result ? 'processed' : 'stale';
 }
 

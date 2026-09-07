@@ -40,6 +40,29 @@ describe('registration and sessions', () => {
     expect(stored.notes ?? null).toBeNull();
   });
 
+  test('password policy is enforced server-side for registration, self-update, and reset', async () => {
+    const short = await call('/cms/api/users', { method: 'POST', body: { email: 'weak@example.test', password: 'short' } });
+    expect(short.status).toBe(400);
+    expect(JSON.stringify(short.data)).toMatch(/12 to 256 characters/);
+    const token = await login('member@example.test', PASSWORD);
+    const me = await call('/cms/api/account/me', { token });
+    const change = await call(`/cms/api/users/${me.data.user.id}`, { method: 'PATCH', token, body: { password: 'tooshort' } });
+    expect(change.status).toBe(400);
+    const okChange = await call(`/cms/api/users/${me.data.user.id}`, { method: 'PATCH', token, body: { password: PASSWORD } });
+    expect(okChange.status).toBe(200);
+    const forgot = await payload.forgotPassword({ collection: 'users', data: { email: 'member@example.test' }, disableEmail: true });
+    const reset = await call('/cms/api/users/reset-password', { method: 'POST', body: { token: forgot, password: 'tiny' } });
+    expect(reset.status).toBe(400);
+    const goodReset = await call('/cms/api/users/reset-password', { method: 'POST', body: { token: forgot, password: PASSWORD } });
+    expect(goodReset.status).toBe(200);
+    expect(await login('member@example.test', PASSWORD)).toBeTruthy();
+  });
+
+  test('accounts are created verified while verification is not required, so verification columns exist in every mode', async () => {
+    const stored = (await payload.find({ collection: 'users', where: { email: { equals: 'member@example.test' } }, overrideAccess: true, showHiddenFields: true })).docs[0] as unknown as Record<string, unknown>;
+    expect(stored._verified).toBe(true);
+  });
+
   test('members read only themselves; staff read everyone; members cannot escalate', async () => {
     const memberToken = await login('member@example.test', PASSWORD);
     const staffToken = await login('staff@example.test', PASSWORD);

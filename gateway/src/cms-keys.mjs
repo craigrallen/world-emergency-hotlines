@@ -87,7 +87,9 @@ export async function syncKeysIntoConfig({ configPath, ...options }) {
   try { config = JSON.parse(readFileSync(configPath, 'utf8')); } catch { throw new CmsKeysError('config_unreadable'); }
   if (!plain(config)) throw new CmsKeysError('config_shape_invalid');
   const records = await fetchKeyRecords(options);
-  if (records.length === 0) throw new CmsKeysError('no_keys');
+  // An authenticated, schema-valid empty snapshot is applied as-is: keeping the
+  // previous keys would fail open. A gateway config with zero keys refuses to
+  // start (see createGateway), which is the intended fail-closed outcome.
   const previous = Array.isArray(config.keys) ? config.keys.length : 0;
   const next = { ...config, keys: records.map((record) => ({ ...record, api_majors: [...record.api_majors], permissions: [...record.permissions], quota: { ...record.quota } })) };
   const temp = `${configPath}.tmp-${process.pid}`;

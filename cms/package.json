@@ -14,7 +14,8 @@
     "migrate": "payload migrate",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "lint": "next lint"
+    "lint": "next lint",
+    "migrate:create": "payload migrate:create"
   },
   "engines": {
     "node": ">=22"

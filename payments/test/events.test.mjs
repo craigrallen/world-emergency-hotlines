@@ -54,6 +54,20 @@ test('subscription lifecycle applies newest-wins ordering and invoice status', a
   const stale = load('customer.subscription.updated');
   stale.id = 'evt_synthetic00000010'; stale.created = 2145916700; stale.data.object.status = 'incomplete';
   assert.equal((await dispatchEvent(stale, { store, offers })).outcome, 'stale');
+  // Ordering is per event family: a checkout event created later than a delayed
+  // subscription event must not swallow the status that subscription event carries.
+  const family = createMemoryStore();
+  const lateCheckout = load('checkout.session.completed');
+  lateCheckout.id = 'evt_synthetic00000020'; lateCheckout.created = 2145916900;
+  assert.equal((await dispatchEvent(lateCheckout, { store: family, offers })).outcome, 'processed');
+  const delayedActivation = load('customer.subscription.updated');
+  delayedActivation.id = 'evt_synthetic00000021'; delayedActivation.created = 2145916850; delayedActivation.data.object.status = 'active';
+  assert.equal((await dispatchEvent(delayedActivation, { store: family, offers })).outcome, 'processed');
+  const seeded = await family.getEntitlement(`sub:${delayedActivation.data.object.id}`);
+  assert.equal(seeded.status, 'active');
+  assert.equal(seeded.subscription_event_epoch, 2145916850);
+  assert.equal(seeded.checkout_event_epoch, 2145916900);
+  assert.equal(seeded.updated_at_epoch, 2145916900, 'updated_at_epoch stays the newest event of any family');
   assert.equal((await store.getEntitlement('sub:sub_synthetic00000001')).status, 'active');
   const failed = await dispatchEvent(load('invoice.payment_failed'), { store, offers });
   assert.equal(failed.outcome, 'processed');

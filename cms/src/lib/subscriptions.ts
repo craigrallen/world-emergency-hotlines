@@ -23,7 +23,14 @@ export interface SubscriptionPatch {
   lastInvoiceStatus?: 'paid' | 'payment_failed' | null;
 }
 
+export type EventFamily = 'checkout' | 'subscription' | 'invoice';
+export const FAMILY_WATERMARK: Record<EventFamily, 'lastCheckoutEventCreated' | 'lastSubscriptionEventCreated' | 'lastInvoiceEventCreated'> = {
+  checkout: 'lastCheckoutEventCreated', subscription: 'lastSubscriptionEventCreated', invoice: 'lastInvoiceEventCreated',
+};
+
 export interface ApplyOptions {
+  /** Which Stripe event family produced the patch; ordering is enforced per family so a delayed status event is never discarded because a later checkout or invoice event arrived first. */
+  family: EventFamily;
   eventCreated: number; // unix seconds of the Stripe event (or store record)
   eventId: string | null;
   source: 'cms' | 'payments';
@@ -110,7 +117,8 @@ export async function applySubscriptionPatch(payload: Payload, patch: Subscripti
       await lockRow(payload, tx, 'subscriptions', 'stripe_subscription_id', patch.stripeSubscriptionId);
       const existingResult = await payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: patch.stripeSubscriptionId } }, limit: 1, depth: 0, overrideAccess: true, req: tx });
       const existing = (existingResult.docs[0] as unknown as Doc | undefined) ?? null;
-      if (existing && typeof existing.lastEventCreated === 'number' && existing.lastEventCreated > options.eventCreated) return null;
+      const watermark = FAMILY_WATERMARK[options.family];
+      if (existing && typeof existing[watermark] === 'number' && (existing[watermark] as number) > options.eventCreated) return null;
 
       const customer = patch.stripeCustomerId ?? (existing?.stripeCustomerId as string | undefined) ?? null;
       const plan = (await findPlan(payload, tx, patch.offer ?? (existing?.offer as string | undefined), patch.stripePriceId)) ?? null;
@@ -129,8 +137,9 @@ export async function applySubscriptionPatch(payload: Payload, patch: Subscripti
         checkoutSessionId: patch.checkoutSessionId ?? (existing?.checkoutSessionId as string | undefined) ?? null,
         lastInvoiceId: patch.lastInvoiceId ?? (existing?.lastInvoiceId as string | undefined) ?? null,
         lastInvoiceStatus: patch.lastInvoiceStatus ?? (existing?.lastInvoiceStatus as string | undefined) ?? null,
-        lastEventCreated: options.eventCreated,
+        lastEventCreated: Math.max(options.eventCreated, typeof existing?.lastEventCreated === 'number' ? (existing.lastEventCreated as number) : 0),
         lastEventId: options.eventId,
+        [watermark]: options.eventCreated,
         source: options.source,
       };
 
@@ -152,28 +161,41 @@ export async function applySubscriptionPatch(payload: Payload, patch: Subscripti
   }
 }
 
-/** Mirror a payments-service `sub:` entitlement record into the subscriptions collection. */
+/**
+ * Mirror a payments-service `sub:` entitlement record into the subscriptions
+ * collection. The record is a merged view carrying one watermark per event family
+ * (`<family>_event_epoch`, see payments/src/events.mjs), so each family's fields
+ * are applied under their own watermark; a record that predates the per-family
+ * epochs falls back to `updated_at_epoch`.
+ */
 export async function syncSubscriptionFromEntitlement(payload: Payload, doc: Record<string, unknown>, req?: PayloadRequest): Promise<Doc | null> {
   const record = (doc.record && typeof doc.record === 'object' ? doc.record : {}) as Record<string, unknown>;
   const subscriptionId = typeof doc.subscription === 'string' && doc.subscription ? doc.subscription : String(doc.key ?? '').replace(/^sub:/, '');
   if (!/^sub_[A-Za-z0-9]{8,}$/.test(subscriptionId)) return null;
+  const fallbackEpoch = Number.isInteger(doc.updatedAtEpoch) ? (doc.updatedAtEpoch as number) : Math.floor(Date.now() / 1000);
+  const epochOf = (family: EventFamily): number => (Number.isInteger(record[`${family}_event_epoch`]) ? (record[`${family}_event_epoch`] as number) : fallbackEpoch);
+  const base = { stripeSubscriptionId: subscriptionId, stripeCustomerId: typeof doc.customer === 'string' ? doc.customer : null, livemode: doc.livemode === true };
+  const meta = { eventId: typeof doc.sourceEvent === 'string' ? doc.sourceEvent : null, source: 'payments' as const };
   const invoiceStatus = record.last_invoice_status === 'paid' || record.last_invoice_status === 'payment_failed' ? record.last_invoice_status : undefined;
-  return applySubscriptionPatch(payload, {
-    stripeSubscriptionId: subscriptionId,
-    stripeCustomerId: typeof doc.customer === 'string' ? doc.customer : null,
-    offer: typeof doc.offer === 'string' ? doc.offer : null,
-    status: typeof doc.status === 'string' ? doc.status : null,
-    cancelAtPeriodEnd: record.cancel_at_period_end === true,
-    currentPeriodEnd: Number.isInteger(record.current_period_end) ? (record.current_period_end as number) : undefined,
-    livemode: doc.livemode === true,
+
+  let result: Doc | null = null;
+  const applied = await applySubscriptionPatch(payload, {
+    ...base, offer: typeof doc.offer === 'string' ? doc.offer : null,
     checkoutSessionId: typeof record.checkout_session === 'string' ? record.checkout_session : undefined,
-    lastInvoiceId: typeof record.last_invoice === 'string' ? record.last_invoice : undefined,
-    lastInvoiceStatus: invoiceStatus,
-  }, {
-    eventCreated: Number.isInteger(doc.updatedAtEpoch) ? (doc.updatedAtEpoch as number) : Math.floor(Date.now() / 1000),
-    eventId: typeof doc.sourceEvent === 'string' ? doc.sourceEvent : null,
-    source: 'payments',
-  }, req);
+  }, { ...meta, family: 'checkout', eventCreated: epochOf('checkout') }, req);
+  result = applied ?? result;
+  if (typeof doc.status === 'string' && doc.status !== 'pending_subscription_event') {
+    const applied2 = await applySubscriptionPatch(payload, {
+      ...base, status: doc.status, cancelAtPeriodEnd: record.cancel_at_period_end === true,
+      currentPeriodEnd: Number.isInteger(record.current_period_end) ? (record.current_period_end as number) : undefined,
+    }, { ...meta, family: 'subscription', eventCreated: epochOf('subscription') }, req);
+    result = applied2 ?? result;
+  }
+  if (typeof record.last_invoice === 'string') {
+    const applied3 = await applySubscriptionPatch(payload, { ...base, lastInvoiceId: record.last_invoice, lastInvoiceStatus: invoiceStatus }, { ...meta, family: 'invoice', eventCreated: epochOf('invoice') }, req);
+    result = applied3 ?? result;
+  }
+  return result;
 }
 
 /** The newest active (or trialing) subscription for a user, or null. */

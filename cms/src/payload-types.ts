@@ -159,6 +159,8 @@ export interface User {
   resetPasswordExpiration?: string | null;
   salt?: string | null;
   hash?: string | null;
+  _verified?: boolean | null;
+  _verificationToken?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
   sessions?:
@@ -249,9 +251,21 @@ export interface Subscription {
   lastInvoiceId?: string | null;
   lastInvoiceStatus?: ('paid' | 'payment_failed') | null;
   /**
-   * Unix seconds of the newest Stripe event applied; older events never overwrite newer state.
+   * Unix seconds of the newest Stripe event applied from any family.
    */
   lastEventCreated?: number | null;
+  /**
+   * Watermark for checkout.session.* events; an older checkout event never overwrites a newer one.
+   */
+  lastCheckoutEventCreated?: number | null;
+  /**
+   * Watermark for customer.subscription.* events (status, cancellation, period).
+   */
+  lastSubscriptionEventCreated?: number | null;
+  /**
+   * Watermark for invoice.* events (last invoice status).
+   */
+  lastInvoiceEventCreated?: number | null;
   lastEventId?: string | null;
   source: 'cms' | 'payments';
   updatedAt: string;
@@ -447,6 +461,8 @@ export interface UsersSelect<T extends boolean = true> {
   resetPasswordExpiration?: T;
   salt?: T;
   hash?: T;
+  _verified?: T;
+  _verificationToken?: T;
   loginAttempts?: T;
   lockUntil?: T;
   sessions?:
@@ -497,6 +513,9 @@ export interface SubscriptionsSelect<T extends boolean = true> {
   lastInvoiceId?: T;
   lastInvoiceStatus?: T;
   lastEventCreated?: T;
+  lastCheckoutEventCreated?: T;
+  lastSubscriptionEventCreated?: T;
+  lastInvoiceEventCreated?: T;
   lastEventId?: T;
   source?: T;
   updatedAt?: T;
