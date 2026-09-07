@@ -110,7 +110,7 @@ Work top to bottom. Every step is reversible by unsetting `CMS_UPSTREAM`.
 
 ### Go live
 
-- [ ] Repeat the Stripe steps in live mode (live restricted key, live webhook secret, live price ids on the plans). Keys minted from test-mode subscriptions stop being exported once the CMS runs live; run `sync-keys` on the gateway so they are dropped. Stripe customers are tracked per billing mode (`stripeTestCustomerId` / `stripeLiveCustomerId`): promotion creates live customers on first checkout instead of reusing test ids, which the live client would refuse.
+- [ ] Repeat the Stripe steps in live mode (live restricted key, live webhook secret, live price ids on the plans). Keys minted from test-mode subscriptions stop being exported once the CMS runs live; run `sync-keys` on the gateway so they are dropped. Stripe customers are tracked per billing mode (`stripeTestCustomerId` / `stripeLiveCustomerId`): promotion creates live customers on first checkout instead of reusing test ids, which the live client would refuse. The one-time migration that split the customer id (`20260907_190500_users_customers_per_mode`) files any pre-existing customer id under test mode by default, matching this test-first rollout; a deployment that was already live *before* that migration ran must set `CMS_LEGACY_STRIPE_CUSTOMER_MODE=live` for that one migration run so its legacy ids are not misfiled as test.
 - [ ] Rollback rehearsed: unsetting `CMS_UPSTREAM` returns every CMS route to 503 within one deploy while the static site keeps serving; the account pages fall back to their disabled notice on the next load.
 - [ ] Update `docs/PACKAGING.md` status wording in a reviewed pull request; the verifiers pin the current "prepared, not enabled" wording deliberately.
 

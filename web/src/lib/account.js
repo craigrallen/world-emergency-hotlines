@@ -9,13 +9,22 @@ const ENDPOINTS = {
 const STRIPE_HOSTED = ['https://checkout.stripe.com/', 'https://billing.stripe.com/'];
 
 export async function api(path, { method = 'GET', body } = {}) {
-  const response = await fetch(path, {
-    method,
-    credentials: 'same-origin',
-    headers: { accept: 'application/json', ...(body === undefined ? {} : { 'content-type': 'application/json' }) },
-    body: body === undefined ? undefined : JSON.stringify(body),
-    cache: 'no-store',
-  });
+  let response;
+  try {
+    response = await fetch(path, {
+      method,
+      credentials: 'same-origin',
+      headers: { accept: 'application/json', ...(body === undefined ? {} : { 'content-type': 'application/json' }) },
+      body: body === undefined ? undefined : JSON.stringify(body),
+      cache: 'no-store',
+    });
+  } catch {
+    // A network-level failure (offline, DNS, TLS, an unreachable proxy) never resolves to a response. Every caller
+    // treats this exactly like a non-2xx reply instead of an unhandled rejection, which would otherwise leave a submit
+    // button disabled forever on the handlers here that are not wrapped by bindForms' own try/catch (the reset-password
+    // page, and the checkout, portal, revoke, and logout buttons on the account page).
+    return { ok: false, status: 0, data: null };
+  }
   let data = null;
   try { data = await response.json(); } catch { data = null; }
   return { ok: response.ok, status: response.status, data };
@@ -36,10 +45,8 @@ export function errorMessage(result, fallback = 'Something went wrong. Please tr
 }
 
 export async function fetchStatus() {
-  try {
-    const result = await api(ENDPOINTS.status);
-    if (result.ok && result.data?.component === 'cms' && result.data.status === 'enabled') return { enabled: true, ...result.data };
-  } catch { /* network failure is the disabled state */ }
+  const result = await api(ENDPOINTS.status);
+  if (result.ok && result.data?.component === 'cms' && result.data.status === 'enabled') return { enabled: true, ...result.data };
   return { enabled: false };
 }
 

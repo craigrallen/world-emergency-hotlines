@@ -38,6 +38,10 @@ describe('environment parsing fails closed', () => {
     expect(readEnv({ ...base, STRIPE_SECRET_KEY: `rk_live_${'a'.repeat(40)}`, STRIPE_WEBHOOK_SECRET: `whsec_${'b'.repeat(32)}` } as unknown as NodeJS.ProcessEnv).stripeMode).toBe('live');
     expect(readEnv({ ...base, DATABASE_URL: 'postgresql://u:p@h:5432/d', NODE_ENV: 'production' } as unknown as NodeJS.ProcessEnv).databaseKind).toBe('postgres');
     expect(KNOWN_VARIABLES).toContain('GATEWAY_KEY_PEPPER');
+    // Read directly by the users_customers_per_mode migration, never by readEnv() itself: recognized so it never
+    // trips the unknown-CMS_-variable fail-closed check, but otherwise inert here.
+    expect(KNOWN_VARIABLES).toContain('CMS_LEGACY_STRIPE_CUSTOMER_MODE');
+    expect(() => readEnv({ ...base, CMS_LEGACY_STRIPE_CUSTOMER_MODE: 'live' } as unknown as NodeJS.ProcessEnv)).not.toThrow();
   });
 
   test('empty optional variables mean not configured, as Compose and Railway pass them', () => {
