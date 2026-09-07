@@ -88,8 +88,13 @@ const publicSubscription = (sub: Doc) => ({
   id: sub.stripeSubscriptionId, offer: sub.offer ?? null, status: sub.status, cancel_at_period_end: sub.cancelAtPeriodEnd === true,
   current_period_end: sub.currentPeriodEnd ?? null, livemode: sub.livemode === true, last_invoice_status: sub.lastInvoiceStatus ?? null, updated_at: sub.updatedAt,
 });
-const publicKey = (key: Doc) => ({
-  id: key.keyId, label: key.label ?? null, state: key.state, livemode: key.livemode === true, not_before: key.notBefore ?? null, expires_at: key.expiresAt ?? null,
+// `storedState` defaults to the record's own (unprojected) state, right for a just-minted or
+// just-revoked key. The account list passes the pre-projection state explicitly: entitlement
+// projection can turn a stored-active key's shown `state` into "revoked" while its subscription is
+// merely suspended (and may recover), but the member must still be able to permanently revoke that
+// key, so `revocable` always reflects whether the record itself is still active, never the display.
+const publicKey = (key: Doc, storedState: unknown = key.state) => ({
+  id: key.keyId, label: key.label ?? null, state: key.state, revocable: storedState === 'active', livemode: key.livemode === true, not_before: key.notBefore ?? null, expires_at: key.expiresAt ?? null,
   permissions: key.permissions, quota: { rate: key.quotaRate, burst: key.quotaBurst }, created_at: key.createdAt, revoked_at: key.revokedAt ?? null,
 });
 
@@ -176,8 +181,9 @@ export const accountEndpoints: Endpoint[] = [
       const now = Date.now();
       const lapsed = (key: Doc) => typeof key.expiresAt === 'string' && Date.parse(key.expiresAt) <= now;
       const active = (activeKeys.docs as unknown as Doc[]).filter((key) => !lapsed(key));
-      const expired = (activeKeys.docs as unknown as Doc[]).filter(lapsed).map((key) => ({ ...key, state: 'expired' }));
+      const expired = (activeKeys.docs as unknown as Doc[]).filter(lapsed).map((key): Doc => ({ ...key, state: 'expired' }));
       const stored = [...active, ...expired, ...(inactiveKeys.docs as unknown as Doc[])];
+      const storedStates = new Map(stored.map((key) => [String(key.keyId), key.state]));
       // Shown state, permissions, and quota follow the same entitlement projection the gateway export
       // applies, not the values copied when the key was minted: a cancelled or downgraded granting
       // subscription must read here exactly as it will be enforced, never as a stale "active" record.
@@ -188,7 +194,7 @@ export const accountEndpoints: Endpoint[] = [
         user: { id: user.id, email: user.email, name: user.name ?? null, role: user.role, verified: user._verified !== false, created_at: user.createdAt ?? null, billing_customer_linked: env.stripeMode !== 'disabled' && customerOf(user, env.stripeMode === 'live') !== null },
         entitlement: { active: entitled !== null, offer: (entitled?.offer as string | undefined) ?? null },
         subscriptions: (subscriptions.docs as unknown as Doc[]).map(publicSubscription),
-        api_keys: keys.map(publicKey),
+        api_keys: keys.map((key) => publicKey(key, storedStates.get(String(key.keyId)))),
         stripe: { mode: env.stripeMode },
         gateway: { key_issuance: env.gatewayKeyPepper !== null, max_keys: env.maxApiKeysPerUser },
       });

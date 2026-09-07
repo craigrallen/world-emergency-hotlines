@@ -171,7 +171,10 @@ function renderSignedIn(root, status, me) {
   keys.replaceChildren();
   if (!me.api_keys.length) keys.append(el('p', { class: 'text-sm text-fg-muted' }, 'No managed API keys have been issued to this account.'));
   for (const key of me.api_keys) {
-    const revoke = el('button', { type: 'button', class: 'btn-ghost text-xs', disabled: key.state !== 'active' }, key.state === 'active' ? 'Revoke' : key.state);
+    // A key can read as revoked here (its granting subscription is suspended, past_due, or otherwise
+    // temporarily inactive) while the stored record is still active and could recover; `revocable`
+    // reflects the record, not the display, so it stays revocable — permanently, on request — either way.
+    const revoke = el('button', { type: 'button', class: 'btn-ghost text-xs', disabled: !key.revocable }, key.revocable ? 'Revoke' : key.state);
     revoke.addEventListener('click', async () => {
       if (!window.confirm(`Revoke key ${key.id}? Integrations using it stop working at the next gateway key sync.`)) return;
       revoke.disabled = true;
@@ -312,12 +315,12 @@ export async function mountAccountPage(root) {
   await refresh(root, status);
 }
 
-/** Entry point for /account/verify?token=… */
+/** Entry point for /account/verify#token=… */
 export async function mountVerifyPage(root) {
   if (!root) return;
   const output = root.querySelector('[data-verify-result]');
   const url = new URL(window.location.href);
-  const token = url.searchParams.get('token');
+  const token = new URLSearchParams(url.hash.slice(1)).get('token');
   const scrub = () => history.replaceState({}, '', url.pathname);
   if (!token || !/^[A-Za-z0-9_-]{16,256}$/.test(token)) { scrub(); setView(root, 'result'); output.textContent = 'This verification link is incomplete. Open the link from your email again.'; return; }
   // The token stays in the address bar until a terminal outcome (consumed, or definitively invalid): a probe or
@@ -332,11 +335,11 @@ export async function mountVerifyPage(root) {
   output.textContent = `${errorMessage(result)} Reload this page to try again.`;
 }
 
-/** Entry point for /account/reset-password?token=… */
+/** Entry point for /account/reset-password#token=… */
 export async function mountResetPage(root) {
   if (!root) return;
   const url = new URL(window.location.href);
-  const token = url.searchParams.get('token');
+  const token = new URLSearchParams(url.hash.slice(1)).get('token');
   if (!token || !/^[A-Za-z0-9_-]{16,256}$/.test(token)) { history.replaceState({}, '', url.pathname); setView(root, 'disabled'); flash(root, 'This reset link is incomplete. Request a new one from the account page.', 'error'); return; }
   // The token stays in the address bar until the form actually renders: a status-probe failure that is only
   // transient still has a working token in the URL for a reload to retry, instead of one already discarded before

@@ -18,14 +18,17 @@ function layout(title: string, intro: string, action: string, href: string): str
   ].join('');
 }
 
+// The token rides in the URL fragment, never the query string: a fragment is never sent in the
+// request line (so it never reaches Caddy's access log) and is stripped before the Referer header
+// on any subsequent same-origin request, unlike a query parameter on the initial page load.
 export const verifyEmailSubject = (): string => 'Verify your World Hotlines account';
 export const verifyEmailHTML = ({ token }: { req: PayloadRequest; token: string; user: unknown }): string => {
-  const href = `${getEnv().siteUrl}/account/verify?token=${encodeURIComponent(token)}`;
+  const href = `${getEnv().siteUrl}/account/verify#token=${encodeURIComponent(token)}`;
   return layout('Verify your email address', 'Confirm the email address for your World Hotlines account to finish signing up.', 'Verify email', href);
 };
 
 export const resetPasswordEmailSubject = (): string => 'Reset your World Hotlines password';
 export const resetPasswordEmailHTML = (args?: { req?: PayloadRequest; token?: string; user?: unknown }): string => {
-  const href = `${getEnv().siteUrl}/account/reset-password?token=${encodeURIComponent(args?.token ?? '')}`;
+  const href = `${getEnv().siteUrl}/account/reset-password#token=${encodeURIComponent(args?.token ?? '')}`;
   return layout('Reset your password', 'A password reset was requested for your World Hotlines account. The link is valid for one hour.', 'Choose a new password', href);
 };

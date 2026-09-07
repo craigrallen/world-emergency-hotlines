@@ -529,12 +529,14 @@ describe('managed API keys', () => {
     // The account page must show exactly what the gateway export computes, not the values copied when the key was minted.
     const accountKey = async () => (await call('/cms/api/account/me', { token })).data.api_keys.find((record: { id: string }) => record.id === minted.data.record.id);
     expect(await exportedKey()).toMatchObject({ state: 'active', permissions: ['manifest', 'records', 'resolver'], quota: { rate: 10, burst: 100 } });
-    expect(await accountKey()).toMatchObject({ state: 'active', permissions: ['manifest', 'records', 'resolver'], quota: { rate: 10, burst: 100 } });
+    expect(await accountKey()).toMatchObject({ state: 'active', revocable: true, permissions: ['manifest', 'records', 'resolver'], quota: { rate: 10, burst: 100 } });
     // Cancelling the granting (pro) subscription revokes the key in the export even though the cheaper subscription keeps the account entitled.
     expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.deleted', priced('sub_synthetic00000011', 'price_synthetic0002', { status: 'canceled' }), { created: 2145917000 }) as never)).toBe('processed');
     expect((await call('/cms/api/account/me', { token })).data.entitlement).toEqual({ active: true, offer: 'growth_monthly' });
     expect(await exportedKey()).toBeUndefined(); // revoked keys are not exported
-    expect(await accountKey()).toMatchObject({ state: 'revoked' }); // the account page must not still say active
+    // The account page must not still say active, but the stored record is still active (the subscription
+    // could recover), so the member must still be able to permanently revoke this key on request.
+    expect(await accountKey()).toMatchObject({ state: 'revoked', revocable: true });
     // Reactivating it restores the key; moving it to the cheaper plan moves the key's policy with it.
     expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.updated', priced('sub_synthetic00000011', 'price_synthetic0001'), { created: 2145917100 }) as never)).toBe('processed');
     expect(await exportedKey()).toMatchObject({ state: 'active', permissions: ['manifest', 'records'], quota: { rate: 2, burst: 20 } });
@@ -613,7 +615,8 @@ describe('managed API keys', () => {
     // An expiry set by an administrator has passed while the stored state still says active.
     await payload.update({ collection: 'api-keys', where: { keyId: { equals: first.data.record.id } }, data: { expiresAt: '2000-01-01T00:00:00.000Z' }, overrideAccess: true, context: { ...INTERNAL_CONTEXT } });
     const me = await call('/cms/api/account/me', { token });
-    expect(me.data.api_keys.find((key: { id: string }) => key.id === first.data.record.id).state).toBe('expired');
+    // An expired key never needs revoking (it already cannot authenticate), matching its revoke button being hidden before this projection existed.
+    expect(me.data.api_keys.find((key: { id: string }) => key.id === first.data.record.id)).toMatchObject({ state: 'expired', revocable: false });
     expect((await call('/cms/api/gateway/keys', { apiKey: 'service-api-key-synthetic-0002', origin: null })).data.keys.find((record: { id: string }) => record.id === first.data.record.id)).toBeUndefined();
     // The lapsed key no longer counts: a usable replacement is issued, and the transition is persisted.
     const replacement = await call('/cms/api/account/api-keys', { method: 'POST', token, body: { label: 'replacement' } });

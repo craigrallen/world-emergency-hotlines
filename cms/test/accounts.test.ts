@@ -3,6 +3,7 @@ import { getPayload, type Payload } from 'payload';
 import configPromise from '@payload-config';
 import { call, createUser, login, startMockStripe } from './helpers';
 import { sellablePlans } from '../src/endpoints/account';
+import { resetPasswordEmailHTML, verifyEmailHTML } from '../src/lib/emails';
 
 let payload: Payload;
 let stripe: Awaited<ReturnType<typeof startMockStripe>>;
@@ -27,6 +28,17 @@ describe('public status', () => {
     expect(result.data).toMatchObject({ component: 'cms', status: 'enabled', accounts: { registration: 'open', email_verification: false }, stripe: { mode: 'test', checkout: true, hosted_checkout_only: true }, gateway: { key_issuance: true }, price_publication: 'not_published', free_static_surfaces_unchanged: true });
     expect(result.data.offers).toEqual([{ id: 'growth_monthly', label: 'Growth — monthly', description: 'Synthetic plan', mode: 'subscription' }]); // the active one-time plan is not sellable here
     expect(JSON.stringify(result.data)).not.toMatch(/price_synthetic|sk_test|whsec/);
+  });
+});
+
+describe('account emails', () => {
+  test('verification and password-reset links carry the token in a URL fragment, never the query string', () => {
+    // A query-string token on the initial page load reaches Caddy's access log and rides along as the
+    // Referer on any same-origin request that follows; a fragment reaches neither.
+    const verifyHref = /href="([^"]+)"/.exec(verifyEmailHTML({ req: {} as never, token: 'verify-token-000000000', user: {} }))?.[1];
+    expect(verifyHref).toMatch(/^https?:\/\/[^?]+#token=verify-token-000000000$/);
+    const resetHref = /href="([^"]+)"/.exec(resetPasswordEmailHTML({ token: 'reset-token-0000000000' }))?.[1];
+    expect(resetHref).toMatch(/^https?:\/\/[^?]+#token=reset-token-0000000000$/);
   });
 });
 
