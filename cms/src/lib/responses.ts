@@ -19,6 +19,7 @@ export const ERRORS = Object.freeze({
   signature_invalid: [400, 'Stripe signature could not be verified'],
   event_in_progress: [409, 'This event is still being processed; retry later'],
   handler_failed: [500, 'Event could not be applied; the delivery should be retried'],
+  snapshot_too_large: [503, 'More active keys than one gateway snapshot can hold'],
   upstream_error: [502, 'Payment provider request failed'],
   unavailable: [503, 'Service unavailable'],
 } as const);

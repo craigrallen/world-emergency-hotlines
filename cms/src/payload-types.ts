@@ -353,11 +353,11 @@ export interface ApiKey {
   verifier: string;
   user: number | User;
   /**
-   * account: minted from /account and bound to the subscription below; if that subscription disappears the key is exported revoked. admin: created here without a granting subscription; follows the account's entitlement in its billing mode.
+   * account: minted from /account and bound to the subscription below; if that subscription disappears the key leaves the gateway export. admin: created here without a granting subscription; follows the account's entitlement in its billing mode.
    */
   issuedBy: 'account' | 'admin';
   /**
-   * Subscription that granted this key. The gateway export follows it: the key is exported revoked while that subscription is not active, and its permissions and quota follow the plan currently attached to it.
+   * Subscription that granted this key. The gateway export follows it: the key leaves the gateway export while that subscription is not active, and its permissions and quota follow the plan currently attached to it.
    */
   subscription?: (number | null) | Subscription;
   label?: string | null;

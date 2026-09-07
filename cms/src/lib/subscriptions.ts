@@ -5,7 +5,8 @@ import { INTERNAL_CONTEXT } from '../access';
 import { ACTIVE_STATUSES, SUBSCRIPTION_STATUSES } from '../collections/Subscriptions';
 
 type Id = string | number;
-type Doc = Record<string, unknown> & { id: Id };
+export type SubscriptionDoc = Record<string, unknown> & { id: Id };
+type Doc = SubscriptionDoc;
 
 export interface SubscriptionPatch {
   stripeSubscriptionId: string;
@@ -39,11 +40,20 @@ export interface ApplyOptions {
    * Same-second tie resolver. Whole-second `created` values cannot order two events
    * from the same second, so when the family's watermark equals `eventCreated` the
    * payload is not trusted: this returns the patch to apply instead (Stripe's current
-   * object for webhooks; the already-merged store record for the payments mirror).
-   * Without it, or when it returns null, the tied event is treated as stale.
+   * object for webhooks; see `syncSubscriptionFromEntitlement` for the payments mirror).
+   * It receives the stored document as read under the row lock. Without it, or when
+   * it returns null, the tied event is treated as stale.
    */
-  reconcile?: () => Promise<SubscriptionPatch | null>;
+  reconcile?: (existing: Doc | null) => Promise<SubscriptionPatch | null>;
 }
+
+/**
+ * Same-second tie resolver for the payments mirror: Stripe's current object for the
+ * family, as the webhook handlers use (`lib/stripe.ts` builds one from the CMS's
+ * Stripe client). Null means this CMS has no Stripe client, hence no webhook
+ * consumer, so the payments service is the only writer and its record applies.
+ */
+export type MirrorTieBreaker = (family: EventFamily, patch: SubscriptionPatch) => Promise<SubscriptionPatch | null>;
 
 interface DrizzleSession { db: { execute(query: unknown): Promise<unknown> } }
 interface DrizzleAdapterLike { name?: string; sessions?: Record<string, DrizzleSession>; tableNameMap?: Map<string, string> }
@@ -149,7 +159,7 @@ export async function applySubscriptionPatch(payload: Payload, incoming: Subscri
       if (typeof mark === 'number') {
         if (mark > options.eventCreated) return null;
         if (mark === options.eventCreated) {
-          const current = options.reconcile ? await options.reconcile() : null;
+          const current = options.reconcile ? await options.reconcile(existing) : null;
           if (!current) return null;
           applied = current;
         }
@@ -201,14 +211,43 @@ export async function applySubscriptionPatch(payload: Payload, incoming: Subscri
   }
 }
 
+const sameValue = (a: unknown, b: unknown): boolean => (a ?? null) === (b ?? null);
+
+/**
+ * True when applying `patch` would leave the fields its family owns unchanged on
+ * `existing`: the payments mirror replaying its own merged record (after an update
+ * to another family) ties with state it wrote itself and changes nothing.
+ */
+export function familyUnchanged(family: EventFamily, patch: SubscriptionPatch, existing: Doc): boolean {
+  if (patch.stripeCustomerId && !sameValue(patch.stripeCustomerId, existing.stripeCustomerId)) return false;
+  if (family === 'checkout') return patch.checkoutSessionId === undefined || sameValue(patch.checkoutSessionId, existing.checkoutSessionId);
+  if (family === 'invoice') {
+    return (patch.lastInvoiceId === undefined || sameValue(patch.lastInvoiceId, existing.lastInvoiceId))
+      && (patch.lastInvoiceStatus === undefined || sameValue(patch.lastInvoiceStatus, existing.lastInvoiceStatus));
+  }
+  const periodEnd = patch.currentPeriodEnd === undefined || patch.currentPeriodEnd === null ? undefined : new Date(patch.currentPeriodEnd * 1000).toISOString();
+  return (patch.status === undefined || patch.status === null || sameValue(enumStatus(patch.status), existing.status))
+    && (patch.cancelAtPeriodEnd === undefined || patch.cancelAtPeriodEnd === (existing.cancelAtPeriodEnd === true))
+    && (periodEnd === undefined || sameValue(periodEnd, existing.currentPeriodEnd))
+    && (!patch.stripePriceId || sameValue(patch.stripePriceId, existing.stripePriceId));
+}
+
 /**
  * Mirror a payments-service `sub:` entitlement record into the subscriptions
  * collection. The record is a merged view carrying one watermark per event family
  * (`<family>_event_epoch`, see payments/src/events.mjs), so each family's fields
  * are applied under their own watermark; a record that predates the per-family
  * epochs falls back to `updated_at_epoch`.
+ *
+ * A same-epoch tie is the mirror replaying its own record when the family's fields
+ * are unchanged, and applies. Different fields at an equal epoch mean the two Stripe
+ * consumers (this CMS's webhook and the payments service) applied different events
+ * from the same second; neither payload can be trusted for order, so `tieBreaker`
+ * (Stripe's current object) decides, and its failure fails this write so the
+ * payments service fails its delivery and Stripe retries. With no tie breaker this
+ * CMS has no webhook consumer and the payments record, the only writer, applies.
  */
-export async function syncSubscriptionFromEntitlement(payload: Payload, doc: Record<string, unknown>, req?: PayloadRequest): Promise<Doc | null> {
+export async function syncSubscriptionFromEntitlement(payload: Payload, doc: Record<string, unknown>, req?: PayloadRequest, tieBreaker: MirrorTieBreaker | null = null): Promise<Doc | null> {
   const record = (doc.record && typeof doc.record === 'object' ? doc.record : {}) as Record<string, unknown>;
   const subscriptionId = typeof doc.subscription === 'string' && doc.subscription ? doc.subscription : String(doc.key ?? '').replace(/^sub:/, '');
   if (!/^sub_[A-Za-z0-9]{8,}$/.test(subscriptionId)) return null;
@@ -218,9 +257,11 @@ export async function syncSubscriptionFromEntitlement(payload: Payload, doc: Rec
   const meta = { eventId: typeof doc.sourceEvent === 'string' ? doc.sourceEvent : null, source: 'payments' as const };
   const invoiceStatus = record.last_invoice_status === 'paid' || record.last_invoice_status === 'payment_failed' ? record.last_invoice_status : undefined;
 
-  // The store record is already a merged, ordered view (the payments service reconciles
-  // its own ties against Stripe), so a same-epoch tie applies it rather than refusing it.
-  const apply = (patch: SubscriptionPatch, family: EventFamily) => applySubscriptionPatch(payload, patch, { ...meta, family, eventCreated: epochOf(family), reconcile: async () => patch }, req);
+  const settle = (family: EventFamily, patch: SubscriptionPatch) => async (existing: Doc | null): Promise<SubscriptionPatch | null> => {
+    if (existing && familyUnchanged(family, patch, existing)) return patch;
+    return tieBreaker ? tieBreaker(family, patch) : patch;
+  };
+  const apply = (patch: SubscriptionPatch, family: EventFamily) => applySubscriptionPatch(payload, patch, { ...meta, family, eventCreated: epochOf(family), reconcile: settle(family, patch) }, req);
   let result: Doc | null = null;
   const applied = await apply({
     ...base, offer: typeof doc.offer === 'string' ? doc.offer : null,

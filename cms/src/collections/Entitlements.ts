@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload';
 import { APIError } from 'payload';
 import { isAdmin, isAdminOrPaymentsStore, isStaffOrPaymentsStore } from '../access';
+import { mirrorTieBreaker } from '../lib/stripe';
 import { EVENT_FAMILIES, lockRow, syncSubscriptionFromEntitlement, type EventFamily } from '../lib/subscriptions';
 
 export const STALE_RECORD = 'stale_record';
@@ -99,7 +100,7 @@ export const Entitlements: CollectionConfig = {
           // Runs inside the request transaction and propagates failures on purpose:
           // the payments service then sees a failed store write, releases its event
           // claim, and Stripe retries, instead of a stale mirror behind a 2xx.
-          try { await syncSubscriptionFromEntitlement(req.payload, doc, req); } catch (error) {
+          try { await syncSubscriptionFromEntitlement(req.payload, doc, req, mirrorTieBreaker()); } catch (error) {
             req.payload.logger.error({ err: error instanceof Error ? error.message : 'unknown', key: doc.key }, 'entitlement → subscription sync failed');
             throw error;
           }

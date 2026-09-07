@@ -282,6 +282,38 @@ describe('payments-service store contract (service API key)', () => {
     expect(member.status).toBe(403);
   });
 
+  test('a same-second tie between the CMS webhook and the payments mirror is settled by Stripe, not by whichever consumer wrote last', async () => {
+    const id = 'sub_synthetic00000006';
+    const at = 2145919000;
+    const find = async () => (await payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: id } }, overrideAccess: true, depth: 0 })).docs[0];
+    const retrievals = () => stripe.requests.filter((r) => r.method === 'GET' && r.path === `/v1/subscriptions/${id}`).length;
+    const document = (r: Record<string, unknown>) => ({ key: r.key, kind: 'subscription', offer: r.offer, offerKnown: true, status: r.status, customer: r.customer, subscription: id, livemode: false, updatedAtEpoch: r.updated_at_epoch, sourceEvent: r.source_event, source: 'payments', record: r });
+    // The CMS webhook applied the cancellation from second `at`.
+    expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.updated', subscription(id, { customer: 'cus_synthetic00000006', status: 'canceled' }), { created: at }) as never)).toBe('processed');
+    expect((await find()).status).toBe('canceled');
+    // The payments service saw the pre-cancellation "active" event from the same second and mirrors its record last: neither
+    // consumer's payload can order the two, so Stripe's current object (canceled) decides and the keys stay off.
+    stripe.objects.set(`/v1/subscriptions/${id}`, subscription(id, { customer: 'cus_synthetic00000006', status: 'canceled' }));
+    const record = { key: `sub:${id}`, kind: 'subscription', offer: 'growth_monthly', offer_known: true, customer: 'cus_synthetic00000006', status: 'active', livemode: false, updated_at_epoch: at, subscription_event_epoch: at, source_event: 'evt_payments00000020' };
+    const created = await call('/cms/api/entitlements?depth=0', { method: 'POST', apiKey: service.apiKey, origin: null, body: document(record) });
+    expect(created.status).toBe(201);
+    expect((await find()).status).toBe('canceled');
+    expect(retrievals()).toBe(1);
+    // The mirror replaying its own record (here after an invoice update) ties with unchanged subscription fields and applies without asking Stripe.
+    const invoiced = { ...record, status: 'canceled', last_invoice: 'in_synthetic00000060', last_invoice_status: 'paid', invoice_event_epoch: at + 5, updated_at_epoch: at + 5, source_event: 'evt_payments00000021', based_on_revision: 1 };
+    expect((await call(`/cms/api/entitlements/${created.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: document(invoiced) })).status).toBe(200);
+    expect(await find()).toMatchObject({ status: 'canceled', lastInvoiceId: 'in_synthetic00000060', lastInvoiceStatus: 'paid' });
+    expect(retrievals()).toBe(1);
+    // If Stripe cannot be asked, a conflicting tie fails the store write (the payments service then fails its delivery and
+    // Stripe retries it) instead of applying either side.
+    stripe.objects.delete(`/v1/subscriptions/${id}`);
+    const conflicting = { ...invoiced, status: 'active', updated_at_epoch: at + 6, source_event: 'evt_payments00000022', based_on_revision: 2 };
+    expect((await call(`/cms/api/entitlements/${created.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: document(conflicting) })).status).toBe(500);
+    expect((await find()).status).toBe('canceled');
+    expect(retrievals()).toBe(2);
+    // (On Postgres the failed request also rolls the store write back; the SQLite test adapter does not run transactions.)
+  });
+
   test('an entitlement write that would move a family epoch backwards is refused with 409, atomically with the write', async () => {
     const record = { key: 'sub:sub_synthetic00000004', kind: 'subscription', offer: 'growth_monthly', offer_known: true, customer: 'cus_synthetic00000001', status: 'active', livemode: false, updated_at_epoch: 2145918000, subscription_event_epoch: 2145918000, checkout_event_epoch: 2145917990, source_event: 'evt_payments00000010' };
     const document = (r: typeof record) => ({ key: r.key, kind: 'subscription', offer: r.offer, offerKnown: true, status: r.status, customer: r.customer, subscription: 'sub_synthetic00000004', livemode: false, updatedAtEpoch: r.updated_at_epoch, sourceEvent: r.source_event, source: 'payments', record: r });
@@ -315,10 +347,13 @@ describe('payments-service store contract (service API key)', () => {
     expect(await mirrored()).toMatchObject({ status: 'canceled', lastSubscriptionEventCreated: 2145918100 });
     const same = await call(`/cms/api/entitlements/${created.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: document(newer) });
     expect(same.status).toBe(200);
-    // The store record is the payments service's already-ordered view, so a same-epoch change to it is mirrored rather than refused.
+    // A same-epoch change to the record (the payments service reconciled a tie of its own against Stripe) is accepted by the
+    // store, but the mirror does not take its word for the order either: it asks Stripe and mirrors the current state.
+    stripe.objects.set('/v1/subscriptions/sub_synthetic00000004', subscription('sub_synthetic00000004', { customer: 'cus_synthetic00000001', status: 'past_due' }));
     const sameEpochChange = await call(`/cms/api/entitlements/${created.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: document({ ...newer, status: 'past_due', source_event: 'evt_payments00000013' }) });
     expect(sameEpochChange.status).toBe(200);
     expect(await mirrored()).toMatchObject({ status: 'past_due', lastSubscriptionEventCreated: 2145918100 });
+    expect(stripe.requests.filter((r) => r.method === 'GET' && r.path === '/v1/subscriptions/sub_synthetic00000004').length).toBe(1);
   });
 });
 
@@ -362,24 +397,27 @@ describe('managed API keys', () => {
     addFormats(ajv);
     const validate = ajv.compile(schema);
     for (const record of exported.data.keys) expect(validate(record), JSON.stringify(validate.errors)).toBe(true);
-    const mine = exported.data.keys.find((record: { id: string }) => record.id === created.data.record.id);
-    expect(mine.state).toBe('revoked');
-    expect(mine.verifier).toBe(createHmac('sha256', process.env.GATEWAY_KEY_PEPPER as string).update(raw).digest('base64url'));
-    expect(toGatewayRecord({ keyId: 'abcdefabcdef', verifier: mine.verifier, state: 'active', expiresAt: '2000-01-01T00:00:00.000Z', permissions: ['manifest'], quotaRate: 1, quotaBurst: 1 }).state).toBe('expired');
+    // A revoked key is not exported at all: the gateway refuses a key it does not know exactly as it refuses a revoked one,
+    // so revoked and expired history never counts against the gateway's snapshot limit.
+    expect(exported.data.keys.find((record: { id: string }) => record.id === created.data.record.id)).toBeUndefined();
+    expect(exported.data.keys.every((record: { state: string }) => record.state === 'active')).toBe(true);
     const stillActive = second.data.record.id as string;
-    expect(exported.data.keys.find((record: { id: string }) => record.id === stillActive).state).toBe('active');
+    const active = exported.data.keys.find((record: { id: string }) => record.id === stillActive);
+    expect(active.state).toBe('active');
+    expect(active.verifier).toBe(createHmac('sha256', process.env.GATEWAY_KEY_PEPPER as string).update(second.data.key as string).digest('base64url'));
+    expect(toGatewayRecord({ keyId: 'abcdefabcdef', verifier: active.verifier, state: 'active', expiresAt: '2000-01-01T00:00:00.000Z', permissions: ['manifest'], quotaRate: 1, quotaBurst: 1 }).state).toBe('expired');
     // Losing every entitlement suspends the export; recovering one restores the key.
     // (The buyer also holds sub_synthetic00000003 from the ordering test above.)
     expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.deleted', subscription('sub_synthetic00000001', { status: 'canceled' }), { created: 2145917200 }) as never)).toBe('processed');
     expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.deleted', subscription('sub_synthetic00000003', { status: 'canceled' }), { created: 2145917200 }) as never)).toBe('processed');
     const suspended = await call('/cms/api/gateway/keys', { apiKey: 'service-api-key-synthetic-0002', origin: null });
-    expect(suspended.data.keys.find((record: { id: string }) => record.id === stillActive).state).toBe('revoked');
+    expect(suspended.data.keys.find((record: { id: string }) => record.id === stillActive)).toBeUndefined(); // revoked by entitlement: not exported
     expect((await payload.find({ collection: 'api-keys', where: { keyId: { equals: stillActive } }, overrideAccess: true })).docs[0].state).toBe('active'); // stored record untouched
     // The keys were granted by sub_synthetic00000003 (the newest active subscription at mint time), so recovering a
     // different subscription on the same account does not restore them; recovering the granting one does.
     expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.updated', subscription('sub_synthetic00000001', { status: 'active' }), { created: 2145917300 }) as never)).toBe('processed');
     const otherSubscription = await call('/cms/api/gateway/keys', { apiKey: 'service-api-key-synthetic-0002', origin: null });
-    expect(otherSubscription.data.keys.find((record: { id: string }) => record.id === stillActive).state).toBe('revoked');
+    expect(otherSubscription.data.keys.find((record: { id: string }) => record.id === stillActive)).toBeUndefined();
     expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.updated', subscription('sub_synthetic00000003', { status: 'active' }), { created: 2145917300 }) as never)).toBe('processed');
     const restored = await call('/cms/api/gateway/keys', { apiKey: 'service-api-key-synthetic-0002', origin: null });
     expect(restored.data.keys.find((record: { id: string }) => record.id === stillActive).state).toBe('active');
@@ -429,7 +467,7 @@ describe('managed API keys', () => {
     // Cancelling the granting (pro) subscription revokes the key in the export even though the cheaper subscription keeps the account entitled.
     expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.deleted', priced('sub_synthetic00000011', 'price_synthetic0002', { status: 'canceled' }), { created: 2145917000 }) as never)).toBe('processed');
     expect((await call('/cms/api/account/me', { token })).data.entitlement).toEqual({ active: true, offer: 'growth_monthly' });
-    expect((await exportedKey()).state).toBe('revoked');
+    expect(await exportedKey()).toBeUndefined(); // revoked keys are not exported
     // Reactivating it restores the key; moving it to the cheaper plan moves the key's policy with it.
     expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.updated', priced('sub_synthetic00000011', 'price_synthetic0001'), { created: 2145917100 }) as never)).toBe('processed');
     expect(await exportedKey()).toMatchObject({ state: 'active', permissions: ['manifest', 'records'], quota: { rate: 2, burst: 20 } });
@@ -437,7 +475,7 @@ describe('managed API keys', () => {
     // the key is exported revoked and no new key can be minted, instead of the old plan's policy surviving on an unconfigured product.
     expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.updated', priced('sub_synthetic00000011', 'price_synthetic0098', { metadata: { cms_user: String(tiered.id), offer: 'pro_monthly' } }), { created: 2145917150 }) as never)).toBe('processed');
     expect((await payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: 'sub_synthetic00000011' } }, overrideAccess: true, depth: 0 })).docs[0]).toMatchObject({ status: 'active', plan: null, offer: null });
-    expect((await exportedKey()).state).toBe('revoked');
+    expect(await exportedKey()).toBeUndefined(); // revoked keys are not exported
     expect((await call('/cms/api/account/api-keys', { method: 'POST', token, body: {} })).data.error.code).toBe('plan_unconfigured');
     // The payments mirror replaying its record (old offer metadata, no price) cannot restore the cleared plan: the billed
     // price already recorded on the subscription decides. A record that carries a configured price brings the plan back.
@@ -447,7 +485,7 @@ describe('managed API keys', () => {
     const created = await call('/cms/api/entitlements?depth=0', { method: 'POST', apiKey: 'service-api-key-synthetic-0001', origin: null, body: mirror(record) });
     expect(created.status).toBe(201);
     expect(await subscription11()).toMatchObject({ status: 'active', plan: null, offer: null, stripePriceId: 'price_synthetic0098', lastSubscriptionEventCreated: 2145917155 });
-    expect((await exportedKey()).state).toBe('revoked');
+    expect(await exportedKey()).toBeUndefined(); // revoked keys are not exported
     const repriced = await call(`/cms/api/entitlements/${created.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: 'service-api-key-synthetic-0001', origin: null, body: mirror({ ...record, price: 'price_synthetic0001', updated_at_epoch: 2145917158, subscription_event_epoch: 2145917158, source_event: 'evt_payments00000012', based_on_revision: 1 }) });
     expect(repriced.status).toBe(200);
     const growthPlan = (await payload.find({ collection: 'plans', where: { offerId: { equals: 'growth_monthly' } }, overrideAccess: true, depth: 0 })).docs[0];
@@ -461,7 +499,7 @@ describe('managed API keys', () => {
     const deleted = await call(`/cms/api/subscriptions/${pro.id}`, { method: 'DELETE', token: await login('admin@example.test', PASSWORD) });
     expect(deleted.status).toBe(200);
     expect((await payload.find({ collection: 'api-keys', where: { keyId: { equals: minted.data.record.id } }, overrideAccess: true, depth: 0 })).docs[0]).toMatchObject({ state: 'revoked', subscription: null });
-    expect((await exportedKey()).state).toBe('revoked');
+    expect(await exportedKey()).toBeUndefined(); // revoked keys are not exported
     expect((await call('/cms/api/account/me', { token })).data.entitlement).toEqual({ active: true, offer: 'growth_monthly' }); // the account itself stays entitled through the cheaper plan
   });
 

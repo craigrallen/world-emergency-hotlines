@@ -4,7 +4,7 @@ import { ValidationError } from 'payload';
 import { INTERNAL_CONTEXT } from '../access';
 import { CLAIM_GRACE_SECONDS, claimKeyFor, type EventSource } from '../collections/StripeEvents';
 import { getEnv } from '../env';
-import { applySubscriptionPatch, inTransaction, lockRow, type SubscriptionPatch } from './subscriptions';
+import { applySubscriptionPatch, inTransaction, lockRow, type MirrorTieBreaker, type SubscriptionPatch } from './subscriptions';
 
 export const CHECKOUT_ORIGIN = 'https://checkout.stripe.com';
 export const PORTAL_ORIGIN = 'https://billing.stripe.com';
@@ -138,6 +138,37 @@ function invoicePatch(invoice: InvoiceLike, livemode: boolean, status: 'paid' | 
 /** From a fetched invoice its status is authoritative; anything not paid/open/uncollectible leaves the last status alone. */
 const fetchedInvoiceStatus = (invoice: Stripe.Invoice): 'paid' | 'payment_failed' | null => (invoice.status === 'paid' ? 'paid' : invoice.status === 'open' || invoice.status === 'uncollectible' ? 'payment_failed' : null);
 
+/**
+ * Invoice-family patch from Stripe's current state. Two invoice events in one second
+ * may concern different invoices, so a tie is resolved from the subscription's latest
+ * invoice, never from whichever invoice a delivery happens to carry.
+ */
+async function latestInvoicePatch(stripe: Stripe, subscriptionId: string, livemode: boolean): Promise<SubscriptionPatch | null> {
+  const current = await stripe.subscriptions.retrieve(subscriptionId);
+  const latestId = stripeId(current.latest_invoice);
+  if (!latestId) return null;
+  const latest = current.latest_invoice && typeof current.latest_invoice === 'object' ? (current.latest_invoice as Stripe.Invoice) : await stripe.invoices.retrieve(latestId);
+  return { stripeSubscriptionId: subscriptionId, stripeCustomerId: stripeId(current.customer), livemode, lastInvoiceId: latestId, lastInvoiceStatus: fetchedInvoiceStatus(latest) ?? undefined };
+}
+
+/**
+ * Same-second tie resolver for the payments mirror (`syncSubscriptionFromEntitlement`):
+ * Stripe's current object for the family, exactly as the webhook handlers reconcile
+ * their own ties. Null while this CMS has no Stripe client: it then has no webhook
+ * consumer either, so the payments service is the only writer of subscription state
+ * and its merged record is authoritative.
+ */
+export function mirrorTieBreaker(): MirrorTieBreaker | null {
+  const stripe = getStripe();
+  if (!stripe) return null;
+  return async (family, patch) => {
+    const livemode = patch.livemode === true;
+    if (family === 'subscription') return subscriptionPatch(await stripe.subscriptions.retrieve(patch.stripeSubscriptionId), livemode);
+    if (family === 'invoice') return latestInvoicePatch(stripe, patch.stripeSubscriptionId, livemode);
+    return patch.checkoutSessionId ? checkoutPatch(await stripe.checkout.sessions.retrieve(patch.checkoutSessionId), livemode) : null;
+  };
+}
+
 async function onCheckoutSession(payload: Payload, event: Stripe.Event): Promise<string> {
   const session = event.data.object as Stripe.Checkout.Session;
   const customer = stripeId(session.customer);
@@ -173,17 +204,7 @@ async function onInvoice(payload: Payload, event: Stripe.Event): Promise<string>
   const subscriptionId = patch.stripeSubscriptionId;
   const result = await applySubscriptionPatch(payload, patch, {
     family: 'invoice', eventCreated: event.created, eventId: event.id, source: 'cms',
-    // Two invoice events in one second may concern different invoices, so the tie is
-    // resolved from the subscription's latest invoice, never from whichever invoice this
-    // delivery happens to carry.
-    reconcile: async () => {
-      const stripe = stripeForReconcile();
-      const current = await stripe.subscriptions.retrieve(subscriptionId);
-      const latestId = stripeId(current.latest_invoice);
-      if (!latestId) return null;
-      const latest = current.latest_invoice && typeof current.latest_invoice === 'object' ? (current.latest_invoice as Stripe.Invoice) : await stripe.invoices.retrieve(latestId);
-      return { stripeSubscriptionId: subscriptionId, stripeCustomerId: stripeId(current.customer), livemode: event.livemode, lastInvoiceId: latestId, lastInvoiceStatus: fetchedInvoiceStatus(latest) ?? undefined };
-    },
+    reconcile: async () => latestInvoicePatch(stripeForReconcile(), subscriptionId, event.livemode),
   });
   return result ? 'processed' : 'stale';
 }
