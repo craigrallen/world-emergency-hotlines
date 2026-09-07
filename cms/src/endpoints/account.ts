@@ -9,6 +9,7 @@ import { CHECKOUT_ORIGIN, PORTAL_ORIGIN, getStripe } from '../lib/stripe';
 import { customerField, customerOf } from '../lib/customers';
 import { policyOf, type GatewayPolicy } from './gateway';
 import { forEachActiveSubscription, inTransaction, lockRow, newerSubscription } from '../lib/subscriptions';
+import { ACTIVE_STATUSES } from '../collections/Subscriptions';
 
 type Doc = Record<string, unknown> & { id: string | number };
 /** Revoked and expired keys shown on the account page (newest first); active keys are never truncated. */
@@ -23,6 +24,28 @@ export const INACTIVE_KEY_HISTORY = 50;
 export const grantLivemode = (stripeMode: StripeMode): boolean => stripeMode !== 'test';
 
 const relationId = (value: unknown): string | number | null => (typeof value === 'string' || typeof value === 'number' ? value : value && typeof value === 'object' && 'id' in value ? (value as { id: string | number }).id : null);
+
+/** Bound on how many candidates a key mint tries before giving up (matches other CAS-retry loops in this codebase). */
+const MAX_GRANT_ATTEMPTS = 5;
+
+/**
+ * Re-reads a candidate granting subscription under a row lock keyed the same way the webhook
+ * path locks it (`stripe_subscription_id`), so the two paths serialize against each other: a
+ * webhook that cancels the subscription or clears its plan either committed before this lock is
+ * taken (and is then visible here) or blocks until this transaction commits. Returns the current
+ * subscription, plan, and policy, or null when the candidate no longer qualifies to grant a key.
+ */
+async function lockAndRevalidateGrant(payload: Payload, tx: PayloadRequest, candidate: { subscription: Doc }): Promise<{ subscription: Doc; plan: Doc; policy: GatewayPolicy } | null> {
+  await lockRow(payload, tx, 'subscriptions', 'stripe_subscription_id', String(candidate.subscription.stripeSubscriptionId));
+  const subscription = (await payload.findByID({ collection: 'subscriptions', id: candidate.subscription.id, depth: 0, overrideAccess: true, disableErrors: true, req: tx })) as unknown as Doc | null;
+  if (!subscription || !(ACTIVE_STATUSES as readonly string[]).includes(String(subscription.status))) return null;
+  const planId = relationId(subscription.plan);
+  if (planId === null) return null;
+  const plan = (await payload.findByID({ collection: 'plans', id: planId, depth: 0, overrideAccess: true, disableErrors: true, req: tx })) as unknown as Doc | null;
+  const policy = policyOf(plan ?? undefined);
+  if (!plan || !policy) return null;
+  return { subscription, plan, policy };
+}
 
 /**
  * The user's newest active subscription in this billing mode (null when there is none) and
@@ -237,8 +260,21 @@ export const accountEndpoints: Endpoint[] = [
         // The key's policy comes only from the plan attached to the granting subscription (the newest
         // active one with a resolvable policy). Active subscriptions without one (deleted plan, unknown
         // price) grant nothing, and when none has a policy there is no default to fall back to.
-        if (!granting) throw new EndpointError('plan_unconfigured');
-        const { subscription: grantor, policy } = granting;
+        //
+        // Locking the user's row above serializes concurrent mint requests against each other, but a webhook that
+        // cancels this subscription or clears its plan locks only the subscription row, not the user's, and can
+        // commit in the gap between the read above and the key insert below. The candidate is re-read and locked by
+        // its own row immediately before use, so such a webhook is either already visible here or blocks until this
+        // transaction is done; a candidate that no longer qualifies is replaced by searching again, bounded so a
+        // subscription that keeps changing cannot spin this forever.
+        let confirmed = granting ? await lockAndRevalidateGrant(req.payload, tx, granting) : null;
+        for (let attempt = 1; !confirmed && attempt < MAX_GRANT_ATTEMPTS; attempt += 1) {
+          const retry = (await entitlingSubscriptions(req.payload, user.id, grantLivemode(env.stripeMode), tx)).granting;
+          if (!retry) break;
+          confirmed = await lockAndRevalidateGrant(req.payload, tx, retry);
+        }
+        if (!confirmed) throw new EndpointError('plan_unconfigured');
+        const { subscription: grantor, policy } = confirmed;
         return (await req.payload.create({
           collection: 'api-keys',
           data: {
