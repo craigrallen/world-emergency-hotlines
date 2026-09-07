@@ -328,6 +328,28 @@ describe('payments-service store contract (service API key)', () => {
     expect(member.status).toBe(403);
   });
 
+  test('a checkout-family delivery with no checkout data yet never advances that family\'s watermark, so a genuinely older one still applies', async () => {
+    const id = 'sub_synthetic00000500';
+    // First delivery carries only subscription-family data (a subscription created without ever going through
+    // Checkout, e.g. via a Payment Link): no checkout_session, no offer, and no checkout_event_epoch at all.
+    const subscriptionOnly = { key: `sub:${id}`, kind: 'subscription', offer: null, offer_known: false, customer: 'cus_synthetic00000500', status: 'active', livemode: false, updated_at_epoch: 2145920000, subscription_event_epoch: 2145920000, source_event: 'evt_payments00000030' };
+    const doc1 = { key: subscriptionOnly.key, kind: 'subscription', offer: null, offerKnown: false, status: 'active', customer: subscriptionOnly.customer, subscription: id, livemode: false, updatedAtEpoch: subscriptionOnly.updated_at_epoch, sourceEvent: subscriptionOnly.source_event, source: 'payments', record: subscriptionOnly };
+    const created = await call('/cms/api/entitlements?depth=0', { method: 'POST', apiKey: service.apiKey, origin: null, body: doc1 });
+    expect(created.status).toBe(201);
+    const subscriptionDoc = async () => (await payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: id } }, overrideAccess: true, depth: 0 })).docs[0] as { status?: string; offer?: string | null } | undefined;
+    for (let i = 0; i < 50 && !(await subscriptionDoc()); i += 1) await wait(50);
+    expect(await subscriptionDoc()).toMatchObject({ status: 'active', offer: null });
+    // A later-delivered update finally supplies the checkout family's first real data, but the Stripe event
+    // behind it is chronologically OLDER (2145919000) than the subscription-family epoch already applied
+    // (2145920000). Without the fix, the first delivery would have borrowed that later epoch as the checkout
+    // family's own watermark, rejecting this genuinely older delivery as stale and leaving the mirror planless.
+    const checkoutArrives = { ...subscriptionOnly, offer: 'growth_monthly', offer_known: true, checkout_session: 'cs_synthetic00000500', checkout_event_epoch: 2145919000, updated_at_epoch: 2145920100, source_event: 'evt_payments00000031' };
+    const patched = await call(`/cms/api/entitlements/${created.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { ...doc1, offer: 'growth_monthly', offerKnown: true, updatedAtEpoch: checkoutArrives.updated_at_epoch, sourceEvent: checkoutArrives.source_event, record: checkoutArrives } });
+    expect(patched.status).toBe(200);
+    for (let i = 0; i < 50 && (await subscriptionDoc())?.offer !== 'growth_monthly'; i += 1) await wait(50);
+    expect(await subscriptionDoc()).toMatchObject({ offer: 'growth_monthly' });
+  });
+
   test('a same-second tie between the CMS webhook and the payments mirror is settled by Stripe, not by whichever consumer wrote last', async () => {
     const id = 'sub_synthetic00000006';
     const at = 2145919000;

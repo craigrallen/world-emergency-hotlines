@@ -281,11 +281,17 @@ export async function syncSubscriptionFromEntitlement(payload: Payload, doc: Rec
   };
   const apply = (patch: SubscriptionPatch, family: EventFamily) => applySubscriptionPatch(payload, patch, { ...meta, family, eventCreated: epochOf(family), reconcile: settle(family, patch) }, req);
   let result: Doc | null = null;
-  const applied = await apply({
-    ...base, offer: typeof doc.offer === 'string' ? doc.offer : null,
-    checkoutSessionId: typeof record.checkout_session === 'string' ? record.checkout_session : undefined,
-  }, 'checkout');
-  result = applied ?? result;
+  // Applied only when this delivery actually carries checkout-family data (a session, an offer, or the
+  // family's own watermark): otherwise there is nothing to write, and stamping the watermark anyway
+  // (borrowing updated_at_epoch as epochOf's fallback) would reject a genuinely older checkout delivery
+  // that later supplies the family's first real data as stale.
+  if (typeof record.checkout_session === 'string' || typeof doc.offer === 'string' || Number.isInteger(record.checkout_event_epoch)) {
+    const applied = await apply({
+      ...base, offer: typeof doc.offer === 'string' ? doc.offer : null,
+      checkoutSessionId: typeof record.checkout_session === 'string' ? record.checkout_session : undefined,
+    }, 'checkout');
+    result = applied ?? result;
+  }
   if (typeof doc.status === 'string' && doc.status !== 'pending_subscription_event') {
     const applied2 = await apply({
       ...base, status: doc.status, cancelAtPeriodEnd: record.cancel_at_period_end === true,

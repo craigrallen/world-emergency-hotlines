@@ -40,6 +40,22 @@ describe('account emails', () => {
     const resetHref = /href="([^"]+)"/.exec(resetPasswordEmailHTML({ token: 'reset-token-0000000000' }))?.[1];
     expect(resetHref).toMatch(/^https?:\/\/[^?]+#token=reset-token-0000000000$/);
   });
+
+  test('the verify-email endpoint takes the token in the request body, never the URL, so it never reaches an access log', async () => {
+    const unverified = await createUser(payload, { email: 'unverified@example.test', password: PASSWORD, _verified: false });
+    // `_verificationToken` denies field-level write access unconditionally (even with overrideAccess), by
+    // design: only Payload's own auth machinery may set it. The raw db layer bypasses that field access,
+    // exactly like the verifyEmail operation's own token-clearing update does, purely to arrange this test.
+    await payload.db.updateOne({ collection: 'users', id: unverified.id, data: { _verificationToken: 'a'.repeat(40) }, returning: false });
+    const wrong = await call('/cms/api/account/verify-email', { method: 'POST', body: { token: 'b'.repeat(40) } });
+    expect(wrong.status).toBe(400);
+    expect(wrong.data.error.code).toBe('verification_failed');
+    expect((await payload.findByID({ collection: 'users', id: unverified.id, overrideAccess: true }))._verified).not.toBe(true); // wrong token never verifies
+    const ok = await call('/cms/api/account/verify-email', { method: 'POST', body: { token: 'a'.repeat(40) } });
+    expect(ok.status).toBe(200);
+    expect(ok.data).toEqual({ verified: true });
+    expect((await payload.findByID({ collection: 'users', id: unverified.id, overrideAccess: true }))._verified).toBe(true);
+  });
 });
 
 describe('registration and sessions', () => {

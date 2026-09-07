@@ -164,6 +164,17 @@ export const accountEndpoints: Endpoint[] = [
     }),
   },
   {
+    // Public: verifies an emailed token via the local API, in the request body rather than the URL
+    // path Payload's own REST verify route uses, so the live token never appears in Caddy's access log.
+    path: '/account/verify-email', method: 'post',
+    handler: (req) => guarded(req, async () => {
+      const body = await readJsonBody(req);
+      if (typeof body.token !== 'string' || !/^[A-Za-z0-9_-]{16,256}$/.test(body.token)) throw new EndpointError('invalid_request');
+      try { await req.payload.verifyEmail({ collection: 'users', token: body.token }); } catch { throw new EndpointError('verification_failed'); }
+      return json(req, 200, { verified: true });
+    }),
+  },
+  {
     path: '/account/me', method: 'get',
     handler: (req) => guarded(req, async () => {
       const user = requireAccount(req);

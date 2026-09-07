@@ -4,7 +4,7 @@
 const API = '/cms/api';
 const ENDPOINTS = {
   status: `${API}/account/status`, me: `${API}/account/me`, checkout: `${API}/account/checkout`, portal: `${API}/account/portal`, apiKeys: `${API}/account/api-keys`,
-  login: `${API}/users/login`, logout: `${API}/users/logout`, register: `${API}/users`, forgot: `${API}/users/forgot-password`, reset: `${API}/users/reset-password`, verify: `${API}/users/verify`,
+  login: `${API}/users/login`, logout: `${API}/users/logout`, register: `${API}/users`, forgot: `${API}/users/forgot-password`, reset: `${API}/users/reset-password`, verify: `${API}/account/verify-email`,
 };
 const STRIPE_HOSTED = ['https://checkout.stripe.com/', 'https://billing.stripe.com/'];
 
@@ -329,7 +329,10 @@ export async function mountVerifyPage(root) {
   const status = await fetchStatus();
   if (!status.enabled) { setView(root, 'disabled'); return; }
   setView(root, 'result');
-  const result = await api(`${ENDPOINTS.verify}/${encodeURIComponent(token)}`, { method: 'POST' });
+  // The token travels in the request body, not the URL: Caddy's access log records the request
+  // line, and a URL-path token would still be a live credential in that log even after it moved
+  // out of the page's own address bar.
+  const result = await api(ENDPOINTS.verify, { method: 'POST', body: { token } });
   if (result.ok) { window.location.replace('/account?verified=1'); return; }
   if (result.status === 400) { scrub(); output.textContent = 'This verification link is invalid or has already been used.'; return; }
   output.textContent = `${errorMessage(result)} Reload this page to try again.`;

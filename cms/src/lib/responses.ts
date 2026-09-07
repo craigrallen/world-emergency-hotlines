@@ -8,6 +8,7 @@ export const ERRORS = Object.freeze({
   unknown_offer: [400, 'Unknown offer'],
   unsupported_offer: [400, 'This offer cannot be purchased from the account page'],
   not_found: [404, 'Not found'],
+  verification_failed: [400, 'This verification link is invalid or has already been used'],
   registration_closed: [403, 'Registration is closed'],
   email_unverified: [403, 'Verify your email address first'],
   stripe_disabled: [503, 'Billing is not enabled'],
