@@ -214,9 +214,22 @@ const packValid = pack.schema === 'data-assurance-pack/v1'
 if (!packValid) { console.error('Assurance pack or current-release relationship validation failed'); process.exit(1); }
 NODE
 
+# Payments foundation stays prepared-but-disabled in the shipped image.
+payments_status=$(curl --max-time 5 -sS -X POST -o "$fixture/payments-disabled.json" -w '%{http_code}' "$base/billing/api/checkout-session")
+[ "$payments_status" = 503 ] || { echo "POST /billing/api/checkout-session returned $payments_status, expected 503 while payments are disabled" >&2; exit 1; }
+[ "$(cat "$fixture/payments-disabled.json")" = '{"error":{"code":"payments_disabled","message":"Payments are not enabled"}}' ] || { echo 'payments_disabled body drifted' >&2; exit 1; }
+require_page /billing 'Payments are not enabled' "$fixture/billing.html"
+require_page /billing 'data-payments-mode="disabled"' "$fixture/billing.html"
+require_page /billing/success 'Checkout complete' "$fixture/billing-success.html"
+require_page /billing/cancelled 'Nothing was charged' "$fixture/billing-cancelled.html"
+require_page /robots.txt 'Disallow: /billing/' "$fixture/robots.txt"
+if docker exec "$container" grep -R -F -l 'js.stripe.com' /srv >/dev/null 2>&1; then echo 'Stripe.js reference exists in the served root; hosted Checkout must not load Stripe scripts' >&2; exit 1; fi
+if docker exec "$container" grep -R -E -l '(sk|rk|pk)_(test|live)_[A-Za-z0-9]{24,}|whsec_[A-Za-z0-9]{24,}' /srv >/dev/null 2>&1; then echo 'Stripe key-like material exists in the served root' >&2; exit 1; fi
+if docker exec "$container" sh -c 'test -e /srv/billing/api'; then echo '/srv/billing/api must not exist as a static path' >&2; exit 1; fi
+
 missing=/release/v1/does-not-exist.json
 missing_status=$(curl --max-time 5 -sS -o "$fixture/missing.txt" -w '%{http_code}' "$base$missing")
 [ "$missing_status" = 404 ] || { echo "GET $missing returned $missing_status, expected 404" >&2; exit 1; }
 [ "$(cat "$fixture/missing.txt")" = 'Not found' ] || { echo "GET $missing did not return the stable 404 body" >&2; exit 1; }
 
-echo "Deployment image OK: Docker build; raw traveler-card JSON GET/HEAD MIME, invariants, release hash/bytes, and read-only 404s; assurance and release relationships"
+echo "Deployment image OK: Docker build; payments route 503 and /billing pages disabled; raw traveler-card JSON GET/HEAD MIME, invariants, release hash/bytes, and read-only 404s; assurance and release relationships"

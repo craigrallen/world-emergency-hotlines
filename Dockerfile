@@ -29,6 +29,7 @@ COPY managed-api-plans/ ./managed-api-plans/
 COPY assurance-packs/ ./assurance-packs/
 COPY deprecation-proposals/ ./deprecation-proposals/
 COPY evidence-backed-coverage/ ./evidence-backed-coverage/
+COPY payments/contracts/ ./payments/contracts/
 COPY web/ ./web/
 
 # Generate /public/data and build the static Astro site

@@ -1,0 +1,11 @@
+{
+  "id": "cs_test_synthetic00000001",
+  "object": "checkout.session",
+  "mode": "subscription",
+  "status": "complete",
+  "payment_status": "paid",
+  "customer": "cus_synthetic00000001",
+  "subscription": "sub_synthetic00000001",
+  "url": "https://checkout.stripe.com/c/pay/cs_test_synthetic00000001",
+  "metadata": { "offer": "growth_monthly" }
+}

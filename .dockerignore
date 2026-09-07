@@ -1,4 +1,9 @@
 # Build context slimming for Docker — keep only what Dockerfile actually copies.
+# Secrets: environment files never enter an image.
+.env
+.env.*
+**/.env
+**/.env.*
 .git
 .github
 REPORTS

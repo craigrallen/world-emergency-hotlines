@@ -110,6 +110,7 @@ astro build → web/dist/  (286 static HTML pages for the current dataset:
 | `/map` | `src/pages/map.astro` | World map (see §7). |
 | `/data` | `src/pages/data.astro` | Dataset download page: links to the JSON files above, field/status documentation, link back to the GitHub repo. |
 | `/404` | `src/pages/404.astro` | Custom not-found page; also Caddy's `handle_errors` target in production. |
+| `/billing`, `/billing/success`, `/billing/cancelled` | `src/pages/billing/*.astro` | `noindex` front door and Stripe hosted-Checkout return pages for the proposed paid managed API tiers. Buttons render disabled unless `PUBLIC_PAYMENTS_MODE` is `test` or `live` at build time; offer ids come from `payments/contracts/v1/offers.json`. See `docs/PAYMENTS.md`. |
 | `/robots.txt`, `/sitemap.xml` | `src/pages/robots.txt.ts`, `sitemap.xml.ts` | Generated from `manifest.json` / `categories-stats.json` at build time. |
 
 There are no `/api/*` routes and no database-backed endpoints in the current build.
@@ -140,7 +141,8 @@ There are no `/api/*` routes and no database-backed endpoints in the current bui
 Headers are set by the `Caddyfile` at the repo root (loaded by the production container, not by `web/`):
 
 - `Strict-Transport-Security`, `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy` (geolocation/microphone/camera/payment all denied).
-- `Content-Security-Policy` scoped to `'self'` plus the specific third parties the app actually loads: `unpkg.com` for the Leaflet script/CSS, `*.basemaps.cartocdn.com` and `*.tile.openstreetmap.org` for map tiles, `fonts.googleapis.com`/`fonts.gstatic.com` for web fonts. `script-src` includes `'unsafe-eval'`/`'wasm-unsafe-eval'` (headroom for Astro's client hydration, not required by any ML runtime — there isn't one).
+- `Content-Security-Policy` scoped to `'self'` plus the specific third parties the app actually loads: `unpkg.com` for the Leaflet script/CSS, `*.basemaps.cartocdn.com` and `*.tile.openstreetmap.org` for map tiles, `fonts.googleapis.com`/`fonts.gstatic.com` for web fonts. `script-src` includes `'unsafe-eval'`/`'wasm-unsafe-eval'` (headroom for Astro's client hydration, not required by any ML runtime — there isn't one). `form-action` additionally allows `https://checkout.stripe.com` and `https://billing.stripe.com` so a same-origin POST to `/billing/api/*` may `303` to Stripe's hosted pages; no Stripe script, frame, or `connect-src` is admitted and `Permissions-Policy` keeps `payment=()`.
+- `/billing/api/*` is the one non-static route in the Caddyfile. It reverse-proxies to the separate `payments/` service only when `PAYMENTS_UPSTREAM` is set and otherwise answers `503 payments_disabled` with `no-store`; it never serves from disk. `npm run verify:payments`, `verify-caddy.sh`, and `verify-docker-image.sh` enforce that disabled state.
 - Cache-Control is asset-type-specific: immutable long-cache for hashed `_astro/*` bundles, `max-age=300` with `stale-while-revalidate` for `/data/*` shards (so a redeploy's fresher data shows up quickly), short-lived + SWR for HTML.
 - Astro's own build makes every page static HTML, so there's no server-side attack surface beyond what Caddy serves.
 

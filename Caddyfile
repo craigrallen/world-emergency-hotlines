@@ -24,7 +24,11 @@
         #  - 'self' for all script/style (Astro ships local bundles)
         #  - Leaflet JS/CSS (from unpkg) + OSM/CARTO tiles for the world map
         #  - data: for inline SVG icons
-        Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://*.basemaps.cartocdn.com https://*.tile.openstreetmap.org https://*.openstreetmap.org; connect-src 'self' https://*.basemaps.cartocdn.com https://*.tile.openstreetmap.org https://*.openstreetmap.org; worker-src 'self' blob:; child-src 'self' blob:; base-uri 'self'; form-action 'self'"
+        #  - form-action also allows the Stripe hosted Checkout and Customer
+        #    Portal origins so a same-origin POST to /billing/api/* may 303 there.
+        #    No Stripe script, frame, or connect-src is allowed: card entry
+        #    happens on Stripe's origin, never on this one.
+        Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://*.basemaps.cartocdn.com https://*.tile.openstreetmap.org https://*.openstreetmap.org; connect-src 'self' https://*.basemaps.cartocdn.com https://*.tile.openstreetmap.org https://*.openstreetmap.org; worker-src 'self' blob:; child-src 'self' blob:; base-uri 'self'; form-action 'self' https://checkout.stripe.com https://billing.stripe.com"
         -Server
     }
 
@@ -66,6 +70,30 @@
                 pass_thru
             }
             respond "Not found" 404
+        }
+    }
+
+    # Payments foundation (Stripe hosted Checkout) — PREPARED, NOT ENABLED.
+    # Fails closed: while PAYMENTS_UPSTREAM is unset every /billing/api/* request
+    # answers 503 and no checkout can start. Set PAYMENTS_UPSTREAM to the
+    # payments service address (for example payments.railway.internal:8081)
+    # only after completing docs/PAYMENTS.md. Never cached, never served from
+    # disk, and free static crisis-information surfaces are unaffected.
+    handle /billing/api/* {
+        route {
+            @paymentsEnabled expression `{env.PAYMENTS_UPSTREAM} != ""`
+            reverse_proxy @paymentsEnabled {env.PAYMENTS_UPSTREAM} {
+                # The site-level header block already sets these; drop the
+                # upstream copies so each security header appears exactly once.
+                header_down -Content-Security-Policy
+                header_down -X-Content-Type-Options
+                header_down -Referrer-Policy
+            }
+            header {
+                Cache-Control "no-store"
+                Content-Type "application/json; charset=utf-8"
+            }
+            respond `{"error":{"code":"payments_disabled","message":"Payments are not enabled"}}` 503
         }
     }
 

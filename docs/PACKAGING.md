@@ -21,5 +21,6 @@ This is a capability matrix, not a price plan or offer for sale. Public crisis a
 | Signed configs or domain allowlists | Not currently offered | Requires future implementation and explicit agreement. |
 | Managed analytics | Not currently offered | Telemetry is not implemented; any future technical-health counters require the privacy contract plus qualified privacy/legal review. |
 | Priority verification | Not currently offered | No verification or response SLA exists. |
+| Payment processing (Stripe hosted Checkout) | Prepared, not enabled | Foundation service, contracts, and routes exist but fail closed; no price is published and no charge can occur until the activation checklist in `PAYMENTS.md`, including the licensing decision, is complete. |
 
 The repository currently has no license. Public accessibility does not itself grant reuse rights, and this unresolved licensing decision blocks packaging or production-reuse commitments until permission and terms are explicitly established. Future capabilities also require implementation, safety/privacy review, and a written agreement; this matrix does not promise a roadmap or availability date.

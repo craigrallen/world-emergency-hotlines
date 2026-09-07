@@ -14,17 +14,17 @@
   "sources": {
     "docs/DESIGN_PARTNER_PILOT.md": "sha256:b5f25123bec93654ed5d4d3caaa38c172cacaef12b0e62fd43a8fb231c889c5d",
     "docs/INTEGRATIONS.md": "sha256:562faa0020f942a176b1109479d3e1a9fa8580dc44137fcb53b0597eab131809",
-    "docs/PACKAGING.md": "sha256:4a7260669f2ef15674e95eb78a6f915e9ed7f524a14f857386d42e7f3e522432",
+    "docs/PACKAGING.md": "sha256:69b587926fe70576238d61e742f6843a841a23315b78ebed0fad14594f306942",
     "reviews/accessibility-evidence/v1/README.md": "sha256:c577c353813b72cadf75b9c0d9018653958018c03594bd8f7a48f489d39d7439",
-    "reviews/accessibility-evidence/v1/baseline.json": "sha256:5cacf9fa60e4837302ebe0c5b633fdc4c942aac45ef2facb610aec2f5a295cf8",
+    "reviews/accessibility-evidence/v1/baseline.json": "sha256:255cc7839c7e901628fb87b86c6271a208ec322248974cfb3383d1375274538e",
     "reviews/multilingual-ui/v1/README.md": "sha256:87afcf694a12e50ea7cd015c873ac518b3e30aa4d2c83302937395eb17a0ac6d",
     "reviews/multilingual-ui/v1/review-pack.json": "sha256:a407805e1955d8ba783379e56b3e0e466a40bfb932ccde00a01a8858525cd40a",
     "reviews/multilingual-ui/v1/review-pack.schema.json": "sha256:005b85eee323124dbfc3702fdd9ae177263f196f10c338b5ed2b706242ab2732",
     "reviews/multilingual-ui/v1/safety-classification.json": "sha256:fd271765f0882eda962d009332ca76e693112b94ed965f702b05b770c9586b80",
     "reviews/security-privacy-evidence/v1/README.md": "sha256:4364570794a3ce94dfdba49627df8bfd0cd84b50211f6d476c42439ff24544e1",
-    "reviews/security-privacy-evidence/v1/inventory.json": "sha256:229b62ed7737ddc8c07a42ffa5df2f55b9d523f02c0c4a217bf8a8b2c70cbed2",
+    "reviews/security-privacy-evidence/v1/inventory.json": "sha256:630e0a5afa2af51d4ebb7b4f63563ba2f648ab6b2c3107caf85ef529d1b82304",
     "reviews/technical-due-diligence/v1/README.md": "sha256:87ae878128a2d3df102e0dbfd68621abea80a128e3eda98a3b59bb8a03bf585e",
-    "reviews/technical-due-diligence/v1/index.json": "sha256:f538e0fd2276d4c4fb91806ec88275c85afa89742c20190b5f71d80476014882"
+    "reviews/technical-due-diligence/v1/index.json": "sha256:976b5e05b8529bf5a9da0f22b7307c253719402f7115ed8c74c86d249bae6a1a"
   },
   "capability_matrix": [
     { "id": "public_static_surfaces", "current_capability": "Public keyless static beta finder, API, widget, and snapshot integration surfaces are documented.", "limitations": "No uptime, support, SLA, production-reuse permission, guaranteed coverage, currency, reachability, or outcomes.", "evidence": ["docs/INTEGRATIONS.md", "docs/PACKAGING.md"] },

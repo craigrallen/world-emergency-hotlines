@@ -3,6 +3,8 @@
 
 interface ImportMetaEnv {
   readonly PUBLIC_SITE_NAME: string;
+  /** Build-time payments UI switch: `disabled` (default), `test`, or `live`. See docs/PAYMENTS.md. */
+  readonly PUBLIC_PAYMENTS_MODE?: string;
 }
 
 interface ImportMeta {

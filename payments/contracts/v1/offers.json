@@ -1,0 +1,18 @@
+{
+  "schema": "payments-offers/v1",
+  "status": "prepared_not_enabled",
+  "checkout": "stripe_hosted_checkout_redirect",
+  "price_publication": "not_published",
+  "offers": [
+    {
+      "id": "growth_monthly",
+      "plan": "growth",
+      "label": "Growth — monthly",
+      "mode": "subscription",
+      "description": "Proposed managed API Growth tier billed monthly. Price and included volume are not published; the Stripe price is configured server-side only.",
+      "requires_explicit_opt_in": true
+    }
+  ],
+  "free_static_surfaces_unchanged": true,
+  "non_offer": true
+}

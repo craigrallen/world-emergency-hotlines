@@ -1,0 +1,85 @@
+---
+import Base from '../../layouts/Base.astro';
+import { CHECKOUT_ACTION, CHECKOUT_SESSION_PATTERN, CONTRACT_URL, OFFERS, PAYMENTS_ENABLED, PAYMENTS_MODE, PORTAL_ACTION, RUNBOOK_URL } from '../../lib/billing';
+
+const eyebrow = PAYMENTS_MODE === 'live' ? 'Payment foundation · enabled' : PAYMENTS_MODE === 'test' ? 'Payment foundation · Stripe test mode' : 'Payment foundation · prepared, not enabled';
+const description = 'Stripe hosted-checkout foundation for the proposed managed API plans. Payments are not enabled; crisis information stays free and keyless.';
+---
+
+<Base title="Billing · World Emergency & Hotlines" description={description} robots="noindex,follow" canonical={false}>
+  <nav class="mb-6 flex items-center gap-2 text-xs text-fg-muted" aria-label="Breadcrumb"><a href="/" class="hover:text-fg">Home</a><span aria-hidden="true">›</span><a href="/managed-api" class="hover:text-fg">Managed API plans</a><span aria-hidden="true">›</span><span class="text-fg">Billing</span></nav>
+  <article class="mx-auto max-w-4xl" data-payments-mode={PAYMENTS_MODE}>
+    <header>
+      <p class="text-sm font-semibold uppercase tracking-wider text-accent">{eyebrow}</p>
+      <h1 class="mt-2 text-4xl font-semibold text-fg sm:text-5xl">Billing</h1>
+      <p class="mt-4 max-w-3xl text-lg text-fg-muted">This page is the front door for the proposed, explicitly opted-in paid managed API tiers. Card details are entered only on Stripe's hosted checkout page, never on this site. Every current crisis-information surface stays free, keyless, and unmetered.</p>
+    </header>
+
+    {!PAYMENTS_ENABLED && (
+      <aside class="mt-8 rounded-xl border border-amber-400/60 bg-amber-400/10 p-5" data-payments-disabled-notice>
+        <h2 class="text-xl font-semibold text-fg">Payments are not enabled</h2>
+        <p class="mt-2 text-sm text-fg-muted">Nothing can be purchased here yet. The checkout buttons below are switched off, the server route answers "not enabled", and no price is published. No customer, contact, or card data is collected by this site. Enabling payments requires the documented activation checklist, including the unresolved licensing decision.</p>
+      </aside>
+    )}
+    {PAYMENTS_MODE === 'test' && (
+      <aside class="mt-8 rounded-xl border border-amber-400/60 bg-amber-400/10 p-5">
+        <h2 class="text-xl font-semibold text-fg">Stripe test mode</h2>
+        <p class="mt-2 text-sm text-fg-muted">This build points at Stripe test mode. Only Stripe test cards work and no real money moves.</p>
+      </aside>
+    )}
+
+    <section class="mt-10" aria-labelledby="offers-title">
+      <h2 id="offers-title" class="text-2xl font-semibold text-fg">Plans</h2>
+      <p class="mt-3 text-fg-muted">Plan ids below are the only thing the browser sends. Prices are configured on the server and shown on Stripe's checkout page before anything is confirmed; none is published here.</p>
+      <div class="mt-6 grid gap-4 sm:grid-cols-2">
+        {OFFERS.map((offer) => (
+          <div class="card p-5" data-offer={offer.id}>
+            <p class="text-xs font-semibold uppercase tracking-wider text-accent">{offer.mode === 'subscription' ? 'Subscription' : 'One-time payment'}</p>
+            <h3 class="mt-1 text-xl font-semibold text-fg">{offer.label}</h3>
+            <p class="mt-3 text-sm text-fg-muted">{offer.description}</p>
+            <p class="mt-3 text-sm text-fg-muted"><strong>Price:</strong> not published.</p>
+            <form method="post" action={CHECKOUT_ACTION} class="mt-4">
+              <input type="hidden" name="offer" value={offer.id} />
+              <button type="submit" class="btn-primary disabled:cursor-not-allowed disabled:opacity-50" disabled={!PAYMENTS_ENABLED} aria-disabled={!PAYMENTS_ENABLED ? 'true' : undefined}>
+                {PAYMENTS_ENABLED ? 'Continue to secure checkout' : 'Checkout not enabled'}
+              </button>
+            </form>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="mt-10 rounded-xl border border-border bg-bg-elev p-5" aria-labelledby="manage-title">
+      <h2 id="manage-title" class="text-2xl font-semibold text-fg">Manage an existing subscription</h2>
+      <p class="mt-3 text-sm text-fg-muted">Subscribers can update payment details or cancel through Stripe's Customer Portal. Paste the checkout session reference from your confirmation page (it starts with <code>cs_</code>).</p>
+      <form method="post" action={PORTAL_ACTION} class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end">
+        <label class="flex-1 text-sm text-fg-muted">Checkout session reference
+          <input name="session_id" type="text" inputmode="text" autocomplete="off" spellcheck="false" required pattern={CHECKOUT_SESSION_PATTERN} placeholder="cs_live_…" class="mt-1 w-full rounded-lg border border-border bg-bg px-3 py-2 text-fg" disabled={!PAYMENTS_ENABLED} />
+        </label>
+        <button type="submit" class="btn-ghost disabled:cursor-not-allowed disabled:opacity-50" disabled={!PAYMENTS_ENABLED} aria-disabled={!PAYMENTS_ENABLED ? 'true' : undefined}>{PAYMENTS_ENABLED ? 'Open customer portal' : 'Portal not enabled'}</button>
+      </form>
+    </section>
+
+    <section class="mt-10" aria-labelledby="how-title">
+      <h2 id="how-title" class="text-2xl font-semibold text-fg">How checkout works when enabled</h2>
+      <ul class="mt-4 list-disc space-y-2 pl-6 text-fg-muted">
+        <li>Choosing a plan posts only its plan id to this site, which creates a Stripe Checkout Session and redirects you to <code>checkout.stripe.com</code>.</li>
+        <li>Stripe collects and processes card details, applies its own fraud checks, and emails the receipt. This site never receives card numbers.</li>
+        <li>This site records only Stripe identifiers and a status for the subscription so access can be granted later. It stores no names, emails, addresses, or amounts and runs no analytics.</li>
+        <li>Cancelling a subscription is always possible through the Customer Portal above; no free surface is ever gated on payment.</li>
+      </ul>
+    </section>
+
+    <aside class="mt-10 rounded-xl border border-border bg-bg-elev p-5"><h2 class="text-xl font-semibold text-fg">Permission and licensing</h2><p class="mt-2 text-sm text-fg-muted">Public access does not grant reuse rights. This repository currently has no license, and no paid plan may be activated until that decision and the rest of the activation checklist are complete.</p></aside>
+
+    <section class="mt-10 border-t border-border pt-8" aria-labelledby="docs-title">
+      <h2 id="docs-title" class="text-2xl font-semibold text-fg">Documentation</h2>
+      <div class="mt-4 flex flex-wrap gap-4 text-sm">
+        <a class="text-accent hover:underline" href="/managed-api">Proposed managed API plans</a>
+        <a class="text-accent hover:underline" href={CONTRACT_URL} target="_blank" rel="noopener noreferrer">Payments contract ↗</a>
+        <a class="text-accent hover:underline" href={RUNBOOK_URL} target="_blank" rel="noopener noreferrer">Activation runbook ↗</a>
+        <a class="text-accent hover:underline" href="/integrate">Free integration surfaces</a>
+      </div>
+    </section>
+  </article>
+</Base>
