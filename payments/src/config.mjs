@@ -5,9 +5,11 @@
 // never silently disable a check. Secret values never appear in error text.
 
 import { exactObject, integer, plain, validOrigin, validSitePath } from './validation.mjs';
+import { CMS_API_KEY, validCmsUrl } from './cms-store.mjs';
 
 export const VERSION = '0.1.0-foundation';
 export const MODES = Object.freeze(['disabled', 'test', 'live']);
+export const STORE_KINDS = Object.freeze(['memory', 'cms']);
 export const OFFER_MODES = Object.freeze(['subscription', 'payment']);
 export const DEFAULT_PUBLIC_ORIGIN = 'https://worldhotlines.org';
 export const DEFAULT_SUCCESS_PATH = '/billing/success';
@@ -27,6 +29,7 @@ export const STRIPE_OBJECT_ID = /^[a-z]{2,10}_(?:(?:test|live)_)?[A-Za-z0-9]{8,}
 export const KNOWN_VARIABLES = Object.freeze([
   'PAYMENTS_MODE', 'PAYMENTS_HOST', 'PAYMENTS_PUBLIC_ORIGIN', 'PAYMENTS_SUCCESS_PATH', 'PAYMENTS_CANCEL_PATH', 'PAYMENTS_RETURN_PATH',
   'PAYMENTS_TRUST_PROXY', 'PAYMENTS_OFFERS', 'PAYMENTS_AUTOMATIC_TAX', 'PAYMENTS_STRIPE_TIMEOUT_MS',
+  'PAYMENTS_STORE', 'PAYMENTS_CMS_URL', 'PAYMENTS_CMS_API_KEY',
   'STRIPE_SECRET_KEY', 'STRIPE_WEBHOOK_SECRET', 'STRIPE_API_VERSION',
 ]);
 
@@ -114,7 +117,21 @@ export function loadConfig(env = process.env) {
   const timeoutRaw = env.PAYMENTS_STRIPE_TIMEOUT_MS ?? '15000';
   if (!/^\d{3,6}$/.test(timeoutRaw) || !integer(Number(timeoutRaw), 1000, 120000)) throw new ConfigError('PAYMENTS_STRIPE_TIMEOUT_MS', 'must be an integer from 1000 to 120000');
 
-  const base = { version: VERSION, mode, host, port, publicOrigin, successPath, cancelPath, returnPath, trustProxy, automaticTax, stripeTimeoutMs: Number(timeoutRaw) };
+  // Durable store selection. `memory` (default) is single-instance and forgets on
+  // restart; `cms` persists events and entitlements in the Payload CMS through a
+  // service API key and is required before more than one replica runs.
+  const storeKind = env.PAYMENTS_STORE ?? 'memory';
+  if (!STORE_KINDS.includes(storeKind)) throw new ConfigError('PAYMENTS_STORE', 'must be memory or cms');
+  let store = Object.freeze({ kind: 'memory' });
+  if (storeKind === 'cms') {
+    if (!validCmsUrl(env.PAYMENTS_CMS_URL)) throw new ConfigError('PAYMENTS_CMS_URL', 'must be the CMS API base URL (https, or http on loopback/private hosts) without a trailing slash');
+    if (typeof env.PAYMENTS_CMS_API_KEY !== 'string' || !CMS_API_KEY.test(env.PAYMENTS_CMS_API_KEY)) throw new ConfigError('PAYMENTS_CMS_API_KEY', 'must be a CMS service API key');
+    store = Object.freeze({ kind: 'cms', url: env.PAYMENTS_CMS_URL, apiKey: env.PAYMENTS_CMS_API_KEY });
+  } else if (env.PAYMENTS_CMS_URL !== undefined || env.PAYMENTS_CMS_API_KEY !== undefined) {
+    throw new ConfigError(env.PAYMENTS_CMS_URL !== undefined ? 'PAYMENTS_CMS_URL' : 'PAYMENTS_CMS_API_KEY', 'is only accepted when PAYMENTS_STORE=cms');
+  }
+
+  const base = { version: VERSION, mode, host, port, publicOrigin, successPath, cancelPath, returnPath, trustProxy, automaticTax, stripeTimeoutMs: Number(timeoutRaw), store };
   if (mode === 'disabled') return Object.freeze({ ...base, stripe: null, offers: Object.freeze({}) });
 
   const secretKey = env.STRIPE_SECRET_KEY;
@@ -138,5 +155,6 @@ export function describeConfig(config) {
     success_path: config.successPath, cancel_path: config.cancelPath, return_path: config.returnPath, trust_proxy: config.trustProxy,
     automatic_tax: config.automaticTax, stripe_api_version: config.stripe?.apiVersion ?? null, stripe_key_configured: config.stripe !== null,
     webhook_secret_configured: config.stripe !== null, offers: Object.values(config.offers).map(({ id, mode, quantity }) => ({ id, mode, quantity })),
+    store: { kind: config.store.kind, cms_url: config.store.kind === 'cms' ? config.store.url : null, cms_api_key_configured: config.store.kind === 'cms' },
   };
 }

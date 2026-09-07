@@ -1,0 +1,24 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+
+<Base title="Verify your email · World Emergency & Hotlines" description="Confirms the email address for a World Hotlines account from the link in the verification email." robots="noindex,follow" canonical={false}>
+  <article class="mx-auto max-w-3xl" data-verify-root data-account-view="loading">
+    <p class="text-sm font-semibold uppercase tracking-wider text-accent">Account</p>
+    <h1 class="mt-2 text-4xl font-semibold text-fg sm:text-5xl">Verify your email</h1>
+    <p class="mt-4 text-lg text-fg-muted">This page confirms the address on your account using the token from your verification email. Nothing else happens here, and crisis information never requires an account.</p>
+    <p class="mt-8 text-sm text-fg-muted" data-account-view="loading" aria-live="polite">Checking your verification link…</p>
+    <aside class="mt-8 rounded-xl border border-amber-400/60 bg-amber-400/10 p-5" data-account-view="disabled" hidden>
+      <h2 class="text-xl font-semibold text-fg">Accounts are not enabled</h2>
+      <p class="mt-2 text-sm text-fg-muted">The account service is switched off on this site, so there is nothing to verify yet.</p>
+    </aside>
+    <div class="mt-8 rounded-xl border border-border bg-bg-elev p-5" data-account-view="result" hidden>
+      <p class="text-sm text-fg" data-verify-result aria-live="polite"></p>
+      <p class="mt-4 text-sm"><a class="text-accent hover:underline" href="/account">Back to your account</a></p>
+    </div>
+  </article>
+  <script>
+    import { mountVerifyPage } from '../../lib/account.js';
+    mountVerifyPage(document.querySelector('[data-verify-root]'));
+  </script>
+</Base>

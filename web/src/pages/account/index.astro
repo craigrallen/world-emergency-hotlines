@@ -1,0 +1,134 @@
+---
+import Base from '../../layouts/Base.astro';
+import { ACCOUNTS_ENABLED, ACCOUNTS_MODE, RUNBOOK_URL } from '../../lib/accounts';
+
+const eyebrow = ACCOUNTS_ENABLED ? 'Accounts · Payload CMS' : 'Accounts · prepared, not enabled';
+const description = 'Sign in to manage your World Hotlines account, subscription, Stripe billing, and managed API keys. Crisis information stays free and needs no account.';
+const disabled = !ACCOUNTS_ENABLED;
+const field = 'mt-1 w-full rounded-lg border border-border bg-bg px-3 py-2 text-fg disabled:cursor-not-allowed disabled:opacity-50';
+---
+
+<Base title="Account · World Emergency & Hotlines" description={description} robots="noindex,follow" canonical={false}>
+  <nav class="mb-6 flex items-center gap-2 text-xs text-fg-muted" aria-label="Breadcrumb"><a href="/" class="hover:text-fg">Home</a><span aria-hidden="true">›</span><span class="text-fg">Account</span></nav>
+  <article class="mx-auto max-w-4xl" data-account-root data-accounts-mode={ACCOUNTS_MODE} data-account-view="loading">
+    <header>
+      <p class="text-sm font-semibold uppercase tracking-wider text-accent">{eyebrow}</p>
+      <h1 class="mt-2 text-4xl font-semibold text-fg sm:text-5xl">Account</h1>
+      <p class="mt-4 max-w-3xl text-lg text-fg-muted">An account is only needed to manage a proposed paid managed API plan: billing through Stripe's hosted pages, and managed API keys. Every current crisis-information surface stays free, keyless, and unmetered.</p>
+    </header>
+
+    <p class="mt-6 rounded-xl border border-border bg-bg-elev p-4 text-sm text-fg" data-account-flash hidden aria-live="polite"></p>
+
+    <aside class="mt-8 rounded-xl border border-amber-400/60 bg-amber-400/10 p-5" data-account-view="disabled" data-accounts-disabled-notice hidden={!disabled}>
+      <h2 class="text-xl font-semibold text-fg">Accounts are not enabled</h2>
+      <p class="mt-2 text-sm text-fg-muted">Nothing can be signed into or purchased here yet. The account service answers "not enabled", the forms below are switched off, and no account, contact, or card data is collected by this site. Enabling accounts requires the documented activation checklist, including the unresolved licensing decision.</p>
+    </aside>
+
+    <p class="mt-8 text-sm text-fg-muted" data-account-view="loading" hidden={disabled} aria-live="polite">Checking the account service…</p>
+
+    <section class="mt-8 grid gap-6 md:grid-cols-2" data-account-view="signed-out" hidden aria-label="Sign in or create an account">
+      <div class="card p-5">
+        <h2 class="text-xl font-semibold text-fg">Sign in</h2>
+        <form class="mt-4 space-y-3" data-account-login>
+          <label class="block text-sm text-fg-muted">Email<input name="email" type="email" autocomplete="username" required class={field} disabled={disabled} /></label>
+          <label class="block text-sm text-fg-muted">Password<input name="password" type="password" autocomplete="current-password" required minlength="12" class={field} disabled={disabled} /></label>
+          <button type="submit" class="btn-primary disabled:cursor-not-allowed disabled:opacity-50" disabled={disabled}>Sign in</button>
+          <button type="button" class="btn-ghost disabled:cursor-not-allowed disabled:opacity-50" data-account-show-forgot disabled={disabled}>Forgot password?</button>
+        </form>
+        <form class="mt-4 space-y-3 border-t border-border pt-4" data-account-forgot hidden>
+          <label class="block text-sm text-fg-muted">Email for a reset link<input name="email" type="email" autocomplete="username" required class={field} disabled={disabled} /></label>
+          <button type="submit" class="btn-ghost disabled:cursor-not-allowed disabled:opacity-50" disabled={disabled}>Send reset email</button>
+        </form>
+      </div>
+      <div class="card p-5" data-account-register-card>
+        <h2 class="text-xl font-semibold text-fg">Create an account</h2>
+        <p class="mt-2 text-sm text-fg-muted">Only an email address and a password are required. Nothing here is needed to find help.</p>
+        <form class="mt-4 space-y-3" data-account-register>
+          <label class="block text-sm text-fg-muted">Name (optional)<input name="name" type="text" autocomplete="name" maxlength="120" class={field} disabled={disabled} /></label>
+          <label class="block text-sm text-fg-muted">Email<input name="email" type="email" autocomplete="username" required class={field} disabled={disabled} /></label>
+          <label class="block text-sm text-fg-muted">Password (12+ characters)<input name="password" type="password" autocomplete="new-password" required minlength="12" class={field} disabled={disabled} /></label>
+          <label class="block text-sm text-fg-muted">Confirm password<input name="confirm" type="password" autocomplete="new-password" required minlength="12" class={field} disabled={disabled} /></label>
+          <button type="submit" class="btn-primary disabled:cursor-not-allowed disabled:opacity-50" disabled={disabled}>Create account</button>
+        </form>
+      </div>
+    </section>
+
+    <section class="mt-8 space-y-6" data-account-view="signed-in" hidden aria-label="Your account">
+      <div class="card p-5">
+        <div class="flex flex-wrap items-start justify-between gap-3">
+          <h2 class="text-xl font-semibold text-fg">Profile</h2>
+          <div class="flex flex-wrap gap-2"><span data-account-staff></span><button type="button" class="btn-ghost disabled:cursor-not-allowed disabled:opacity-50" data-account-logout disabled={disabled}>Sign out</button></div>
+        </div>
+        <div class="mt-4" data-account-profile></div>
+        <form class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end" data-account-profile-form>
+          <label class="flex-1 text-sm text-fg-muted">Display name<input name="name" type="text" maxlength="120" autocomplete="name" class={field} data-account-name-input disabled={disabled} /></label>
+          <button type="submit" class="btn-ghost disabled:cursor-not-allowed disabled:opacity-50" disabled={disabled}>Save name</button>
+        </form>
+      </div>
+
+      <div class="card p-5">
+        <h2 class="text-xl font-semibold text-fg">Subscription and billing</h2>
+        <p class="mt-2 text-sm text-fg" data-account-entitlement></p>
+        <ul class="mt-4 space-y-3" data-account-subscriptions></ul>
+        <aside class="mt-4 rounded-xl border border-amber-400/60 bg-amber-400/10 p-4 text-sm text-fg-muted" data-account-billing-disabled>Billing is not enabled on this deployment, so no plan can be purchased from this page.</aside>
+        <aside class="mt-4 rounded-xl border border-amber-400/60 bg-amber-400/10 p-4 text-sm text-fg-muted" data-account-test-mode hidden>Stripe test mode: only Stripe test cards work and no real money moves.</aside>
+        <h3 class="mt-6 text-lg font-semibold text-fg">Plans</h3>
+        <p class="mt-2 text-sm text-fg-muted">Choosing a plan sends only its plan id to this site and redirects you to <code>checkout.stripe.com</code>; card details never touch this origin. The subscription is linked to this account when Stripe confirms it by webhook.</p>
+        <div class="mt-4 grid gap-4 sm:grid-cols-2" data-account-plans></div>
+        <div class="mt-6 flex flex-wrap items-center gap-3 border-t border-border pt-4">
+          <button type="button" class="btn-ghost disabled:cursor-not-allowed disabled:opacity-50" data-account-portal disabled={disabled}>Open Stripe customer portal</button>
+          <span class="text-sm text-fg-muted">Update payment details, download invoices, or cancel. Cancelling is always possible; no free surface is ever gated on payment.</span>
+        </div>
+      </div>
+
+      <div class="card p-5">
+        <h2 class="text-xl font-semibold text-fg">Managed API keys</h2>
+        <p class="mt-2 text-sm text-fg-muted" data-account-keys-note></p>
+        <ul class="mt-4 space-y-3" data-account-keys></ul>
+        <div class="mt-4 rounded-xl border border-success/60 bg-success/10 p-4 text-sm" data-account-key-reveal hidden>
+          <p class="font-semibold text-fg">Your new key. Copy it now; it is shown only once and the server keeps only a verifier.</p>
+          <code class="mt-2 block break-all rounded-lg bg-bg p-3 text-xs text-fg"></code>
+        </div>
+        <form class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end" data-account-key-form>
+          <label class="flex-1 text-sm text-fg-muted">Label (optional)<input name="label" type="text" maxlength="60" autocomplete="off" class={field} disabled={disabled} /></label>
+          <button type="submit" class="btn-primary disabled:cursor-not-allowed disabled:opacity-50" disabled={disabled}>Create key</button>
+        </form>
+      </div>
+
+      <div class="card p-5">
+        <h2 class="text-xl font-semibold text-fg">Security</h2>
+        <form class="mt-4 grid gap-3 sm:grid-cols-[1fr_1fr_auto] sm:items-end" data-account-password-form>
+          <label class="text-sm text-fg-muted">New password (12+ characters)<input name="password" type="password" autocomplete="new-password" required minlength="12" class={field} disabled={disabled} /></label>
+          <label class="text-sm text-fg-muted">Confirm<input name="confirm" type="password" autocomplete="new-password" required minlength="12" class={field} disabled={disabled} /></label>
+          <button type="submit" class="btn-ghost disabled:cursor-not-allowed disabled:opacity-50" disabled={disabled}>Change password</button>
+        </form>
+        <p class="mt-4 text-xs text-fg-muted">Sessions expire after two hours. Five failed sign-ins lock the account for ten minutes. To delete an account, contact the maintainers through the repository; billing is cancelled through the Stripe customer portal first.</p>
+      </div>
+    </section>
+
+    <section class="mt-10" aria-labelledby="privacy-title">
+      <h2 id="privacy-title" class="text-2xl font-semibold text-fg">What an account stores</h2>
+      <ul class="mt-4 list-disc space-y-2 pl-6 text-fg-muted">
+        <li>Your email address, an optional display name, and a salted password hash. Staff can see these in the user administration panel.</li>
+        <li>Pseudonymous Stripe identifiers and subscription statuses. No card numbers, amounts, or postal addresses are stored on this site.</li>
+        <li>Verifiers for any managed API keys you create, never the keys themselves.</li>
+        <li>No analytics, no crisis-intent data, and nothing about which hotlines you look at.</li>
+      </ul>
+    </section>
+
+    <section class="mt-10 border-t border-border pt-8" aria-labelledby="docs-title">
+      <h2 id="docs-title" class="text-2xl font-semibold text-fg">Documentation</h2>
+      <div class="mt-4 flex flex-wrap gap-4 text-sm">
+        <a class="text-accent hover:underline" href="/billing">Billing without an account</a>
+        <a class="text-accent hover:underline" href="/managed-api">Proposed managed API plans</a>
+        <a class="text-accent hover:underline" href={RUNBOOK_URL} target="_blank" rel="noopener noreferrer">Accounts runbook ↗</a>
+        <a class="text-accent hover:underline" href="/integrate">Free integration surfaces</a>
+      </div>
+    </section>
+  </article>
+
+  <script>
+    import { mountAccountPage } from '../../lib/account.js';
+    mountAccountPage(document.querySelector('[data-account-root]'));
+  </script>
+</Base>

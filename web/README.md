@@ -20,7 +20,7 @@ cd web
 npm install
 npm run generate:pwa     # explicitly refreshes the five tracked PWA outputs after controlling-source changes
 npm run data:build       # generates public/data/ shards from the canonical JSON
-npm run verify:all       # runs data/contact-link, search, and discovery checks
+npm run verify:all       # runs data/contact-link, search, discovery, payments, and accounts checks
 npm run verify:feeds     # deterministic diff/registry and JSON Feed/RSS/Atom contracts
 npm run release:dataset:candidate -- --id <slug> --date <YYYY-MM-DD> --title <title> --summary <summary>
 npm run dev              # http://localhost:4321

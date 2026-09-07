@@ -97,6 +97,34 @@
         }
     }
 
+    # Payload CMS (accounts, user administration, Stripe billing) — PREPARED, NOT
+    # ENABLED. Fails closed exactly like payments: while CMS_UPSTREAM is unset every
+    # /cms/*, /admin*, and /_next/* request answers 503 accounts_disabled and nothing
+    # is served from disk. Set CMS_UPSTREAM to the CMS service address (for example
+    # cms.railway.internal:3000) only after completing docs/ACCOUNTS.md. The static
+    # /account pages stay in the Astro build and detect this state at runtime; free
+    # static crisis-information surfaces are unaffected.
+    @cms path /cms/* /admin /admin/* /_next/*
+    handle @cms {
+        route {
+            @cmsEnabled expression `{env.CMS_UPSTREAM} != ""`
+            reverse_proxy @cmsEnabled {env.CMS_UPSTREAM} {
+                # The site-level header block already sets these; drop the
+                # upstream copies so each security header appears exactly once.
+                header_down -Content-Security-Policy
+                header_down -X-Content-Type-Options
+                header_down -Referrer-Policy
+                header_down -X-Frame-Options
+                header_down -Strict-Transport-Security
+            }
+            header {
+                Cache-Control "no-store"
+                Content-Type "application/json; charset=utf-8"
+            }
+            respond `{"error":{"code":"accounts_disabled","message":"Accounts are not enabled"}}` 503
+        }
+    }
+
     # Release descriptors are cross-origin verifiable metadata. Keep unknown
     # descriptor paths as real 404s; the Railway hostname has no special case.
     route {

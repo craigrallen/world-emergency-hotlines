@@ -1,0 +1,201 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { loadConfig, describeConfig, redact, ConfigError } from '../src/config.mjs';
+import { CmsStoreError, createCmsStore, toEntitlementDocument, validCmsUrl } from '../src/cms-store.mjs';
+import { validateStore } from '../src/store.mjs';
+import { dispatchEvent } from '../src/events.mjs';
+import { createPaymentsServer, ROUTES } from '../src/server.mjs';
+
+const URL_ = 'http://cms.railway.internal:3000/cms/api';
+const API_KEY = 'service-api-key-synthetic-0001';
+
+/** In-memory fake of the two Payload collections the store touches. */
+function fakeCms({ failWith = null, unauthorized = false } = {}) {
+  const events = new Map(), entitlements = new Map();
+  const calls = [];
+  let nextId = 1;
+  const json = (status, body) => new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json' } });
+  const fetchImpl = async (input, init = {}) => {
+    const url = new URL(input);
+    calls.push({ method: init.method, path: url.pathname + url.search, authorization: init.headers.authorization });
+    if (unauthorized) return json(401, { errors: [{ message: 'Unauthorized' }] });
+    if (failWith) return json(failWith, { errors: [{ message: 'boom' }] });
+    if (init.headers.authorization !== `users API-Key ${API_KEY}`) return json(401, { errors: [{ message: 'Unauthorized' }] });
+    const [, collection, id] = url.pathname.replace('/cms/api', '').split('/');
+    const eq = /^where\[(\w+)\]\[equals\]$/;
+    const filter = [...url.searchParams.entries()].map(([k, v]) => [eq.exec(k)?.[1], v]).find(([k]) => k);
+    const table = collection === 'stripe-events' ? events : collection === 'entitlements' ? entitlements : null;
+    if (!table) return json(404, { errors: [{ message: 'Not Found' }] });
+    if (init.method === 'GET') {
+      const docs = [...table.values()].filter((doc) => !filter || doc[filter[0]] === filter[1]);
+      return json(200, { docs, totalDocs: docs.length });
+    }
+    if (init.method === 'POST') {
+      const body = JSON.parse(init.body);
+      const unique = collection === 'stripe-events' ? 'eventId' : 'key';
+      if ([...table.values()].some((doc) => doc[unique] === body[unique])) return json(400, { errors: [{ message: `The following field is invalid: ${unique}`, data: { errors: [{ field: unique, message: 'Value must be unique' }] } }] });
+      const doc = { id: nextId++, ...body };
+      table.set(doc.id, doc);
+      return json(201, { doc, message: 'created' });
+    }
+    if (init.method === 'PATCH') {
+      const doc = table.get(Number(id));
+      if (!doc) return json(404, { errors: [{ message: 'Not Found' }] });
+      Object.assign(doc, JSON.parse(init.body));
+      return json(200, { doc, message: 'updated' });
+    }
+    if (init.method === 'DELETE') {
+      const removed = [...table.values()].filter((doc) => filter && doc[filter[0]] === filter[1]);
+      for (const doc of removed) table.delete(doc.id);
+      return json(200, { docs: removed, errors: [] });
+    }
+    return json(405, { errors: [{ message: 'Method not allowed' }] });
+  };
+  return { fetchImpl, events, entitlements, calls };
+}
+
+test('CMS URL validation admits https and private/loopback http only', () => {
+  for (const ok of ['https://cms.example.org/cms/api', 'http://localhost:3000/cms/api', 'http://127.0.0.1:3000/cms/api', 'http://cms.railway.internal:3000/cms/api', 'http://cms.local/cms/api', 'https://worldhotlines.org']) assert.equal(validCmsUrl(ok), true, ok);
+  for (const bad of ['http://cms.example.org/cms/api', 'https://cms.example.org/cms/api/', 'https://user:pw@cms.example.org/cms/api', 'https://cms.example.org/cms/api?x=1', 'https://cms.example.org/#a', 'ftp://cms.internal', 'https://cms.example.org/../x', '', 42, 'https://cms example.org']) assert.equal(validCmsUrl(bad), false, String(bad));
+});
+
+test('store construction is closed and the API key never leaks into errors', () => {
+  assert.throws(() => createCmsStore({ url: 'http://public.example.org/cms/api', apiKey: API_KEY }), /valid CMS API URL/);
+  assert.throws(() => createCmsStore({ url: URL_, apiKey: 'short' }), /API key/);
+  assert.throws(() => createCmsStore({ url: URL_, apiKey: API_KEY, fetchImpl: 'nope' }), /fetch/);
+  assert.throws(() => createCmsStore({ url: URL_, apiKey: API_KEY, timeoutMs: 1 }), /timeout/);
+  assert.throws(() => createCmsStore({ url: URL_, apiKey: API_KEY, usersCollection: 'Users!' }), /slug/);
+  const store = createCmsStore({ url: URL_, apiKey: API_KEY, fetchImpl: async () => new Response('x', { status: 500 }) });
+  assert.equal(validateStore(store), true);
+  assert.equal(store.kind, 'cms');
+  assert.equal(JSON.stringify(Object.getOwnPropertyDescriptors(store)).includes(API_KEY), false);
+});
+
+test('claimEvent is first-writer-wins and releaseEvent frees the id', async () => {
+  const cms = fakeCms();
+  const store = createCmsStore({ url: URL_, apiKey: API_KEY, fetchImpl: cms.fetchImpl });
+  assert.equal(await store.claimEvent('evt_synthetic0001'), true);
+  assert.equal(await store.claimEvent('evt_synthetic0001'), false);
+  assert.equal(cms.events.size, 1);
+  assert.equal([...cms.events.values()][0].source, 'payments');
+  await store.releaseEvent('evt_synthetic0001');
+  assert.equal(cms.events.size, 0);
+  assert.equal(await store.claimEvent('evt_synthetic0001'), true);
+  await assert.rejects(store.claimEvent('not-an-event'), TypeError);
+  await assert.rejects(store.releaseEvent(''), TypeError);
+  assert.ok(cms.calls.every((call) => call.authorization === `users API-Key ${API_KEY}`));
+});
+
+test('entitlements round-trip through structured columns and the raw record', async () => {
+  const cms = fakeCms();
+  const store = createCmsStore({ url: URL_, apiKey: API_KEY, fetchImpl: cms.fetchImpl });
+  assert.equal(await store.getEntitlement('sub:sub_synthetic0001'), null);
+  const record = { key: 'sub:sub_synthetic0001', kind: 'subscription', offer: 'growth_monthly', offer_known: true, customer: 'cus_synthetic0001', status: 'active', livemode: false, updated_at_epoch: 2145916800, updated_at: '2038-01-01T00:00:00.000Z', source_event: 'evt_synthetic0001', cancel_at_period_end: false, current_period_end: 2148595200 };
+  const stored = await store.putEntitlement(record);
+  assert.ok(Object.isFrozen(stored));
+  assert.deepEqual(await store.getEntitlement('sub:sub_synthetic0001'), record);
+  const doc = [...cms.entitlements.values()][0];
+  assert.equal(doc.kind, 'subscription');
+  assert.equal(doc.subscription, 'sub_synthetic0001');
+  assert.equal(doc.customer, 'cus_synthetic0001');
+  assert.equal(doc.status, 'active');
+  assert.equal(doc.offerKnown, true);
+  assert.equal(doc.updatedAtEpoch, 2145916800);
+  assert.equal(doc.source, 'payments');
+  await store.putEntitlement({ ...record, status: 'canceled', updated_at_epoch: 2145916900 });
+  assert.equal(cms.entitlements.size, 1, 'updates patch the existing document');
+  assert.equal((await store.getEntitlement('sub:sub_synthetic0001')).status, 'canceled');
+  await assert.rejects(store.putEntitlement({ key: 'bogus' }), TypeError);
+  await assert.rejects(store.getEntitlement('sub:'), TypeError);
+  const session = toEntitlementDocument({ key: 'cs:cs_test_synthetic00000001', kind: 'checkout_session', status: 'complete', offer: null, customer: null, subscription: 'sub_synthetic0001', payment_intent: null });
+  assert.equal(session.checkoutSession, 'cs_test_synthetic00000001');
+  assert.equal(session.subscription, 'sub_synthetic0001');
+  assert.equal(session.offer, null);
+  assert.equal(session.kind, 'checkout_session');
+});
+
+test('a lost create race falls back to updating the winner', async () => {
+  const cms = fakeCms();
+  let lookups = 0;
+  const racing = async (input, init) => {
+    const url = new URL(input);
+    if (init.method === 'GET' && url.pathname.endsWith('/entitlements') && lookups++ === 0) {
+      return new Response(JSON.stringify({ docs: [], totalDocs: 0 }), { status: 200 });
+    }
+    return cms.fetchImpl(input, init);
+  };
+  const store = createCmsStore({ url: URL_, apiKey: API_KEY, fetchImpl: racing });
+  await store.putEntitlement({ key: 'sub:sub_synthetic0002', kind: 'subscription', status: 'active' });
+  // Simulate another replica having inserted first: the fake now has the row, and
+  // our next put sees an empty first lookup (stale read) followed by the 400.
+  lookups = 0;
+  await store.putEntitlement({ key: 'sub:sub_synthetic0002', kind: 'subscription', status: 'past_due' });
+  assert.equal(cms.entitlements.size, 1);
+  assert.equal([...cms.entitlements.values()][0].status, 'past_due');
+});
+
+test('CMS failures surface as CmsStoreError and never as silent duplicates', async () => {
+  const down = createCmsStore({ url: URL_, apiKey: API_KEY, fetchImpl: fakeCms({ failWith: 503 }).fetchImpl });
+  await assert.rejects(down.claimEvent('evt_synthetic0001'), (error) => error instanceof CmsStoreError && error.reason === 'claim_failed' && error.status === 503);
+  await assert.rejects(down.getEntitlement('sub:sub_synthetic0001'), (error) => error instanceof CmsStoreError && error.reason === 'lookup_failed');
+  await assert.rejects(down.releaseEvent('evt_synthetic0001'), (error) => error instanceof CmsStoreError && error.reason === 'release_failed');
+  const denied = createCmsStore({ url: URL_, apiKey: API_KEY, fetchImpl: fakeCms({ unauthorized: true }).fetchImpl });
+  await assert.rejects(denied.claimEvent('evt_synthetic0001'), (error) => error instanceof CmsStoreError && error.reason === 'unauthorized' && error.status === 401);
+  const schemaError = createCmsStore({ url: URL_, apiKey: API_KEY, fetchImpl: async (input, init) => (init.method === 'POST' ? new Response('{"errors":[{"message":"bad field"}]}', { status: 400 }) : new Response('{"docs":[]}', { status: 200 })) });
+  await assert.rejects(schemaError.claimEvent('evt_synthetic0001'), (error) => error instanceof CmsStoreError && error.reason === 'claim_rejected', 'a 400 without a stored duplicate is an error, not a duplicate');
+  const network = createCmsStore({ url: URL_, apiKey: API_KEY, fetchImpl: async () => { throw new Error('ECONNREFUSED'); } });
+  await assert.rejects(network.claimEvent('evt_synthetic0001'), (error) => error instanceof CmsStoreError && error.reason === 'network_error');
+  const slow = createCmsStore({ url: URL_, apiKey: API_KEY, timeoutMs: 100, fetchImpl: (_input, init) => new Promise((_resolve, reject) => init.signal.addEventListener('abort', () => reject(new Error('aborted')))) });
+  await assert.rejects(slow.claimEvent('evt_synthetic0001'), (error) => error instanceof CmsStoreError && error.reason === 'timeout');
+});
+
+test('the event dispatcher works unchanged on the CMS-backed store', async () => {
+  const cms = fakeCms();
+  const store = createCmsStore({ url: URL_, apiKey: API_KEY, fetchImpl: cms.fetchImpl });
+  const event = { id: 'evt_synthetic0009', object: 'event', type: 'customer.subscription.updated', livemode: false, created: 2145916800, data: { object: { id: 'sub_synthetic0009', object: 'subscription', status: 'active', customer: 'cus_synthetic0009', metadata: { offer: 'growth_monthly' }, cancel_at_period_end: false, current_period_end: 2148595200 } } };
+  const summary = await dispatchEvent(event, { store, offers: { growth_monthly: { id: 'growth_monthly' } } });
+  assert.equal(summary.outcome, 'processed');
+  const record = await store.getEntitlement('sub:sub_synthetic0009');
+  assert.equal(record.status, 'active');
+  assert.equal(record.offer_known, true);
+  const stale = await dispatchEvent({ ...event, id: 'evt_synthetic0010', created: 2145916700, data: { object: { ...event.data.object, status: 'canceled' } } }, { store, offers: {} });
+  assert.equal(stale.outcome, 'stale');
+  assert.equal((await store.getEntitlement('sub:sub_synthetic0009')).status, 'active');
+});
+
+test('configuration selects the store and keeps the API key out of summaries', () => {
+  const memory = loadConfig({});
+  assert.deepEqual(memory.store, { kind: 'memory' });
+  assert.deepEqual(describeConfig(memory).store, { kind: 'memory', cms_url: null, cms_api_key_configured: false });
+  const cms = loadConfig({ PAYMENTS_STORE: 'cms', PAYMENTS_CMS_URL: URL_, PAYMENTS_CMS_API_KEY: API_KEY });
+  assert.deepEqual(cms.store, { kind: 'cms', url: URL_, apiKey: API_KEY });
+  assert.ok(Object.isFrozen(cms.store));
+  const summary = describeConfig(cms);
+  assert.deepEqual(summary.store, { kind: 'cms', cms_url: URL_, cms_api_key_configured: true });
+  assert.equal(JSON.stringify(summary).includes(API_KEY), false);
+  assert.equal(JSON.stringify(redact({ store: cms.store })).includes(API_KEY), false, 'redact() masks apiKey properties');
+  for (const [env, variable] of [
+    [{ PAYMENTS_STORE: 'redis' }, 'PAYMENTS_STORE'],
+    [{ PAYMENTS_STORE: 'cms' }, 'PAYMENTS_CMS_URL'],
+    [{ PAYMENTS_STORE: 'cms', PAYMENTS_CMS_URL: 'http://public.example.org/cms/api', PAYMENTS_CMS_API_KEY: API_KEY }, 'PAYMENTS_CMS_URL'],
+    [{ PAYMENTS_STORE: 'cms', PAYMENTS_CMS_URL: URL_ }, 'PAYMENTS_CMS_API_KEY'],
+    [{ PAYMENTS_STORE: 'cms', PAYMENTS_CMS_URL: URL_, PAYMENTS_CMS_API_KEY: 'short' }, 'PAYMENTS_CMS_API_KEY'],
+    [{ PAYMENTS_CMS_URL: URL_ }, 'PAYMENTS_CMS_URL'],
+    [{ PAYMENTS_CMS_API_KEY: API_KEY }, 'PAYMENTS_CMS_API_KEY'],
+  ]) assert.throws(() => loadConfig(env), (error) => error instanceof ConfigError && error.variable === variable, `expected ${variable}`);
+});
+
+test('the server builds the CMS store from configuration and reports it in health', async () => {
+  const cms = fakeCms();
+  const config = loadConfig({ PAYMENTS_HOST: '127.0.0.1', PORT: '0', PAYMENTS_STORE: 'cms', PAYMENTS_CMS_URL: URL_, PAYMENTS_CMS_API_KEY: API_KEY });
+  const service = createPaymentsServer(config, { fetchImpl: cms.fetchImpl });
+  const address = await service.listen();
+  try {
+    const health = await (await fetch(`http://127.0.0.1:${address.port}${ROUTES.health}`)).json();
+    assert.equal(health.store, 'cms');
+    assert.equal(health.status, 'disabled');
+    assert.equal(service.store.kind, 'cms');
+    assert.equal(await service.store.claimEvent('evt_synthetic0001'), true);
+  } finally { await service.close(); }
+  assert.throws(() => createPaymentsServer(Object.freeze({ ...config, store: Object.freeze({ kind: 'redis' }) })), /invalid payments configuration/);
+});

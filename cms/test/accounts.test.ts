@@ -1,0 +1,137 @@
+import { afterAll, beforeAll, describe, expect, test } from 'vitest';
+import { getPayload, type Payload } from 'payload';
+import configPromise from '@payload-config';
+import { call, createUser, login, startMockStripe } from './helpers';
+
+let payload: Payload;
+let stripe: Awaited<ReturnType<typeof startMockStripe>>;
+const PASSWORD = 'correct-horse-battery-staple-01';
+
+beforeAll(async () => {
+  stripe = await startMockStripe();
+  payload = await getPayload({ config: configPromise });
+  await createUser(payload, { email: 'admin@example.test', password: PASSWORD, role: 'admin', name: 'Admin' });
+  await createUser(payload, { email: 'staff@example.test', password: PASSWORD, role: 'staff' });
+  await payload.create({ collection: 'plans', data: { offerId: 'growth_monthly', label: 'Growth — monthly', description: 'Synthetic plan', mode: 'subscription', stripePriceId: 'price_synthetic0001', quantity: 1, active: true, gateway: { permissions: ['manifest', 'records'], quotaRate: 2, quotaBurst: 20 } }, overrideAccess: true });
+  await payload.create({ collection: 'plans', data: { offerId: 'hidden_plan', label: 'Hidden', mode: 'subscription', stripePriceId: 'price_synthetic0002', quantity: 1, active: false, gateway: { quotaRate: 1, quotaBurst: 10 } }, overrideAccess: true });
+});
+afterAll(async () => { await stripe.close(); await payload.db.destroy?.(); });
+
+describe('public status', () => {
+  test('describes enablement without prices or secrets', async () => {
+    const result = await call('/cms/api/account/status');
+    expect(result.status).toBe(200);
+    expect(result.headers.get('cache-control')).toBe('no-store');
+    expect(result.data).toMatchObject({ component: 'cms', status: 'enabled', accounts: { registration: 'open', email_verification: false }, stripe: { mode: 'test', checkout: true, hosted_checkout_only: true }, gateway: { key_issuance: true }, price_publication: 'not_published', free_static_surfaces_unchanged: true });
+    expect(result.data.offers).toEqual([{ id: 'growth_monthly', label: 'Growth — monthly', description: 'Synthetic plan', mode: 'subscription' }]);
+    expect(JSON.stringify(result.data)).not.toMatch(/price_synthetic|sk_test|whsec/);
+  });
+});
+
+describe('registration and sessions', () => {
+  test('anyone can register while registration is open, but only as a member without privileges', async () => {
+    const created = await call('/cms/api/users', { method: 'POST', body: { email: 'member@example.test', password: PASSWORD, name: 'Member', role: 'admin', enableAPIKey: true, stripeCustomerId: 'cus_injected0001', notes: 'sneaky' } });
+    expect(created.status).toBe(201);
+    const stored = await payload.findByID({ collection: 'users', id: created.data.doc.id, overrideAccess: true, showHiddenFields: true });
+    expect(stored.role).toBe('member');
+    expect(stored.enableAPIKey).toBeFalsy();
+    expect(stored.stripeCustomerId ?? null).toBeNull();
+    expect(stored.notes ?? null).toBeNull();
+  });
+
+  test('members read only themselves; staff read everyone; members cannot escalate', async () => {
+    const memberToken = await login('member@example.test', PASSWORD);
+    const staffToken = await login('staff@example.test', PASSWORD);
+    const mine = await call('/cms/api/users', { token: memberToken });
+    expect(mine.status).toBe(200);
+    expect(mine.data.docs.map((doc: { email: string }) => doc.email)).toEqual(['member@example.test']);
+    const all = await call('/cms/api/users', { token: staffToken });
+    expect(all.data.totalDocs).toBeGreaterThanOrEqual(3);
+    const me = await call('/cms/api/account/me', { token: memberToken });
+    expect(me.status).toBe(200);
+    expect(me.data.user).toMatchObject({ email: 'member@example.test', role: 'member', billing_customer_linked: false });
+    expect(me.data.entitlement).toEqual({ active: false, offer: null });
+    const escalate = await call(`/cms/api/users/${me.data.user.id}`, { method: 'PATCH', token: memberToken, body: { role: 'admin', name: 'Renamed' } });
+    expect(escalate.status).toBe(200);
+    const after = await payload.findByID({ collection: 'users', id: me.data.user.id, overrideAccess: true });
+    expect(after.role).toBe('member');
+    expect(after.name).toBe('Renamed');
+    const other = await call(`/cms/api/users/${(await payload.find({ collection: 'users', where: { email: { equals: 'staff@example.test' } }, overrideAccess: true })).docs[0].id}`, { method: 'PATCH', token: memberToken, body: { name: 'hijack' } });
+    expect([403, 404]).toContain(other.status);
+    const anonymous = await call('/cms/api/account/me');
+    expect(anonymous.status).toBe(401);
+    expect(anonymous.data.error.code).toBe('unauthenticated');
+  });
+
+  test('cookie sessions from a foreign origin are refused (CSRF allowlist)', async () => {
+    const token = await login('member@example.test', PASSWORD);
+    const cookie = await call('/cms/api/account/me', { headers: { cookie: `payload-token=${token}` }, origin: 'https://evil.invalid' });
+    expect(cookie.status).toBe(401);
+    const sameOrigin = await call('/cms/api/account/me', { headers: { cookie: `payload-token=${token}` } });
+    expect(sameOrigin.status).toBe(200);
+  });
+
+  test('admin panel access is limited to admin and staff roles', async () => {
+    const admin = payload.collections.users.config.access.admin as (args: { req: unknown }) => boolean | Promise<boolean>;
+    const req = (role: string | null, strategy = 'local-jwt') => ({ user: role ? { id: 1, role, collection: 'users', _strategy: strategy } : null, payload });
+    expect(await admin({ req: req('member') })).toBe(false);
+    expect(await admin({ req: req('service', 'api-key') })).toBe(false);
+    expect(await admin({ req: req(null) })).toBe(false);
+    expect(await admin({ req: req('staff') })).toBe(true);
+    expect(await admin({ req: req('admin') })).toBe(true);
+  });
+});
+
+describe('checkout, portal, and plans', () => {
+  test('checkout creates a Stripe customer once, binds the session to the account, and returns only the hosted URL', async () => {
+    const token = await login('member@example.test', PASSWORD);
+    const bogus = await call('/cms/api/account/checkout', { method: 'POST', token, body: { offer: 'hidden_plan' } });
+    expect(bogus.status).toBe(400);
+    expect(bogus.data.error.code).toBe('unknown_offer');
+    const malformed = await call('/cms/api/account/checkout', { method: 'POST', token, body: { offer: 'Not Valid' } });
+    expect(malformed.status).toBe(400);
+    const first = await call('/cms/api/account/checkout', { method: 'POST', token, body: { offer: 'growth_monthly' } });
+    expect(first.status).toBe(200);
+    expect(first.data.url).toMatch(/^https:\/\/checkout\.stripe\.com\//);
+    const customerCall = stripe.requests.find((request) => request.path === '/v1/customers');
+    expect(customerCall?.body.get('email')).toBe('member@example.test');
+    expect(customerCall?.headers['idempotency-key']).toMatch(/^cms-customer-/);
+    const sessionCall = stripe.requests.find((request) => request.path === '/v1/checkout/sessions');
+    expect(sessionCall?.body.get('mode')).toBe('subscription');
+    expect(sessionCall?.body.get('line_items[0][price]')).toBe('price_synthetic0001');
+    expect(sessionCall?.body.get('customer')).toMatch(/^cus_synthetic/);
+    expect(sessionCall?.body.get('client_reference_id')).toBe(String((await call('/cms/api/account/me', { token })).data.user.id));
+    expect(sessionCall?.body.get('metadata[offer]')).toBe('growth_monthly');
+    expect(sessionCall?.body.get('success_url')).toBe('http://localhost:8080/account?checkout=success');
+    expect(sessionCall?.body.get('cancel_url')).toBe('http://localhost:8080/account?checkout=cancelled');
+    const second = await call('/cms/api/account/checkout', { method: 'POST', token, body: { offer: 'growth_monthly' } });
+    expect(second.status).toBe(200);
+    expect(stripe.requests.filter((request) => request.path === '/v1/customers')).toHaveLength(1);
+    const me = await call('/cms/api/account/me', { token });
+    expect(me.data.user.billing_customer_linked).toBe(true);
+    const anonymous = await call('/cms/api/account/checkout', { method: 'POST', body: { offer: 'growth_monthly' } });
+    expect(anonymous.status).toBe(401);
+  });
+
+  test('portal requires a linked customer and returns only the hosted portal URL', async () => {
+    await createUser(payload, { email: 'fresh@example.test', password: PASSWORD });
+    const noCustomer = await call('/cms/api/account/portal', { method: 'POST', token: await login('fresh@example.test', PASSWORD) });
+    expect(noCustomer.status).toBe(404);
+    expect(noCustomer.data.error.code).toBe('no_customer');
+    const portal = await call('/cms/api/account/portal', { method: 'POST', token: await login('member@example.test', PASSWORD) });
+    expect(portal.status).toBe(200);
+    expect(portal.data).toEqual({ url: 'https://billing.stripe.com/p/session/synthetic1' });
+    expect(stripe.requests.find((request) => request.path === '/v1/billing_portal/sessions')?.body.get('return_url')).toBe('http://localhost:8080/account');
+  });
+
+  test('plans are admin-only through REST and never readable by members', async () => {
+    const member = await call('/cms/api/plans', { token: await login('member@example.test', PASSWORD) });
+    expect(member.status).toBe(403);
+    const staff = await call('/cms/api/plans', { token: await login('staff@example.test', PASSWORD) });
+    expect(staff.status).toBe(200);
+    const staffWrite = await call('/cms/api/plans', { method: 'POST', token: await login('staff@example.test', PASSWORD), body: { offerId: 'x_plan', label: 'x', mode: 'subscription', stripePriceId: 'price_synthetic0009', quantity: 1 } });
+    expect(staffWrite.status).toBe(403);
+    const badQuota = await call('/cms/api/plans', { method: 'POST', token: await login('admin@example.test', PASSWORD), body: { offerId: 'bad_quota', label: 'x', mode: 'subscription', stripePriceId: 'price_synthetic0009', quantity: 1, gateway: { quotaRate: 0.001, quotaBurst: 10000 } } });
+    expect(badQuota.status).toBeGreaterThanOrEqual(400);
+  });
+});

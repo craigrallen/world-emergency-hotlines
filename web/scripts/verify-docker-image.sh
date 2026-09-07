@@ -227,9 +227,27 @@ if docker exec "$container" grep -R -F -l 'js.stripe.com' /srv >/dev/null 2>&1; 
 if docker exec "$container" grep -R -E -l '(sk|rk|pk)_(test|live)_[A-Za-z0-9]{24,}|whsec_[A-Za-z0-9]{24,}' /srv >/dev/null 2>&1; then echo 'Stripe key-like material exists in the served root' >&2; exit 1; fi
 if docker exec "$container" sh -c 'test -e /srv/billing/api'; then echo '/srv/billing/api must not exist as a static path' >&2; exit 1; fi
 
+# Accounts (Payload CMS) stay prepared-but-disabled in the shipped image: the CMS
+# routes fail closed and the static /account pages render their disabled state.
+accounts_status=$(curl --max-time 5 -sS -o "$fixture/accounts-disabled.json" -w '%{http_code}' "$base/cms/api/account/status")
+[ "$accounts_status" = 503 ] || { echo "GET /cms/api/account/status returned $accounts_status, expected 503 while accounts are disabled" >&2; exit 1; }
+[ "$(cat "$fixture/accounts-disabled.json")" = '{"error":{"code":"accounts_disabled","message":"Accounts are not enabled"}}' ] || { echo 'accounts_disabled body drifted' >&2; exit 1; }
+admin_status=$(curl --max-time 5 -sS -o /dev/null -w '%{http_code}' "$base/admin")
+[ "$admin_status" = 503 ] || { echo "GET /admin returned $admin_status, expected 503 while accounts are disabled" >&2; exit 1; }
+require_page /account 'Accounts are not enabled' "$fixture/account.html"
+require_page /account 'data-accounts-mode="disabled"' "$fixture/account.html"
+require_page /account/verify 'Verify your email' "$fixture/account-verify.html"
+require_page /account/reset-password 'Choose a new password' "$fixture/account-reset.html"
+require_page /robots.txt 'Disallow: /account/' "$fixture/robots.txt"
+require_page /robots.txt 'Disallow: /admin/' "$fixture/robots.txt"
+require_page /robots.txt 'Disallow: /cms/' "$fixture/robots.txt"
+for path in /srv/admin /srv/cms /srv/_next; do
+  if docker exec "$container" sh -c "test -e $path"; then echo "$path must not exist as a static path" >&2; exit 1; fi
+done
+
 missing=/release/v1/does-not-exist.json
 missing_status=$(curl --max-time 5 -sS -o "$fixture/missing.txt" -w '%{http_code}' "$base$missing")
 [ "$missing_status" = 404 ] || { echo "GET $missing returned $missing_status, expected 404" >&2; exit 1; }
 [ "$(cat "$fixture/missing.txt")" = 'Not found' ] || { echo "GET $missing did not return the stable 404 body" >&2; exit 1; }
 
-echo "Deployment image OK: Docker build; payments route 503 and /billing pages disabled; raw traveler-card JSON GET/HEAD MIME, invariants, release hash/bytes, and read-only 404s; assurance and release relationships"
+echo "Deployment image OK: Docker build; payments route 503 and /billing pages disabled; CMS routes 503 and /account pages disabled; raw traveler-card JSON GET/HEAD MIME, invariants, release hash/bytes, and read-only 404s; assurance and release relationships"

@@ -28,4 +28,4 @@ The store keeps `cs_`, `sub_`, `cus_`, `in_`, and `pi_` identifiers, the offer i
 
 ## Not included
 
-No Stripe account, product, price, webhook endpoint, tax configuration, terms of service, refund policy, or deployed service is created by this repository. The in-memory store is single-instance; a durable store is required before more than one replica runs.
+No Stripe account, product, price, webhook endpoint, tax configuration, terms of service, refund policy, or deployed service is created by this repository. The in-memory store is single-instance; before more than one replica runs, set `PAYMENTS_STORE=cms` so `src/cms-store.mjs` persists webhook ids and entitlements in the Payload CMS (`docs/ACCOUNTS.md`).

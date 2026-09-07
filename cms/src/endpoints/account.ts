@@ -1,0 +1,179 @@
+import { randomUUID } from 'node:crypto';
+import type { Endpoint, Payload, PayloadRequest } from 'payload';
+import { INTERNAL_CONTEXT, accountUser, type RequestUser } from '../access';
+import { OFFER_ID } from '../collections/Plans';
+import { describeEnv, getEnv } from '../env';
+import { createGatewayKey } from '../lib/gateway-keys';
+import { EndpointError, fail, guarded, json, readJsonBody } from '../lib/responses';
+import { CHECKOUT_ORIGIN, PORTAL_ORIGIN, getStripe } from '../lib/stripe';
+import { activeSubscriptionFor } from '../lib/subscriptions';
+
+type Doc = Record<string, unknown> & { id: string | number };
+
+const publicPlan = (plan: Doc) => ({ id: plan.offerId, label: plan.label, description: plan.description ?? '', mode: plan.mode });
+const publicSubscription = (sub: Doc) => ({
+  id: sub.stripeSubscriptionId, offer: sub.offer ?? null, status: sub.status, cancel_at_period_end: sub.cancelAtPeriodEnd === true,
+  current_period_end: sub.currentPeriodEnd ?? null, livemode: sub.livemode === true, last_invoice_status: sub.lastInvoiceStatus ?? null, updated_at: sub.updatedAt,
+});
+const publicKey = (key: Doc) => ({
+  id: key.keyId, label: key.label ?? null, state: key.state, not_before: key.notBefore ?? null, expires_at: key.expiresAt ?? null,
+  permissions: key.permissions, quota: { rate: key.quotaRate, burst: key.quotaBurst }, created_at: key.createdAt, revoked_at: key.revokedAt ?? null,
+});
+
+async function activePlans(payload: Payload): Promise<Doc[]> {
+  const result = await payload.find({ collection: 'plans', where: { active: { equals: true } }, sort: 'offerId', limit: 50, depth: 0, overrideAccess: true });
+  return result.docs as unknown as Doc[];
+}
+
+function requireAccount(req: PayloadRequest): RequestUser {
+  const user = accountUser(req);
+  if (!user) throw new EndpointError('unauthenticated');
+  if (getEnv().requireEmailVerification && user._verified === false) throw new EndpointError('email_unverified');
+  return user;
+}
+
+async function ensureCustomer(payload: Payload, user: RequestUser): Promise<string> {
+  if (typeof user.stripeCustomerId === 'string' && user.stripeCustomerId) return user.stripeCustomerId;
+  const stripe = getStripe();
+  if (!stripe) throw new EndpointError('stripe_disabled');
+  let customer;
+  try {
+    customer = await stripe.customers.create({ email: user.email, ...(user.name ? { name: user.name } : {}), metadata: { cms_user: String(user.id) } }, { idempotencyKey: `cms-customer-${user.id}` });
+  } catch { throw new EndpointError('upstream_error'); }
+  if (!/^cus_[A-Za-z0-9]{8,}$/.test(customer.id)) throw new EndpointError('upstream_error');
+  await payload.update({ collection: 'users', id: user.id, data: { stripeCustomerId: customer.id }, depth: 0, overrideAccess: true, context: { ...INTERNAL_CONTEXT } });
+  return customer.id;
+}
+
+export const accountEndpoints: Endpoint[] = [
+  {
+    // Public: lets the static /account page discover whether accounts, billing, and key issuance are on.
+    path: '/account/status', method: 'get',
+    handler: (req) => guarded(req, async () => {
+      const env = getEnv();
+      const plans = env.stripeMode === 'disabled' ? [] : await activePlans(req.payload);
+      const summary = describeEnv(env);
+      return json(req, 200, {
+        component: 'cms', status: 'enabled',
+        accounts: { registration: summary.registration, email_verification: summary.email_verification },
+        stripe: { mode: summary.stripe_mode, checkout: env.stripeMode !== 'disabled' && plans.length > 0, hosted_checkout_only: true },
+        gateway: { key_issuance: summary.gateway_key_issuance },
+        offers: plans.map(publicPlan),
+        price_publication: 'not_published',
+        free_static_surfaces_unchanged: true,
+      });
+    }),
+  },
+  {
+    path: '/account/me', method: 'get',
+    handler: (req) => guarded(req, async () => {
+      const user = requireAccount(req);
+      const env = getEnv();
+      const [subscriptions, keys, active] = await Promise.all([
+        req.payload.find({ collection: 'subscriptions', where: { user: { equals: user.id } }, sort: '-lastEventCreated', limit: 20, depth: 0, overrideAccess: true }),
+        req.payload.find({ collection: 'api-keys', where: { user: { equals: user.id } }, sort: '-createdAt', limit: 50, depth: 0, overrideAccess: true }),
+        activeSubscriptionFor(req.payload, user.id, env.stripeMode === 'disabled' ? null : env.stripeMode === 'live'),
+      ]);
+      return json(req, 200, {
+        user: { id: user.id, email: user.email, name: user.name ?? null, role: user.role, verified: user._verified !== false, created_at: user.createdAt ?? null, billing_customer_linked: typeof user.stripeCustomerId === 'string' && user.stripeCustomerId.length > 0 },
+        entitlement: { active: active !== null, offer: (active?.offer as string | undefined) ?? null },
+        subscriptions: (subscriptions.docs as unknown as Doc[]).map(publicSubscription),
+        api_keys: (keys.docs as unknown as Doc[]).map(publicKey),
+        stripe: { mode: env.stripeMode },
+        gateway: { key_issuance: env.gatewayKeyPepper !== null, max_keys: env.maxApiKeysPerUser },
+      });
+    }),
+  },
+  {
+    // Account-bound hosted Checkout: the session carries the user id so the webhook links the subscription.
+    path: '/account/checkout', method: 'post',
+    handler: (req) => guarded(req, async () => {
+      const user = requireAccount(req);
+      const env = getEnv();
+      const stripe = getStripe();
+      if (!stripe) throw new EndpointError('stripe_disabled');
+      const body = await readJsonBody(req);
+      if (typeof body.offer !== 'string' || !OFFER_ID.test(body.offer)) throw new EndpointError('invalid_request');
+      const plans = await req.payload.find({ collection: 'plans', where: { and: [{ offerId: { equals: body.offer } }, { active: { equals: true } }] }, limit: 1, depth: 0, overrideAccess: true });
+      const plan = plans.docs[0] as unknown as Doc | undefined;
+      if (!plan) throw new EndpointError('unknown_offer');
+      const customer = await ensureCustomer(req.payload, user);
+      const metadata = { offer: String(plan.offerId), cms_user: String(user.id) };
+      let session;
+      try {
+        session = await stripe.checkout.sessions.create({
+          mode: plan.mode as 'subscription' | 'payment',
+          customer,
+          client_reference_id: String(user.id),
+          line_items: [{ price: String(plan.stripePriceId), quantity: Number(plan.quantity) || 1 }],
+          success_url: `${env.siteUrl}/account?checkout=success`,
+          cancel_url: `${env.siteUrl}/account?checkout=cancelled`,
+          metadata,
+          ...(plan.mode === 'subscription' ? { subscription_data: { metadata } } : { payment_intent_data: { metadata } }),
+        }, { idempotencyKey: randomUUID() });
+      } catch { throw new EndpointError('upstream_error'); }
+      if (typeof session.url !== 'string' || !session.url.startsWith(`${CHECKOUT_ORIGIN}/`)) throw new EndpointError('upstream_error');
+      return json(req, 200, { url: session.url, id: session.id });
+    }),
+  },
+  {
+    path: '/account/portal', method: 'post',
+    handler: (req) => guarded(req, async () => {
+      const user = requireAccount(req);
+      const env = getEnv();
+      const stripe = getStripe();
+      if (!stripe) throw new EndpointError('stripe_disabled');
+      if (typeof user.stripeCustomerId !== 'string' || !user.stripeCustomerId) throw new EndpointError('no_customer');
+      let portal;
+      try {
+        portal = await stripe.billingPortal.sessions.create({ customer: user.stripeCustomerId, return_url: `${env.siteUrl}/account` }, { idempotencyKey: randomUUID() });
+      } catch { throw new EndpointError('upstream_error'); }
+      if (typeof portal.url !== 'string' || !portal.url.startsWith(`${PORTAL_ORIGIN}/`)) throw new EndpointError('upstream_error');
+      return json(req, 200, { url: portal.url });
+    }),
+  },
+  {
+    // Issue a managed API key. The raw key appears in this response only.
+    path: '/account/api-keys', method: 'post',
+    handler: (req) => guarded(req, async () => {
+      const user = requireAccount(req);
+      const env = getEnv();
+      if (!env.gatewayKeyPepper) throw new EndpointError('keys_unavailable');
+      const body = await readJsonBody(req);
+      const label = body.label === undefined ? null : body.label;
+      if (label !== null && (typeof label !== 'string' || label.length > 60)) throw new EndpointError('invalid_request');
+      const active = await activeSubscriptionFor(req.payload, user.id, env.stripeMode === 'disabled' ? null : env.stripeMode === 'live');
+      if (!active) throw new EndpointError('no_entitlement');
+      const existing = await req.payload.count({ collection: 'api-keys', where: { and: [{ user: { equals: user.id } }, { state: { equals: 'active' } }] }, overrideAccess: true });
+      if (existing.totalDocs >= env.maxApiKeysPerUser) throw new EndpointError('key_limit');
+      const planId = active.plan && typeof active.plan === 'object' ? (active.plan as unknown as Doc).id : (active.plan as string | number | null);
+      const plan = planId ? ((await req.payload.findByID({ collection: 'plans', id: planId, depth: 0, overrideAccess: true, disableErrors: true })) as unknown as Doc | null) : null;
+      const gateway = (plan?.gateway ?? {}) as { permissions?: string[]; quotaRate?: number; quotaBurst?: number };
+      const key = createGatewayKey(env.gatewayKeyPepper);
+      const record = (await req.payload.create({
+        collection: 'api-keys',
+        data: {
+          keyId: key.id, verifier: key.verifier, user: user.id as number, label, state: 'active',
+          permissions: (gateway.permissions?.length ? gateway.permissions : ['manifest', 'records', 'resolver']) as ('manifest' | 'records' | 'resolver')[],
+          quotaRate: gateway.quotaRate ?? 1, quotaBurst: gateway.quotaBurst ?? 10,
+        },
+        depth: 0, overrideAccess: true, context: { ...INTERNAL_CONTEXT },
+      })) as unknown as Doc;
+      req.payload.logger.info({ user: user.id }, 'managed api key issued');
+      return json(req, 201, { key: key.raw, record: publicKey(record), notice: 'Store this key now; it is not shown again and the CMS keeps only a verifier.' });
+    }),
+  },
+  {
+    path: '/account/api-keys/:keyId', method: 'delete',
+    handler: (req) => guarded(req, async () => {
+      const user = requireAccount(req);
+      const keyId = req.routeParams?.keyId;
+      if (typeof keyId !== 'string' || !/^[a-z0-9]{12}$/.test(keyId)) throw new EndpointError('invalid_request');
+      const found = await req.payload.find({ collection: 'api-keys', where: { and: [{ keyId: { equals: keyId } }, { user: { equals: user.id } }] }, limit: 1, depth: 0, overrideAccess: true });
+      const key = found.docs[0] as unknown as Doc | undefined;
+      if (!key) return fail(req, 'not_found');
+      const updated = key.state === 'revoked' ? key : ((await req.payload.update({ collection: 'api-keys', id: key.id, data: { state: 'revoked' }, depth: 0, overrideAccess: true, context: { ...INTERNAL_CONTEXT } })) as unknown as Doc);
+      return json(req, 200, { record: publicKey(updated) });
+    }),
+  },
+];

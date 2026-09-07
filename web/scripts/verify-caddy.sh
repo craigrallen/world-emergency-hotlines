@@ -367,6 +367,31 @@ payments_head_headers="$fixture/responses/payments-head.headers"; payments_head_
 curl --max-time 5 -sS --request HEAD --ignore-content-length -H 'Connection: close' -D "$payments_head_headers" -o "$payments_head_body" "$base/billing/api/health"
 require_status HEAD /billing/api/health 503 "$payments_head_headers"
 require_empty HEAD /billing/api/health "$payments_head_body"
+# Payload CMS routes: without CMS_UPSTREAM every /cms/*, /admin, /admin/*, and
+# /_next/* request fails closed with the exact accounts_disabled 503 and is never
+# served from disk. The static /account pages are ordinary Astro HTML and stay up.
+expected_accounts_disabled="$fixture/responses/accounts-disabled.expected"
+printf '%s' '{"error":{"code":"accounts_disabled","message":"Accounts are not enabled"}}' > "$expected_accounts_disabled"
+for spec in 'GET|cms/api/account/status' 'POST|cms/api/users/login' 'POST|cms/api/stripe/webhooks' 'GET|admin' 'GET|admin/login' 'GET|admin/collections/users' 'GET|_next/static/chunks/main.js' 'POST|cms/api/account/checkout' 'GET|cms/api/account/status?probe=1' 'GET|CMS/api/account/status' 'GET|cms/api//account/status'; do
+  method=${spec%%|*}; path=${spec#*|}
+  label=$(printf '%s' "$method-$path" | tr '/?.' '---')
+  cms_headers="$fixture/responses/cms-$label.headers"; cms_body="$fixture/responses/cms-$label.body"
+  curl --max-time 5 -sS --path-as-is -X "$method" -H 'Origin: https://worldhotlines.org' -D "$cms_headers" -o "$cms_body" "$base/$path"
+  # Caddy path matchers are case-insensitive, so /CMS/... fails closed like /cms/... (as /BILLING does).
+  require_status "$method" "/$path" 503 "$cms_headers"
+  require_header "$cms_headers" Cache-Control 'no-store'
+  require_header "$cms_headers" Content-Type 'application/json; charset=utf-8'
+  require_header "$cms_headers" X-Content-Type-Options 'nosniff'
+  cmp -s "$expected_accounts_disabled" "$cms_body" || { echo "$method /$path did not return the exact accounts_disabled body" >&2; exit 1; }
+done
+cms_traversal_status=$(curl --max-time 5 -sS --path-as-is -o /dev/null -w '%{http_code}' "$base/cms/../index.html")
+[ "$cms_traversal_status" = 404 ] || { echo "dot-segment traversal under /cms returned $cms_traversal_status, expected 404 (never a served file, never the proxy)" >&2; exit 1; }
+admin_prefix_status=$(curl --max-time 5 -sS -o /dev/null -w '%{http_code}' "$base/administration")
+[ "$admin_prefix_status" = 404 ] || { echo "/administration must not match the /admin CMS route (got $admin_prefix_status)" >&2; exit 1; }
+cms_head_headers="$fixture/responses/cms-head.headers"; cms_head_body="$fixture/responses/cms-head.body"
+curl --max-time 5 -sS --request HEAD --ignore-content-length -H 'Connection: close' -D "$cms_head_headers" -o "$cms_head_body" "$base/cms/api/account/status"
+require_status HEAD /cms/api/account/status 503 "$cms_head_headers"
+require_empty HEAD /cms/api/account/status "$cms_head_body"
 # Site-level security headers apply to the main handler chain, not to the
 # handle_errors 404 route, so probe a page the fixture actually serves.
 csp_headers="$fixture/responses/csp.headers"
@@ -542,5 +567,25 @@ proxied_status=$(curl --max-time 5 -sS -X POST -o /dev/null -w '%{http_code}' "$
 [ "$proxied_status" = 502 ] || { echo "with PAYMENTS_UPSTREAM set, /billing/api/checkout-session returned $proxied_status, expected 502 from the proxy path" >&2; exit 1; }
 index_status=$(curl --max-time 5 -sS -o /dev/null -w '%{http_code}' "$base/release/v1/release.json")
 [ "$index_status" = 200 ] || { echo "static routes must be unaffected by PAYMENTS_UPSTREAM (got $index_status)" >&2; exit 1; }
+cms_still_closed=$(curl --max-time 5 -sS -o /dev/null -w '%{http_code}' "$base/cms/api/account/status")
+[ "$cms_still_closed" = 503 ] || { echo "PAYMENTS_UPSTREAM alone must not open the CMS routes (got $cms_still_closed)" >&2; exit 1; }
 
-echo "Caddy integration OK: raw JSON API GET/HEAD MIME and read-only 404 boundaries; PWA policy; HTML discovery and custom 404; release/feed/static contract MIME and CORS; no route shadowing"
+docker rm -f "$container" >/dev/null 2>&1 || true
+container=$(docker run -d --rm -e PORT=8080 -e CMS_UPSTREAM=127.0.0.1:1 -p 127.0.0.1::8080 -v "$repo_root/Caddyfile:/etc/caddy/Caddyfile:ro" -v "$fixture:/srv:ro" "$caddy_image")
+port=$(docker port "$container" 8080/tcp | sed -n 's/.*://p')
+base="http://127.0.0.1:$port"
+attempt=0
+until curl --max-time 2 -fsS "$base/release/v1/release.json" >/dev/null 2>&1; do
+  attempt=$((attempt + 1)); [ "$attempt" -lt 40 ] || { docker logs "$container"; exit 1; }
+  sleep 0.25
+done
+for path in cms/api/account/status admin admin/login _next/static/chunks/main.js; do
+  cms_proxied_status=$(curl --max-time 5 -sS -o /dev/null -w '%{http_code}' "$base/$path")
+  [ "$cms_proxied_status" = 502 ] || { echo "with CMS_UPSTREAM set, /$path returned $cms_proxied_status, expected 502 from the proxy path" >&2; exit 1; }
+done
+payments_still_closed=$(curl --max-time 5 -sS -X POST -o /dev/null -w '%{http_code}' "$base/billing/api/checkout-session")
+[ "$payments_still_closed" = 503 ] || { echo "CMS_UPSTREAM alone must not open the payments route (got $payments_still_closed)" >&2; exit 1; }
+index_status=$(curl --max-time 5 -sS -o /dev/null -w '%{http_code}' "$base/release/v1/release.json")
+[ "$index_status" = 200 ] || { echo "static routes must be unaffected by CMS_UPSTREAM (got $index_status)" >&2; exit 1; }
+
+echo "Caddy integration OK: raw JSON API GET/HEAD MIME and read-only 404 boundaries; PWA policy; HTML discovery and custom 404; release/feed/static contract MIME and CORS; payments and CMS routes fail closed independently; no route shadowing"

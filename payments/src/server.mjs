@@ -4,10 +4,11 @@
 
 import http from 'node:http';
 import { randomUUID } from 'node:crypto';
-import { CHECKOUT_SESSION_ID, MODES, OFFER_ID, VERSION } from './config.mjs';
+import { CHECKOUT_SESSION_ID, MODES, OFFER_ID, STORE_KINDS, VERSION } from './config.mjs';
 import { StripeApiError, createStripeClient } from './stripe.mjs';
 import { WebhookError, constructEvent } from './webhook.mjs';
 import { createMemoryStore, validateStore } from './store.mjs';
+import { createCmsStore } from './cms-store.mjs';
 import { dispatchEvent } from './events.mjs';
 import { MemoryTokenBuckets } from './quota.mjs';
 import { plain } from './validation.mjs';
@@ -26,7 +27,7 @@ export const ERRORS = Object.freeze({
   unavailable: [503, 'Service unavailable'],
 });
 const ROUTE_NAMES = new Map(Object.entries(ROUTES).map(([name, path]) => [path, name]));
-const CONFIG_KEYS = ['version', 'mode', 'host', 'port', 'publicOrigin', 'successPath', 'cancelPath', 'returnPath', 'trustProxy', 'automaticTax', 'stripeTimeoutMs', 'stripe', 'offers'];
+const CONFIG_KEYS = ['version', 'mode', 'host', 'port', 'publicOrigin', 'successPath', 'cancelPath', 'returnPath', 'trustProxy', 'automaticTax', 'stripeTimeoutMs', 'store', 'stripe', 'offers'];
 const STRIPE_METHODS = ['createCheckoutSession', 'retrieveCheckoutSession', 'createBillingPortalSession'];
 
 class RequestError extends Error {
@@ -86,6 +87,7 @@ function bucketLatency(ms) { return ms < 50 ? '<50ms' : ms < 500 ? '<500ms' : ms
 function validateConfig(config) {
   if (!plain(config) || !Object.isFrozen(config) || Object.keys(config).some((key) => !CONFIG_KEYS.includes(key)) || CONFIG_KEYS.some((key) => !Object.hasOwn(config, key))) throw new Error('invalid payments configuration object');
   if (!MODES.includes(config.mode) || config.version !== VERSION) throw new Error('invalid payments configuration object');
+  if (!plain(config.store) || !STORE_KINDS.includes(config.store.kind)) throw new Error('invalid payments configuration object');
   if (config.mode !== 'disabled' && (!plain(config.stripe) || typeof config.stripe.secretKey !== 'string' || typeof config.stripe.webhookSecret !== 'string')) throw new Error('invalid payments configuration object');
 }
 
@@ -96,7 +98,7 @@ export function createPaymentsServer(config, { stripe, store, sink, sinkError, n
     ? (stripe ?? createStripeClient({ secretKey: config.stripe.secretKey, apiVersion: config.stripe.apiVersion, fetchImpl, timeoutMs: config.stripeTimeoutMs }))
     : null;
   if (enabled && (!stripeClient || STRIPE_METHODS.some((name) => typeof stripeClient[name] !== 'function'))) throw new Error('invalid stripe client');
-  const eventStore = store ?? createMemoryStore();
+  const eventStore = store ?? (config.store.kind === 'cms' ? createCmsStore({ url: config.store.url, apiKey: config.store.apiKey, fetchImpl }) : createMemoryStore());
   if (!validateStore(eventStore)) throw new Error('invalid store');
   const buckets = quota ?? new MemoryTokenBuckets();
   if (typeof buckets.take !== 'function') throw new Error('invalid payments server options');
