@@ -42,14 +42,28 @@ export interface EntitlementContext {
 }
 export interface GatewayPolicy { permissions: string[]; quotaRate: number; quotaBurst: number }
 
-/** `live:<user>` / `test:<user>` for each of `users` with an active or trialing subscription in that mode. */
-export async function entitledAccounts(payload: Payload, users: (string | number)[]): Promise<Set<string>> {
+/**
+ * `live:<user>` / `test:<user>` for each of `users` with an active or trialing subscription
+ * in that mode. Their subscriptions are walked in pages keyed on the immutable id, so
+ * however many active subscriptions the users hold between them, no user's entitlement is
+ * lost to a truncated slice (which would export their admin-issued key as revoked).
+ */
+export async function entitledAccounts(payload: Payload, users: (string | number)[], pageSize = EXPORT_PAGE_SIZE): Promise<Set<string>> {
   const entitled = new Set<string>();
   if (users.length === 0) return entitled;
-  const result = await payload.find({ collection: 'subscriptions', where: { and: [{ status: { in: [...ACTIVE_STATUSES] } }, { user: { in: users } }] }, limit: GATEWAY_MAX_KEYS + 1, pagination: false, depth: 0, overrideAccess: true });
-  for (const sub of result.docs as unknown as Doc[]) {
-    const user = relationId(sub.user);
-    if (user) entitled.add(entitlementKey(sub.livemode, user));
+  let after: string | number | null = null;
+  for (;;) {
+    const and: Record<string, unknown>[] = [{ status: { in: [...ACTIVE_STATUSES] } }, { user: { in: users } }];
+    if (after !== null) and.push({ id: { greater_than: after } });
+    const result = await payload.find({ collection: 'subscriptions', where: { and } as never, sort: 'id', limit: pageSize, depth: 0, overrideAccess: true });
+    const docs = result.docs as unknown as Doc[];
+    if (docs.length === 0) break;
+    for (const sub of docs) {
+      const user = relationId(sub.user);
+      if (user) entitled.add(entitlementKey(sub.livemode, user));
+    }
+    after = docs[docs.length - 1].id as string | number;
+    if (docs.length < pageSize) break;
   }
   return entitled;
 }

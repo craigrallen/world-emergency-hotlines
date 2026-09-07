@@ -10,7 +10,7 @@ import { call, createUser, login, signEvent, startMockStripe, stripeEvent } from
 import { INTERNAL_CONTEXT } from '../src/access';
 import { claimEvent, handleStripeEvent, periodEndOf, releaseEvent } from '../src/lib/stripe';
 import { toGatewayRecord } from '../src/lib/gateway-keys';
-import { collectActiveKeys, exportableKeys, withEntitlement } from '../src/endpoints/gateway';
+import { collectActiveKeys, entitledAccounts, exportableKeys, withEntitlement } from '../src/endpoints/gateway';
 
 let payload: Payload;
 let stripe: Awaited<ReturnType<typeof startMockStripe>>;
@@ -576,6 +576,12 @@ describe('managed API keys', () => {
     expect(minted.status).toBe(201);
     expect(minted.data.record).toMatchObject({ permissions: ['manifest', 'records'], quota: { rate: 2, burst: 20 } });
     expect((await payload.find({ collection: 'api-keys', where: { keyId: { equals: minted.data.record.id } }, overrideAccess: true, depth: 0 })).docs[0].subscription).toBe(configured.id);
+    // The account-entitlement fallback for admin-issued keys walks the users' subscriptions in id pages too: a user with
+    // more active subscriptions than one page holds is still found entitled, and the answer does not depend on the page size.
+    const paged = await entitledAccounts(payload, [heavy.id], 1);
+    expect(paged).toEqual(new Set([`test:${heavy.id}`]));
+    expect(await entitledAccounts(payload, [heavy.id])).toEqual(paged);
+    expect(await entitledAccounts(payload, [])).toEqual(new Set());
   });
 
   test('a key past its expiry is expired, not active: it neither counts against the limit nor reads as active', async () => {
