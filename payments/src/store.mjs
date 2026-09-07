@@ -5,14 +5,19 @@
 // or any requirement to survive restarts, needs a durable implementation with
 // the same five methods:
 //
-// - claimEvent(id) is an atomic first-writer-wins insert that answers 'claimed',
-//   'duplicate' (a claim that was completed), or 'in_progress' (a claim that was
-//   never completed and is younger than CLAIM_GRACE_SECONDS). An incomplete claim
-//   older than the grace period belongs to a worker that died mid-way and is
-//   taken over ('claimed' again), so a failed delivery whose cleanup also failed
-//   stays retryable instead of being acknowledged forever as a duplicate.
-// - completeEvent(id) marks a claim done after the event was applied.
-// - releaseEvent(id) drops a claim after a failed apply (best effort).
+// - claimEvent(id, lease) is an atomic first-writer-wins insert that answers
+//   'claimed', 'duplicate' (a claim that was completed), or 'in_progress' (a claim
+//   that was never completed and is younger than CLAIM_GRACE_SECONDS). An
+//   incomplete claim older than the grace period belongs to a worker that died
+//   mid-way and is taken over ('claimed' again, now carrying the taker's lease), so
+//   a failed delivery whose cleanup also failed stays retryable instead of being
+//   acknowledged forever as a duplicate. `lease` is a token the worker made up for
+//   this delivery (CLAIM_LEASE); the claim records it.
+// - completeEvent(id, lease) marks a claim done after the event was applied, and
+//   releaseEvent(id, lease) drops a claim after a failed apply (best effort). Both
+//   apply only while the claim still carries that lease and answer whether they did:
+//   a worker that outlived the grace period and was taken over can neither complete
+//   nor remove its successor's claim, so the event cannot be applied a third time.
 // - putEntitlement must refuse, with a conflict error (`code` STORE_CONFLICT), a
 //   record that would move any event family's `<family>_event_epoch` backwards
 //   relative to what is stored, or whose `based_on_revision` is not the stored
@@ -25,6 +30,9 @@ import { plain } from './validation.mjs';
 
 export const STORE_METHODS = Object.freeze(['claimEvent', 'completeEvent', 'releaseEvent', 'getEntitlement', 'putEntitlement']);
 export const CLAIM_RESULTS = Object.freeze(['claimed', 'duplicate', 'in_progress']);
+/** A worker's lease on one delivery: URL-safe, 8 to 128 characters (a UUID fits). */
+export const CLAIM_LEASE = /^[A-Za-z0-9_-]{8,128}$/;
+export const validLease = (lease) => typeof lease === 'string' && CLAIM_LEASE.test(lease);
 /** How long an incomplete claim is trusted to be in progress before another delivery may take it over. */
 export const CLAIM_GRACE_SECONDS = 120;
 export const EVENT_FAMILIES = Object.freeze(['checkout', 'subscription', 'invoice']);
@@ -77,26 +85,31 @@ export function validateStore(store) {
 export function createMemoryStore({ maxEvents = 10000, maxEntitlements = 10000, now = () => Date.now(), claimGraceSeconds = CLAIM_GRACE_SECONDS } = {}) {
   if (!Number.isInteger(maxEvents) || maxEvents < 1 || maxEvents > 1000000 || !Number.isInteger(maxEntitlements) || maxEntitlements < 1 || maxEntitlements > 1000000) throw new Error('invalid store configuration');
   if (typeof now !== 'function' || !Number.isInteger(claimGraceSeconds) || claimGraceSeconds < 1 || claimGraceSeconds > 86400) throw new Error('invalid store configuration');
-  const events = new Map(); // id -> { claimedAt, completed }
+  const events = new Map(); // id -> { claimedAt, completed, lease }
   const entitlements = new Map();
   const evict = (collection, max) => { while (collection.size > max) collection.delete(collection.keys().next().value); };
+  const checkClaimArgs = (id, lease) => {
+    if (typeof id !== 'string' || id.length === 0 || id.length > 128) throw new TypeError('event id required');
+    if (!validLease(lease)) throw new TypeError('claim lease required');
+  };
   return Object.freeze({
     kind: 'memory',
-    async claimEvent(id) {
-      if (typeof id !== 'string' || id.length === 0 || id.length > 128) throw new TypeError('event id required');
+    async claimEvent(id, lease) {
+      checkClaimArgs(id, lease);
       const at = now();
       const existing = events.get(id);
       if (existing) {
         if (existing.completed) return 'duplicate';
         if (at - existing.claimedAt < claimGraceSeconds * 1000) return 'in_progress';
-        events.delete(id); // abandoned by a worker that never completed: take it over
+        events.delete(id); // abandoned by a worker that never completed: take it over under this worker's lease
       }
-      events.set(id, { claimedAt: at, completed: false });
+      events.set(id, { claimedAt: at, completed: false, lease });
       evict(events, maxEvents);
       return 'claimed';
     },
-    async completeEvent(id) { const existing = events.get(id); if (existing) existing.completed = true; },
-    async releaseEvent(id) { events.delete(id); },
+    // Completion and release are bound to the lease the claim carries: a worker that was taken over finds nothing to do.
+    async completeEvent(id, lease) { checkClaimArgs(id, lease); const existing = events.get(id); if (!existing || existing.lease !== lease || existing.completed) return false; existing.completed = true; return true; },
+    async releaseEvent(id, lease) { checkClaimArgs(id, lease); const existing = events.get(id); if (!existing || existing.lease !== lease) return false; events.delete(id); return true; },
     async getEntitlement(key) { return entitlements.get(key) ?? null; },
     async putEntitlement(record) {
       if (!plain(record) || typeof record.key !== 'string' || record.key.length === 0 || record.key.length > 160) throw new TypeError('entitlement record requires a key');

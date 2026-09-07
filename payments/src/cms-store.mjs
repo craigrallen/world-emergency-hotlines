@@ -3,7 +3,8 @@
 // Implements the five-method store contract from store.mjs on top of two CMS
 // collections: `stripe-events` (webhook idempotency ledger; one claim per consumer
 // and event, unique `claimKey` = source:eventId, completed claims carry an
-// `outcome`) and `entitlements` (unique key,
+// `outcome`, every claim carries the `lease` of the worker holding it so completion
+// and release apply only to the claim that worker still owns) and `entitlements` (unique key,
 // pseudonymous Stripe ids and enum statuses only). The CMS enforces
 // first-writer-wins through its unique indexes, so claimEvent is atomic across
 // payments replicas, and it refuses (409) an entitlement write that would move any
@@ -13,7 +14,7 @@
 // the server maps store errors to 503 unavailable / 500 handler_failed so Stripe
 // retries. The API key never appears in error messages or logs.
 
-import { CLAIM_GRACE_SECONDS, STORE_CONFLICT } from './store.mjs';
+import { CLAIM_GRACE_SECONDS, STORE_CONFLICT, validLease } from './store.mjs';
 import { plain } from './validation.mjs';
 
 export const CMS_STORE_KIND = 'cms';
@@ -114,6 +115,12 @@ export function createCmsStore({ url, apiKey, fetchImpl = globalThis.fetch, time
   }
 
   const where = (field, value) => `?where[${field}][equals]=${encodeURIComponent(value)}&limit=1&depth=0`;
+  /** This worker's claim on an event: the claim key and the lease it holds. */
+  const owned = (id, lease) => `?where[claimKey][equals]=${encodeURIComponent(claimKeyFor(id))}&where[lease][equals]=${encodeURIComponent(lease)}`;
+  const checkClaimArgs = (id, lease) => {
+    if (typeof id !== 'string' || !EVENT_ID.test(id)) throw new TypeError('event id required');
+    if (!validLease(lease)) throw new TypeError('claim lease required');
+  };
 
   async function findOne(collection, field, value) {
     const { status, payload } = await request('GET', `/${collection}${where(field, value)}`);
@@ -124,10 +131,10 @@ export function createCmsStore({ url, apiKey, fetchImpl = globalThis.fetch, time
 
   return Object.freeze({
     kind: CMS_STORE_KIND,
-    async claimEvent(id) {
-      if (typeof id !== 'string' || !EVENT_ID.test(id)) throw new TypeError('event id required');
+    async claimEvent(id, lease) {
+      checkClaimArgs(id, lease);
       const claimKey = claimKeyFor(id);
-      const { status, payload } = await request('POST', `/${EVENTS_COLLECTION}`, { eventId: id, source: CMS_SOURCE });
+      const { status, payload } = await request('POST', `/${EVENTS_COLLECTION}`, { eventId: id, source: CMS_SOURCE, lease });
       if (status === 201 || status === 200) {
         if (!payload || !plain(payload.doc)) throw new CmsStoreError('claim_unconfirmed', status);
         return 'claimed';
@@ -149,19 +156,23 @@ export function createCmsStore({ url, apiKey, fetchImpl = globalThis.fetch, time
       const query = `?where[claimKey][equals]=${encodeURIComponent(claimKey)}&where[outcome][exists]=false&where[updatedAt][less_than]=${encodeURIComponent(new Date(cutoff).toISOString())}&depth=0`;
       // The CMS re-checks each matched row under a row lock and refuses (per-document error)
       // a take-over that lost the race, so anything but exactly one updated document backs off.
-      const takeover = await request('PATCH', `/${EVENTS_COLLECTION}${query}`, { outcome: null });
+      const takeover = await request('PATCH', `/${EVENTS_COLLECTION}${query}`, { outcome: null, lease });
       if (![200, 400].includes(takeover.status) || !takeover.payload || !Array.isArray(takeover.payload.docs)) throw new CmsStoreError('claim_takeover_failed', takeover.status);
       return takeover.payload.docs.length === 1 ? 'claimed' : 'in_progress';
     },
-    async completeEvent(id) {
-      if (typeof id !== 'string' || !EVENT_ID.test(id)) throw new TypeError('event id required');
-      const { status, payload } = await request('PATCH', `/${EVENTS_COLLECTION}?where[claimKey][equals]=${encodeURIComponent(claimKeyFor(id))}&depth=0`, { outcome: 'processed' });
-      if (status !== 200 || !payload || !Array.isArray(payload.docs) || payload.docs.length !== 1) throw new CmsStoreError('complete_failed', status);
+    // Completion and release name the lease: a claim taken over by a later delivery (this worker outlived the
+    // grace period) no longer carries it, matches nothing, and stays the successor's. Both answer whether they applied.
+    async completeEvent(id, lease) {
+      checkClaimArgs(id, lease);
+      const { status, payload } = await request('PATCH', `/${EVENTS_COLLECTION}${owned(id, lease)}&depth=0`, { outcome: 'processed' });
+      if (status !== 200 || !payload || !Array.isArray(payload.docs)) throw new CmsStoreError('complete_failed', status);
+      return payload.docs.length === 1;
     },
-    async releaseEvent(id) {
-      if (typeof id !== 'string' || !EVENT_ID.test(id)) throw new TypeError('event id required');
-      const { status } = await request('DELETE', `/${EVENTS_COLLECTION}?where[claimKey][equals]=${encodeURIComponent(claimKeyFor(id))}`);
+    async releaseEvent(id, lease) {
+      checkClaimArgs(id, lease);
+      const { status, payload } = await request('DELETE', `/${EVENTS_COLLECTION}${owned(id, lease)}`);
       if (status !== 200) throw new CmsStoreError('release_failed', status);
+      return Array.isArray(payload?.docs) && payload.docs.length === 1;
     },
     async getEntitlement(key) {
       if (typeof key !== 'string' || !ENTITLEMENT_KEY.test(key)) throw new TypeError('entitlement key required');

@@ -68,7 +68,9 @@ function fakeCms({ failWith = null, unauthorized = false, clock = { now: Date.no
       return id ? json(200, { doc: targets[0], message: 'updated' }) : json(200, { docs: targets, errors: [] });
     }
     if (init.method === 'DELETE') {
-      const removed = [...table.values()].filter((doc) => filter && doc[filter[0]] === filter[1]);
+      // Bulk delete by `where`, as Payload's REST API does: every condition must hold (equals here).
+      const conditions = [...url.searchParams.entries()].map(([k, v]) => [/^where\[(\w+)\]\[(\w+)\]$/.exec(k), v]).filter(([m]) => m).map(([m, v]) => [m[1], m[2], v]);
+      const removed = conditions.length === 0 ? [] : [...table.values()].filter((doc) => conditions.every(([field, op, value]) => op === 'equals' && doc[field] === value));
       for (const doc of removed) table.delete(doc.id);
       return json(200, { docs: removed, errors: [] });
     }
@@ -94,28 +96,36 @@ test('store construction is closed and the API key never leaks into errors', () 
   assert.equal(JSON.stringify(Object.getOwnPropertyDescriptors(store)).includes(API_KEY), false);
 });
 
+const L1 = 'lease-worker-0001', L2 = 'lease-worker-0002';
+
 test('claimEvent is first-writer-wins per consumer, completion makes a claim a duplicate, and releaseEvent frees the id', async () => {
   const cms = fakeCms();
   const store = createCmsStore({ url: URL_, apiKey: API_KEY, fetchImpl: cms.fetchImpl });
-  assert.equal(await store.claimEvent('evt_synthetic0001'), 'claimed');
-  assert.equal(await store.claimEvent('evt_synthetic0001'), 'in_progress', 'an incomplete claim is still being applied by its owner');
-  await store.completeEvent('evt_synthetic0001');
-  assert.equal(await store.claimEvent('evt_synthetic0001'), 'duplicate');
+  assert.equal(await store.claimEvent('evt_synthetic0001', L1), 'claimed');
+  assert.equal(await store.claimEvent('evt_synthetic0001', L2), 'in_progress', 'an incomplete claim is still being applied by its owner');
+  assert.equal(await store.completeEvent('evt_synthetic0001', L2), false, 'only the lease holder completes a claim');
+  assert.equal(await store.completeEvent('evt_synthetic0001', L1), true);
+  assert.equal(await store.claimEvent('evt_synthetic0001', L2), 'duplicate');
   assert.equal(cms.events.size, 1);
   assert.equal([...cms.events.values()][0].source, 'payments');
   assert.equal([...cms.events.values()][0].claimKey, claimKeyFor('evt_synthetic0001'));
+  assert.equal([...cms.events.values()][0].lease, L1);
   assert.equal([...cms.events.values()][0].outcome, 'processed');
   // The CMS webhook's own claim on the same event never counts as this consumer's.
   cms.events.set(99, { id: 99, eventId: 'evt_synthetic0002', source: 'cms', claimKey: 'cms:evt_synthetic0002', outcome: 'processed' });
-  assert.equal(await store.claimEvent('evt_synthetic0002'), 'claimed');
+  assert.equal(await store.claimEvent('evt_synthetic0002', L1), 'claimed');
   assert.equal(cms.events.size, 3);
-  await store.releaseEvent('evt_synthetic0001');
+  assert.equal(await store.releaseEvent('evt_synthetic0001', L2), false, 'only the lease holder releases a claim');
+  assert.equal(cms.events.size, 3);
+  assert.equal(await store.releaseEvent('evt_synthetic0001', L1), true);
   assert.equal(cms.events.size, 2, 'release removes only this consumer\'s claim');
-  assert.equal(await store.claimEvent('evt_synthetic0001'), 'claimed');
-  await assert.rejects(store.claimEvent('not-an-event'), TypeError);
-  await assert.rejects(store.releaseEvent(''), TypeError);
-  await assert.rejects(store.completeEvent(''), TypeError);
-  await assert.rejects(store.completeEvent('evt_synthetic0009'), (error) => error instanceof CmsStoreError && error.reason === 'complete_failed');
+  assert.equal(await store.claimEvent('evt_synthetic0001', L1), 'claimed');
+  await assert.rejects(store.claimEvent('not-an-event', L1), TypeError);
+  await assert.rejects(store.claimEvent('evt_synthetic0001'), TypeError, 'a lease is required');
+  await assert.rejects(store.releaseEvent('', L1), TypeError);
+  await assert.rejects(store.completeEvent('', L1), TypeError);
+  await assert.rejects(store.completeEvent('evt_synthetic0001', 'short'), TypeError);
+  assert.equal(await store.completeEvent('evt_synthetic0009', L1), false, 'a claim this worker does not hold is not completed');
   assert.ok(cms.calls.every((call) => call.authorization === `users API-Key ${API_KEY}`));
 });
 
@@ -123,15 +133,21 @@ test('an incomplete claim abandoned by a dead worker is taken over after the gra
   const clock = { now: 1_700_000_000_000 };
   const cms = fakeCms({ clock });
   const store = createCmsStore({ url: URL_, apiKey: API_KEY, fetchImpl: cms.fetchImpl, now: () => clock.now });
-  assert.equal(await store.claimEvent('evt_synthetic0005'), 'claimed');
+  assert.equal(await store.claimEvent('evt_synthetic0005', L1), 'claimed');
   clock.now += 1000;
-  assert.equal(await store.claimEvent('evt_synthetic0005'), 'in_progress');
+  assert.equal(await store.claimEvent('evt_synthetic0005', L2), 'in_progress');
   clock.now += CLAIM_GRACE_SECONDS * 1000;
-  assert.equal(await store.claimEvent('evt_synthetic0005'), 'claimed', 'taken over: the worker never completed or released it');
-  assert.equal(await store.claimEvent('evt_synthetic0005'), 'in_progress', 'the take-over refreshed the claim, so a second taker backs off');
-  await store.completeEvent('evt_synthetic0005');
+  assert.equal(await store.claimEvent('evt_synthetic0005', L2), 'claimed', 'taken over: the worker never completed or released it');
+  assert.equal([...cms.events.values()][0].lease, L2, 'the claim now carries the taker\'s lease');
+  assert.equal(await store.claimEvent('evt_synthetic0005', L1), 'in_progress', 'the take-over refreshed the claim, so a second taker backs off');
+  // The original worker resurfaces after its take-over: it can neither release nor complete the successor's claim.
+  assert.equal(await store.releaseEvent('evt_synthetic0005', L1), false);
+  assert.equal(await store.completeEvent('evt_synthetic0005', L1), false);
+  assert.equal(cms.events.size, 1);
+  assert.equal([...cms.events.values()][0].outcome ?? null, null);
+  assert.equal(await store.completeEvent('evt_synthetic0005', L2), true);
   clock.now += CLAIM_GRACE_SECONDS * 1000 + 1;
-  assert.equal(await store.claimEvent('evt_synthetic0005'), 'duplicate', 'completed claims never expire');
+  assert.equal(await store.claimEvent('evt_synthetic0005', L1), 'duplicate', 'completed claims never expire');
   assert.equal(cms.events.size, 1);
   assert.throws(() => createCmsStore({ url: URL_, apiKey: API_KEY, fetchImpl: cms.fetchImpl, now: 'nope' }), /clock/);
   assert.throws(() => createCmsStore({ url: URL_, apiKey: API_KEY, fetchImpl: cms.fetchImpl, claimGraceSeconds: 0 }), /grace/);
@@ -224,17 +240,17 @@ test('a stale entitlement write is refused as a conflict and the dispatcher re-r
 
 test('CMS failures surface as CmsStoreError and never as silent duplicates', async () => {
   const down = createCmsStore({ url: URL_, apiKey: API_KEY, fetchImpl: fakeCms({ failWith: 503 }).fetchImpl });
-  await assert.rejects(down.claimEvent('evt_synthetic0001'), (error) => error instanceof CmsStoreError && error.reason === 'claim_failed' && error.status === 503);
+  await assert.rejects(down.claimEvent('evt_synthetic0001', L1), (error) => error instanceof CmsStoreError && error.reason === 'claim_failed' && error.status === 503);
   await assert.rejects(down.getEntitlement('sub:sub_synthetic0001'), (error) => error instanceof CmsStoreError && error.reason === 'lookup_failed');
-  await assert.rejects(down.releaseEvent('evt_synthetic0001'), (error) => error instanceof CmsStoreError && error.reason === 'release_failed');
+  await assert.rejects(down.releaseEvent('evt_synthetic0001', L1), (error) => error instanceof CmsStoreError && error.reason === 'release_failed');
   const denied = createCmsStore({ url: URL_, apiKey: API_KEY, fetchImpl: fakeCms({ unauthorized: true }).fetchImpl });
-  await assert.rejects(denied.claimEvent('evt_synthetic0001'), (error) => error instanceof CmsStoreError && error.reason === 'unauthorized' && error.status === 401);
+  await assert.rejects(denied.claimEvent('evt_synthetic0001', L1), (error) => error instanceof CmsStoreError && error.reason === 'unauthorized' && error.status === 401);
   const schemaError = createCmsStore({ url: URL_, apiKey: API_KEY, fetchImpl: async (input, init) => (init.method === 'POST' ? new Response('{"errors":[{"message":"bad field"}]}', { status: 400 }) : new Response('{"docs":[]}', { status: 200 })) });
-  await assert.rejects(schemaError.claimEvent('evt_synthetic0001'), (error) => error instanceof CmsStoreError && error.reason === 'claim_rejected', 'a 400 without a stored duplicate is an error, not a duplicate');
+  await assert.rejects(schemaError.claimEvent('evt_synthetic0001', L1), (error) => error instanceof CmsStoreError && error.reason === 'claim_rejected', 'a 400 without a stored duplicate is an error, not a duplicate');
   const network = createCmsStore({ url: URL_, apiKey: API_KEY, fetchImpl: async () => { throw new Error('ECONNREFUSED'); } });
-  await assert.rejects(network.claimEvent('evt_synthetic0001'), (error) => error instanceof CmsStoreError && error.reason === 'network_error');
+  await assert.rejects(network.claimEvent('evt_synthetic0001', L1), (error) => error instanceof CmsStoreError && error.reason === 'network_error');
   const slow = createCmsStore({ url: URL_, apiKey: API_KEY, timeoutMs: 100, fetchImpl: (_input, init) => new Promise((_resolve, reject) => init.signal.addEventListener('abort', () => reject(new Error('aborted')))) });
-  await assert.rejects(slow.claimEvent('evt_synthetic0001'), (error) => error instanceof CmsStoreError && error.reason === 'timeout');
+  await assert.rejects(slow.claimEvent('evt_synthetic0001', L1), (error) => error instanceof CmsStoreError && error.reason === 'timeout');
 });
 
 test('the event dispatcher works unchanged on the CMS-backed store', async () => {
@@ -286,7 +302,7 @@ test('the server builds the CMS store from configuration and reports it in healt
     assert.equal(health.store, 'cms');
     assert.equal(health.status, 'disabled');
     assert.equal(service.store.kind, 'cms');
-    assert.equal(await service.store.claimEvent('evt_synthetic0001'), 'claimed');
+    assert.equal(await service.store.claimEvent('evt_synthetic0001', L1), 'claimed');
   } finally { await service.close(); }
   assert.throws(() => createPaymentsServer(Object.freeze({ ...config, store: Object.freeze({ kind: 'redis' }) })), /invalid payments configuration/);
 });

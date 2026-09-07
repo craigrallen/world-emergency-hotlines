@@ -295,7 +295,7 @@ test('an event whose earlier delivery is still in progress answers 409 so Stripe
   const store = createMemoryStore({ now: () => clock });
   const s = await start({ store });
   try {
-    assert.equal(await store.claimEvent(JSON.parse(fixture).id), 'claimed'); // another worker holds the claim and has not completed
+    assert.equal(await store.claimEvent(JSON.parse(fixture).id, 'lease-other-worker-0001'), 'claimed'); // another worker holds the claim and has not completed
     let r = await fetch(`${s.base}${ROUTES.webhook}`, webhook(fixture));
     assert.equal(r.status, 409);
     assert.equal((await r.json()).error.code, 'event_in_progress');
@@ -311,7 +311,7 @@ test('an event whose earlier delivery is still in progress answers 409 so Stripe
 test('webhook handler failures release the event so Stripe retries succeed', async () => {
   const inner = createMemoryStore();
   let failures = 1;
-  const flaky = { kind: 'flaky', claimEvent: (id) => inner.claimEvent(id), completeEvent: (id) => inner.completeEvent(id), releaseEvent: (id) => inner.releaseEvent(id), getEntitlement: (key) => inner.getEntitlement(key), putEntitlement: (record) => { if (failures-- > 0) throw new Error('db down'); return inner.putEntitlement(record); } };
+  const flaky = { kind: 'flaky', claimEvent: (id, lease) => inner.claimEvent(id, lease), completeEvent: (id, lease) => inner.completeEvent(id, lease), releaseEvent: (id, lease) => inner.releaseEvent(id, lease), getEntitlement: (key) => inner.getEntitlement(key), putEntitlement: (record) => { if (failures-- > 0) throw new Error('db down'); return inner.putEntitlement(record); } };
   const s = await start({ store: flaky });
   try {
     let r = await fetch(`${s.base}${ROUTES.webhook}`, webhook(fixture));

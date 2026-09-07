@@ -1,5 +1,6 @@
+import { randomUUID } from 'node:crypto';
 import Stripe from 'stripe';
-import type { Payload } from 'payload';
+import type { Payload, Where } from 'payload';
 import { ValidationError } from 'payload';
 import { INTERNAL_CONTEXT } from '../access';
 import { CLAIM_GRACE_SECONDS, claimKeyFor, type EventSource } from '../collections/StripeEvents';
@@ -54,11 +55,14 @@ export type ClaimResult = 'claimed' | 'duplicate' | 'in_progress';
  * reported as in progress (the endpoint answers non-2xx so Stripe retries), and an
  * older one belongs to a worker that died before cleaning up and is taken over. A
  * failed delivery whose claim release also failed therefore stays retryable.
+ * The claim records this delivery's `lease`; `recordOutcome` and `releaseEvent` apply
+ * only while the claim still carries it, so a handler that outlived the grace period
+ * and was taken over can neither complete nor remove its successor's claim.
  */
-export async function claimEvent(payload: Payload, event: Stripe.Event, source: EventSource = 'cms', now = Date.now()): Promise<ClaimResult> {
+export async function claimEvent(payload: Payload, event: Stripe.Event, source: EventSource = 'cms', now = Date.now(), lease: string = randomUUID()): Promise<ClaimResult> {
   const claimKey = claimKeyFor(source, event.id);
   try {
-    await payload.create({ collection: 'stripe-events', data: { eventId: event.id, type: event.type, livemode: event.livemode, source, claimKey }, depth: 0, overrideAccess: true, context: { ...INTERNAL_CONTEXT } });
+    await payload.create({ collection: 'stripe-events', data: { eventId: event.id, type: event.type, livemode: event.livemode, source, claimKey, lease }, depth: 0, overrideAccess: true, context: { ...INTERNAL_CONTEXT } });
     return 'claimed';
   } catch (error) {
     if (!(error instanceof ValidationError)) throw error;
@@ -73,17 +77,21 @@ export async function claimEvent(payload: Payload, event: Stripe.Event, source: 
     if (typeof existing.outcome === 'string' && existing.outcome.length > 0) return 'duplicate';
     const updatedAt = Date.parse(String(existing.updatedAt));
     if (Number.isFinite(updatedAt) && now - updatedAt < CLAIM_GRACE_SECONDS * 1000) return 'in_progress';
-    await payload.update({ collection: 'stripe-events', id: existing.id, data: { outcome: null, type: event.type, livemode: event.livemode }, depth: 0, overrideAccess: true, context: { ...INTERNAL_CONTEXT }, req: tx });
+    await payload.update({ collection: 'stripe-events', id: existing.id, data: { outcome: null, type: event.type, livemode: event.livemode, lease }, depth: 0, overrideAccess: true, context: { ...INTERNAL_CONTEXT }, req: tx });
     return 'claimed';
   });
 }
 
-export async function releaseEvent(payload: Payload, eventId: string, source: EventSource = 'cms'): Promise<void> {
-  await payload.delete({ collection: 'stripe-events', where: { claimKey: { equals: claimKeyFor(source, eventId) } }, depth: 0, overrideAccess: true });
+/** The claim on `eventId` while it still carries `lease` (any lease when none is given). */
+const ownedClaim = (source: EventSource, eventId: string, lease?: string): Where => (lease ? { and: [{ claimKey: { equals: claimKeyFor(source, eventId) } }, { lease: { equals: lease } }] } : { claimKey: { equals: claimKeyFor(source, eventId) } });
+
+/** Drop this worker's claim after a failed apply; a claim taken over by a later delivery (a different lease) is left to its successor. */
+export async function releaseEvent(payload: Payload, eventId: string, source: EventSource = 'cms', lease?: string): Promise<void> {
+  await payload.delete({ collection: 'stripe-events', where: ownedClaim(source, eventId, lease), depth: 0, overrideAccess: true });
 }
 
-async function recordOutcome(payload: Payload, eventId: string, outcome: string, source: EventSource = 'cms'): Promise<void> {
-  await payload.update({ collection: 'stripe-events', where: { claimKey: { equals: claimKeyFor(source, eventId) } }, data: { outcome }, depth: 0, overrideAccess: true });
+async function recordOutcome(payload: Payload, eventId: string, outcome: string, source: EventSource = 'cms', lease?: string): Promise<void> {
+  await payload.update({ collection: 'stripe-events', where: ownedClaim(source, eventId, lease), data: { outcome }, depth: 0, overrideAccess: true });
 }
 
 async function linkCustomerToUser(payload: Payload, userId: number | string | null, customer: string | null): Promise<void> {
@@ -221,7 +229,8 @@ export async function handleStripeEvent(payload: Payload, event: Stripe.Event): 
     return 'livemode_mismatch';
   }
   if (!HANDLED_EVENT_TYPES.includes(event.type)) return 'unhandled_type';
-  const claim = await claimEvent(payload, event);
+  const lease = randomUUID();
+  const claim = await claimEvent(payload, event, 'cms', Date.now(), lease);
   if (claim !== 'claimed') return claim;
   let outcome: string;
   try {
@@ -233,11 +242,11 @@ export async function handleStripeEvent(payload: Payload, event: Stripe.Event): 
     // Stripe's automatic retry must not be turned away as a duplicate. If this
     // release fails too, the claim stays incomplete and claimEvent lets a later
     // retry take it over after the grace period.
-    try { await releaseEvent(payload, event.id); } catch { /* see claimEvent: an incomplete claim is retryable */ }
+    try { await releaseEvent(payload, event.id, 'cms', lease); } catch { /* see claimEvent: an incomplete claim is retryable */ }
     payload.logger.error({ err: error instanceof Error ? error.message : 'unknown', event_type: event.type }, 'stripe event handler failed');
     return 'handler_failed';
   }
-  try { await recordOutcome(payload, event.id, outcome); } catch { /* outcome is informational */ }
+  try { await recordOutcome(payload, event.id, outcome, 'cms', lease); } catch { /* outcome is informational */ }
   payload.logger.info({ event_type: event.type, outcome }, 'stripe event applied');
   return outcome;
 }

@@ -5,21 +5,33 @@ import { CLAIM_GRACE_SECONDS, CLAIM_RESULTS, STORE_METHODS, createMemoryStore, i
 test('memory store claims events once, distinguishes in-progress from completed claims, takes over abandoned ones, and stays bounded', async () => {
   let clock = 1_700_000_000_000;
   const store = createMemoryStore({ maxEvents: 2, now: () => clock });
-  assert.equal(await store.claimEvent('evt_a'), 'claimed');
-  assert.equal(await store.claimEvent('evt_a'), 'in_progress', 'a fresh incomplete claim belongs to a worker that is still applying it');
-  await store.completeEvent('evt_a');
-  assert.equal(await store.claimEvent('evt_a'), 'duplicate');
+  const L1 = 'lease-worker-0001', L2 = 'lease-worker-0002';
+  assert.equal(await store.claimEvent('evt_a', L1), 'claimed');
+  assert.equal(await store.claimEvent('evt_a', L2), 'in_progress', 'a fresh incomplete claim belongs to a worker that is still applying it');
+  assert.equal(await store.completeEvent('evt_a', L2), false, 'only the lease holder completes a claim');
+  assert.equal(await store.completeEvent('evt_a', L1), true);
+  assert.equal(await store.claimEvent('evt_a', L2), 'duplicate');
   clock += CLAIM_GRACE_SECONDS * 1000 + 1;
-  assert.equal(await store.claimEvent('evt_a'), 'duplicate', 'completed claims never expire');
-  await store.releaseEvent('evt_a');
-  assert.equal(await store.claimEvent('evt_a'), 'claimed');
-  // A claim that was never completed or released (its worker died) is taken over once the grace period passed.
+  assert.equal(await store.claimEvent('evt_a', L2), 'duplicate', 'completed claims never expire');
+  assert.equal(await store.releaseEvent('evt_a', L2), false, 'only the lease holder releases a claim');
+  assert.equal(await store.releaseEvent('evt_a', L1), true);
+  assert.equal(await store.claimEvent('evt_a', L1), 'claimed');
+  // A claim that was never completed or released (its worker died) is taken over once the grace period passed, under the
+  // taker's lease: the original worker, should it resurface, can neither release nor complete the successor's claim.
   clock += CLAIM_GRACE_SECONDS * 1000 + 1;
-  assert.equal(await store.claimEvent('evt_a'), 'claimed');
-  assert.equal(await store.claimEvent('evt_b'), 'claimed');
-  assert.equal(await store.claimEvent('evt_c'), 'claimed');
-  assert.equal(await store.claimEvent('evt_a'), 'claimed', 'oldest entry evicted once the bound is exceeded');
-  await assert.rejects(store.claimEvent(''), TypeError);
+  assert.equal(await store.claimEvent('evt_a', L2), 'claimed');
+  assert.equal(await store.releaseEvent('evt_a', L1), false);
+  assert.equal(await store.completeEvent('evt_a', L1), false);
+  assert.equal(await store.claimEvent('evt_a', L1), 'in_progress', 'the successor still holds it');
+  assert.equal(await store.completeEvent('evt_a', L2), true);
+  assert.equal(await store.claimEvent('evt_a', L1), 'duplicate');
+  assert.equal(await store.claimEvent('evt_b', L1), 'claimed');
+  assert.equal(await store.claimEvent('evt_c', L1), 'claimed');
+  assert.equal(await store.claimEvent('evt_a', L1), 'claimed', 'oldest entry evicted once the bound is exceeded');
+  await assert.rejects(store.claimEvent('', L1), TypeError);
+  await assert.rejects(store.claimEvent('evt_a'), TypeError, 'a lease is required');
+  await assert.rejects(store.completeEvent('evt_a', 'short'), TypeError);
+  await assert.rejects(store.releaseEvent('evt_a', 42), TypeError);
   assert.deepEqual(store.size, { events: 2, entitlements: 0 });
   assert.deepEqual(CLAIM_RESULTS, ['claimed', 'duplicate', 'in_progress']);
   assert.throws(() => createMemoryStore({ now: 'nope' }));

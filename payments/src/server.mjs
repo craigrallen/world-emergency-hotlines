@@ -192,8 +192,11 @@ export function createPaymentsServer(config, { stripe, store, sink, sinkError, n
     }
     telemetry.event_type = event.type;
     if (event.livemode !== (config.mode === 'live')) throw new RequestError('livemode_mismatch');
+    // This delivery's lease on the claim: completion and release apply only while the claim still carries it,
+    // so a delivery that outlives the grace period and is taken over cannot remove or complete its successor's claim.
+    const lease = randomUUID();
     let claim;
-    try { claim = await eventStore.claimEvent(event.id); } catch { throw new RequestError('unavailable'); }
+    try { claim = await eventStore.claimEvent(event.id, lease); } catch { throw new RequestError('unavailable'); }
     if (claim === 'duplicate') { telemetry.outcome = 'duplicate'; send(res, 200, { received: true, duplicate: true }, id); return 200; }
     // Another delivery holds an incomplete claim: a non-2xx keeps Stripe retrying until it completes or can be taken over.
     if (claim === 'in_progress') throw new RequestError('event_in_progress');
@@ -203,11 +206,11 @@ export function createPaymentsServer(config, { stripe, store, sink, sinkError, n
     const fetchObject = (kind, objectId) => (kind === 'subscription' ? stripeClient.retrieveSubscription(objectId) : kind === 'invoice' ? stripeClient.retrieveInvoice(objectId) : stripeClient.retrieveCheckoutSession(objectId));
     let summary;
     try { summary = await dispatchEvent(event, { store: eventStore, offers: config.offers, fetchObject }); } catch {
-      try { await eventStore.releaseEvent(event.id); } catch {}
+      try { await eventStore.releaseEvent(event.id, lease); } catch {}
       throw new RequestError('handler_failed');
     }
     // Mark the claim complete; if this fails the incomplete claim expires and a later retry re-applies the event idempotently.
-    try { await eventStore.completeEvent(event.id); } catch {}
+    try { await eventStore.completeEvent(event.id, lease); } catch {}
     telemetry.outcome = summary.outcome;
     telemetry.offer = summary.offer ?? null;
     send(res, 200, { received: true, outcome: summary.outcome }, id);

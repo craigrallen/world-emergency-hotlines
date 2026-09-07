@@ -113,12 +113,18 @@ export const accountEndpoints: Endpoint[] = [
         req.payload.find({ collection: 'api-keys', where: { and: [{ user: { equals: user.id } }, { state: { not_equals: 'active' } }] }, sort: '-createdAt', limit: INACTIVE_KEY_HISTORY, depth: 0, overrideAccess: true }),
         entitlingSubscriptions(req.payload, user.id, env.stripeMode === 'disabled' ? null : env.stripeMode === 'live'),
       ]);
-      const keys = { docs: [...activeKeys.docs, ...inactiveKeys.docs] };
+      // A key whose expiry has passed is expired whatever its stored state says (an admin-set expiry is not written back on
+      // its own): it reads as expired here and never as active, and the mint path persists the transition before counting.
+      const now = Date.now();
+      const lapsed = (key: Doc) => typeof key.expiresAt === 'string' && Date.parse(key.expiresAt) <= now;
+      const active = (activeKeys.docs as unknown as Doc[]).filter((key) => !lapsed(key));
+      const expired = (activeKeys.docs as unknown as Doc[]).filter(lapsed).map((key) => ({ ...key, state: 'expired' }));
+      const keys = { docs: [...active, ...expired, ...inactiveKeys.docs] };
       // Entitlement is shown through the subscription that can grant keys; failing that, the newest active one.
-      const active = entitling.granting?.subscription ?? entitling.newest;
+      const entitled = entitling.granting?.subscription ?? entitling.newest;
       return json(req, 200, {
         user: { id: user.id, email: user.email, name: user.name ?? null, role: user.role, verified: user._verified !== false, created_at: user.createdAt ?? null, billing_customer_linked: typeof user.stripeCustomerId === 'string' && user.stripeCustomerId.length > 0 },
-        entitlement: { active: active !== null, offer: (active?.offer as string | undefined) ?? null },
+        entitlement: { active: entitled !== null, offer: (entitled?.offer as string | undefined) ?? null },
         subscriptions: (subscriptions.docs as unknown as Doc[]).map(publicSubscription),
         api_keys: (keys.docs as unknown as Doc[]).map(publicKey),
         stripe: { mode: env.stripeMode },
@@ -193,6 +199,9 @@ export const accountEndpoints: Endpoint[] = [
         await lockRow(req.payload, tx, 'users', 'id', user.id);
         const { newest, granting } = await entitlingSubscriptions(req.payload, user.id, env.stripeMode === 'disabled' ? null : env.stripeMode === 'live', tx);
         if (!newest) throw new EndpointError('no_entitlement');
+        // Keys whose expiry has passed are expired, not active: the transition is persisted here, under the user's lock,
+        // so an admin-set expiry that lapsed never counts against the limit or blocks a usable replacement.
+        await req.payload.update({ collection: 'api-keys', where: { and: [{ user: { equals: user.id } }, { state: { equals: 'active' } }, { expiresAt: { less_than_equal: new Date().toISOString() } }] }, data: { state: 'expired' }, depth: 0, overrideAccess: true, context: { ...INTERNAL_CONTEXT }, req: tx });
         const existing = await req.payload.count({ collection: 'api-keys', where: { and: [{ user: { equals: user.id } }, { state: { equals: 'active' } }] }, overrideAccess: true, req: tx });
         if (existing.totalDocs >= env.maxApiKeysPerUser) throw new EndpointError('key_limit');
         // The key's policy comes only from the plan attached to the granting subscription (the newest

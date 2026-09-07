@@ -38,6 +38,13 @@ export const StripeEvents: CollectionConfig = {
       admin: { readOnly: true, description: 'Derived as source:eventId; the unique index makes the first writer per consumer win.' },
       validate: (value: unknown) => (typeof value === 'string' && /^(payments|cms):evt_[A-Za-z0-9]{8,}$/.test(value) ? true : 'must be <source>:<event id>'),
     },
+    {
+      name: 'lease',
+      type: 'text',
+      index: true,
+      admin: { readOnly: true, description: 'Lease token of the worker holding this claim. Completion and release apply only while it still matches, so a worker that outlived the grace period and was taken over cannot complete or remove its successor\'s claim.' },
+      validate: (value: unknown) => (value === undefined || value === null || (typeof value === 'string' && /^[A-Za-z0-9_-]{8,128}$/.test(value)) ? true : 'must be 8 to 128 URL-safe characters'),
+    },
     { name: 'type', type: 'text', maxLength: 128 },
     { name: 'livemode', type: 'checkbox', defaultValue: false },
     { name: 'outcome', type: 'text', maxLength: 64 },

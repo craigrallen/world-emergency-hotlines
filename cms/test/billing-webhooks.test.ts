@@ -8,7 +8,7 @@ import { resolve } from 'node:path';
 import { createHmac } from 'node:crypto';
 import { call, createUser, login, signEvent, startMockStripe, stripeEvent } from './helpers';
 import { INTERNAL_CONTEXT } from '../src/access';
-import { handleStripeEvent, periodEndOf } from '../src/lib/stripe';
+import { claimEvent, handleStripeEvent, periodEndOf, releaseEvent } from '../src/lib/stripe';
 import { toGatewayRecord } from '../src/lib/gateway-keys';
 import { collectActiveKeys, exportableKeys, withEntitlement } from '../src/endpoints/gateway';
 
@@ -265,6 +265,28 @@ describe('payments-service store contract (service API key)', () => {
     expect((await call(`/cms/api/stripe-events/${fresh.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { outcome: null } })).status).toBe(409); // refreshed by the take-over: a second taker backs off
     expect((await call('/cms/api/stripe-events?where[claimKey][equals]=payments:evt_payments00000008&depth=0', { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { outcome: 'processed' } })).data.docs).toHaveLength(1);
     expect((await call(`/cms/api/stripe-events/${fresh.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { outcome: null } })).status).toBe(409); // completed claims are never taken over
+    // A claim is completed or released only by the worker whose lease it carries: a worker that outlived the grace period and
+    // was taken over cannot remove or complete its successor's claim, so the event is never applied a third time.
+    const leased = await call('/cms/api/stripe-events', { method: 'POST', apiKey: service.apiKey, origin: null, body: { eventId: 'evt_payments00000009', source: 'payments', lease: 'lease-original-0001' } });
+    expect(leased.status).toBe(201);
+    expect(leased.data.doc.lease).toBe('lease-original-0001');
+    await payload.db.updateOne({ collection: 'stripe-events', id: leased.data.doc.id, data: { updatedAt: new Date(Date.now() - 10 * 60 * 1000).toISOString() } });
+    expect((await call('/cms/api/stripe-events?where[claimKey][equals]=payments:evt_payments00000009&where[outcome][exists]=false&depth=0', { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { outcome: null, lease: 'lease-successor-0002' } })).data.docs).toHaveLength(1);
+    expect((await call('/cms/api/stripe-events?where[claimKey][equals]=payments:evt_payments00000009&where[lease][equals]=lease-original-0001', { method: 'DELETE', apiKey: service.apiKey, origin: null })).data.docs ?? []).toHaveLength(0);
+    expect((await call('/cms/api/stripe-events?where[claimKey][equals]=payments:evt_payments00000009&where[lease][equals]=lease-original-0001&depth=0', { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { outcome: 'processed' } })).data.docs ?? []).toHaveLength(0);
+    expect((await payload.findByID({ collection: 'stripe-events', id: leased.data.doc.id, overrideAccess: true, depth: 0 })).outcome ?? null).toBeNull();
+    expect((await call('/cms/api/stripe-events?where[claimKey][equals]=payments:evt_payments00000009&where[lease][equals]=lease-successor-0002&depth=0', { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { outcome: 'processed' } })).data.docs).toHaveLength(1);
+    expect((await call('/cms/api/stripe-events', { method: 'POST', apiKey: service.apiKey, origin: null, body: { eventId: 'evt_payments00000010', source: 'payments', lease: 'bad lease!' } })).status).toBe(400);
+    // The CMS webhook binds its own claims the same way.
+    const own = stripeEvent('customer.subscription.updated', subscription('sub_synthetic00000001'), { created: 2145918800 });
+    expect(await claimEvent(payload, own as never, 'cms', Date.now(), 'lease-cms-original-01')).toBe('claimed');
+    const ownRow = (await payload.find({ collection: 'stripe-events', where: { claimKey: { equals: `cms:${own.id}` } }, overrideAccess: true, depth: 0 })).docs[0];
+    await payload.db.updateOne({ collection: 'stripe-events', id: ownRow.id, data: { updatedAt: new Date(Date.now() - 10 * 60 * 1000).toISOString() } });
+    expect(await claimEvent(payload, own as never, 'cms', Date.now(), 'lease-cms-successor-02')).toBe('claimed');
+    await releaseEvent(payload, own.id, 'cms', 'lease-cms-original-01');
+    expect((await payload.count({ collection: 'stripe-events', where: { claimKey: { equals: `cms:${own.id}` } }, overrideAccess: true })).totalDocs).toBe(1); // the successor's claim survives
+    await releaseEvent(payload, own.id, 'cms', 'lease-cms-successor-02');
+    expect((await payload.count({ collection: 'stripe-events', where: { claimKey: { equals: `cms:${own.id}` } }, overrideAccess: true })).totalDocs).toBe(0);
     // Scopes: the gateway-sync credential cannot touch the ledger or entitlements, and neither service credential reads anything else.
     const gateway = { apiKey: 'service-api-key-synthetic-0002' };
     expect((await call('/cms/api/stripe-events', { method: 'POST', apiKey: gateway.apiKey, origin: null, body: { eventId: 'evt_payments00000005', source: 'payments' } })).status).toBe(403);
@@ -554,6 +576,26 @@ describe('managed API keys', () => {
     expect(minted.status).toBe(201);
     expect(minted.data.record).toMatchObject({ permissions: ['manifest', 'records'], quota: { rate: 2, burst: 20 } });
     expect((await payload.find({ collection: 'api-keys', where: { keyId: { equals: minted.data.record.id } }, overrideAccess: true, depth: 0 })).docs[0].subscription).toBe(configured.id);
+  });
+
+  test('a key past its expiry is expired, not active: it neither counts against the limit nor reads as active', async () => {
+    const lapsing = await createUser(payload, { email: 'lapsing@example.test', password: PASSWORD });
+    expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.created', subscription('sub_synthetic00000400', { customer: 'cus_synthetic00000400', metadata: { cms_user: String(lapsing.id) } }), { created: 2145940000 }) as never)).toBe('processed');
+    const token = await login('lapsing@example.test', PASSWORD);
+    const first = await call('/cms/api/account/api-keys', { method: 'POST', token, body: { label: 'first' } });
+    expect(first.status).toBe(201);
+    expect((await call('/cms/api/account/api-keys', { method: 'POST', token, body: { label: 'second' } })).status).toBe(201);
+    expect((await call('/cms/api/account/api-keys', { method: 'POST', token, body: {} })).data.error.code).toBe('key_limit');
+    // An expiry set by an administrator has passed while the stored state still says active.
+    await payload.update({ collection: 'api-keys', where: { keyId: { equals: first.data.record.id } }, data: { expiresAt: '2000-01-01T00:00:00.000Z' }, overrideAccess: true, context: { ...INTERNAL_CONTEXT } });
+    const me = await call('/cms/api/account/me', { token });
+    expect(me.data.api_keys.find((key: { id: string }) => key.id === first.data.record.id).state).toBe('expired');
+    expect((await call('/cms/api/gateway/keys', { apiKey: 'service-api-key-synthetic-0002', origin: null })).data.keys.find((record: { id: string }) => record.id === first.data.record.id)).toBeUndefined();
+    // The lapsed key no longer counts: a usable replacement is issued, and the transition is persisted.
+    const replacement = await call('/cms/api/account/api-keys', { method: 'POST', token, body: { label: 'replacement' } });
+    expect(replacement.status).toBe(201);
+    expect((await payload.find({ collection: 'api-keys', where: { keyId: { equals: first.data.record.id } }, overrideAccess: true, depth: 0 })).docs[0].state).toBe('expired');
+    expect((await call('/cms/api/account/api-keys', { method: 'POST', token, body: {} })).data.error.code).toBe('key_limit');
   });
 
   test('deleting an account deletes its managed keys in the same operation', async () => {

@@ -332,6 +332,10 @@ export interface StripeEvent {
    * Derived as source:eventId; the unique index makes the first writer per consumer win.
    */
   claimKey: string;
+  /**
+   * Lease token of the worker holding this claim. Completion and release apply only while it still matches, so a worker that outlived the grace period and was taken over cannot complete or remove its successor's claim.
+   */
+  lease?: string | null;
   type?: string | null;
   livemode?: boolean | null;
   outcome?: string | null;
@@ -576,6 +580,7 @@ export interface StripeEventsSelect<T extends boolean = true> {
   eventId?: T;
   source?: T;
   claimKey?: T;
+  lease?: T;
   type?: T;
   livemode?: T;
   outcome?: T;
