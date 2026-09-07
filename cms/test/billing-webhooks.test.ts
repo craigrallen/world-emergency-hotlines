@@ -11,6 +11,7 @@ import { INTERNAL_CONTEXT } from '../src/access';
 import { claimEvent, handleStripeEvent, periodEndOf, releaseEvent } from '../src/lib/stripe';
 import { toGatewayRecord } from '../src/lib/gateway-keys';
 import { collectActiveKeys, entitledAccounts, exportableKeys, withEntitlement } from '../src/endpoints/gateway';
+import { grantLivemode } from '../src/endpoints/account';
 
 let payload: Payload;
 let stripe: Awaited<ReturnType<typeof startMockStripe>>;
@@ -437,6 +438,9 @@ describe('managed API keys', () => {
     expect(exportableKeys([testKey, liveKey], 'test')).toEqual([testKey, liveKey]);
     expect(exportableKeys([testKey, liveKey], 'live')).toEqual([liveKey]);
     expect(exportableKeys([testKey, liveKey], 'disabled')).toEqual([liveKey]);
+    // Keys are granted in the mode the export carries: with Stripe disabled that is live mode alone, never a test key the snapshot would omit.
+    expect([grantLivemode('test'), grantLivemode('live'), grantLivemode('disabled')]).toEqual([false, true, true]);
+    for (const mode of ['test', 'live', 'disabled'] as const) expect(exportableKeys([{ livemode: grantLivemode(mode) }], mode)).toHaveLength(1);
     const schema = JSON.parse(readFileSync(resolve(import.meta.dirname, '../../gateway/contracts/v1/key-record.schema.json'), 'utf8'));
     const ajv = new Ajv2020({ strict: true, allErrors: true });
     addFormats(ajv);

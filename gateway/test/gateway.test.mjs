@@ -1,6 +1,6 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';import {cpSync,mkdtempSync,mkdirSync,writeFileSync,readFileSync,renameSync,rmSync,symlinkSync,unlinkSync,realpathSync} from 'node:fs';import {tmpdir} from 'node:os';import {resolve} from 'node:path';import net from 'node:net';import {spawnSync} from 'node:child_process';
-import {createGateway,EVENT_KEYS,ifNoneMatchMatches} from '../src/gateway.mjs';import {createKeyReloader,fileFingerprint,reloadSecondsFrom} from '../src/reload.mjs';import {authenticate,createKey,verifier,redact} from '../src/security.mjs';import {MemoryTokenBuckets} from '../src/quota.mjs';import {descriptorFromRelease,descriptorFromReleaseBytes} from '../src/artifacts.mjs';
+import {createGateway,EVENT_KEYS,MAX_KEYS,ifNoneMatchMatches} from '../src/gateway.mjs';import {createKeyReloader,fileFingerprint,reloadSecondsFrom} from '../src/reload.mjs';import {authenticate,createKey,verifier,redact} from '../src/security.mjs';import {MemoryTokenBuckets} from '../src/quota.mjs';import {descriptorFromRelease,descriptorFromReleaseBytes} from '../src/artifacts.mjs';
 import {verifyGatewayContractDrift} from '../../web/scripts/generate-gateway-contracts.mjs';
 const pepper='synthetic-test-pepper-with-32-chars',hash=`sha256:${'a'.repeat(64)}`;
 const sha=(bytes)=>`sha256:${createHash('sha256').update(bytes).digest('hex')}`;
@@ -239,4 +239,17 @@ test('a key reload releases the quota buckets of retired keys so they never hold
     // A custom store must expose forget() as a function when it has one at all.
     assert.throws(()=>createGateway({...config().value,quotaStore:{take:()=>({ok:true,limit:1,remaining:0,reset:1}),forget:'nope'}}),/invalid gateway configuration/);
   }finally{await g.gateway.close();}
+});
+
+test('the default quota store holds a bucket for every key the gateway accepts, so a full set of active keys never overflows it',async()=>{
+  assert.equal(MAX_KEYS,10000);
+  // More keys than the standalone store default (1000) all authenticating inside one idle window: none may be answered 503 store_overflow.
+  const keys=Array.from({length:1001},()=>createKey());
+  const c=config({keys:keys.map((key)=>record(key.raw,key.id))});
+  const gateway=createGateway(c.value);await gateway.listen();const base=`http://127.0.0.1:${gateway.server.address().port}`;
+  try{
+    const statuses=new Set();
+    for(const key of keys)statuses.add((await fetch(`${base}/managed/v1/manifest`,{headers:auth(key.raw)})).status);
+    assert.deepEqual([...statuses],[200]);
+  }finally{await gateway.close();}
 });

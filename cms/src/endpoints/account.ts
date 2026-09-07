@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 import type { Endpoint, Payload, PayloadRequest } from 'payload';
 import { INTERNAL_CONTEXT, accountUser, type RequestUser } from '../access';
 import { OFFER_ID } from '../collections/Plans';
-import { describeEnv, getEnv } from '../env';
+import { describeEnv, getEnv, type StripeMode } from '../env';
 import { createGatewayKey } from '../lib/gateway-keys';
 import { EndpointError, fail, guarded, json, readJsonBody } from '../lib/responses';
 import { CHECKOUT_ORIGIN, PORTAL_ORIGIN, getStripe } from '../lib/stripe';
@@ -13,6 +13,14 @@ import { forEachActiveSubscription, inTransaction, lockRow, newerSubscription } 
 type Doc = Record<string, unknown> & { id: string | number };
 /** Revoked and expired keys shown on the account page (newest first); active keys are never truncated. */
 export const INACTIVE_KEY_HISTORY = 50;
+
+/**
+ * The billing mode keys are granted in. A key reaches the gateway only in the mode the export
+ * carries (`exportableKeys`): live keys always, test keys only while the CMS itself holds a test
+ * key. With Stripe disabled the export carries live keys alone, so grants come from live-mode
+ * subscriptions alone as well; a test key minted then could never authenticate.
+ */
+export const grantLivemode = (stripeMode: StripeMode): boolean => stripeMode !== 'test';
 
 const relationId = (value: unknown): string | number | null => (typeof value === 'string' || typeof value === 'number' ? value : value && typeof value === 'object' && 'id' in value ? (value as { id: string | number }).id : null);
 
@@ -114,7 +122,7 @@ export const accountEndpoints: Endpoint[] = [
         req.payload.find({ collection: 'subscriptions', where: { user: { equals: user.id } }, sort: '-lastEventCreated', limit: 20, depth: 0, overrideAccess: true }),
         req.payload.find({ collection: 'api-keys', where: { and: [{ user: { equals: user.id } }, { state: { equals: 'active' } }] }, sort: '-createdAt', limit: 10000, pagination: false, depth: 0, overrideAccess: true }),
         req.payload.find({ collection: 'api-keys', where: { and: [{ user: { equals: user.id } }, { state: { not_equals: 'active' } }] }, sort: '-createdAt', limit: INACTIVE_KEY_HISTORY, depth: 0, overrideAccess: true }),
-        entitlingSubscriptions(req.payload, user.id, env.stripeMode === 'disabled' ? null : env.stripeMode === 'live'),
+        entitlingSubscriptions(req.payload, user.id, grantLivemode(env.stripeMode)),
       ]);
       // A key whose expiry has passed is expired whatever its stored state says (an admin-set expiry is not written back on
       // its own): it reads as expired here and never as active, and the mint path persists the transition before counting.
@@ -201,7 +209,7 @@ export const accountEndpoints: Endpoint[] = [
       // user's row locked, so concurrent requests cannot exceed the per-user limit.
       const record = await inTransaction(req.payload, undefined, async (tx) => {
         await lockRow(req.payload, tx, 'users', 'id', user.id);
-        const { newest, granting } = await entitlingSubscriptions(req.payload, user.id, env.stripeMode === 'disabled' ? null : env.stripeMode === 'live', tx);
+        const { newest, granting } = await entitlingSubscriptions(req.payload, user.id, grantLivemode(env.stripeMode), tx);
         if (!newest) throw new EndpointError('no_entitlement');
         // Keys whose expiry has passed are expired, not active: the transition is persisted here, under the user's lock,
         // so an admin-set expiry that lapsed never counts against the limit or blocks a usable replacement.
