@@ -172,7 +172,7 @@ export interface User {
   collection: 'users';
 }
 /**
- * Offer ids the account page may sell, each mapped to a Stripe price that lives only here and in the Stripe Dashboard. Prices are never published on the site.
+ * Offer ids mapped to Stripe prices that live only here and in the Stripe Dashboard; prices are never published on the site. The account page sells active subscription-mode plans only: one-time payment plans grant no entitlement and are refused at checkout.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "plans".
@@ -325,6 +325,10 @@ export interface ApiKey {
   user: number | User;
   label?: string | null;
   state: 'active' | 'revoked' | 'expired';
+  /**
+   * Billing mode of the subscription that entitled this key. Test-mode keys are exported to the gateway only while the CMS itself runs with a Stripe test key, so they stop working at live promotion.
+   */
+  livemode: boolean;
   notBefore?: string | null;
   expiresAt?: string | null;
   revokedAt?: string | null;
@@ -543,6 +547,7 @@ export interface ApiKeysSelect<T extends boolean = true> {
   user?: T;
   label?: T;
   state?: T;
+  livemode?: T;
   notBefore?: T;
   expiresAt?: T;
   revokedAt?: T;

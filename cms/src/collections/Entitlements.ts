@@ -38,8 +38,12 @@ export const Entitlements: CollectionConfig = {
     afterChange: [
       async ({ doc, req }) => {
         if (doc.kind === 'subscription') {
-          try { await syncSubscriptionFromEntitlement(req.payload, doc); } catch (error) {
+          // Runs inside the request transaction and propagates failures on purpose:
+          // the payments service then sees a failed store write, releases its event
+          // claim, and Stripe retries, instead of a stale mirror behind a 2xx.
+          try { await syncSubscriptionFromEntitlement(req.payload, doc, req); } catch (error) {
             req.payload.logger.error({ err: error instanceof Error ? error.message : 'unknown', key: doc.key }, 'entitlement → subscription sync failed');
+            throw error;
           }
         }
         return doc;

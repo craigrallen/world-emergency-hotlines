@@ -26,6 +26,7 @@ export const ApiKeys: CollectionConfig = {
     { name: 'user', type: 'relationship', relationTo: 'users', required: true, index: true },
     { name: 'label', type: 'text', maxLength: 60 },
     { name: 'state', type: 'select', required: true, defaultValue: 'active', options: KEY_STATES.map((value) => ({ label: value, value })) },
+    { name: 'livemode', type: 'checkbox', required: true, defaultValue: false, admin: { readOnly: true, description: 'Billing mode of the subscription that entitled this key. Test-mode keys are exported to the gateway only while the CMS itself runs with a Stripe test key, so they stop working at live promotion.' } },
     { name: 'notBefore', type: 'date' },
     { name: 'expiresAt', type: 'date' },
     { name: 'revokedAt', type: 'date', admin: { readOnly: true } },

@@ -38,9 +38,9 @@ gateway ── sync-keys ── GET /cms/api/gateway/keys ───────�
 
 - **Same origin everywhere.** The CMS is only reached through the canonical origin. Caddy proxies three prefixes; Payload's `serverURL`, `cors`, and `csrf` are all `PUBLIC_SITE_URL`, cookies are `HttpOnly`/`Lax`/`Secure`. Cookie sessions from another origin are refused.
 - **Roles.** `admin` (everything), `staff` (admin panel read access, no role changes), `member` (own account only), `service` (API-key-only automation for the payments store and gateway sync). Members cannot set `role`, `enableAPIKey`, `stripeCustomerId`, or `notes`; the users collection strips those fields from non-admin writes.
-- **Hosted Checkout, account-bound.** `/cms/api/account/checkout` creates the Stripe customer once, then a Checkout Session carrying `client_reference_id` and `metadata.cms_user`, and answers only the `checkout.stripe.com` URL. The webhook links the resulting subscription to the account. The Customer Portal opens through `/cms/api/account/portal`.
-- **Two webhook consumers, one ledger.** The payments service (anonymous `/billing` flow) and the CMS webhook share the `stripe-events` collection whose unique `eventId` makes the first writer win. Subscription state from both paths lands in `subscriptions`, and an event older than the newest applied one never overwrites state. The plugin acknowledges Stripe before handlers run, so a failed CMS handler releases its claim and logs; the payments service path returns real 500s and gets Stripe's retries.
-- **Managed API keys.** A member with an active subscription mints a key from the account page. The CMS stores only the HMAC-SHA-256 verifier (pepper `GATEWAY_KEY_PEPPER`, shared with the gateway's `GATEWAY_PEPPER`); the raw key is shown once. `GET /cms/api/gateway/keys` exports records in `gateway/contracts/v1/key-record.schema.json` shape, including revocations, for `sync-keys`.
+- **Hosted Checkout, account-bound.** `/cms/api/account/checkout` creates the Stripe customer once, then a Checkout Session carrying `client_reference_id` and `metadata.cms_user`, and answers only the `checkout.stripe.com` URL. The webhook links the resulting subscription to the account. Only active subscription-mode plans are sold here: a one-time payment plan would charge without granting an entitlement, so the endpoint refuses it (`unsupported_offer`) and the status endpoint never lists it. The Customer Portal opens through `/cms/api/account/portal`.
+- **Two webhook consumers, one ledger.** The payments service (anonymous `/billing` flow) and the CMS webhook share the `stripe-events` collection whose unique `eventId` makes the first writer win. Subscription state from both paths lands in `subscriptions`. Each apply runs in a transaction with the subscription row locked (Postgres `SELECT … FOR UPDATE`), so an event older than the newest applied one never overwrites state even when deliveries race. A failed mirror from the payments path fails the entitlement write itself, so the service releases its event claim and Stripe retries; the plugin path acknowledges Stripe before handlers run, so a failed CMS handler releases its claim and logs for a Dashboard resend.
+- **Managed API keys.** A member with an active subscription mints a key from the account page; the entitlement check, the per-user limit, and the insert run in one transaction with the user's row locked. The CMS stores only the HMAC-SHA-256 verifier (pepper `GATEWAY_KEY_PEPPER`, shared with the gateway's `GATEWAY_PEPPER`) plus the billing mode of the entitling subscription; the raw key is shown once. `GET /cms/api/gateway/keys` exports records in `gateway/contracts/v1/key-record.schema.json` shape, including revocations, for `sync-keys`. Live-mode keys are always exported; test-mode keys only while the CMS itself runs with a Stripe test key, so promoting to live drops them at the next sync.
 - **Data minimisation.** Accounts hold an email, optional name, password hash, and pseudonymous Stripe ids. No amounts, addresses, card data, analytics, or crisis-intent data.
 - **Fail closed everywhere.** Unknown `CMS_*`/`STRIPE_*`/`SMTP_*`/`GATEWAY_*` variables, a short `PAYLOAD_SECRET`, SQLite in production, a Stripe key without its webhook secret, or a live key on a non-https origin all stop startup. Caddy answers 503 while `CMS_UPSTREAM` is unset. The account pages render disabled and re-check at runtime.
 
@@ -77,9 +77,12 @@ npm test                        # vitest: SQLite database, in-process Stripe dou
 npm run typecheck && npm run build
 
 # Whole stack behind Caddy (accounts on, Stripe off unless keys are set):
-cd .. && printf 'PAYLOAD_SECRET=%s\nCMS_ADMIN_EMAIL=admin@example.org\nCMS_ADMIN_PASSWORD=%s\n' "$(openssl rand -hex 32)" "$(openssl rand -hex 16)" > .env
+cd .. && printf 'PAYLOAD_SECRET=%s\n' "$(openssl rand -hex 32)" > .env
+printf 'CMS_ADMIN_EMAIL=admin@example.org\nCMS_ADMIN_PASSWORD=%s\n' "$(openssl rand -hex 16)" > .env.cms
 docker compose up --build        # http://localhost:8080/account and /admin
 ```
+
+Compose reads optional secrets from the untracked `.env.cms` and `.env.payments` files only when they exist, so unset variables stay absent. To turn the payments service's durable store on locally, create a `service` user with an API key in `/admin` and put `PAYMENTS_STORE=cms`, `PAYMENTS_CMS_URL=http://cms:3000/cms/api`, and `PAYMENTS_CMS_API_KEY=<that key>` in `.env.payments`, then `docker compose up -d payments`. Both services also treat an empty optional variable as "not configured".
 
 After any collection change run `npm run generate:types` (CI fails if `src/payload-types.ts` drifts) and create a Postgres migration with `npm run migrate:create -- <name>`; `payload migrate:create` needs no database connection.
 
@@ -106,7 +109,7 @@ Work top to bottom. Every step is reversible by unsetting `CMS_UPSTREAM`.
 
 ### Go live
 
-- [ ] Repeat the Stripe steps in live mode (live restricted key, live webhook secret, live price ids on the plans).
+- [ ] Repeat the Stripe steps in live mode (live restricted key, live webhook secret, live price ids on the plans). Keys minted from test-mode subscriptions stop being exported once the CMS runs live; run `sync-keys` on the gateway so they are dropped.
 - [ ] Rollback rehearsed: unsetting `CMS_UPSTREAM` returns every CMS route to 503 within one deploy while the static site keeps serving; the account pages fall back to their disabled notice on the next load.
 - [ ] Update `docs/PACKAGING.md` status wording in a reviewed pull request; the verifiers pin the current "prepared, not enabled" wording deliberately.
 

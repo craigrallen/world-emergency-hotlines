@@ -2,12 +2,21 @@
 # (Stripe foundation) → Postgres. Mirrors the Railway topology so every route can be
 # exercised at http://localhost:8080 before anything is enabled in production.
 #
+#   printf 'PAYLOAD_SECRET=%s\n' "$(openssl rand -hex 32)" > .env      # interpolated below
 #   docker compose up --build
 #   open http://localhost:8080/account   (accounts on; Stripe stays disabled unless keys are set)
-#   open http://localhost:8080/admin     (sign in with CMS_ADMIN_EMAIL / CMS_ADMIN_PASSWORD)
+#   open http://localhost:8080/admin     (first admin: put CMS_ADMIN_EMAIL/CMS_ADMIN_PASSWORD in .env.cms)
 #
-# Secrets come from an untracked `.env` next to this file (see cms/.env.example and
-# payments/.env.example). Nothing here publishes a price or enables live billing.
+# Optional secrets live in two untracked env files that are only read when present,
+# so unset variables are absent rather than passed as empty strings:
+#   .env.cms       — CMS_ADMIN_EMAIL, CMS_ADMIN_PASSWORD, SMTP_URL, STRIPE_SECRET_KEY,
+#                    STRIPE_WEBHOOK_SECRET, GATEWAY_KEY_PEPPER (see cms/.env.example)
+#   .env.payments  — PAYMENTS_MODE, PAYMENTS_OFFERS, STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET,
+#                    and the durable store: PAYMENTS_STORE=cms,
+#                    PAYMENTS_CMS_URL=http://cms:3000/cms/api, PAYMENTS_CMS_API_KEY=<service key>
+#                    (see payments/.env.example)
+# Caddy wiring: CMS_UPSTREAM and PAYMENTS_UPSTREAM point at the two services.
+# Nothing here publishes a price or enables live billing; `.env*` files are gitignored.
 name: world-hotlines
 
 services:
@@ -30,6 +39,9 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    env_file:
+      - path: ./.env.cms
+        required: false
     environment:
       NODE_ENV: production
       PORT: "3000"
@@ -37,13 +49,6 @@ services:
       PAYLOAD_SECRET: ${PAYLOAD_SECRET:?set PAYLOAD_SECRET (32+ random characters) in .env}
       PUBLIC_SITE_URL: ${PUBLIC_SITE_URL:-http://localhost:8080}
       CMS_ACCOUNTS_REGISTRATION: ${CMS_ACCOUNTS_REGISTRATION:-open}
-      CMS_REQUIRE_EMAIL_VERIFICATION: ${CMS_REQUIRE_EMAIL_VERIFICATION:-0}
-      CMS_ADMIN_EMAIL: ${CMS_ADMIN_EMAIL:-}
-      CMS_ADMIN_PASSWORD: ${CMS_ADMIN_PASSWORD:-}
-      SMTP_URL: ${SMTP_URL:-}
-      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
-      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
-      GATEWAY_KEY_PEPPER: ${GATEWAY_KEY_PEPPER:-}
     healthcheck:
       test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/cms/api/account/status').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
       interval: 10s
@@ -55,21 +60,14 @@ services:
     depends_on:
       cms:
         condition: service_healthy
+    env_file:
+      - path: ./.env.payments
+        required: false
     environment:
-      PAYMENTS_MODE: ${PAYMENTS_MODE:-disabled}
       PAYMENTS_HOST: "::"
       PORT: "8081"
       PAYMENTS_TRUST_PROXY: "1"
       PAYMENTS_PUBLIC_ORIGIN: ${PUBLIC_SITE_URL:-http://localhost:8080}
-      # Durable store: webhook idempotency and entitlements live in the CMS.
-      PAYMENTS_STORE: ${PAYMENTS_STORE:-memory}
-      PAYMENTS_CMS_URL: http://cms.internal:3000/cms/api
-      PAYMENTS_CMS_API_KEY: ${PAYMENTS_CMS_API_KEY:-}
-      PAYMENTS_OFFERS: ${PAYMENTS_OFFERS:-}
-      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
-      STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-}
-    links:
-      - cms:cms.internal
 
   web:
     build: .

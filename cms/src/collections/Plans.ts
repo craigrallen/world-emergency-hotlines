@@ -12,7 +12,7 @@ export const Plans: CollectionConfig = {
     useAsTitle: 'label',
     defaultColumns: ['offerId', 'label', 'mode', 'active', 'stripePriceId', 'updatedAt'],
     group: 'Billing',
-    description: 'Offer ids the account page may sell, each mapped to a Stripe price that lives only here and in the Stripe Dashboard. Prices are never published on the site.',
+    description: 'Offer ids mapped to Stripe prices that live only here and in the Stripe Dashboard; prices are never published on the site. The account page sells active subscription-mode plans only: one-time payment plans grant no entitlement and are refused at checkout.',
   },
   access: { read: isStaffOrService, create: isAdmin, update: isAdmin, delete: isAdmin },
   fields: [

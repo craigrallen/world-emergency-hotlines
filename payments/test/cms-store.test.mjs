@@ -174,8 +174,11 @@ test('configuration selects the store and keeps the API key out of summaries', (
   assert.deepEqual(summary.store, { kind: 'cms', cms_url: URL_, cms_api_key_configured: true });
   assert.equal(JSON.stringify(summary).includes(API_KEY), false);
   assert.equal(JSON.stringify(redact({ store: cms.store })).includes(API_KEY), false, 'redact() masks apiKey properties');
+  assert.deepEqual(loadConfig({ PAYMENTS_STORE: '', PAYMENTS_CMS_URL: '', PAYMENTS_CMS_API_KEY: '' }).store, { kind: 'memory' }, 'empty strings from Compose/Railway mean not configured');
   for (const [env, variable] of [
     [{ PAYMENTS_STORE: 'redis' }, 'PAYMENTS_STORE'],
+    [{ PAYMENTS_STORE: 'cms', PAYMENTS_CMS_URL: '', PAYMENTS_CMS_API_KEY: API_KEY }, 'PAYMENTS_CMS_URL'],
+    [{ PAYMENTS_STORE: 'cms', PAYMENTS_CMS_URL: URL_, PAYMENTS_CMS_API_KEY: '' }, 'PAYMENTS_CMS_API_KEY'],
     [{ PAYMENTS_STORE: 'cms' }, 'PAYMENTS_CMS_URL'],
     [{ PAYMENTS_STORE: 'cms', PAYMENTS_CMS_URL: 'http://public.example.org/cms/api', PAYMENTS_CMS_API_KEY: API_KEY }, 'PAYMENTS_CMS_URL'],
     [{ PAYMENTS_STORE: 'cms', PAYMENTS_CMS_URL: URL_ }, 'PAYMENTS_CMS_API_KEY'],

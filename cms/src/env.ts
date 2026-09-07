@@ -74,7 +74,15 @@ function flag(source: NodeJS.ProcessEnv, name: string, fallback = false): boolea
   throw new EnvError(name, 'must be 0, 1, true, or false');
 }
 
-export function readEnv(source: NodeJS.ProcessEnv = process.env): CmsEnv {
+/** Variables with a default or an "off" meaning: an empty string (as Compose and Railway pass unset values) means not configured. */
+export const OPTIONAL_VARIABLES = Object.freeze([
+  'DATABASE_URL', 'PUBLIC_SITE_URL', 'CMS_ACCOUNTS_REGISTRATION', 'CMS_REQUIRE_EMAIL_VERIFICATION', 'CMS_MAX_API_KEYS_PER_USER',
+  'CMS_ADMIN_EMAIL', 'CMS_ADMIN_PASSWORD', 'CMS_STRIPE_API_BASE', 'SMTP_URL', 'SMTP_FROM_ADDRESS', 'SMTP_FROM_NAME',
+  'STRIPE_SECRET_KEY', 'STRIPE_WEBHOOK_SECRET', 'GATEWAY_KEY_PEPPER',
+]);
+
+export function readEnv(raw: NodeJS.ProcessEnv = process.env): CmsEnv {
+  const source = Object.fromEntries(Object.entries(raw).filter(([name, value]) => !(OPTIONAL_VARIABLES.includes(name) && value === ''))) as unknown as NodeJS.ProcessEnv;
   for (const name of Object.keys(source)) {
     if ((name.startsWith('CMS_') || name.startsWith('STRIPE_') || name.startsWith('SMTP_') || name.startsWith('GATEWAY_')) && !KNOWN_VARIABLES.includes(name)) {
       throw new EnvError(name, 'is not a recognised variable');

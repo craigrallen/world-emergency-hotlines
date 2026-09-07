@@ -40,6 +40,12 @@ describe('environment parsing fails closed', () => {
     expect(KNOWN_VARIABLES).toContain('GATEWAY_KEY_PEPPER');
   });
 
+  test('empty optional variables mean not configured, as Compose and Railway pass them', () => {
+    const env = readEnv({ ...base, SMTP_URL: '', STRIPE_SECRET_KEY: '', STRIPE_WEBHOOK_SECRET: '', GATEWAY_KEY_PEPPER: '', CMS_ADMIN_EMAIL: '', CMS_ADMIN_PASSWORD: '', CMS_STRIPE_API_BASE: '', CMS_ACCOUNTS_REGISTRATION: '', CMS_MAX_API_KEYS_PER_USER: '' } as unknown as NodeJS.ProcessEnv);
+    expect(env).toMatchObject({ smtpUrl: null, stripeMode: 'disabled', stripeSecretKey: null, stripeWebhookSecret: null, gatewayKeyPepper: null, bootstrapAdmin: null, stripeApiBase: null, registration: 'closed', maxApiKeysPerUser: 5 });
+    expectVariable({ ...base, PAYLOAD_SECRET: '' }, 'PAYLOAD_SECRET');
+  });
+
   test('origin validation', () => {
     for (const ok of ['https://worldhotlines.org', 'http://localhost:8080', 'http://127.0.0.1:3000']) expect(validOrigin(ok)).toBe(true);
     for (const bad of ['http://worldhotlines.org', 'https://worldhotlines.org/x', 'https://a:b@worldhotlines.org', 'https://*.example.org', '']) expect(validOrigin(bad)).toBe(false);

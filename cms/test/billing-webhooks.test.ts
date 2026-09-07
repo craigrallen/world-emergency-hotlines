@@ -9,6 +9,7 @@ import { createHmac } from 'node:crypto';
 import { call, createUser, login, signEvent, startMockStripe, stripeEvent } from './helpers';
 import { handleStripeEvent, periodEndOf } from '../src/lib/stripe';
 import { toGatewayRecord } from '../src/lib/gateway-keys';
+import { exportableKeys } from '../src/endpoints/gateway';
 
 let payload: Payload;
 let stripe: Awaited<ReturnType<typeof startMockStripe>>;
@@ -125,7 +126,7 @@ describe('managed API keys', () => {
     expect(created.status).toBe(201);
     const raw = created.data.key as string;
     expect(raw).toMatch(/^weh_live_[a-z0-9]{12}_[A-Za-z0-9_-]{43}$/);
-    expect(created.data.record).toMatchObject({ label: 'CI robot', state: 'active', permissions: ['manifest', 'records'], quota: { rate: 2, burst: 20 } });
+    expect(created.data.record).toMatchObject({ label: 'CI robot', state: 'active', livemode: false, permissions: ['manifest', 'records'], quota: { rate: 2, burst: 20 } });
     expect(JSON.stringify(created.data.record)).not.toContain('verifier');
     const second = await call('/cms/api/account/api-keys', { method: 'POST', token, body: {} });
     expect(second.status).toBe(201);
@@ -147,6 +148,11 @@ describe('managed API keys', () => {
     expect(exported.status).toBe(200);
     expect(exported.data.schema).toBe('gateway-key-records/v1');
     expect(exported.data.mode).toBe('production');
+    expect(exported.data.includes_test_mode_keys).toBe(true); // this CMS runs with a Stripe test key
+    const testKey = { livemode: false }, liveKey = { livemode: true };
+    expect(exportableKeys([testKey, liveKey], 'test')).toEqual([testKey, liveKey]);
+    expect(exportableKeys([testKey, liveKey], 'live')).toEqual([liveKey]);
+    expect(exportableKeys([testKey, liveKey], 'disabled')).toEqual([liveKey]);
     const schema = JSON.parse(readFileSync(resolve(import.meta.dirname, '../../gateway/contracts/v1/key-record.schema.json'), 'utf8'));
     const ajv = new Ajv2020({ strict: true, allErrors: true });
     addFormats(ajv);

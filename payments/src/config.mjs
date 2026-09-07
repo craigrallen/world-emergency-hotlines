@@ -120,15 +120,19 @@ export function loadConfig(env = process.env) {
   // Durable store selection. `memory` (default) is single-instance and forgets on
   // restart; `cms` persists events and entitlements in the Payload CMS through a
   // service API key and is required before more than one replica runs.
-  const storeKind = env.PAYMENTS_STORE ?? 'memory';
+  // Compose and Railway pass unset variables as empty strings; for these three an
+  // empty value means "not configured" (an empty key with PAYMENTS_STORE=cms still fails).
+  const storeKind = env.PAYMENTS_STORE || 'memory';
+  const cmsUrl = env.PAYMENTS_CMS_URL === '' ? undefined : env.PAYMENTS_CMS_URL;
+  const cmsApiKey = env.PAYMENTS_CMS_API_KEY === '' ? undefined : env.PAYMENTS_CMS_API_KEY;
   if (!STORE_KINDS.includes(storeKind)) throw new ConfigError('PAYMENTS_STORE', 'must be memory or cms');
   let store = Object.freeze({ kind: 'memory' });
   if (storeKind === 'cms') {
-    if (!validCmsUrl(env.PAYMENTS_CMS_URL)) throw new ConfigError('PAYMENTS_CMS_URL', 'must be the CMS API base URL (https, or http on loopback/private hosts) without a trailing slash');
-    if (typeof env.PAYMENTS_CMS_API_KEY !== 'string' || !CMS_API_KEY.test(env.PAYMENTS_CMS_API_KEY)) throw new ConfigError('PAYMENTS_CMS_API_KEY', 'must be a CMS service API key');
-    store = Object.freeze({ kind: 'cms', url: env.PAYMENTS_CMS_URL, apiKey: env.PAYMENTS_CMS_API_KEY });
-  } else if (env.PAYMENTS_CMS_URL !== undefined || env.PAYMENTS_CMS_API_KEY !== undefined) {
-    throw new ConfigError(env.PAYMENTS_CMS_URL !== undefined ? 'PAYMENTS_CMS_URL' : 'PAYMENTS_CMS_API_KEY', 'is only accepted when PAYMENTS_STORE=cms');
+    if (!validCmsUrl(cmsUrl)) throw new ConfigError('PAYMENTS_CMS_URL', 'must be the CMS API base URL (https, or http on loopback/private hosts) without a trailing slash');
+    if (typeof cmsApiKey !== 'string' || !CMS_API_KEY.test(cmsApiKey)) throw new ConfigError('PAYMENTS_CMS_API_KEY', 'must be a CMS service API key');
+    store = Object.freeze({ kind: 'cms', url: cmsUrl, apiKey: cmsApiKey });
+  } else if (cmsUrl !== undefined || cmsApiKey !== undefined) {
+    throw new ConfigError(cmsUrl !== undefined ? 'PAYMENTS_CMS_URL' : 'PAYMENTS_CMS_API_KEY', 'is only accepted when PAYMENTS_STORE=cms');
   }
 
   const base = { version: VERSION, mode, host, port, publicOrigin, successPath, cancelPath, returnPath, trustProxy, automaticTax, stripeTimeoutMs: Number(timeoutRaw), store };

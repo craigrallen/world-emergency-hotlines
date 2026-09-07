@@ -6,7 +6,7 @@ import { describeEnv, getEnv } from '../env';
 import { createGatewayKey } from '../lib/gateway-keys';
 import { EndpointError, fail, guarded, json, readJsonBody } from '../lib/responses';
 import { CHECKOUT_ORIGIN, PORTAL_ORIGIN, getStripe } from '../lib/stripe';
-import { activeSubscriptionFor } from '../lib/subscriptions';
+import { activeSubscriptionFor, inTransaction, lockRow } from '../lib/subscriptions';
 
 type Doc = Record<string, unknown> & { id: string | number };
 
@@ -16,12 +16,13 @@ const publicSubscription = (sub: Doc) => ({
   current_period_end: sub.currentPeriodEnd ?? null, livemode: sub.livemode === true, last_invoice_status: sub.lastInvoiceStatus ?? null, updated_at: sub.updatedAt,
 });
 const publicKey = (key: Doc) => ({
-  id: key.keyId, label: key.label ?? null, state: key.state, not_before: key.notBefore ?? null, expires_at: key.expiresAt ?? null,
+  id: key.keyId, label: key.label ?? null, state: key.state, livemode: key.livemode === true, not_before: key.notBefore ?? null, expires_at: key.expiresAt ?? null,
   permissions: key.permissions, quota: { rate: key.quotaRate, burst: key.quotaBurst }, created_at: key.createdAt, revoked_at: key.revokedAt ?? null,
 });
 
-async function activePlans(payload: Payload): Promise<Doc[]> {
-  const result = await payload.find({ collection: 'plans', where: { active: { equals: true } }, sort: 'offerId', limit: 50, depth: 0, overrideAccess: true });
+/** Plans the account page may sell: active and subscription-mode. One-time payment plans grant no entitlement here, so they are never offered. */
+async function sellablePlans(payload: Payload): Promise<Doc[]> {
+  const result = await payload.find({ collection: 'plans', where: { and: [{ active: { equals: true } }, { mode: { equals: 'subscription' } }] }, sort: 'offerId', limit: 50, depth: 0, overrideAccess: true });
   return result.docs as unknown as Doc[];
 }
 
@@ -51,7 +52,7 @@ export const accountEndpoints: Endpoint[] = [
     path: '/account/status', method: 'get',
     handler: (req) => guarded(req, async () => {
       const env = getEnv();
-      const plans = env.stripeMode === 'disabled' ? [] : await activePlans(req.payload);
+      const plans = env.stripeMode === 'disabled' ? [] : await sellablePlans(req.payload);
       const summary = describeEnv(env);
       return json(req, 200, {
         component: 'cms', status: 'enabled',
@@ -97,19 +98,21 @@ export const accountEndpoints: Endpoint[] = [
       const plans = await req.payload.find({ collection: 'plans', where: { and: [{ offerId: { equals: body.offer } }, { active: { equals: true } }] }, limit: 1, depth: 0, overrideAccess: true });
       const plan = plans.docs[0] as unknown as Doc | undefined;
       if (!plan) throw new EndpointError('unknown_offer');
+      // Entitlements are subscription facts; a one-time payment would charge without granting anything.
+      if (plan.mode !== 'subscription') throw new EndpointError('unsupported_offer');
       const customer = await ensureCustomer(req.payload, user);
       const metadata = { offer: String(plan.offerId), cms_user: String(user.id) };
       let session;
       try {
         session = await stripe.checkout.sessions.create({
-          mode: plan.mode as 'subscription' | 'payment',
+          mode: 'subscription',
           customer,
           client_reference_id: String(user.id),
           line_items: [{ price: String(plan.stripePriceId), quantity: Number(plan.quantity) || 1 }],
           success_url: `${env.siteUrl}/account?checkout=success`,
           cancel_url: `${env.siteUrl}/account?checkout=cancelled`,
           metadata,
-          ...(plan.mode === 'subscription' ? { subscription_data: { metadata } } : { payment_intent_data: { metadata } }),
+          subscription_data: { metadata },
         }, { idempotencyKey: randomUUID() });
       } catch { throw new EndpointError('upstream_error'); }
       if (typeof session.url !== 'string' || !session.url.startsWith(`${CHECKOUT_ORIGIN}/`)) throw new EndpointError('upstream_error');
@@ -142,23 +145,28 @@ export const accountEndpoints: Endpoint[] = [
       const body = await readJsonBody(req);
       const label = body.label === undefined ? null : body.label;
       if (label !== null && (typeof label !== 'string' || label.length > 60)) throw new EndpointError('invalid_request');
-      const active = await activeSubscriptionFor(req.payload, user.id, env.stripeMode === 'disabled' ? null : env.stripeMode === 'live');
-      if (!active) throw new EndpointError('no_entitlement');
-      const existing = await req.payload.count({ collection: 'api-keys', where: { and: [{ user: { equals: user.id } }, { state: { equals: 'active' } }] }, overrideAccess: true });
-      if (existing.totalDocs >= env.maxApiKeysPerUser) throw new EndpointError('key_limit');
-      const planId = active.plan && typeof active.plan === 'object' ? (active.plan as unknown as Doc).id : (active.plan as string | number | null);
-      const plan = planId ? ((await req.payload.findByID({ collection: 'plans', id: planId, depth: 0, overrideAccess: true, disableErrors: true })) as unknown as Doc | null) : null;
-      const gateway = (plan?.gateway ?? {}) as { permissions?: string[]; quotaRate?: number; quotaBurst?: number };
       const key = createGatewayKey(env.gatewayKeyPepper);
-      const record = (await req.payload.create({
-        collection: 'api-keys',
-        data: {
-          keyId: key.id, verifier: key.verifier, user: user.id as number, label, state: 'active',
-          permissions: (gateway.permissions?.length ? gateway.permissions : ['manifest', 'records', 'resolver']) as ('manifest' | 'records' | 'resolver')[],
-          quotaRate: gateway.quotaRate ?? 1, quotaBurst: gateway.quotaBurst ?? 10,
-        },
-        depth: 0, overrideAccess: true, context: { ...INTERNAL_CONTEXT },
-      })) as unknown as Doc;
+      // Entitlement check, key count, and insert run under one transaction with the
+      // user's row locked, so concurrent requests cannot exceed the per-user limit.
+      const record = await inTransaction(req.payload, undefined, async (tx) => {
+        await lockRow(req.payload, tx, 'users', 'id', user.id);
+        const active = await activeSubscriptionFor(req.payload, user.id, env.stripeMode === 'disabled' ? null : env.stripeMode === 'live', tx);
+        if (!active) throw new EndpointError('no_entitlement');
+        const existing = await req.payload.count({ collection: 'api-keys', where: { and: [{ user: { equals: user.id } }, { state: { equals: 'active' } }] }, overrideAccess: true, req: tx });
+        if (existing.totalDocs >= env.maxApiKeysPerUser) throw new EndpointError('key_limit');
+        const planId = active.plan && typeof active.plan === 'object' ? (active.plan as unknown as Doc).id : (active.plan as string | number | null);
+        const plan = planId ? ((await req.payload.findByID({ collection: 'plans', id: planId, depth: 0, overrideAccess: true, disableErrors: true, req: tx })) as unknown as Doc | null) : null;
+        const gateway = (plan?.gateway ?? {}) as { permissions?: string[]; quotaRate?: number; quotaBurst?: number };
+        return (await req.payload.create({
+          collection: 'api-keys',
+          data: {
+            keyId: key.id, verifier: key.verifier, user: user.id as number, label, state: 'active', livemode: active.livemode === true,
+            permissions: (gateway.permissions?.length ? gateway.permissions : ['manifest', 'records', 'resolver']) as ('manifest' | 'records' | 'resolver')[],
+            quotaRate: gateway.quotaRate ?? 1, quotaBurst: gateway.quotaBurst ?? 10,
+          },
+          depth: 0, overrideAccess: true, context: { ...INTERNAL_CONTEXT }, req: tx,
+        })) as unknown as Doc;
+      });
       req.payload.logger.info({ user: user.id }, 'managed api key issued');
       return json(req, 201, { key: key.raw, record: publicKey(record), notice: 'Store this key now; it is not shown again and the CMS keeps only a verifier.' });
     }),

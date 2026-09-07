@@ -13,6 +13,7 @@ beforeAll(async () => {
   await createUser(payload, { email: 'admin@example.test', password: PASSWORD, role: 'admin', name: 'Admin' });
   await createUser(payload, { email: 'staff@example.test', password: PASSWORD, role: 'staff' });
   await payload.create({ collection: 'plans', data: { offerId: 'growth_monthly', label: 'Growth — monthly', description: 'Synthetic plan', mode: 'subscription', stripePriceId: 'price_synthetic0001', quantity: 1, active: true, gateway: { permissions: ['manifest', 'records'], quotaRate: 2, quotaBurst: 20 } }, overrideAccess: true });
+  await payload.create({ collection: 'plans', data: { offerId: 'one_time_pack', label: 'One-time pack', mode: 'payment', stripePriceId: 'price_synthetic0003', quantity: 1, active: true, gateway: { quotaRate: 1, quotaBurst: 10 } }, overrideAccess: true });
   await payload.create({ collection: 'plans', data: { offerId: 'hidden_plan', label: 'Hidden', mode: 'subscription', stripePriceId: 'price_synthetic0002', quantity: 1, active: false, gateway: { quotaRate: 1, quotaBurst: 10 } }, overrideAccess: true });
 });
 afterAll(async () => { await stripe.close(); await payload.db.destroy?.(); });
@@ -23,7 +24,7 @@ describe('public status', () => {
     expect(result.status).toBe(200);
     expect(result.headers.get('cache-control')).toBe('no-store');
     expect(result.data).toMatchObject({ component: 'cms', status: 'enabled', accounts: { registration: 'open', email_verification: false }, stripe: { mode: 'test', checkout: true, hosted_checkout_only: true }, gateway: { key_issuance: true }, price_publication: 'not_published', free_static_surfaces_unchanged: true });
-    expect(result.data.offers).toEqual([{ id: 'growth_monthly', label: 'Growth — monthly', description: 'Synthetic plan', mode: 'subscription' }]);
+    expect(result.data.offers).toEqual([{ id: 'growth_monthly', label: 'Growth — monthly', description: 'Synthetic plan', mode: 'subscription' }]); // the active one-time plan is not sellable here
     expect(JSON.stringify(result.data)).not.toMatch(/price_synthetic|sk_test|whsec/);
   });
 });
@@ -90,6 +91,10 @@ describe('checkout, portal, and plans', () => {
     expect(bogus.data.error.code).toBe('unknown_offer');
     const malformed = await call('/cms/api/account/checkout', { method: 'POST', token, body: { offer: 'Not Valid' } });
     expect(malformed.status).toBe(400);
+    const oneTime = await call('/cms/api/account/checkout', { method: 'POST', token, body: { offer: 'one_time_pack' } });
+    expect(oneTime.status).toBe(400);
+    expect(oneTime.data.error.code).toBe('unsupported_offer');
+    expect(stripe.requests.filter((request) => request.path === '/v1/checkout/sessions')).toHaveLength(0);
     const first = await call('/cms/api/account/checkout', { method: 'POST', token, body: { offer: 'growth_monthly' } });
     expect(first.status).toBe(200);
     expect(first.data.url).toMatch(/^https:\/\/checkout\.stripe\.com\//);

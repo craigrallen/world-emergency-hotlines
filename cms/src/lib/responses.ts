@@ -6,6 +6,7 @@ export const ERRORS = Object.freeze({
   forbidden: [403, 'Not allowed'],
   invalid_request: [400, 'Request could not be processed'],
   unknown_offer: [400, 'Unknown offer'],
+  unsupported_offer: [400, 'This offer cannot be purchased from the account page'],
   not_found: [404, 'Not found'],
   registration_closed: [403, 'Registration is closed'],
   email_unverified: [403, 'Verify your email address first'],
