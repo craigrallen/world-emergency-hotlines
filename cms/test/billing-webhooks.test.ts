@@ -526,14 +526,19 @@ describe('managed API keys', () => {
     const pro = (await payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: 'sub_synthetic00000011' } }, overrideAccess: true, depth: 0 })).docs[0];
     expect((await payload.find({ collection: 'api-keys', where: { keyId: { equals: minted.data.record.id } }, overrideAccess: true, depth: 0 })).docs[0].subscription).toBe(pro.id);
     const exportedKey = async () => (await call('/cms/api/gateway/keys', { apiKey: 'service-api-key-synthetic-0002', origin: null })).data.keys.find((record: { id: string }) => record.id === minted.data.record.id);
+    // The account page must show exactly what the gateway export computes, not the values copied when the key was minted.
+    const accountKey = async () => (await call('/cms/api/account/me', { token })).data.api_keys.find((record: { id: string }) => record.id === minted.data.record.id);
     expect(await exportedKey()).toMatchObject({ state: 'active', permissions: ['manifest', 'records', 'resolver'], quota: { rate: 10, burst: 100 } });
+    expect(await accountKey()).toMatchObject({ state: 'active', permissions: ['manifest', 'records', 'resolver'], quota: { rate: 10, burst: 100 } });
     // Cancelling the granting (pro) subscription revokes the key in the export even though the cheaper subscription keeps the account entitled.
     expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.deleted', priced('sub_synthetic00000011', 'price_synthetic0002', { status: 'canceled' }), { created: 2145917000 }) as never)).toBe('processed');
     expect((await call('/cms/api/account/me', { token })).data.entitlement).toEqual({ active: true, offer: 'growth_monthly' });
     expect(await exportedKey()).toBeUndefined(); // revoked keys are not exported
+    expect(await accountKey()).toMatchObject({ state: 'revoked' }); // the account page must not still say active
     // Reactivating it restores the key; moving it to the cheaper plan moves the key's policy with it.
     expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.updated', priced('sub_synthetic00000011', 'price_synthetic0001'), { created: 2145917100 }) as never)).toBe('processed');
     expect(await exportedKey()).toMatchObject({ state: 'active', permissions: ['manifest', 'records'], quota: { rate: 2, burst: 20 } });
+    expect(await accountKey()).toMatchObject({ state: 'active', permissions: ['manifest', 'records'], quota: { rate: 2, burst: 20 } }); // the account page must reflect the downgrade too
     // Moving it to a price no plan is configured for clears the plan even though the old offer metadata is still on the subscription:
     // the key is exported revoked and no new key can be minted, instead of the old plan's policy surviving on an unconfigured product.
     expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.updated', priced('sub_synthetic00000011', 'price_synthetic0098', { metadata: { cms_user: String(tiered.id), offer: 'pro_monthly' } }), { created: 2145917150 }) as never)).toBe('processed');
@@ -635,6 +640,9 @@ describe('managed API keys', () => {
 
   test('the account page lists every active key, however many revoked ones came after them', async () => {
     const hoarder = await createUser(payload, { email: 'hoarder@example.test', password: PASSWORD });
+    // Admin-issued keys without a granting subscription fall back to the account's own entitlement
+    // (test-mode here), so the account page needs one to show the fixture keys below as active.
+    await payload.create({ collection: 'subscriptions', data: { stripeCustomerId: 'cus_synthetic00000hoarder', stripeSubscriptionId: 'sub_synthetic00000hoarder', user: hoarder.id, status: 'active', livemode: false, source: 'cms', lastEventCreated: 2145930000, lastSubscriptionEventCreated: 2145930000 } as never, overrideAccess: true, context: { ...INTERNAL_CONTEXT } });
     const keyDoc = (n: number, state: 'active' | 'revoked') => ({ keyId: `hoard${String(n).padStart(7, '0')}`, verifier: 'A'.repeat(43), user: hoarder.id, state, livemode: false, issuedBy: 'admin', permissions: ['manifest'], quotaRate: 1, quotaBurst: 10 });
     for (let n = 0; n < 3; n += 1) await payload.create({ collection: 'api-keys', data: keyDoc(n, 'active') as never, overrideAccess: true, depth: 0 });
     for (let n = 3; n < 60; n += 1) await payload.create({ collection: 'api-keys', data: keyDoc(n, 'revoked') as never, overrideAccess: true, depth: 0 });

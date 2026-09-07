@@ -7,7 +7,7 @@ import { createGatewayKey } from '../lib/gateway-keys';
 import { EndpointError, fail, guarded, json, readJsonBody } from '../lib/responses';
 import { CHECKOUT_ORIGIN, PORTAL_ORIGIN, getStripe } from '../lib/stripe';
 import { customerField, customerOf } from '../lib/customers';
-import { policyOf, type GatewayPolicy } from './gateway';
+import { entitlementContext, policyOf, withEntitlement, type GatewayPolicy } from './gateway';
 import { forEachActiveSubscription, inTransaction, lockRow, newerSubscription } from '../lib/subscriptions';
 import { ACTIVE_STATUSES } from '../collections/Subscriptions';
 
@@ -177,14 +177,18 @@ export const accountEndpoints: Endpoint[] = [
       const lapsed = (key: Doc) => typeof key.expiresAt === 'string' && Date.parse(key.expiresAt) <= now;
       const active = (activeKeys.docs as unknown as Doc[]).filter((key) => !lapsed(key));
       const expired = (activeKeys.docs as unknown as Doc[]).filter(lapsed).map((key) => ({ ...key, state: 'expired' }));
-      const keys = { docs: [...active, ...expired, ...inactiveKeys.docs] };
+      const stored = [...active, ...expired, ...(inactiveKeys.docs as unknown as Doc[])];
+      // Shown state, permissions, and quota follow the same entitlement projection the gateway export
+      // applies, not the values copied when the key was minted: a cancelled or downgraded granting
+      // subscription must read here exactly as it will be enforced, never as a stale "active" record.
+      const keys = withEntitlement(stored, await entitlementContext(req.payload, stored));
       // Entitlement is shown through the subscription that can grant keys; failing that, the newest active one.
       const entitled = entitling.granting?.subscription ?? entitling.newest;
       return json(req, 200, {
         user: { id: user.id, email: user.email, name: user.name ?? null, role: user.role, verified: user._verified !== false, created_at: user.createdAt ?? null, billing_customer_linked: env.stripeMode !== 'disabled' && customerOf(user, env.stripeMode === 'live') !== null },
         entitlement: { active: entitled !== null, offer: (entitled?.offer as string | undefined) ?? null },
         subscriptions: (subscriptions.docs as unknown as Doc[]).map(publicSubscription),
-        api_keys: (keys.docs as unknown as Doc[]).map(publicKey),
+        api_keys: keys.map(publicKey),
         stripe: { mode: env.stripeMode },
         gateway: { key_issuance: env.gatewayKeyPepper !== null, max_keys: env.maxApiKeysPerUser },
       });
