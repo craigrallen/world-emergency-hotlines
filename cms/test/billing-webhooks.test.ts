@@ -7,6 +7,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { createHmac } from 'node:crypto';
 import { call, createUser, login, signEvent, startMockStripe, stripeEvent } from './helpers';
+import { INTERNAL_CONTEXT } from '../src/access';
 import { handleStripeEvent, periodEndOf } from '../src/lib/stripe';
 import { toGatewayRecord } from '../src/lib/gateway-keys';
 import { collectActiveKeys, exportableKeys, withEntitlement } from '../src/endpoints/gateway';
@@ -415,8 +416,18 @@ describe('managed API keys', () => {
     expect(exported.data.keys.find((record: { id: string }) => record.id === created.data.record.id)).toBeUndefined();
     expect(exported.data.keys.every((record: { state: string }) => record.state === 'active')).toBe(true);
     // The snapshot is assembled in keyset pages (one key per page here) and its capacity bound counts keys that evaluate as active, never stored history.
-    const paged = await collectActiveKeys(payload, 'test', { pageSize: 1 });
+    const originalFind = payload.find.bind(payload);
+    const pageSizes: number[] = [];
+    (payload as { find: typeof payload.find }).find = (async (args: Parameters<typeof payload.find>[0]) => {
+      const result = await originalFind(args as never);
+      if (args.collection === 'api-keys') pageSizes.push(result.docs.length);
+      return result;
+    }) as typeof payload.find;
+    let paged: Awaited<ReturnType<typeof collectActiveKeys>>;
+    try { paged = await collectActiveKeys(payload, 'test', { pageSize: 1 }); } finally { (payload as { find: typeof payload.find }).find = originalFind; }
     expect(paged.map((record) => record.id).sort()).toEqual(exported.data.keys.map((record: { id: string }) => record.id).sort());
+    expect(pageSizes.length).toBeGreaterThan(1); // walked more than one page
+    expect(pageSizes.every((size) => size <= 1)).toBe(true); // and every page was bounded by the page size
     await expect(collectActiveKeys(payload, 'test', { pageSize: 1, maxKeys: 0 })).rejects.toMatchObject({ code: 'snapshot_too_large' });
     const stillActive = second.data.record.id as string;
     const active = exported.data.keys.find((record: { id: string }) => record.id === stillActive);
@@ -525,6 +536,23 @@ describe('managed API keys', () => {
     expect((await payload.find({ collection: 'api-keys', where: { keyId: { equals: minted.data.record.id } }, overrideAccess: true, depth: 0 })).docs[0]).toMatchObject({ state: 'revoked', subscription: null });
     expect(await exportedKey()).toBeUndefined(); // revoked keys are not exported
     expect((await call('/cms/api/account/me', { token })).data.entitlement).toEqual({ active: true, offer: 'growth_monthly' }); // the account itself stays entitled through the cheaper plan
+  });
+
+  test('a usable plan is found behind many unconfigured active subscriptions', async () => {
+    const heavy = await createUser(payload, { email: 'heavy@example.test', password: PASSWORD });
+    const growthPlan = (await payload.find({ collection: 'plans', where: { offerId: { equals: 'growth_monthly' } }, overrideAccess: true, depth: 0 })).docs[0];
+    const base = { stripeCustomerId: 'cus_synthetic00000300', user: heavy.id, status: 'active', livemode: false, source: 'cms' };
+    // The oldest subscription is the only one on a configured plan; thirty newer ones sit on a price no plan is configured for.
+    const configured = await payload.create({ collection: 'subscriptions', data: { ...base, stripeSubscriptionId: 'sub_synthetic00000300', plan: growthPlan.id, offer: 'growth_monthly', stripePriceId: 'price_synthetic0001', lastEventCreated: 2145930000, lastSubscriptionEventCreated: 2145930000 } as never, overrideAccess: true, context: { ...INTERNAL_CONTEXT } });
+    for (let i = 1; i <= 30; i += 1) {
+      await payload.create({ collection: 'subscriptions', data: { ...base, stripeSubscriptionId: `sub_synthetic000003${String(i).padStart(2, '0')}`, plan: null, offer: null, stripePriceId: 'price_synthetic0098', lastEventCreated: 2145930000 + i, lastSubscriptionEventCreated: 2145930000 + i } as never, overrideAccess: true, context: { ...INTERNAL_CONTEXT } });
+    }
+    const token = await login('heavy@example.test', PASSWORD);
+    expect((await call('/cms/api/account/me', { token })).data.entitlement).toEqual({ active: true, offer: 'growth_monthly' });
+    const minted = await call('/cms/api/account/api-keys', { method: 'POST', token, body: { label: 'found behind the crowd' } });
+    expect(minted.status).toBe(201);
+    expect(minted.data.record).toMatchObject({ permissions: ['manifest', 'records'], quota: { rate: 2, burst: 20 } });
+    expect((await payload.find({ collection: 'api-keys', where: { keyId: { equals: minted.data.record.id } }, overrideAccess: true, depth: 0 })).docs[0].subscription).toBe(configured.id);
   });
 
   test('deleting an account deletes its managed keys in the same operation', async () => {

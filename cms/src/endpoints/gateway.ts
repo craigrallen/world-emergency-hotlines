@@ -131,7 +131,8 @@ export async function collectActiveKeys(payload: Payload, stripeMode: StripeMode
   let after: string | null = null;
   for (;;) {
     const where = after === null ? { state: { equals: 'active' } } : { and: [{ state: { equals: 'active' } }, { keyId: { greater_than: after } }] };
-    const result = await payload.find({ collection: 'api-keys', where: where as never, sort: 'keyId', limit: pageSize, pagination: false, depth: 0, overrideAccess: true });
+    // Pagination stays enabled so `limit` bounds every page whatever the adapter's `pagination: false` semantics.
+    const result = await payload.find({ collection: 'api-keys', where: where as never, sort: 'keyId', limit: pageSize, page: 1, depth: 0, overrideAccess: true });
     const page = result.docs as unknown as Doc[];
     if (page.length === 0) break;
     const docs = exportableKeys(page, stripeMode);

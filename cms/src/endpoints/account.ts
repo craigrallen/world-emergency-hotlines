@@ -16,26 +16,33 @@ export const INACTIVE_KEY_HISTORY = 50;
 const relationId = (value: unknown): string | number | null => (typeof value === 'string' || typeof value === 'number' ? value : value && typeof value === 'object' && 'id' in value ? (value as { id: string | number }).id : null);
 
 /**
- * The user's active subscriptions in this billing mode (newest first) and, among them, the
- * one that grants API keys: the newest whose plan resolves to a gateway policy. An active
- * subscription on an unconfigured price, or one that lost its plan, therefore never blocks
- * an account that is entitled through another subscription; with no usable policy anywhere
- * `granting` is null. Only the granting subscription's plan decides a key's permissions and quota.
+ * The user's newest active subscription in this billing mode (null when there is none) and
+ * the one that grants API keys: the newest whose plan resolves to a gateway policy, found by
+ * walking every active subscription page by page, newest first, until one qualifies. An
+ * active subscription on an unconfigured price, or one that lost its plan, therefore never
+ * blocks an account that is entitled through another subscription, however many sit in
+ * front of it; with no usable policy anywhere `granting` is null. Only the granting
+ * subscription's plan decides a key's permissions and quota.
  */
-async function entitlingSubscriptions(payload: Payload, userId: string | number, livemode: boolean | null, req?: PayloadRequest): Promise<{ active: Doc[]; granting: { subscription: Doc; plan: Doc; policy: GatewayPolicy } | null }> {
-  const active = await activeSubscriptionsFor(payload, userId, livemode, req);
-  const planIds = [...new Map(active.map((sub) => relationId(sub.plan)).filter((id): id is string | number => id !== null).map((id) => [String(id), id])).values()];
-  const plans = new Map<string, Doc>();
-  if (planIds.length) {
-    const found = await payload.find({ collection: 'plans', where: { id: { in: planIds } }, limit: planIds.length, depth: 0, overrideAccess: true, req });
-    for (const plan of found.docs as unknown as Doc[]) plans.set(String(plan.id), plan);
+async function entitlingSubscriptions(payload: Payload, userId: string | number, livemode: boolean | null, req?: PayloadRequest): Promise<{ newest: Doc | null; granting: { subscription: Doc; plan: Doc; policy: GatewayPolicy } | null }> {
+  let newest: Doc | null = null;
+  for (let page = 1; ; page += 1) {
+    const { docs, hasNextPage } = await activeSubscriptionsFor(payload, userId, livemode, req, { page });
+    if (page === 1) newest = docs[0] ?? null;
+    const planIds = [...new Map(docs.map((sub) => relationId(sub.plan)).filter((id): id is string | number => id !== null).map((id) => [String(id), id])).values()];
+    const plans = new Map<string, Doc>();
+    if (planIds.length) {
+      const found = await payload.find({ collection: 'plans', where: { id: { in: planIds } }, limit: planIds.length, depth: 0, overrideAccess: true, req });
+      for (const plan of found.docs as unknown as Doc[]) plans.set(String(plan.id), plan);
+    }
+    for (const subscription of docs) {
+      const plan = plans.get(String(relationId(subscription.plan)));
+      const policy = policyOf(plan);
+      if (plan && policy) return { newest, granting: { subscription, plan, policy } };
+    }
+    if (!hasNextPage || docs.length === 0) break;
   }
-  for (const subscription of active) {
-    const plan = plans.get(String(relationId(subscription.plan)));
-    const policy = policyOf(plan);
-    if (plan && policy) return { active, granting: { subscription, plan, policy } };
-  }
-  return { active, granting: null };
+  return { newest, granting: null };
 }
 
 const publicPlan = (plan: Doc) => ({ id: plan.offerId, label: plan.label, description: plan.description ?? '', mode: plan.mode });
@@ -108,7 +115,7 @@ export const accountEndpoints: Endpoint[] = [
       ]);
       const keys = { docs: [...activeKeys.docs, ...inactiveKeys.docs] };
       // Entitlement is shown through the subscription that can grant keys; failing that, the newest active one.
-      const active = entitling.granting?.subscription ?? entitling.active[0] ?? null;
+      const active = entitling.granting?.subscription ?? entitling.newest;
       return json(req, 200, {
         user: { id: user.id, email: user.email, name: user.name ?? null, role: user.role, verified: user._verified !== false, created_at: user.createdAt ?? null, billing_customer_linked: typeof user.stripeCustomerId === 'string' && user.stripeCustomerId.length > 0 },
         entitlement: { active: active !== null, offer: (active?.offer as string | undefined) ?? null },
@@ -184,8 +191,8 @@ export const accountEndpoints: Endpoint[] = [
       // user's row locked, so concurrent requests cannot exceed the per-user limit.
       const record = await inTransaction(req.payload, undefined, async (tx) => {
         await lockRow(req.payload, tx, 'users', 'id', user.id);
-        const { active, granting } = await entitlingSubscriptions(req.payload, user.id, env.stripeMode === 'disabled' ? null : env.stripeMode === 'live', tx);
-        if (active.length === 0) throw new EndpointError('no_entitlement');
+        const { newest, granting } = await entitlingSubscriptions(req.payload, user.id, env.stripeMode === 'disabled' ? null : env.stripeMode === 'live', tx);
+        if (!newest) throw new EndpointError('no_entitlement');
         const existing = await req.payload.count({ collection: 'api-keys', where: { and: [{ user: { equals: user.id } }, { state: { equals: 'active' } }] }, overrideAccess: true, req: tx });
         if (existing.totalDocs >= env.maxApiKeysPerUser) throw new EndpointError('key_limit');
         // The key's policy comes only from the plan attached to the granting subscription (the newest
