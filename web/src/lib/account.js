@@ -194,9 +194,13 @@ function renderSignedIn(root, status, me) {
     : me.entitlement.active ? `Up to ${me.gateway?.max_keys ?? 5} active keys. Keys authenticate against the managed API gateway only; every free static surface stays keyless.` : 'An active subscription is required before a key can be issued.';
 }
 
-async function refresh(root, status) {
+async function refresh(root, status, { preserveViewOnFailure = false } = {}) {
   const me = await api(ENDPOINTS.me);
   if (me.ok && me.data?.user) { renderSignedIn(root, status, me.data); setView(root, 'signed-in'); return true; }
+  // A caller showing something the member still needs (a just-revealed one-time key) asks to keep the current view
+  // exactly as it is on any failure here: setView would otherwise navigate away and, since a view change other than
+  // signed-in clears the reveal, destroy the member's only chance to copy a key that was already minted and counted.
+  if (preserveViewOnFailure) return false;
   if (me.status === 503) { setEnabled(root, false); setView(root, 'disabled'); return false; }
   setView(root, 'signed-out');
   return false;
@@ -258,7 +262,10 @@ function bindForms(root, status) {
     const reveal = root.querySelector('[data-account-key-reveal]');
     reveal.hidden = false;
     reveal.querySelector('code').textContent = result.data.key;
-    await refresh(root, status);
+    // The key is already minted and counts toward the limit: a failure here must never clear the reveal above, so
+    // the member keeps their only practical chance to copy it even if the list of keys does not update.
+    const refreshed = await refresh(root, status, { preserveViewOnFailure: true });
+    if (!refreshed) flash(root, 'Key created. The account view could not refresh; copy the key above, then reload the page.', 'info');
   });
   root.querySelector('[data-account-portal]')?.addEventListener('click', async (event) => {
     event.currentTarget.disabled = true;
@@ -305,25 +312,34 @@ export async function mountAccountPage(root) {
 export async function mountVerifyPage(root) {
   if (!root) return;
   const output = root.querySelector('[data-verify-result]');
-  const token = new URL(window.location.href).searchParams.get('token');
-  history.replaceState({}, '', window.location.pathname);
+  const url = new URL(window.location.href);
+  const token = url.searchParams.get('token');
+  const scrub = () => history.replaceState({}, '', url.pathname);
+  if (!token || !/^[A-Za-z0-9_-]{16,256}$/.test(token)) { scrub(); setView(root, 'result'); output.textContent = 'This verification link is incomplete. Open the link from your email again.'; return; }
+  // The token stays in the address bar until a terminal outcome (consumed, or definitively invalid): a probe or
+  // verification failure that is only transient (network hiccup, an unreachable CMS) then still has a working token to
+  // retry with a reload, instead of one that was already discarded before it was used.
   const status = await fetchStatus();
   if (!status.enabled) { setView(root, 'disabled'); return; }
   setView(root, 'result');
-  if (!token || !/^[A-Za-z0-9_-]{16,256}$/.test(token)) { output.textContent = 'This verification link is incomplete. Open the link from your email again.'; return; }
   const result = await api(`${ENDPOINTS.verify}/${encodeURIComponent(token)}`, { method: 'POST' });
   if (result.ok) { window.location.replace('/account?verified=1'); return; }
-  output.textContent = result.status === 400 ? 'This verification link is invalid or has already been used.' : errorMessage(result);
+  if (result.status === 400) { scrub(); output.textContent = 'This verification link is invalid or has already been used.'; return; }
+  output.textContent = `${errorMessage(result)} Reload this page to try again.`;
 }
 
 /** Entry point for /account/reset-password?token=… */
 export async function mountResetPage(root) {
   if (!root) return;
-  const token = new URL(window.location.href).searchParams.get('token');
-  history.replaceState({}, '', window.location.pathname);
+  const url = new URL(window.location.href);
+  const token = url.searchParams.get('token');
+  if (!token || !/^[A-Za-z0-9_-]{16,256}$/.test(token)) { history.replaceState({}, '', url.pathname); setView(root, 'disabled'); flash(root, 'This reset link is incomplete. Request a new one from the account page.', 'error'); return; }
+  // The token stays in the address bar until the form actually renders: a status-probe failure that is only
+  // transient still has a working token in the URL for a reload to retry, instead of one already discarded before
+  // the form (whose own resubmission is the retry path from here on) ever appeared.
   const status = await fetchStatus();
   if (!status.enabled) { setEnabled(root, false); setView(root, 'disabled'); return; }
-  if (!token || !/^[A-Za-z0-9_-]{16,256}$/.test(token)) { setView(root, 'disabled'); flash(root, 'This reset link is incomplete. Request a new one from the account page.', 'error'); return; }
+  history.replaceState({}, '', url.pathname);
   setEnabled(root, true);
   setView(root, 'form');
   root.querySelector('[data-reset-form]').addEventListener('submit', async (event) => {
