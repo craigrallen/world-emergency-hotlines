@@ -171,6 +171,31 @@ test('same-second events are reconciled from Stripe\'s current object instead of
   assert.equal((await store.getEntitlement('cs:cs_test_synthetic00000001')).status, 'complete', 'the fetched session, not the tied payload, is stored');
 });
 
+test('a reconciled snapshot fetched before another replica\'s equal-epoch write cannot overwrite it', async () => {
+  const base = createMemoryStore();
+  const at = 2145917700;
+  const lifecycle = (id, status) => { const event = load('customer.subscription.updated'); event.id = id; event.created = at; event.data.object.status = status; return event; };
+  assert.equal((await dispatchEvent(lifecycle('evt_synthetic00000060', 'active'), { store: base, offers })).outcome, 'processed');
+  // Replica A: reads the record, reconciles (Stripe still says active), then stalls before writing.
+  let gate = null;
+  const fetches = [];
+  const stalled = { ...base, async putEntitlement(record) { if (gate) { const wait = gate; gate = null; await wait; } return base.putEntitlement(record); } };
+  const fetchA = async () => { fetches.push('A'); return fetches.length === 1 ? { ...lifecycle('x', 'active').data.object } : { ...lifecycle('x', 'canceled').data.object }; };
+  let release;
+  gate = new Promise((ok) => { release = ok; });
+  const slow = dispatchEvent(lifecycle('evt_synthetic00000061', 'active'), { store: stalled, offers, fetchObject: fetchA });
+  await new Promise((ok) => setTimeout(ok, 0));
+  // Replica B: same second, reconciles to the later truth (canceled) and writes it first.
+  assert.equal((await dispatchEvent(lifecycle('evt_synthetic00000062', 'canceled'), { store: base, offers, fetchObject: async () => ({ ...lifecycle('x', 'canceled').data.object }) })).outcome, 'processed');
+  assert.equal((await base.getEntitlement('sub:sub_synthetic00000001')).status, 'canceled');
+  release();
+  assert.equal((await slow).outcome, 'processed', 'A\'s stale write was refused; it re-read, re-reconciled, and applied the current truth');
+  const final = await base.getEntitlement('sub:sub_synthetic00000001');
+  assert.equal(final.status, 'canceled', 'the older active snapshot never overwrote the cancellation');
+  assert.equal(final.revision, 3);
+  assert.deepEqual(fetches, ['A', 'A'], 'A fetched again after the conflict instead of reusing its stale snapshot');
+});
+
 test('unhandled, malformed, and unlinked events are ignored explicitly', async () => {
   const store = createMemoryStore();
   const other = load('checkout.session.completed'); other.type = 'charge.succeeded';

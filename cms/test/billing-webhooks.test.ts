@@ -270,7 +270,7 @@ describe('payments-service store contract (service API key)', () => {
     const created = await call('/cms/api/entitlements?depth=0', { method: 'POST', apiKey: service.apiKey, origin: null, body: document });
     expect(created.status).toBe(201);
     const readBack = await call('/cms/api/entitlements?where[key][equals]=sub:sub_synthetic00000002&limit=1&depth=0', { apiKey: service.apiKey, origin: null });
-    expect(readBack.data.docs[0].record).toEqual(record);
+    expect(readBack.data.docs[0].record).toEqual({ ...record, revision: 1 }); // the CMS stamps a revision on every write
     for (let i = 0; i < 50 && (await payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: 'sub_synthetic00000002' } }, overrideAccess: true })).totalDocs === 0; i += 1) await wait(50);
     const mirrored = (await payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: 'sub_synthetic00000002' } }, overrideAccess: true, depth: 0 })).docs[0];
     expect(mirrored).toMatchObject({ user: await buyerId(), offer: 'growth_monthly', status: 'active', cancelAtPeriodEnd: true, source: 'payments', lastEventId: 'evt_payments00000003', lastEventCreated: 2145917000 });
@@ -297,8 +297,17 @@ describe('payments-service store contract (service API key)', () => {
     const dropped = await call(`/cms/api/entitlements/${created.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: document({ ...withoutFamily, status: 'canceled' } as typeof record) });
     expect(dropped.status).toBe(409);
     const stored = await call('/cms/api/entitlements?where[key][equals]=sub:sub_synthetic00000004&limit=1&depth=0', { apiKey: service.apiKey, origin: null });
-    expect(stored.data.docs[0].record).toEqual(record);
+    expect(stored.data.docs[0].record).toEqual({ ...record, revision: 1 });
     expect((await mirrored()).status).toBe('active');
+    // Compare-and-swap: a newer-epoch write built from a stale read (revision 0, stored is 1) is refused; the same write naming revision 1 applies.
+    const staleRead = { ...record, status: 'canceled', subscription_event_epoch: 2145918050, updated_at_epoch: 2145918050, based_on_revision: 0 };
+    expect((await call(`/cms/api/entitlements/${created.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: document(staleRead as typeof record) })).status).toBe(409);
+    expect((await mirrored()).status).toBe('active');
+    const currentRead = await call(`/cms/api/entitlements/${created.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: document({ ...staleRead, based_on_revision: 1 } as typeof record) });
+    expect(currentRead.status).toBe(200);
+    expect(currentRead.data.doc.record.revision).toBe(2);
+    expect(currentRead.data.doc.record.based_on_revision).toBeUndefined();
+    expect((await mirrored()).status).toBe('canceled');
     // Equal or newer epochs are accepted (and mirrored).
     const newer = { ...record, status: 'canceled', subscription_event_epoch: 2145918100, updated_at_epoch: 2145918100, source_event: 'evt_payments00000012' };
     const accepted = await call(`/cms/api/entitlements/${created.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: document(newer) });
@@ -390,10 +399,10 @@ describe('managed API keys', () => {
       { state: 'active', livemode: false, user: 7, subscription: 10 }, // granting subscription canceled: revoked although the account still has test:7
       { state: 'active', livemode: true, user: 7, subscription: 9 }, // billing mode of the key and its subscription must agree
       { state: 'active', livemode: false, user: 7, subscription: 11 }, // granting subscription deleted
-      { state: 'active', livemode: false, user: 7, subscription: 12, permissions: ['records'], quotaRate: 2, quotaBurst: 20 }, // plan without a gateway policy keeps the stored one
+      { state: 'active', livemode: false, user: 7, subscription: 12, permissions: ['records'], quotaRate: 2, quotaBurst: 20 }, // granting subscription's plan is gone: no policy, no grant
       { state: 'revoked', livemode: false, user: 7, subscription: 9 },
     ], bound)).toMatchObject([
-      { state: 'active', permissions: ['manifest'], quotaRate: 5, quotaBurst: 50 }, { state: 'revoked' }, { state: 'revoked' }, { state: 'revoked' }, { state: 'active', permissions: ['records'], quotaRate: 2, quotaBurst: 20 }, { state: 'revoked' },
+      { state: 'active', permissions: ['manifest'], quotaRate: 5, quotaBurst: 50 }, { state: 'revoked' }, { state: 'revoked' }, { state: 'revoked' }, { state: 'revoked' }, { state: 'revoked' },
     ]);
     const memberExport = await call('/cms/api/gateway/keys', { token });
     expect(memberExport.status).toBe(403);
@@ -459,6 +468,19 @@ describe('managed API keys', () => {
     expect(listed.filter((key) => key.state === 'active').map((key) => key.id).sort()).toEqual(['hoard0000000', 'hoard0000001', 'hoard0000002']);
     expect(listed.filter((key) => key.state === 'revoked')).toHaveLength(50);
     expect(listed).toHaveLength(53);
+  });
+
+  test('a subscription without a resolvable plan policy cannot mint a key', async () => {
+    const planless = await createUser(payload, { email: 'planless@example.test', password: PASSWORD });
+    // Active subscription on a price no plan maps to, with no offer metadata: entitled to nothing in particular.
+    const unknownPrice = subscription('sub_synthetic00000014', { customer: 'cus_synthetic00000014', metadata: { cms_user: String(planless.id) }, items: { object: 'list', data: [{ id: 'si_synthetic0014', object: 'subscription_item', current_period_end: 2148595200, price: { id: 'price_synthetic0099', object: 'price' } }] } });
+    expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.created', unknownPrice, { created: 2145916800 }) as never)).toBe('processed');
+    const token = await login('planless@example.test', PASSWORD);
+    expect((await call('/cms/api/account/me', { token })).data.entitlement.active).toBe(true);
+    const refused = await call('/cms/api/account/api-keys', { method: 'POST', token, body: {} });
+    expect(refused.status).toBe(409);
+    expect(refused.data.error.code).toBe('plan_unconfigured');
+    expect((await payload.count({ collection: 'api-keys', where: { user: { equals: planless.id } }, overrideAccess: true })).totalDocs).toBe(0);
   });
 
   test('no entitlement, no key', async () => {

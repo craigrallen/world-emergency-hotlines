@@ -22,15 +22,23 @@ export function reloadSecondsFrom(value) {
   return seconds;
 }
 
-export function createKeyReloader({ gateway, configPath, intervalMs = DEFAULT_RELOAD_SECONDS * 1000, log = () => {}, readFile = readFileSync } = {}) {
+/** Identity of the file on disk (inode, size, mtime), or null when it cannot be read. Take it before reading a config so a rewrite during startup is detected. */
+export function fileFingerprint(path) {
+  try { const s = statSync(path); return `${s.ino}:${s.size}:${s.mtimeMs}`; } catch { return null; }
+}
+
+export function createKeyReloader({ gateway, configPath, intervalMs = DEFAULT_RELOAD_SECONDS * 1000, log = () => {}, readFile = readFileSync, loadedFingerprint } = {}) {
   if (!gateway || typeof gateway.reloadKeys !== 'function') throw new Error('key reloader requires a gateway');
   if (typeof configPath !== 'string' || configPath.length === 0) throw new Error('key reloader requires a config path');
   if (!Number.isInteger(intervalMs) || intervalMs < 0 || intervalMs > MAX_RELOAD_SECONDS * 1000) throw new Error('key reloader interval out of range');
   if (typeof log !== 'function') throw new Error('key reloader requires a log function');
   if (typeof readFile !== 'function') throw new Error('key reloader requires a readFile function');
 
-  const fingerprint = () => { try { const s = statSync(configPath); return `${s.ino}:${s.size}:${s.mtimeMs}`; } catch { return null; } };
-  let last = fingerprint();
+  if (loadedFingerprint !== undefined && loadedFingerprint !== null && typeof loadedFingerprint !== 'string') throw new Error('key reloader loadedFingerprint must be a string or null');
+  const fingerprint = () => fileFingerprint(configPath);
+  // `loadedFingerprint` is the identity the running keys were loaded from; when the file was
+  // rewritten between that read and this point, the first poll sees a change and reloads.
+  let last = loadedFingerprint === undefined ? fingerprint() : loadedFingerprint;
   let timer = null;
 
   /**

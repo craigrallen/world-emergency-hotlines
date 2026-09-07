@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import { createKey, verifier } from './security.mjs';
 import { createGateway } from './gateway.mjs';
 import { CmsKeysError, syncKeysIntoConfig } from './cms-keys.mjs';
-import { createKeyReloader, reloadSecondsFrom } from './reload.mjs';
+import { createKeyReloader, fileFingerprint, reloadSecondsFrom } from './reload.mjs';
 const [command,...args]=process.argv.slice(2);
 if(command==='create-key'){
   const test=args.includes('--test-only'); const pepper=process.env.GATEWAY_PEPPER; if(typeof pepper!=='string'||pepper.length<(test?16:32)) throw new Error('GATEWAY_PEPPER is required and too short');
@@ -13,11 +13,14 @@ if(command==='create-key'){
   try {
     if(typeof process.env.GATEWAY_CONFIG!=='string'||typeof process.env.GATEWAY_PEPPER!=='string')throw new Error();
     const reloadSeconds=reloadSecondsFrom(process.env.GATEWAY_KEYS_RELOAD_SECONDS);
+    const loadedFingerprint=fileFingerprint(process.env.GATEWAY_CONFIG);
     const config=JSON.parse(readFileSync(process.env.GATEWAY_CONFIG,'utf8'));config.pepper=process.env.GATEWAY_PEPPER;
     const gateway=createGateway(config);await gateway.listen();
     // Key records follow GATEWAY_CONFIG while running: sync-keys rewrites the file, and it is re-read every
-    // GATEWAY_KEYS_RELOAD_SECONDS (default 30; 0 disables polling) and on SIGHUP. Counts only are logged.
-    const reloader=createKeyReloader({gateway,configPath:process.env.GATEWAY_CONFIG,intervalMs:reloadSeconds*1000,log:(event)=>console.log(JSON.stringify(event))});reloader.start();
+    // GATEWAY_KEYS_RELOAD_SECONDS (default 30; 0 disables polling) and on SIGHUP. The watcher starts from the
+    // identity of the file the keys were loaded from and checks once immediately, so a rewrite that landed
+    // during startup is applied straight away. Counts only are logged.
+    const reloader=createKeyReloader({gateway,configPath:process.env.GATEWAY_CONFIG,intervalMs:reloadSeconds*1000,log:(event)=>console.log(JSON.stringify(event)),loadedFingerprint});reloader.start();reloader.check();
     process.on('SIGHUP',()=>{reloader.check(true);});
     console.log(JSON.stringify({event:'gateway_started',address:gateway.server.address().address,port:gateway.server.address().port,keys:gateway.keyCount,keys_reload_seconds:reloadSeconds}));
     for(const signal of ['SIGINT','SIGTERM'])process.once(signal,async()=>{reloader.stop();try{await gateway.close();process.exit(0);}catch{process.exit(1);}});

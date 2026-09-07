@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { CLAIM_GRACE_SECONDS, CLAIM_RESULTS, STORE_METHODS, createMemoryStore, validateStore } from '../src/store.mjs';
+import { CLAIM_GRACE_SECONDS, CLAIM_RESULTS, STORE_METHODS, createMemoryStore, isStoreConflict, revisionMismatch, revisionOf, validateStore } from '../src/store.mjs';
 
 test('memory store claims events once, distinguishes in-progress from completed claims, takes over abandoned ones, and stays bounded', async () => {
   let clock = 1_700_000_000_000;
@@ -30,7 +30,15 @@ test('entitlements are frozen, keyed, replaced in place, and bounded', async () 
   const store = createMemoryStore({ maxEntitlements: 2 });
   const first = await store.putEntitlement({ key: 'sub:1', status: 'active' });
   assert.ok(Object.isFrozen(first));
-  assert.deepEqual(await store.getEntitlement('sub:1'), { key: 'sub:1', status: 'active' });
+  assert.deepEqual(await store.getEntitlement('sub:1'), { key: 'sub:1', status: 'active', revision: 1 }, 'every stored record carries the revision the store stamped');
+  // Compare-and-swap: a write built from a stale read is refused; one built from the current revision applies and bumps it.
+  await assert.rejects(store.putEntitlement({ key: 'sub:1', status: 'canceled', based_on_revision: 0 }), isStoreConflict);
+  assert.equal((await store.getEntitlement('sub:1')).status, 'active');
+  assert.deepEqual(await store.putEntitlement({ key: 'sub:1', status: 'canceled', based_on_revision: 1 }), { key: 'sub:1', status: 'canceled', revision: 2 });
+  assert.equal(revisionMismatch({ revision: 2 }, { based_on_revision: 1 }), true);
+  assert.equal(revisionMismatch({ revision: 2 }, { status: 'x' }), false, 'writes without based_on_revision are unconditional');
+  assert.equal(revisionMismatch(null, { based_on_revision: 0 }), false);
+  assert.equal(revisionOf(null), 0);
   await store.putEntitlement({ key: 'sub:2', status: 'active' });
   await store.putEntitlement({ key: 'sub:1', status: 'canceled' });
   await store.putEntitlement({ key: 'sub:3', status: 'active' });

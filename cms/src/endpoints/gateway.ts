@@ -76,7 +76,8 @@ export function policyOf(plan: Doc | undefined): GatewayPolicy | null {
  * `revoked`, and it returns to `active` at the next sync if the subscription
  * recovers. Its permissions and quota follow the plan currently attached to that
  * subscription, so a downgrade or upgrade moves the key's policy with it and a
- * key minted on a higher tier cannot outlive that tier on a cheaper subscription.
+ * key minted on a higher tier cannot outlive that tier on a cheaper subscription;
+ * a subscription whose plan no longer resolves to a policy grants nothing.
  * Keys created by an admin without a granting subscription fall back to the
  * account's entitlement in the key's billing mode; a key minted from the account
  * page whose granting subscription no longer exists (deleted, relation cleared) is
@@ -89,8 +90,9 @@ export function withEntitlement<T extends Doc>(keys: T[], context: EntitlementCo
     if (granted !== null) {
       const subscription = context.subscriptions.get(String(granted));
       const active = subscription !== undefined && (ACTIVE_STATUSES as readonly string[]).includes(String(subscription.status)) && (subscription.livemode === true) === (key.livemode === true);
+      // No resolvable plan policy (plan deleted, price unknown) means no grant: the key is exported revoked rather than with its copied policy.
       const policy = subscription ? policyOf(context.plans.get(String(rawId(subscription.plan)))) : null;
-      return { ...key, ...(policy ?? {}), state: key.state === 'active' && !active ? 'revoked' : key.state };
+      return { ...key, ...(policy ?? {}), state: key.state === 'active' && (!active || !policy) ? 'revoked' : key.state };
     }
     const user = relationId(key.user);
     if (key.state !== 'active' || (user && context.entitled.has(entitlementKey(key.livemode, user)))) return key;

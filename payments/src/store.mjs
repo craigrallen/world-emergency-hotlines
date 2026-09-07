@@ -15,8 +15,11 @@
 // - releaseEvent(id) drops a claim after a failed apply (best effort).
 // - putEntitlement must refuse, with a conflict error (`code` STORE_CONFLICT), a
 //   record that would move any event family's `<family>_event_epoch` backwards
-//   relative to what is stored, atomically with the write. events.mjs re-reads
-//   and re-applies on conflict, so two replicas can never resurrect older state.
+//   relative to what is stored, or whose `based_on_revision` is not the stored
+//   record's `revision` (compare-and-swap against the record the writer read),
+//   atomically with the write; every stored record carries a `revision` that the
+//   store increments on each write. events.mjs re-reads and re-applies on
+//   conflict, so two replicas can never resurrect older state, even at equal epochs.
 
 import { plain } from './validation.mjs';
 
@@ -54,6 +57,19 @@ export function regressedFamily(stored, incoming) {
   return null;
 }
 
+/** The stored record's revision (0 for none). */
+export const revisionOf = (record) => (plain(record) && Number.isInteger(record.revision) && record.revision >= 0 ? record.revision : 0);
+
+/**
+ * True when `incoming` was built from a different version of the record than the
+ * one stored: it names the revision it read (`based_on_revision`) and that is not
+ * the stored revision. Writes without `based_on_revision` are unconditional.
+ */
+export function revisionMismatch(stored, incoming) {
+  if (!plain(incoming) || !Number.isInteger(incoming.based_on_revision)) return false;
+  return incoming.based_on_revision !== revisionOf(stored);
+}
+
 export function validateStore(store) {
   return store !== null && typeof store === 'object' && STORE_METHODS.every((name) => typeof store[name] === 'function');
 }
@@ -84,10 +100,13 @@ export function createMemoryStore({ maxEvents = 10000, maxEntitlements = 10000, 
     async getEntitlement(key) { return entitlements.get(key) ?? null; },
     async putEntitlement(record) {
       if (!plain(record) || typeof record.key !== 'string' || record.key.length === 0 || record.key.length > 160) throw new TypeError('entitlement record requires a key');
-      const frozen = Object.freeze({ ...record });
-      // Synchronous from here on, so the check and the write cannot interleave with another request.
-      const family = regressedFamily(entitlements.get(frozen.key), frozen);
-      if (family) throw new StoreConflictError(frozen.key, family);
+      // Synchronous from here on, so the checks and the write cannot interleave with another request.
+      const current = entitlements.get(record.key);
+      const family = regressedFamily(current, record);
+      if (family) throw new StoreConflictError(record.key, family);
+      if (revisionMismatch(current, record)) throw new StoreConflictError(record.key, 'revision');
+      const { based_on_revision: _read, ...rest } = record;
+      const frozen = Object.freeze({ ...rest, revision: revisionOf(current) + 1 });
       entitlements.delete(frozen.key);
       entitlements.set(frozen.key, frozen);
       evict(entitlements, maxEntitlements);

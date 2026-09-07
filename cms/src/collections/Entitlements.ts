@@ -11,6 +11,16 @@ export const STALE_RECORD = 'stale_record';
  * one `<family>_event_epoch` per family (payments/src/events.mjs), so a writer that
  * read the record before another replica advanced it is detected here.
  */
+/** The stored record's revision (0 for none); every write stamps the next one. */
+export const revisionOf = (record: unknown): number => (record && typeof record === 'object' && Number.isInteger((record as Record<string, unknown>).revision) && ((record as Record<string, number>).revision >= 0) ? (record as Record<string, number>).revision : 0);
+
+/** True when the incoming record names the revision it was built from and that is not the stored one. */
+export function revisionMismatch(stored: unknown, incoming: unknown): boolean {
+  if (!incoming || typeof incoming !== 'object') return false;
+  const basedOn = (incoming as Record<string, unknown>).based_on_revision;
+  return Number.isInteger(basedOn) && basedOn !== revisionOf(stored);
+}
+
 export function regressedFamily(stored: unknown, incoming: unknown): EventFamily | null {
   if (!stored || typeof stored !== 'object' || !incoming || typeof incoming !== 'object') return null;
   for (const family of EVENT_FAMILIES) {
@@ -26,8 +36,8 @@ export function regressedFamily(stored: unknown, incoming: unknown): EventFamily
 /**
  * Durable store for the payments service (`payments/src/cms-store.mjs`). One document
  * per store key (`cs:<checkout session>` or `sub:<subscription>`). Structured columns
- * make the admin useful; `record` keeps the exact payments-service record so the
- * store contract round-trips byte-for-byte.
+ * make the admin useful; `record` keeps the payments-service record (plus a
+ * `revision` stamped here on every write) so the store contract round-trips.
  */
 export const Entitlements: CollectionConfig = {
   slug: 'entitlements',
@@ -53,7 +63,7 @@ export const Entitlements: CollectionConfig = {
     { name: 'updatedAtEpoch', type: 'number' },
     { name: 'sourceEvent', type: 'text', maxLength: 200 },
     { name: 'source', type: 'text', required: true, defaultValue: 'payments', maxLength: 32 },
-    { name: 'record', type: 'json', required: true, admin: { description: 'Exact record as written by the payments service store contract.' } },
+    { name: 'record', type: 'json', required: true, admin: { description: 'Record as written by the payments service store contract, plus the `revision` this collection stamps on every write.' } },
   ],
   hooks: {
     beforeChange: [
@@ -63,14 +73,23 @@ export const Entitlements: CollectionConfig = {
       // is re-read under the row lock (Postgres `SELECT … FOR UPDATE`; SQLite
       // serialises writers itself) because `originalDoc` predates the lock. A
       // regression is refused with 409 and the payments service re-reads and retries.
+      // Every write also names the revision it was built from (`based_on_revision`); if
+      // the stored record moved on since that read, even at an equal epoch, the write is
+      // refused and the writer re-reads (compare-and-swap). The stored record carries the
+      // next `revision` after every write.
       async ({ data, operation, originalDoc, req }) => {
-        if (operation !== 'update' || !data || data.record === undefined) return data;
+        if (!data || data.record === undefined || !data.record || typeof data.record !== 'object') return data;
+        const incoming = data.record as Record<string, unknown>;
+        const { based_on_revision: _read, ...rest } = incoming;
+        if (operation !== 'update') { data.record = { ...rest, revision: 1 }; return data; }
         const key = (data.key as string | undefined) ?? (originalDoc?.key as string | undefined);
         if (typeof key !== 'string') return data;
         await lockRow(req.payload, req, 'entitlements', 'key', key);
-        const current = await req.payload.find({ collection: 'entitlements', where: { key: { equals: key } }, limit: 1, depth: 0, overrideAccess: true, req });
-        const family = regressedFamily(current.docs[0]?.record, data.record);
+        const current = (await req.payload.find({ collection: 'entitlements', where: { key: { equals: key } }, limit: 1, depth: 0, overrideAccess: true, req })).docs[0];
+        const family = regressedFamily(current?.record, incoming);
         if (family) throw new APIError(`entitlement ${key} already carries a newer ${family} event; re-read and retry`, 409, { code: STALE_RECORD, family }, true);
+        if (revisionMismatch(current?.record, incoming)) throw new APIError(`entitlement ${key} changed since it was read; re-read and retry`, 409, { code: STALE_RECORD, family: 'revision' }, true);
+        data.record = { ...rest, revision: revisionOf(current?.record) + 1 };
         return data;
       },
     ],

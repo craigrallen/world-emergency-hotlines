@@ -6,6 +6,7 @@ import { describeEnv, getEnv } from '../env';
 import { createGatewayKey } from '../lib/gateway-keys';
 import { EndpointError, fail, guarded, json, readJsonBody } from '../lib/responses';
 import { CHECKOUT_ORIGIN, PORTAL_ORIGIN, getStripe } from '../lib/stripe';
+import { policyOf } from './gateway';
 import { activeSubscriptionFor, inTransaction, lockRow } from '../lib/subscriptions';
 
 type Doc = Record<string, unknown> & { id: string | number };
@@ -160,15 +161,19 @@ export const accountEndpoints: Endpoint[] = [
         if (!active) throw new EndpointError('no_entitlement');
         const existing = await req.payload.count({ collection: 'api-keys', where: { and: [{ user: { equals: user.id } }, { state: { equals: 'active' } }] }, overrideAccess: true, req: tx });
         if (existing.totalDocs >= env.maxApiKeysPerUser) throw new EndpointError('key_limit');
+        // The key's policy comes only from the plan attached to the entitling subscription. A
+        // subscription without a resolvable plan (deleted plan, unknown price) grants nothing:
+        // there is no default policy to fall back to.
         const planId = active.plan && typeof active.plan === 'object' ? (active.plan as unknown as Doc).id : (active.plan as string | number | null);
         const plan = planId ? ((await req.payload.findByID({ collection: 'plans', id: planId, depth: 0, overrideAccess: true, disableErrors: true, req: tx })) as unknown as Doc | null) : null;
-        const gateway = (plan?.gateway ?? {}) as { permissions?: string[]; quotaRate?: number; quotaBurst?: number };
+        const policy = policyOf(plan ?? undefined);
+        if (!policy) throw new EndpointError('plan_unconfigured');
         return (await req.payload.create({
           collection: 'api-keys',
           data: {
             keyId: key.id, verifier: key.verifier, user: user.id as number, subscription: active.id as number, issuedBy: 'account', label, state: 'active', livemode: active.livemode === true,
-            permissions: (gateway.permissions?.length ? gateway.permissions : ['manifest', 'records', 'resolver']) as ('manifest' | 'records' | 'resolver')[],
-            quotaRate: gateway.quotaRate ?? 1, quotaBurst: gateway.quotaBurst ?? 10,
+            permissions: policy.permissions as ('manifest' | 'records' | 'resolver')[],
+            quotaRate: policy.quotaRate, quotaBurst: policy.quotaBurst,
           },
           depth: 0, overrideAccess: true, context: { ...INTERNAL_CONTEXT }, req: tx,
         })) as unknown as Doc;

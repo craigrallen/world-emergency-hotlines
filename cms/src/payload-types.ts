@@ -300,7 +300,7 @@ export interface Entitlement {
   sourceEvent?: string | null;
   source: string;
   /**
-   * Exact record as written by the payments service store contract.
+   * Record as written by the payments service store contract, plus the `revision` this collection stamps on every write.
    */
   record:
     | {

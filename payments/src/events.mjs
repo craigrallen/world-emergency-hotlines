@@ -5,7 +5,7 @@
 // second are reconciled against Stripe's current object instead of being ordered.
 
 import { OFFER_ID, STRIPE_OBJECT_ID } from './config.mjs';
-import { EVENT_FAMILIES, isStoreConflict } from './store.mjs';
+import { EVENT_FAMILIES, isStoreConflict, revisionOf } from './store.mjs';
 import { plain } from './validation.mjs';
 
 export { EVENT_FAMILIES };
@@ -50,9 +50,12 @@ const enumOr = (value, allowed, fallback = 'unknown') => (allowed.includes(value
  * and that is applied instead (without a fetcher the event is treated as stale,
  * which fails closed). `buildPatch(existing, current)` is called with the record
  * as read for this attempt and with the fetched object when reconciling, so
- * nothing is derived from a stale read. The store refuses (conflict) a write that
- * would move a family's epoch backwards relative to what another replica wrote in
- * between; on conflict the record is re-read and the decision made again.
+ * nothing is derived from a stale read. Every write names the revision of the
+ * record it was built from (`based_on_revision`), and the store refuses (conflict)
+ * a write whose revision is stale or that would move a family's epoch backwards,
+ * so a reconciled snapshot fetched before another replica's equal-epoch write can
+ * never overwrite it; on conflict the record is re-read (and re-reconciled) and
+ * the decision made again.
  */
 async function upsert(store, key, buildPatch, event, family, reconcile = null) {
   if (!EVENT_FAMILIES.includes(family)) throw new TypeError('event family invalid');
@@ -73,6 +76,7 @@ async function upsert(store, key, buildPatch, event, family, reconcile = null) {
       const record = await store.putEntitlement({
         ...(existing ?? {}), ...buildPatch(existing, current), key,
         livemode: event.livemode, [stamp]: event.created, updated_at_epoch: newest, updated_at: new Date(newest * 1000).toISOString(), source_event: event.id,
+        based_on_revision: revisionOf(existing),
       });
       return { record, stale: false, reconciled: current !== null };
     } catch (error) {

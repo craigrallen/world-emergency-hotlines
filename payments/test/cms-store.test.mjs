@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { loadConfig, describeConfig, redact, ConfigError } from '../src/config.mjs';
 import { CmsStoreError, claimKeyFor, createCmsStore, toEntitlementDocument, validCmsUrl } from '../src/cms-store.mjs';
-import { CLAIM_GRACE_SECONDS, STORE_CONFLICT, isStoreConflict, regressedFamily, validateStore } from '../src/store.mjs';
+import { CLAIM_GRACE_SECONDS, STORE_CONFLICT, isStoreConflict, regressedFamily, revisionMismatch, revisionOf, validateStore } from '../src/store.mjs';
 import { dispatchEvent } from '../src/events.mjs';
 import { createPaymentsServer, ROUTES } from '../src/server.mjs';
 
@@ -38,6 +38,7 @@ function fakeCms({ failWith = null, unauthorized = false, clock = { now: Date.no
       const unique = collection === 'stripe-events' ? 'claimKey' : 'key';
       if ([...table.values()].some((doc) => doc[unique] === incoming[unique])) return json(400, { errors: [{ message: `The following field is invalid: ${unique}`, data: { errors: [{ field: unique, message: 'Value must be unique' }] } }] });
       const doc = { id: nextId++, ...incoming, updatedAt: stamp(), createdAt: stamp() };
+      if (collection === 'entitlements' && doc.record) { const { based_on_revision: _read, ...rest } = doc.record; doc.record = { ...rest, revision: 1 }; }
       table.set(doc.id, doc);
       return json(201, { doc, message: 'created' });
     }
@@ -54,10 +55,13 @@ function fakeCms({ failWith = null, unauthorized = false, clock = { now: Date.no
         targets = [...table.values()].filter((doc) => conditions.every(([field, op, value]) => (op === 'equals' ? doc[field] === value : op === 'exists' ? (doc[field] !== undefined && doc[field] !== null) === (value === 'true') : op === 'less_than' ? typeof doc[field] === 'string' && doc[field] < value : false)));
       }
       for (const doc of targets) {
-        // The CMS refuses, under its row lock, a record that moves any family epoch backwards.
+        // The CMS refuses, under its row lock, a record that moves any family epoch backwards or was built from a stale revision, and stamps the next revision.
         if (collection === 'entitlements' && body.record !== undefined) {
           const family = regressedFamily(doc.record, body.record);
           if (family) return json(409, { errors: [{ message: `entitlement already carries a newer ${family} event` }] });
+          if (revisionMismatch(doc.record, body.record)) return json(409, { errors: [{ message: 'entitlement changed since it was read' }] });
+          const { based_on_revision: _read, ...rest } = body.record;
+          body.record = { ...rest, revision: revisionOf(doc.record) + 1 };
         }
         Object.assign(doc, body, { updatedAt: stamp() });
       }
@@ -140,7 +144,9 @@ test('entitlements round-trip through structured columns and the raw record', as
   const record = { key: 'sub:sub_synthetic0001', kind: 'subscription', offer: 'growth_monthly', offer_known: true, customer: 'cus_synthetic0001', status: 'active', livemode: false, updated_at_epoch: 2145916800, updated_at: '2038-01-01T00:00:00.000Z', source_event: 'evt_synthetic0001', cancel_at_period_end: false, current_period_end: 2148595200 };
   const stored = await store.putEntitlement(record);
   assert.ok(Object.isFrozen(stored));
-  assert.deepEqual(await store.getEntitlement('sub:sub_synthetic0001'), record);
+  assert.deepEqual(await store.getEntitlement('sub:sub_synthetic0001'), { ...record, revision: 1 });
+  await assert.rejects(store.putEntitlement({ ...record, status: 'canceled', based_on_revision: 0 }), (error) => isStoreConflict(error) && error.reason === 'conflict', 'a write built from a stale read is refused');
+  assert.equal((await store.getEntitlement('sub:sub_synthetic0001')).status, 'active');
   const doc = [...cms.entitlements.values()][0];
   assert.equal(doc.kind, 'subscription');
   assert.equal(doc.subscription, 'sub_synthetic0001');
@@ -149,9 +155,9 @@ test('entitlements round-trip through structured columns and the raw record', as
   assert.equal(doc.offerKnown, true);
   assert.equal(doc.updatedAtEpoch, 2145916800);
   assert.equal(doc.source, 'payments');
-  await store.putEntitlement({ ...record, status: 'canceled', updated_at_epoch: 2145916900 });
+  await store.putEntitlement({ ...record, status: 'canceled', updated_at_epoch: 2145916900, based_on_revision: 1 });
   assert.equal(cms.entitlements.size, 1, 'updates patch the existing document');
-  assert.equal((await store.getEntitlement('sub:sub_synthetic0001')).status, 'canceled');
+  assert.deepEqual([(await store.getEntitlement('sub:sub_synthetic0001')).status, (await store.getEntitlement('sub:sub_synthetic0001')).revision], ['canceled', 2]);
   await assert.rejects(store.putEntitlement({ key: 'bogus' }), TypeError);
   await assert.rejects(store.getEntitlement('sub:'), TypeError);
   const session = toEntitlementDocument({ key: 'cs:cs_test_synthetic00000001', kind: 'checkout_session', status: 'complete', offer: null, customer: null, subscription: 'sub_synthetic0001', payment_intent: null });

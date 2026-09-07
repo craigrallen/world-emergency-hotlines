@@ -1,6 +1,6 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';import {cpSync,mkdtempSync,mkdirSync,writeFileSync,readFileSync,renameSync,rmSync,symlinkSync,unlinkSync,realpathSync} from 'node:fs';import {tmpdir} from 'node:os';import {resolve} from 'node:path';import net from 'node:net';import {spawnSync} from 'node:child_process';
-import {createGateway,EVENT_KEYS,ifNoneMatchMatches} from '../src/gateway.mjs';import {createKeyReloader,reloadSecondsFrom} from '../src/reload.mjs';import {authenticate,createKey,verifier,redact} from '../src/security.mjs';import {MemoryTokenBuckets} from '../src/quota.mjs';import {descriptorFromRelease,descriptorFromReleaseBytes} from '../src/artifacts.mjs';
+import {createGateway,EVENT_KEYS,ifNoneMatchMatches} from '../src/gateway.mjs';import {createKeyReloader,fileFingerprint,reloadSecondsFrom} from '../src/reload.mjs';import {authenticate,createKey,verifier,redact} from '../src/security.mjs';import {MemoryTokenBuckets} from '../src/quota.mjs';import {descriptorFromRelease,descriptorFromReleaseBytes} from '../src/artifacts.mjs';
 import {verifyGatewayContractDrift} from '../../web/scripts/generate-gateway-contracts.mjs';
 const pepper='synthetic-test-pepper-with-32-chars',hash=`sha256:${'a'.repeat(64)}`;
 const sha=(bytes)=>`sha256:${createHash('sha256').update(bytes).digest('hex')}`;
@@ -195,6 +195,16 @@ test('key records reload from GATEWAY_CONFIG without a restart; unreadable or in
     assert.equal((await fetch(`${g.base}/managed/v1/manifest`,{headers:auth(replacement.raw)})).status,200);
     assert.equal(retrying.check(),'unchanged');
     assert.throws(()=>createKeyReloader({gateway:g.gateway,configPath,readFile:'nope'}),/readFile/);
+    // A rewrite that lands between reading the startup configuration and installing the watcher is not missed:
+    // the watcher starts from the fingerprint of the file the keys were loaded from.
+    const loadedFingerprint=fileFingerprint(configPath);
+    write([]);
+    const racing=createKeyReloader({gateway:g.gateway,configPath,intervalMs:0,loadedFingerprint});
+    assert.equal(racing.check(),'reloaded','the startup rewrite is detected on the first poll');
+    assert.equal((await fetch(`${g.base}/managed/v1/manifest`,{headers:auth(replacement.raw)})).status,401);
+    assert.equal(racing.check(),'unchanged');
+    assert.equal(fileFingerprint(resolve(dir,'missing.json')),null);
+    assert.throws(()=>createKeyReloader({gateway:g.gateway,configPath,loadedFingerprint:42}),/loadedFingerprint/);
     assert.equal(JSON.stringify(logs).includes(replacement.id),false);
     assert.throws(()=>g.gateway.reloadKeys('nope'),/invalid key records/);
     // A polling reloader picks the change up on its own.

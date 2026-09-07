@@ -7,8 +7,9 @@
 // pseudonymous Stripe ids and enum statuses only). The CMS enforces
 // first-writer-wins through its unique indexes, so claimEvent is atomic across
 // payments replicas, and it refuses (409) an entitlement write that would move any
-// event family's epoch backwards, which surfaces here as a conflict (STORE_CONFLICT)
-// that events.mjs resolves by re-reading. Every other failure throws CmsStoreError;
+// event family's epoch backwards or whose `based_on_revision` is not the stored
+// record's `revision` (it stamps every stored record with the next revision), which
+// surfaces here as a conflict (STORE_CONFLICT) that events.mjs resolves by re-reading. Every other failure throws CmsStoreError;
 // the server maps store errors to 503 unavailable / 500 handler_failed so Stripe
 // retries. The API key never appears in error messages or logs.
 
