@@ -1,4 +1,5 @@
 import { randomUUID } from 'node:crypto';
+import { APIError } from 'payload';
 import type { Endpoint, Payload, PayloadRequest } from 'payload';
 import { INTERNAL_CONTEXT, accountUser, type RequestUser } from '../access';
 import { OFFER_ID } from '../collections/Plans';
@@ -170,7 +171,16 @@ export const accountEndpoints: Endpoint[] = [
     handler: (req) => guarded(req, async () => {
       const body = await readJsonBody(req);
       if (typeof body.token !== 'string' || !/^[A-Za-z0-9_-]{16,256}$/.test(body.token)) throw new EndpointError('invalid_request');
-      try { await req.payload.verifyEmail({ collection: 'users', token: body.token }); } catch { throw new EndpointError('verification_failed'); }
+      try {
+        await req.payload.verifyEmail({ collection: 'users', token: body.token });
+      } catch (error) {
+        // Only the operation's own "no user has this token" case (a 403 APIError) is an invalid or
+        // already-used link; anything else (a transient database or adapter failure) must reach
+        // guarded()'s catch-all as a retryable 503 instead, or the client would scrub a token that
+        // may still be valid and tell the member their link is permanently dead.
+        if (error instanceof APIError && error.status === 403) throw new EndpointError('verification_failed');
+        throw error;
+      }
       return json(req, 200, { verified: true });
     }),
   },

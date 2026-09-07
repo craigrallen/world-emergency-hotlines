@@ -56,6 +56,21 @@ describe('account emails', () => {
     expect(ok.data).toEqual({ verified: true });
     expect((await payload.findByID({ collection: 'users', id: unverified.id, overrideAccess: true }))._verified).toBe(true);
   });
+
+  test('a transient verifyEmail failure is a retryable error, never the same result as an invalid token', async () => {
+    // Anything other than the operation's own "no user has this token" 403 (a database or adapter fault, say)
+    // must not be reported as verification_failed: the client scrubs the token and calls that terminal, so a
+    // transient fault would otherwise strand a member whose link was never actually invalid.
+    const original = payload.verifyEmail.bind(payload);
+    payload.verifyEmail = (async () => { throw new Error('simulated database fault'); }) as typeof payload.verifyEmail;
+    try {
+      const result = await call('/cms/api/account/verify-email', { method: 'POST', body: { token: 'd'.repeat(40) } });
+      expect(result.status).toBe(503);
+      expect(result.data.error.code).toBe('unavailable');
+    } finally {
+      payload.verifyEmail = original;
+    }
+  });
 });
 
 describe('registration and sessions', () => {
