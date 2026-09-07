@@ -23,7 +23,7 @@ function validateConfig(config){
   const ids=new Set();for(const record of config.keys){if(!validateKeyRecord(record,mode)||ids.has(record.id))throw new Error('invalid gateway configuration');ids.add(record.id);}
   if(!Array.isArray(origins)||origins.length>100||new Set(origins).size!==origins.length||!origins.every((o)=>validateOrigin(o,mode)))throw new Error('invalid gateway configuration');
   if(config.sink!==undefined&&typeof config.sink!=='function'||config.sinkError!==undefined&&typeof config.sinkError!=='function'||config.now!==undefined&&typeof config.now!=='function')throw new Error('invalid gateway configuration');
-  if(config.quotaStore!==undefined&&(config.quotaStore===null||typeof config.quotaStore!=='object'||typeof config.quotaStore.take!=='function'))throw new Error('invalid gateway configuration');
+  if(config.quotaStore!==undefined&&(config.quotaStore===null||typeof config.quotaStore!=='object'||typeof config.quotaStore.take!=='function'||config.quotaStore.forget!==undefined&&typeof config.quotaStore.forget!=='function'))throw new Error('invalid gateway configuration');
   for(const [name,min,max,def] of [['maxConcurrent',1,10000,32],['maxConnections',1,100000,128],['requestTimeoutMs',100,120000,5000],['headersTimeoutMs',100,120000,3000],['keepAliveTimeoutMs',100,120000,5000],['maxRequestsPerSocket',1,10000,100],['shutdownTimeoutMs',100,60000,5000]])if(!integer(config[name]??def,min,max))throw new Error('invalid gateway configuration');
   return {mode,host,port,origins};
 }
@@ -52,7 +52,12 @@ export function createGateway(config){
   function reloadKeys(records){
     if(!Array.isArray(records)||records.length>10000)throw new Error('invalid key records');
     const ids=new Set();for(const record of records){if(!validateKeyRecord(record,validated.mode)||ids.has(record.id))throw new Error('invalid key records');ids.add(record.id);}
-    keysById=freezeKeys(records);return {keys:records.length};
+    const next=freezeKeys(records);
+    // Retired keys (revoked or rotated) release their quota buckets: a bounded store must never let a key that can no longer
+    // authenticate hold capacity against one that can. A store without forget() keeps its own idle expiry; a failing forget()
+    // must not stop the key swap, which is what makes a revocation take effect.
+    let retired=0;if(typeof quotaStore.forget==='function')for(const id of keysById.keys())if(!next.has(id)){retired++;try{quotaStore.forget(id);}catch{}}
+    keysById=next;return {keys:records.length,retired};
   }
   const artifacts=createArtifactStore({root:config.artifactRoot,descriptor:config.artifactDescriptor,releaseId:config.releaseId,datasetVersion:config.datasetVersion});
   let active=0,stopping=false,sinkErrors=0;const sockets=new Set();

@@ -221,3 +221,22 @@ test('key records reload from GATEWAY_CONFIG without a restart; unreadable or in
     assert.throws(()=>createKeyReloader({gateway:{},configPath}),/gateway/);assert.throws(()=>createKeyReloader({gateway:g.gateway,configPath:''}),/config path/);assert.throws(()=>createKeyReloader({gateway:g.gateway,configPath,intervalMs:-1}),/interval/);
   }finally{await g.gateway.close();rmSync(dir,{recursive:true,force:true});}
 });
+
+test('a key reload releases the quota buckets of retired keys so they never hold capacity against live ones',async()=>{
+  const store=new MemoryTokenBuckets({maxKeys:1});
+  const g=await start({quotaStore:store});
+  try{
+    assert.equal((await fetch(`${g.base}/managed/v1/manifest`,{headers:auth(g.key.raw)})).status,200);
+    assert.equal(store.size,1);
+    const replacement=createKey();
+    // Without eviction the retired key's bucket would fill this one-key store and the new key would be answered 503 store_overflow.
+    assert.deepEqual(g.gateway.reloadKeys([record(replacement.raw,replacement.id)]),{keys:1,retired:1});
+    assert.equal(store.size,0);
+    assert.equal((await fetch(`${g.base}/managed/v1/manifest`,{headers:auth(replacement.raw)})).status,200);
+    assert.equal((await fetch(`${g.base}/managed/v1/manifest`,{headers:auth(g.key.raw)})).status,401);
+    assert.deepEqual(g.gateway.reloadKeys([record(replacement.raw,replacement.id)]),{keys:1,retired:0});
+    assert.throws(()=>store.forget(7),/invalid quota input/);
+    // A custom store must expose forget() as a function when it has one at all.
+    assert.throws(()=>createGateway({...config().value,quotaStore:{take:()=>({ok:true,limit:1,remaining:0,reset:1}),forget:'nope'}}),/invalid gateway configuration/);
+  }finally{await g.gateway.close();}
+});
