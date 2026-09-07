@@ -211,5 +211,5 @@ test('the status response lists every sellable plan, however many there are, in 
   // Walking one plan per page yields the same list: the status response never truncates the catalogue.
   expect((await sellablePlans(payload, 1)).map((plan) => plan.offerId)).toEqual(offers);
   const status = await call('/cms/api/account/status');
-  expect(status.data.plans.map((plan: { id: string }) => plan.id)).toEqual(offers);
+  expect(status.data.offers.map((plan: { id: string }) => plan.id)).toEqual(offers);
 });
