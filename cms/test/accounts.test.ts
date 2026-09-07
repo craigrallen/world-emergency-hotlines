@@ -2,6 +2,7 @@ import { afterAll, beforeAll, describe, expect, test } from 'vitest';
 import { getPayload, type Payload } from 'payload';
 import configPromise from '@payload-config';
 import { call, createUser, login, startMockStripe } from './helpers';
+import { sellablePlans } from '../src/endpoints/account';
 
 let payload: Payload;
 let stripe: Awaited<ReturnType<typeof startMockStripe>>;
@@ -195,4 +196,20 @@ describe('checkout, portal, and plans', () => {
     expect(burstOnly.status).toBe(200);
     expect((await call(`/cms/api/plans/${created.data.doc.id}?depth=0`, { method: 'PATCH', token: admin, body: { gateway: { quotaRate: 0.001 } } })).status).toBe(200);
   });
+});
+
+test('the status response lists every sellable plan, however many there are, in offer order', async () => {
+  for (let i = 1; i <= 3; i += 1) {
+    await payload.create({ collection: 'plans', data: { offerId: `bulk_plan_${i}`, label: `Bulk ${i}`, mode: 'subscription', stripePriceId: `price_synthetic09${String(i).padStart(2, '0')}`, quantity: 1, active: true, gateway: { permissions: ['manifest'], quotaRate: 1, quotaBurst: 10 } }, overrideAccess: true });
+  }
+  const all = await sellablePlans(payload);
+  const offers = all.map((plan) => plan.offerId);
+  expect(offers).toEqual([...offers].sort()); // sorted by offer id
+  expect(offers).toEqual(expect.arrayContaining(['growth_monthly', 'bulk_plan_1', 'bulk_plan_2', 'bulk_plan_3']));
+  expect(offers).not.toContain('one_time_pack'); // payment-mode plans grant nothing here
+  expect(offers).not.toContain('hidden_plan'); // inactive plans are never offered
+  // Walking one plan per page yields the same list: the status response never truncates the catalogue.
+  expect((await sellablePlans(payload, 1)).map((plan) => plan.offerId)).toEqual(offers);
+  const status = await call('/cms/api/account/status');
+  expect(status.data.plans.map((plan: { id: string }) => plan.id)).toEqual(offers);
 });

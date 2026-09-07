@@ -64,10 +64,28 @@ const publicKey = (key: Doc) => ({
   permissions: key.permissions, quota: { rate: key.quotaRate, burst: key.quotaBurst }, created_at: key.createdAt, revoked_at: key.revokedAt ?? null,
 });
 
-/** Plans the account page may sell: active and subscription-mode. One-time payment plans grant no entitlement here, so they are never offered. */
-async function sellablePlans(payload: Payload): Promise<Doc[]> {
-  const result = await payload.find({ collection: 'plans', where: { and: [{ active: { equals: true } }, { mode: { equals: 'subscription' } }] }, sort: 'offerId', limit: 50, depth: 0, overrideAccess: true });
-  return result.docs as unknown as Doc[];
+/** Plans are read in pages of this size when the status response is assembled; every sellable plan is returned. */
+export const PLAN_PAGE_SIZE = 50;
+
+/**
+ * Plans the account page may sell: active and subscription-mode. One-time payment plans
+ * grant no entitlement here, so they are never offered. The account page renders plans from
+ * this list alone and the response carries no pagination, so every matching plan is returned,
+ * walked in pages keyed on the immutable id and sorted by offer id.
+ */
+export async function sellablePlans(payload: Payload, pageSize = PLAN_PAGE_SIZE): Promise<Doc[]> {
+  const docs: Doc[] = [];
+  let after: string | number | null = null;
+  for (;;) {
+    const and: Record<string, unknown>[] = [{ active: { equals: true } }, { mode: { equals: 'subscription' } }];
+    if (after !== null) and.push({ id: { greater_than: after } });
+    const page = (await payload.find({ collection: 'plans', where: { and } as never, sort: 'id', limit: pageSize, depth: 0, overrideAccess: true })).docs as unknown as Doc[];
+    if (page.length === 0) break;
+    docs.push(...page);
+    after = page[page.length - 1].id;
+    if (page.length < pageSize) break;
+  }
+  return docs.sort((a, b) => String(a.offerId).localeCompare(String(b.offerId)));
 }
 
 function requireAccount(req: PayloadRequest): RequestUser {
