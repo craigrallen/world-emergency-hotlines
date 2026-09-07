@@ -28,7 +28,7 @@
     "reviews/multilingual-ui/v1/review-pack.schema.json": "sha256:005b85eee323124dbfc3702fdd9ae177263f196f10c338b5ed2b706242ab2732",
     "reviews/multilingual-ui/v1/safety-classification.json": "sha256:fd271765f0882eda962d009332ca76e693112b94ed965f702b05b770c9586b80",
     "reviews/security-privacy-evidence/v1/README.md": "sha256:4364570794a3ce94dfdba49627df8bfd0cd84b50211f6d476c42439ff24544e1",
-    "reviews/security-privacy-evidence/v1/inventory.json": "sha256:499c4480807b7aa32bf4b1934529624d84abbbfc82323f0e8f086539d8d52ea9",
+    "reviews/security-privacy-evidence/v1/inventory.json": "sha256:43190b133c3601f3a6d9b28908ec2c427e8a72477b96fcfff8e5824a727d30a6",
     "reviews/technical-due-diligence/v1/README.md": "sha256:87ae878128a2d3df102e0dbfd68621abea80a128e3eda98a3b59bb8a03bf585e",
     "reviews/technical-due-diligence/v1/index.schema.json": "sha256:5ba797f99ddc1598d72a074e47240afdba5771a80acf0bce86aacd054b9c1022",
     "web/package-lock.json": "sha256:20d114fa32b2cc04dff0b558808e4d154070b460809de0595fc27037c8ea6de9",
