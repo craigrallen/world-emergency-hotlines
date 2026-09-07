@@ -2,9 +2,13 @@
 //
 // Every variable is validated once at config-build time. Secret values never
 // appear in error messages: errors name the variable and the rule it broke.
-// During `next build` (NEXT_PHASE=phase-production-build) no secrets exist, so a
-// clearly-labelled placeholder secret is used; at runtime a missing or short
-// PAYLOAD_SECRET stops the process before it can serve a request.
+// During `next build` (NEXT_PHASE=phase-production-build, published by
+// next.config.mjs from the phase Next passes it, and set by Next itself) no
+// secrets exist, so a clearly-labelled placeholder secret is used and the SQLite
+// default is tolerated; at runtime a missing or short PAYLOAD_SECRET, or a
+// non-Postgres database in production, stops the process before it can serve a
+// request. The image build stage therefore needs no variables at all; CI builds
+// with the runtime variables removed to prove it.
 
 export type StripeMode = 'disabled' | 'test' | 'live';
 export type Registration = 'open' | 'closed';

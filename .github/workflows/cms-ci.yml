@@ -64,5 +64,15 @@ jobs:
           (cd payments && npm test)
           node --test gateway/test/cms-keys.test.mjs
 
-      - name: Production build
-        run: npm run build
+      - name: Production build with the runtime variables removed, as in the image build stage
+        run: env -u PAYLOAD_SECRET -u DATABASE_URL -u PUBLIC_SITE_URL npm run build
+
+  image:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Build the CMS image exactly as Railway and Compose do (no build arguments, no secrets)
+        run: docker build --pull cms

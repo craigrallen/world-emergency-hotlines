@@ -7,6 +7,10 @@ ENV NEXT_TELEMETRY_DISABLED=1
 COPY package.json package-lock.json ./
 RUN npm ci --no-audit --no-fund --loglevel=error
 COPY . .
+# No runtime variables here on purpose: next.config.mjs publishes the build phase and
+# src/env.ts substitutes a labelled placeholder secret during `next build` only. The
+# runtime stage below starts with nothing but the variables the platform provides and
+# refuses to serve without a real PAYLOAD_SECRET and a Postgres DATABASE_URL.
 RUN npm run build
 
 FROM node:22-bookworm-slim AS runtime
