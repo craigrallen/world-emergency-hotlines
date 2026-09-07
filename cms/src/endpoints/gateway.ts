@@ -77,12 +77,15 @@ export function policyOf(plan: Doc | undefined): GatewayPolicy | null {
  * recovers. Its permissions and quota follow the plan currently attached to that
  * subscription, so a downgrade or upgrade moves the key's policy with it and a
  * key minted on a higher tier cannot outlive that tier on a cheaper subscription.
- * Keys without a granting subscription (created by an admin) fall back to the
- * account's entitlement in the key's billing mode. Stored records are not changed.
+ * Keys created by an admin without a granting subscription fall back to the
+ * account's entitlement in the key's billing mode; a key minted from the account
+ * page whose granting subscription no longer exists (deleted, relation cleared) is
+ * exported revoked rather than falling back. Stored records are not changed.
  */
 export function withEntitlement<T extends Doc>(keys: T[], context: EntitlementContext): T[] {
   return keys.map((key) => {
     const granted = rawId(key.subscription);
+    if (granted === null && key.issuedBy === 'account') return key.state === 'active' ? { ...key, state: 'revoked' } : key;
     if (granted !== null) {
       const subscription = context.subscriptions.get(String(granted));
       const active = subscription !== undefined && (ACTIVE_STATUSES as readonly string[]).includes(String(subscription.status)) && (subscription.livemode === true) === (key.livemode === true);

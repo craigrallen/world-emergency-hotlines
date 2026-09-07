@@ -181,6 +181,9 @@ describe('checkout, portal, and plans', () => {
     // Stripe line-item quantities are integers; a fractional plan quantity would make every checkout fail upstream.
     const fractional = await call('/cms/api/plans', { method: 'POST', token: admin, body: { offerId: 'half_pack', label: 'x', mode: 'subscription', stripePriceId: 'price_synthetic0009', quantity: 1.5, gateway: { quotaRate: 1, quotaBurst: 10 } } });
     expect(fractional.status).toBe(400);
+    // A Stripe price maps to exactly one plan, so a subscription's billed price resolves unambiguously.
+    const duplicatePrice = await call('/cms/api/plans', { method: 'POST', token: admin, body: { offerId: 'growth_copy', label: 'x', mode: 'subscription', stripePriceId: 'price_synthetic0001', quantity: 1, gateway: { quotaRate: 1, quotaBurst: 10 } } });
+    expect(duplicatePrice.status).toBe(400);
     // The quota invariant holds for the effective policy: a partial update of one field is checked against the stored other.
     const created = await call('/cms/api/plans?depth=0', { method: 'POST', token: admin, body: { offerId: 'partial_plan', label: 'x', mode: 'subscription', stripePriceId: 'price_synthetic0010', quantity: 1, gateway: { quotaRate: 1, quotaBurst: 100 } } });
     expect(created.status).toBe(201);

@@ -148,7 +148,8 @@ export async function applySubscriptionPatch(payload: Payload, incoming: Subscri
         stripeCustomerId: customer,
         user,
         plan: plan?.id ?? relationId(existing?.plan) ?? null,
-        offer: patch.offer ?? plan?.offerId ?? (existing?.offer as string | undefined) ?? null,
+        // The billed price (unique per plan) decides the plan and offer; checkout metadata only fills in when the price is unknown here.
+        offer: plan?.offerId ?? patch.offer ?? (existing?.offer as string | undefined) ?? null,
         status: patch.status !== undefined && patch.status !== null ? enumStatus(patch.status) : ((existing?.status as string | undefined) ?? 'pending_subscription_event'),
         cancelAtPeriodEnd: patch.cancelAtPeriodEnd ?? (existing?.cancelAtPeriodEnd as boolean | undefined) ?? false,
         currentPeriodEnd: patch.currentPeriodEnd !== undefined && patch.currentPeriodEnd !== null ? new Date(patch.currentPeriodEnd * 1000).toISOString() : ((existing?.currentPeriodEnd as string | undefined) ?? null),

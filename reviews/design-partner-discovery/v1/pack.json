@@ -22,9 +22,9 @@
     "reviews/multilingual-ui/v1/review-pack.schema.json": "sha256:005b85eee323124dbfc3702fdd9ae177263f196f10c338b5ed2b706242ab2732",
     "reviews/multilingual-ui/v1/safety-classification.json": "sha256:fd271765f0882eda962d009332ca76e693112b94ed965f702b05b770c9586b80",
     "reviews/security-privacy-evidence/v1/README.md": "sha256:4364570794a3ce94dfdba49627df8bfd0cd84b50211f6d476c42439ff24544e1",
-    "reviews/security-privacy-evidence/v1/inventory.json": "sha256:0be49fec4f1a60c2a159afa04520b35b8447d269dc8ae1844c1f509d21725128",
+    "reviews/security-privacy-evidence/v1/inventory.json": "sha256:74ec493c8bba08fee488acf9e9f8e796d63a735d226d57c3782b8ba6a90951f4",
     "reviews/technical-due-diligence/v1/README.md": "sha256:87ae878128a2d3df102e0dbfd68621abea80a128e3eda98a3b59bb8a03bf585e",
-    "reviews/technical-due-diligence/v1/index.json": "sha256:cd9510b503dad68bbf51ec7e0374ff11adb3fcf4b6f97abc3ea9eb408fc35804"
+    "reviews/technical-due-diligence/v1/index.json": "sha256:e2343b6a9f185f4ce40dbe31b63335272578dfdbde300ed55c66419a1ad54d7b"
   },
   "capability_matrix": [
     { "id": "public_static_surfaces", "current_capability": "Public keyless static beta finder, API, widget, and snapshot integration surfaces are documented.", "limitations": "No uptime, support, SLA, production-reuse permission, guaranteed coverage, currency, reachability, or outcomes.", "evidence": ["docs/INTEGRATIONS.md", "docs/PACKAGING.md"] },

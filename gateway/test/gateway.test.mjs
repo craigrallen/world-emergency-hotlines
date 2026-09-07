@@ -179,15 +179,26 @@ test('key records reload from GATEWAY_CONFIG without a restart; unreadable or in
     assert.equal((await fetch(`${g.base}/managed/v1/manifest`,{headers:auth(replacement.raw)})).status,200,'an unreadable file keeps the last good keys');
     write([{...record(replacement.raw,replacement.id),state:'disabled'}]);
     assert.equal(reloader.check(),'failed');
-    assert.equal(reloader.check(),'unchanged');
-    assert.equal(reloader.check(true),'failed','forced (SIGHUP) re-reads even without a file change');
+    assert.equal(reloader.check(),'failed','a failed change is retried on every poll, never mistaken for applied');
+    assert.equal(reloader.check(true),'failed','forced (SIGHUP) re-reads too');
     write([]);
     assert.equal(reloader.check(),'reloaded');
+    assert.equal(reloader.check(),'unchanged');
     assert.equal((await fetch(`${g.base}/managed/v1/manifest`,{headers:auth(replacement.raw)})).status,401,'an empty snapshot fails closed');
-    assert.deepEqual(logs.map((e)=>e.event),['gateway_keys_reloaded','gateway_keys_reload_failed','gateway_keys_reload_failed','gateway_keys_reload_failed','gateway_keys_reloaded']);
+    assert.deepEqual(logs.map((e)=>e.event),['gateway_keys_reloaded','gateway_keys_reload_failed','gateway_keys_reload_failed','gateway_keys_reload_failed','gateway_keys_reload_failed','gateway_keys_reloaded']);
+    // A transient read failure of a changed file (a half-written or briefly locked file) is retried on the next poll.
+    let readFailures=1;const flakyRead=(path,encoding)=>{if(readFailures-->0)throw new Error('EBUSY');return readFileSync(path,encoding);};
+    const retrying=createKeyReloader({gateway:g.gateway,configPath,intervalMs:0,readFile:flakyRead});
+    write([record(replacement.raw,replacement.id)]);
+    assert.equal(retrying.check(),'failed');
+    assert.equal(retrying.check(),'reloaded','same fingerprint, retried, applied');
+    assert.equal((await fetch(`${g.base}/managed/v1/manifest`,{headers:auth(replacement.raw)})).status,200);
+    assert.equal(retrying.check(),'unchanged');
+    assert.throws(()=>createKeyReloader({gateway:g.gateway,configPath,readFile:'nope'}),/readFile/);
     assert.equal(JSON.stringify(logs).includes(replacement.id),false);
     assert.throws(()=>g.gateway.reloadKeys('nope'),/invalid key records/);
     // A polling reloader picks the change up on its own.
+    write([]);assert.equal(reloader.check(),'reloaded');
     const timed=createKeyReloader({gateway:g.gateway,configPath,intervalMs:20});timed.start();assert.equal(timed.polling,true);
     try{
       write([record(replacement.raw,replacement.id)]);

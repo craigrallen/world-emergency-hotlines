@@ -214,21 +214,32 @@ describe('payments-service store contract (service API key)', () => {
     const duplicate = await call('/cms/api/stripe-events', { method: 'POST', apiKey: service.apiKey, origin: null, body: { eventId: 'evt_payments00000001', source: 'payments' } });
     expect(duplicate.status).toBe(400);
     // The CMS webhook's claim on the same event is a different consumer's and never blocks the payments service (or vice versa).
-    const otherConsumer = await call('/cms/api/stripe-events', { method: 'POST', apiKey: service.apiKey, origin: null, body: { eventId: 'evt_payments00000001', source: 'cms' } });
-    expect(otherConsumer.status).toBe(201);
-    expect(otherConsumer.data.doc.claimKey).toBe('cms:evt_payments00000001');
-    // The claim key is derived server-side; a client cannot claim under another consumer's key.
-    const forgedKey = await call('/cms/api/stripe-events', { method: 'POST', apiKey: service.apiKey, origin: null, body: { eventId: 'evt_payments00000004', source: 'payments', claimKey: 'cms:evt_payments00000004' } });
+    const otherConsumer = await payload.create({ collection: 'stripe-events', data: { eventId: 'evt_payments00000001', source: 'cms', claimKey: 'cms:evt_payments00000001' }, overrideAccess: true, depth: 0 });
+    expect(otherConsumer.claimKey).toBe('cms:evt_payments00000001');
+    // A service credential is pinned to its own namespace: `source` and the claim key it sends are ignored.
+    const forgedKey = await call('/cms/api/stripe-events', { method: 'POST', apiKey: service.apiKey, origin: null, body: { eventId: 'evt_payments00000004', source: 'cms', claimKey: 'cms:evt_payments00000004' } });
     expect(forgedKey.status).toBe(201);
-    expect(forgedKey.data.doc.claimKey).toBe('payments:evt_payments00000004');
+    expect(forgedKey.data.doc).toMatchObject({ source: 'payments', claimKey: 'payments:evt_payments00000004' });
     const lookup = await call('/cms/api/stripe-events?where[claimKey][equals]=payments:evt_payments00000001&limit=1&depth=0', { apiKey: service.apiKey, origin: null });
     expect(lookup.data.totalDocs).toBe(1);
     const released = await call('/cms/api/stripe-events?where[claimKey][equals]=payments:evt_payments00000001', { method: 'DELETE', apiKey: service.apiKey, origin: null });
     expect(released.status).toBe(200);
     expect((await call('/cms/api/stripe-events?where[claimKey][equals]=payments:evt_payments00000001', { apiKey: service.apiKey, origin: null })).data.totalDocs).toBe(0);
-    expect((await call('/cms/api/stripe-events?where[eventId][equals]=evt_payments00000001', { apiKey: service.apiKey, origin: null })).data.totalDocs).toBe(1); // the CMS claim survives the payments release
+    expect((await payload.count({ collection: 'stripe-events', where: { eventId: { equals: 'evt_payments00000001' } }, overrideAccess: true })).totalDocs).toBe(1); // the CMS claim survives the payments release
+    expect((await call('/cms/api/stripe-events?where[eventId][equals]=evt_payments00000001', { apiKey: service.apiKey, origin: null })).data.totalDocs).toBe(0); // and is invisible to the store credential
     const anonymous = await call('/cms/api/stripe-events', { method: 'POST', body: { eventId: 'evt_payments00000002', source: 'payments' } });
     expect(anonymous.status).toBe(403);
+    // The store credential writes only in its own namespace: it cannot forge or complete a CMS claim, nor see or change one.
+    const forgedCms = await call('/cms/api/stripe-events', { method: 'POST', apiKey: service.apiKey, origin: null, body: { eventId: 'evt_payments00000006', source: 'cms', outcome: 'processed' } });
+    expect(forgedCms.status).toBe(201);
+    expect(forgedCms.data.doc).toMatchObject({ source: 'payments', claimKey: 'payments:evt_payments00000006' });
+    const cmsClaim = await payload.create({ collection: 'stripe-events', data: { eventId: 'evt_payments00000007', source: 'cms', claimKey: 'cms:evt_payments00000007' }, overrideAccess: true, depth: 0 });
+    const completeCms = await call('/cms/api/stripe-events?where[claimKey][equals]=cms:evt_payments00000007&depth=0', { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { outcome: 'processed' } });
+    expect(completeCms.data.docs ?? []).toHaveLength(0);
+    expect((await call(`/cms/api/stripe-events/${cmsClaim.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { outcome: 'processed' } })).status).toBeGreaterThanOrEqual(400);
+    expect((await call('/cms/api/stripe-events?where[claimKey][equals]=cms:evt_payments00000007', { method: 'DELETE', apiKey: service.apiKey, origin: null })).data.docs ?? []).toHaveLength(0);
+    expect((await payload.findByID({ collection: 'stripe-events', id: cmsClaim.id, overrideAccess: true, depth: 0 })).outcome ?? null).toBeNull();
+    expect((await call('/cms/api/stripe-events?where[eventId][equals]=evt_payments00000007', { apiKey: service.apiKey, origin: null })).data.totalDocs).toBe(0); // invisible to the store credential
     // Scopes: the gateway-sync credential cannot touch the ledger or entitlements, and neither service credential reads anything else.
     const gateway = { apiKey: 'service-api-key-synthetic-0002' };
     expect((await call('/cms/api/stripe-events', { method: 'POST', apiKey: gateway.apiKey, origin: null, body: { eventId: 'evt_payments00000005', source: 'payments' } })).status).toBe(403);
@@ -355,6 +366,8 @@ describe('managed API keys', () => {
     // Keys without a granting subscription (admin-created) fall back to the account's entitlement in their billing mode.
     const accountOnly = { entitled: new Set(['live:7']), subscriptions: new Map(), plans: new Map() };
     expect(withEntitlement([{ state: 'active', livemode: false, user: 7 }, { state: 'revoked', livemode: false, user: 7 }, { state: 'active', livemode: true, user: 7 }], accountOnly).map((k) => k.state)).toEqual(['revoked', 'revoked', 'active']);
+    // An account-minted key whose granting subscription is gone never falls back to the account.
+    expect(withEntitlement([{ state: 'active', livemode: true, user: 7, issuedBy: 'account', subscription: null }, { state: 'active', livemode: true, user: 7, issuedBy: 'admin', subscription: null }], accountOnly).map((k) => k.state)).toEqual(['revoked', 'active']);
     // Keys bound to a subscription follow that subscription and the plan currently attached to it, never the account.
     const bound = {
       entitled: new Set(['test:7']),
@@ -400,7 +413,13 @@ describe('managed API keys', () => {
     // Reactivating it restores the key; moving it to the cheaper plan moves the key's policy with it.
     expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.updated', priced('sub_synthetic00000011', 'price_synthetic0001'), { created: 2145917100 }) as never)).toBe('processed');
     expect(await exportedKey()).toMatchObject({ state: 'active', permissions: ['manifest', 'records'], quota: { rate: 2, burst: 20 } });
-    expect((await payload.find({ collection: 'api-keys', where: { keyId: { equals: minted.data.record.id } }, overrideAccess: true, depth: 0 })).docs[0]).toMatchObject({ state: 'active', quotaRate: 10, quotaBurst: 100 }); // stored record untouched
+    expect((await payload.find({ collection: 'api-keys', where: { keyId: { equals: minted.data.record.id } }, overrideAccess: true, depth: 0 })).docs[0]).toMatchObject({ state: 'active', issuedBy: 'account', quotaRate: 10, quotaBurst: 100 }); // stored record untouched
+    // Deleting the granting subscription itself revokes the keys it granted, in the same operation.
+    const deleted = await call(`/cms/api/subscriptions/${pro.id}`, { method: 'DELETE', token: await login('admin@example.test', PASSWORD) });
+    expect(deleted.status).toBe(200);
+    expect((await payload.find({ collection: 'api-keys', where: { keyId: { equals: minted.data.record.id } }, overrideAccess: true, depth: 0 })).docs[0]).toMatchObject({ state: 'revoked', subscription: null });
+    expect((await exportedKey()).state).toBe('revoked');
+    expect((await call('/cms/api/account/me', { token })).data.entitlement).toEqual({ active: true, offer: 'growth_monthly' }); // the account itself stays entitled through the cheaper plan
   });
 
   test('deleting an account deletes its managed keys in the same operation', async () => {

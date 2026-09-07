@@ -5,7 +5,8 @@
 // and, on change or SIGHUP, re-reads it and swaps the key set in place through
 // gateway.reloadKeys(). Only the `keys` array is reloaded; listen settings,
 // artifact roots, and the pepper still need a restart. An unreadable file or an
-// invalid record set keeps the last good keys and is logged without details.
+// invalid record set keeps the last good keys, is logged without details, and is
+// retried on the next poll.
 
 import { readFileSync, statSync } from 'node:fs';
 
@@ -21,29 +22,35 @@ export function reloadSecondsFrom(value) {
   return seconds;
 }
 
-export function createKeyReloader({ gateway, configPath, intervalMs = DEFAULT_RELOAD_SECONDS * 1000, log = () => {} } = {}) {
+export function createKeyReloader({ gateway, configPath, intervalMs = DEFAULT_RELOAD_SECONDS * 1000, log = () => {}, readFile = readFileSync } = {}) {
   if (!gateway || typeof gateway.reloadKeys !== 'function') throw new Error('key reloader requires a gateway');
   if (typeof configPath !== 'string' || configPath.length === 0) throw new Error('key reloader requires a config path');
   if (!Number.isInteger(intervalMs) || intervalMs < 0 || intervalMs > MAX_RELOAD_SECONDS * 1000) throw new Error('key reloader interval out of range');
   if (typeof log !== 'function') throw new Error('key reloader requires a log function');
+  if (typeof readFile !== 'function') throw new Error('key reloader requires a readFile function');
 
   const fingerprint = () => { try { const s = statSync(configPath); return `${s.ino}:${s.size}:${s.mtimeMs}`; } catch { return null; } };
   let last = fingerprint();
   let timer = null;
 
-  /** Reload when the file changed (or when forced). Returns 'unchanged' | 'reloaded' | 'failed'. */
+  /**
+   * Reload when the file changed (or when forced). Returns 'unchanged' | 'reloaded' | 'failed'.
+   * The accepted fingerprint advances only after a successful reload, so a change whose
+   * read or validation failed (a half-written file, a transient error) is retried on
+   * every following poll instead of being mistaken for "already applied".
+   */
   function check(force = false) {
     const current = fingerprint();
     if (!force && current === last) return 'unchanged';
-    last = current;
     let keys;
     try {
-      const config = JSON.parse(readFileSync(configPath, 'utf8'));
+      const config = JSON.parse(readFile(configPath, 'utf8'));
       keys = config !== null && typeof config === 'object' && !Array.isArray(config) ? config.keys : undefined;
     } catch { keys = undefined; }
     if (keys === undefined) { log({ event: 'gateway_keys_reload_failed', reason: 'config_unreadable' }); return 'failed'; }
     try {
       const summary = gateway.reloadKeys(keys);
+      last = current;
       log({ event: 'gateway_keys_reloaded', ...summary });
       return 'reloaded';
     } catch {

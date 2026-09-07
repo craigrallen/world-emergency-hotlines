@@ -21,7 +21,7 @@ export const Plans: CollectionConfig = {
     { name: 'label', type: 'text', required: true, maxLength: 80 },
     { name: 'description', type: 'textarea', maxLength: 600, admin: { description: 'Shown on the account page. Never include a price.' } },
     { name: 'mode', type: 'select', required: true, defaultValue: 'subscription', options: [{ label: 'Subscription', value: 'subscription' }, { label: 'One-time payment', value: 'payment' }] },
-    { name: 'stripePriceId', type: 'text', required: true, admin: { description: 'Stripe price id (price_…). Must belong to the same test/live mode as STRIPE_SECRET_KEY.' }, validate: (value: unknown) => (typeof value === 'string' && PRICE_ID.test(value) ? true : 'must be a Stripe price id (price_…)') },
+    { name: 'stripePriceId', type: 'text', required: true, unique: true, index: true, admin: { description: 'Stripe price id (price_…), unique across plans so a subscription\'s price resolves to exactly one plan. Must belong to the same test/live mode as STRIPE_SECRET_KEY.' }, validate: (value: unknown) => (typeof value === 'string' && PRICE_ID.test(value) ? true : 'must be a Stripe price id (price_…)') },
     { name: 'quantity', type: 'number', required: true, defaultValue: 1, min: 1, max: 100, admin: { description: 'Whole number of units per checkout line item (Stripe accepts integers only).' }, validate: (value: unknown) => (Number.isInteger(value) && (value as number) >= 1 && (value as number) <= 100 ? true : 'must be a whole number from 1 to 100') },
     { name: 'active', type: 'checkbox', defaultValue: false, admin: { description: 'Only active plans are offered on the account page.' } },
     {

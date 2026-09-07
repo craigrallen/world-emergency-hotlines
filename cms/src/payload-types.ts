@@ -196,7 +196,7 @@ export interface Plan {
   description?: string | null;
   mode: 'subscription' | 'payment';
   /**
-   * Stripe price id (price_…). Must belong to the same test/live mode as STRIPE_SECRET_KEY.
+   * Stripe price id (price_…), unique across plans so a subscription's price resolves to exactly one plan. Must belong to the same test/live mode as STRIPE_SECRET_KEY.
    */
   stripePriceId: string;
   /**
@@ -348,6 +348,10 @@ export interface ApiKey {
    */
   verifier: string;
   user: number | User;
+  /**
+   * account: minted from /account and bound to the subscription below; if that subscription disappears the key is exported revoked. admin: created here without a granting subscription; follows the account's entitlement in its billing mode.
+   */
+  issuedBy: 'account' | 'admin';
   /**
    * Subscription that granted this key. The gateway export follows it: the key is exported revoked while that subscription is not active, and its permissions and quota follow the plan currently attached to it.
    */
@@ -581,6 +585,7 @@ export interface ApiKeysSelect<T extends boolean = true> {
   keyId?: T;
   verifier?: T;
   user?: T;
+  issuedBy?: T;
   subscription?: T;
   label?: T;
   state?: T;

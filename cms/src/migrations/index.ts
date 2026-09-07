@@ -4,6 +4,7 @@ import * as migration_20260907_134045_verification_and_event_families from './20
 import * as migration_20260907_140142_stripe_event_claims from './20260907_140142_stripe_event_claims';
 import * as migration_20260907_142758_api_keys_subscription from './20260907_142758_api_keys_subscription';
 import * as migration_20260907_144321_users_service_scope from './20260907_144321_users_service_scope';
+import * as migration_20260907_151210_keys_issued_by_and_unique_prices from './20260907_151210_keys_issued_by_and_unique_prices';
 
 export const migrations = [
   {
@@ -34,6 +35,11 @@ export const migrations = [
   {
     up: migration_20260907_144321_users_service_scope.up,
     down: migration_20260907_144321_users_service_scope.down,
-    name: '20260907_144321_users_service_scope'
+    name: '20260907_144321_users_service_scope',
+  },
+  {
+    up: migration_20260907_151210_keys_issued_by_and_unique_prices.up,
+    down: migration_20260907_151210_keys_issued_by_and_unique_prices.down,
+    name: '20260907_151210_keys_issued_by_and_unique_prices'
   },
 ];

@@ -1,11 +1,15 @@
-import type { CollectionConfig } from 'payload';
-import { isAdminOrPaymentsStore, isStaffOrPaymentsStore } from '../access';
+import type { Access, CollectionConfig } from 'payload';
+import { hasRole, isAdminOrPaymentsStore, isServiceRequest } from '../access';
 
 export const EVENT_SOURCES = ['payments', 'cms'] as const;
 export type EventSource = (typeof EVENT_SOURCES)[number];
 
 /** One claim per consumer and event: the payments service and the CMS webhook do different work with the same event. */
 export const claimKeyFor = (source: string, eventId: string): string => `${source}:${eventId}`;
+
+/** The payments-store credential sees and changes only its own (`payments:`) claims; it can never mark a CMS claim done. */
+const paymentsRowsOrStaff: Access = ({ req }) => (hasRole(req, 'admin', 'staff') ? true : isServiceRequest(req, 'payments_store') ? { source: { equals: 'payments' } } : false);
+const paymentsRowsOrAdmin: Access = ({ req }) => (hasRole(req, 'admin') ? true : isServiceRequest(req, 'payments_store') ? { source: { equals: 'payments' } } : false);
 
 export const StripeEvents: CollectionConfig = {
   slug: 'stripe-events',
@@ -16,7 +20,7 @@ export const StripeEvents: CollectionConfig = {
     group: 'Billing',
     description: 'Webhook idempotency ledger shared by the CMS webhook and the payments service. Claims are unique per consumer and event (claimKey = source:eventId), so each consumer processes every event exactly once across replicas and neither can mark an event done for the other; the ledger stores ids and types only.',
   },
-  access: { read: isStaffOrPaymentsStore, create: isAdminOrPaymentsStore, update: isAdminOrPaymentsStore, delete: isAdminOrPaymentsStore },
+  access: { read: paymentsRowsOrStaff, create: isAdminOrPaymentsStore, update: paymentsRowsOrAdmin, delete: paymentsRowsOrAdmin },
   fields: [
     { name: 'eventId', type: 'text', required: true, index: true, validate: (value: unknown) => (typeof value === 'string' && /^evt_[A-Za-z0-9]{8,}$/.test(value) ? true : 'must be a Stripe event id (evt_…)') },
     { name: 'source', type: 'select', required: true, defaultValue: 'payments', options: [{ label: 'Payments service', value: 'payments' }, { label: 'CMS webhook', value: 'cms' }] },
@@ -35,8 +39,10 @@ export const StripeEvents: CollectionConfig = {
   ],
   hooks: {
     beforeValidate: [
-      ({ data, originalDoc }) => {
+      ({ data, originalDoc, req }) => {
         if (!data) return data;
+        // A service credential always writes in its own namespace, whatever `source` it sends.
+        if (isServiceRequest(req)) (data as Record<string, unknown>).source = 'payments';
         // The claim key is never client-supplied: it is derived from the consumer and the event.
         const source = (data.source as string | undefined) ?? (originalDoc?.source as string | undefined) ?? 'payments';
         const eventId = (data.eventId as string | undefined) ?? (originalDoc?.eventId as string | undefined);

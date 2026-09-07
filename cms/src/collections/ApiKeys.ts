@@ -25,6 +25,14 @@ export const ApiKeys: CollectionConfig = {
     { name: 'verifier', type: 'text', required: true, access: { read: staffField, update: () => false }, admin: { readOnly: true, description: 'base64url HMAC-SHA-256 of the raw key; never the key itself.' }, validate: (value: unknown) => (typeof value === 'string' && /^[A-Za-z0-9_-]{43}$/.test(value) ? true : 'must be a 43-character base64url verifier') },
     { name: 'user', type: 'relationship', relationTo: 'users', required: true, index: true },
     {
+      name: 'issuedBy',
+      type: 'select',
+      required: true,
+      defaultValue: 'admin',
+      options: [{ label: 'Member account (granted by a subscription)', value: 'account' }, { label: 'Administrator', value: 'admin' }],
+      admin: { readOnly: true, description: 'account: minted from /account and bound to the subscription below; if that subscription disappears the key is exported revoked. admin: created here without a granting subscription; follows the account\'s entitlement in its billing mode.' },
+    },
+    {
       name: 'subscription',
       type: 'relationship',
       relationTo: 'subscriptions',
