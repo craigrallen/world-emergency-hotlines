@@ -3,6 +3,7 @@ import { commitTransaction, createLocalReq, initTransaction, killTransaction, Va
 import { sql } from '@payloadcms/db-postgres';
 import { INTERNAL_CONTEXT } from '../access';
 import { ACTIVE_STATUSES, SUBSCRIPTION_STATUSES } from '../collections/Subscriptions';
+import { CUSTOMER_FIELDS, customerField } from './customers';
 
 type Id = string | number;
 export type SubscriptionDoc = Record<string, unknown> & { id: Id };
@@ -116,9 +117,11 @@ async function liveUser(payload: Payload, tx: PayloadRequest, id: Id | null | un
   return result.totalDocs > 0 ? id : null;
 }
 
-async function findUserByCustomer(payload: Payload, tx: PayloadRequest, customer: string | null | undefined): Promise<Id | null> {
+/** The account holding `customer` in the given billing mode (either mode when unknown); test and live customers are stored apart. */
+async function findUserByCustomer(payload: Payload, tx: PayloadRequest, customer: string | null | undefined, livemode: boolean | null | undefined): Promise<Id | null> {
   if (!customer) return null;
-  const result = await payload.find({ collection: 'users', where: { stripeCustomerId: { equals: customer } }, limit: 1, depth: 0, overrideAccess: true, req: tx });
+  const where = typeof livemode === 'boolean' ? { [customerField(livemode)]: { equals: customer } } : { or: CUSTOMER_FIELDS.map((field) => ({ [field]: { equals: customer } })) };
+  const result = await payload.find({ collection: 'users', where: where as never, limit: 1, depth: 0, overrideAccess: true, req: tx });
   return result.docs[0]?.id ?? null;
 }
 
@@ -183,7 +186,7 @@ export async function applySubscriptionPatch(payload: Payload, incoming: Subscri
 
       const customer = patch.stripeCustomerId ?? (existing?.stripeCustomerId as string | undefined) ?? null;
       const { plan, byPrice } = await resolvePlan(payload, tx, patch, existing);
-      const user = (await liveUser(payload, tx, patch.user)) ?? (await liveUser(payload, tx, relationId(existing?.user))) ?? (await findUserByCustomer(payload, tx, customer));
+      const user = (await liveUser(payload, tx, patch.user)) ?? (await liveUser(payload, tx, relationId(existing?.user))) ?? (await findUserByCustomer(payload, tx, customer, patch.livemode ?? (existing?.livemode as boolean | undefined)));
 
       const data: Record<string, unknown> = {
         stripeSubscriptionId: patch.stripeSubscriptionId,

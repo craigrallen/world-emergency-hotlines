@@ -5,6 +5,7 @@ import { ValidationError } from 'payload';
 import { INTERNAL_CONTEXT } from '../access';
 import { CLAIM_GRACE_SECONDS, claimKeyFor, type EventSource } from '../collections/StripeEvents';
 import { getEnv } from '../env';
+import { customerField, customerOf } from './customers';
 import { applySubscriptionPatch, inTransaction, lockRow, type MirrorTieBreaker, type SubscriptionPatch } from './subscriptions';
 
 export const CHECKOUT_ORIGIN = 'https://checkout.stripe.com';
@@ -94,12 +95,15 @@ async function recordOutcome(payload: Payload, eventId: string, outcome: string,
   await payload.update({ collection: 'stripe-events', where: ownedClaim(source, eventId, lease), data: { outcome }, depth: 0, overrideAccess: true });
 }
 
-async function linkCustomerToUser(payload: Payload, userId: number | string | null, customer: string | null): Promise<void> {
+/** Link the event's customer to the account for the event's billing mode (test and live customers live in separate Stripe namespaces). */
+async function linkCustomerToUser(payload: Payload, userId: number | string | null, customer: string | null, livemode: boolean): Promise<void> {
   if (!userId || !customer) return;
   const user = await payload.findByID({ collection: 'users', id: userId, depth: 0, overrideAccess: true, disableErrors: true });
-  if (!user || user.stripeCustomerId === customer) return;
-  if (user.stripeCustomerId) return; // never re-point an account at a different customer from a webhook
-  await payload.update({ collection: 'users', id: user.id, data: { stripeCustomerId: customer }, depth: 0, overrideAccess: true, context: { ...INTERNAL_CONTEXT } });
+  if (!user) return;
+  const current = customerOf(user as unknown as Record<string, unknown>, livemode);
+  if (current === customer) return;
+  if (current) return; // never re-point an account at a different customer of the same mode from a webhook
+  await payload.update({ collection: 'users', id: user.id, data: { [customerField(livemode)]: customer }, depth: 0, overrideAccess: true, context: { ...INTERNAL_CONTEXT } });
 }
 
 /** Subscription period end moved from the subscription to its items in newer Stripe API versions. */
@@ -181,7 +185,7 @@ async function onCheckoutSession(payload: Payload, event: Stripe.Event): Promise
   const session = event.data.object as Stripe.Checkout.Session;
   const customer = stripeId(session.customer);
   const userId = userOf(session.metadata, session.client_reference_id);
-  await linkCustomerToUser(payload, userId, customer);
+  await linkCustomerToUser(payload, userId, customer, event.livemode);
   const patch = checkoutPatch(session, event.livemode);
   if (!patch) return 'no_subscription';
   const sessionId = stripeId(session);
@@ -196,7 +200,7 @@ async function onSubscription(payload: Payload, event: Stripe.Event): Promise<st
   const subscription = event.data.object as Stripe.Subscription;
   const id = stripeId(subscription);
   if (!id) return 'missing_id';
-  await linkCustomerToUser(payload, userOf(subscription.metadata), stripeId(subscription.customer));
+  await linkCustomerToUser(payload, userOf(subscription.metadata), stripeId(subscription.customer), event.livemode);
   const result = await applySubscriptionPatch(payload, subscriptionPatch(subscription, event.livemode, event.type === 'customer.subscription.deleted'), {
     family: 'subscription', eventCreated: event.created, eventId: event.id, source: 'cms',
     // Stripe's current object is authoritative for a tie (a deleted subscription reads as canceled).

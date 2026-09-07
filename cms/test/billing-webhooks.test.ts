@@ -64,7 +64,16 @@ describe('Stripe webhooks through the CMS endpoint', () => {
     const sub = (await payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: 'sub_synthetic00000001' } }, overrideAccess: true, depth: 0 })).docs[0];
     expect(sub).toMatchObject({ user, stripeCustomerId: 'cus_synthetic00000001', offer: 'growth_monthly', status: 'pending_subscription_event', checkoutSessionId: 'cs_test_synthetic00000001', source: 'cms', livemode: false });
     const buyer = await payload.findByID({ collection: 'users', id: user, overrideAccess: true });
-    expect(buyer.stripeCustomerId).toBe('cus_synthetic00000001');
+    expect(buyer.stripeTestCustomerId).toBe('cus_synthetic00000001'); // a test-mode event links the test-mode customer
+    expect(buyer.stripeLiveCustomerId ?? null).toBeNull();
+    // Customers are tracked per billing mode (Stripe keeps the namespaces apart): a live-mode customer is never reused by
+    // this test-mode CMS, so promotion to live creates live customers instead of failing on test ids, and vice versa.
+    const buyerToken = await login('buyer@example.test', PASSWORD);
+    await payload.update({ collection: 'users', id: user, data: { stripeTestCustomerId: null, stripeLiveCustomerId: 'cus_synthetic00000001' }, overrideAccess: true, context: { ...INTERNAL_CONTEXT } });
+    expect((await call('/cms/api/account/me', { token: buyerToken })).data.user.billing_customer_linked).toBe(false);
+    expect((await call('/cms/api/account/portal', { method: 'POST', token: buyerToken })).data.error.code).toBe('no_customer');
+    await payload.update({ collection: 'users', id: user, data: { stripeTestCustomerId: 'cus_synthetic00000001', stripeLiveCustomerId: null }, overrideAccess: true, context: { ...INTERNAL_CONTEXT } });
+    expect((await call('/cms/api/account/me', { token: buyerToken })).data.user.billing_customer_linked).toBe(true);
     const ledger = await payload.find({ collection: 'stripe-events', where: { eventId: { equals: event.id } }, overrideAccess: true });
     expect(ledger.docs[0]).toMatchObject({ type: 'checkout.session.completed', source: 'cms', claimKey: `cms:${event.id}`, outcome: 'processed' });
     const replay = await call('/cms/api/stripe/webhooks', { method: 'POST', rawBody: signed.body, headers: { 'stripe-signature': signed.signature }, origin: null });

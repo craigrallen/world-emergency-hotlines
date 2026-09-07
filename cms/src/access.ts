@@ -16,7 +16,8 @@ export interface RequestUser {
   name?: string | null;
   role?: Role | string;
   serviceScope?: ServiceScope | string | null;
-  stripeCustomerId?: string | null;
+  stripeLiveCustomerId?: string | null;
+  stripeTestCustomerId?: string | null;
   _strategy?: string;
   collection?: string;
   _verified?: boolean | null;

@@ -6,6 +6,7 @@ import { describeEnv, getEnv } from '../env';
 import { createGatewayKey } from '../lib/gateway-keys';
 import { EndpointError, fail, guarded, json, readJsonBody } from '../lib/responses';
 import { CHECKOUT_ORIGIN, PORTAL_ORIGIN, getStripe } from '../lib/stripe';
+import { customerField, customerOf } from '../lib/customers';
 import { policyOf, type GatewayPolicy } from './gateway';
 import { forEachActiveSubscription, inTransaction, lockRow, newerSubscription } from '../lib/subscriptions';
 
@@ -68,16 +69,18 @@ function requireAccount(req: PayloadRequest): RequestUser {
   return user;
 }
 
-async function ensureCustomer(payload: Payload, user: RequestUser): Promise<string> {
-  if (typeof user.stripeCustomerId === 'string' && user.stripeCustomerId) return user.stripeCustomerId;
+/** The account's Stripe customer for the billing mode this CMS runs in, created on first use; a customer from the other mode is never reused. */
+async function ensureCustomer(payload: Payload, user: RequestUser, livemode: boolean): Promise<string> {
+  const existing = customerOf(user, livemode);
+  if (existing) return existing;
   const stripe = getStripe();
   if (!stripe) throw new EndpointError('stripe_disabled');
   let customer;
   try {
-    customer = await stripe.customers.create({ email: user.email, ...(user.name ? { name: user.name } : {}), metadata: { cms_user: String(user.id) } }, { idempotencyKey: `cms-customer-${user.id}` });
+    customer = await stripe.customers.create({ email: user.email, ...(user.name ? { name: user.name } : {}), metadata: { cms_user: String(user.id) } }, { idempotencyKey: `cms-customer-${livemode ? 'live' : 'test'}-${user.id}` });
   } catch { throw new EndpointError('upstream_error'); }
   if (!/^cus_[A-Za-z0-9]{8,}$/.test(customer.id)) throw new EndpointError('upstream_error');
-  await payload.update({ collection: 'users', id: user.id, data: { stripeCustomerId: customer.id }, depth: 0, overrideAccess: true, context: { ...INTERNAL_CONTEXT } });
+  await payload.update({ collection: 'users', id: user.id, data: { [customerField(livemode)]: customer.id }, depth: 0, overrideAccess: true, context: { ...INTERNAL_CONTEXT } });
   return customer.id;
 }
 
@@ -123,7 +126,7 @@ export const accountEndpoints: Endpoint[] = [
       // Entitlement is shown through the subscription that can grant keys; failing that, the newest active one.
       const entitled = entitling.granting?.subscription ?? entitling.newest;
       return json(req, 200, {
-        user: { id: user.id, email: user.email, name: user.name ?? null, role: user.role, verified: user._verified !== false, created_at: user.createdAt ?? null, billing_customer_linked: typeof user.stripeCustomerId === 'string' && user.stripeCustomerId.length > 0 },
+        user: { id: user.id, email: user.email, name: user.name ?? null, role: user.role, verified: user._verified !== false, created_at: user.createdAt ?? null, billing_customer_linked: env.stripeMode !== 'disabled' && customerOf(user, env.stripeMode === 'live') !== null },
         entitlement: { active: entitled !== null, offer: (entitled?.offer as string | undefined) ?? null },
         subscriptions: (subscriptions.docs as unknown as Doc[]).map(publicSubscription),
         api_keys: (keys.docs as unknown as Doc[]).map(publicKey),
@@ -147,7 +150,7 @@ export const accountEndpoints: Endpoint[] = [
       if (!plan) throw new EndpointError('unknown_offer');
       // Entitlements are subscription facts; a one-time payment would charge without granting anything.
       if (plan.mode !== 'subscription') throw new EndpointError('unsupported_offer');
-      const customer = await ensureCustomer(req.payload, user);
+      const customer = await ensureCustomer(req.payload, user, env.stripeMode === 'live');
       const metadata = { offer: String(plan.offerId), cms_user: String(user.id) };
       let session;
       try {
@@ -173,10 +176,11 @@ export const accountEndpoints: Endpoint[] = [
       const env = getEnv();
       const stripe = getStripe();
       if (!stripe) throw new EndpointError('stripe_disabled');
-      if (typeof user.stripeCustomerId !== 'string' || !user.stripeCustomerId) throw new EndpointError('no_customer');
+      const customer = customerOf(user, env.stripeMode === 'live');
+      if (!customer) throw new EndpointError('no_customer');
       let portal;
       try {
-        portal = await stripe.billingPortal.sessions.create({ customer: user.stripeCustomerId, return_url: `${env.siteUrl}/account` }, { idempotencyKey: randomUUID() });
+        portal = await stripe.billingPortal.sessions.create({ customer, return_url: `${env.siteUrl}/account` }, { idempotencyKey: randomUUID() });
       } catch { throw new EndpointError('upstream_error'); }
       if (typeof portal.url !== 'string' || !portal.url.startsWith(`${PORTAL_ORIGIN}/`)) throw new EndpointError('upstream_error');
       return json(req, 200, { url: portal.url });

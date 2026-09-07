@@ -8,7 +8,7 @@ import { resetPasswordEmailHTML, resetPasswordEmailSubject, verifyEmailHTML, ver
 const env = getEnv();
 
 /** Fields a signed-in member must never set on their own account. */
-const PRIVILEGED_FIELDS = ['role', 'serviceScope', 'enableAPIKey', 'apiKey', 'apiKeyIndex', 'stripeCustomerId', 'notes', 'loginAttempts', 'lockUntil', '_verified', '_verificationToken', 'sessions'];
+const PRIVILEGED_FIELDS = ['role', 'serviceScope', 'enableAPIKey', 'apiKey', 'apiKeyIndex', 'stripeLiveCustomerId', 'stripeTestCustomerId', 'notes', 'loginAttempts', 'lockUntil', '_verified', '_verificationToken', 'sessions'];
 export const PASSWORD_MIN_LENGTH = 12;
 export const PASSWORD_MAX_LENGTH = 256;
 
@@ -17,7 +17,7 @@ export const Users: CollectionConfig = {
   labels: { singular: 'User', plural: 'Users' },
   admin: {
     useAsTitle: 'email',
-    defaultColumns: ['email', 'name', 'role', 'stripeCustomerId', 'updatedAt'],
+    defaultColumns: ['email', 'name', 'role', 'stripeLiveCustomerId', 'updatedAt'],
     group: 'Accounts',
     description: 'Account holders, staff, and service accounts. Members register through the public account page; only admins change roles or enable API keys.',
   },
@@ -64,13 +64,24 @@ export const Users: CollectionConfig = {
         description: 'Required for service accounts; each automation gets its own account and key. payments_store: webhook ledger and entitlement records for the payments service. gateway_sync: key-record export for the gateway. A scope grants nothing else.',
       },
     },
+    // Stripe keeps test and live objects in separate namespaces: one customer per billing mode, so a deployment promoted from
+    // test to live creates live customers instead of reusing test ids the live client would refuse (see lib/customers.ts).
     {
-      name: 'stripeCustomerId',
+      name: 'stripeLiveCustomerId',
       type: 'text',
       unique: true,
       index: true,
       access: { create: adminField, update: adminField },
-      admin: { position: 'sidebar', readOnly: true, description: 'Pseudonymous Stripe customer id, linked by checkout or webhook. No card or address data is ever stored here.' },
+      admin: { position: 'sidebar', readOnly: true, description: 'Pseudonymous live-mode Stripe customer id, linked by checkout or webhook while the CMS runs with a live key. No card or address data is ever stored here.' },
+      validate: (value: unknown) => (value === undefined || value === null || value === '' || (typeof value === 'string' && /^cus_[A-Za-z0-9]{8,}$/.test(value)) ? true : 'must be a Stripe customer id (cus_…)'),
+    },
+    {
+      name: 'stripeTestCustomerId',
+      type: 'text',
+      unique: true,
+      index: true,
+      access: { create: adminField, update: adminField },
+      admin: { position: 'sidebar', readOnly: true, description: 'Pseudonymous test-mode Stripe customer id, linked by checkout or webhook while the CMS runs with a test key.' },
       validate: (value: unknown) => (value === undefined || value === null || value === '' || (typeof value === 'string' && /^cus_[A-Za-z0-9]{8,}$/.test(value)) ? true : 'must be a Stripe customer id (cus_…)'),
     },
     {

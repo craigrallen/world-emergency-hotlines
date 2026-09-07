@@ -31,12 +31,13 @@ describe('public status', () => {
 
 describe('registration and sessions', () => {
   test('anyone can register while registration is open, but only as a member without privileges', async () => {
-    const created = await call('/cms/api/users', { method: 'POST', body: { email: 'member@example.test', password: PASSWORD, name: 'Member', role: 'admin', enableAPIKey: true, stripeCustomerId: 'cus_injected0001', notes: 'sneaky' } });
+    const created = await call('/cms/api/users', { method: 'POST', body: { email: 'member@example.test', password: PASSWORD, name: 'Member', role: 'admin', enableAPIKey: true, stripeLiveCustomerId: 'cus_injected0001', stripeTestCustomerId: 'cus_injected0002', notes: 'sneaky' } });
     expect(created.status).toBe(201);
     const stored = await payload.findByID({ collection: 'users', id: created.data.doc.id, overrideAccess: true, showHiddenFields: true });
     expect(stored.role).toBe('member');
     expect(stored.enableAPIKey).toBeFalsy();
-    expect(stored.stripeCustomerId ?? null).toBeNull();
+    expect(stored.stripeLiveCustomerId ?? null).toBeNull();
+    expect(stored.stripeTestCustomerId ?? null).toBeNull();
     expect(stored.notes ?? null).toBeNull();
   });
 

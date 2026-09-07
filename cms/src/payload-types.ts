@@ -146,9 +146,13 @@ export interface User {
    */
   serviceScope?: ('payments_store' | 'gateway_sync') | null;
   /**
-   * Pseudonymous Stripe customer id, linked by checkout or webhook. No card or address data is ever stored here.
+   * Pseudonymous live-mode Stripe customer id, linked by checkout or webhook while the CMS runs with a live key. No card or address data is ever stored here.
    */
-  stripeCustomerId?: string | null;
+  stripeLiveCustomerId?: string | null;
+  /**
+   * Pseudonymous test-mode Stripe customer id, linked by checkout or webhook while the CMS runs with a test key.
+   */
+  stripeTestCustomerId?: string | null;
   /**
    * Internal staff notes. Never returned to the member.
    */
@@ -477,7 +481,8 @@ export interface UsersSelect<T extends boolean = true> {
   name?: T;
   role?: T;
   serviceScope?: T;
-  stripeCustomerId?: T;
+  stripeLiveCustomerId?: T;
+  stripeTestCustomerId?: T;
   notes?: T;
   updatedAt?: T;
   createdAt?: T;
