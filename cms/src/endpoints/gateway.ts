@@ -120,16 +120,25 @@ export function withEntitlement<T extends Doc>(keys: T[], context: EntitlementCo
  * More than `maxKeys` usable keys throws `snapshot_too_large`: a capacity limit to raise on
  * both sides, never a snapshot to truncate (a failed sync keeps the gateway's previous keys;
  * a truncated one would silently drop live ones).
+ *
+ * Pages are keyed on the unique `keyId` (every page asks for ids greater than the last one
+ * seen), not on an offset: a key revoked or deleted while the export runs must not shift the
+ * following rows and drop a still-active key from a snapshot that replaces the whole set.
  */
 export async function collectActiveKeys(payload: Payload, stripeMode: StripeMode, { pageSize = EXPORT_PAGE_SIZE, maxKeys = GATEWAY_MAX_KEYS }: { pageSize?: number; maxKeys?: number } = {}): Promise<GatewayKeyRecord[]> {
   if (!Number.isInteger(pageSize) || pageSize < 1 || !Number.isInteger(maxKeys) || maxKeys < 0) throw new TypeError('invalid export bounds');
   const keys = new Map<string, GatewayKeyRecord>();
-  for (let page = 1; ; page += 1) {
-    const result = await payload.find({ collection: 'api-keys', where: { state: { equals: 'active' } }, sort: 'keyId', limit: pageSize, page, depth: 0, overrideAccess: true });
-    const docs = exportableKeys(result.docs as unknown as Doc[], stripeMode);
+  let after: string | null = null;
+  for (;;) {
+    const where = after === null ? { state: { equals: 'active' } } : { and: [{ state: { equals: 'active' } }, { keyId: { greater_than: after } }] };
+    const result = await payload.find({ collection: 'api-keys', where: where as never, sort: 'keyId', limit: pageSize, pagination: false, depth: 0, overrideAccess: true });
+    const page = result.docs as unknown as Doc[];
+    if (page.length === 0) break;
+    const docs = exportableKeys(page, stripeMode);
     for (const record of withEntitlement(docs, await entitlementContext(payload, docs)).map(toGatewayRecord)) if (record.state === 'active') keys.set(record.id, record);
     if (keys.size > maxKeys) throw new EndpointError('snapshot_too_large');
-    if (!result.hasNextPage) break;
+    after = String(page[page.length - 1].keyId);
+    if (page.length < pageSize) break;
   }
   return [...keys.values()];
 }

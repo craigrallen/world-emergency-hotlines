@@ -414,7 +414,7 @@ describe('managed API keys', () => {
     // so revoked and expired history never counts against the gateway's snapshot limit.
     expect(exported.data.keys.find((record: { id: string }) => record.id === created.data.record.id)).toBeUndefined();
     expect(exported.data.keys.every((record: { state: string }) => record.state === 'active')).toBe(true);
-    // The snapshot is assembled page by page and its capacity bound counts keys that evaluate as active, never stored history.
+    // The snapshot is assembled in keyset pages (one key per page here) and its capacity bound counts keys that evaluate as active, never stored history.
     const paged = await collectActiveKeys(payload, 'test', { pageSize: 1 });
     expect(paged.map((record) => record.id).sort()).toEqual(exported.data.keys.map((record: { id: string }) => record.id).sort());
     await expect(collectActiveKeys(payload, 'test', { pageSize: 1, maxKeys: 0 })).rejects.toMatchObject({ code: 'snapshot_too_large' });
