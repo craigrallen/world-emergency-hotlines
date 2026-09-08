@@ -49,12 +49,12 @@ export interface ApplyOptions {
 }
 
 /**
- * Same-second tie resolver for the payments mirror: Stripe's current object for the
+ * Current-state resolver for the payments mirror (ties and newer events): Stripe's current object for the
  * family, as the webhook handlers use (`lib/stripe.ts` builds one from the CMS's
- * Stripe client). Null means this CMS has no Stripe client, hence no webhook
- * consumer, so the payments service is the only writer and its record applies.
+ * Stripe client). Ordering allows an incoming invoice fallback only for newer
+ * events when Stripe has no latest invoice; ties must not resurrect old invoices.
  */
-export type MirrorTieBreaker = (family: EventFamily, patch: SubscriptionPatch) => Promise<SubscriptionPatch | null>;
+export type MirrorTieBreaker = (family: EventFamily, patch: SubscriptionPatch, ordering: 'tie' | 'newer') => Promise<SubscriptionPatch | null>;
 
 interface DrizzleSession { db: { execute(query: unknown): Promise<unknown> } }
 interface DrizzleAdapterLike { name?: string; sessions?: Record<string, DrizzleSession>; tableNameMap?: Map<string, string> }
@@ -278,9 +278,9 @@ export async function syncSubscriptionFromEntitlement(payload: Payload, doc: Rec
   const meta = { eventId: typeof doc.sourceEvent === 'string' ? doc.sourceEvent : null, source: 'payments' as const };
   const invoiceStatus = record.last_invoice_status === 'paid' || record.last_invoice_status === 'payment_failed' ? record.last_invoice_status : undefined;
 
-  const settle = (family: EventFamily, patch: SubscriptionPatch) => async (existing: Doc | null): Promise<SubscriptionPatch | null> => {
+  const settle = (family: EventFamily, patch: SubscriptionPatch) => async (existing: Doc | null, ordering: 'tie' | 'newer'): Promise<SubscriptionPatch | null> => {
     if (existing && familyUnchanged(family, patch, existing)) return patch;
-    return tieBreaker ? tieBreaker(family, patch) : patch;
+    return tieBreaker ? tieBreaker(family, patch, ordering) : patch;
   };
   const apply = (patch: SubscriptionPatch, family: EventFamily) => applySubscriptionPatch(payload, patch, { ...meta, family, eventCreated: epochOf(family), reconcile: settle(family, patch) }, req);
   let result: Doc | null = null;

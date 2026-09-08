@@ -8,9 +8,10 @@ import { resolve } from 'node:path';
 import { createHmac } from 'node:crypto';
 import { call, createUser, login, paymentsStore, signEvent, startMockStripe, stripeEvent } from './helpers';
 import { INTERNAL_CONTEXT } from '../src/access';
-import { claimEvent, handleStripeEvent as applyEvent, periodEndOf, releaseEvent } from '../src/lib/stripe';
+import { claimEvent, handleStripeEvent as applyEvent, periodEndOf, releaseEvent, mirrorTieBreaker } from '../src/lib/stripe';
 import { toGatewayRecord } from '../src/lib/gateway-keys';
 import { collectActiveKeys, entitledAccounts, exportableKeys, withEntitlement } from '../src/endpoints/gateway';
+import { syncSubscriptionFromEntitlement } from '../src/lib/subscriptions';
 import { grantLivemode } from '../src/endpoints/account';
 
 let payload: Payload;
@@ -749,4 +750,24 @@ describe('managed API keys', () => {
     expect(denied.status).toBe(403);
     expect(denied.data.error.code).toBe('no_entitlement');
   });
+});
+
+test('payments invoice mirror uses null-latest fallback only for strictly newer epochs', async () => {
+  const id = 'sub_syntheticinvoicefallback';
+  const mirror = (epoch: number, invoice: string, status: string) => syncSubscriptionFromEntitlement(payload, {
+    subscription: id, customer: 'cus_synthetic00000001', livemode: false,
+    record: { invoice_event_epoch: epoch, last_invoice: invoice, last_invoice_status: status },
+  }, undefined, mirrorTieBreaker());
+  const stored = async () => (await payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: id } }, overrideAccess: true })).docs[0];
+  stripe.objects.set(`/v1/subscriptions/${id}`, subscription(id, { latest_invoice: null }));
+  await mirror(100, 'in_syntheticoldinvoice', 'payment_failed');
+  await mirror(101, 'in_syntheticnewinvoice', 'paid');
+  expect(await stored()).toMatchObject({ lastInvoiceId: 'in_syntheticnewinvoice', lastInvoiceStatus: 'paid', lastInvoiceEventCreated: 101 });
+  await mirror(101, 'in_syntheticoldinvoice', 'payment_failed');
+  await mirror(100, 'in_syntheticoldinvoice', 'payment_failed');
+  expect(await stored()).toMatchObject({ lastInvoiceId: 'in_syntheticnewinvoice', lastInvoiceStatus: 'paid', lastInvoiceEventCreated: 101 });
+  // When Stripe has a latest invoice it wins over even a strictly newer incoming patch.
+  stripe.objects.set(`/v1/subscriptions/${id}`, subscription(id, { latest_invoice: { id: 'in_syntheticcurrentinvoice', status: 'paid' } }));
+  await mirror(102, 'in_syntheticoldinvoice', 'payment_failed');
+  expect(await stored()).toMatchObject({ lastInvoiceId: 'in_syntheticcurrentinvoice', lastInvoiceStatus: 'paid', lastInvoiceEventCreated: 102 });
 });

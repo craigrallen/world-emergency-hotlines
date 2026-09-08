@@ -102,3 +102,12 @@ test('redact removes Stripe key material from strings and objects', () => {
   assert.deepEqual(redact({ authorization: 'x', nested: { STRIPE_SECRET_KEY: key, note: `see ${key}` }, list: [key] }), { authorization: '[REDACTED]', nested: { STRIPE_SECRET_KEY: '[REDACTED]', note: 'see [REDACTED]' }, list: ['[REDACTED]'] });
   assert.equal(redact(42), 42);
 });
+
+test('deprecated PAYMENTS_RETURN_PATH is allowlisted and entirely ignored', () => {
+  assert.ok(KNOWN_VARIABLES.includes('PAYMENTS_RETURN_PATH'));
+  for (const env of [{}, enabled(), enabled({ PAYMENTS_MODE: 'live', STRIPE_SECRET_KEY: LIVE_KEY })]) {
+    for (const value of ['', '/account', '/billing/portal?session_id=cs_test_synthetic0001', 'https://evil.example/']) {
+      assert.deepEqual(loadConfig({ ...env, PAYMENTS_RETURN_PATH: value }), loadConfig(env));
+    }
+  }
+});

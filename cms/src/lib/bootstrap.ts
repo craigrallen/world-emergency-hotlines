@@ -2,6 +2,10 @@ import type { Payload } from 'payload';
 import type { CmsEnv } from '../env';
 import { INTERNAL_CONTEXT } from '../access';
 
+export function localFirstUserEnabled(env: CmsEnv): boolean {
+  return !env.building && env.nodeEnv !== 'production' && env.databaseKind === 'sqlite' && !env.bootstrapAdmin;
+}
+
 export async function bootstrapAdmin(payload: Payload, env: CmsEnv): Promise<void> {
   if (env.building) return;
   const admins = await payload.count({ collection: 'users', where: { role: { equals: 'admin' } }, overrideAccess: true });

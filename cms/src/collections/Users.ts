@@ -1,9 +1,10 @@
 import type { CollectionConfig, PayloadRequest } from 'payload';
-import { addDataAndFileToRequest, headersWithCors, resetPasswordOperation, ValidationError } from 'payload';
+import { addDataAndFileToRequest, headersWithCors, registerFirstUserOperation, resetPasswordOperation, ValidationError } from 'payload';
 import { generatePayloadCookie } from 'payload/shared';
 import { sql } from '@payloadcms/db-postgres';
 import { INTERNAL_CONTEXT, ROLES, SERVICE_SCOPES, adminField, hasRole, isAdmin, isInternal, selfOrAdmin, selfOrStaff, staffField } from '../access';
 import { getEnv } from '../env';
+import { localFirstUserEnabled } from '../lib/bootstrap';
 import { resetPasswordEmailHTML, resetPasswordEmailSubject, verifyEmailHTML, verifyEmailSubject } from '../lib/emails';
 
 const env = getEnv();
@@ -12,6 +13,8 @@ const env = getEnv();
 const PRIVILEGED_FIELDS = ['role', 'serviceScope', 'enableAPIKey', 'apiKey', 'apiKeyIndex', 'stripeLiveCustomerId', 'stripeTestCustomerId', 'notes', 'loginAttempts', 'lockUntil', '_verified', '_verificationToken', 'sessions'];
 // Only Payload’s server-side operation hook can mark a trusted reset request.
 const trustedResets = new WeakSet<object>();
+// Only the guarded first-register endpoint can grant the local initial admin role.
+const trustedFirstUsers = new WeakSet<object>();
 export const PASSWORD_MIN_LENGTH = 12;
 export const PASSWORD_MAX_LENGTH = 256;
 
@@ -155,8 +158,9 @@ export const Users: CollectionConfig = {
             if (operation === 'update' && originalDoc && field in originalDoc) (data as Record<string, unknown>)[field] = originalDoc[field];
           }
           // `role` is required, so pin it explicitly instead of leaving it undefined.
-          (data as Record<string, unknown>).role = operation === 'create' ? 'member' : ((originalDoc?.role as string | undefined) ?? 'member');
+          (data as Record<string, unknown>).role = operation === 'create' ? (trustedFirstUsers.has(req) ? 'admin' : 'member') : ((originalDoc?.role as string | undefined) ?? 'member');
         }
+        if (operation === 'create' && trustedFirstUsers.has(req)) data._verified = true;
         // Server-side password policy for registration, self-service change, and reset alike.
         if (data.password !== undefined && data.password !== null) {
           if (typeof data.password !== 'string' || data.password.length < PASSWORD_MIN_LENGTH || data.password.length > PASSWORD_MAX_LENGTH) {
@@ -188,7 +192,30 @@ export const Users: CollectionConfig = {
     ],
   },
   endpoints: [
-    { path: '/first-register', method: 'post', handler: () => Response.json({ errors: [{ message: 'First-user setup is disabled. Configure CMS_ADMIN_EMAIL and CMS_ADMIN_PASSWORD before startup.' }] }, { status: 403 }) },
+    {
+      path: '/first-register', method: 'post',
+      handler: async (req) => {
+        if (!localFirstUserEnabled(env)) return Response.json({ errors: [{ message: 'First-user setup is disabled. Configure CMS_ADMIN_EMAIL and CMS_ADMIN_PASSWORD before startup.' }] }, { status: 403 });
+        await addDataAndFileToRequest(req);
+        const collection = req.payload.collections.users;
+        trustedFirstUsers.add(req);
+        let result;
+        try {
+          // Payload checks for an empty collection inside its transaction, creates,
+          // verifies, and logs in the user. Accept only credentials from the body.
+          result = await registerFirstUserOperation({ collection, data: {
+            role: 'admin',
+            email: typeof req.data?.email === 'string' ? req.data.email : '',
+            password: typeof req.data?.password === 'string' ? req.data.password : '',
+          }, req });
+        } finally {
+          trustedFirstUsers.delete(req);
+        }
+        const headers = new Headers({ 'cache-control': 'no-store' });
+        if (typeof result.token === 'string') headers.set('Set-Cookie', generatePayloadCookie({ collectionAuthConfig: collection.config.auth, cookiePrefix: req.payload.config.cookiePrefix, token: result.token }));
+        return Response.json({ message: req.t('authentication:successfullyRegisteredFirstUser'), ...result }, { headers: headersWithCors({ headers, req }), status: 200 });
+      },
+    },
     {
       // Overrides Payload's built-in reset so the password policy also covers the
       // reset path: the built-in operation hashes the new password without running

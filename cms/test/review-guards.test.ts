@@ -1,5 +1,5 @@
 import { describe, expect, test, vi } from 'vitest';
-import { bootstrapAdmin } from '../src/lib/bootstrap';
+import { bootstrapAdmin, localFirstUserEnabled } from '../src/lib/bootstrap';
 import { getEnv } from '../src/env';
 import { readWebhookBody, MAX_WEBHOOK_BODY_BYTES, stripeWebhookEndpoint } from '../src/endpoints/stripe-webhook';
 import { withEntitlement } from '../src/endpoints/gateway';
@@ -10,6 +10,13 @@ function bootstrapFixture(admins: number, users: number) {
 
 describe('bootstrap startup policy', () => {
   const env = () => ({ ...getEnv(), nodeEnv: 'production', bootstrapAdmin: null });
+  test('web bootstrap is limited to non-production SQLite without configured credentials', () => {
+    const local = { ...getEnv(), nodeEnv: 'development', databaseKind: 'sqlite' as const, bootstrapAdmin: null };
+    expect(localFirstUserEnabled(local)).toBe(true);
+    for (const overrides of [{ nodeEnv: 'production' }, { databaseKind: 'postgres' as const }, { building: true }, { bootstrapAdmin: { email: 'admin@example.test', password: 'synthetic-password-0001' } }]) {
+      expect(localFirstUserEnabled({ ...local, ...overrides })).toBe(false);
+    }
+  });
   test('empty production fails clearly without explicit bootstrap, existing admin starts normally', async () => {
     await expect(bootstrapAdmin(bootstrapFixture(0, 0) as never, env())).rejects.toThrow(/CMS_ADMIN_EMAIL and CMS_ADMIN_PASSWORD/);
     await expect(bootstrapAdmin(bootstrapFixture(1, 1) as never, env())).resolves.toBeUndefined();

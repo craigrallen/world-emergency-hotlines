@@ -173,19 +173,19 @@ async function latestInvoicePatch(stripe: Stripe, subscriptionId: string, livemo
 }
 
 /**
- * Same-second tie resolver for the payments mirror (`syncSubscriptionFromEntitlement`):
+ * Current-state resolver for the payments mirror (`syncSubscriptionFromEntitlement`):
  * Stripe's current object for the family, exactly as the webhook handlers reconcile
- * their own ties. Null while this CMS has no Stripe client: it then has no webhook
+ * ties and newer events. Null while this CMS has no Stripe client: it then has no webhook
  * consumer either, so the payments service is the only writer of subscription state
  * and its merged record is authoritative.
  */
 export function mirrorTieBreaker(): MirrorTieBreaker | null {
   const stripe = getStripe();
   if (!stripe) return null;
-  return async (family, patch) => {
+  return async (family, patch, ordering) => {
     const livemode = patch.livemode === true;
     if (family === 'subscription') return subscriptionPatch(await stripe.subscriptions.retrieve(patch.stripeSubscriptionId), livemode);
-    if (family === 'invoice') return latestInvoicePatch(stripe, patch.stripeSubscriptionId, livemode);
+    if (family === 'invoice') return latestInvoicePatch(stripe, patch.stripeSubscriptionId, livemode, ordering === 'newer' ? patch : null);
     return patch.checkoutSessionId ? checkoutPatch(await stripe.checkout.sessions.retrieve(patch.checkoutSessionId), livemode) : null;
   };
 }

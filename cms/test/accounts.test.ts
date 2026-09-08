@@ -12,9 +12,6 @@ const PASSWORD = 'correct-horse-battery-staple-01';
 beforeAll(async () => {
   stripe = await startMockStripe();
   payload = await getPayload({ config: configPromise });
-  const first = await call('/cms/api/users/first-register', { method: 'POST', body: { email: 'stranded@example.test', password: PASSWORD } });
-  expect(first.status).toBe(403);
-  expect((await payload.count({ collection: 'users', overrideAccess: true })).totalDocs).toBe(0);
   await createUser(payload, { email: 'admin@example.test', password: PASSWORD, role: 'admin', name: 'Admin' });
   await createUser(payload, { email: 'staff@example.test', password: PASSWORD, role: 'staff' });
   await payload.create({ collection: 'plans', data: { offerId: 'growth_monthly', label: 'Growth — monthly', description: 'Synthetic plan', mode: 'subscription', stripePriceId: 'price_synthetic0001', quantity: 1, active: true, gateway: { permissions: ['manifest', 'records'], quotaRate: 2, quotaBurst: 20 } }, overrideAccess: true });
@@ -316,10 +313,9 @@ describe('review regressions: account integrity', () => {
     expect((await call(`/cms/api/users/${user.id}`, { method: 'PATCH', token, body: { email: user.email, name: 'Allowed edit' } })).status).toBe(200);
   });
 
-  test('special first-user registration is disabled', async () => {
+  test('first-user registration refuses an existing database', async () => {
     const response = await call('/cms/api/users/first-register', { method: 'POST', body: { email: 'first-user@example.test', password: PASSWORD } });
     expect(response.status).toBe(403);
-    expect(JSON.stringify(response.data)).toMatch(/First-user setup is disabled/);
   });
 });
 

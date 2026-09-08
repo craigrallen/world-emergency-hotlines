@@ -47,6 +47,7 @@ Documented with defaults in `payments/.env.example`. Summary:
 | `PAYMENTS_MODE` | payments | `disabled` (default), `test`, or `live`. Kill switch. |
 | `PAYMENTS_HOST`, `PORT` | payments | Bind address and port. Railway private networking is IPv6, so use `::` there. |
 | `PAYMENTS_PUBLIC_ORIGIN` | payments | Canonical site origin for return URLs and the same-origin check. `https://worldhotlines.org`. |
+| `PAYMENTS_RETURN_PATH` | payments | Deprecated, allowlisted and ignored for compatibility with older deployments. Remove it when updating configuration. It affects neither routing nor authorization; session IDs cannot authorize portal access. |
 | `PAYMENTS_SUCCESS_PATH`, `PAYMENTS_CANCEL_PATH` | payments | Checkout return paths on the public origin. Defaults match the built pages. |
 | `PAYMENTS_TRUST_PROXY` | payments | `1` behind Caddy so `X-Forwarded-For` drives abuse limiting. |
 | `PAYMENTS_OFFERS` | payments | JSON map of offer id → `{price, mode, quantity?}`. Ids must match `payments/contracts/v1/offers.json`. |
