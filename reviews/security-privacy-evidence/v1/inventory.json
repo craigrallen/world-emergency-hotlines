@@ -12,7 +12,7 @@
   "sources": {
     ".dockerignore": "sha256:309e5c3cd50c6af33e2ff520c8cb2e0f93c946393cdb499c38c8f3302642e2ef",
     ".github/workflows/web-ci.yml": "sha256:5b44191fe832614cc5eff96478ae1945daa48a40b4c55802173b83d3c6e7e0ce",
-    "Caddyfile": "sha256:b9895d009c63d66dbf5c28a0e84c7dab1def3cb578ae9bcfd5e6ea9792f5202f",
+    "Caddyfile": "sha256:034f6dcea54b10c54244fa8e9d7416fe5d0f19973566129c0acf4726f886bf3a",
     "Dockerfile": "sha256:bc2e53928cae0891715aebe88a5c67623f4910f6dc86d456cbe89c6b9147dab0",
     "gateway/contracts/v1/privacy.json": "sha256:9efba46c957fa03dbcffe01297d030a2a0fca1038e19f676789c80c15d508628",
     "gateway/contracts/v1/security.json": "sha256:fdd37e90f7a93865aa83c23d6ec6bcbc55bd042952dfd508370b9bd33d0b9a4f",
