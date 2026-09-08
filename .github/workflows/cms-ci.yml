@@ -71,6 +71,9 @@ jobs:
       - name: ESLint
         run: npm run lint
 
+      - name: Dependency tree is coherent
+        run: npm run verify:dependencies
+
       - name: Reviewed production dependency audit
         run: npm run audit:policy
 

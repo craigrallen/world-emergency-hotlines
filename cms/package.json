@@ -17,6 +17,7 @@
     "lint": "eslint . --max-warnings=0",
     "migrate:create": "payload migrate:create",
     "audit:policy": "node scripts/audit-policy.mjs",
+    "verify:dependencies": "npm ls esbuild @esbuild-kit/core-utils drizzle-kit yaml --all",
     "test:postgres": "vitest run test/postgres.test.ts"
   },
   "engines": {
@@ -45,9 +46,13 @@
     "eslint": "^9.39.5",
     "typescript": "^5.9.0",
     "typescript-eslint": "^8.67.0",
-    "vitest": "^3.2.0"
+    "vitest": "^3.2.0",
+    "yaml": "2.9.0"
   },
   "overrides": {
+    "@esbuild-kit/core-utils": {
+      "esbuild": "0.25.12"
+    },
     "monaco-editor": {
       "dompurify": "3.4.15"
     }
