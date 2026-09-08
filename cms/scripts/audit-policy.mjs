@@ -5,7 +5,6 @@ import { pathToFileURL } from 'node:url';
 // Exact affected installations, not package-name or severity-wide exemptions.
 export const exceptions = Object.freeze({
   'GHSA-jg8r-5jh2-v2xj': { package: 'payload', nodes: { 'node_modules/payload': '3.88.0' }, severity: 'moderate', expires: '2026-10-08', reason: 'Runtime dependency; explicitly restricted access.unlock=isAdmin, covered by REST tests. Upstream has no patch at review time.' },
-  'GHSA-67mh-4wv8-2f99': { package: 'esbuild', nodes: { 'node_modules/@esbuild-kit/core-utils/node_modules/esbuild': '0.18.20' }, severity: 'moderate', expires: '2026-10-08', reason: 'Payload/Drizzle migration tooling. No esbuild serve() endpoint is started by the production app; do not expose the development server.' },
 });
 
 export function checkAudit(report, lock, today = new Date().toISOString().slice(0, 10)) {
