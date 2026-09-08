@@ -1,8 +1,10 @@
-import http from 'node:http';
+import type http from 'node:http';
+import { getStripe } from '../src/lib/stripe';
 import Stripe from 'stripe';
 import type { Payload } from 'payload';
 import { REST_DELETE, REST_GET, REST_PATCH, REST_POST } from '@payloadcms/next/routes';
 import configPromise from '@payload-config';
+import { createCmsStore } from '../../payments/src/cms-store.mjs';
 
 export const SITE = 'http://localhost:8080';
 export const WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET as string;
@@ -54,31 +56,41 @@ export function stripeEvent(type: string, object: Record<string, unknown>, { cre
  * Minimal Stripe API double for the three calls the CMS makes. Records requests so
  * tests can assert on customer creation, checkout session parameters, and portal URLs.
  */
-export async function startMockStripe(port = 12111) {
+export async function startMockStripe() {
   const requests: { method: string; path: string; body: URLSearchParams; headers: http.IncomingHttpHeaders }[] = [];
   /** Objects served for GET /v1/... retrievals (same-second tie reconciliation), keyed by path. */
   const objects = new Map<string, unknown>();
   let customers = 0, sessions = 0, portals = 0;
-  const server = http.createServer((req, res) => {
-    let raw = '';
-    req.on('data', (chunk) => { raw += chunk; });
-    req.on('end', () => {
-      const body = new URLSearchParams(raw);
-      requests.push({ method: req.method ?? '', path: req.url ?? '', body, headers: req.headers });
-      const send = (status: number, payload: unknown) => { res.writeHead(status, { 'content-type': 'application/json', 'request-id': 'req_synthetic' }); res.end(JSON.stringify(payload)); };
-      if (!String(req.headers.authorization).startsWith('Bearer sk_test_')) return send(401, { error: { type: 'invalid_request_error', message: 'unauthorized' } });
-      if (req.method === 'POST' && req.url === '/v1/customers') { customers += 1; return send(200, { id: `cus_synthetic${String(customers).padStart(8, '0')}`, object: 'customer', email: body.get('email') }); }
-      if (req.method === 'POST' && req.url === '/v1/checkout/sessions') {
-        sessions += 1;
-        if (body.get('line_items[0][price]') === 'price_synthetic_broken') return send(400, { error: { type: 'invalid_request_error', message: 'No such price' } });
-        const id = `cs_test_synthetic${String(sessions).padStart(8, '0')}`;
-        return send(200, { id, object: 'checkout.session', url: `https://checkout.stripe.com/c/pay/${id}`, mode: body.get('mode'), customer: body.get('customer') });
-      }
-      if (req.method === 'GET' && objects.has(req.url ?? '')) return send(200, objects.get(req.url ?? ''));
-      if (req.method === 'POST' && req.url === '/v1/billing_portal/sessions') { portals += 1; return send(200, { id: `bps_synthetic${portals}`, object: 'billing_portal.session', url: `https://billing.stripe.com/p/session/synthetic${portals}` }); }
-      return send(404, { error: { type: 'invalid_request_error', message: `unknown route ${req.method} ${req.url}` } });
-    });
-  });
-  await new Promise<void>((ok) => server.listen(port, '127.0.0.1', () => ok()));
-  return { requests, objects, close: () => new Promise<void>((ok) => server.close(() => ok())) };
+  const fetchMock: typeof fetch = async (input, init = {}) => {
+    const url = new URL(String(input));
+    const req = { method: init.method, url: url.pathname, headers: Object.fromEntries(new Headers(init.headers).entries()) };
+    const body = new URLSearchParams(String(init.body ?? ''));
+    requests.push({ method: req.method ?? '', path: req.url, body, headers: req.headers });
+    const send = (status: number, value: unknown) => new Response(JSON.stringify(value), { status, headers: { 'content-type': 'application/json', 'request-id': 'req_synthetic' } });
+    if (!String(req.headers.authorization).startsWith('Bearer sk_test_')) return send(401, { error: { type: 'invalid_request_error', message: 'unauthorized' } });
+    if (req.method === 'POST' && req.url === '/v1/customers') { customers += 1; return send(200, { id: `cus_synthetic${String(customers).padStart(8, '0')}`, object: 'customer', email: body.get('email') }); }
+    if (req.method === 'POST' && req.url === '/v1/checkout/sessions') {
+      sessions += 1;
+      if (body.get('line_items[0][price]') === 'price_synthetic_broken') return send(400, { error: { type: 'invalid_request_error', message: 'No such price' } });
+      const id = `cs_test_synthetic${String(sessions).padStart(8, '0')}`;
+      return send(200, { id, object: 'checkout.session', url: `https://checkout.stripe.com/c/pay/${id}`, mode: body.get('mode'), customer: body.get('customer') });
+    }
+    if (req.method === 'GET' && objects.has(req.url ?? '')) return send(200, objects.get(req.url ?? ''));
+    if (req.method === 'POST' && req.url === '/v1/billing_portal/sessions') { portals += 1; return send(200, { id: `bps_synthetic${portals}`, object: 'billing_portal.session', url: `https://billing.stripe.com/p/session/synthetic${portals}` }); }
+    return send(404, { error: { type: 'invalid_request_error', message: `unknown route ${req.method} ${req.url}` } });
+  };
+  // Test-only transport injection; all request encoding, parsing, errors and signatures still use the SDK.
+  const client = getStripe() as unknown as { _setApiField(key: string, value: unknown): void };
+  client._setApiField('httpClient', Stripe.createFetchHttpClient(fetchMock));
+  return { requests, objects, close: async () => {} };
+}
+
+/** The real payments adapter talking to Payload's REST router, without a network listener. */
+export function paymentsStore(apiKey: string) {
+  const options = { url: 'http://localhost:3000/cms/api', apiKey, fetchImpl: async (input: RequestInfo | URL, init: RequestInit = {}) => {
+    const url = new URL(input instanceof Request ? input.url : String(input));
+    const response = await call(url.pathname + url.search, { method: init.method as 'POST', apiKey, body: init.body ? JSON.parse(String(init.body)) : undefined });
+    return Response.json(response.data, { status: response.status });
+  } };
+  return createCmsStore(options);
 }

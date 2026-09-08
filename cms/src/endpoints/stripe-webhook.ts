@@ -1,7 +1,7 @@
 import type Stripe from 'stripe';
 import type { Endpoint } from 'payload';
 import { getEnv } from '../env';
-import { fail, json } from '../lib/responses';
+import { EndpointError, fail, json } from '../lib/responses';
 import { getStripe, handleStripeEvent } from '../lib/stripe';
 
 export const STRIPE_WEBHOOK_PATH = '/stripe/webhooks';
@@ -27,11 +27,9 @@ export const stripeWebhookEndpoint: Endpoint = {
     if (!stripe || !env.stripeWebhookSecret) return fail(req, 'stripe_disabled');
     const signature = req.headers.get('stripe-signature');
     if (!signature || signature.length > 4096) return fail(req, 'signature_invalid');
-    const length = req.headers.get('content-length');
-    if (length !== null && (!/^\d{1,7}$/.test(length) || Number(length) > MAX_WEBHOOK_BODY_BYTES)) return fail(req, 'invalid_request');
     let body: string;
-    try { body = typeof req.text === 'function' ? await req.text() : ''; } catch { return fail(req, 'invalid_request'); }
-    if (!body || body.length > MAX_WEBHOOK_BODY_BYTES) return fail(req, 'invalid_request');
+    try { body = await readWebhookBody(req); } catch (error) { return fail(req, error instanceof EndpointError ? error.code : 'invalid_request'); }
+    if (!body) return fail(req, 'invalid_request');
     let event: Stripe.Event;
     try {
       event = stripe.webhooks.constructEvent(body, signature, env.stripeWebhookSecret);
@@ -47,3 +45,23 @@ export const stripeWebhookEndpoint: Endpoint = {
     return json(req, 200, { received: true, outcome });
   },
 };
+
+/** Never call text()/arrayBuffer(): count bytes before retaining each stream chunk. */
+export async function readWebhookBody(req: { headers: Headers; body?: ReadableStream<Uint8Array> | null }): Promise<string> {
+  const length = req.headers.get('content-length');
+  if (length !== null && (!/^\d+$/.test(length) || Number(length) > MAX_WEBHOOK_BODY_BYTES)) throw new EndpointError('payload_too_large');
+  if (!req.body) throw new EndpointError('invalid_request');
+  const reader = req.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let size = 0;
+  try {
+    for (;;) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      size += value.byteLength;
+      if (size > MAX_WEBHOOK_BODY_BYTES) { await reader.cancel(); throw new EndpointError('payload_too_large'); }
+      chunks.push(value);
+    }
+  } finally { reader.releaseLock(); }
+  return Buffer.concat(chunks, size).toString('utf8');
+}

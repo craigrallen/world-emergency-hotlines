@@ -6,11 +6,12 @@ import addFormats from 'ajv-formats';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { createHmac } from 'node:crypto';
-import { call, createUser, login, signEvent, startMockStripe, stripeEvent } from './helpers';
+import { call, createUser, login, paymentsStore, signEvent, startMockStripe, stripeEvent } from './helpers';
 import { INTERNAL_CONTEXT } from '../src/access';
-import { claimEvent, handleStripeEvent, periodEndOf, releaseEvent } from '../src/lib/stripe';
+import { claimEvent, handleStripeEvent as applyEvent, periodEndOf, releaseEvent, mirrorTieBreaker } from '../src/lib/stripe';
 import { toGatewayRecord } from '../src/lib/gateway-keys';
 import { collectActiveKeys, entitledAccounts, exportableKeys, withEntitlement } from '../src/endpoints/gateway';
+import { syncSubscriptionFromEntitlement } from '../src/lib/subscriptions';
 import { grantLivemode } from '../src/endpoints/account';
 
 let payload: Payload;
@@ -36,6 +37,13 @@ beforeAll(async () => {
   await payload.create({ collection: 'plans', data: { offerId: 'growth_monthly', label: 'Growth — monthly', mode: 'subscription', stripePriceId: 'price_synthetic0001', quantity: 1, active: true, gateway: { permissions: ['manifest', 'records'], quotaRate: 2, quotaBurst: 20 } }, overrideAccess: true });
 });
 afterAll(async () => { await stripe.close(); await payload.db.destroy?.(); });
+
+// Most tests arrange current Stripe state to match their event. Ordering tests below
+// call applyEvent directly and independently control the current snapshot.
+async function handleStripeEvent(p: Payload, event: ReturnType<typeof stripeEvent>) {
+  if (event.type.startsWith('customer.subscription.')) stripe.objects.set(`/v1/subscriptions/${event.data.object.id}`, event.data.object);
+  return applyEvent(p, event as never);
+}
 
 const buyerId = async () => (await payload.find({ collection: 'users', where: { email: { equals: 'buyer@example.test' } }, overrideAccess: true })).docs[0].id;
 
@@ -162,36 +170,44 @@ describe('Stripe webhooks through the CMS endpoint', () => {
     const find = async () => (await payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: id } }, overrideAccess: true, depth: 0 })).docs[0];
     const retrievals = () => stripe.requests.filter((r) => r.method === 'GET' && r.path === `/v1/subscriptions/${id}`).length;
     stripe.objects.set(`/v1/subscriptions/${id}`, subscription(id, { customer: 'cus_synthetic00000005', status: 'canceled' }));
-    expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.created', subscription(id, { customer: 'cus_synthetic00000005' }), { created: at }) as never)).toBe('processed');
+    expect(await applyEvent(payload, stripeEvent('customer.subscription.created', subscription(id, { customer: 'cus_synthetic00000005' }), { created: at }) as never)).toBe('processed');
     expect((await find()).status).toBe('active');
     expect(retrievals()).toBe(0);
     // Same second, cancellation delivered second: the payload is not trusted for order; Stripe's current object (canceled) is applied.
-    expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.updated', subscription(id, { customer: 'cus_synthetic00000005', status: 'canceled' }), { created: at }) as never)).toBe('processed');
+    expect(await applyEvent(payload, stripeEvent('customer.subscription.updated', subscription(id, { customer: 'cus_synthetic00000005', status: 'canceled' }), { created: at }) as never)).toBe('processed');
     expect((await find()).status).toBe('canceled');
     // Same second, the pre-cancellation "active" update delivered last: reconciled to canceled, so it can never restore access.
-    expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.updated', subscription(id, { customer: 'cus_synthetic00000005', status: 'active' }), { created: at }) as never)).toBe('processed');
+    expect(await applyEvent(payload, stripeEvent('customer.subscription.updated', subscription(id, { customer: 'cus_synthetic00000005', status: 'active' }), { created: at }) as never)).toBe('processed');
     expect((await find()).status).toBe('canceled');
     expect(retrievals()).toBe(2);
     // If Stripe cannot be asked, the tied event fails (500, claim released, Stripe retries) rather than being applied in an unknown order.
     stripe.objects.delete(`/v1/subscriptions/${id}`);
     const tied = stripeEvent('customer.subscription.updated', subscription(id, { customer: 'cus_synthetic00000005', status: 'active' }), { created: at });
-    expect(await handleStripeEvent(payload, tied as never)).toBe('handler_failed');
+    expect(await applyEvent(payload, tied as never)).toBe('handler_failed');
     expect((await payload.count({ collection: 'stripe-events', where: { eventId: { equals: tied.id } }, overrideAccess: true })).totalDocs).toBe(0);
     expect((await find()).status).toBe('canceled');
-    // A strictly newer event still applies without a fetch.
-    expect(await handleStripeEvent(payload, stripeEvent('customer.subscription.updated', subscription(id, { customer: 'cus_synthetic00000005', status: 'active' }), { created: at + 1 }) as never)).toBe('processed');
-    expect((await find()).status).toBe('active');
-    expect(retrievals()).toBe(3);
+    // A later-delivered historical active event from a newer second still fetches: cancellation must survive.
+    stripe.objects.set(`/v1/subscriptions/${id}`, subscription(id, { customer: 'cus_synthetic00000005', status: 'canceled' }));
+    expect(await applyEvent(payload, stripeEvent('customer.subscription.updated', subscription(id, { customer: 'cus_synthetic00000005', status: 'active' }), { created: at + 1 }) as never)).toBe('processed');
+    expect((await find()).status).toBe('canceled');
+    expect(retrievals()).toBe(4);
     // Two invoice events in one second for different invoices: the subscription's latest invoice decides, not the delivered one.
     const invoiceEvent = (invoiceId: string, type: string, created: number) => stripeEvent(type, { id: invoiceId, object: 'invoice', customer: 'cus_synthetic00000005', status: type === 'invoice.paid' ? 'paid' : 'open', parent: { subscription_details: { subscription: id } } }, { created });
-    expect(await handleStripeEvent(payload, invoiceEvent('in_synthetic00000052', 'invoice.paid', at + 2) as never)).toBe('processed');
+    expect(await applyEvent(payload, invoiceEvent('in_synthetic00000052', 'invoice.paid', at + 2) as never)).toBe('processed');
     expect(await find()).toMatchObject({ lastInvoiceId: 'in_synthetic00000052', lastInvoiceStatus: 'paid' });
     stripe.objects.set(`/v1/subscriptions/${id}`, subscription(id, { customer: 'cus_synthetic00000005', latest_invoice: 'in_synthetic00000052' }));
     stripe.objects.set('/v1/invoices/in_synthetic00000052', { id: 'in_synthetic00000052', object: 'invoice', status: 'paid', customer: 'cus_synthetic00000005' });
-    expect(await handleStripeEvent(payload, invoiceEvent('in_synthetic00000051', 'invoice.payment_failed', at + 2) as never)).toBe('processed'); // older invoice, same second, delivered last
-    expect(await find()).toMatchObject({ lastInvoiceId: 'in_synthetic00000052', lastInvoiceStatus: 'paid', status: 'active' });
+    expect(await applyEvent(payload, invoiceEvent('in_synthetic00000051', 'invoice.payment_failed', at + 2) as never)).toBe('processed'); // older invoice, same second, delivered last
+    expect(await find()).toMatchObject({ lastInvoiceId: 'in_synthetic00000052', lastInvoiceStatus: 'paid', status: 'canceled' });
     expect(stripe.requests.filter((r) => r.method === 'GET' && r.path === '/v1/invoices/in_synthetic00000052').length).toBe(1);
     expect(stripe.requests.filter((r) => r.method === 'GET' && r.path === '/v1/invoices/in_synthetic00000051').length).toBe(0);
+    // A strictly newer delivery remains legitimate when Stripe currently reports no
+    // latest invoice. Only invoice-family fields may move; canceled never resurrects.
+    stripe.objects.set(`/v1/subscriptions/${id}`, subscription(id, { customer: 'cus_synthetic00000005', status: 'canceled', latest_invoice: null }));
+    expect(await applyEvent(payload, invoiceEvent('in_synthetic00000053', 'invoice.payment_failed', at + 3) as never)).toBe('processed');
+    expect(await find()).toMatchObject({ lastInvoiceId: 'in_synthetic00000053', lastInvoiceStatus: 'payment_failed', status: 'canceled' });
+    expect(await applyEvent(payload, invoiceEvent('in_synthetic00000054', 'invoice.paid', at + 3) as never)).toBe('stale');
+    expect(await find()).toMatchObject({ lastInvoiceId: 'in_synthetic00000053', lastInvoiceStatus: 'payment_failed', status: 'canceled' });
   });
 
   test('subscription events activate the account, are idempotent, and never let an older event overwrite newer state', async () => {
@@ -231,11 +247,26 @@ describe('Stripe webhooks through the CMS endpoint', () => {
 
 describe('payments-service store contract (service API key)', () => {
   const service = { apiKey: 'service-api-key-synthetic-0001' };
+  test('real payments adapter completes and releases only its lease through the authenticated endpoint', async () => {
+    const store = paymentsStore(service.apiKey);
+    const id = 'evt_adapter00000001';
+    expect(await store.claimEvent(id, 'lease-adapter-0001')).toBe('claimed');
+    expect(await store.claimEvent(id, 'lease-adapter-0002')).toBe('in_progress');
+    expect(await store.completeEvent(id, 'lease-adapter-0002')).toBe(false);
+    expect(await store.releaseEvent(id, 'lease-adapter-0002')).toBe(false);
+    expect(await store.completeEvent(id, 'lease-adapter-0001')).toBe(true);
+    expect(await store.claimEvent(id, 'lease-adapter-0002')).toBe('duplicate');
+    expect(await store.releaseEvent(id, 'lease-adapter-0001')).toBe(true);
+    const body = { eventId: id, lease: 'lease-adapter-0001', action: 'complete' };
+    expect((await call('/cms/api/stripe-events/lease', { method: 'POST', body })).status).toBe(403);
+    expect((await call('/cms/api/stripe-events/lease', { method: 'POST', apiKey: 'service-api-key-synthetic-0002', body })).status).toBe(403);
+  });
+
   test('claims events first-writer-wins per consumer through the unique claim key and releases them', async () => {
-    const first = await call('/cms/api/stripe-events', { method: 'POST', apiKey: service.apiKey, origin: null, body: { eventId: 'evt_payments00000001', source: 'payments' } });
+    const first = await call('/cms/api/stripe-events', { method: 'POST', apiKey: service.apiKey, origin: null, body: { eventId: 'evt_payments00000001', source: 'payments', lease: 'lease-original-0001' } });
     expect(first.status).toBe(201);
     expect(first.data.doc.claimKey).toBe('payments:evt_payments00000001');
-    const duplicate = await call('/cms/api/stripe-events', { method: 'POST', apiKey: service.apiKey, origin: null, body: { eventId: 'evt_payments00000001', source: 'payments' } });
+    const duplicate = await call('/cms/api/stripe-events', { method: 'POST', apiKey: service.apiKey, origin: null, body: { eventId: 'evt_payments00000001', source: 'payments', lease: 'lease-original-0001' } });
     expect(duplicate.status).toBe(400);
     // The CMS webhook's claim on the same event is a different consumer's and never blocks the payments service (or vice versa).
     const otherConsumer = await payload.create({ collection: 'stripe-events', data: { eventId: 'evt_payments00000001', source: 'cms', claimKey: 'cms:evt_payments00000001' }, overrideAccess: true, depth: 0 });
@@ -246,7 +277,7 @@ describe('payments-service store contract (service API key)', () => {
     expect(forgedKey.data.doc).toMatchObject({ source: 'payments', claimKey: 'payments:evt_payments00000004' });
     const lookup = await call('/cms/api/stripe-events?where[claimKey][equals]=payments:evt_payments00000001&limit=1&depth=0', { apiKey: service.apiKey, origin: null });
     expect(lookup.data.totalDocs).toBe(1);
-    const released = await call('/cms/api/stripe-events?where[claimKey][equals]=payments:evt_payments00000001', { method: 'DELETE', apiKey: service.apiKey, origin: null });
+    const released = await call('/cms/api/stripe-events/lease', { method: 'POST', apiKey: service.apiKey, origin: null, body: { eventId: 'evt_payments00000001', lease: 'lease-original-0001', action: 'release' } });
     expect(released.status).toBe(200);
     expect((await call('/cms/api/stripe-events?where[claimKey][equals]=payments:evt_payments00000001', { apiKey: service.apiKey, origin: null })).data.totalDocs).toBe(0);
     expect((await payload.count({ collection: 'stripe-events', where: { eventId: { equals: 'evt_payments00000001' } }, overrideAccess: true })).totalDocs).toBe(1); // the CMS claim survives the payments release
@@ -267,14 +298,14 @@ describe('payments-service store contract (service API key)', () => {
     // A take-over is re-checked under the row lock: a fresh incomplete claim cannot be taken over (even by id), an abandoned one can, once.
     const fresh = await call('/cms/api/stripe-events', { method: 'POST', apiKey: service.apiKey, origin: null, body: { eventId: 'evt_payments00000008', source: 'payments' } });
     expect(fresh.status).toBe(201);
-    expect((await call(`/cms/api/stripe-events/${fresh.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { outcome: null } })).status).toBe(409);
+    expect((await call(`/cms/api/stripe-events/${fresh.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { outcome: null, lease: 'lease-takeover-0001' } })).status).toBe(409);
     await payload.db.updateOne({ collection: 'stripe-events', id: fresh.data.doc.id, data: { updatedAt: new Date(Date.now() - 10 * 60 * 1000).toISOString() } });
-    const taken = await call('/cms/api/stripe-events?where[claimKey][equals]=payments:evt_payments00000008&where[outcome][exists]=false&depth=0', { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { outcome: null } });
+    const taken = await call('/cms/api/stripe-events?where[claimKey][equals]=payments:evt_payments00000008&where[outcome][exists]=false&depth=0', { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { outcome: null, lease: 'lease-takeover-0001' } });
     expect(taken.status).toBe(200);
     expect(taken.data.docs).toHaveLength(1);
-    expect((await call(`/cms/api/stripe-events/${fresh.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { outcome: null } })).status).toBe(409); // refreshed by the take-over: a second taker backs off
-    expect((await call('/cms/api/stripe-events?where[claimKey][equals]=payments:evt_payments00000008&depth=0', { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { outcome: 'processed' } })).data.docs).toHaveLength(1);
-    expect((await call(`/cms/api/stripe-events/${fresh.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { outcome: null } })).status).toBe(409); // completed claims are never taken over
+    expect((await call(`/cms/api/stripe-events/${fresh.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { outcome: null, lease: 'lease-takeover-0001' } })).status).toBe(409); // refreshed by the take-over: a second taker backs off
+    expect((await call('/cms/api/stripe-events/lease', { method: 'POST', apiKey: service.apiKey, origin: null, body: { eventId: 'evt_payments00000008', lease: 'lease-takeover-0001', action: 'complete' } })).data.applied).toBe(true);
+    expect((await call(`/cms/api/stripe-events/${fresh.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { outcome: null, lease: 'lease-takeover-0001' } })).status).toBe(409); // completed claims are never taken over
     // A claim is completed or released only by the worker whose lease it carries: a worker that outlived the grace period and
     // was taken over cannot remove or complete its successor's claim, so the event is never applied a third time.
     const leased = await call('/cms/api/stripe-events', { method: 'POST', apiKey: service.apiKey, origin: null, body: { eventId: 'evt_payments00000009', source: 'payments', lease: 'lease-original-0001' } });
@@ -282,10 +313,10 @@ describe('payments-service store contract (service API key)', () => {
     expect(leased.data.doc.lease).toBe('lease-original-0001');
     await payload.db.updateOne({ collection: 'stripe-events', id: leased.data.doc.id, data: { updatedAt: new Date(Date.now() - 10 * 60 * 1000).toISOString() } });
     expect((await call('/cms/api/stripe-events?where[claimKey][equals]=payments:evt_payments00000009&where[outcome][exists]=false&depth=0', { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { outcome: null, lease: 'lease-successor-0002' } })).data.docs).toHaveLength(1);
-    expect((await call('/cms/api/stripe-events?where[claimKey][equals]=payments:evt_payments00000009&where[lease][equals]=lease-original-0001', { method: 'DELETE', apiKey: service.apiKey, origin: null })).data.docs ?? []).toHaveLength(0);
-    expect((await call('/cms/api/stripe-events?where[claimKey][equals]=payments:evt_payments00000009&where[lease][equals]=lease-original-0001&depth=0', { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { outcome: 'processed' } })).data.docs ?? []).toHaveLength(0);
+    expect((await call('/cms/api/stripe-events/lease', { method: 'POST', apiKey: service.apiKey, origin: null, body: { eventId: 'evt_payments00000009', lease: 'lease-original-0001', action: 'release' } })).data.applied).toBe(false);
+    expect((await call('/cms/api/stripe-events/lease', { method: 'POST', apiKey: service.apiKey, origin: null, body: { eventId: 'evt_payments00000009', lease: 'lease-original-0001', action: 'complete' } })).data.applied).toBe(false);
     expect((await payload.findByID({ collection: 'stripe-events', id: leased.data.doc.id, overrideAccess: true, depth: 0 })).outcome ?? null).toBeNull();
-    expect((await call('/cms/api/stripe-events?where[claimKey][equals]=payments:evt_payments00000009&where[lease][equals]=lease-successor-0002&depth=0', { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { outcome: 'processed' } })).data.docs).toHaveLength(1);
+    expect((await call('/cms/api/stripe-events/lease', { method: 'POST', apiKey: service.apiKey, origin: null, body: { eventId: 'evt_payments00000009', lease: 'lease-successor-0002', action: 'complete' } })).data.applied).toBe(true);
     expect((await call('/cms/api/stripe-events', { method: 'POST', apiKey: service.apiKey, origin: null, body: { eventId: 'evt_payments00000010', source: 'payments', lease: 'bad lease!' } })).status).toBe(400);
     // The CMS webhook binds its own claims the same way.
     const own = stripeEvent('customer.subscription.updated', subscription('sub_synthetic00000001'), { created: 2145918800 });
@@ -320,6 +351,7 @@ describe('payments-service store contract (service API key)', () => {
     for (let i = 0; i < 50 && (await payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: 'sub_synthetic00000002' } }, overrideAccess: true })).totalDocs === 0; i += 1) await wait(50);
     const mirrored = (await payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: 'sub_synthetic00000002' } }, overrideAccess: true, depth: 0 })).docs[0];
     expect(mirrored).toMatchObject({ user: await buyerId(), offer: 'growth_monthly', status: 'active', cancelAtPeriodEnd: true, source: 'payments', lastEventId: 'evt_payments00000003', lastEventCreated: 2145917000 });
+    stripe.objects.set('/v1/subscriptions/sub_synthetic00000002', subscription('sub_synthetic00000002', { status: 'canceled' }));
     const patched = await call(`/cms/api/entitlements/${created.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: { ...document, status: 'canceled', updatedAtEpoch: 2145917100, record: { ...record, status: 'canceled', updated_at_epoch: 2145917100 } } });
     expect(patched.status).toBe(200);
     for (let i = 0; i < 50 && (await payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: 'sub_synthetic00000002' } }, overrideAccess: true })).docs[0].status !== 'canceled'; i += 1) await wait(50);
@@ -366,19 +398,19 @@ describe('payments-service store contract (service API key)', () => {
     const created = await call('/cms/api/entitlements?depth=0', { method: 'POST', apiKey: service.apiKey, origin: null, body: document(record) });
     expect(created.status).toBe(201);
     expect((await find()).status).toBe('canceled');
-    expect(retrievals()).toBe(1);
+    expect(retrievals()).toBe(2);
     // The mirror replaying its own record (here after an invoice update) ties with unchanged subscription fields and applies without asking Stripe.
     const invoiced = { ...record, status: 'canceled', last_invoice: 'in_synthetic00000060', last_invoice_status: 'paid', invoice_event_epoch: at + 5, updated_at_epoch: at + 5, source_event: 'evt_payments00000021', based_on_revision: 1 };
     expect((await call(`/cms/api/entitlements/${created.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: document(invoiced) })).status).toBe(200);
     expect(await find()).toMatchObject({ status: 'canceled', lastInvoiceId: 'in_synthetic00000060', lastInvoiceStatus: 'paid' });
-    expect(retrievals()).toBe(1);
+    expect(retrievals()).toBe(2);
     // If Stripe cannot be asked, a conflicting tie fails the store write (the payments service then fails its delivery and
     // Stripe retries it) instead of applying either side.
     stripe.objects.delete(`/v1/subscriptions/${id}`);
     const conflicting = { ...invoiced, status: 'active', updated_at_epoch: at + 6, source_event: 'evt_payments00000022', based_on_revision: 2 };
     expect((await call(`/cms/api/entitlements/${created.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: document(conflicting) })).status).toBe(500);
     expect((await find()).status).toBe('canceled');
-    expect(retrievals()).toBe(2);
+    expect(retrievals()).toBe(3);
     // (On Postgres the failed request also rolls the store write back; the SQLite test adapter does not run transactions.)
   });
 
@@ -403,6 +435,7 @@ describe('payments-service store contract (service API key)', () => {
     const staleRead = { ...record, status: 'canceled', subscription_event_epoch: 2145918050, updated_at_epoch: 2145918050, based_on_revision: 0 };
     expect((await call(`/cms/api/entitlements/${created.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: document(staleRead as typeof record) })).status).toBe(409);
     expect((await mirrored()).status).toBe('active');
+    stripe.objects.set('/v1/subscriptions/sub_synthetic00000004', subscription('sub_synthetic00000004', { status: 'canceled' }));
     const currentRead = await call(`/cms/api/entitlements/${created.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: document({ ...staleRead, based_on_revision: 1 } as typeof record) });
     expect(currentRead.status).toBe(200);
     expect(currentRead.data.doc.record.revision).toBe(2);
@@ -421,7 +454,7 @@ describe('payments-service store contract (service API key)', () => {
     const sameEpochChange = await call(`/cms/api/entitlements/${created.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: service.apiKey, origin: null, body: document({ ...newer, status: 'past_due', source_event: 'evt_payments00000013' }) });
     expect(sameEpochChange.status).toBe(200);
     expect(await mirrored()).toMatchObject({ status: 'past_due', lastSubscriptionEventCreated: 2145918100 });
-    expect(stripe.requests.filter((r) => r.method === 'GET' && r.path === '/v1/subscriptions/sub_synthetic00000004').length).toBe(1);
+    expect(stripe.requests.filter((r) => r.method === 'GET' && r.path === '/v1/subscriptions/sub_synthetic00000004').length).toBeGreaterThanOrEqual(2);
   });
 });
 
@@ -514,7 +547,7 @@ describe('managed API keys', () => {
     // Keys bound to a subscription follow that subscription and the plan currently attached to it, never the account.
     const bound = {
       entitled: new Set(['test:7']),
-      subscriptions: new Map<string, Record<string, unknown>>([['9', { id: 9, status: 'active', livemode: false, plan: 3 }], ['10', { id: 10, status: 'canceled', livemode: false, plan: 3 }], ['12', { id: 12, status: 'trialing', livemode: false, plan: 99 }]]),
+      subscriptions: new Map<string, Record<string, unknown>>([['9', { id: 9, user: 7, status: 'active', livemode: false, plan: 3 }], ['10', { id: 10, status: 'canceled', livemode: false, plan: 3 }], ['12', { id: 12, status: 'trialing', livemode: false, plan: 99 }]]),
       plans: new Map<string, Record<string, unknown>>([['3', { id: 3, mode: 'subscription', gateway: { permissions: ['manifest'], quotaRate: 5, quotaBurst: 50 } }]]),
     };
     expect(withEntitlement([
@@ -585,6 +618,7 @@ describe('managed API keys', () => {
     expect(created.status).toBe(201);
     expect(await subscription11()).toMatchObject({ status: 'active', plan: null, offer: null, stripePriceId: 'price_synthetic0098', lastSubscriptionEventCreated: 2145917155 });
     expect(await exportedKey()).toBeUndefined(); // revoked keys are not exported
+    stripe.objects.set('/v1/subscriptions/sub_synthetic00000011', priced('sub_synthetic00000011', 'price_synthetic0001'));
     const repriced = await call(`/cms/api/entitlements/${created.data.doc.id}?depth=0`, { method: 'PATCH', apiKey: 'service-api-key-synthetic-0001', origin: null, body: mirror({ ...record, price: 'price_synthetic0001', updated_at_epoch: 2145917158, subscription_event_epoch: 2145917158, source_event: 'evt_payments00000012', based_on_revision: 1 }) });
     expect(repriced.status).toBe(200);
     const growthPlan = (await payload.find({ collection: 'plans', where: { offerId: { equals: 'growth_monthly' } }, overrideAccess: true, depth: 0 })).docs[0];
@@ -716,4 +750,24 @@ describe('managed API keys', () => {
     expect(denied.status).toBe(403);
     expect(denied.data.error.code).toBe('no_entitlement');
   });
+});
+
+test('payments invoice mirror uses null-latest fallback only for strictly newer epochs', async () => {
+  const id = 'sub_syntheticinvoicefallback';
+  const mirror = (epoch: number, invoice: string, status: string) => syncSubscriptionFromEntitlement(payload, {
+    subscription: id, customer: 'cus_synthetic00000001', livemode: false,
+    record: { invoice_event_epoch: epoch, last_invoice: invoice, last_invoice_status: status },
+  }, undefined, mirrorTieBreaker());
+  const stored = async () => (await payload.find({ collection: 'subscriptions', where: { stripeSubscriptionId: { equals: id } }, overrideAccess: true })).docs[0];
+  stripe.objects.set(`/v1/subscriptions/${id}`, subscription(id, { latest_invoice: null }));
+  await mirror(100, 'in_syntheticoldinvoice', 'payment_failed');
+  await mirror(101, 'in_syntheticnewinvoice', 'paid');
+  expect(await stored()).toMatchObject({ lastInvoiceId: 'in_syntheticnewinvoice', lastInvoiceStatus: 'paid', lastInvoiceEventCreated: 101 });
+  await mirror(101, 'in_syntheticoldinvoice', 'payment_failed');
+  await mirror(100, 'in_syntheticoldinvoice', 'payment_failed');
+  expect(await stored()).toMatchObject({ lastInvoiceId: 'in_syntheticnewinvoice', lastInvoiceStatus: 'paid', lastInvoiceEventCreated: 101 });
+  // When Stripe has a latest invoice it wins over even a strictly newer incoming patch.
+  stripe.objects.set(`/v1/subscriptions/${id}`, subscription(id, { latest_invoice: { id: 'in_syntheticcurrentinvoice', status: 'paid' } }));
+  await mirror(102, 'in_syntheticoldinvoice', 'payment_failed');
+  expect(await stored()).toMatchObject({ lastInvoiceId: 'in_syntheticcurrentinvoice', lastInvoiceStatus: 'paid', lastInvoiceEventCreated: 102 });
 });

@@ -13,180 +13,180 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE TYPE "public"."enum_api_keys_permissions" AS ENUM('manifest', 'records', 'resolver');
   CREATE TYPE "public"."enum_api_keys_state" AS ENUM('active', 'revoked', 'expired');
   CREATE TABLE "users_sessions" (
-  	"_order" integer NOT NULL,
-  	"_parent_id" integer NOT NULL,
-  	"id" varchar PRIMARY KEY NOT NULL,
-  	"created_at" timestamp(3) with time zone,
-  	"expires_at" timestamp(3) with time zone NOT NULL
+    "_order" integer NOT NULL,
+    "_parent_id" integer NOT NULL,
+    "id" varchar PRIMARY KEY NOT NULL,
+    "created_at" timestamp(3) with time zone,
+    "expires_at" timestamp(3) with time zone NOT NULL
   );
-  
+
   CREATE TABLE "users" (
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"name" varchar,
-  	"role" "enum_users_role" DEFAULT 'member' NOT NULL,
-  	"stripe_customer_id" varchar,
-  	"notes" varchar,
-  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
-  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
-  	"enable_a_p_i_key" boolean,
-  	"api_key" varchar,
-  	"api_key_index" varchar,
-  	"email" varchar NOT NULL,
-  	"reset_password_token" varchar,
-  	"reset_password_expiration" timestamp(3) with time zone,
-  	"salt" varchar,
-  	"hash" varchar,
-  	"login_attempts" numeric DEFAULT 0,
-  	"lock_until" timestamp(3) with time zone
+    "id" serial PRIMARY KEY NOT NULL,
+    "name" varchar,
+    "role" "enum_users_role" DEFAULT 'member' NOT NULL,
+    "stripe_customer_id" varchar,
+    "notes" varchar,
+    "updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+    "created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+    "enable_a_p_i_key" boolean,
+    "api_key" varchar,
+    "api_key_index" varchar,
+    "email" varchar NOT NULL,
+    "reset_password_token" varchar,
+    "reset_password_expiration" timestamp(3) with time zone,
+    "salt" varchar,
+    "hash" varchar,
+    "login_attempts" numeric DEFAULT 0,
+    "lock_until" timestamp(3) with time zone
   );
-  
+
   CREATE TABLE "plans_gateway_permissions" (
-  	"order" integer NOT NULL,
-  	"parent_id" integer NOT NULL,
-  	"value" "enum_plans_gateway_permissions",
-  	"id" serial PRIMARY KEY NOT NULL
+    "order" integer NOT NULL,
+    "parent_id" integer NOT NULL,
+    "value" "enum_plans_gateway_permissions",
+    "id" serial PRIMARY KEY NOT NULL
   );
-  
+
   CREATE TABLE "plans" (
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"offer_id" varchar NOT NULL,
-  	"label" varchar NOT NULL,
-  	"description" varchar,
-  	"mode" "enum_plans_mode" DEFAULT 'subscription' NOT NULL,
-  	"stripe_price_id" varchar NOT NULL,
-  	"quantity" numeric DEFAULT 1 NOT NULL,
-  	"active" boolean DEFAULT false,
-  	"gateway_quota_rate" numeric DEFAULT 1 NOT NULL,
-  	"gateway_quota_burst" numeric DEFAULT 10 NOT NULL,
-  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
-  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
+    "id" serial PRIMARY KEY NOT NULL,
+    "offer_id" varchar NOT NULL,
+    "label" varchar NOT NULL,
+    "description" varchar,
+    "mode" "enum_plans_mode" DEFAULT 'subscription' NOT NULL,
+    "stripe_price_id" varchar NOT NULL,
+    "quantity" numeric DEFAULT 1 NOT NULL,
+    "active" boolean DEFAULT false,
+    "gateway_quota_rate" numeric DEFAULT 1 NOT NULL,
+    "gateway_quota_burst" numeric DEFAULT 10 NOT NULL,
+    "updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+    "created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-  
+
   CREATE TABLE "subscriptions" (
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"stripe_subscription_id" varchar NOT NULL,
-  	"stripe_customer_id" varchar,
-  	"user_id" integer,
-  	"plan_id" integer,
-  	"offer" varchar,
-  	"status" "enum_subscriptions_status" DEFAULT 'unknown' NOT NULL,
-  	"cancel_at_period_end" boolean DEFAULT false,
-  	"current_period_end" timestamp(3) with time zone,
-  	"livemode" boolean DEFAULT false,
-  	"checkout_session_id" varchar,
-  	"last_invoice_id" varchar,
-  	"last_invoice_status" "enum_subscriptions_last_invoice_status",
-  	"last_event_created" numeric,
-  	"last_event_id" varchar,
-  	"source" "enum_subscriptions_source" DEFAULT 'cms' NOT NULL,
-  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
-  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
+    "id" serial PRIMARY KEY NOT NULL,
+    "stripe_subscription_id" varchar NOT NULL,
+    "stripe_customer_id" varchar,
+    "user_id" integer,
+    "plan_id" integer,
+    "offer" varchar,
+    "status" "enum_subscriptions_status" DEFAULT 'unknown' NOT NULL,
+    "cancel_at_period_end" boolean DEFAULT false,
+    "current_period_end" timestamp(3) with time zone,
+    "livemode" boolean DEFAULT false,
+    "checkout_session_id" varchar,
+    "last_invoice_id" varchar,
+    "last_invoice_status" "enum_subscriptions_last_invoice_status",
+    "last_event_created" numeric,
+    "last_event_id" varchar,
+    "source" "enum_subscriptions_source" DEFAULT 'cms' NOT NULL,
+    "updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+    "created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-  
+
   CREATE TABLE "entitlements" (
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"key" varchar NOT NULL,
-  	"kind" "enum_entitlements_kind" DEFAULT 'unknown' NOT NULL,
-  	"offer" varchar,
-  	"offer_known" boolean DEFAULT false,
-  	"status" varchar DEFAULT 'unknown' NOT NULL,
-  	"customer" varchar,
-  	"subscription" varchar,
-  	"checkout_session" varchar,
-  	"payment_intent" varchar,
-  	"livemode" boolean DEFAULT false,
-  	"updated_at_epoch" numeric,
-  	"source_event" varchar,
-  	"source" varchar DEFAULT 'payments' NOT NULL,
-  	"record" jsonb NOT NULL,
-  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
-  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
+    "id" serial PRIMARY KEY NOT NULL,
+    "key" varchar NOT NULL,
+    "kind" "enum_entitlements_kind" DEFAULT 'unknown' NOT NULL,
+    "offer" varchar,
+    "offer_known" boolean DEFAULT false,
+    "status" varchar DEFAULT 'unknown' NOT NULL,
+    "customer" varchar,
+    "subscription" varchar,
+    "checkout_session" varchar,
+    "payment_intent" varchar,
+    "livemode" boolean DEFAULT false,
+    "updated_at_epoch" numeric,
+    "source_event" varchar,
+    "source" varchar DEFAULT 'payments' NOT NULL,
+    "record" jsonb NOT NULL,
+    "updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+    "created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-  
+
   CREATE TABLE "stripe_events" (
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"event_id" varchar NOT NULL,
-  	"type" varchar,
-  	"livemode" boolean DEFAULT false,
-  	"source" "enum_stripe_events_source" DEFAULT 'payments' NOT NULL,
-  	"outcome" varchar,
-  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
-  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
+    "id" serial PRIMARY KEY NOT NULL,
+    "event_id" varchar NOT NULL,
+    "type" varchar,
+    "livemode" boolean DEFAULT false,
+    "source" "enum_stripe_events_source" DEFAULT 'payments' NOT NULL,
+    "outcome" varchar,
+    "updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+    "created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-  
+
   CREATE TABLE "api_keys_permissions" (
-  	"order" integer NOT NULL,
-  	"parent_id" integer NOT NULL,
-  	"value" "enum_api_keys_permissions",
-  	"id" serial PRIMARY KEY NOT NULL
+    "order" integer NOT NULL,
+    "parent_id" integer NOT NULL,
+    "value" "enum_api_keys_permissions",
+    "id" serial PRIMARY KEY NOT NULL
   );
-  
+
   CREATE TABLE "api_keys" (
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"key_id" varchar NOT NULL,
-  	"verifier" varchar NOT NULL,
-  	"user_id" integer NOT NULL,
-  	"label" varchar,
-  	"state" "enum_api_keys_state" DEFAULT 'active' NOT NULL,
-  	"not_before" timestamp(3) with time zone,
-  	"expires_at" timestamp(3) with time zone,
-  	"revoked_at" timestamp(3) with time zone,
-  	"quota_rate" numeric DEFAULT 1 NOT NULL,
-  	"quota_burst" numeric DEFAULT 10 NOT NULL,
-  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
-  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
+    "id" serial PRIMARY KEY NOT NULL,
+    "key_id" varchar NOT NULL,
+    "verifier" varchar NOT NULL,
+    "user_id" integer NOT NULL,
+    "label" varchar,
+    "state" "enum_api_keys_state" DEFAULT 'active' NOT NULL,
+    "not_before" timestamp(3) with time zone,
+    "expires_at" timestamp(3) with time zone,
+    "revoked_at" timestamp(3) with time zone,
+    "quota_rate" numeric DEFAULT 1 NOT NULL,
+    "quota_burst" numeric DEFAULT 10 NOT NULL,
+    "updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+    "created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-  
+
   CREATE TABLE "payload_kv" (
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"key" varchar NOT NULL,
-  	"data" jsonb NOT NULL
+    "id" serial PRIMARY KEY NOT NULL,
+    "key" varchar NOT NULL,
+    "data" jsonb NOT NULL
   );
-  
+
   CREATE TABLE "payload_locked_documents" (
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"global_slug" varchar,
-  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
-  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
+    "id" serial PRIMARY KEY NOT NULL,
+    "global_slug" varchar,
+    "updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+    "created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-  
+
   CREATE TABLE "payload_locked_documents_rels" (
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"order" integer,
-  	"parent_id" integer NOT NULL,
-  	"path" varchar NOT NULL,
-  	"users_id" integer,
-  	"plans_id" integer,
-  	"subscriptions_id" integer,
-  	"entitlements_id" integer,
-  	"stripe_events_id" integer,
-  	"api_keys_id" integer
+    "id" serial PRIMARY KEY NOT NULL,
+    "order" integer,
+    "parent_id" integer NOT NULL,
+    "path" varchar NOT NULL,
+    "users_id" integer,
+    "plans_id" integer,
+    "subscriptions_id" integer,
+    "entitlements_id" integer,
+    "stripe_events_id" integer,
+    "api_keys_id" integer
   );
-  
+
   CREATE TABLE "payload_preferences" (
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"key" varchar,
-  	"value" jsonb,
-  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
-  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
+    "id" serial PRIMARY KEY NOT NULL,
+    "key" varchar,
+    "value" jsonb,
+    "updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+    "created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-  
+
   CREATE TABLE "payload_preferences_rels" (
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"order" integer,
-  	"parent_id" integer NOT NULL,
-  	"path" varchar NOT NULL,
-  	"users_id" integer
+    "id" serial PRIMARY KEY NOT NULL,
+    "order" integer,
+    "parent_id" integer NOT NULL,
+    "path" varchar NOT NULL,
+    "users_id" integer
   );
-  
+
   CREATE TABLE "payload_migrations" (
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"name" varchar,
-  	"batch" numeric,
-  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
-  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
+    "id" serial PRIMARY KEY NOT NULL,
+    "name" varchar,
+    "batch" numeric,
+    "updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+    "created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
   );
-  
+
   ALTER TABLE "users_sessions" ADD CONSTRAINT "users_sessions_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "plans_gateway_permissions" ADD CONSTRAINT "plans_gateway_permissions_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."plans"("id") ON DELETE cascade ON UPDATE no action;
   ALTER TABLE "subscriptions" ADD CONSTRAINT "subscriptions_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE set null ON UPDATE no action;

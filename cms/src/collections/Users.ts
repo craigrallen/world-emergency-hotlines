@@ -1,16 +1,42 @@
-import type { CollectionConfig } from 'payload';
-import { addDataAndFileToRequest, headersWithCors, resetPasswordOperation, ValidationError } from 'payload';
+import type { CollectionConfig, PayloadRequest } from 'payload';
+import { addDataAndFileToRequest, headersWithCors, registerFirstUserOperation, resetPasswordOperation, ValidationError } from 'payload';
 import { generatePayloadCookie } from 'payload/shared';
+import { sql } from '@payloadcms/db-postgres';
 import { INTERNAL_CONTEXT, ROLES, SERVICE_SCOPES, adminField, hasRole, isAdmin, isInternal, selfOrAdmin, selfOrStaff, staffField } from '../access';
 import { getEnv } from '../env';
+import { localFirstUserEnabled } from '../lib/bootstrap';
 import { resetPasswordEmailHTML, resetPasswordEmailSubject, verifyEmailHTML, verifyEmailSubject } from '../lib/emails';
 
 const env = getEnv();
 
 /** Fields a signed-in member must never set on their own account. */
 const PRIVILEGED_FIELDS = ['role', 'serviceScope', 'enableAPIKey', 'apiKey', 'apiKeyIndex', 'stripeLiveCustomerId', 'stripeTestCustomerId', 'notes', 'loginAttempts', 'lockUntil', '_verified', '_verificationToken', 'sessions'];
+// Only Payload’s server-side operation hook can mark a trusted reset request.
+const trustedResets = new WeakSet<object>();
+// Only the guarded first-register endpoint can grant the local initial admin role.
+const trustedFirstUsers = new WeakSet<object>();
 export const PASSWORD_MIN_LENGTH = 12;
 export const PASSWORD_MAX_LENGTH = 256;
+
+async function lockAdministrators(req: PayloadRequest): Promise<void> {
+  const adapter = req.payload.db as unknown as { name?: string; sessions?: Record<string, { db: { execute(query: unknown): Promise<unknown> } }>; tableNameMap?: Map<string, string> };
+  if (adapter.name !== 'postgres') return;
+  if (!req.transactionID) throw new Error('Postgres transaction is required while protecting administrators');
+  const session = adapter.sessions?.[String(req.transactionID)]?.db;
+  if (!session) throw new Error('Postgres transaction session is unavailable while protecting administrators');
+  const table = adapter.tableNameMap?.get('users') ?? 'users';
+  // Every admin-removal path takes the complete current admin set in a stable order.
+  // Concurrent demotions/deletes therefore re-check after the first transaction commits.
+  await session.execute(sql`SELECT id FROM ${sql.identifier(table)} WHERE role = 'admin' ORDER BY id FOR UPDATE`);
+}
+
+async function refuseLastAdmin(req: PayloadRequest, id: string | number): Promise<void> {
+  await lockAdministrators(req);
+  const user = await req.payload.findByID({ collection: 'users', id, depth: 0, overrideAccess: true, req });
+  if (user.role !== 'admin') return;
+  const others = await req.payload.count({ collection: 'users', where: { and: [{ role: { equals: 'admin' } }, { id: { not_equals: id } }] }, overrideAccess: true, req });
+  if (others.totalDocs === 0) throw new ValidationError({ collection: 'users', errors: [{ path: 'role', message: 'The last administrator cannot be removed' }] }, req.t);
+}
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -97,7 +123,8 @@ export const Users: CollectionConfig = {
       // Verification fields are always in the schema; when verification is not
       // required, accounts are created already verified and must not be emailed a
       // verification link they cannot use.
-      ({ args, operation }) => {
+      ({ args, operation, req }) => {
+        if (operation === 'resetPassword') trustedResets.add(req);
         if (operation === 'create' && !env.requireEmailVerification) (args as { disableVerificationEmail?: boolean }).disableVerificationEmail = true;
         return args;
       },
@@ -107,18 +134,33 @@ export const Users: CollectionConfig = {
       // same transaction (the gateway drops them at its next sync). Without this the
       // required `api-keys.user` relation makes Postgres refuse the delete.
       async ({ id, req }) => {
+        await refuseLastAdmin(req, id);
         await req.payload.delete({ collection: 'api-keys', where: { user: { equals: id } }, depth: 0, overrideAccess: true, context: { ...INTERNAL_CONTEXT }, req });
       },
     ],
     beforeValidate: [
-      ({ data, req, operation, originalDoc }) => {
+      async ({ data, req, operation, originalDoc }) => {
         if (!data) return data;
+        // Reset validation receives a database-loaded user, never the client body, and no originalDoc.
+        if (trustedResets.delete(req)) return data;
         const privileged = hasRole(req, 'admin') || isInternal(req);
-        if (!privileged) {
-          for (const field of PRIVILEGED_FIELDS) delete (data as Record<string, unknown>)[field];
-          // `role` is required, so pin it explicitly instead of leaving it undefined.
-          (data as Record<string, unknown>).role = operation === 'create' ? 'member' : ((originalDoc?.role as string | undefined) ?? 'member');
+        if (operation === 'update' && originalDoc?.role === 'admin' && data.role !== undefined && data.role !== 'admin') {
+          await lockAdministrators(req);
+          const others = await req.payload.count({ collection: 'users', where: { and: [{ role: { equals: 'admin' } }, { id: { not_equals: originalDoc.id } }] }, overrideAccess: true, req });
+          if (others.totalDocs === 0) throw new ValidationError({ collection: 'users', errors: [{ path: 'role', message: 'The last administrator cannot be demoted' }] }, req.t);
         }
+        if (!privileged && operation === 'update' && data.email !== undefined && data.email !== originalDoc?.email) {
+          throw new ValidationError({ collection: 'users', errors: [{ path: 'email', message: 'Email changes require a re-verification flow and are disabled' }] }, req.t);
+        }
+        if (!privileged) {
+          for (const field of PRIVILEGED_FIELDS) {
+            delete (data as Record<string, unknown>)[field];
+            if (operation === 'update' && originalDoc && field in originalDoc) (data as Record<string, unknown>)[field] = originalDoc[field];
+          }
+          // `role` is required, so pin it explicitly instead of leaving it undefined.
+          (data as Record<string, unknown>).role = operation === 'create' ? (trustedFirstUsers.has(req) ? 'admin' : 'member') : ((originalDoc?.role as string | undefined) ?? 'member');
+        }
+        if (operation === 'create' && trustedFirstUsers.has(req)) data._verified = true;
         // Server-side password policy for registration, self-service change, and reset alike.
         if (data.password !== undefined && data.password !== null) {
           if (typeof data.password !== 'string' || data.password.length < PASSWORD_MIN_LENGTH || data.password.length > PASSWORD_MAX_LENGTH) {
@@ -151,6 +193,30 @@ export const Users: CollectionConfig = {
   },
   endpoints: [
     {
+      path: '/first-register', method: 'post',
+      handler: async (req) => {
+        if (!localFirstUserEnabled(env)) return Response.json({ errors: [{ message: 'First-user setup is disabled. Configure CMS_ADMIN_EMAIL and CMS_ADMIN_PASSWORD before startup.' }] }, { status: 403 });
+        await addDataAndFileToRequest(req);
+        const collection = req.payload.collections.users;
+        trustedFirstUsers.add(req);
+        let result;
+        try {
+          // Payload checks for an empty collection inside its transaction, creates,
+          // verifies, and logs in the user. Accept only credentials from the body.
+          result = await registerFirstUserOperation({ collection, data: {
+            role: 'admin',
+            email: typeof req.data?.email === 'string' ? req.data.email : '',
+            password: typeof req.data?.password === 'string' ? req.data.password : '',
+          }, req });
+        } finally {
+          trustedFirstUsers.delete(req);
+        }
+        const headers = new Headers({ 'cache-control': 'no-store' });
+        if (typeof result.token === 'string') headers.set('Set-Cookie', generatePayloadCookie({ collectionAuthConfig: collection.config.auth, cookiePrefix: req.payload.config.cookiePrefix, token: result.token }));
+        return Response.json({ message: req.t('authentication:successfullyRegisteredFirstUser'), ...result }, { headers: headersWithCors({ headers, req }), status: 200 });
+      },
+    },
+    {
       // Overrides Payload's built-in reset so the password policy also covers the
       // reset path: the built-in operation hashes the new password without running
       // the collection's beforeValidate hook against it.
@@ -164,7 +230,12 @@ export const Users: CollectionConfig = {
           throw new ValidationError({ collection: 'users', errors: [{ path: 'password', message: `Password must be ${PASSWORD_MIN_LENGTH} to ${PASSWORD_MAX_LENGTH} characters` }] }, req.t);
         }
         const collection = req.payload.collections.users;
-        const result = await resetPasswordOperation({ collection, data: { password, token: typeof token === 'string' ? token : '' }, req });
+        let result;
+        try {
+          result = await resetPasswordOperation({ collection, data: { password, token: typeof token === 'string' ? token : '' }, req });
+        } finally {
+          trustedResets.delete(req);
+        }
         const headers = new Headers({ 'cache-control': 'no-store' });
         if (typeof result.token === 'string') headers.set('Set-Cookie', generatePayloadCookie({ collectionAuthConfig: collection.config.auth, cookiePrefix: req.payload.config.cookiePrefix, token: result.token }));
         return Response.json({ message: req.t('authentication:passwordResetSuccessfully'), ...result }, { headers: headersWithCors({ headers, req }), status: 200 });

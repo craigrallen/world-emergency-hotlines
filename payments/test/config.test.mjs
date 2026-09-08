@@ -90,7 +90,7 @@ test('public origin and paths are validated per mode', () => {
   for (const origin of ['https://worldhotlines.org/', 'https://worldhotlines.org/billing', 'https://user:pw@worldhotlines.org', 'http://example.com', 'https://*.example.com', 'worldhotlines.org']) {
     assert.throws(() => loadConfig(enabled({ PAYMENTS_PUBLIC_ORIGIN: origin })), (error) => error.variable === 'PAYMENTS_PUBLIC_ORIGIN', origin);
   }
-  for (const [name, value] of [['PAYMENTS_SUCCESS_PATH', 'billing/success'], ['PAYMENTS_CANCEL_PATH', '/billing?x=1'], ['PAYMENTS_RETURN_PATH', '/../etc'], ['PAYMENTS_SUCCESS_PATH', '/a#b'], ['PAYMENTS_SUCCESS_PATH', `/${'a'.repeat(300)}`]]) {
+  for (const [name, value] of [['PAYMENTS_SUCCESS_PATH', 'billing/success'], ['PAYMENTS_CANCEL_PATH', '/billing?x=1'], ['PAYMENTS_SUCCESS_PATH', '/a#b'], ['PAYMENTS_SUCCESS_PATH', `/${'a'.repeat(300)}`]]) {
     assert.throws(() => loadConfig(enabled({ [name]: value })), (error) => error.variable === name, `${name}=${value}`);
   }
   assert.equal(loadConfig(enabled({ PAYMENTS_SUCCESS_PATH: '/thanks' })).successPath, '/thanks');
@@ -101,4 +101,13 @@ test('redact removes Stripe key material from strings and objects', () => {
   assert.equal(redact(`Bearer ${key} whsec_${'r'.repeat(20)} pk_test_${'s'.repeat(20)}`), 'Bearer [REDACTED] [REDACTED] [REDACTED]');
   assert.deepEqual(redact({ authorization: 'x', nested: { STRIPE_SECRET_KEY: key, note: `see ${key}` }, list: [key] }), { authorization: '[REDACTED]', nested: { STRIPE_SECRET_KEY: '[REDACTED]', note: 'see [REDACTED]' }, list: ['[REDACTED]'] });
   assert.equal(redact(42), 42);
+});
+
+test('deprecated PAYMENTS_RETURN_PATH is allowlisted and entirely ignored', () => {
+  assert.ok(KNOWN_VARIABLES.includes('PAYMENTS_RETURN_PATH'));
+  for (const env of [{}, enabled(), enabled({ PAYMENTS_MODE: 'live', STRIPE_SECRET_KEY: LIVE_KEY })]) {
+    for (const value of ['', '/account', '/billing/portal?session_id=cs_test_synthetic0001', 'https://evil.example/']) {
+      assert.deepEqual(loadConfig({ ...env, PAYMENTS_RETURN_PATH: value }), loadConfig(env));
+    }
+  }
 });

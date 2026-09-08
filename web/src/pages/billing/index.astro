@@ -1,6 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { CHECKOUT_ACTION, CHECKOUT_SESSION_PATTERN, CONTRACT_URL, OFFERS, PAYMENTS_ENABLED, PAYMENTS_MODE, PORTAL_ACTION, RUNBOOK_URL } from '../../lib/billing';
+import { CHECKOUT_ACTION, CONTRACT_URL, OFFERS, PAYMENTS_ENABLED, PAYMENTS_MODE, RUNBOOK_URL } from '../../lib/billing';
 
 const eyebrow = PAYMENTS_MODE === 'live' ? 'Payment foundation · enabled' : PAYMENTS_MODE === 'test' ? 'Payment foundation · Stripe test mode' : 'Payment foundation · prepared, not enabled';
 const description = 'Stripe hosted-checkout foundation for the proposed managed API plans. Payments are not enabled; crisis information stays free and keyless.';
@@ -51,13 +51,7 @@ const description = 'Stripe hosted-checkout foundation for the proposed managed 
 
     <section class="mt-10 rounded-xl border border-border bg-bg-elev p-5" aria-labelledby="manage-title">
       <h2 id="manage-title" class="text-2xl font-semibold text-fg">Manage an existing subscription</h2>
-      <p class="mt-3 text-sm text-fg-muted">Subscribers with an <a class="text-accent hover:underline" href="/account">account</a> manage billing, the Customer Portal, and managed API keys from their account page. Without an account, update payment details or cancel through Stripe's Customer Portal by pasting the checkout session reference from your confirmation page (it starts with <code>cs_</code>).</p>
-      <form method="post" action={PORTAL_ACTION} class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end">
-        <label class="flex-1 text-sm text-fg-muted">Checkout session reference
-          <input name="session_id" type="text" inputmode="text" autocomplete="off" spellcheck="false" required pattern={CHECKOUT_SESSION_PATTERN} placeholder="cs_live_…" class="mt-1 w-full rounded-lg border border-border bg-bg px-3 py-2 text-fg" disabled={!PAYMENTS_ENABLED} />
-        </label>
-        <button type="submit" class="btn-ghost disabled:cursor-not-allowed disabled:opacity-50" disabled={!PAYMENTS_ENABLED} aria-disabled={!PAYMENTS_ENABLED ? 'true' : undefined}>{PAYMENTS_ENABLED ? 'Open customer portal' : 'Portal not enabled'}</button>
-      </form>
+      <p class="mt-3 text-sm text-fg-muted">Sign in to your <a class="text-accent hover:underline" href="/account">account</a> to manage billing and open the Stripe Customer Portal. Checkout references cannot authorize billing access. If your purchase is not linked to an account, contact the maintainers through the repository for ownership verification.</p>
     </section>
 
     <section class="mt-10" aria-labelledby="how-title">
@@ -66,7 +60,7 @@ const description = 'Stripe hosted-checkout foundation for the proposed managed 
         <li>Choosing a plan posts only its plan id to this site, which creates a Stripe Checkout Session and redirects you to <code>checkout.stripe.com</code>.</li>
         <li>Stripe collects and processes card details, applies its own fraud checks, and emails the receipt. This site never receives card numbers.</li>
         <li>This site records only Stripe identifiers and a status for the subscription so access can be granted later. It stores no names, emails, addresses, or amounts and runs no analytics.</li>
-        <li>Cancelling a subscription is always possible through the Customer Portal above; no free surface is ever gated on payment.</li>
+        <li>Account subscribers can cancel through the Customer Portal on their account page; no free surface is ever gated on payment.</li>
       </ul>
     </section>
 

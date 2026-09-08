@@ -38,23 +38,23 @@ export interface ApplyOptions {
   eventId: string | null;
   source: 'cms' | 'payments';
   /**
-   * Same-second tie resolver. Whole-second `created` values cannot order two events
-   * from the same second, so when the family's watermark equals `eventCreated` the
+   * Current-state resolver. Whole-second `created` values cannot order two events
+   * from the same second or version a fetched snapshot. Once a family has a watermark, the
    * payload is not trusted: this returns the patch to apply instead (Stripe's current
    * object for webhooks; see `syncSubscriptionFromEntitlement` for the payments mirror).
    * It receives the stored document as read under the row lock. Without it, or when
    * it returns null, the tied event is treated as stale.
    */
-  reconcile?: (existing: Doc | null) => Promise<SubscriptionPatch | null>;
+  reconcile?: (existing: Doc | null, ordering: 'tie' | 'newer') => Promise<SubscriptionPatch | null>;
 }
 
 /**
- * Same-second tie resolver for the payments mirror: Stripe's current object for the
+ * Current-state resolver for the payments mirror (ties and newer events): Stripe's current object for the
  * family, as the webhook handlers use (`lib/stripe.ts` builds one from the CMS's
- * Stripe client). Null means this CMS has no Stripe client, hence no webhook
- * consumer, so the payments service is the only writer and its record applies.
+ * Stripe client). Ordering allows an incoming invoice fallback only for newer
+ * events when Stripe has no latest invoice; ties must not resurrect old invoices.
  */
-export type MirrorTieBreaker = (family: EventFamily, patch: SubscriptionPatch) => Promise<SubscriptionPatch | null>;
+export type MirrorTieBreaker = (family: EventFamily, patch: SubscriptionPatch, ordering: 'tie' | 'newer') => Promise<SubscriptionPatch | null>;
 
 interface DrizzleSession { db: { execute(query: unknown): Promise<unknown> } }
 interface DrizzleAdapterLike { name?: string; sessions?: Record<string, DrizzleSession>; tableNameMap?: Map<string, string> }
@@ -95,9 +95,10 @@ export async function inTransaction<T>(payload: Payload, req: PayloadRequest | u
  */
 export async function lockRow(payload: Payload, tx: PayloadRequest, collection: string, column: string, value: Id): Promise<void> {
   const adapter = payload.db as unknown as DrizzleAdapterLike;
-  if (adapter.name !== 'postgres' || !tx.transactionID) return;
+  if (adapter.name !== 'postgres') return;
+  if (!tx.transactionID) throw new Error('Postgres row lock requires a transaction');
   const session = adapter.sessions?.[String(tx.transactionID)]?.db;
-  if (!session) return;
+  if (!session) throw new Error('Postgres transaction session is unavailable');
   const table = adapter.tableNameMap?.get(collection) ?? collection.replace(/-/g, '_');
   await session.execute(sql`SELECT id FROM ${sql.identifier(table)} WHERE ${sql.identifier(column)} = ${value} FOR UPDATE`);
 }
@@ -176,8 +177,10 @@ export async function applySubscriptionPatch(payload: Payload, incoming: Subscri
       let applied = incoming;
       if (typeof mark === 'number') {
         if (mark > options.eventCreated) return null;
-        if (mark === options.eventCreated) {
-          const current = options.reconcile ? await options.reconcile(existing) : null;
+        // A fetched snapshot has no historical event version. Every later accepted
+        // delivery must fetch again, including events from a later second.
+        if (mark === options.eventCreated || options.reconcile) {
+          const current = options.reconcile ? await options.reconcile(existing, mark === options.eventCreated ? 'tie' : 'newer') : null;
           if (!current) return null;
           applied = current;
         }
@@ -275,9 +278,9 @@ export async function syncSubscriptionFromEntitlement(payload: Payload, doc: Rec
   const meta = { eventId: typeof doc.sourceEvent === 'string' ? doc.sourceEvent : null, source: 'payments' as const };
   const invoiceStatus = record.last_invoice_status === 'paid' || record.last_invoice_status === 'payment_failed' ? record.last_invoice_status : undefined;
 
-  const settle = (family: EventFamily, patch: SubscriptionPatch) => async (existing: Doc | null): Promise<SubscriptionPatch | null> => {
+  const settle = (family: EventFamily, patch: SubscriptionPatch) => async (existing: Doc | null, ordering: 'tie' | 'newer'): Promise<SubscriptionPatch | null> => {
     if (existing && familyUnchanged(family, patch, existing)) return patch;
-    return tieBreaker ? tieBreaker(family, patch) : patch;
+    return tieBreaker ? tieBreaker(family, patch, ordering) : patch;
   };
   const apply = (patch: SubscriptionPatch, family: EventFamily) => applySubscriptionPatch(payload, patch, { ...meta, family, eventCreated: epochOf(family), reconcile: settle(family, patch) }, req);
   let result: Doc | null = null;

@@ -1,6 +1,8 @@
 import type { Access, CollectionConfig } from 'payload';
 import { APIError } from 'payload';
-import { hasRole, isAdminOrPaymentsStore, isServiceRequest } from '../access';
+import { hasRole, isAdmin, isAdminOrPaymentsStore, isServiceRequest } from '../access';
+import { mutateClaim } from '../lib/stripe';
+import { fail, guarded, json, readJsonBody } from '../lib/responses';
 import { lockRow } from '../lib/subscriptions';
 
 export const EVENT_SOURCES = ['payments', 'cms'] as const;
@@ -25,7 +27,17 @@ export const StripeEvents: CollectionConfig = {
     group: 'Billing',
     description: 'Webhook idempotency ledger shared by the CMS webhook and the payments service. Claims are unique per consumer and event (claimKey = source:eventId), so each consumer processes every event exactly once across replicas and neither can mark an event done for the other; the ledger stores ids and types only.',
   },
-  access: { read: paymentsRowsOrStaff, create: isAdminOrPaymentsStore, update: paymentsRowsOrAdmin, delete: paymentsRowsOrAdmin },
+  access: { read: paymentsRowsOrStaff, create: isAdminOrPaymentsStore, update: paymentsRowsOrAdmin, delete: isAdmin },
+  endpoints: [{
+    path: '/lease', method: 'post',
+    handler: (req) => guarded(req, async () => {
+      if (!isServiceRequest(req, 'payments_store')) return fail(req, 'forbidden');
+      const data = await readJsonBody(req);
+      if (typeof data.eventId !== 'string' || !/^evt_[A-Za-z0-9]{8,}$/.test(data.eventId) || typeof data.lease !== 'string' || !/^[A-Za-z0-9_-]{8,128}$/.test(data.lease) || !['complete', 'release'].includes(String(data.action))) return fail(req, 'invalid_request');
+      const applied = await mutateClaim(req.payload, data.eventId, 'payments', data.lease, data.action === 'complete' ? 'processed' : null);
+      return json(req, 200, { applied });
+    }),
+  }],
   fields: [
     { name: 'eventId', type: 'text', required: true, index: true, validate: (value: unknown) => (typeof value === 'string' && /^evt_[A-Za-z0-9]{8,}$/.test(value) ? true : 'must be a Stripe event id (evt_…)') },
     { name: 'source', type: 'select', required: true, defaultValue: 'payments', options: [{ label: 'Payments service', value: 'payments' }, { label: 'CMS webhook', value: 'cms' }] },
@@ -56,7 +68,9 @@ export const StripeEvents: CollectionConfig = {
       // in the meantime, this one is refused with 409 and backs off, so two takers can never
       // both process the event. The CMS's own take-over path holds the same lock (lib/stripe.ts).
       async ({ data, operation, originalDoc, req }) => {
-        if (operation !== 'update' || !data || !isServiceRequest(req) || data.outcome !== null) return data;
+        if (operation !== 'update' || !data || !isServiceRequest(req)) return data;
+        if (data.outcome !== null || typeof data.lease !== 'string') throw new APIError('Use the lease endpoint to complete or release a claim', 403);
+        if ((data.eventId !== undefined && data.eventId !== originalDoc?.eventId) || data.source !== originalDoc?.source) throw new APIError('Claim identity is immutable', 403);
         const claimKey = (originalDoc?.claimKey as string | undefined) ?? (data.claimKey as string | undefined);
         if (typeof claimKey !== 'string') return data;
         await lockRow(req.payload, req, 'stripe-events', 'claim_key', claimKey);

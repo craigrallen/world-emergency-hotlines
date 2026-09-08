@@ -10,7 +10,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
 export async function down({ db, payload, req }: MigrateDownArgs): Promise<void> {
   await db.execute(sql`
    ALTER TABLE "api_keys" DROP CONSTRAINT "api_keys_subscription_id_subscriptions_id_fk";
-  
+
   DROP INDEX "api_keys_subscription_idx";
   ALTER TABLE "api_keys" DROP COLUMN "subscription_id";`)
 }

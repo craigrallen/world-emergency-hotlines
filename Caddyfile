@@ -106,6 +106,10 @@
     # static crisis-information surfaces are unaffected.
     @cms path /cms/* /admin /admin/* /_next/*
     handle @cms {
+        @cmsWebhook path /cms/api/stripe/webhooks
+        request_body @cmsWebhook {
+            max_size 262144
+        }
         route {
             @cmsEnabled expression `{env.CMS_UPSTREAM} != ""`
             reverse_proxy @cmsEnabled {env.CMS_UPSTREAM} {
@@ -594,6 +598,14 @@
 
     log {
         output stdout
-        format console
+        format filter {
+            wrap console
+            fields {
+                request>uri query {
+                    delete session_id
+                    delete token
+                }
+            }
+        }
     }
 }

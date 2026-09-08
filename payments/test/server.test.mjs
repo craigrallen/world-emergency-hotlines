@@ -107,7 +107,7 @@ test('disabled mode serves health and refuses every payment route with 503', asy
   try {
     const health = await fetch(`${base}${ROUTES.health}`);
     assert.equal((await health.json()).status, 'disabled');
-    for (const route of [ROUTES.checkout, ROUTES.portal, ROUTES.webhook]) {
+    for (const route of [ROUTES.checkout, ROUTES.webhook]) {
       const r = await fetch(`${base}${route}`, form({ offer: 'growth_monthly' }));
       assert.equal(r.status, 503, route);
       assert.equal(r.headers.get('cache-control'), 'no-store');
@@ -131,7 +131,7 @@ test('checkout creates a hosted session and redirects browsers or returns JSON',
     assert.match(call.idempotencyKey, /^[0-9a-f-]{36}$/);
     assert.deepEqual(call.params, {
       mode: 'subscription', line_items: [{ price: 'price_synthetic0001', quantity: 1 }],
-      success_url: `${ORIGIN}/billing/success?session_id={CHECKOUT_SESSION_ID}`, cancel_url: `${ORIGIN}/billing/cancelled`,
+      success_url: `${ORIGIN}/billing/success`, cancel_url: `${ORIGIN}/billing/cancelled`,
       metadata: { offer: 'growth_monthly' }, subscription_data: { metadata: { offer: 'growth_monthly' } },
     });
     r = await fetch(`${s.base}${ROUTES.checkout}`, { method: 'POST', headers: { 'content-type': 'application/json', origin: ORIGIN, accept: 'application/json' }, body: JSON.stringify({ offer: 'once' }) });
@@ -148,7 +148,7 @@ test('checkout creates a hosted session and redirects browsers or returns JSON',
   try {
     await fetch(`${taxed.base}${ROUTES.checkout}`, form({ offer: 'growth_monthly' }));
     assert.deepEqual(taxed.stripe.calls[0].params.automatic_tax, { enabled: true });
-    assert.equal(taxed.stripe.calls[0].params.success_url, `${ORIGIN}/thanks?session_id={CHECKOUT_SESSION_ID}`);
+    assert.equal(taxed.stripe.calls[0].params.success_url, `${ORIGIN}/thanks`);
   } finally { await taxed.service.close(); }
 });
 
@@ -206,32 +206,13 @@ test('per-client rate limiting returns 429 with Retry-After and honours trusted 
   } finally { await s.service.close(); }
 });
 
-test('portal exchange requires a completed subscription session in the deployment mode', async () => {
+test('anonymous portal route is absent and never calls Stripe, even with a valid session', async () => {
   const s = await start();
   try {
-    let r = await fetch(`${s.base}${ROUTES.portal}`, form({ session_id: 'cs_test_synthetic00000001' }));
-    assert.equal(r.status, 303);
-    assert.equal(r.headers.get('location'), 'https://billing.stripe.com/p/session/synthetic');
-    assert.deepEqual(s.stripe.calls.map((call) => call.method), ['retrieveCheckoutSession', 'createBillingPortalSession']);
-    assert.deepEqual(s.stripe.calls[1].params, { customer: 'cus_synthetic00000001', return_url: `${ORIGIN}/billing` });
-    r = await fetch(`${s.base}${ROUTES.portal}`, form({ session_id: 'cs_live_synthetic00000001' }));
-    assert.equal(r.status, 400);
-    r = await fetch(`${s.base}${ROUTES.portal}`, form({ session_id: 'cus_synthetic00000001' }));
-    assert.equal(r.status, 400);
-    r = await fetch(`${s.base}${ROUTES.portal}`, form({ session_id: 'cs_test_synthetic00000001' }, { origin: 'https://evil.invalid' }));
-    assert.equal(r.status, 403);
+    const r = await fetch(`${s.base}/billing/api/portal-session`, form({ session_id: 'cs_test_synthetic00000001' }));
+    assert.equal(r.status, 404);
+    assert.equal(s.stripe.calls.length, 0);
   } finally { await s.service.close(); }
-  for (const session of [{ status: 'open', mode: 'subscription', customer: 'cus_synthetic00000001' }, { status: 'complete', mode: 'payment', customer: 'cus_synthetic00000001' }, { status: 'complete', mode: 'subscription', customer: null }]) {
-    const x = await start({ stripe: mockStripe({ retrieveCheckoutSession: () => ({ id: 'cs_test_synthetic00000001', ...session }) }) });
-    try {
-      const r = await fetch(`${x.base}${ROUTES.portal}`, form({ session_id: 'cs_test_synthetic00000001' }));
-      assert.equal(r.status, 404);
-      assert.equal((await r.json()).error.code, 'portal_unavailable');
-      assert.equal(x.stripe.calls.length, 1, 'no portal session is created');
-    } finally { await x.service.close(); }
-  }
-  const expanded = await start({ stripe: mockStripe({ retrieveCheckoutSession: () => ({ id: 'cs_test_synthetic00000001', status: 'complete', mode: 'subscription', customer: { id: 'cus_synthetic00000001', email: 'private@synthetic.invalid' } }) }) });
-  try { assert.equal((await fetch(`${expanded.base}${ROUTES.portal}`, form({ session_id: 'cs_test_synthetic00000001' }))).status, 303); } finally { await expanded.service.close(); }
 });
 
 test('webhook verifies, deduplicates, records, and rejects mismatched or oversized events', async () => {

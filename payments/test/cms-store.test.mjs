@@ -27,6 +27,13 @@ function fakeCms({ failWith = null, unauthorized = false, clock = { now: Date.no
     const filter = [...url.searchParams.entries()].map(([k, v]) => [eq.exec(k)?.[1], v]).find(([k]) => k);
     const table = collection === 'stripe-events' ? events : collection === 'entitlements' ? entitlements : null;
     if (!table) return json(404, { errors: [{ message: 'Not Found' }] });
+    if (collection === 'stripe-events' && id === 'lease' && init.method === 'POST') {
+      const body = JSON.parse(init.body);
+      const doc = [...events.values()].find((row) => row.claimKey === claimKeyFor(body.eventId) && row.lease === body.lease);
+      if (doc && body.action === 'release') events.delete(doc.id);
+      if (doc && body.action === 'complete') Object.assign(doc, { outcome: 'processed', updatedAt: stamp() });
+      return json(200, { applied: Boolean(doc) });
+    }
     if (init.method === 'GET') {
       const docs = [...table.values()].filter((doc) => !filter || doc[filter[0]] === filter[1]);
       return json(200, { docs, totalDocs: docs.length });

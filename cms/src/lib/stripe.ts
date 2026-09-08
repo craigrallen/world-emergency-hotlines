@@ -1,6 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import Stripe from 'stripe';
-import type { Payload, Where } from 'payload';
+import type { Payload } from 'payload';
 import { ValidationError } from 'payload';
 import { INTERNAL_CONTEXT } from '../access';
 import { CLAIM_GRACE_SECONDS, claimKeyFor, type EventSource } from '../collections/StripeEvents';
@@ -30,7 +30,6 @@ export function getStripe(): Stripe | null {
   client = new Stripe(env.stripeSecretKey, options);
   return client;
 }
-export function resetStripeClient(): void { client = undefined; }
 
 const stripeId = (value: unknown): string | null => {
   if (typeof value === 'string') return /^[a-z]{2,10}_(?:(?:test|live)_)?[A-Za-z0-9]{8,}$/.test(value) ? value : null;
@@ -83,16 +82,26 @@ export async function claimEvent(payload: Payload, event: Stripe.Event, source: 
   });
 }
 
-/** The claim on `eventId` while it still carries `lease` (any lease when none is given). */
-const ownedClaim = (source: EventSource, eventId: string, lease?: string): Where => (lease ? { and: [{ claimKey: { equals: claimKeyFor(source, eventId) } }, { lease: { equals: lease } }] } : { claimKey: { equals: claimKeyFor(source, eventId) } });
-
-/** Drop this worker's claim after a failed apply; a claim taken over by a later delivery (a different lease) is left to its successor. */
-export async function releaseEvent(payload: Payload, eventId: string, source: EventSource = 'cms', lease?: string): Promise<void> {
-  await payload.delete({ collection: 'stripe-events', where: ownedClaim(source, eventId, lease), depth: 0, overrideAccess: true });
+/** Compare the lease after locking/re-reading, then mutate by id in that transaction. */
+export async function mutateClaim(payload: Payload, eventId: string, source: EventSource, lease: string, outcome: string | null): Promise<boolean> {
+  if (!lease) throw new Error('claim lease required');
+  const claimKey = claimKeyFor(source, eventId);
+  return inTransaction(payload, undefined, async (tx) => {
+    await lockRow(payload, tx, 'stripe-events', 'claim_key', claimKey);
+    const current = (await payload.find({ collection: 'stripe-events', where: { claimKey: { equals: claimKey } }, limit: 1, depth: 0, overrideAccess: true, req: tx })).docs[0];
+    if (!current || current.lease !== lease) return false;
+    if (outcome === null) await payload.delete({ collection: 'stripe-events', id: current.id, overrideAccess: true, req: tx });
+    else await payload.update({ collection: 'stripe-events', id: current.id, data: { outcome }, overrideAccess: true, req: tx });
+    return true;
+  });
 }
 
-async function recordOutcome(payload: Payload, eventId: string, outcome: string, source: EventSource = 'cms', lease?: string): Promise<void> {
-  await payload.update({ collection: 'stripe-events', where: ownedClaim(source, eventId, lease), data: { outcome }, depth: 0, overrideAccess: true });
+export async function releaseEvent(payload: Payload, eventId: string, source: EventSource = 'cms', lease: string): Promise<void> {
+  await mutateClaim(payload, eventId, source, lease, null);
+}
+
+async function recordOutcome(payload: Payload, eventId: string, outcome: string, source: EventSource = 'cms', lease: string): Promise<void> {
+  await mutateClaim(payload, eventId, source, lease, outcome);
 }
 
 /** Link the event's customer to the account for the event's billing mode (test and live customers live in separate Stripe namespaces). */
@@ -155,28 +164,28 @@ const fetchedInvoiceStatus = (invoice: Stripe.Invoice): 'paid' | 'payment_failed
  * may concern different invoices, so a tie is resolved from the subscription's latest
  * invoice, never from whichever invoice a delivery happens to carry.
  */
-async function latestInvoicePatch(stripe: Stripe, subscriptionId: string, livemode: boolean): Promise<SubscriptionPatch | null> {
+async function latestInvoicePatch(stripe: Stripe, subscriptionId: string, livemode: boolean, newerFallback: SubscriptionPatch | null = null): Promise<SubscriptionPatch | null> {
   const current = await stripe.subscriptions.retrieve(subscriptionId);
   const latestId = stripeId(current.latest_invoice);
-  if (!latestId) return null;
+  if (!latestId) return newerFallback;
   const latest = current.latest_invoice && typeof current.latest_invoice === 'object' ? (current.latest_invoice as Stripe.Invoice) : await stripe.invoices.retrieve(latestId);
   return { stripeSubscriptionId: subscriptionId, stripeCustomerId: stripeId(current.customer), livemode, lastInvoiceId: latestId, lastInvoiceStatus: fetchedInvoiceStatus(latest) ?? undefined };
 }
 
 /**
- * Same-second tie resolver for the payments mirror (`syncSubscriptionFromEntitlement`):
+ * Current-state resolver for the payments mirror (`syncSubscriptionFromEntitlement`):
  * Stripe's current object for the family, exactly as the webhook handlers reconcile
- * their own ties. Null while this CMS has no Stripe client: it then has no webhook
+ * ties and newer events. Null while this CMS has no Stripe client: it then has no webhook
  * consumer either, so the payments service is the only writer of subscription state
  * and its merged record is authoritative.
  */
 export function mirrorTieBreaker(): MirrorTieBreaker | null {
   const stripe = getStripe();
   if (!stripe) return null;
-  return async (family, patch) => {
+  return async (family, patch, ordering) => {
     const livemode = patch.livemode === true;
     if (family === 'subscription') return subscriptionPatch(await stripe.subscriptions.retrieve(patch.stripeSubscriptionId), livemode);
-    if (family === 'invoice') return latestInvoicePatch(stripe, patch.stripeSubscriptionId, livemode);
+    if (family === 'invoice') return latestInvoicePatch(stripe, patch.stripeSubscriptionId, livemode, ordering === 'newer' ? patch : null);
     return patch.checkoutSessionId ? checkoutPatch(await stripe.checkout.sessions.retrieve(patch.checkoutSessionId), livemode) : null;
   };
 }
@@ -216,7 +225,7 @@ async function onInvoice(payload: Payload, event: Stripe.Event): Promise<string>
   const subscriptionId = patch.stripeSubscriptionId;
   const result = await applySubscriptionPatch(payload, patch, {
     family: 'invoice', eventCreated: event.created, eventId: event.id, source: 'cms',
-    reconcile: async () => latestInvoicePatch(stripeForReconcile(), subscriptionId, event.livemode),
+    reconcile: async (_existing, ordering) => latestInvoicePatch(stripeForReconcile(), subscriptionId, event.livemode, ordering === 'newer' ? patch : null),
   });
   return result ? 'processed' : 'stale';
 }

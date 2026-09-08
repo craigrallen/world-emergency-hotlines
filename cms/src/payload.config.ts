@@ -1,10 +1,10 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { buildConfig, type Config, type Payload } from 'payload';
+import { buildConfig, type Config } from 'payload';
 import { postgresAdapter } from '@payloadcms/db-postgres';
 import { sqliteAdapter } from '@payloadcms/db-sqlite';
 import { nodemailerAdapter } from '@payloadcms/email-nodemailer';
-import { INTERNAL_CONTEXT } from './access';
+import { bootstrapAdmin } from './lib/bootstrap';
 import { ApiKeys } from './collections/ApiKeys';
 import { Entitlements } from './collections/Entitlements';
 import { Plans } from './collections/Plans';
@@ -24,17 +24,8 @@ const env = getEnv();
 // Postgres is the production database (migrations in src/migrations run on start).
 // SQLite is for local development and tests, where the schema is pushed on boot.
 const db = env.databaseKind === 'postgres'
-  ? postgresAdapter({ pool: { connectionString: env.databaseUrl }, prodMigrations: migrations })
+  ? postgresAdapter({ pool: { connectionString: env.databaseUrl }, prodMigrations: migrations, push: false })
   : sqliteAdapter({ client: { url: env.databaseUrl } });
-
-/** First boot on an empty database: create the admin named by CMS_ADMIN_EMAIL/PASSWORD. */
-async function bootstrapAdmin(payload: Payload): Promise<void> {
-  if (!env.bootstrapAdmin || env.building) return;
-  const existing = await payload.count({ collection: 'users', overrideAccess: true });
-  if (existing.totalDocs > 0) return;
-  await payload.create({ collection: 'users', data: { email: env.bootstrapAdmin.email, password: env.bootstrapAdmin.password, role: 'admin', name: 'Administrator' }, overrideAccess: true, context: { ...INTERNAL_CONTEXT } });
-  payload.logger.info('bootstrap admin account created from CMS_ADMIN_EMAIL');
-}
 
 const config: Config = {
   serverURL: env.siteUrl,
@@ -57,8 +48,8 @@ const config: Config = {
   db,
   typescript: { outputFile: path.resolve(dirname, 'payload-types.ts') },
   onInit: async (payload) => {
+    await bootstrapAdmin(payload, env);
     payload.logger.info({ cms: describeEnv(env) }, 'world hotlines cms ready');
-    await bootstrapAdmin(payload);
   },
 };
 

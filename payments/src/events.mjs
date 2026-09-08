@@ -3,7 +3,8 @@
 // names, emails, addresses, card data, or amounts.
 // Out-of-order deliveries are tolerated by never letting an older event
 // overwrite state written by a newer one; two events created in the same
-// second are reconciled against Stripe's current object instead of being ordered.
+// second cannot be ordered. After the first write, every accepted delivery with a
+// fetcher reconciles current state; a historical epoch never versions that snapshot.
 
 import { OFFER_ID, PRICE_ID, STRIPE_OBJECT_ID } from './config.mjs';
 import { EVENT_FAMILIES, isStoreConflict, revisionOf } from './store.mjs';
@@ -74,8 +75,8 @@ async function upsert(store, key, buildPatch, event, family, reconcile = null) {
     const mark = existing?.[stamp];
     if (Number.isInteger(mark)) {
       if (mark > event.created) return { record: existing, stale: true };
-      if (mark === event.created) {
-        current = reconcile ? await reconcile() : null;
+      if (mark === event.created || reconcile) {
+        current = reconcile ? await reconcile(mark === event.created ? 'tie' : 'newer') : null;
         if (!current) return { record: existing, stale: true };
       }
     }
@@ -169,10 +170,10 @@ export async function dispatchEvent(event, { store, offers = {}, fetchObject = n
     // Two invoice events in one second may concern different invoices, so a tie is resolved
     // from the subscription's latest invoice, never from whichever invoice this delivery carries.
     const reconcile = typeof fetchObject === 'function'
-      ? async () => {
+      ? async (ordering) => {
         const current = await fetchObject(RECONCILE_KIND.subscription, subscriptionId);
         const latestId = plain(current) && stripeId(current) === subscriptionId ? stripeId(current.latest_invoice) : null;
-        if (!latestId) return null;
+        if (!latestId) return ordering === 'newer' ? object : null;
         const latest = await fetchObject(RECONCILE_KIND.invoice, latestId);
         return plain(latest) && stripeId(latest) === latestId ? latest : null;
       }

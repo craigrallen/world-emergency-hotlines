@@ -25,8 +25,6 @@ const rawMode = import.meta.env.PUBLIC_PAYMENTS_MODE;
 export const PAYMENTS_MODE: PaymentsMode = rawMode === 'test' || rawMode === 'live' ? rawMode : 'disabled';
 export const PAYMENTS_ENABLED = PAYMENTS_MODE !== 'disabled';
 export const CHECKOUT_ACTION = '/billing/api/checkout-session';
-export const PORTAL_ACTION = '/billing/api/portal-session';
-export const CHECKOUT_SESSION_PATTERN = '^cs_(test|live)_[A-Za-z0-9]{8,}$';
 export const CONTRACT_URL = 'https://github.com/craigrallen/world-emergency-hotlines/blob/main/payments/contracts/v1/README.md';
 export const RUNBOOK_URL = 'https://github.com/craigrallen/world-emergency-hotlines/blob/main/docs/PAYMENTS.md';
 
