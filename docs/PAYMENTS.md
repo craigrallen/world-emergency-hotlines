@@ -99,8 +99,8 @@ Work top to bottom. Every step is reversible by unsetting `PAYMENTS_UPSTREAM` or
 
 - [ ] Business profile, statement descriptor, support email, and branding completed.
 - [ ] Product and recurring price created for `growth_monthly`. Copy the `price_…` id into `PAYMENTS_OFFERS`.
-- [ ] Restricted API key created with: Checkout Sessions write and read, Customer Portal write. Nothing else. Store it only in the Railway service variables.
-- [ ] Customer Portal configured (cancellation, payment method update, invoice history) with return URL `https://worldhotlines.org/billing`.
+- [ ] Restricted API key created with: Checkout Sessions write, Subscriptions read, and Invoices read. Nothing else — this service reconciles post-watermark webhook events by reading subscriptions and invoices, but never calls the Customer/Billing Portal API, so grant it none. Store it only in the Railway service variables.
+- [ ] Customer Portal configured (cancellation, payment method update, invoice history) with return URL `https://worldhotlines.org/account`. Opened only through the CMS's authenticated `/cms/api/account/portal` route with the CMS's own, separate restricted key (Customer Portal write; see `docs/ACCOUNTS.md`) — never this service's key.
 - [ ] Webhook endpoint added for `https://worldhotlines.org/billing/api/webhook` with events: `checkout.session.completed`, `checkout.session.async_payment_succeeded`, `checkout.session.async_payment_failed`, `checkout.session.expired`, `customer.subscription.created`, `customer.subscription.updated`, `customer.subscription.deleted`, `invoice.paid`, `invoice.payment_failed`. Copy the `whsec_…` secret.
 - [ ] Radar rules reviewed; email receipts enabled.
 
@@ -110,7 +110,7 @@ Work top to bottom. Every step is reversible by unsetting `PAYMENTS_UPSTREAM` or
 - [ ] Durable store: the in-memory store is single-instance and forgets events on restart. Before more than one replica or any entitlement automation, deploy the CMS (`docs/ACCOUNTS.md`) and set `PAYMENTS_STORE=cms` with `PAYMENTS_CMS_URL` and a `service`-role `PAYMENTS_CMS_API_KEY`; `payments/src/cms-store.mjs` implements the four-method contract on the CMS's unique-indexed collections, and subscription records are mirrored into the CMS `subscriptions` view.
 - [ ] On the **web** service, set `PAYMENTS_UPSTREAM=payments.railway.internal:8081` (private networking) and redeploy. `POST /billing/api/checkout-session` should now reach the service (a 400 `unknown_offer` for a bogus offer proves the path).
 - [ ] On the **web** service, set build variable `PUBLIC_PAYMENTS_MODE=test` and redeploy so `/billing` renders live buttons with the test-mode banner.
-- [ ] Complete a test-card checkout end to end, confirm the webhook shows delivered in the Dashboard, and confirm the Customer Portal opens from `/billing/success`.
+- [ ] Complete a test-card checkout end to end and confirm the webhook shows delivered in the Dashboard. The Customer Portal opens from the authenticated CMS account page, not from this service; verify it there once the CMS (`docs/ACCOUNTS.md`) is deployed.
 
 ### Go live
 

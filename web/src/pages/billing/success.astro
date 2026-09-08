@@ -9,4 +9,16 @@ import Base from '../../layouts/Base.astro';
     <p class="mt-4 text-fg-muted">Sign in to your <a class="text-accent hover:underline" href="/account">account</a> to manage linked subscriptions. For a purchase without an account, contact the maintainers through the repository for ownership verification.</p>
     <p class="mt-4 text-fg-muted">Crisis information remains free and keyless. <a class="text-accent hover:underline" href="/billing">Back to billing</a>.</p>
   </article>
+
+  <script is:inline>
+    (() => {
+      try {
+        const url = new URL(window.location.href);
+        if (url.searchParams.has('session_id')) {
+          url.searchParams.delete('session_id');
+          history.replaceState(history.state, '', url.pathname + (url.search || '') + url.hash);
+        }
+      } catch {}
+    })();
+  </script>
 </Base>

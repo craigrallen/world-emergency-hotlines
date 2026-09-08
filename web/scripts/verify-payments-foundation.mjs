@@ -11,7 +11,7 @@ import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import SwaggerParser from '@apidevtools/swagger-parser';
 import { KNOWN_VARIABLES, OFFER_ID, OFFER_MODES } from '../../payments/src/config.mjs';
-import { ERRORS, ROUTES } from '../../payments/src/server.mjs';
+import { ERRORS, ROUTES, STRIPE_METHODS } from '../../payments/src/server.mjs';
 
 const web = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const repo = resolve(web, '..');
@@ -52,6 +52,21 @@ assert.match(readme, /never paywalled/i);
 const envExample = read('payments/.env.example');
 assert.match(envExample, /^PAYMENTS_MODE=disabled$/m, '.env.example must default to disabled');
 for (const name of KNOWN_VARIABLES) assert.ok(new RegExp(`^#?\\s*${name}=`, 'm').test(envExample), `.env.example must document ${name}`);
+
+// Restricted-key permissions documented for operators must match what the service
+// actually calls, so a new Stripe method wired into the server forces a docs update.
+assert.deepEqual([...STRIPE_METHODS].sort(), ['createCheckoutSession', 'retrieveCheckoutSession', 'retrieveInvoice', 'retrieveSubscription'].sort(), 'STRIPE_METHODS changed; update the restricted-key permissions documented in docs/PAYMENTS.md and payments/.env.example alongside this list');
+assert.ok(!STRIPE_METHODS.includes('createBillingPortalSession'), 'the payments service must never call Billing Portal; that permission belongs only to the CMS\'s separate restricted key');
+const paymentsDoc = read('docs/PAYMENTS.md');
+const keyBullet = /- \[ \] Restricted API key created with:[^\n]+/.exec(paymentsDoc)?.[0];
+assert.ok(keyBullet, 'docs/PAYMENTS.md must document the restricted key permissions');
+assert.match(keyBullet, /Checkout Sessions write/i, 'restricted key docs must grant Checkout Sessions write');
+assert.match(keyBullet, /Subscriptions read/i, 'restricted key docs must grant Subscriptions read (reconciliation reads subscriptions)');
+assert.match(keyBullet, /Invoices read/i, 'restricted key docs must grant Invoices read (reconciliation reads invoices)');
+assert.doesNotMatch(keyBullet, /(?:Customer|Billing) Portal (?:read|write)/i, 'the payments service restricted key must not request Billing/Customer Portal access; that belongs to the CMS key');
+assert.match(envExample, /Do not grant Billing Portal/i, '.env.example must explicitly deny Billing Portal permission to the payments-service key');
+assert.match(envExample, /Subscriptions read/i, '.env.example must document Subscriptions read');
+assert.match(envExample, /Invoices read/i, '.env.example must document Invoices read');
 
 // 2. Caddy ---------------------------------------------------------------------
 const caddy = read('Caddyfile');
@@ -120,7 +135,12 @@ assert.equal((billing.match(new RegExp(`action="${ROUTES.checkout}"`, 'g')) ?? [
 assert.equal((billing.match(/<button[^>]*\sdisabled[\s>]/g) ?? []).length, ids.length, 'every checkout button must be disabled by default');
 assert.doesNotMatch(billing, /portal-session|name="session_id"/);
 assert.match(success, /href="\/account"/);
-assert.doesNotMatch(success, /session_id/);
+// The success page only scrubs a legacy session_id from the visible URL/history for
+// old in-flight Checkout Sessions returning after deployment; it must never restore
+// the removed anonymous portal form, API call, or input field.
+assert.match(success, /searchParams\.delete\('session_id'\)/, 'success page must scrub a legacy session_id query parameter');
+assert.match(success, /history\.replaceState/, 'success page must scrub the URL via history.replaceState, not a reload');
+assert.doesNotMatch(success, /portal-session|name="session_id"|<form|fetch\(/i, 'success page must not restore the anonymous portal form or any API call');
 assert.match(cancelled, /Nothing was charged/);
 const robots = readFileSync(resolve(dist, 'robots.txt'), 'utf8');
 assert.ok(robots.includes('Disallow: /billing/'), 'robots.txt must disallow /billing/');

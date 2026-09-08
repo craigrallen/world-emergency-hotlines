@@ -28,7 +28,11 @@ export const ERRORS = Object.freeze({
 });
 const ROUTE_NAMES = new Map(Object.entries(ROUTES).map(([name, path]) => [path, name]));
 const CONFIG_KEYS = ['version', 'mode', 'host', 'port', 'publicOrigin', 'successPath', 'cancelPath', 'trustProxy', 'automaticTax', 'stripeTimeoutMs', 'store', 'stripe', 'offers'];
-const STRIPE_METHODS = ['createCheckoutSession', 'retrieveCheckoutSession', 'retrieveSubscription', 'retrieveInvoice'];
+// The full set of Stripe calls this service wires up; a restricted API key needs
+// exactly the permissions these methods require (see docs/PAYMENTS.md). Never add
+// createBillingPortalSession here: the anonymous portal route is removed and the
+// authenticated CMS account portal uses its own, separate restricted key.
+export const STRIPE_METHODS = ['createCheckoutSession', 'retrieveCheckoutSession', 'retrieveSubscription', 'retrieveInvoice'];
 
 class RequestError extends Error {
   constructor(code, extra = {}) { super(code); this.code = code; this.extra = extra; }
