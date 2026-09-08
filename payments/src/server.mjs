@@ -1,4 +1,4 @@
-// HTTP surface for the payments foundation. Four exact routes under
+// HTTP surface for the payments foundation. Three exact routes under
 // /billing/api; everything else is 404. Hosted Stripe Checkout and the
 // Customer Portal do the card handling, so this process never sees card data.
 
@@ -13,23 +13,22 @@ import { dispatchEvent } from './events.mjs';
 import { MemoryTokenBuckets } from './quota.mjs';
 import { plain } from './validation.mjs';
 
-export const ROUTES = Object.freeze({ health: '/billing/api/health', checkout: '/billing/api/checkout-session', portal: '/billing/api/portal-session', webhook: '/billing/api/webhook' });
+export const ROUTES = Object.freeze({ health: '/billing/api/health', checkout: '/billing/api/checkout-session', webhook: '/billing/api/webhook' });
 export const CHECKOUT_ORIGIN = 'https://checkout.stripe.com';
-export const PORTAL_ORIGIN = 'https://billing.stripe.com';
 export const LIMITS = Object.freeze({ formBodyBytes: 4096, webhookBodyBytes: 262144, perClient: Object.freeze({ rate: 0.5, burst: 10 }), global: Object.freeze({ rate: 10, burst: 50 }) });
 export const EVENT_KEYS = Object.freeze(['timestamp', 'request_id', 'route', 'method', 'status_code', 'outcome', 'latency_bucket', 'event_type', 'offer', 'payments_version']);
 export const ERRORS = Object.freeze({
   invalid_request: [400, 'Request could not be processed'], unknown_offer: [400, 'Unknown offer'], signature_invalid: [400, 'Webhook signature could not be verified'],
   livemode_mismatch: [400, 'Event mode does not match this deployment'], origin_not_allowed: [403, 'Cross-origin requests are not accepted'],
-  not_found: [404, 'Not found'], portal_unavailable: [404, 'No manageable subscription for this session'], method_not_allowed: [405, 'Method not allowed'],
+  not_found: [404, 'Not found'], method_not_allowed: [405, 'Method not allowed'],
   event_in_progress: [409, 'Event is still being processed; retry later'],
   payload_too_large: [413, 'Request body too large'], unsupported_media_type: [415, 'Unsupported content type'], rate_limited: [429, 'Too many requests'],
   handler_failed: [500, 'Event could not be recorded'], upstream_error: [502, 'Payment provider request failed'], payments_disabled: [503, 'Payments are not enabled'],
   unavailable: [503, 'Service unavailable'],
 });
 const ROUTE_NAMES = new Map(Object.entries(ROUTES).map(([name, path]) => [path, name]));
-const CONFIG_KEYS = ['version', 'mode', 'host', 'port', 'publicOrigin', 'successPath', 'cancelPath', 'returnPath', 'trustProxy', 'automaticTax', 'stripeTimeoutMs', 'store', 'stripe', 'offers'];
-const STRIPE_METHODS = ['createCheckoutSession', 'retrieveCheckoutSession', 'createBillingPortalSession', 'retrieveSubscription', 'retrieveInvoice'];
+const CONFIG_KEYS = ['version', 'mode', 'host', 'port', 'publicOrigin', 'successPath', 'cancelPath', 'trustProxy', 'automaticTax', 'stripeTimeoutMs', 'store', 'stripe', 'offers'];
+const STRIPE_METHODS = ['createCheckoutSession', 'retrieveCheckoutSession', 'retrieveSubscription', 'retrieveInvoice'];
 
 class RequestError extends Error {
   constructor(code, extra = {}) { super(code); this.code = code; this.extra = extra; }
@@ -156,7 +155,7 @@ export function createPaymentsServer(config, { stripe, store, sink, sinkError, n
     const params = {
       mode: offer.mode,
       line_items: [{ price: offer.price, quantity: offer.quantity }],
-      success_url: `${config.publicOrigin}${config.successPath}?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${config.publicOrigin}${config.successPath}`,
       cancel_url: `${config.publicOrigin}${config.cancelPath}`,
       metadata: { offer: offer.id },
       ...(offer.mode === 'subscription' ? { subscription_data: { metadata: { offer: offer.id } } } : { payment_intent_data: { metadata: { offer: offer.id } } }),
@@ -165,20 +164,6 @@ export function createPaymentsServer(config, { stripe, store, sink, sinkError, n
     const session = await upstream(() => stripeClient.createCheckoutSession(params, randomUUID()));
     if (!plain(session) || typeof session.url !== 'string' || !session.url.startsWith(`${CHECKOUT_ORIGIN}/`) || typeof session.id !== 'string' || !CHECKOUT_SESSION_ID.test(session.id)) throw new RequestError('upstream_error');
     return redirectOrJson(req, res, id, session.url, { id: session.id });
-  }
-
-  async function handlePortal(req, res, id) {
-    if (!sameOrigin(req.headers, config.publicOrigin)) throw new RequestError('origin_not_allowed');
-    limitOrThrow(req);
-    const fields = await readFields(req);
-    const match = typeof fields.session_id === 'string' && CHECKOUT_SESSION_ID.exec(fields.session_id);
-    if (!match || match[1] !== config.mode) throw new RequestError('invalid_request');
-    const session = await upstream(() => stripeClient.retrieveCheckoutSession(fields.session_id));
-    const customer = plain(session) && session.status === 'complete' && session.mode === 'subscription' ? (typeof session.customer === 'string' ? session.customer : session.customer?.id) : null;
-    if (typeof customer !== 'string' || !/^cus_[A-Za-z0-9]{8,}$/.test(customer)) throw new RequestError('portal_unavailable');
-    const portal = await upstream(() => stripeClient.createBillingPortalSession({ customer, return_url: `${config.publicOrigin}${config.returnPath}` }, randomUUID()));
-    if (!plain(portal) || typeof portal.url !== 'string' || !portal.url.startsWith(`${PORTAL_ORIGIN}/`)) throw new RequestError('upstream_error');
-    return redirectOrJson(req, res, id, portal.url, {});
   }
 
   async function handleWebhook(req, res, id, telemetry) {
@@ -246,7 +231,7 @@ export function createPaymentsServer(config, { stripe, store, sink, sinkError, n
     if (req.method !== 'POST') { req.resume(); finishWith('method_not_allowed', { allow: 'POST' }); return; }
     if (!enabled) { req.resume(); finishWith('payments_disabled'); return; }
 
-    const handler = route === 'checkout' ? handleCheckout : route === 'portal' ? handlePortal : handleWebhook;
+    const handler = route === 'checkout' ? handleCheckout : handleWebhook;
     handler(req, res, id, telemetry).then((code) => { status = code; }).catch((error) => {
       req.resume();
       if (res.headersSent) { status = res.statusCode; return; }

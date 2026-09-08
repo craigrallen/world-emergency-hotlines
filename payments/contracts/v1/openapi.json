@@ -19,14 +19,6 @@
         "responses": { "200": { "$ref": "#/components/responses/RedirectTarget" }, "303": { "$ref": "#/components/responses/Redirect" }, "400": { "$ref": "#/components/responses/Error" }, "403": { "$ref": "#/components/responses/Error" }, "404": { "$ref": "#/components/responses/Error" }, "405": { "$ref": "#/components/responses/Error" }, "413": { "$ref": "#/components/responses/Error" }, "415": { "$ref": "#/components/responses/Error" }, "429": { "$ref": "#/components/responses/Error" }, "502": { "$ref": "#/components/responses/Error" }, "503": { "$ref": "#/components/responses/Error" } }
       }
     },
-    "/billing/api/portal-session": {
-      "post": {
-        "summary": "Open the Stripe Customer Portal for a completed subscription Checkout Session",
-        "description": "Same-origin POST carrying the session_id that Stripe appended to the success URL. The session must be complete and in subscription mode; otherwise 404 portal_unavailable. Responds 303 to https://billing.stripe.com/... or 200 JSON.",
-        "requestBody": { "required": true, "content": { "application/x-www-form-urlencoded": { "schema": { "$ref": "#/components/schemas/PortalRequest" } }, "application/json": { "schema": { "$ref": "#/components/schemas/PortalRequest" } } } },
-        "responses": { "200": { "$ref": "#/components/responses/RedirectTarget" }, "303": { "$ref": "#/components/responses/Redirect" }, "400": { "$ref": "#/components/responses/Error" }, "403": { "$ref": "#/components/responses/Error" }, "404": { "$ref": "#/components/responses/Error" }, "405": { "$ref": "#/components/responses/Error" }, "413": { "$ref": "#/components/responses/Error" }, "415": { "$ref": "#/components/responses/Error" }, "429": { "$ref": "#/components/responses/Error" }, "502": { "$ref": "#/components/responses/Error" }, "503": { "$ref": "#/components/responses/Error" } }
-      }
-    },
     "/billing/api/webhook": {
       "post": {
         "summary": "Receive signed Stripe events",
@@ -48,12 +40,11 @@
     "schemas": {
       "OfferId": { "type": "string", "pattern": "^[a-z][a-z0-9_]{1,31}$", "description": "An id from offers.json" },
       "CheckoutRequest": { "type": "object", "required": ["offer"], "properties": { "offer": { "$ref": "#/components/schemas/OfferId" } }, "additionalProperties": false },
-      "PortalRequest": { "type": "object", "required": ["session_id"], "properties": { "session_id": { "type": "string", "pattern": "^cs_(test|live)_[A-Za-z0-9]{8,}$" } }, "additionalProperties": false },
       "StripeEvent": { "type": "object", "required": ["id", "object", "type", "livemode", "created", "data"], "properties": { "id": { "type": "string", "pattern": "^evt_[A-Za-z0-9]{8,}$" }, "object": { "const": "event" }, "type": { "type": "string" }, "livemode": { "type": "boolean" }, "created": { "type": "integer", "minimum": 0 }, "data": { "type": "object", "required": ["object"], "properties": { "object": { "type": "object" } } } } },
       "Health": { "type": "object", "required": ["component", "payments_version", "status", "mode", "offers", "store", "foundation"], "properties": { "component": { "const": "payments" }, "payments_version": { "const": "0.1.0-foundation" }, "status": { "enum": ["disabled", "enabled"] }, "mode": { "enum": ["disabled", "test", "live"] }, "offers": { "type": "array", "items": { "$ref": "#/components/schemas/OfferId" } }, "store": { "type": "string" }, "foundation": { "const": true } }, "additionalProperties": false },
       "RedirectTarget": { "type": "object", "required": ["url"], "properties": { "url": { "type": "string", "format": "uri" }, "id": { "type": "string" } }, "additionalProperties": false },
       "WebhookAck": { "type": "object", "required": ["received"], "properties": { "received": { "const": true }, "duplicate": { "const": true }, "outcome": { "enum": ["processed", "ignored", "stale"] } }, "additionalProperties": false },
-      "Error": { "type": "object", "required": ["error"], "properties": { "error": { "type": "object", "required": ["code", "message", "request_id"], "properties": { "code": { "enum": ["invalid_request", "unknown_offer", "signature_invalid", "livemode_mismatch", "origin_not_allowed", "not_found", "portal_unavailable", "method_not_allowed", "payload_too_large", "unsupported_media_type", "rate_limited", "handler_failed", "upstream_error", "payments_disabled", "unavailable", "event_in_progress"] }, "message": { "type": "string" }, "request_id": { "type": "string", "format": "uuid" } }, "additionalProperties": false } }, "additionalProperties": false }
+      "Error": { "type": "object", "required": ["error"], "properties": { "error": { "type": "object", "required": ["code", "message", "request_id"], "properties": { "code": { "enum": ["invalid_request", "unknown_offer", "signature_invalid", "livemode_mismatch", "origin_not_allowed", "not_found", "method_not_allowed", "payload_too_large", "unsupported_media_type", "rate_limited", "handler_failed", "upstream_error", "payments_disabled", "unavailable", "event_in_progress"] }, "message": { "type": "string" }, "request_id": { "type": "string", "format": "uuid" } }, "additionalProperties": false } }, "additionalProperties": false }
     },
     "responses": {
       "Health": { "description": "Service identity", "headers": { "X-Request-Id": { "$ref": "#/components/headers/RequestId" }, "Cache-Control": { "$ref": "#/components/headers/CacheControl" } }, "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Health" } } } },

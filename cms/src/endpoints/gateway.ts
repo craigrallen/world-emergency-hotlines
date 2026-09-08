@@ -121,7 +121,9 @@ export function withEntitlement<T extends Doc>(keys: T[], context: EntitlementCo
     if (granted === null && key.issuedBy === 'account') return key.state === 'active' ? { ...key, state: 'revoked' } : key;
     if (granted !== null) {
       const subscription = context.subscriptions.get(String(granted));
-      const active = subscription !== undefined && (ACTIVE_STATUSES as readonly string[]).includes(String(subscription.status)) && (subscription.livemode === true) === (key.livemode === true);
+      const owner = rawId(subscription?.user);
+      const keyOwner = rawId(key.user);
+      const active = owner !== null && keyOwner !== null && String(owner) === String(keyOwner) && subscription !== undefined && (ACTIVE_STATUSES as readonly string[]).includes(String(subscription.status)) && (subscription.livemode === true) === (key.livemode === true);
       // No resolvable plan policy (plan deleted, price unknown) means no grant: the key is revoked rather than exported with its copied policy.
       const policy = subscription ? policyOf(context.plans.get(String(rawId(subscription.plan)))) : null;
       return { ...key, ...(policy ?? {}), state: key.state === 'active' && (!active || !policy) ? 'revoked' : key.state };

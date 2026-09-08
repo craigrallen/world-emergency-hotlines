@@ -14,7 +14,6 @@ export const OFFER_MODES = Object.freeze(['subscription', 'payment']);
 export const DEFAULT_PUBLIC_ORIGIN = 'https://worldhotlines.org';
 export const DEFAULT_SUCCESS_PATH = '/billing/success';
 export const DEFAULT_CANCEL_PATH = '/billing/cancelled';
-export const DEFAULT_RETURN_PATH = '/billing';
 export const DEFAULT_PORT = 8081;
 
 // Stripe identifier shapes. Lengths are lower bounds only; Stripe may lengthen them.
@@ -27,7 +26,7 @@ export const CHECKOUT_SESSION_ID = /^cs_(test|live)_[A-Za-z0-9]{8,}$/;
 export const STRIPE_OBJECT_ID = /^[a-z]{2,10}_(?:(?:test|live)_)?[A-Za-z0-9]{8,}$/;
 
 export const KNOWN_VARIABLES = Object.freeze([
-  'PAYMENTS_MODE', 'PAYMENTS_HOST', 'PAYMENTS_PUBLIC_ORIGIN', 'PAYMENTS_SUCCESS_PATH', 'PAYMENTS_CANCEL_PATH', 'PAYMENTS_RETURN_PATH',
+  'PAYMENTS_MODE', 'PAYMENTS_HOST', 'PAYMENTS_PUBLIC_ORIGIN', 'PAYMENTS_SUCCESS_PATH', 'PAYMENTS_CANCEL_PATH',
   'PAYMENTS_TRUST_PROXY', 'PAYMENTS_OFFERS', 'PAYMENTS_AUTOMATIC_TAX', 'PAYMENTS_STRIPE_TIMEOUT_MS',
   'PAYMENTS_STORE', 'PAYMENTS_CMS_URL', 'PAYMENTS_CMS_API_KEY',
   'STRIPE_SECRET_KEY', 'STRIPE_WEBHOOK_SECRET', 'STRIPE_API_VERSION',
@@ -111,7 +110,6 @@ export function loadConfig(env = process.env) {
   if (!validOrigin(publicOrigin, { allowHttp: mode !== 'live' })) throw new ConfigError('PAYMENTS_PUBLIC_ORIGIN', mode === 'live' ? 'must be an exact https origin' : 'must be an exact https origin or a loopback http origin');
   const successPath = readPath(env, 'PAYMENTS_SUCCESS_PATH', DEFAULT_SUCCESS_PATH);
   const cancelPath = readPath(env, 'PAYMENTS_CANCEL_PATH', DEFAULT_CANCEL_PATH);
-  const returnPath = readPath(env, 'PAYMENTS_RETURN_PATH', DEFAULT_RETURN_PATH);
   const trustProxy = readFlag(env, 'PAYMENTS_TRUST_PROXY');
   const automaticTax = readFlag(env, 'PAYMENTS_AUTOMATIC_TAX');
   const timeoutRaw = env.PAYMENTS_STRIPE_TIMEOUT_MS ?? '15000';
@@ -135,7 +133,7 @@ export function loadConfig(env = process.env) {
     throw new ConfigError(cmsUrl !== undefined ? 'PAYMENTS_CMS_URL' : 'PAYMENTS_CMS_API_KEY', 'is only accepted when PAYMENTS_STORE=cms');
   }
 
-  const base = { version: VERSION, mode, host, port, publicOrigin, successPath, cancelPath, returnPath, trustProxy, automaticTax, stripeTimeoutMs: Number(timeoutRaw), store };
+  const base = { version: VERSION, mode, host, port, publicOrigin, successPath, cancelPath, trustProxy, automaticTax, stripeTimeoutMs: Number(timeoutRaw), store };
   if (mode === 'disabled') return Object.freeze({ ...base, stripe: null, offers: Object.freeze({}) });
 
   const secretKey = env.STRIPE_SECRET_KEY;
@@ -156,7 +154,7 @@ export function loadConfig(env = process.env) {
 export function describeConfig(config) {
   return {
     version: config.version, mode: config.mode, host: config.host, port: config.port, public_origin: config.publicOrigin,
-    success_path: config.successPath, cancel_path: config.cancelPath, return_path: config.returnPath, trust_proxy: config.trustProxy,
+    success_path: config.successPath, cancel_path: config.cancelPath, trust_proxy: config.trustProxy,
     automatic_tax: config.automaticTax, stripe_api_version: config.stripe?.apiVersion ?? null, stripe_key_configured: config.stripe !== null,
     webhook_secret_configured: config.stripe !== null, offers: Object.values(config.offers).map(({ id, mode, quantity }) => ({ id, mode, quantity })),
     store: { kind: config.store.kind, cms_url: config.store.kind === 'cms' ? config.store.url : null, cms_api_key_configured: config.store.kind === 'cms' },

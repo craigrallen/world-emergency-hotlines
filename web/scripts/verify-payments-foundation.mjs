@@ -86,7 +86,11 @@ const keyLike = /\b(?:sk|rk|pk)_(?:test|live)_([A-Za-z0-9]{24,})\b|\bwhsec_([A-Z
 const suspicious = [];
 for (const path of tracked) {
   if (/\.(?:png|jpg|jpeg|webp|ico|woff2|xlsx|sqlite|bundle|gz)$/i.test(path)) continue;
-  const text = readFileSync(resolve(repo, path), 'utf8');
+  // Scan the working-tree bytes when present, otherwise the exact staged blob. This
+  // keeps tracked deletions covered without following paths or resurrecting files.
+  const text = existsSync(resolve(repo, path))
+    ? readFileSync(resolve(repo, path), 'utf8')
+    : execFileSync('git', ['-C', repo, 'show', `:${path}`], { encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 });
   for (const match of text.matchAll(keyLike)) {
     const body = match[1] ?? match[2];
     // Synthetic fixtures use a repeated character; real Stripe material is high-entropy.
@@ -113,10 +117,10 @@ assert.match(billing, /data-payments-disabled-notice/);
 assert.match(billing, /Payments are not enabled/);
 for (const id of ids) assert.ok(billing.includes(`<input type="hidden" name="offer" value="${id}">`), `billing page must offer ${id}`);
 assert.equal((billing.match(new RegExp(`action="${ROUTES.checkout}"`, 'g')) ?? []).length, ids.length, 'one checkout form per offer');
-assert.equal((billing.match(/<button[^>]*\sdisabled[\s>]/g) ?? []).length, ids.length + 1, 'every checkout and portal button must be disabled by default');
-assert.match(billing, new RegExp(`action="${ROUTES.portal}"`));
-assert.match(success, new RegExp(`action="${ROUTES.portal}"`));
-assert.match(success, /session_id/);
+assert.equal((billing.match(/<button[^>]*\sdisabled[\s>]/g) ?? []).length, ids.length, 'every checkout button must be disabled by default');
+assert.doesNotMatch(billing, /portal-session|name="session_id"/);
+assert.match(success, /href="\/account"/);
+assert.doesNotMatch(success, /session_id/);
 assert.match(cancelled, /Nothing was charged/);
 const robots = readFileSync(resolve(dist, 'robots.txt'), 'utf8');
 assert.ok(robots.includes('Disallow: /billing/'), 'robots.txt must disallow /billing/');

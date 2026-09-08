@@ -3,6 +3,9 @@ name: CMS CI
 on:
   pull_request:
     paths:
+      - "Caddyfile"
+      - "web/src/pages/billing/**"
+      - "web/src/lib/billing.ts"
       - "cms/**"
       - "gateway/**"
       - "payments/**"
@@ -11,6 +14,9 @@ on:
     branches:
       - main
     paths:
+      - "Caddyfile"
+      - "web/src/pages/billing/**"
+      - "web/src/lib/billing.ts"
       - "cms/**"
       - "gateway/**"
       - "payments/**"
@@ -36,6 +42,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Whitespace
+        working-directory: .
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          git diff --check
+          if git cat-file -e "$BASE_SHA^{commit}" 2>/dev/null; then git diff --check "$BASE_SHA" HEAD; else git show --format= --check HEAD; fi
 
       - name: Setup Node
         uses: actions/setup-node@v7
@@ -51,6 +67,12 @@ jobs:
         run: |
           npm run generate:types
           git diff --exit-code -- src/payload-types.ts
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: Reviewed production dependency audit
+        run: npm run audit:policy
 
       - name: Typecheck
         run: npm run typecheck
@@ -76,3 +98,56 @@ jobs:
 
       - name: Build the CMS image exactly as Railway and Compose do (no build arguments, no secrets)
         run: docker build --pull cms
+
+  postgres:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: cms
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: hotlines_ci
+          POSTGRES_USER: hotlines_ci
+          POSTGRES_PASSWORD: disposable-ci-only
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U hotlines_ci -d hotlines_ci"
+          --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+      PAYLOAD_SECRET: ci-only-payload-secret-that-is-long-enough-000000
+      DATABASE_URL: postgres://hotlines_ci:disposable-ci-only@localhost:5432/hotlines_ci
+      PUBLIC_SITE_URL: http://localhost:3000
+      CMS_ADMIN_EMAIL: bootstrap@example.test
+      CMS_ADMIN_PASSWORD: disposable-ci-admin-password-0001
+      CMS_ACCOUNTS_REGISTRATION: closed
+      CMS_REQUIRE_EMAIL_VERIFICATION: "0"
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: cms/package-lock.json
+      - run: npm ci
+      - name: Apply all production migrations to an empty Postgres 16 database
+        run: NODE_ENV=production npm run migrate
+      - name: Production build without runtime configuration
+        run: env -u PAYLOAD_SECRET -u DATABASE_URL -u PUBLIC_SITE_URL -u CMS_ADMIN_EMAIL -u CMS_ADMIN_PASSWORD npm run build
+      - name: Start and smoke production app, including admin UI
+        run: |
+          cp -R .next/static .next/standalone/.next/static
+          pushd .next/standalone
+          HOSTNAME=127.0.0.1 PORT=3000 NODE_ENV=production node server.js > /tmp/cms-production.log 2>&1 &
+          app_pid=$!
+          popd
+          trap 'kill "$app_pid" 2>/dev/null || true; cat /tmp/cms-production.log' EXIT
+          node scripts/smoke-production.mjs
+      - name: Real Postgres row-lock, lease ownership, and reassignment regressions
+        env:
+          TEST_POSTGRES_URL: postgres://hotlines_ci:disposable-ci-only@localhost:5432/hotlines_ci
+        run: npm run test:postgres

@@ -16,6 +16,8 @@ Hard boundaries that no configuration may change:
 | Contracts (offer ids, OpenAPI, README) | `payments/contracts/v1/` | Documented; no prices |
 | Caddy route `/billing/api/*` | `Caddyfile` | Fails closed with 503 unless `PAYMENTS_UPSTREAM` is set |
 | CSP `form-action` for Stripe hosted origins | `Caddyfile` | Allows only `checkout.stripe.com` and `billing.stripe.com`; no Stripe scripts, frames, or connect-src |
+
+> **Activation gate:** CMS and payments reconciliation changes are an atomic rollout. Deploy compatible versions of both before enabling Stripe webhooks. Post-watermark deliveries synchronously read Stripe (and CAS conflicts can repeat reads), so activation also requires healthy Stripe API availability and rate-limit headroom.
 | `/billing`, `/billing/success`, `/billing/cancelled` pages | `web/src/pages/billing/` | Built `noindex`, buttons disabled unless `PUBLIC_PAYMENTS_MODE` is `test` or `live` at build time |
 | Verification | `npm run verify:payments` (in `verify:all`), `verify-caddy.sh`, `verify-docker-image.sh` | CI enforces the disabled state, contract parity, Stripe-only `form-action`, ignored env files, and a tracked-file key scan |
 | Secret hygiene | `.gitignore`, `.dockerignore`, `payments/.env.example` | `.env*` never committed or copied into images |
@@ -45,7 +47,7 @@ Documented with defaults in `payments/.env.example`. Summary:
 | `PAYMENTS_MODE` | payments | `disabled` (default), `test`, or `live`. Kill switch. |
 | `PAYMENTS_HOST`, `PORT` | payments | Bind address and port. Railway private networking is IPv6, so use `::` there. |
 | `PAYMENTS_PUBLIC_ORIGIN` | payments | Canonical site origin for return URLs and the same-origin check. `https://worldhotlines.org`. |
-| `PAYMENTS_SUCCESS_PATH`, `PAYMENTS_CANCEL_PATH`, `PAYMENTS_RETURN_PATH` | payments | Return paths on the public origin. Defaults match the built pages. |
+| `PAYMENTS_SUCCESS_PATH`, `PAYMENTS_CANCEL_PATH` | payments | Checkout return paths on the public origin. Defaults match the built pages. |
 | `PAYMENTS_TRUST_PROXY` | payments | `1` behind Caddy so `X-Forwarded-For` drives abuse limiting. |
 | `PAYMENTS_OFFERS` | payments | JSON map of offer id → `{price, mode, quantity?}`. Ids must match `payments/contracts/v1/offers.json`. |
 | `PAYMENTS_AUTOMATIC_TAX` | payments | `1` to enable Stripe Tax on sessions. Requires Tax configured in Stripe and a tax decision. Off by default. |
@@ -127,4 +129,4 @@ Work top to bottom. Every step is reversible by unsetting `PAYMENTS_UPSTREAM` or
 
 ## Not done by this foundation
 
-No Stripe account, product, price, webhook, tax setup, terms, or deployed service is created here. Anonymous subscribers manage billing through the Stripe Customer Portal using their checkout session reference. Account-bound checkout, the account page, user administration, a second (CMS) webhook consumer sharing the same idempotency ledger, and managed API key issuance live in the separate CMS backend described in `docs/ACCOUNTS.md`, which is likewise prepared but not enabled.
+No Stripe account, product, price, webhook, tax setup, terms, or deployed service is created here. The anonymous portal route is removed: a checkout reference cannot establish ownership. Subscribers use the authenticated CMS account portal; unlinked purchases require maintainer-assisted ownership verification. Checkout success URLs contain no session identifiers. Account-bound checkout, the account page, user administration, a second (CMS) webhook consumer sharing the same idempotency ledger, and managed API key issuance live in the separate CMS backend described in `docs/ACCOUNTS.md`, which is likewise prepared but not enabled.

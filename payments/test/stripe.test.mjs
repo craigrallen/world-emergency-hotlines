@@ -9,15 +9,15 @@ test('encodeForm produces Stripe bracket notation', () => {
     mode: 'subscription',
     line_items: [{ price: 'price_synthetic0001', quantity: 1 }],
     metadata: { offer: 'growth_monthly' },
-    success_url: 'https://synthetic.invalid/billing/success?session_id={CHECKOUT_SESSION_ID}',
+    success_url: 'https://synthetic.invalid/billing/success',
     automatic_tax: { enabled: true },
     skipped: null,
   });
   assert.equal(encoded, [
     'mode=subscription', 'line_items%5B0%5D%5Bprice%5D=price_synthetic0001', 'line_items%5B0%5D%5Bquantity%5D=1', 'metadata%5Boffer%5D=growth_monthly',
-    'success_url=https%3A%2F%2Fsynthetic.invalid%2Fbilling%2Fsuccess%3Fsession_id%3D%7BCHECKOUT_SESSION_ID%7D', 'automatic_tax%5Benabled%5D=true',
+    'success_url=https%3A%2F%2Fsynthetic.invalid%2Fbilling%2Fsuccess', 'automatic_tax%5Benabled%5D=true',
   ].join('&'));
-  assert.equal(new URLSearchParams(encoded).get('success_url'), 'https://synthetic.invalid/billing/success?session_id={CHECKOUT_SESSION_ID}');
+  assert.equal(new URLSearchParams(encoded).get('success_url'), 'https://synthetic.invalid/billing/success');
   assert.throws(() => encodeForm({ bad: () => {} }), TypeError);
   assert.throws(() => encodeForm({ bad: Infinity }), TypeError);
 });

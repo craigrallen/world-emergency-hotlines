@@ -14,8 +14,10 @@
     "migrate": "payload migrate",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "lint": "next lint",
-    "migrate:create": "payload migrate:create"
+    "lint": "eslint . --max-warnings=0",
+    "migrate:create": "payload migrate:create",
+    "audit:policy": "node scripts/audit-policy.mjs",
+    "test:postgres": "vitest run test/postgres.test.ts"
   },
   "engines": {
     "node": ">=22"
@@ -34,12 +36,20 @@
     "stripe": "^22.6.1"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
     "@types/node": "^22.19.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "ajv": "^8.20.0",
     "ajv-formats": "^3.0.1",
+    "eslint": "^9.39.5",
     "typescript": "^5.9.0",
+    "typescript-eslint": "^8.67.0",
     "vitest": "^3.2.0"
+  },
+  "overrides": {
+    "monaco-editor": {
+      "dompurify": "3.4.15"
+    }
   }
 }

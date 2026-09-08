@@ -157,12 +157,18 @@ test('same-second events are reconciled from Stripe\'s current object instead of
   assert.equal(afterTie.last_invoice, 'in_synthetic00000002', 'the latest invoice wins, not whichever invoice the tied delivery carried');
   assert.equal(afterTie.last_invoice_status, 'paid');
   assert.equal(afterTie.status, statusBeforeTie, 'invoice reconciliation never touches the subscription status');
-  // A subscription without a latest invoice, or one whose latest invoice cannot be fetched, leaves the record alone.
+  // A strictly newer legitimate invoice still applies when the current subscription has no
+  // latest_invoice. This changes invoice fields only; subscription status remains untouched.
   fetched.objects.subscription = { ...fetched.objects.subscription, latest_invoice: null };
-  assert.equal((await dispatchEvent({ ...olderInvoice, id: 'evt_synthetic00000050' }, { store, offers, fetchObject })).outcome, 'stale');
+  const newerInvoice = structuredClone(olderInvoice); newerInvoice.id = 'evt_synthetic00000050'; newerInvoice.created = at + 2; newerInvoice.data.object.id = 'in_synthetic00000004';
+  const statusBeforeNewerInvoice = (await store.getEntitlement('sub:sub_synthetic00000001')).status;
+  assert.equal((await dispatchEvent(newerInvoice, { store, offers, fetchObject })).outcome, 'processed');
+  assert.equal((await store.getEntitlement('sub:sub_synthetic00000001')).last_invoice, 'in_synthetic00000004');
+  assert.equal((await store.getEntitlement('sub:sub_synthetic00000001')).status, statusBeforeNewerInvoice);
+  assert.equal((await dispatchEvent({ ...olderInvoice, id: 'evt_synthetic00000053', created: at + 2 }, { store, offers, fetchObject })).outcome, 'stale', 'same-second delivery without current latest_invoice remains ambiguous');
   fetched.objects.subscription = { ...fetched.objects.subscription, latest_invoice: 'in_synthetic00000003' };
-  assert.equal((await dispatchEvent({ ...olderInvoice, id: 'evt_synthetic00000051' }, { store, offers, fetchObject })).outcome, 'stale', 'fetched invoice id mismatch fails closed');
-  assert.equal((await store.getEntitlement('sub:sub_synthetic00000001')).last_invoice, 'in_synthetic00000002');
+  assert.equal((await dispatchEvent({ ...olderInvoice, id: 'evt_synthetic00000051', created: at + 3 }, { store, offers, fetchObject })).outcome, 'stale', 'fetched invoice id mismatch fails closed');
+  assert.equal((await store.getEntitlement('sub:sub_synthetic00000001')).last_invoice, 'in_synthetic00000004');
   delete fetched.objects.subscription; delete fetched.objects.invoice;
   const checkout = load('checkout.session.completed'); checkout.id = 'evt_synthetic00000048'; checkout.created = at + 2;
   assert.equal((await dispatchEvent(checkout, { store, offers, fetchObject })).outcome, 'processed');
@@ -177,17 +183,17 @@ test('a reconciled snapshot fetched before another replica\'s equal-epoch write 
   const at = 2145917700;
   const lifecycle = (id, status) => { const event = load('customer.subscription.updated'); event.id = id; event.created = at; event.data.object.status = status; return event; };
   assert.equal((await dispatchEvent(lifecycle('evt_synthetic00000060', 'active'), { store: base, offers })).outcome, 'processed');
-  // Replica A: reads the record, reconciles (Stripe still says active), then stalls before writing.
+  // Replica A: a later-second historical delivery reads the record, fetches current state, then stalls before writing.
   let gate = null;
   const fetches = [];
   const stalled = { ...base, async putEntitlement(record) { if (gate) { const wait = gate; gate = null; await wait; } return base.putEntitlement(record); } };
   const fetchA = async () => { fetches.push('A'); return fetches.length === 1 ? { ...lifecycle('x', 'active').data.object } : { ...lifecycle('x', 'canceled').data.object }; };
   let release;
   gate = new Promise((ok) => { release = ok; });
-  const slow = dispatchEvent(lifecycle('evt_synthetic00000061', 'active'), { store: stalled, offers, fetchObject: fetchA });
+  const slow = dispatchEvent({ ...lifecycle('evt_synthetic00000061', 'active'), created: at + 10 }, { store: stalled, offers, fetchObject: fetchA });
   await new Promise((ok) => setTimeout(ok, 0));
   // Replica B: same second, reconciles to the later truth (canceled) and writes it first.
-  assert.equal((await dispatchEvent(lifecycle('evt_synthetic00000062', 'canceled'), { store: base, offers, fetchObject: async () => ({ ...lifecycle('x', 'canceled').data.object }) })).outcome, 'processed');
+  assert.equal((await dispatchEvent({ ...lifecycle('evt_synthetic00000062', 'canceled'), created: at + 10 }, { store: base, offers, fetchObject: async () => ({ ...lifecycle('x', 'canceled').data.object }) })).outcome, 'processed');
   assert.equal((await base.getEntitlement('sub:sub_synthetic00000001')).status, 'canceled');
   release();
   assert.equal((await slow).outcome, 'processed', 'A\'s stale write was refused; it re-read, re-reconciled, and applied the current truth');
@@ -210,4 +216,23 @@ test('unhandled, malformed, and unlinked events are ignored explicitly', async (
   await assert.rejects(dispatchEvent({ type: 'x' }, { store, offers }), TypeError);
   assert.equal(store.listEntitlements().length, 0);
   assert.equal(HANDLED_EVENT_TYPES.length, 9);
+});
+
+test('later-delivered historical events cannot undo a fetched cancellation', async () => {
+  const store = createMemoryStore();
+  const original = load('customer.subscription.updated');
+  const event = (id, created, status) => ({ ...original, id, created, data: { object: { ...original.data.object, status } } });
+  const at = original.created;
+  let fetches = 0;
+  const fetchObject = async () => { fetches += 1; return { ...original.data.object, status: 'canceled' }; };
+  const deps = { store, offers, fetchObject };
+  await dispatchEvent(event('evt_historical0001', at, 'active'), deps);
+  await dispatchEvent(event('evt_historical0002', at, 'active'), deps);
+  for (const created of [at + 1, at + 20, at + 100]) {
+    await dispatchEvent(event(`evt_historical${created}`, created, 'active'), deps);
+    assert.equal((await store.getEntitlement(`sub:${original.data.object.id}`)).status, 'canceled');
+  }
+  assert.equal(fetches, 4);
+  await assert.rejects(dispatchEvent(event('evt_historicalfail', at + 101, 'active'), { ...deps, fetchObject: async () => { throw new Error('unavailable'); } }), /unavailable/);
+  assert.equal((await store.getEntitlement(`sub:${original.data.object.id}`)).status, 'canceled');
 });

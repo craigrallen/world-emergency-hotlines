@@ -11,7 +11,7 @@ const dbFile = resolve(dataDir, `test-${process.pid}.db`);
 for (const suffix of ['', '-journal', '-wal', '-shm']) rmSync(`${dbFile}${suffix}`, { force: true });
 
 process.env.PAYLOAD_SECRET = 'vitest-only-payload-secret-that-is-long-enough-0000';
-process.env.DATABASE_URL = `file:${dbFile}`;
+process.env.DATABASE_URL = process.env.TEST_POSTGRES_URL ?? `file:${dbFile}`;
 process.env.PUBLIC_SITE_URL = 'http://localhost:8080';
 process.env.CMS_ACCOUNTS_REGISTRATION = 'open';
 process.env.CMS_REQUIRE_EMAIL_VERIFICATION = '0';

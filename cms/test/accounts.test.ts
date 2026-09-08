@@ -12,6 +12,9 @@ const PASSWORD = 'correct-horse-battery-staple-01';
 beforeAll(async () => {
   stripe = await startMockStripe();
   payload = await getPayload({ config: configPromise });
+  const first = await call('/cms/api/users/first-register', { method: 'POST', body: { email: 'stranded@example.test', password: PASSWORD } });
+  expect(first.status).toBe(403);
+  expect((await payload.count({ collection: 'users', overrideAccess: true })).totalDocs).toBe(0);
   await createUser(payload, { email: 'admin@example.test', password: PASSWORD, role: 'admin', name: 'Admin' });
   await createUser(payload, { email: 'staff@example.test', password: PASSWORD, role: 'staff' });
   await payload.create({ collection: 'plans', data: { offerId: 'growth_monthly', label: 'Growth — monthly', description: 'Synthetic plan', mode: 'subscription', stripePriceId: 'price_synthetic0001', quantity: 1, active: true, gateway: { permissions: ['manifest', 'records'], quotaRate: 2, quotaBurst: 20 } }, overrideAccess: true });
@@ -267,4 +270,69 @@ test('the status response lists every sellable plan, however many there are, in 
   expect((await sellablePlans(payload, 1)).map((plan) => plan.offerId)).toEqual(offers);
   const status = await call('/cms/api/account/status');
   expect(status.data.offers.map((plan: { id: string }) => plan.id)).toEqual(offers);
+});
+
+
+describe('review regressions: account integrity', () => {
+  test('the last admin cannot be demoted or deleted, while either action is allowed when another admin exists', async () => {
+    const admin = (await payload.find({ collection: 'users', where: { email: { equals: 'admin@example.test' } }, overrideAccess: true })).docs[0];
+    const token = await login('admin@example.test', PASSWORD);
+    expect((await call(`/cms/api/users/${admin.id}`, { method: 'PATCH', token, body: { role: 'staff' } })).status).toBe(400);
+    expect((await call(`/cms/api/users/${admin.id}`, { method: 'DELETE', token })).status).toBe(400);
+    expect((await payload.findByID({ collection: 'users', id: admin.id, overrideAccess: true })).role).toBe('admin');
+
+    const second = await createUser(payload, { email: 'second-admin@example.test', password: PASSWORD, role: 'admin' });
+    expect((await call(`/cms/api/users/${second.id}`, { method: 'PATCH', token, body: { role: 'staff' } })).status).toBe(200);
+    await payload.update({ collection: 'users', id: second.id, data: { role: 'admin' }, overrideAccess: true, context: { cmsInternal: true } });
+    expect((await call(`/cms/api/users/${second.id}`, { method: 'DELETE', token })).status).toBe(200);
+  });
+
+  test.each(['admin', 'staff', 'member', 'service'] as const)('real %s reset preserves stored privileges and ignores injected fields', async (role) => {
+    const email = `reset-${role}@example.test`;
+    const user = await createUser(payload, { email, password: PASSWORD, role, notes: 'preserve internal note', stripeTestCustomerId: `cus_reset${role}00000001`, ...(role === 'service' ? { serviceScope: 'payments_store', enableAPIKey: true, apiKey: 'reset-service-synthetic-key-0001' } : {}) });
+    const before = await payload.findByID({ collection: 'users', id: user.id, overrideAccess: true, showHiddenFields: true });
+    const token = await payload.forgotPassword({ collection: 'users', data: { email }, disableEmail: true });
+    const password = `${PASSWORD}-changed`;
+    const result = await call('/cms/api/users/reset-password', { method: 'POST', body: { token, password, role: 'admin', serviceScope: 'gateway_sync', apiKey: 'injected', stripeTestCustomerId: 'cus_injected000099', _verified: false, context: { cmsInternal: true } } });
+    expect(result.status).toBe(200);
+    const after = await payload.findByID({ collection: 'users', id: user.id, overrideAccess: true, showHiddenFields: true });
+    for (const field of ['role', 'serviceScope', 'enableAPIKey', 'apiKey', 'apiKeyIndex', 'stripeTestCustomerId', 'stripeLiveCustomerId', 'notes', '_verified'] as const) {
+      expect((after as unknown as Record<string, unknown>)[field]).toEqual((before as unknown as Record<string, unknown>)[field]);
+    }
+    expect(await login(email, password)).toBeTruthy();
+    expect((await call('/cms/api/users/login', { method: 'POST', body: { email, password: PASSWORD } })).status).toBeGreaterThanOrEqual(400);
+    if (role === 'service') expect((await call('/cms/api/stripe-events', { apiKey: 'reset-service-synthetic-key-0001' })).status).toBe(200);
+  });
+
+  test('verified members cannot change email, including through bulk update', async () => {
+    const user = await createUser(payload, { email: 'fixed-email@example.test', password: PASSWORD, _verified: true });
+    const token = await login(user.email, PASSWORD);
+    for (const path of [`/cms/api/users/${user.id}`, `/cms/api/users?where[id][equals]=${user.id}`]) {
+      await call(path, { method: 'PATCH', token, body: { email: 'unowned@example.test', _verified: true } });
+      const after = await payload.findByID({ collection: 'users', id: user.id, overrideAccess: true });
+      expect(after.email).toBe(user.email);
+      expect(after._verified).toBe(true);
+    }
+    expect((await call(`/cms/api/users/${user.id}`, { method: 'PATCH', token, body: { email: user.email, name: 'Allowed edit' } })).status).toBe(200);
+  });
+
+  test('special first-user registration is disabled', async () => {
+    const response = await call('/cms/api/users/first-register', { method: 'POST', body: { email: 'first-user@example.test', password: PASSWORD } });
+    expect(response.status).toBe(403);
+    expect(JSON.stringify(response.data)).toMatch(/First-user setup is disabled/);
+  });
+});
+
+
+test('unlock mitigation refuses members, staff, service credentials and anonymous requests', async () => {
+  const target = await createUser(payload, { email: 'locked-target@example.test', password: PASSWORD });
+  await payload.db.updateOne({ collection: 'users', id: target.id, data: { loginAttempts: 5, lockUntil: new Date(Date.now() + 600000).toISOString() } });
+  for (const token of [null, await login('member@example.test', PASSWORD), await login('staff@example.test', PASSWORD)]) {
+    const response = await call('/cms/api/users/unlock', { method: 'POST', token, body: { email: target.email } });
+    expect(response.status).toBe(403);
+  }
+  expect((await call('/cms/api/users/unlock', { method: 'POST', apiKey: 'reset-service-synthetic-key-0001', body: { email: target.email } })).status).toBe(403);
+  const stored = await payload.findByID({ collection: 'users', id: target.id, overrideAccess: true, showHiddenFields: true });
+  expect(stored.loginAttempts).toBe(5);
+  expect((await call('/cms/api/users/unlock', { method: 'POST', token: await login('admin@example.test', PASSWORD), body: { email: target.email } })).status).toBe(200);
 });

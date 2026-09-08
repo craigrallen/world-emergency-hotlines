@@ -90,7 +90,7 @@ test('public origin and paths are validated per mode', () => {
   for (const origin of ['https://worldhotlines.org/', 'https://worldhotlines.org/billing', 'https://user:pw@worldhotlines.org', 'http://example.com', 'https://*.example.com', 'worldhotlines.org']) {
     assert.throws(() => loadConfig(enabled({ PAYMENTS_PUBLIC_ORIGIN: origin })), (error) => error.variable === 'PAYMENTS_PUBLIC_ORIGIN', origin);
   }
-  for (const [name, value] of [['PAYMENTS_SUCCESS_PATH', 'billing/success'], ['PAYMENTS_CANCEL_PATH', '/billing?x=1'], ['PAYMENTS_RETURN_PATH', '/../etc'], ['PAYMENTS_SUCCESS_PATH', '/a#b'], ['PAYMENTS_SUCCESS_PATH', `/${'a'.repeat(300)}`]]) {
+  for (const [name, value] of [['PAYMENTS_SUCCESS_PATH', 'billing/success'], ['PAYMENTS_CANCEL_PATH', '/billing?x=1'], ['PAYMENTS_SUCCESS_PATH', '/a#b'], ['PAYMENTS_SUCCESS_PATH', `/${'a'.repeat(300)}`]]) {
     assert.throws(() => loadConfig(enabled({ [name]: value })), (error) => error.variable === name, `${name}=${value}`);
   }
   assert.equal(loadConfig(enabled({ PAYMENTS_SUCCESS_PATH: '/thanks' })).successPath, '/thanks');

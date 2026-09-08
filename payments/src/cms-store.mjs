@@ -115,8 +115,6 @@ export function createCmsStore({ url, apiKey, fetchImpl = globalThis.fetch, time
   }
 
   const where = (field, value) => `?where[${field}][equals]=${encodeURIComponent(value)}&limit=1&depth=0`;
-  /** This worker's claim on an event: the claim key and the lease it holds. */
-  const owned = (id, lease) => `?where[claimKey][equals]=${encodeURIComponent(claimKeyFor(id))}&where[lease][equals]=${encodeURIComponent(lease)}`;
   const checkClaimArgs = (id, lease) => {
     if (typeof id !== 'string' || !EVENT_ID.test(id)) throw new TypeError('event id required');
     if (!validLease(lease)) throw new TypeError('claim lease required');
@@ -164,15 +162,15 @@ export function createCmsStore({ url, apiKey, fetchImpl = globalThis.fetch, time
     // grace period) no longer carries it, matches nothing, and stays the successor's. Both answer whether they applied.
     async completeEvent(id, lease) {
       checkClaimArgs(id, lease);
-      const { status, payload } = await request('PATCH', `/${EVENTS_COLLECTION}${owned(id, lease)}&depth=0`, { outcome: 'processed' });
-      if (status !== 200 || !payload || !Array.isArray(payload.docs)) throw new CmsStoreError('complete_failed', status);
-      return payload.docs.length === 1;
+      const { status, payload } = await request('POST', `/${EVENTS_COLLECTION}/lease`, { eventId: id, lease, action: 'complete' });
+      if (status !== 200 || typeof payload?.applied !== 'boolean') throw new CmsStoreError('complete_failed', status);
+      return payload.applied;
     },
     async releaseEvent(id, lease) {
       checkClaimArgs(id, lease);
-      const { status, payload } = await request('DELETE', `/${EVENTS_COLLECTION}${owned(id, lease)}`);
-      if (status !== 200) throw new CmsStoreError('release_failed', status);
-      return Array.isArray(payload?.docs) && payload.docs.length === 1;
+      const { status, payload } = await request('POST', `/${EVENTS_COLLECTION}/lease`, { eventId: id, lease, action: 'release' });
+      if (status !== 200 || typeof payload?.applied !== 'boolean') throw new CmsStoreError('release_failed', status);
+      return payload.applied;
     },
     async getEntitlement(key) {
       if (typeof key !== 'string' || !ENTITLEMENT_KEY.test(key)) throw new TypeError('entitlement key required');

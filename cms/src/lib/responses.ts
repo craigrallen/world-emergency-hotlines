@@ -4,6 +4,7 @@ import { headersWithCors } from 'payload';
 export const ERRORS = Object.freeze({
   unauthenticated: [401, 'Sign in to continue'],
   forbidden: [403, 'Not allowed'],
+  payload_too_large: [413, 'Request body too large'],
   invalid_request: [400, 'Request could not be processed'],
   unknown_offer: [400, 'Unknown offer'],
   unsupported_offer: [400, 'This offer cannot be purchased from the account page'],

@@ -38,14 +38,14 @@ export interface ApplyOptions {
   eventId: string | null;
   source: 'cms' | 'payments';
   /**
-   * Same-second tie resolver. Whole-second `created` values cannot order two events
-   * from the same second, so when the family's watermark equals `eventCreated` the
+   * Current-state resolver. Whole-second `created` values cannot order two events
+   * from the same second or version a fetched snapshot. Once a family has a watermark, the
    * payload is not trusted: this returns the patch to apply instead (Stripe's current
    * object for webhooks; see `syncSubscriptionFromEntitlement` for the payments mirror).
    * It receives the stored document as read under the row lock. Without it, or when
    * it returns null, the tied event is treated as stale.
    */
-  reconcile?: (existing: Doc | null) => Promise<SubscriptionPatch | null>;
+  reconcile?: (existing: Doc | null, ordering: 'tie' | 'newer') => Promise<SubscriptionPatch | null>;
 }
 
 /**
@@ -95,9 +95,10 @@ export async function inTransaction<T>(payload: Payload, req: PayloadRequest | u
  */
 export async function lockRow(payload: Payload, tx: PayloadRequest, collection: string, column: string, value: Id): Promise<void> {
   const adapter = payload.db as unknown as DrizzleAdapterLike;
-  if (adapter.name !== 'postgres' || !tx.transactionID) return;
+  if (adapter.name !== 'postgres') return;
+  if (!tx.transactionID) throw new Error('Postgres row lock requires a transaction');
   const session = adapter.sessions?.[String(tx.transactionID)]?.db;
-  if (!session) return;
+  if (!session) throw new Error('Postgres transaction session is unavailable');
   const table = adapter.tableNameMap?.get(collection) ?? collection.replace(/-/g, '_');
   await session.execute(sql`SELECT id FROM ${sql.identifier(table)} WHERE ${sql.identifier(column)} = ${value} FOR UPDATE`);
 }
@@ -176,8 +177,10 @@ export async function applySubscriptionPatch(payload: Payload, incoming: Subscri
       let applied = incoming;
       if (typeof mark === 'number') {
         if (mark > options.eventCreated) return null;
-        if (mark === options.eventCreated) {
-          const current = options.reconcile ? await options.reconcile(existing) : null;
+        // A fetched snapshot has no historical event version. Every later accepted
+        // delivery must fetch again, including events from a later second.
+        if (mark === options.eventCreated || options.reconcile) {
+          const current = options.reconcile ? await options.reconcile(existing, mark === options.eventCreated ? 'tie' : 'newer') : null;
           if (!current) return null;
           applied = current;
         }

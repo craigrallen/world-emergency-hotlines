@@ -26,6 +26,9 @@ assert.match(caddy, /reverse_proxy @cmsEnabled \{env\.CMS_UPSTREAM\}/);
 assert.ok(caddy.includes(`respond \`${DISABLED_BODY}\` 503`), 'Caddy fallback must be the exact accounts_disabled response');
 const cmsBlock = caddy.slice(caddy.indexOf('handle @cms {'), caddy.indexOf('# Release descriptors are cross-origin'));
 assert.ok(cmsBlock.length > 0 && !/file_server|try_files/.test(cmsBlock), 'CMS routes must never serve from disk');
+assert.match(cmsBlock, /@cmsWebhook path \/cms\/api\/stripe\/webhooks/);
+assert.match(cmsBlock, /request_body @cmsWebhook \{\s*max_size 262144\s*\}/);
+assert.match(caddy, /request>uri query \{\s*delete session_id\s*delete token\s*\}/);
 assert.match(cmsBlock, /Cache-Control "no-store"/);
 for (const header of ['Content-Security-Policy', 'X-Content-Type-Options', 'Referrer-Policy', 'X-Frame-Options']) assert.ok(cmsBlock.includes(`header_down -${header}`), `proxied CMS responses must not duplicate ${header}`);
 
