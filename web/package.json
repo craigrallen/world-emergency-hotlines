@@ -80,7 +80,7 @@
     "test:monitor:seo": "cd .. && python3 -m unittest tests.test_monitor_delta tests.test_public_seo_monitor tests.test_search_console_monitor tests.test_source_monitor tests.test_source_monitor_result tests.test_prior_artifact tests.test_seo_orchestrator tests.test_seo_workflow_contract tests.test_verification_workbench"
   },
   "dependencies": {
-    "astro": "^7.2.1",
+    "astro": "^7.2.8",
     "maplibre-gl": "^4.7.1",
     "sharp": "^0.35.3",
     "tailwindcss": "^3.4.14"
